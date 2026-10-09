@@ -36895,6 +36895,36 @@
       "path": "godot-ai-workbench/bridge/schema/ChatgptAuthTokensRefreshResponse.json",
       "bytes": 406,
       "sha256": "06d6b30436fc962d80b5d7920f8f323de12a052214d9148c5f0dfbaedd5eec6c"
+    },
+    {
+      "path": "character-generation-research/h3-runtime/input-references/knight-clean-green.png",
+      "bytes": 234704,
+      "sha256": "aa948874a7a1e8428b7d1d2defd66bd9da3e020be8fb78ad0b28b599126bb724"
+    },
+    {
+      "path": "character-generation-research/h3-runtime/input-references/knight-green-reference.png",
+      "bytes": 237262,
+      "sha256": "076513a507a62c2c75c9a0278f43b48098376cc18eb3b81784254a16133018f0"
+    },
+    {
+      "path": "character-generation-research/h3-runtime/input-references/knight-reference.png",
+      "bytes": 894597,
+      "sha256": "27cf64415274add2632a6af2cf584bb2433665662e1f55e2281baa538fb1bb58"
+    },
+    {
+      "path": "character-generation-research/h3-runtime/input-references/README.txt",
+      "bytes": 192,
+      "sha256": "2a2ca4a7f344aea36fa34c939a1b0680e777b4d7a41f7d8021174c8f3ca64de4"
+    },
+    {
+      "path": "character-generation-research/h3-runtime/input-references/town-innkeeper.png",
+      "bytes": 178450,
+      "sha256": "3b3315f73abd975e5bda7e49e07625a827291997efd0b3a64716978efe465467"
+    },
+    {
+      "path": "character-generation-research/h3-runtime/input-references/town-smith.png",
+      "bytes": 198484,
+      "sha256": "04328f8a7d471e52b26109578dd318a6033954f9bd3fa2c1503d04ae6ba1151a"
     }
   ]
 }
