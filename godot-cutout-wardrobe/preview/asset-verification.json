@@ -1,0 +1,92 @@
+[
+  {
+    "part": "hair",
+    "empty_border": true,
+    "native_size": [
+      258,
+      322
+    ],
+    "source_pixels_preserved": true
+  },
+  {
+    "part": "cape_blue",
+    "empty_border": true,
+    "native_size": [
+      294,
+      326
+    ],
+    "source_pixels_preserved": true
+  },
+  {
+    "part": "far_forearm",
+    "empty_border": true,
+    "native_size": [
+      91,
+      235
+    ],
+    "source_pixels_preserved": false
+  },
+  {
+    "part": "casual_far_forearm",
+    "empty_border": true,
+    "native_size": [
+      215,
+      333
+    ],
+    "source_pixels_preserved": false
+  },
+  {
+    "part": "bikini_far_forearm",
+    "empty_border": true,
+    "native_size": [
+      176,
+      324
+    ],
+    "source_pixels_preserved": false
+  },
+  {
+    "part": "casual_far_thigh",
+    "empty_border": true,
+    "native_size": [
+      202,
+      367
+    ],
+    "source_pixels_preserved": false
+  },
+  {
+    "part": "bikini_far_thigh",
+    "empty_border": true,
+    "native_size": [
+      165,
+      354
+    ],
+    "source_pixels_preserved": false
+  },
+  {
+    "part": "far_thigh",
+    "empty_border": true,
+    "native_size": [
+      105,
+      275
+    ],
+    "source_pixels_preserved": false
+  },
+  {
+    "part": "torso_blue",
+    "empty_border": true,
+    "native_size": [
+      227,
+      304
+    ],
+    "source_pixels_preserved": true
+  },
+  {
+    "part": "head",
+    "empty_border": true,
+    "native_size": [
+      223,
+      234
+    ],
+    "source_pixels_preserved": true
+  }
+]

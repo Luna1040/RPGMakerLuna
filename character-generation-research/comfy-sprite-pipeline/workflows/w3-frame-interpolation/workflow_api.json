@@ -1,0 +1,10 @@
+{
+  "9": {"class_type":"LoadImage","inputs":{"image":"frame_left.png"},"_meta":{"title":"Левый соседний кадр"}},
+  "10": {"class_type":"LoadImage","inputs":{"image":"frame_right.png"},"_meta":{"title":"Правый соседний кадр"}},
+  "11": {"class_type":"ImageBatch","inputs":{"image1":["9",0],"image2":["10",0]},"_meta":{"title":"Пара A/B"}},
+  "12": {"class_type":"FrameInterpolationModelLoader","inputs":{"model_name":"rife_v4.26.safetensors"},"_meta":{"title":"RIFE v4.26"}},
+  "13": {"class_type":"FrameInterpolate","inputs":{"interp_model":["12",0],"images":["11",0],"multiplier":2},"_meta":{"title":"Интерполяция A → середина → B"}},
+  "14": {"class_type":"ImageFromBatch","inputs":{"image":["13",0],"batch_index":1,"length":1},"_meta":{"title":"Промежуточный кадр"}},
+  "18": {"class_type":"BiRefNetRMBG","inputs":{"image":["14",0],"model":"BiRefNet_toonout","mask_blur":0,"mask_offset":0,"invert_output":false,"refine_foreground":false,"background":"Alpha","background_color":"#ffffff"},"_meta":{"title":"Восстановление прозрачности"}},
+  "19": {"class_type":"SaveImage","inputs":{"images":["18",0],"filename_prefix":"character_pipeline/frame_interpolation/generated_middle"},"_meta":{"title":"Сохранить промежуточный кадр"}}
+}

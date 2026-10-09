@@ -1,0 +1,1484 @@
+{
+  "prompt": [
+    11,
+    "ab00a241-71b9-4ffb-bedf-14cc310d08f7",
+    {
+      "1": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "knight-clean-green.png"
+        }
+      },
+      "2": {
+        "class_type": "CLIPLoader",
+        "inputs": {
+          "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+          "type": "minimax",
+          "device": "default"
+        }
+      },
+      "3": {
+        "class_type": "UNETLoader",
+        "inputs": {
+          "unet_name": "minimax_h3_ref2va_pruned_fp8_scaled.safetensors",
+          "weight_dtype": "default"
+        }
+      },
+      "4": {
+        "class_type": "VAELoader",
+        "inputs": {
+          "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+        }
+      },
+      "6": {
+        "class_type": "MiniMaxH3ReferenceToVideo",
+        "inputs": {
+          "clip": [
+            "2",
+            0
+          ],
+          "vae": [
+            "4",
+            0
+          ],
+          "prompt": "The adult female fantasy knight in <Picture 1> on the SAME SOLID BRIGHT GREEN BACKGROUND as the reference. Keep this background green in every frame, including every gap between strands of hair and between hair and neck. Single color flat RGB 0,255,0 chroma key backdrop, no black background, no white background, no grey fills in hair gaps. The knight makes a subtle standing breathing loop and gently shifts her head and shoulders; her ponytail and cape sway slightly. Preserve exactly the illustrated face, blonde ponytail, blue cape, silver and gold armor and sword. Entire body, cape and sword within frame, fixed camera, same centered composition. Crisp illustration. No rim lighting, no green lighting on the character, no ground, no shadows, no particles, no magic effects, no text. Silent.",
+          "width": 768,
+          "height": 768,
+          "length": 124,
+          "ref_image_size": "match",
+          "ref_images.ref_image_0": [
+            "1",
+            0
+          ]
+        }
+      },
+      "7": {
+        "class_type": "BasicGuider",
+        "inputs": {
+          "model": [
+            "3",
+            0
+          ],
+          "conditioning": [
+            "6",
+            0
+          ]
+        }
+      },
+      "8": {
+        "class_type": "RandomNoise",
+        "inputs": {
+          "noise_seed": 731430
+        }
+      },
+      "9": {
+        "class_type": "KSamplerSelect",
+        "inputs": {
+          "sampler_name": "res_multistep"
+        }
+      },
+      "10": {
+        "class_type": "BasicScheduler",
+        "inputs": {
+          "model": [
+            "3",
+            0
+          ],
+          "scheduler": "normal",
+          "steps": 20,
+          "denoise": 1.0
+        }
+      },
+      "11": {
+        "class_type": "SamplerCustomAdvanced",
+        "inputs": {
+          "noise": [
+            "8",
+            0
+          ],
+          "guider": [
+            "7",
+            0
+          ],
+          "sampler": [
+            "9",
+            0
+          ],
+          "sigmas": [
+            "10",
+            0
+          ],
+          "latent_image": [
+            "6",
+            1
+          ]
+        }
+      },
+      "12": {
+        "class_type": "VAEDecodeTiled",
+        "inputs": {
+          "samples": [
+            "11",
+            0
+          ],
+          "vae": [
+            "4",
+            0
+          ],
+          "tile_size": 384,
+          "overlap": 64,
+          "temporal_size": 32,
+          "temporal_overlap": 8
+        }
+      },
+      "13": {
+        "class_type": "CreateVideo",
+        "inputs": {
+          "images": [
+            "12",
+            0
+          ],
+          "fps": 24.0
+        }
+      },
+      "14": {
+        "class_type": "SaveVideo",
+        "inputs": {
+          "video": [
+            "13",
+            0
+          ],
+          "filename_prefix": "chroma-clean-green",
+          "format": "mp4",
+          "format.codec": "h264"
+        }
+      },
+      "15": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "12",
+            0
+          ],
+          "filename_prefix": "frames/chroma-clean-green"
+        }
+      }
+    },
+    {
+      "client_id": "clean-chroma-test",
+      "create_time": 1791516794851
+    },
+    [
+      "14",
+      "15"
+    ]
+  ],
+  "outputs": {
+    "15": {
+      "images": [
+        {
+          "filename": "chroma-clean-green_00001_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00002_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00003_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00004_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00005_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00006_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00007_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00008_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00009_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00010_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00011_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00012_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00013_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00014_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00015_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00016_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00017_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00018_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00019_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00020_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00021_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00022_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00023_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00024_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00025_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00026_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00027_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00028_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00029_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00030_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00031_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00032_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00033_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00034_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00035_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00036_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00037_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00038_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00039_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00040_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00041_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00042_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00043_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00044_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00045_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00046_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00047_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00048_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00049_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00050_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00051_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00052_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00053_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00054_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00055_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00056_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00057_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00058_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00059_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00060_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00061_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00062_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00063_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00064_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00065_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00066_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00067_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00068_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00069_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00070_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00071_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00072_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00073_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00074_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00075_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00076_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00077_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00078_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00079_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00080_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00081_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00082_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00083_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00084_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00085_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00086_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00087_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00088_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00089_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00090_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00091_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00092_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00093_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00094_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00095_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00096_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00097_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00098_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00099_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00100_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00101_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00102_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00103_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00104_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00105_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00106_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00107_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00108_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00109_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00110_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00111_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00112_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00113_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00114_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00115_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00116_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00117_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00118_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00119_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00120_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00121_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00122_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00123_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "chroma-clean-green_00124_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        }
+      ]
+    },
+    "14": {
+      "images": [
+        {
+          "filename": "chroma-clean-green_00001_.mp4",
+          "subfolder": "",
+          "type": "output",
+          "metadata": {
+            "kind": "video",
+            "width": 768,
+            "height": 768,
+            "duration": 5.166666666666667,
+            "fps": 24.0,
+            "frame_count": 124
+          }
+        }
+      ],
+      "animated": [
+        true
+      ]
+    }
+  },
+  "status": {
+    "status_str": "success",
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "ab00a241-71b9-4ffb-bedf-14cc310d08f7",
+          "timestamp": 1791516794852
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [],
+          "prompt_id": "ab00a241-71b9-4ffb-bedf-14cc310d08f7",
+          "timestamp": 1791516794854
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "ab00a241-71b9-4ffb-bedf-14cc310d08f7",
+          "timestamp": 1791517011239
+        }
+      ]
+    ]
+  },
+  "meta": {
+    "15": {
+      "node_id": "15",
+      "display_node": "15",
+      "parent_node": null,
+      "real_node_id": "15"
+    },
+    "14": {
+      "node_id": "14",
+      "display_node": "14",
+      "parent_node": null,
+      "real_node_id": "14"
+    }
+  }
+}

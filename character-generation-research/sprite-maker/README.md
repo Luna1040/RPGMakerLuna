@@ -1,0 +1,387 @@
+<p align="center">
+  <img src="static/brand/sprite-studio-lockup.svg" alt="Sprite Studio" width="560">
+</p>
+
+<p align="center">
+  A local-first AI workbench for creating, animating, testing, organizing, and exporting 2D game art.
+</p>
+
+<p align="center">
+  <strong>macOS · Windows · Linux</strong>
+</p>
+
+<p align="center">
+  <a href="docs/en/user-guide.md">English guide</a> · <a href="docs/it/guida-utente.md">Guida italiana</a> · <strong>in-app: sidebar → Guide</strong>
+</p>
+
+<p align="center">
+  <img src="docs/media/sprite-studio-v0.2-showcase.gif" alt="Sprite Studio creating a rabbit hop, dragon flight, centipede crawl, and coordinated nature pack" width="800">
+</p>
+
+## Documentation
+
+| Language | File |
+| --- | --- |
+| English | [docs/en/user-guide.md](docs/en/user-guide.md) |
+| Italiano | [docs/it/guida-utente.md](docs/it/guida-utente.md) |
+
+The same content ships inside the desktop app (**Guide** in the left sidebar, with EN/IT toggle). See [docs/README.md](docs/README.md) for the index.
+
+### Prompt best practices (summary)
+
+1. **Name what matters** — subject, action, canvas size, transparent background, style, and frame policy (Auto unless you need an exact count).
+2. **One master, then motion** — approve a character master, promote it as anchor, then animate or import a strip.
+3. **Strip-first for locomotion** — one horizontal AI strip beats eight independent frames; split, normalize, and align in the Animate tab.
+4. **Use references on purpose** — one identity reference; style refs for palette and lighting, not protected characters.
+5. **Default to native rig** — `/animate` with the rig renderer is deterministic and free per frame; opt into AI polish only when needed.
+6. **Pass the size contract** — normalize to anchor, nudge in the aligner, **Accept**, then export.
+
+Full workflows, MCP steps, and common mistakes are in the user guides above.
+
+### Best practice per i prompt (sintesi — IT)
+
+1. **Specifica ciò che conta** — soggetto, azione, dimensioni canvas, sfondo trasparente, stile e policy frame (Auto salvo conteggio esatto).
+2. **Prima il master, poi il movimento** — approva il master, promuovilo come anchor, poi anima o importa una strip.
+3. **Strip orizzontale per locomozione** — una strip AI batte otto frame indipendenti; split, normalize e align nella scheda Animate.
+4. **Riferimenti mirati** — un riferimento identità; stile per palette e luce, non personaggi protetti.
+5. **Rig nativo di default** — `/animate` con render Rust è deterministico; AI polish solo se serve.
+6. **Supera il size contract** — normalize, aligner, **Accept**, poi export.
+
+Guida completa: [docs/it/guida-utente.md](docs/it/guida-utente.md) · nell'app: sidebar → **Guide** → Italiano.
+
+## From a prompt to a usable game asset
+
+Generating one attractive image is easy. A production asset also needs a stable identity, clean transparency, readable scale, consistent palette, useful file structure, and—when it moves—a mechanically complete loop.
+
+Sprite Studio keeps that work in one desktop workspace. Describe an asset in chat, attach or paste references, inspect the result at pixel scale, generate a high-frame-count AI animation with strict identity and neighbor references, test the loop, and export a sheet without losing the source files or the conversation that produced them.
+
+The project is open source, local first, and built with Tauri, Svelte, Rust, SQLite, and an installed Codex, Cursor, or Antigravity CLI. It does not target Android or iOS.
+
+## The workflow
+
+1. **Generate in chat.** Use plain language or a slash command. Every chat keeps its own style, references, quality, dimensions, frame policy, FPS, model, and reasoning settings.
+2. **Review the real output.** Static images open in the full-size sprite viewer. Related animation frames appear as one playable sprite set instead of flooding the library.
+3. **Describe natural movement.** “Animate this” brings the source asset back to chat and asks how it should move, with suggestions based on visible anatomy.
+4. **Plan once, generate sequentially.** AI plans the complete motion, then generates one frame at a time using the source identity and neighboring accepted frames. The default 24–48 frame range favors smooth motion; users can lower it at any time.
+5. **Rig it with points when you want determinism.** The Rig editor places named joint points and capsule bones on any sprite — auto-placed from an anatomy template, suggested by the AI (`/rig` or “Ask AI”), or dragged by hand. The native Rust engine derives every bone's pixels from the capsules, solves planted contacts with two-bone IK, and renders byte-identical frames with no image generation at all.
+6. **Harden for production.** Promote a character anchor, normalize frames to the anchor contract, nudge alignment metadata, accept the animation, then export.
+7. **Test and export.** Scrub, retime, zoom, inspect warnings, test the loop in the playground, and export a PNG sheet plus metadata.
+
+## Rigging in Rust
+
+The rig engine is written natively in Rust and runs instantly on the local machine:
+
+- **Points over masks.** A rig is a set of named points (`joint`, `anchor`, `contact`, `pivot`) and capsule bones between them. The engine auto-claims every opaque pixel inside the closest capsule and assigns leftovers to the nearest bone, so nobody hand-paints masks.
+- **AI-suggested points.** `Ask AI` sends the sprite to your agent CLI and gets back a `rig-suggestion` JSON block of points, bones, and optional pose frames, with confidence values. `/rig` in chat does the same and the captured rig appears in the Rig tab automatically.
+- **Deterministic rendering.** Per-frame bone rotations, scales, offsets, root motion, holds, and z-layering compose through parent chains and render with nearest-neighbor inverse mapping — identical inputs always produce identical PNG bytes.
+- **Planted contacts.** Feet and hands stay pinned in place while the chain bends around them using analytic two-bone IK, so walk cycles do not slide.
+- **Full pipeline.** Rendered frames land in `assets/<category>/`, become normal assets, form an animation with quality analysis, and flow into sheets, the playground, and exports like any other sprite.
+
+## Motion that understands the subject
+
+### Rabbit: a real hop cycle
+
+The rabbit does not simply slide upward. Its eight-pose loop compresses the haunch, pushes from the hind leg, tucks in the air, reaches with the forefeet, absorbs contact, and recovers into the opening stance. The motion planner estimates a physical envelope unless the user supplies exact speed, height, or scale.
+
+<p align="center">
+  <img src="docs/media/rabbit-hop.gif" alt="Eight-frame anatomy-aware rabbit hop generated and polished in Sprite Studio" width="960">
+</p>
+
+### Dragon: one identity through a full wingbeat
+
+This twelve-frame loop keeps the same dragon while the near and far wings move through a forceful downstroke, folded recovery, body lift, delayed legs, and tail counterbalance.
+
+<p align="center">
+  <img src="docs/media/dragon-flight.gif" alt="Twelve-frame orange dragon flight cycle generated in Sprite Studio" width="960">
+</p>
+
+### Centipede: connected segmented motion
+
+Creature harnesses account for morphology that a human walk template cannot handle. The centipede uses a phase-shifted head-to-tail body wave, alternating leg banks, a stable ground line, and twelve distinct crawl frames at 12 FPS.
+
+<p align="center">
+  <img src="docs/media/centipede-crawl.gif" alt="Twelve-frame cave centipede crawl loop generated in Sprite Studio" width="960">
+</p>
+
+Loop closure is part of planning, not an afterthought. The last pose advances naturally into the first without duplicating an endpoint or cutting the action short. Interpolation is enabled by default and can add deterministic in-between frames when the planned transition needs them.
+
+## Generate a coordinated pack
+
+`/pack` creates a collection of separate static assets that share one art direction. Use it for animals, environment objects, props, UI, effects, or another family of game art. Packs get their own library tab and can be used as a filter in the sprite browser.
+
+<p align="center">
+  <img src="docs/media/grasslands-pack.gif" alt="Eight coordinated grassland assets generated as one Sprite Studio pack" width="960">
+</p>
+
+The pack manifest records its name, description, kind, style, creation time, and asset paths. The original PNG files remain normal project files—you are not locked into a proprietary export.
+
+## Terrain stays one complete atlas
+
+Terrain requests produce one large PNG atlas with compatible fills, edges, corners, strips, walls, slopes, and transitions. Sprite Studio shows the full result in the zoomable viewer and leaves slicing to the user, so generation never breaks one terrain concept into a confusing set of unrelated sprite cards.
+
+<p align="center">
+  <img src="docs/media/grasslands-terrain.png" alt="A complete grassland and pond terrain atlas generated as one image" width="768">
+</p>
+
+## What works today
+
+- Project workspaces with **Character**, **Creature**, **Game Object**, **Environment**, **Tileset**, **UI**, and **VFX** worktrees
+- A chat-only sidebar with expandable worktrees, per-worktree conversations, immediate worktree switching, rename dialogs, hover-to-archive actions, and visible background activity
+- Concurrent generation across chats, so one job can keep running while the user works elsewhere
+- Markdown-rendered assistant messages and playable animation cards inside chat, with **Edit animation** and **Export** actions
+- Reference images from the file picker, clipboard paste, or drag-and-drop; each chat can focus, replace, remove, or clear its own source image
+- Chat-local generation settings with Auto or Fixed frames, a 1–32 frame range, FPS, provider model, reasoning, deterministic frame adjustment, and interpolation enabled by default
+- Provider capability discovery, so unavailable models, reasoning levels, multi-image input, structured output, or transparency are not falsely offered
+- Dedicated harnesses for characters, creatures, game objects, animation, effects, terrain atlases, and asset packs
+- Built-in art directions for Pixel RPG, Graphic adventure, Cozy chibi, Limited palette, Isometric pixel, Painterly fantasy, Cel shaded, One-bit, Top-down adventure, SNES-era action RPG, Compact roguelike, Pixel platformer, NES 8-bit, Dark fantasy pixel, Paper cutout, Watercolor, Comic ink, Neon synth, Clay, and Voxel—with workspace and chat overrides
+- Full-size sprite viewer with zoom controls, pixel-perfect scaling, wheel zoom, metadata, reveal-on-disk, and **Animate this**
+- Grouped animation sets with frame-count badges, playable previews, a timeline editor, onion skinning, per-frame timing, templates, and non-destructive revisions
+- **Post-generation pipeline** — character anchors (`.sprite-studio/anchors/`), strip QC (`score_strip`), strip split, normalize-to-anchor, frame aligner with metadata offsets, size-contract gate, autonomous **`queue_contract_retry`** (poll `get_job` for `stage` / `metadataJson.attempts`), and review states (`draft` / `accepted`)
+- Rig-only, AI-polish, and experimental full-redraw finishing modes
+- Physical motion planning using estimated or user-supplied meters, meters per second, jump height, contact states, support phases, and world displacement
+- Reusable motion templates and body-part masks with explicit pivots, overlap, z-order, stable regions, and loop closure
+- Complete terrain atlases kept as one source image, plus generated asset packs with a dedicated Packs tab and sprite-library filtering
+- Horizontal, vertical, and grid sheet export with padding, spacing, scale, pivots, and JSON metadata
+- A lightweight playground for checking movement, scale, bounds, pivots, and playback speed
+- Procedural and ImageGen-assisted VFX workflows
+- Cancellable background jobs and per-chat loading indicators
+- Content-hashed asset versions and non-destructive repair output
+- Deterministic checks for dimensions, alpha boundaries, duplicates, continuity, alignment, scale, palette, motion plausibility, and seamless loops
+
+Quality scores are diagnostics, not artistic judgments. Playback remains the final review.
+
+## Generation profiles
+
+Profiles are useful defaults, not hard limits. Every chat can switch to **Custom**.
+
+| Profile | Canvas | Frames | FPS | Good for |
+| --- | ---: | ---: | ---: | --- |
+| Low | 32×32 | Auto, 4–32 | 6 | Tiny props, rough ideas, and quick loops |
+| Mid | 64×64 | Auto, 4–32 | 8 | Most pixel-art characters and game objects |
+| High | 128×128 | Auto, 4–32 | 12 | Detailed characters and smoother motion |
+| Custom | 8–512 px | 1–32 | 1–60 | Project-specific pipelines |
+
+Automatic frame selection is the default. The AI recommends the smallest mechanically complete loop within the chosen range. Choose **Fixed** only when a production pipeline requires an exact count. The help button in the settings dialog explains every control.
+
+## Slash commands
+
+| Command | Purpose |
+| --- | --- |
+| `/animate` | Build a seamless animation from the current chat context and motion settings |
+| `/sprite` | Generate one polished static sprite |
+| `/character` | Route the request through the ImageGen character harness |
+| `/effect` | Create an animated game effect |
+| `/pack` | Generate a coordinated collection of separate game assets |
+
+A plain-language prompt still works. The router infers the correct harness and applies the chat’s saved style.
+
+## How consistency works
+
+```mermaid
+flowchart LR
+    A["Prompt and chat references"] --> B["Sprite Director"]
+    B --> C["One focused source master"]
+    C --> D["AI motion plan and physical phases"]
+    D --> E["Sequential high-quality AI frames"]
+    E --> F["Identity, neighbor, edge, and loop checks"]
+    F --> G["Validation, playback, and export"]
+```
+
+Rig-only animation (the default for `/animate` and the Motion dialog) is orchestrated by Sprite Studio itself: the app suggests joint points, saves the rig in the Rig tab, and renders frames with the native Rust renderer. The agent is used only to create the source master when one is missing, or when you opt into AI polish / full redraw.
+
+For polish modes that still use the agent, animation frames are generated individually in playback order, never as a pose sheet. Every call uses the exact identity reference and temporal neighbors; raw results are normalized back to the requested canvas, transparency, crisp palette, safe edge padding, and intended pose before entering the asset library.
+
+## Desktop workbench
+
+The left sidebar is reserved for worktrees and conversations. Creative tools stay open in persistent top-level tabs, so inspecting an asset never destroys chat context.
+
+| Tab | Shortcut | Use |
+| --- | --- | --- |
+| Chat | `Cmd/Ctrl+1` | Prompt, attach references, review progress, and play output inline |
+| Sprites | `Cmd/Ctrl+2` | Browse grouped assets, filter by category or pack, and open the sprite viewer |
+| References | `Cmd/Ctrl+3` | Manage chat-scoped source and style references |
+| Animate | `Cmd/Ctrl+4` | Play, scrub, retime, inspect, and repair loops |
+| Rig | `Cmd/Ctrl+5` | Place points and bones, review AI suggestions, keyframe poses, and render deterministically |
+| Sheets | `Cmd/Ctrl+6` | Build sprite sheets and metadata |
+| Packs | `Cmd/Ctrl+7` | Review coordinated asset collections |
+| Playground | `Cmd/Ctrl+8` | Test gameplay scale, movement, and animation |
+
+VFX worktrees add their effect tools without removing the rest of the workbench.
+
+## Build from source
+
+### Requirements
+
+- [Bun](https://bun.sh/)
+- Stable [Rust](https://www.rust-lang.org/tools/install)
+- The native prerequisites required by Tauri 2 for your desktop operating system
+- An installed Codex CLI, Cursor CLI (`agent`), or Antigravity CLI (`agy`) for live agent conversations and access to its reported models
+- Cursor 2.4 or later when using Cursor Image (native GenerateImage). Authenticate with `agent login` or `CURSOR_API_KEY`
+- Antigravity CLI when using Antigravity Image (native `generate_image`). Authenticate with an interactive `agy` session from Settings → Providers
+
+### Run in development
+
+```bash
+bun install
+bun run check
+bun tauri dev
+```
+
+### Verify the native core
+
+```bash
+cargo test --manifest-path src-tauri/Cargo.toml
+cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets -- -D warnings
+```
+
+## MCP server (headless)
+
+`sprite-studio-mcp` is a stdio MCP daemon that reuses the same SQLite database and workspace files as the desktop app. The GUI does not need to be open. It orchestrates installed agent CLIs (Codex by default); it does not replace provider login.
+
+This is a different server from the per-workspace Python helper at `.sprite-studio/sprite_rig_mcp.py`, which only talks to the local rig renderer.
+
+### Build
+
+```bash
+cargo build --manifest-path src-tauri/Cargo.toml --release --bin sprite-studio-mcp
+```
+
+The binary is `src-tauri/target/release/sprite-studio-mcp` (`.exe` on Windows). Keep that path in `mcp.json` — do not set `command` to `agent`.
+
+### Prerequisites
+
+- Codex CLI installed and authenticated (`codex login`). That is the default generation provider so a Cursor MCP client does not nest Cursor CLI.
+- Optional: Antigravity (`agy`) or another supported CLI if you pass `provider` explicitly. `provider: "cursor"` is allowed but will spawn Cursor CLI from inside Cursor.
+- Interactive `agent login` / `codex login` stays out of band. The MCP only reports `studio_status`.
+
+The database path matches the desktop app (`com.jakes.sprite-maker`): `%APPDATA%\com.jakes.sprite-maker\sprite-studio.sqlite3` on Windows, `~/Library/Application Support/com.jakes.sprite-maker/` on macOS.
+
+### Cursor `mcp.json`
+
+```json
+{
+  "mcpServers": {
+    "sprite-studio": {
+      "command": "C:/Users/You/Documents/GitHub/Web/sprite-maker/src-tauri/target/release/sprite-studio-mcp.exe"
+    }
+  }
+}
+```
+
+On macOS or Linux, point `command` at `src-tauri/target/release/sprite-studio-mcp`.
+
+### Example: generate a 32×32 slime
+
+1. `studio_status` — confirm Codex is installed and authenticated.
+2. `open_workspace` with the project folder `path` (created if missing).
+3. `ensure_conversation` with that `workspaceId` and optional `stylePreset` such as `compact-roguelike`. Omit `provider` to use Codex.
+4. `generate` with prompt `a cute green slime idle sprite, 32 by 32 pixels, transparent background` and `generation: { "width": 32, "height": 32, "frames": 1 }`.
+5. Poll `get_generation` with the returned `requestId` until `status` is `completed` or `failed`.
+6. `list_artifacts` with the `workspaceId` to get PNG paths under `assets/`.
+
+Pipeline tools (`promote_anchor`, `split_strip`, `extract_video_frames`, `normalize_animation`, `align_frames`, `check_size_contract`, `set_animation_review_status`) harden AI strips and video extractions before export. **Installers bundle ffmpeg** for video import; dev builds run `make fetch-ffmpeg` before `make bundle`. Phase 2 tools (`export`, `queue_sprite_sheet`, `queue_procedural_vfx`, `get_job`, `quality_report`, `list_assets`, `list_packs`) run in Rust without spawning an agent.
+
+Full tool list, parameters, and examples: [docs/en/mcp-reference.md](docs/en/mcp-reference.md) (Italian: [docs/it/riferimento-mcp.md](docs/it/riferimento-mcp.md)).
+
+### Build a desktop bundle
+
+```bash
+make release
+```
+
+`make release` runs the frontend and Rust tests, builds Tauri locally, and collects the installable files in `release-artifacts/<version>/<platform>`.
+
+Tagged GitHub releases build Linux and Windows automatically. macOS stays local because hosted macOS runners are substantially more expensive:
+
+| Platform | Build path | Release files |
+| --- | --- | --- |
+| macOS | `make release-macos` on a Mac | Universal Intel + Apple Silicon `.dmg` and `.app.tar.gz` |
+| Windows | GitHub release workflow | NSIS `.exe` and `.msi` installers |
+| Linux | GitHub release workflow | `.AppImage`, `.deb`, and `.rpm` packages |
+
+After the tag workflow creates the GitHub release, run `make publish-macos` to build the universal macOS bundle locally and attach it to the matching `v<version>` release. Set a different tag with `make publish-macos TAG=v0.3.1` when needed.
+
+Use `make help` to see the available local commands. Tauri creates platform-native installers on the relevant build host; this repository contains no Android or iOS targets.
+
+### Windows installer warnings
+
+Unsigned Windows installers are normal for open-source desktop apps. Defender SmartScreen may show **Windows protected your PC** or **Unknown publisher** until the project ships Authenticode-signed releases.
+
+**Install a GitHub release or local build**
+
+1. Choose **More info**.
+2. Choose **Run anyway**.
+
+If the file was downloaded from the browser, unblock it first:
+
+```powershell
+Unblock-File -Path ".\Sprite Studio_0.3.2_x64-setup.exe"
+```
+
+**Build from source on Windows**
+
+- Install [Visual Studio 2022 Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/) with the **Desktop development with C++** workload.
+- If Smart App Control blocks freshly compiled binaries, add an exception or temporarily turn it off under **Windows Security → App & browser control**.
+- Set `core.autocrlf` to `false` so Git follows `.gitattributes`:
+
+  ```powershell
+  git config core.autocrlf false
+  ```
+
+**Ship signed Windows installers (maintainers)**
+
+1. Obtain a Windows code signing certificate (Standard or EV).
+2. Add repository secrets `WINDOWS_CERTIFICATE` (base64-encoded `.pfx`) and `WINDOWS_CERTIFICATE_PASSWORD`.
+3. The release workflow imports the certificate when those secrets are present and passes its thumbprint to Tauri through `tauri build --config` during the Windows build.
+
+## Workspace layout
+
+Binary artifacts remain ordinary files below the selected project root, so a workspace can be backed up, inspected, versioned, or used by a game engine without a hosted Sprite Studio service.
+
+```text
+assets/
+  characters/
+  creatures/
+  terrain/
+  props/
+  effects/
+  references/
+  repairs/
+  vfx/
+animations/
+exports/
+  sprite-sheets/
+.sprite-studio/
+  anchors/
+  imagegen-sources/
+  masters/
+  packs/
+  ai-frame-sources/
+  reports/
+  sprite_tool.py
+  sprite_polish.py
+  terrain_cleanup.py
+```
+
+SQLite stores project metadata, conversations, worktrees, asset versions, timelines, references, templates, jobs, and quality reports. Images and exports remain in the workspace itself.
+
+## Data safety
+
+- Generated files are registered only after validation.
+- Asset changes create content-hashed versions.
+- Sheet exports, alignment repairs, and AI-polished frames create new files and records.
+- Deleting a sheet never deletes its source frames.
+- Quality warnings can be acknowledged without changing artwork.
+- A new chat starts without a forced master image; focused references belong to that chat and remain user-controlled.
+
+## Project status
+
+Sprite Studio `0.3.x` is an early public release. The core desktop workflow works, but file formats, provider adapters, and generation harnesses will continue to evolve.
+
+## Contributing and governance
+
+Contributions are welcome through reviewed pull requests. Read [CONTRIBUTING.md](CONTRIBUTING.md) for the development workflow and [GOVERNANCE.md](GOVERNANCE.md) for the distinction between contribution credit, maintainer access, code ownership, and project ownership.
+
+## License
+
+MIT

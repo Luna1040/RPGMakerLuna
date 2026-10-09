@@ -1,0 +1,199 @@
+Позитивный промт
+
+GLOBAL REQUIREMENTS. This is a production-quality seamless idle sprite animation. The following rules are mandatory and override every other instruction.
+
+Keep EXACTLY ONE character. Never generate additional people, creatures, copies, reflections, silhouettes, or background figures.
+
+Never add, remove, replace, duplicate, merge, or detach body parts.
+
+The entire character must remain fully visible in every frame, including hair, head, feet, fingers, cape, weapon, clothing, and every accessory.
+
+Never crop the character.
+
+Use the exact same chibi cartoon character from the reference image. Preserve the exact same character identity, face, eyes, mouth, hairstyle, outfit, weapon, accessories, colors, proportions, anatomy, pose, and line-art style.
+
+CHARACTER PLACEMENT LOCK.
+
+The character occupies approximately 72–75% of the canvas height.
+
+The character remains perfectly centered in every frame.
+
+Preserve identical top, bottom, left, and right margins throughout the animation.
+
+The character scale, baseline, root position, pivot point, body center, screen position, and bounding rectangle must remain fixed.
+
+Never move the character vertically or horizontally.
+
+Never reposition the character to follow the motion.
+
+The total pixel height and total pixel width of the character remain constant in every frame.
+
+The topmost, bottommost, leftmost, and rightmost visible points of the character remain at the same screen coordinates.
+
+The feet, hair top, weapon tip, cape endpoints, outer shoulders, hands, elbows, and outer clothing edges remain fixed in screen space.
+
+Do not simulate breathing by scaling, resizing, stretching, enlarging, shrinking, compressing, zooming, squash-and-stretch, or repositioning the whole character or any body region.
+
+The animation must happen internally inside the existing silhouette.
+
+CAMERA LOCK.
+
+The virtual camera is physically locked on a tripod.
+
+Use fixed camera, fixed perspective, fixed framing, fixed focal length, fixed zoom, fixed camera distance, fixed lens, fixed composition, fixed lighting, fixed colors, fixed outline thickness, and fixed proportions.
+
+No pan, tilt, roll, orbit, dolly, zoom, reframing, perspective shift, lens change, camera shake, handheld motion, focus breathing, stabilization movement, or camera interpolation.
+
+BACKGROUND LOCK.
+
+The background is solid pure white #FFFFFF.
+
+No floor, shadows, gradients, vignette, texture, horizon, wall, scenery, props, particles, transparency, alpha background, ambient shadows, or environmental lighting.
+
+The background remains identical in every frame.
+
+APPEARANCE LOCK.
+
+Reuse the same character geometry, model, line art, colors, shading, and visual information throughout the entire sequence.
+
+Every frame preserves identical facial geometry, anatomy, body proportions, clothing geometry, hair design, cape design, weapon design, colors, outlines, and character identity.
+
+The weapon remains permanently attached to the same hand.
+
+The weapon must never disappear, detach, morph, duplicate, switch hands, change size, or change orientation unexpectedly.
+
+Clothing topology remains fixed.
+
+No costume redesign, regenerated folds, added folds, removed folds, color changes, accessory changes, fabric replacement, or texture changes.
+
+Hair and cape preserve identical topology, length, volume, geometry, and connected structure.
+
+Every visible surface remains fully filled and complete.
+
+The character silhouette remains clean, closed, continuous, and stable.
+
+Preserve all narrow structures, thin details, fingers, connected accessories, hair strands, cape edges, weapon parts, and outlines.
+
+No transparent gaps, white holes, missing fabric, missing regions, background leakage, broken contours, floating fragments, or disconnected geometry.
+
+FACE LOCK.
+
+The face remains completely static throughout the animation.
+
+The mouth remains fully closed and motionless in every frame.
+
+No talking, speaking, lip sync, lip movement, mouth opening, changing mouth shape, phoneme shapes, jaw movement, tongue movement, smiling change, or facial animation.
+
+The eyes remain fixed and open exactly as in the reference image.
+
+No blinking, eye movement, pupil movement, gaze change, eyebrow movement, cheek movement, nose movement, head expression, or emotion change.
+
+Preserve exactly the same neutral facial expression and identical facial geometry in every frame.
+
+The head remains fixed in screen position and does not translate, bob, rotate, tilt, scale, stretch, or deform.
+
+IDLE ANIMATION.
+
+Perform exactly one complete, extremely subtle breathing cycle.
+
+Start at neutral key pose A.
+
+Slowly inhale, reach a brief soft peak, slowly exhale, and return exactly to key pose A before the final frame.
+
+Breathing must be represented only through extremely small internal chest and upper-clothing detail movement.
+
+Maximum visible displacement is 1–2 pixels.
+
+Do not enlarge, widen, stretch, scale, raise, or deform the outer torso contour.
+
+Do not move the whole torso upward or downward.
+
+The external silhouette remains almost completely static.
+
+The pelvis, root, hips, legs, knees, feet, body center, head, neck, hands, weapon, shoulders, elbows, outer torso contour, hair top, cape endpoints, and outer clothing contour remain fixed in screen space.
+
+Only tiny internal chest lines and upper-clothing details may shift subtly to suggest breathing.
+
+Hair and cape may have an almost imperceptible delayed internal response, but their outer contour, endpoints, total size, topology, and bounding box remain unchanged.
+
+No wind motion.
+
+No independent secondary animation.
+
+Use one smooth continuous breathing curve with gentle easing and strong temporal consistency.
+
+The motion must feel calm, subtle, restrained, and nearly static.
+
+LOOP STRUCTURE.
+
+The animation starts at key pose A, performs exactly one complete breathing cycle, and returns exactly to key pose A.
+
+The first and final frames must be visually identical.
+
+The first and last frames must have exactly the same character geometry, pose, scale, bounding box, silhouette, facial expression, mouth shape, eye shape, hair shape, cape shape, clothing shape, weapon orientation, margins, baseline, pivot point, foot placement, and screen position.
+
+The loop closes perfectly without crossfade, blending, interpolation drift, scale change, position change, geometry mismatch, or pose mismatch.
+
+Return to the exact initial pose before the final frame.
+
+STYLE AND QUALITY.
+
+Clean stable line art.
+
+Flat solid colors.
+
+Stable filled surfaces.
+
+Consistent lighting.
+
+Consistent outline thickness.
+
+Stable silhouette.
+
+Strong temporal consistency.
+
+Pure white background.
+
+Strictly static locked camera.
+
+Identical character scale, framing, margins, baseline, screen position, and bounding box in every frame.
+
+No talking.
+
+No blinking.
+
+No facial animation.
+
+No camera motion.
+
+No scale change.
+
+No position drift.
+
+Негативный промт
+
+frame redraw, complete frame regeneration, temporal inconsistency, character inconsistency, identity change, anatomy change, body deformation, facial morphing, face change, eye change, mouth change, expression change, emotion change, hair redesign, clothing morphing, costume redesign, accessory replacement, weapon replacement,
+
+talking, speaking, speech, lip sync, lip movement, lip animation, mouth movement, mouth opening, open mouth, changing mouth shape, phoneme shapes, jaw movement, tongue movement, teeth movement, smile change, facial animation, facial motion, cheek movement, nose movement, eyebrow movement, blinking, eye movement, pupil movement, gaze change, expression animation,
+
+head bobbing, head movement, independent head motion, head translation, head rotation, head tilt, head scaling, head stretching, neck movement, face drift,
+
+whole-body scaling, character scaling, torso scaling, chest scaling, head scaling, limb scaling, squash and stretch, breathing through scale change, breathing through resizing, breathing through vertical movement, breathing through torso translation, character enlargement, character shrinkage, torso enlargement, torso shrinkage, chest enlargement, silhouette expansion, silhouette contraction, shoulder widening, shoulder narrowing, body stretching, body compression,
+
+bounding box change, changing character pixel height, changing character pixel width, changing top margin, changing bottom margin, changing left margin, changing right margin, baseline drift, pivot drift, root drift, scale drift, position drift, horizontal drift, vertical drift, center drift, foot sliding, feet movement, character floating, character sinking, body center movement, pelvis movement, hip movement, leg movement,
+
+camera movement, camera shake, camera drift, camera interpolation, handheld camera, pan, tilt, roll, orbit, dolly, zoom, zoom in, zoom out, reframing, perspective shift, lens change, focal length change, focus breathing, stabilization artifacts,
+
+first-frame last-frame mismatch, loop mismatch, imperfect loop, pose mismatch, geometry mismatch, silhouette mismatch, scale mismatch, framing mismatch, position mismatch, baseline mismatch, margin mismatch, bounding-box mismatch, crossfade loop, blended loop, interpolation drift,
+
+wind-driven hair, wind-driven cape, hair waving, cape waving, excessive hair movement, excessive cape movement, independent hair motion, independent cape motion, hair length change, cape length change, hair volume change, cape volume change, moving hair endpoints, moving cape endpoints,
+
+outline crawl, unstable outlines, line jitter, jitter, flicker, ghosting, double image, motion trails, smearing, interpolation artifacts, frame blending artifacts, inconsistent shading, inconsistent colors, inconsistent lighting,
+
+missing body parts, extra body parts, duplicated body parts, merged limbs, detached limbs, detached fingers, detached weapon, detached accessories, floating fragments, disconnected geometry, disconnected accessories, broken thin parts, collapsed edges, simplified geometry, broken silhouette, open silhouette, broken outlines, disconnected outlines, open contours,
+
+missing regions, incomplete surfaces, unfinished rendering, partial rendering, transparent gaps, alpha holes, interior holes, holes in clothing, holes in hair, white gaps, background leakage, background bleed, missing fabric, disappearing clothing, disappearing weapon, duplicated weapon, weapon morphing, weapon size change, weapon hand switching,
+
+background flicker, background color change, off-white background, gray background, gradient background, vignette, floor, floor shadow, cast shadow, environment, scenery, props, particles, texture, horizon, wall, transparency, alpha background,
+
+cropped character, cropped feet, cropped hair, cropped weapon, cropped cape, cropped accessories, character outside frame, changing framing, changing composition, additional character, duplicate character, extra people, extra creatures, reflections, silhouettes, background figures

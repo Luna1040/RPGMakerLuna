@@ -1,0 +1,179 @@
+{
+  "frames": [
+    {
+      "file": "innkeeper-idle/000.png",
+      "source_frame": 0
+    },
+    {
+      "file": "innkeeper-idle/001.png",
+      "source_frame": 3
+    },
+    {
+      "file": "innkeeper-idle/002.png",
+      "source_frame": 6
+    },
+    {
+      "file": "innkeeper-idle/003.png",
+      "source_frame": 9
+    },
+    {
+      "file": "innkeeper-idle/004.png",
+      "source_frame": 12
+    },
+    {
+      "file": "innkeeper-idle/005.png",
+      "source_frame": 15
+    },
+    {
+      "file": "innkeeper-idle/006.png",
+      "source_frame": 18
+    },
+    {
+      "file": "innkeeper-idle/007.png",
+      "source_frame": 21
+    },
+    {
+      "file": "innkeeper-idle/008.png",
+      "source_frame": 24
+    },
+    {
+      "file": "innkeeper-idle/009.png",
+      "source_frame": 27
+    },
+    {
+      "file": "innkeeper-idle/010.png",
+      "source_frame": 30
+    },
+    {
+      "file": "innkeeper-idle/011.png",
+      "source_frame": 33
+    },
+    {
+      "file": "innkeeper-idle/012.png",
+      "source_frame": 36
+    },
+    {
+      "file": "innkeeper-idle/013.png",
+      "source_frame": 39
+    },
+    {
+      "file": "innkeeper-idle/014.png",
+      "source_frame": 42
+    },
+    {
+      "file": "innkeeper-idle/015.png",
+      "source_frame": 45
+    },
+    {
+      "file": "innkeeper-idle/016.png",
+      "source_frame": 48
+    },
+    {
+      "file": "innkeeper-idle/017.png",
+      "source_frame": 51
+    },
+    {
+      "file": "innkeeper-idle/018.png",
+      "source_frame": 54
+    },
+    {
+      "file": "innkeeper-idle/019.png",
+      "source_frame": 57
+    },
+    {
+      "file": "innkeeper-idle/020.png",
+      "source_frame": 60
+    },
+    {
+      "file": "innkeeper-idle/021.png",
+      "source_frame": 63
+    },
+    {
+      "file": "innkeeper-idle/022.png",
+      "source_frame": 66
+    },
+    {
+      "file": "innkeeper-idle/023.png",
+      "source_frame": 69
+    },
+    {
+      "file": "innkeeper-idle/024.png",
+      "source_frame": 72
+    },
+    {
+      "file": "innkeeper-idle/025.png",
+      "source_frame": 75
+    },
+    {
+      "file": "innkeeper-idle/026.png",
+      "source_frame": 78
+    },
+    {
+      "file": "innkeeper-idle/027.png",
+      "source_frame": 81
+    },
+    {
+      "file": "innkeeper-idle/028.png",
+      "source_frame": 84
+    },
+    {
+      "file": "innkeeper-idle/029.png",
+      "source_frame": 87
+    },
+    {
+      "file": "innkeeper-idle/030.png",
+      "source_frame": 90
+    },
+    {
+      "file": "innkeeper-idle/031.png",
+      "source_frame": 93
+    },
+    {
+      "file": "innkeeper-idle/032.png",
+      "source_frame": 96
+    },
+    {
+      "file": "innkeeper-idle/033.png",
+      "source_frame": 99
+    },
+    {
+      "file": "innkeeper-idle/034.png",
+      "source_frame": 102
+    },
+    {
+      "file": "innkeeper-idle/035.png",
+      "source_frame": 105
+    },
+    {
+      "file": "innkeeper-idle/036.png",
+      "source_frame": 108
+    },
+    {
+      "file": "innkeeper-idle/037.png",
+      "source_frame": 111
+    },
+    {
+      "file": "innkeeper-idle/038.png",
+      "source_frame": 114
+    },
+    {
+      "file": "innkeeper-idle/039.png",
+      "source_frame": 117
+    },
+    {
+      "file": "innkeeper-idle/040.png",
+      "source_frame": 120
+    },
+    {
+      "file": "innkeeper-idle/041.png",
+      "source_frame": 123
+    }
+  ],
+  "frame_ms": 125,
+  "pivot": [
+    396.0,
+    689.0
+  ],
+  "scale": 0.42649434571890144,
+  "source": "H3 local HQ 20 steps"
+}

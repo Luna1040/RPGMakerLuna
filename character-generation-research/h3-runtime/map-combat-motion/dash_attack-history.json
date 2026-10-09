@@ -1,0 +1,1491 @@
+{
+  "prompt": [
+    14,
+    "3136b4ec-dbc0-4b35-9441-ee54ef825b56",
+    {
+      "1": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "knight-clean-green.png"
+        }
+      },
+      "2": {
+        "class_type": "CLIPLoader",
+        "inputs": {
+          "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+          "type": "minimax",
+          "device": "default"
+        }
+      },
+      "3": {
+        "class_type": "UNETLoader",
+        "inputs": {
+          "unet_name": "minimax_h3_ref2va_pruned_fp8_scaled.safetensors",
+          "weight_dtype": "default"
+        }
+      },
+      "4": {
+        "class_type": "VAELoader",
+        "inputs": {
+          "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+        }
+      },
+      "6": {
+        "class_type": "MiniMaxH3ReferenceToVideo",
+        "inputs": {
+          "clip": [
+            "2",
+            0
+          ],
+          "vae": [
+            "4",
+            0
+          ],
+          "prompt": "The adult female knight in <Picture 1>. She performs ONE rapid powerful forward sword dash attack facing right. First compress her legs and lean forward with the sword drawn back. Then explosively push off the rear foot into a low forward lunge, extend the sword arm and full length sword horizontally toward the right into a strong piercing thrust while her torso and head follow through. Finish in a deep forward lunge with front knee bent, then recover to her original ready standing stance. Her hips, shoulders, head, arms and legs move together with clear anticipation, explosive release and recovery; ponytail and cape trail behind. Her body remains near the center of the canvas with only a small forward displacement; keep the complete sword tip visible. Preserve her beautiful detailed illustrated face, blonde ponytail, silver and gold armor, blue cape, boots and FULL LENGTH sword exactly. Fixed side three quarter view facing right, fixed camera, no zoom. Whole body, hair, cape and sword always visible with ample empty space above and on both sides. Character occupies central 55 percent of canvas height. Clean detailed illustrated game sprite animation with crisp edges. Solid uniform pure black background, no floor, no ground shadow, no scenery, no text, no lighting changes, no motion blur, no magical effects or sword trails. Silent.",
+          "width": 768,
+          "height": 768,
+          "length": 124,
+          "ref_image_size": "match",
+          "ref_images.ref_image_0": [
+            "1",
+            0
+          ]
+        }
+      },
+      "7": {
+        "class_type": "BasicGuider",
+        "inputs": {
+          "model": [
+            "3",
+            0
+          ],
+          "conditioning": [
+            "6",
+            0
+          ]
+        }
+      },
+      "8": {
+        "class_type": "RandomNoise",
+        "inputs": {
+          "noise_seed": 831422
+        }
+      },
+      "9": {
+        "class_type": "KSamplerSelect",
+        "inputs": {
+          "sampler_name": "res_multistep"
+        }
+      },
+      "10": {
+        "class_type": "BasicScheduler",
+        "inputs": {
+          "model": [
+            "3",
+            0
+          ],
+          "scheduler": "normal",
+          "steps": 20,
+          "denoise": 1.0
+        }
+      },
+      "11": {
+        "class_type": "SamplerCustomAdvanced",
+        "inputs": {
+          "noise": [
+            "8",
+            0
+          ],
+          "guider": [
+            "7",
+            0
+          ],
+          "sampler": [
+            "9",
+            0
+          ],
+          "sigmas": [
+            "10",
+            0
+          ],
+          "latent_image": [
+            "6",
+            1
+          ]
+        }
+      },
+      "12": {
+        "class_type": "VAEDecodeTiled",
+        "inputs": {
+          "samples": [
+            "11",
+            0
+          ],
+          "vae": [
+            "4",
+            0
+          ],
+          "tile_size": 384,
+          "overlap": 64,
+          "temporal_size": 32,
+          "temporal_overlap": 8
+        }
+      },
+      "13": {
+        "class_type": "CreateVideo",
+        "inputs": {
+          "images": [
+            "12",
+            0
+          ],
+          "fps": 24.0
+        }
+      },
+      "14": {
+        "class_type": "SaveVideo",
+        "inputs": {
+          "video": [
+            "13",
+            0
+          ],
+          "filename_prefix": "map-dash_attack",
+          "format": "mp4",
+          "format.codec": "h264"
+        }
+      },
+      "15": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "12",
+            0
+          ],
+          "filename_prefix": "frames/map-dash_attack"
+        }
+      }
+    },
+    {
+      "client_id": "map-combat-motion",
+      "create_time": 1791530211364
+    },
+    [
+      "14",
+      "15"
+    ]
+  ],
+  "outputs": {
+    "15": {
+      "images": [
+        {
+          "filename": "map-dash_attack_00001_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00002_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00003_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00004_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00005_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00006_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00007_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00008_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00009_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00010_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00011_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00012_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00013_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00014_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00015_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00016_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00017_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00018_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00019_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00020_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00021_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00022_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00023_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00024_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00025_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00026_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00027_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00028_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00029_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00030_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00031_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00032_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00033_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00034_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00035_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00036_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00037_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00038_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00039_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00040_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00041_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00042_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00043_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00044_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00045_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00046_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00047_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00048_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00049_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00050_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00051_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00052_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00053_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00054_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00055_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00056_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00057_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00058_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00059_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00060_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00061_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00062_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00063_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00064_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00065_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00066_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00067_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00068_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00069_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00070_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00071_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00072_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00073_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00074_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00075_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00076_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00077_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00078_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00079_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00080_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00081_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00082_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00083_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00084_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00085_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00086_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00087_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00088_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00089_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00090_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00091_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00092_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00093_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00094_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00095_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00096_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00097_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00098_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00099_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00100_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00101_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00102_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00103_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00104_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00105_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00106_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00107_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00108_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00109_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00110_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00111_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00112_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00113_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00114_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00115_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00116_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00117_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00118_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00119_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00120_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00121_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00122_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00123_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-dash_attack_00124_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        }
+      ]
+    },
+    "14": {
+      "images": [
+        {
+          "filename": "map-dash_attack_00001_.mp4",
+          "subfolder": "",
+          "type": "output",
+          "metadata": {
+            "kind": "video",
+            "width": 768,
+            "height": 768,
+            "duration": 5.166666666666667,
+            "fps": 24.0,
+            "frame_count": 124
+          }
+        }
+      ],
+      "animated": [
+        true
+      ]
+    }
+  },
+  "status": {
+    "status_str": "success",
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "3136b4ec-dbc0-4b35-9441-ee54ef825b56",
+          "timestamp": 1791530211365
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "9",
+            "10"
+          ],
+          "prompt_id": "3136b4ec-dbc0-4b35-9441-ee54ef825b56",
+          "timestamp": 1791530211367
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "3136b4ec-dbc0-4b35-9441-ee54ef825b56",
+          "timestamp": 1791530438275
+        }
+      ]
+    ]
+  },
+  "meta": {
+    "15": {
+      "node_id": "15",
+      "display_node": "15",
+      "parent_node": null,
+      "real_node_id": "15"
+    },
+    "14": {
+      "node_id": "14",
+      "display_node": "14",
+      "parent_node": null,
+      "real_node_id": "14"
+    }
+  }
+}

@@ -1,0 +1,202 @@
+{
+  "325": {
+    "inputs": {
+      "cfg": 1,
+      "model": [
+        "329",
+        0
+      ],
+      "positive": [
+        "365",
+        0
+      ],
+      "negative": [
+        "367",
+        0
+      ]
+    },
+    "class_type": "CFGGuider",
+    "_meta": {
+      "title": "CFG\u5f15\u5bfc\u5668"
+    }
+  },
+  "327": {
+    "inputs": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "class_type": "EmptyFlux2LatentImage",
+    "_meta": {
+      "title": "Empty Flux 2 Latent"
+    }
+  },
+  "328": {
+    "inputs": {
+      "steps": 4,
+      "width": 1024,
+      "height": 1024
+    },
+    "class_type": "Flux2Scheduler",
+    "_meta": {
+      "title": "Flux2Scheduler"
+    }
+  },
+  "329": {
+    "inputs": {
+      "unet_name": "flux-2-klein-9b-fp8.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "UNet\u52a0\u8f7d\u5668"
+    }
+  },
+  "330": {
+    "inputs": {
+      "clip_name": "qwen_3_8b_fp8mixed.safetensors",
+      "type": "flux2",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "\u52a0\u8f7dCLIP"
+    }
+  },
+  "331": {
+    "inputs": {
+      "vae_name": "flux2-vae.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "\u52a0\u8f7dVAE"
+    }
+  },
+  "336": {
+    "inputs": {
+      "noise": [
+        "354",
+        0
+      ],
+      "guider": [
+        "325",
+        0
+      ],
+      "sampler": [
+        "356",
+        0
+      ],
+      "sigmas": [
+        "328",
+        0
+      ],
+      "latent_image": [
+        "327",
+        0
+      ]
+    },
+    "class_type": "SamplerCustomAdvanced",
+    "_meta": {
+      "title": "\u81ea\u5b9a\u4e49\u91c7\u6837\u5668\uff08\u9ad8\u7ea7\uff09"
+    }
+  },
+  "341": {
+    "inputs": {
+      "filename_prefix": "CodexCharacterTrial/v3b-attack-C",
+      "images": [
+        "350",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "\u4fdd\u5b58\u56fe\u50cf"
+    }
+  },
+  "350": {
+    "inputs": {
+      "samples": [
+        "336",
+        0
+      ],
+      "vae": [
+        "331",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE\u89e3\u7801"
+    }
+  },
+  "354": {
+    "inputs": {
+      "noise_seed": 731420
+    },
+    "class_type": "RandomNoise",
+    "_meta": {
+      "title": "\u968f\u673a\u566a\u6ce2"
+    }
+  },
+  "355": {
+    "inputs": {
+      "image": "v3b-attack-A.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "\u56fe\u50cf1"
+    }
+  },
+  "356": {
+    "inputs": {
+      "sampler_name": "euler"
+    },
+    "class_type": "KSamplerSelect",
+    "_meta": {
+      "title": "K\u91c7\u6837\u5668\u9009\u62e9"
+    }
+  },
+  "365": {
+    "inputs": {
+      "prompt": "\u56fe1\u662f\u6325\u5251\u84c4\u529b\u7684\u4e0a\u4e00\u5e27\uff0c\u56fe2\u53ea\u63d0\u4f9b\u670d\u9970\u7ec6\u8282\u3002\u73b0\u5728\u753b\u56fe1\u52a8\u4f5c\u7684\u4e0b\u4e00\u5173\u952e\u5e27\uff1a\u53cc\u624b\u63e1\u7740\u540c\u4e00\u628a\u5251\u4ece\u5934\u9876\u5288\u5411\u53f3\u4e0b\u65b9\uff0c\u53cc\u624b\u5df2\u7ecf\u6765\u5230\u80f8\u53e3\u524d\u65b9\uff0c\u5251\u5203\u5411\u53f3\u4e0b\u65b9\u4f38\u51fa\u3002\u524d\u817f\u7ee7\u7eed\u627f\u91cd\u5f2f\u66f2\uff0c\u540e\u811a\u8e6c\u5730\uff0c\u8170\u80cc\u660e\u663e\u5411\u53f3\u524d\u65b9\u538b\u4f4e\uff0c\u5934\u5411\u524d\u63a2\u4e14\u4f4e\u5934\uff0c\u80f8\u8154\u8f6c\u52a8\u5e26\u52a8\u80a9\u8180\u3002\u4fdd\u6301\u56fe1\u7684\u8eab\u4f53\u5927\u5c0f\u3001\u811a\u7684\u4f4d\u7f6e\u3001\u8138\u3001\u94e0\u7532\u8bbe\u8ba1\u548c\u753b\u98ce\u3002\u9a6c\u5c3e\u548c\u62ab\u98ce\u6ede\u540e\u7529\u5411\u5de6\u3002\u5168\u8eab\u5b8c\u6574\uff0c\u5251\u5203\u5b8c\u6574\uff0c\u7070\u8272\u80cc\u666f\u3002\u4e0d\u662f\u7ad9\u7acb\u59ff\u52bf\uff0c\u4e0d\u662f\u523a\u5251\uff0c\u662f\u4ece\u4e0a\u5f80\u4e0b\u5288\u3002\u53ea\u6709\u4e24\u81c2\u4e24\u624b\u4e00\u628a\u5251\u3002",
+      "clip": [
+        "330",
+        0
+      ],
+      "vae": [
+        "331",
+        0
+      ],
+      "image1": [
+        "355",
+        0
+      ],
+      "image2": [
+        "352",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "\u6587\u672c\u7f16\u7801\uff08QwenImageEditPlus\uff09"
+    }
+  },
+  "367": {
+    "inputs": {
+      "conditioning": [
+        "365",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "\u6761\u4ef6\u96f6\u5316"
+    }
+  },
+  "352": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "v2-master.png"
+    }
+  }
+}

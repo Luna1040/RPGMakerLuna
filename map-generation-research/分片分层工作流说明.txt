@@ -1,0 +1,63 @@
+本地地图分片 / 分层工作流 v1
+
+来源是地图数据（world-state.json -> map-2），不从截图猜坐标。
+当前试作：沙漠青苔镇；世界生态、地点布局、入口和室内连接保持机器可读。
+
+运行（使用本机 Flux2 安装的 python_embeded/python.exe）
+1. python map-generation-research/layered_map_trial.py prepare
+2. python map-generation-research/layered_map_trial.py run
+3. python map-generation-research/layered_map_trial.py build
+4. python map-generation-research/check_map_matte.py
+
+run 自动顺序处理任务，提交前检查两个本地 ComfyUI 是否空闲。每个任务保留 API 工作流、prompt_id、history、raw.png。
+中途停下后重跑 run：已有 raw.png 跳过；已有 prompt_id 继续查原任务，不重复提交。
+不清空队列、不打断其他任务、不改动角色生成项目。
+master layered-workflow.json 是编排清单；各任务文件夹中的 workflow.json 才是具体 ComfyUI API 图。
+layered-generation-api.json 是可整体提交给本机 ComfyUI /prompt 的单一 API 图：9 个保存输出，共用模型、编码器和 VAE；地表后续块直接引用新生成的第一块。
+单一 API 图只负责生成原图，透明抠图和地图组装由 build 阶段完成；不能把它叫作原生透明生成。
+建筑参考 LoadImage 使用本机实际上传所得的文件名（见各 API 图）；迁移电脑需重新上传参考图并更正相应输入名。
+这份合并 API 图已检查引用完整、无循环和节点共享；本轮实际生成使用逐任务 API 图，以便断点恢复，不再重复跑一遍相同素材。
+
+工作流阶段
+世界位置 + 生态 + 地点布局
+  -> 2×2 地表分片，每块 640×512，核心 512×384，邻片重叠 128px
+  -> 同风格地表参考生成 + 重叠区混合
+  -> 独立建筑：旅店 / 工坊 / 补给站
+  -> 独立小物件：仙人掌 / 木箱
+  -> 背景合规检查 -> 色键 -> 封闭背景孔洞清理 -> 混色边缘恢复
+  -> RGBA 素材 + 原画布 / crop / 底部中心锚点记录
+  -> 独立 ground / roads / buildings / props / shadows
+  -> 按 JSON 坐标组装 + 浅 / 深 / 绿色背景验收
+
+避免已出现的角色抠图失败
+- 不假设提示词保证单色背景。四角背景不合规时拒绝处理，不偷偷换用白色或黑色阈值。
+- 不只做外围连通洪水填充：同色的封闭孔洞也清理。
+- 不把所有白色删除：白墙和其他浅色主体必须保留。
+- 不照搬角色蓝披风的专用保护条件到建筑。
+- 不把 AI 分割当成精确真值；单色背景合规时优先可解释的色键与边缘混色恢复。
+- 不逐素材丢失原画布和锚点；每个素材保留源图 SHA、画布、裁切框和放置变换。
+- 不把低置信的孤立背景噪点保留为透明碎屑；删除前检查其是否包含可靠主体像素。本策略只适用于不透明像素素材，不适用于半透明玻璃或发光粒子。
+- 主体与投影分层。当前投影来自 alpha 的程序近似，不伪称恢复了模型原始阴影。
+- 数值通过不等于主体完整：必须检查浅色 / 深色背景、细轮廓、孔洞、孤立碎片和色边。
+
+输出
+map-generation-research/comfy-map-trials/desert-layered-v1/
+  layered-workflow.json：9 个生成任务和抠图策略
+  */workflow.json：每个任务的 ComfyUI API 工作流
+  */raw.png：本地生成原图
+  */rgba.png：建筑 / 物件透明素材
+  */matte-qa.json：背景、孔洞、边缘、裁切与锚点检查
+  */matte-contact-sheet.png：三种底色对照
+  ground.png / roads.png / buildings.png / props.png / shadows.png
+  scene.png：组装场景
+  placement-manifest.json：素材与图层放置数据
+  location-assembled.json：关联 AI 场景和可见物件的地图
+
+限制
+这轮是工作流验证，输出预览 1024×768，相当于 16px/地图格；还不是完整 32px 原生瓦片资源库。
+接缝使用图像混合，可能产生局部模糊；不是已解决任意结构的无缝扩图。
+当前分类只覆盖沙漠；其他生态需要新的地表 / 建筑 / 物件提示和参考。
+模型不保证每张都是真正统一像素网格；不能靠宣称“pixel art”免除实际验收。
+碰撞按建筑布局和可见物件基座初步重建，仍需对照成品检查，不等于精准图像碰撞提取。
+室内仍保留结构化占位布局，尚未生成室内 AI 素材。
+

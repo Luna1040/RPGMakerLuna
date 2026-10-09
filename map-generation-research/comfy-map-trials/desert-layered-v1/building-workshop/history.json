@@ -1,0 +1,257 @@
+{
+  "prompt": [
+    47,
+    "b2c5fa0b-23dd-464b-ad0d-f09aac6edee8",
+    {
+      "325": {
+        "inputs": {
+          "cfg": 1.0,
+          "model": [
+            "329",
+            0
+          ],
+          "positive": [
+            "365",
+            0
+          ],
+          "negative": [
+            "367",
+            0
+          ]
+        },
+        "class_type": "CFGGuider",
+        "_meta": {
+          "title": "CFG引导器"
+        }
+      },
+      "327": {
+        "inputs": {
+          "width": 768,
+          "height": 768,
+          "batch_size": 1
+        },
+        "class_type": "EmptyFlux2LatentImage",
+        "_meta": {
+          "title": "Empty Flux 2 Latent"
+        }
+      },
+      "328": {
+        "inputs": {
+          "steps": 4,
+          "width": 768,
+          "height": 768
+        },
+        "class_type": "Flux2Scheduler",
+        "_meta": {
+          "title": "Flux2Scheduler"
+        }
+      },
+      "329": {
+        "inputs": {
+          "unet_name": "flux-2-klein-9b-fp8.safetensors",
+          "weight_dtype": "default"
+        },
+        "class_type": "UNETLoader",
+        "_meta": {
+          "title": "UNet加载器"
+        }
+      },
+      "330": {
+        "inputs": {
+          "clip_name": "qwen_3_8b_fp8mixed.safetensors",
+          "type": "flux2",
+          "device": "default"
+        },
+        "class_type": "CLIPLoader",
+        "_meta": {
+          "title": "加载CLIP"
+        }
+      },
+      "331": {
+        "inputs": {
+          "vae_name": "flux2-vae.safetensors"
+        },
+        "class_type": "VAELoader",
+        "_meta": {
+          "title": "加载VAE"
+        }
+      },
+      "336": {
+        "inputs": {
+          "noise": [
+            "354",
+            0
+          ],
+          "guider": [
+            "325",
+            0
+          ],
+          "sampler": [
+            "356",
+            0
+          ],
+          "sigmas": [
+            "328",
+            0
+          ],
+          "latent_image": [
+            "327",
+            0
+          ]
+        },
+        "class_type": "SamplerCustomAdvanced",
+        "_meta": {
+          "title": "自定义采样器（高级）"
+        }
+      },
+      "341": {
+        "inputs": {
+          "filename_prefix": "CodexMapLayers/building-workshop",
+          "images": [
+            "350",
+            0
+          ]
+        },
+        "class_type": "SaveImage",
+        "_meta": {
+          "title": "保存图像"
+        }
+      },
+      "350": {
+        "inputs": {
+          "samples": [
+            "336",
+            0
+          ],
+          "vae": [
+            "331",
+            0
+          ]
+        },
+        "class_type": "VAEDecode",
+        "_meta": {
+          "title": "VAE解码"
+        }
+      },
+      "354": {
+        "inputs": {
+          "noise_seed": 202610111
+        },
+        "class_type": "RandomNoise",
+        "_meta": {
+          "title": "随机噪波"
+        }
+      },
+      "356": {
+        "inputs": {
+          "sampler_name": "euler"
+        },
+        "class_type": "KSamplerSelect",
+        "_meta": {
+          "title": "K采样器选择"
+        }
+      },
+      "365": {
+        "inputs": {
+          "prompt": "Authentic crisp pixel-art RPG asset, orthographic overhead with only a narrow south-facing facade, hand-placed square pixel clusters, controlled warm ochre and terracotta palette, no smooth painterly brushstrokes, no photorealism, no blur, no text, no watermark. Use the input only as the size and placement blueprint. Render exactly ONE entire charming desert adobe building in the center, including a detailed terracotta tiled roof, chimney, small south-facing facade, wooden door at bottom center and shutters. Keep the roof inside the broad horizontal reference rectangle. Complete silhouette, generous empty margin all sides, no clipped edges. No floor, no terrain, no plants, no loose props, no characters, no cast shadow. Background must be completely flat saturated magenta RGB(255,0,255), including all empty gaps. No magenta or pink anywhere on the building, no rim light or color spill, no gradient background. A workshop with stone walls, copper chimney and wooden double doors.",
+          "clip": [
+            "330",
+            0
+          ],
+          "vae": [
+            "331",
+            0
+          ],
+          "image1": [
+            "355",
+            0
+          ]
+        },
+        "class_type": "TextEncodeQwenImageEditPlus",
+        "_meta": {
+          "title": "文本编码（QwenImageEditPlus）"
+        }
+      },
+      "367": {
+        "inputs": {
+          "conditioning": [
+            "365",
+            0
+          ]
+        },
+        "class_type": "ConditioningZeroOut",
+        "_meta": {
+          "title": "条件零化"
+        }
+      },
+      "355": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "atlas-building-blueprint.png"
+        }
+      }
+    },
+    {
+      "client_id": "codex-map-layers",
+      "create_time": 1791518293876
+    },
+    [
+      "341"
+    ]
+  ],
+  "outputs": {
+    "341": {
+      "images": [
+        {
+          "filename": "building-workshop_00001_.png",
+          "subfolder": "CodexMapLayers",
+          "type": "output"
+        }
+      ]
+    }
+  },
+  "status": {
+    "status_str": "success",
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "b2c5fa0b-23dd-464b-ad0d-f09aac6edee8",
+          "timestamp": 1791518293877
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [
+            "327",
+            "328",
+            "329",
+            "330",
+            "331",
+            "356",
+            "355"
+          ],
+          "prompt_id": "b2c5fa0b-23dd-464b-ad0d-f09aac6edee8",
+          "timestamp": 1791518293886
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "b2c5fa0b-23dd-464b-ad0d-f09aac6edee8",
+          "timestamp": 1791518303696
+        }
+      ]
+    ]
+  },
+  "meta": {
+    "341": {
+      "node_id": "341",
+      "display_node": "341",
+      "parent_node": null,
+      "real_node_id": "341"
+    }
+  }
+}

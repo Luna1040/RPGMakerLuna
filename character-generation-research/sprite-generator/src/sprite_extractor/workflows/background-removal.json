@@ -1,0 +1,61 @@
+{
+  "1": {
+    "inputs": {
+      "image": "sprite-extractor/input.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Background Removal Input"
+    }
+  },
+  "2": {
+    "inputs": {
+      "bg_removal_name": "BiRefNet.safetensors"
+    },
+    "class_type": "LoadBackgroundRemovalModel",
+    "_meta": {
+      "title": "Background Removal Model"
+    }
+  },
+  "3": {
+    "inputs": {
+      "bg_removal_model": [
+        "2",
+        0
+      ],
+      "image": [
+        "1",
+        0
+      ]
+    },
+    "class_type": "RemoveBackground",
+    "_meta": {
+      "title": "Remove Background"
+    }
+  },
+  "4": {
+    "inputs": {
+      "mask": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "MaskToImage",
+    "_meta": {
+      "title": "Mask to Image"
+    }
+  },
+  "5": {
+    "inputs": {
+      "filename_prefix": "sprite-extractor/background-mask",
+      "images": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Background Masks"
+    }
+  }
+}

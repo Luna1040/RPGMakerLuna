@@ -1,0 +1,160 @@
+{
+	"animations": {
+		"idle": [
+			{
+				"duration": 0.5,
+				"offset": [
+					-9.00000762939453,
+					-62.0
+				],
+				"path": "res://exports/sets/pixel_v3/male_swim_short_none_v90_fx0/idle/00.png",
+				"size": [
+					18,
+					63
+				]
+			}
+		],
+		"slash": [
+			{
+				"duration": 0.18,
+				"offset": [
+					-9.00000762939453,
+					-62.0
+				],
+				"path": "res://exports/sets/pixel_v3/male_swim_short_none_v90_fx0/slash/00.png",
+				"size": [
+					18,
+					63
+				]
+			},
+			{
+				"duration": 0.14,
+				"offset": [
+					-9.00000762939453,
+					-62.0
+				],
+				"path": "res://exports/sets/pixel_v3/male_swim_short_none_v90_fx0/slash/01.png",
+				"size": [
+					18,
+					63
+				]
+			},
+			{
+				"duration": 0.08,
+				"offset": [
+					-9.00000762939453,
+					-62.0
+				],
+				"path": "res://exports/sets/pixel_v3/male_swim_short_none_v90_fx0/slash/02.png",
+				"size": [
+					18,
+					63
+				]
+			},
+			{
+				"duration": 0.1,
+				"offset": [
+					-9.00000762939453,
+					-62.0
+				],
+				"path": "res://exports/sets/pixel_v3/male_swim_short_none_v90_fx0/slash/03.png",
+				"size": [
+					18,
+					63
+				]
+			},
+			{
+				"duration": 0.14,
+				"offset": [
+					-9.00000762939453,
+					-62.0
+				],
+				"path": "res://exports/sets/pixel_v3/male_swim_short_none_v90_fx0/slash/04.png",
+				"size": [
+					18,
+					63
+				]
+			},
+			{
+				"duration": 0.2,
+				"offset": [
+					-9.00000762939453,
+					-62.0
+				],
+				"path": "res://exports/sets/pixel_v3/male_swim_short_none_v90_fx0/slash/05.png",
+				"size": [
+					18,
+					63
+				]
+			}
+		],
+		"walk": [
+			{
+				"duration": 0.2,
+				"offset": [
+					-9.00000762939453,
+					-62.0
+				],
+				"path": "res://exports/sets/pixel_v3/male_swim_short_none_v90_fx0/walk/00.png",
+				"size": [
+					18,
+					63
+				]
+			},
+			{
+				"duration": 0.2,
+				"offset": [
+					-9.00000762939453,
+					-62.0
+				],
+				"path": "res://exports/sets/pixel_v3/male_swim_short_none_v90_fx0/walk/01.png",
+				"size": [
+					18,
+					63
+				]
+			},
+			{
+				"duration": 0.2,
+				"offset": [
+					-9.00000762939453,
+					-62.0
+				],
+				"path": "res://exports/sets/pixel_v3/male_swim_short_none_v90_fx0/walk/02.png",
+				"size": [
+					18,
+					63
+				]
+			},
+			{
+				"duration": 0.2,
+				"offset": [
+					-9.00000762939453,
+					-62.0
+				],
+				"path": "res://exports/sets/pixel_v3/male_swim_short_none_v90_fx0/walk/03.png",
+				"size": [
+					18,
+					63
+				]
+			}
+		]
+	},
+	"loadout": {
+		"body": "male",
+		"effects": false,
+		"hair": "short",
+		"outfit": "swim",
+		"view": 90.0,
+		"weapon": "none"
+	},
+	"origin": [
+		64.0000076293945,
+		114.0
+	],
+	"render_size": [
+		128,
+		128
+	],
+	"style": "3-band color + 1px outline",
+	"version": 2
+}

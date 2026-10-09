@@ -1,0 +1,157 @@
+{
+  "version": 1,
+  "projection": "side-facing-belt",
+  "worldLocationId": "location-4",
+  "worldMapId": "map-4",
+  "biome": "grassland",
+  "biomeNote": "Grassland courtyard projection test associated with the existing ruins location; does not replace desert map-2.",
+  "name": "苍石庭院 · 2.5D场景试作",
+  "units": "meters",
+  "projectionParameters": {
+    "pixelsPerMeter": 120,
+    "depthPixelsPerMeter": 45,
+    "originY": 410
+  },
+  "bounds": {
+    "x": 0.7,
+    "depth": 0.5,
+    "width": 24.2,
+    "depth_size": 8.7
+  },
+  "spawn": {
+    "x": 6.5,
+    "depth": 5.6,
+    "z": 0
+  },
+  "volumes": [
+    {
+      "id": "inn",
+      "kind": "building",
+      "x": 2.1,
+      "depth": 0.7,
+      "width": 3.7,
+      "depth_size": 0.85,
+      "base_z": 0,
+      "height": 4.5,
+      "solid": true,
+      "standable": false,
+      "asset": "inn",
+      "visualHeight": 7.5
+    },
+    {
+      "id": "oak",
+      "kind": "tree",
+      "x": 10.25,
+      "depth": 4.2,
+      "width": 0.72,
+      "depth_size": 0.8,
+      "base_z": 0,
+      "height": 5.2,
+      "solid": true,
+      "standable": false,
+      "asset": "tree",
+      "visualHeight": 4.3
+    },
+    {
+      "id": "box-a",
+      "kind": "crate",
+      "x": 7.9,
+      "depth": 5.35,
+      "width": 1.0,
+      "depth_size": 1.0,
+      "base_z": 0,
+      "height": 0.85,
+      "solid": true,
+      "standable": true,
+      "asset": "crate",
+      "visualHeight": 1.05
+    },
+    {
+      "id": "box-b",
+      "kind": "crate",
+      "x": 8.9,
+      "depth": 6.5,
+      "width": 1.0,
+      "depth_size": 1.0,
+      "base_z": 0,
+      "height": 0.85,
+      "solid": true,
+      "standable": true,
+      "asset": "crate",
+      "visualHeight": 1.05
+    },
+    {
+      "id": "pool",
+      "kind": "water",
+      "x": 14.3,
+      "depth": 4.3,
+      "width": 3.7,
+      "depth_size": 1.4,
+      "sortAtCenter": true,
+      "shape": "ellipse",
+      "base_z": 0,
+      "height": 0.55,
+      "solid": true,
+      "standable": false,
+      "asset": "fountain",
+      "visualHeight": 2.25
+    },
+    {
+      "id": "fountain-column",
+      "kind": "fountain-column",
+      "x": 15.8,
+      "depth": 4.6,
+      "width": 0.7,
+      "depth_size": 0.8,
+      "base_z": 0,
+      "height": 2.25,
+      "solid": true,
+      "standable": false
+    },
+    {
+      "id": "oak-east",
+      "kind": "tree",
+      "x": 20.3,
+      "depth": 6.2,
+      "width": 0.72,
+      "depth_size": 0.8,
+      "base_z": 0,
+      "height": 5.2,
+      "solid": true,
+      "standable": false,
+      "asset": "tree",
+      "visualHeight": 4.3
+    },
+    {
+      "id": "east-inn",
+      "kind": "building",
+      "x": 19.0,
+      "depth": 0.7,
+      "width": 3.7,
+      "depth_size": 0.85,
+      "base_z": 0,
+      "height": 4.5,
+      "solid": true,
+      "standable": false,
+      "asset": "inn",
+      "visualHeight": 7.5
+    }
+  ],
+  "aiRequirements": [
+    "Do not reuse overhead roof assets as frontal facades",
+    "Separate far background, floor, architecture, props and shadows",
+    "Annotate foot pivot and real trunk/base footprint; never use full alpha silhouette as ground collision",
+    "Keep screen depth separate from jump height",
+    "Use logical foot depth for occlusion",
+    "Preserve walking paths and valid landing surfaces"
+  ],
+  "limitations": [
+    "Prototype collision bounds require visual review",
+    "Jump and aerial downward attack have separate animations; no back-facing combat sprites yet",
+    "No back-facing character animation",
+    "Fountain has a fixed illustrated water layer; water animation is not implemented",
+    "Courtyard is not yet an enterable building interior",
+    "Loot and opened chests last for the current session only; restarting the demo resets them",
+    "Town residents currently offer dialogue and subtle breathing, not shops or quest chains"
+  ]
+}

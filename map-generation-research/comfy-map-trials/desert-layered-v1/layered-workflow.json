@@ -1,0 +1,161 @@
+{
+  "version": 1,
+  "worldLocationId": "location-2",
+  "mapId": "map-2",
+  "biome": "desert",
+  "pipeline": [
+    "world context + layout contract",
+    "four overlapping ground chunks",
+    "three independent architecture assets",
+    "two independent small props",
+    "background compliance gate",
+    "key and enclosed background removal",
+    "fringe color recovery",
+    "fixed-canvas/pivot manifest",
+    "separate ground/buildings/props/shadows",
+    "composite preview + matte QA"
+  ],
+  "groundGrid": {
+    "columns": 2,
+    "rows": 2,
+    "tileSize": [
+      640,
+      512
+    ],
+    "coreSize": [
+      512,
+      384
+    ],
+    "overlapPixels": 128,
+    "assembledSize": [
+      1024,
+      768
+    ]
+  },
+  "tasks": [
+    {
+      "id": "ground-0-0",
+      "kind": "ground",
+      "width": 640,
+      "height": 512,
+      "seed": 202610100,
+      "tile": {
+        "row": 0,
+        "column": 0,
+        "core": [
+          512,
+          384
+        ],
+        "overlap": 64
+      },
+      "prompt": "Authentic crisp pixel-art RPG asset, orthographic overhead with only a narrow south-facing facade, hand-placed square pixel clusters, controlled warm ochre and terracotta palette, no smooth painterly brushstrokes, no photorealism, no blur, no text, no watermark. A single continuous tileable desert sand ground texture seen straight from above, warm golden ochre sand, subtle sparse dune ripples, tiny mineral grains and very occasional tiny pebbles, quiet readable ground for an RPG. Absolutely no buildings, vegetation, characters, roads, interface or border. Even soft daylight with no cast shadows. Variation 1: slightly different ripple pattern but exactly the same overall sand palette and scale."
+    },
+    {
+      "id": "ground-0-1",
+      "kind": "ground",
+      "width": 640,
+      "height": 512,
+      "seed": 202610101,
+      "tile": {
+        "row": 0,
+        "column": 1,
+        "core": [
+          512,
+          384
+        ],
+        "overlap": 64
+      },
+      "prompt": "Authentic crisp pixel-art RPG asset, orthographic overhead with only a narrow south-facing facade, hand-placed square pixel clusters, controlled warm ochre and terracotta palette, no smooth painterly brushstrokes, no photorealism, no blur, no text, no watermark. A single continuous tileable desert sand ground texture seen straight from above, warm golden ochre sand, subtle sparse dune ripples, tiny mineral grains and very occasional tiny pebbles, quiet readable ground for an RPG. Absolutely no buildings, vegetation, characters, roads, interface or border. Even soft daylight with no cast shadows. Variation 2: slightly different ripple pattern but exactly the same overall sand palette and scale."
+    },
+    {
+      "id": "ground-1-0",
+      "kind": "ground",
+      "width": 640,
+      "height": 512,
+      "seed": 202610102,
+      "tile": {
+        "row": 1,
+        "column": 0,
+        "core": [
+          512,
+          384
+        ],
+        "overlap": 64
+      },
+      "prompt": "Authentic crisp pixel-art RPG asset, orthographic overhead with only a narrow south-facing facade, hand-placed square pixel clusters, controlled warm ochre and terracotta palette, no smooth painterly brushstrokes, no photorealism, no blur, no text, no watermark. A single continuous tileable desert sand ground texture seen straight from above, warm golden ochre sand, subtle sparse dune ripples, tiny mineral grains and very occasional tiny pebbles, quiet readable ground for an RPG. Absolutely no buildings, vegetation, characters, roads, interface or border. Even soft daylight with no cast shadows. Variation 3: slightly different ripple pattern but exactly the same overall sand palette and scale."
+    },
+    {
+      "id": "ground-1-1",
+      "kind": "ground",
+      "width": 640,
+      "height": 512,
+      "seed": 202610103,
+      "tile": {
+        "row": 1,
+        "column": 1,
+        "core": [
+          512,
+          384
+        ],
+        "overlap": 64
+      },
+      "prompt": "Authentic crisp pixel-art RPG asset, orthographic overhead with only a narrow south-facing facade, hand-placed square pixel clusters, controlled warm ochre and terracotta palette, no smooth painterly brushstrokes, no photorealism, no blur, no text, no watermark. A single continuous tileable desert sand ground texture seen straight from above, warm golden ochre sand, subtle sparse dune ripples, tiny mineral grains and very occasional tiny pebbles, quiet readable ground for an RPG. Absolutely no buildings, vegetation, characters, roads, interface or border. Even soft daylight with no cast shadows. Variation 4: slightly different ripple pattern but exactly the same overall sand palette and scale."
+    },
+    {
+      "id": "building-inn",
+      "kind": "keyed-building",
+      "width": 768,
+      "height": 768,
+      "seed": 202610110,
+      "reference": "building-blueprint.png",
+      "prompt": "Authentic crisp pixel-art RPG asset, orthographic overhead with only a narrow south-facing facade, hand-placed square pixel clusters, controlled warm ochre and terracotta palette, no smooth painterly brushstrokes, no photorealism, no blur, no text, no watermark. Use the input only as the size and placement blueprint. Render exactly ONE entire charming desert adobe building in the center, including a detailed terracotta tiled roof, chimney, small south-facing facade, wooden door at bottom center and shutters. Keep the roof inside the broad horizontal reference rectangle. Complete silhouette, generous empty margin all sides, no clipped edges. No floor, no terrain, no plants, no loose props, no characters, no cast shadow. Background must be completely flat saturated magenta RGB(255,0,255), including all empty gaps. No magenta or pink anywhere on the building, no rim light or color spill, no gradient background. A cozy inn with two shuttered windows and a cream fabric sunshade attached to its facade."
+    },
+    {
+      "id": "building-workshop",
+      "kind": "keyed-building",
+      "width": 768,
+      "height": 768,
+      "seed": 202610111,
+      "reference": "building-blueprint.png",
+      "prompt": "Authentic crisp pixel-art RPG asset, orthographic overhead with only a narrow south-facing facade, hand-placed square pixel clusters, controlled warm ochre and terracotta palette, no smooth painterly brushstrokes, no photorealism, no blur, no text, no watermark. Use the input only as the size and placement blueprint. Render exactly ONE entire charming desert adobe building in the center, including a detailed terracotta tiled roof, chimney, small south-facing facade, wooden door at bottom center and shutters. Keep the roof inside the broad horizontal reference rectangle. Complete silhouette, generous empty margin all sides, no clipped edges. No floor, no terrain, no plants, no loose props, no characters, no cast shadow. Background must be completely flat saturated magenta RGB(255,0,255), including all empty gaps. No magenta or pink anywhere on the building, no rim light or color spill, no gradient background. A workshop with stone walls, copper chimney and wooden double doors."
+    },
+    {
+      "id": "building-supply",
+      "kind": "keyed-building",
+      "width": 768,
+      "height": 768,
+      "seed": 202610112,
+      "reference": "building-blueprint.png",
+      "prompt": "Authentic crisp pixel-art RPG asset, orthographic overhead with only a narrow south-facing facade, hand-placed square pixel clusters, controlled warm ochre and terracotta palette, no smooth painterly brushstrokes, no photorealism, no blur, no text, no watermark. Use the input only as the size and placement blueprint. Render exactly ONE entire charming desert adobe building in the center, including a detailed terracotta tiled roof, chimney, small south-facing facade, wooden door at bottom center and shutters. Keep the roof inside the broad horizontal reference rectangle. Complete silhouette, generous empty margin all sides, no clipped edges. No floor, no terrain, no plants, no loose props, no characters, no cast shadow. Background must be completely flat saturated magenta RGB(255,0,255), including all empty gaps. No magenta or pink anywhere on the building, no rim light or color spill, no gradient background. A small provisions store with sun-bleached plaster walls and a simple tiled roof."
+    },
+    {
+      "id": "prop-cactus",
+      "kind": "keyed-prop",
+      "width": 512,
+      "height": 512,
+      "seed": 202610125,
+      "prompt": "Authentic crisp pixel-art RPG asset, orthographic overhead with only a narrow south-facing facade, hand-placed square pixel clusters, natural DEEP GREEN and jade-green cactus colors, tan spines, dark green outlines; cactus body MUST BE GREEN, not gold or brown, no smooth painterly brushstrokes, no photorealism, no blur, no text, no watermark. Isolated game object: ONE cactus with three branching arms and small natural spines, full silhouette, no pot. Object centered occupying about 60 percent of image, ample margin, no terrain, no floor, no shadow. Entire empty background is perfectly uniform saturated magenta RGB(255,0,255), including every internal gap. Object contains no magenta or pink. No other objects.",
+      "iteration": 2,
+      "previousSource": "prop-cactus/raw-gold-v1.png"
+    },
+    {
+      "id": "prop-crate",
+      "kind": "keyed-prop",
+      "width": 512,
+      "height": 512,
+      "seed": 202610121,
+      "prompt": "Authentic crisp pixel-art RPG asset, orthographic overhead with only a narrow south-facing facade, hand-placed square pixel clusters, controlled warm ochre and terracotta palette, no smooth painterly brushstrokes, no photorealism, no blur, no text, no watermark. Isolated game object: ONE closed weathered wooden supply crate with metal corner brackets. Object centered occupying about 60 percent of image, ample margin, no terrain, no floor, no shadow. Entire empty background is perfectly uniform saturated magenta RGB(255,0,255), including every internal gap. Object contains no magenta or pink. No other objects."
+    }
+  ],
+  "mattePolicy": {
+    "background": "magenta",
+    "rejectNonUniformCorners": true,
+    "removeEnclosedKeyIslands": true,
+    "noBlanketWhiteOrBlackRemoval": true,
+    "noCharacterSpecificBlueRescue": true,
+    "neuralMaskIsNotGroundTruth": true,
+    "preserveSourceCanvas": true,
+    "separateShadows": true
+  },
+  "status": "composited-matte-gates-passed"
+}

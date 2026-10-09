@@ -1,0 +1,13 @@
+Generated using built-in image_gen, genuine transparent alpha preserved, 2026-10-09.
+
+Closed prompt: New standalone closed treasure chest matching attached crate's painted
+fantasy style, wood shading, orthographic three-quarter camera. Curved closed walnut lid,
+aged brass edge bands and central keyhole latch; mostly front, top and right side visible.
+Readable thick bands for 95x80 game-pixel placement. No shadow, glow, text or other props.
+Reference: assets/crate.png (style reference only).
+
+Opened prompt: Edit this exact chest to opened state. Keep canvas, orthographic camera,
+lower box size/position, bottom corners, baseline, colors and materials. Raise lid backward
+on rear hinge, show empty dark interior and underside. No treasure or particles.
+Reference: chest-closed.png. Returned art requires the separate bottom pivot supplied
+in chest-meta.json because the generator moved its baseline slightly.

@@ -1,0 +1,176 @@
+{
+  "hair": {
+    "asset": "hair-v2",
+    "height": 125.54512635379061,
+    "pivot": [
+      0.8488372093023255,
+      0.0984472049689441
+    ],
+    "source_rect": [
+      654,
+      36,
+      250,
+      314
+    ],
+    "size": [
+      258,
+      322
+    ],
+    "recovered_rows": 37,
+    "empty_border": 4,
+    "original_pixel_scale": 0.3898916967509025
+  },
+  "cape_blue": {
+    "asset": "cape_blue-v2",
+    "height": 134.57651245551602,
+    "pivot": [
+      0.9280272108843535,
+      0.07260736196319019
+    ],
+    "source_rect": [
+      947,
+      32,
+      286,
+      318
+    ],
+    "size": [
+      294,
+      326
+    ],
+    "recovered_rows": 37,
+    "empty_border": 4,
+    "original_pixel_scale": 0.4128113879003559
+  },
+  "far_forearm": {
+    "asset": "far_forearm-v2",
+    "height": 42.92468034812507,
+    "pivot": [
+      0.5,
+      0.10395744680851064
+    ],
+    "size": [
+      91,
+      235
+    ],
+    "empty_border": 4,
+    "source": "C:\\Users\\11043\\.codex\\generated_images\\01a11a72-2a35-7b01-9d6c-2bbb93234718\\exec-e389a7cf-1c48-4526-8081-a5c85fa77ce8.png",
+    "view": "palm toward camera"
+  },
+  "casual_far_forearm": {
+    "asset": "casual_far_forearm-v2",
+    "height": 42.484052532833026,
+    "pivot": [
+      0.5,
+      0.09984984984984985
+    ],
+    "size": [
+      215,
+      333
+    ],
+    "empty_border": 4,
+    "source": "C:\\Users\\11043\\.codex\\generated_images\\01a11a72-2a35-7b01-9d6c-2bbb93234718\\exec-0535c29a-050f-444a-9da7-376b25f55a3f.png",
+    "view": "palm toward camera"
+  },
+  "bikini_far_forearm": {
+    "asset": "bikini_far_forearm-v2",
+    "height": 42.51312133374499,
+    "pivot": [
+      0.5,
+      0.10012345679012345
+    ],
+    "size": [
+      176,
+      324
+    ],
+    "empty_border": 4,
+    "source": "C:\\Users\\11043\\.codex\\generated_images\\01a11a72-2a35-7b01-9d6c-2bbb93234718\\exec-ba256742-82ef-4fca-924a-ff4c9259f16e.png",
+    "view": "palm toward camera"
+  },
+  "casual_far_thigh": {
+    "asset": "casual_far_thigh-v2",
+    "height": 56.35668880794229,
+    "pivot": [
+      0.5,
+      0.10871934604904632
+    ],
+    "size": [
+      202,
+      367
+    ],
+    "empty_border": 4,
+    "source": "C:\\Users\\11043\\.codex\\generated_images\\01a11a72-2a35-7b01-9d6c-2bbb93234718\\exec-b5068f63-3d7e-465a-bfcc-ab3d279b7038.png",
+    "view": "inner leg, knee forward/right"
+  },
+  "bikini_far_thigh": {
+    "asset": "bikini_far_thigh-v2",
+    "height": 56.40284570920409,
+    "pivot": [
+      0.5,
+      0.10903954802259887
+    ],
+    "size": [
+      165,
+      354
+    ],
+    "empty_border": 4,
+    "source": "C:\\Users\\11043\\.codex\\generated_images\\01a11a72-2a35-7b01-9d6c-2bbb93234718\\exec-ab9ed6e4-34d8-4bc7-bc2f-00fde66d37cb.png",
+    "view": "inner leg, knee forward/right"
+  },
+  "far_thigh": {
+    "asset": "far_thigh-v2",
+    "height": 56.77998655526745,
+    "pivot": [
+      0.5,
+      0.11163636363636364
+    ],
+    "size": [
+      105,
+      275
+    ],
+    "empty_border": 4,
+    "source": "C:\\Users\\11043\\.codex\\generated_images\\01a11a72-2a35-7b01-9d6c-2bbb93234718\\exec-d17ca919-2b80-431d-adf4-fc1575c131a4.png",
+    "view": "inner leg, knee forward/right"
+  },
+  "torso_blue": {
+    "asset": "torso_blue-v2",
+    "height": 88.80898876404494,
+    "pivot": [
+      0.5,
+      0.030723684210526327
+    ],
+    "source_rect": [
+      376,
+      46,
+      219,
+      296
+    ],
+    "size": [
+      227,
+      304
+    ],
+    "recovered_rows": 29,
+    "empty_border": 4,
+    "original_pixel_scale": 0.29213483146067415
+  },
+  "head": {
+    "asset": "head-v2",
+    "height": 64.40366972477064,
+    "pivot": [
+      0.5096412556053812,
+      0.8928205128205127
+    ],
+    "source_rect": [
+      68,
+      95,
+      215,
+      226
+    ],
+    "size": [
+      223,
+      234
+    ],
+    "recovered_rows": 8,
+    "empty_border": 4,
+    "original_pixel_scale": 0.27522935779816515
+  }
+}

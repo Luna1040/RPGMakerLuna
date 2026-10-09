@@ -1,0 +1,16 @@
+{
+	"baseline_frames_checked": 11,
+	"bone_lengths_checked": 88,
+	"clipped_frames": [],
+	"free_hand_behind_body": true,
+	"hand_visibility_checks": 8,
+	"legs_exchange": true,
+	"mixed_combinations_checked": 27,
+	"neutral_body_loaded": false,
+	"outfit_poses_checked": 44,
+	"parts_independent": true,
+	"technique": "complete costume+skin parts on shared articulated 3D planes; fixed side view",
+	"unlit": true,
+	"wardrobe_preserves_animation_phase": true,
+	"weapon_length_and_grip_checked": 11
+}

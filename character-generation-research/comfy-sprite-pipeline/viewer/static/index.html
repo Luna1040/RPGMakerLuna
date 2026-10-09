@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AI Image to Sprite Pipeline</title>
+    <link rel="stylesheet" href="/styles.css?v=20260709a">
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="eyebrow">Local UI</div>
+          <h1>AI Image to Sprite</h1>
+          <button id="refreshButton" type="button">Refresh</button>
+        </div>
+
+        <form id="generateForm" class="panel form-panel">
+          <div class="panel-title">Generate</div>
+          <label class="field">
+            <span>Source image</span>
+            <input id="sourceFile" name="source_file" type="file" accept=".png,.jpg,.jpeg,.webp" required>
+          </label>
+          <label class="field">
+            <span>Pose preset</span>
+            <select id="presetSelect" name="preset"></select>
+          </label>
+          <label class="field">
+            <span>Sprite cell size</span>
+            <select id="cellSizeSelect" name="cell_size">
+              <option value="96">96</option>
+              <option value="128">128</option>
+              <option value="160">160</option>
+              <option value="192">192</option>
+              <option value="256">256</option>
+              <option value="512" selected>512</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Animation name</span>
+            <input id="animationName" name="animation_name" type="text" placeholder="optional custom name">
+          </label>
+          <label class="field">
+            <span>Extra prompt</span>
+            <textarea
+              id="extraPrompt"
+              name="extra_prompt"
+              rows="4"
+              placeholder="optional action/style hint, e.g. overhead sword slash, aggressive forward lunge, strong impact follow-through"
+            ></textarea>
+          </label>
+          <label class="checkbox">
+            <input id="greyscaleCheckbox" name="greyscale" type="checkbox">
+            <span>Greyscale output</span>
+          </label>
+          <button id="generateButton" type="submit">Generate Sprite</button>
+          <button id="generateAllButton" type="button">Generate All Animations</button>
+        </form>
+
+        <div id="jobPanel" class="panel job-panel">
+          <div class="panel-title">Job Status</div>
+          <div id="jobMeta" class="job-meta">No active job</div>
+          <pre id="jobLog" class="job-log"></pre>
+        </div>
+
+        <div class="status panel">
+          <div id="outputRoot"></div>
+          <div id="summary"></div>
+        </div>
+
+        <div id="animationList" class="animation-list"></div>
+      </aside>
+
+      <main class="main">
+        <section class="stage">
+          <div class="stage-header">
+            <div>
+              <div class="eyebrow">Spritesheet Preview</div>
+              <h2 id="animationTitle">No animation</h2>
+            </div>
+            <div id="posesCount" class="badge"></div>
+          </div>
+          <div class="controls">
+            <label class="fps-control" for="fpsRange">
+              <span>FPS</span>
+              <input id="fpsRange" type="range" min="4" max="30" step="1" value="16">
+              <span id="fpsValue">16</span>
+            </label>
+          </div>
+          <div class="viewer">
+            <div class="sprite-stage">
+              <canvas id="spriteCanvas" width="128" height="128"></canvas>
+            </div>
+            <div class="queue-stage">
+              <canvas id="queueCanvas" width="128" height="128"></canvas>
+              <div id="queueLabel" class="queue-label">No generated animations yet</div>
+            </div>
+          </div>
+        </section>
+        <section class="renders">
+          <div class="section-header">
+            <h3>Spritesheets</h3>
+          </div>
+          <div id="renderList" class="render-list"></div>
+        </section>
+      </main>
+    </div>
+    <script src="/app.js?v=20260709a"></script>
+  </body>
+</html>

@@ -1,0 +1,174 @@
+{
+  "pivot": [
+    378,
+    597
+  ],
+  "scale": 0.977,
+  "takeoff": [
+    0,
+    1,
+    2
+  ],
+  "rise": [
+    3,
+    4,
+    5
+  ],
+  "apex": [
+    6,
+    7
+  ],
+  "fall": [
+    8,
+    9,
+    10
+  ],
+  "land": [
+    11,
+    12,
+    13,
+    14,
+    15,
+    16
+  ],
+  "frames": [
+    {
+      "source_frame": 20,
+      "pivot": [
+        378,
+        597
+      ],
+      "file": "jump/000.png"
+    },
+    {
+      "source_frame": 24,
+      "pivot": [
+        378,
+        597
+      ],
+      "file": "jump/001.png"
+    },
+    {
+      "source_frame": 28,
+      "pivot": [
+        378,
+        597
+      ],
+      "file": "jump/002.png"
+    },
+    {
+      "source_frame": 32,
+      "pivot": [
+        378,
+        597
+      ],
+      "file": "jump/003.png"
+    },
+    {
+      "source_frame": 36,
+      "pivot": [
+        378,
+        539
+      ],
+      "file": "jump/004.png"
+    },
+    {
+      "source_frame": 40,
+      "pivot": [
+        378,
+        503
+      ],
+      "file": "jump/005.png"
+    },
+    {
+      "source_frame": 44,
+      "pivot": [
+        378,
+        491
+      ],
+      "file": "jump/006.png"
+    },
+    {
+      "source_frame": 48,
+      "pivot": [
+        378,
+        497
+      ],
+      "file": "jump/007.png"
+    },
+    {
+      "source_frame": 52,
+      "pivot": [
+        378,
+        514
+      ],
+      "file": "jump/008.png"
+    },
+    {
+      "source_frame": 56,
+      "pivot": [
+        378,
+        537
+      ],
+      "file": "jump/009.png"
+    },
+    {
+      "source_frame": 60,
+      "pivot": [
+        378,
+        567
+      ],
+      "file": "jump/010.png"
+    },
+    {
+      "source_frame": 64,
+      "pivot": [
+        378,
+        597
+      ],
+      "file": "jump/011.png"
+    },
+    {
+      "source_frame": 68,
+      "pivot": [
+        378,
+        597
+      ],
+      "file": "jump/012.png"
+    },
+    {
+      "source_frame": 76,
+      "pivot": [
+        378,
+        597
+      ],
+      "file": "jump/013.png"
+    },
+    {
+      "source_frame": 84,
+      "pivot": [
+        378,
+        597
+      ],
+      "file": "jump/014.png"
+    },
+    {
+      "source_frame": 92,
+      "pivot": [
+        378,
+        597
+      ],
+      "file": "jump/015.png"
+    },
+    {
+      "source_frame": 100,
+      "pivot": [
+        378,
+        597
+      ],
+      "file": "jump/016.png"
+    }
+  ],
+  "root_motion_note": "Authored fixed-camera airborne root translation removed by per-frame source-space offsets; no per-frame scale changes.",
+  "source": "H3 map-jump 9b62b447-7fe8-4605-8586-383b124695de"
+}

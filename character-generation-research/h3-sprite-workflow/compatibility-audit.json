@@ -1,0 +1,156 @@
+{
+  "workflows/Minimax H3 r2v Simplified - Full Sprite Animation.json": {
+    "nodes": 171,
+    "connected_nodes": 166,
+    "missing_connected_node_types": [
+      "ComfyMathExpression",
+      "JWInteger",
+      "MiniMaxH3ReferenceToVideo",
+      "MiniMaxH3SigmaShift",
+      "SeedNode"
+    ],
+    "missing_node_types_including_unused": [
+      "ComfyMathExpression",
+      "H3FunControlReferencesLoader",
+      "JWInteger",
+      "MiniMaxH3ReferenceToVideo",
+      "MiniMaxH3SigmaShift",
+      "SeedNode"
+    ],
+    "model_inputs": [
+      {
+        "node": "149",
+        "class_type": "CLIPLoader",
+        "input": "clip_name",
+        "filename": "d/qwen3vl_32b_minimax_h3_int8_convrot.safetensors",
+        "connected_to_saved_output": true
+      },
+      {
+        "node": "154",
+        "class_type": "UNETLoader",
+        "input": "unet_name",
+        "filename": "d/DasiwaMinimaxH3_dasiwaREF2VAHybridV1.safetensors",
+        "connected_to_saved_output": true
+      },
+      {
+        "node": "163",
+        "class_type": "LoraLoaderModelOnly",
+        "input": "lora_name",
+        "filename": "minimax_h3/minimax_h3_fl2v_turbo_4step_v1.2_768p_comfyui_bf16.safetensors",
+        "connected_to_saved_output": true
+      },
+      {
+        "node": "173",
+        "class_type": "VAELoader",
+        "input": "vae_name",
+        "filename": "d/minimax_h3_video_vae_fp16.safetensors",
+        "connected_to_saved_output": true
+      },
+      {
+        "node": "174",
+        "class_type": "VAELoader",
+        "input": "vae_name",
+        "filename": "d/minimax_h3_audio_vae_fp32.safetensors",
+        "connected_to_saved_output": true
+      },
+      {
+        "node": "214",
+        "class_type": "UNETLoader",
+        "input": "unet_name",
+        "filename": "d/MiniMax-H3-Pruned-Ref-Delta-Fused-r1024-comfy-int8-convrot.safetensors",
+        "connected_to_saved_output": false
+      },
+      {
+        "node": "239",
+        "class_type": "H3FunControlReferencesLoader",
+        "input": "name",
+        "filename": "minimax_h3_fun_controlnet_union_pruned_int8_convrot.safetensors",
+        "connected_to_saved_output": false
+      },
+      {
+        "node": "247",
+        "class_type": "UNETLoader",
+        "input": "unet_name",
+        "filename": "d/minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+        "connected_to_saved_output": false
+      }
+    ]
+  },
+  "workflows/Minimax H3 Running and Idle - 4 directions.json": {
+    "nodes": 91,
+    "connected_nodes": 87,
+    "missing_connected_node_types": [
+      "ComfyMathExpression",
+      "JWInteger",
+      "MiniMaxH3ReferenceToVideo",
+      "MiniMaxH3SigmaShift",
+      "SeedNode"
+    ],
+    "missing_node_types_including_unused": [
+      "ComfyMathExpression",
+      "H3FunControlReferencesLoader",
+      "JWInteger",
+      "MiniMaxH3ReferenceToVideo",
+      "MiniMaxH3SigmaShift",
+      "SeedNode"
+    ],
+    "model_inputs": [
+      {
+        "node": "149",
+        "class_type": "CLIPLoader",
+        "input": "clip_name",
+        "filename": "d/qwen3vl_32b_minimax_h3_int8_convrot.safetensors",
+        "connected_to_saved_output": true
+      },
+      {
+        "node": "154",
+        "class_type": "UNETLoader",
+        "input": "unet_name",
+        "filename": "d/DasiwaMinimaxH3_dasiwaREF2VAHybridV1.safetensors",
+        "connected_to_saved_output": true
+      },
+      {
+        "node": "163",
+        "class_type": "LoraLoaderModelOnly",
+        "input": "lora_name",
+        "filename": "minimax_h3/minimax_h3_fl2v_turbo_4step_v1.2_768p_comfyui_bf16.safetensors",
+        "connected_to_saved_output": true
+      },
+      {
+        "node": "173",
+        "class_type": "VAELoader",
+        "input": "vae_name",
+        "filename": "d/minimax_h3_video_vae_fp16.safetensors",
+        "connected_to_saved_output": true
+      },
+      {
+        "node": "174",
+        "class_type": "VAELoader",
+        "input": "vae_name",
+        "filename": "d/minimax_h3_audio_vae_fp32.safetensors",
+        "connected_to_saved_output": true
+      },
+      {
+        "node": "214",
+        "class_type": "UNETLoader",
+        "input": "unet_name",
+        "filename": "d/MiniMax-H3-Pruned-Ref-Delta-Fused-r1024-comfy-int8-convrot.safetensors",
+        "connected_to_saved_output": false
+      },
+      {
+        "node": "239",
+        "class_type": "H3FunControlReferencesLoader",
+        "input": "name",
+        "filename": "minimax_h3_fun_controlnet_union_pruned_int8_convrot.safetensors",
+        "connected_to_saved_output": false
+      },
+      {
+        "node": "247",
+        "class_type": "UNETLoader",
+        "input": "unet_name",
+        "filename": "d/minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+        "connected_to_saved_output": false
+      }
+    ]
+  }
+}

@@ -1,0 +1,1492 @@
+{
+  "prompt": [
+    4,
+    "2e0d92a0-f6fb-46d6-9a84-c943c1ae8c98",
+    {
+      "1": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "knight-green-reference.png"
+        }
+      },
+      "2": {
+        "class_type": "CLIPLoader",
+        "inputs": {
+          "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+          "type": "minimax",
+          "device": "default"
+        }
+      },
+      "3": {
+        "class_type": "UNETLoader",
+        "inputs": {
+          "unet_name": "minimax_h3_ref2va_pruned_fp8_scaled.safetensors",
+          "weight_dtype": "default"
+        }
+      },
+      "4": {
+        "class_type": "VAELoader",
+        "inputs": {
+          "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+        }
+      },
+      "6": {
+        "class_type": "MiniMaxH3ReferenceToVideo",
+        "inputs": {
+          "clip": [
+            "2",
+            0
+          ],
+          "vae": [
+            "4",
+            0
+          ],
+          "prompt": "The adult female fantasy knight in <Picture 1>, preserve her illustrated art style, face, blonde ponytail, blue cape, silver and gold armor, boots and full length sword. She performs one complete sword slash facing right: settles her weight, bends her knees, winds her torso and lifts the sword, then drives with her hips and shoulders into a diagonal downwards slash, follows through and returns to a ready stance. Her head, torso, hips, arms and legs coordinate as one whole body. Hair and cape follow through. Fixed side view camera, full body visible with ample margin around her hair, feet and sword. Single character centered on perfectly uniform bright green chroma key background. Flat illustrated colors and crisp edges. Each frame is sharply drawn without motion blur. No camera movement, no scene changes, no text, no floor shadow. Silent. The knight occupies only the central 60 percent of the canvas height, with broad empty green margins on all four sides. Keep her entire sword, hair and cape within the frame throughout. The background is a perfectly flat solid RGB green screen with no texture, pattern, grid or gradients. No sword glow, no magical effects, no trails.",
+          "width": 768,
+          "height": 768,
+          "length": 124,
+          "ref_image_size": "match",
+          "ref_images.ref_image_0": [
+            "1",
+            0
+          ]
+        }
+      },
+      "7": {
+        "class_type": "BasicGuider",
+        "inputs": {
+          "model": [
+            "3",
+            0
+          ],
+          "conditioning": [
+            "6",
+            0
+          ]
+        }
+      },
+      "8": {
+        "class_type": "RandomNoise",
+        "inputs": {
+          "noise_seed": 731420
+        }
+      },
+      "9": {
+        "class_type": "KSamplerSelect",
+        "inputs": {
+          "sampler_name": "res_multistep"
+        }
+      },
+      "10": {
+        "class_type": "BasicScheduler",
+        "inputs": {
+          "model": [
+            "3",
+            0
+          ],
+          "scheduler": "normal",
+          "steps": 20,
+          "denoise": 1.0
+        }
+      },
+      "11": {
+        "class_type": "SamplerCustomAdvanced",
+        "inputs": {
+          "noise": [
+            "8",
+            0
+          ],
+          "guider": [
+            "7",
+            0
+          ],
+          "sampler": [
+            "9",
+            0
+          ],
+          "sigmas": [
+            "10",
+            0
+          ],
+          "latent_image": [
+            "6",
+            1
+          ]
+        }
+      },
+      "12": {
+        "class_type": "VAEDecodeTiled",
+        "inputs": {
+          "samples": [
+            "11",
+            0
+          ],
+          "vae": [
+            "4",
+            0
+          ],
+          "tile_size": 384,
+          "overlap": 64,
+          "temporal_size": 32,
+          "temporal_overlap": 8
+        }
+      },
+      "13": {
+        "class_type": "CreateVideo",
+        "inputs": {
+          "images": [
+            "12",
+            0
+          ],
+          "fps": 24.0
+        }
+      },
+      "14": {
+        "class_type": "SaveVideo",
+        "inputs": {
+          "video": [
+            "13",
+            0
+          ],
+          "filename_prefix": "h3-attack-hq",
+          "format": "mp4",
+          "format.codec": "h264"
+        }
+      },
+      "15": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "12",
+            0
+          ],
+          "filename_prefix": "frames/attack-hq"
+        }
+      }
+    },
+    {
+      "client_id": "h3-quality-test",
+      "create_time": 1791512330225
+    },
+    [
+      "14",
+      "15"
+    ]
+  ],
+  "outputs": {
+    "15": {
+      "images": [
+        {
+          "filename": "attack-hq_00001_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00002_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00003_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00004_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00005_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00006_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00007_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00008_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00009_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00010_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00011_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00012_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00013_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00014_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00015_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00016_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00017_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00018_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00019_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00020_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00021_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00022_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00023_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00024_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00025_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00026_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00027_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00028_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00029_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00030_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00031_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00032_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00033_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00034_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00035_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00036_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00037_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00038_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00039_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00040_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00041_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00042_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00043_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00044_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00045_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00046_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00047_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00048_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00049_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00050_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00051_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00052_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00053_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00054_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00055_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00056_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00057_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00058_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00059_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00060_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00061_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00062_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00063_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00064_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00065_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00066_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00067_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00068_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00069_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00070_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00071_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00072_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00073_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00074_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00075_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00076_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00077_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00078_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00079_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00080_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00081_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00082_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00083_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00084_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00085_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00086_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00087_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00088_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00089_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00090_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00091_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00092_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00093_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00094_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00095_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00096_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00097_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00098_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00099_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00100_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00101_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00102_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00103_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00104_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00105_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00106_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00107_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00108_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00109_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00110_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00111_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00112_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00113_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00114_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00115_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00116_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00117_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00118_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00119_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00120_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00121_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00122_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00123_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "attack-hq_00124_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        }
+      ]
+    },
+    "14": {
+      "images": [
+        {
+          "filename": "h3-attack-hq_00001_.mp4",
+          "subfolder": "",
+          "type": "output",
+          "metadata": {
+            "kind": "video",
+            "width": 768,
+            "height": 768,
+            "duration": 5.166666666666667,
+            "fps": 24.0,
+            "frame_count": 124
+          }
+        }
+      ],
+      "animated": [
+        true
+      ]
+    }
+  },
+  "status": {
+    "status_str": "success",
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "2e0d92a0-f6fb-46d6-9a84-c943c1ae8c98",
+          "timestamp": 1791512480860
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "8",
+            "9",
+            "10"
+          ],
+          "prompt_id": "2e0d92a0-f6fb-46d6-9a84-c943c1ae8c98",
+          "timestamp": 1791512480862
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "2e0d92a0-f6fb-46d6-9a84-c943c1ae8c98",
+          "timestamp": 1791512691893
+        }
+      ]
+    ]
+  },
+  "meta": {
+    "15": {
+      "node_id": "15",
+      "display_node": "15",
+      "parent_node": null,
+      "real_node_id": "15"
+    },
+    "14": {
+      "node_id": "14",
+      "display_node": "14",
+      "parent_node": null,
+      "real_node_id": "14"
+    }
+  }
+}

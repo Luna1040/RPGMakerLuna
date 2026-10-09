@@ -1,0 +1,6 @@
+Built-in imagegen mode. No API/CLI fallback.
+Generated asset: assets/ai-body-reference-v2.png
+Also saved to ../godot-character-lab/assets/ai-skin-v2.png and used by the previous 2D comparison.
+Input: ../godot-character-lab/assets/ai-skin-v1.png
+Final prompt:
+Edit the supplied ORIGINAL adult female game sprite sheet (3x3 nine exact action poses). Asset is a nonsexual character-production mannequin for fitting swimwear and dresses. REMOVE the baked-in charcoal training top and shorts completely. Replace those garment pixels with the same natural skin palette. The base body must be a smooth, featureless ADULT female mannequin with modest natural chest contour, tapered waist and hips, NO underwear, NO nipples, NO areola, NO genital details, NO pubic hair, NO erotic anatomy emphasis. Neutral anatomy reference, not sexual illustration. Preserve all nine exact poses, head/hand/foot coordinates, camera and native coarse pixel-art proportions; do NOT enlarge figures or re-center cells. Keep near leg light, far leg dark, maintain outlined shapes and same skin palette. Transparent background. No hair, clothing, weapons, effects, labels or shadows. The purpose is a neutral unclothed fitting base under modular costumes; smooth featureless pelvis and chest, no explicit private anatomy.

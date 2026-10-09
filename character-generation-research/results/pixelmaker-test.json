@@ -1,0 +1,12 @@
+{
+  "walk": {
+    "width": 192,
+    "height": 169,
+    "frame_count": 4
+  },
+  "attack": {
+    "width": 234,
+    "height": 169,
+    "frame_count": 5
+  }
+}

@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=80,<81"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rpg-sprite-extractor"
+version = "1.0.0"
+description = "Generate and pack four-direction character animations with ComfyUI"
+readme = "README.md"
+license = "AGPL-3.0-only"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"
+dependencies = [
+  "numpy==2.2.6",
+  "Pillow==12.2.0",
+  "PyYAML>=6,<7",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<9", "httpx>=0.27,<1"]
+web = [
+  "fastapi>=0.115,<1",
+  "python-multipart>=0.0.20,<1",
+  "uvicorn>=0.34,<1",
+]
+
+[project.scripts]
+sprite-extractor = "sprite_extractor.extract_frames:main"
+sprite-extractor-web = "sprite_extractor.web.app:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+sprite_extractor = ["animation-definitions.yaml", "config.default.yaml", "prompts/*.txt", "workflows/*.json", "workflows/*.png", "workflows/staged/*.json", "workflows/templates/*.json", "workflows/dummy-views/*.png", "workflows/dummy-views-pixel-art/*.png", "web_static/*", "web_static/assets/*", "web_static/fonts/inter/*", "web_static/fonts/inconsolata/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

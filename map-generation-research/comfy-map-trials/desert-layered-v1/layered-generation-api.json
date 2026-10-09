@@ -1,0 +1,1406 @@
+{
+  "1": {
+    "inputs": {
+      "unet_name": "flux-2-klein-9b-fp8.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "ground-0-0 / UNETLoader"
+    }
+  },
+  "2": {
+    "inputs": {
+      "clip_name": "qwen_3_8b_fp8mixed.safetensors",
+      "type": "flux2",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "ground-0-0 / CLIPLoader"
+    }
+  },
+  "3": {
+    "inputs": {
+      "vae_name": "flux2-vae.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "ground-0-0 / VAELoader"
+    }
+  },
+  "1325": {
+    "inputs": {
+      "cfg": 1,
+      "model": [
+        "1",
+        0
+      ],
+      "positive": [
+        "1365",
+        0
+      ],
+      "negative": [
+        "1367",
+        0
+      ]
+    },
+    "class_type": "CFGGuider",
+    "_meta": {
+      "title": "ground-0-0 / CFGGuider"
+    }
+  },
+  "1327": {
+    "inputs": {
+      "width": 640,
+      "height": 512,
+      "batch_size": 1
+    },
+    "class_type": "EmptyFlux2LatentImage",
+    "_meta": {
+      "title": "ground-0-0 / EmptyFlux2LatentImage"
+    }
+  },
+  "1328": {
+    "inputs": {
+      "steps": 4,
+      "width": 640,
+      "height": 512
+    },
+    "class_type": "Flux2Scheduler",
+    "_meta": {
+      "title": "ground-0-0 / Flux2Scheduler"
+    }
+  },
+  "1336": {
+    "inputs": {
+      "noise": [
+        "1354",
+        0
+      ],
+      "guider": [
+        "1325",
+        0
+      ],
+      "sampler": [
+        "1356",
+        0
+      ],
+      "sigmas": [
+        "1328",
+        0
+      ],
+      "latent_image": [
+        "1327",
+        0
+      ]
+    },
+    "class_type": "SamplerCustomAdvanced",
+    "_meta": {
+      "title": "ground-0-0 / SamplerCustomAdvanced"
+    }
+  },
+  "1341": {
+    "inputs": {
+      "filename_prefix": "CodexMapLayeredWorkflow/ground-0-0",
+      "images": [
+        "1350",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "ground-0-0 / SaveImage"
+    }
+  },
+  "1350": {
+    "inputs": {
+      "samples": [
+        "1336",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "ground-0-0 / VAEDecode"
+    }
+  },
+  "1354": {
+    "inputs": {
+      "noise_seed": 202610100
+    },
+    "class_type": "RandomNoise",
+    "_meta": {
+      "title": "ground-0-0 / RandomNoise"
+    }
+  },
+  "1356": {
+    "inputs": {
+      "sampler_name": "euler"
+    },
+    "class_type": "KSamplerSelect",
+    "_meta": {
+      "title": "ground-0-0 / KSamplerSelect"
+    }
+  },
+  "1365": {
+    "inputs": {
+      "prompt": "Authentic crisp pixel-art RPG asset, orthographic overhead with only a narrow south-facing facade, hand-placed square pixel clusters, controlled warm ochre and terracotta palette, no smooth painterly brushstrokes, no photorealism, no blur, no text, no watermark. A single continuous tileable desert sand ground texture seen straight from above, warm golden ochre sand, subtle sparse dune ripples, tiny mineral grains and very occasional tiny pebbles, quiet readable ground for an RPG. Absolutely no buildings, vegetation, characters, roads, interface or border. Even soft daylight with no cast shadows. Variation 1: slightly different ripple pattern but exactly the same overall sand palette and scale.",
+      "clip": [
+        "2",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "ground-0-0 / TextEncodeQwenImageEditPlus"
+    }
+  },
+  "1367": {
+    "inputs": {
+      "conditioning": [
+        "1365",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ground-0-0 / ConditioningZeroOut"
+    }
+  },
+  "2325": {
+    "inputs": {
+      "cfg": 1,
+      "model": [
+        "1",
+        0
+      ],
+      "positive": [
+        "2365",
+        0
+      ],
+      "negative": [
+        "2367",
+        0
+      ]
+    },
+    "class_type": "CFGGuider",
+    "_meta": {
+      "title": "ground-0-1 / CFGGuider"
+    }
+  },
+  "2327": {
+    "inputs": {
+      "width": 640,
+      "height": 512,
+      "batch_size": 1
+    },
+    "class_type": "EmptyFlux2LatentImage",
+    "_meta": {
+      "title": "ground-0-1 / EmptyFlux2LatentImage"
+    }
+  },
+  "2328": {
+    "inputs": {
+      "steps": 4,
+      "width": 640,
+      "height": 512
+    },
+    "class_type": "Flux2Scheduler",
+    "_meta": {
+      "title": "ground-0-1 / Flux2Scheduler"
+    }
+  },
+  "2336": {
+    "inputs": {
+      "noise": [
+        "2354",
+        0
+      ],
+      "guider": [
+        "2325",
+        0
+      ],
+      "sampler": [
+        "2356",
+        0
+      ],
+      "sigmas": [
+        "2328",
+        0
+      ],
+      "latent_image": [
+        "2327",
+        0
+      ]
+    },
+    "class_type": "SamplerCustomAdvanced",
+    "_meta": {
+      "title": "ground-0-1 / SamplerCustomAdvanced"
+    }
+  },
+  "2341": {
+    "inputs": {
+      "filename_prefix": "CodexMapLayeredWorkflow/ground-0-1",
+      "images": [
+        "2350",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "ground-0-1 / SaveImage"
+    }
+  },
+  "2350": {
+    "inputs": {
+      "samples": [
+        "2336",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "ground-0-1 / VAEDecode"
+    }
+  },
+  "2354": {
+    "inputs": {
+      "noise_seed": 202610101
+    },
+    "class_type": "RandomNoise",
+    "_meta": {
+      "title": "ground-0-1 / RandomNoise"
+    }
+  },
+  "2356": {
+    "inputs": {
+      "sampler_name": "euler"
+    },
+    "class_type": "KSamplerSelect",
+    "_meta": {
+      "title": "ground-0-1 / KSamplerSelect"
+    }
+  },
+  "2365": {
+    "inputs": {
+      "prompt": "Authentic crisp pixel-art RPG asset, orthographic overhead with only a narrow south-facing facade, hand-placed square pixel clusters, controlled warm ochre and terracotta palette, no smooth painterly brushstrokes, no photorealism, no blur, no text, no watermark. A single continuous tileable desert sand ground texture seen straight from above, warm golden ochre sand, subtle sparse dune ripples, tiny mineral grains and very occasional tiny pebbles, quiet readable ground for an RPG. Absolutely no buildings, vegetation, characters, roads, interface or border. Even soft daylight with no cast shadows. Variation 2: slightly different ripple pattern but exactly the same overall sand palette and scale.",
+      "clip": [
+        "2",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ],
+      "image1": [
+        "1350",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "ground-0-1 / TextEncodeQwenImageEditPlus"
+    }
+  },
+  "2367": {
+    "inputs": {
+      "conditioning": [
+        "2365",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ground-0-1 / ConditioningZeroOut"
+    }
+  },
+  "3325": {
+    "inputs": {
+      "cfg": 1,
+      "model": [
+        "1",
+        0
+      ],
+      "positive": [
+        "3365",
+        0
+      ],
+      "negative": [
+        "3367",
+        0
+      ]
+    },
+    "class_type": "CFGGuider",
+    "_meta": {
+      "title": "ground-1-0 / CFGGuider"
+    }
+  },
+  "3327": {
+    "inputs": {
+      "width": 640,
+      "height": 512,
+      "batch_size": 1
+    },
+    "class_type": "EmptyFlux2LatentImage",
+    "_meta": {
+      "title": "ground-1-0 / EmptyFlux2LatentImage"
+    }
+  },
+  "3328": {
+    "inputs": {
+      "steps": 4,
+      "width": 640,
+      "height": 512
+    },
+    "class_type": "Flux2Scheduler",
+    "_meta": {
+      "title": "ground-1-0 / Flux2Scheduler"
+    }
+  },
+  "3336": {
+    "inputs": {
+      "noise": [
+        "3354",
+        0
+      ],
+      "guider": [
+        "3325",
+        0
+      ],
+      "sampler": [
+        "3356",
+        0
+      ],
+      "sigmas": [
+        "3328",
+        0
+      ],
+      "latent_image": [
+        "3327",
+        0
+      ]
+    },
+    "class_type": "SamplerCustomAdvanced",
+    "_meta": {
+      "title": "ground-1-0 / SamplerCustomAdvanced"
+    }
+  },
+  "3341": {
+    "inputs": {
+      "filename_prefix": "CodexMapLayeredWorkflow/ground-1-0",
+      "images": [
+        "3350",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "ground-1-0 / SaveImage"
+    }
+  },
+  "3350": {
+    "inputs": {
+      "samples": [
+        "3336",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "ground-1-0 / VAEDecode"
+    }
+  },
+  "3354": {
+    "inputs": {
+      "noise_seed": 202610102
+    },
+    "class_type": "RandomNoise",
+    "_meta": {
+      "title": "ground-1-0 / RandomNoise"
+    }
+  },
+  "3356": {
+    "inputs": {
+      "sampler_name": "euler"
+    },
+    "class_type": "KSamplerSelect",
+    "_meta": {
+      "title": "ground-1-0 / KSamplerSelect"
+    }
+  },
+  "3365": {
+    "inputs": {
+      "prompt": "Authentic crisp pixel-art RPG asset, orthographic overhead with only a narrow south-facing facade, hand-placed square pixel clusters, controlled warm ochre and terracotta palette, no smooth painterly brushstrokes, no photorealism, no blur, no text, no watermark. A single continuous tileable desert sand ground texture seen straight from above, warm golden ochre sand, subtle sparse dune ripples, tiny mineral grains and very occasional tiny pebbles, quiet readable ground for an RPG. Absolutely no buildings, vegetation, characters, roads, interface or border. Even soft daylight with no cast shadows. Variation 3: slightly different ripple pattern but exactly the same overall sand palette and scale.",
+      "clip": [
+        "2",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ],
+      "image1": [
+        "1350",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "ground-1-0 / TextEncodeQwenImageEditPlus"
+    }
+  },
+  "3367": {
+    "inputs": {
+      "conditioning": [
+        "3365",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ground-1-0 / ConditioningZeroOut"
+    }
+  },
+  "4325": {
+    "inputs": {
+      "cfg": 1,
+      "model": [
+        "1",
+        0
+      ],
+      "positive": [
+        "4365",
+        0
+      ],
+      "negative": [
+        "4367",
+        0
+      ]
+    },
+    "class_type": "CFGGuider",
+    "_meta": {
+      "title": "ground-1-1 / CFGGuider"
+    }
+  },
+  "4327": {
+    "inputs": {
+      "width": 640,
+      "height": 512,
+      "batch_size": 1
+    },
+    "class_type": "EmptyFlux2LatentImage",
+    "_meta": {
+      "title": "ground-1-1 / EmptyFlux2LatentImage"
+    }
+  },
+  "4328": {
+    "inputs": {
+      "steps": 4,
+      "width": 640,
+      "height": 512
+    },
+    "class_type": "Flux2Scheduler",
+    "_meta": {
+      "title": "ground-1-1 / Flux2Scheduler"
+    }
+  },
+  "4336": {
+    "inputs": {
+      "noise": [
+        "4354",
+        0
+      ],
+      "guider": [
+        "4325",
+        0
+      ],
+      "sampler": [
+        "4356",
+        0
+      ],
+      "sigmas": [
+        "4328",
+        0
+      ],
+      "latent_image": [
+        "4327",
+        0
+      ]
+    },
+    "class_type": "SamplerCustomAdvanced",
+    "_meta": {
+      "title": "ground-1-1 / SamplerCustomAdvanced"
+    }
+  },
+  "4341": {
+    "inputs": {
+      "filename_prefix": "CodexMapLayeredWorkflow/ground-1-1",
+      "images": [
+        "4350",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "ground-1-1 / SaveImage"
+    }
+  },
+  "4350": {
+    "inputs": {
+      "samples": [
+        "4336",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "ground-1-1 / VAEDecode"
+    }
+  },
+  "4354": {
+    "inputs": {
+      "noise_seed": 202610103
+    },
+    "class_type": "RandomNoise",
+    "_meta": {
+      "title": "ground-1-1 / RandomNoise"
+    }
+  },
+  "4356": {
+    "inputs": {
+      "sampler_name": "euler"
+    },
+    "class_type": "KSamplerSelect",
+    "_meta": {
+      "title": "ground-1-1 / KSamplerSelect"
+    }
+  },
+  "4365": {
+    "inputs": {
+      "prompt": "Authentic crisp pixel-art RPG asset, orthographic overhead with only a narrow south-facing facade, hand-placed square pixel clusters, controlled warm ochre and terracotta palette, no smooth painterly brushstrokes, no photorealism, no blur, no text, no watermark. A single continuous tileable desert sand ground texture seen straight from above, warm golden ochre sand, subtle sparse dune ripples, tiny mineral grains and very occasional tiny pebbles, quiet readable ground for an RPG. Absolutely no buildings, vegetation, characters, roads, interface or border. Even soft daylight with no cast shadows. Variation 4: slightly different ripple pattern but exactly the same overall sand palette and scale.",
+      "clip": [
+        "2",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ],
+      "image1": [
+        "1350",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "ground-1-1 / TextEncodeQwenImageEditPlus"
+    }
+  },
+  "4367": {
+    "inputs": {
+      "conditioning": [
+        "4365",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "ground-1-1 / ConditioningZeroOut"
+    }
+  },
+  "5325": {
+    "inputs": {
+      "cfg": 1,
+      "model": [
+        "1",
+        0
+      ],
+      "positive": [
+        "5365",
+        0
+      ],
+      "negative": [
+        "5367",
+        0
+      ]
+    },
+    "class_type": "CFGGuider",
+    "_meta": {
+      "title": "building-inn / CFGGuider"
+    }
+  },
+  "5327": {
+    "inputs": {
+      "width": 768,
+      "height": 768,
+      "batch_size": 1
+    },
+    "class_type": "EmptyFlux2LatentImage",
+    "_meta": {
+      "title": "building-inn / EmptyFlux2LatentImage"
+    }
+  },
+  "5328": {
+    "inputs": {
+      "steps": 4,
+      "width": 768,
+      "height": 768
+    },
+    "class_type": "Flux2Scheduler",
+    "_meta": {
+      "title": "building-inn / Flux2Scheduler"
+    }
+  },
+  "5336": {
+    "inputs": {
+      "noise": [
+        "5354",
+        0
+      ],
+      "guider": [
+        "5325",
+        0
+      ],
+      "sampler": [
+        "5356",
+        0
+      ],
+      "sigmas": [
+        "5328",
+        0
+      ],
+      "latent_image": [
+        "5327",
+        0
+      ]
+    },
+    "class_type": "SamplerCustomAdvanced",
+    "_meta": {
+      "title": "building-inn / SamplerCustomAdvanced"
+    }
+  },
+  "5341": {
+    "inputs": {
+      "filename_prefix": "CodexMapLayeredWorkflow/building-inn",
+      "images": [
+        "5350",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "building-inn / SaveImage"
+    }
+  },
+  "5350": {
+    "inputs": {
+      "samples": [
+        "5336",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "building-inn / VAEDecode"
+    }
+  },
+  "5354": {
+    "inputs": {
+      "noise_seed": 202610110
+    },
+    "class_type": "RandomNoise",
+    "_meta": {
+      "title": "building-inn / RandomNoise"
+    }
+  },
+  "5355": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "atlas-building-blueprint.png"
+    },
+    "_meta": {
+      "title": "building-inn / LoadImage"
+    }
+  },
+  "5356": {
+    "inputs": {
+      "sampler_name": "euler"
+    },
+    "class_type": "KSamplerSelect",
+    "_meta": {
+      "title": "building-inn / KSamplerSelect"
+    }
+  },
+  "5365": {
+    "inputs": {
+      "prompt": "Authentic crisp pixel-art RPG asset, orthographic overhead with only a narrow south-facing facade, hand-placed square pixel clusters, controlled warm ochre and terracotta palette, no smooth painterly brushstrokes, no photorealism, no blur, no text, no watermark. Use the input only as the size and placement blueprint. Render exactly ONE entire charming desert adobe building in the center, including a detailed terracotta tiled roof, chimney, small south-facing facade, wooden door at bottom center and shutters. Keep the roof inside the broad horizontal reference rectangle. Complete silhouette, generous empty margin all sides, no clipped edges. No floor, no terrain, no plants, no loose props, no characters, no cast shadow. Background must be completely flat saturated magenta RGB(255,0,255), including all empty gaps. No magenta or pink anywhere on the building, no rim light or color spill, no gradient background. A cozy inn with two shuttered windows and a cream fabric sunshade attached to its facade.",
+      "clip": [
+        "2",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ],
+      "image1": [
+        "5355",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "building-inn / TextEncodeQwenImageEditPlus"
+    }
+  },
+  "5367": {
+    "inputs": {
+      "conditioning": [
+        "5365",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "building-inn / ConditioningZeroOut"
+    }
+  },
+  "6325": {
+    "inputs": {
+      "cfg": 1,
+      "model": [
+        "1",
+        0
+      ],
+      "positive": [
+        "6365",
+        0
+      ],
+      "negative": [
+        "6367",
+        0
+      ]
+    },
+    "class_type": "CFGGuider",
+    "_meta": {
+      "title": "building-workshop / CFGGuider"
+    }
+  },
+  "6327": {
+    "inputs": {
+      "width": 768,
+      "height": 768,
+      "batch_size": 1
+    },
+    "class_type": "EmptyFlux2LatentImage",
+    "_meta": {
+      "title": "building-workshop / EmptyFlux2LatentImage"
+    }
+  },
+  "6328": {
+    "inputs": {
+      "steps": 4,
+      "width": 768,
+      "height": 768
+    },
+    "class_type": "Flux2Scheduler",
+    "_meta": {
+      "title": "building-workshop / Flux2Scheduler"
+    }
+  },
+  "6336": {
+    "inputs": {
+      "noise": [
+        "6354",
+        0
+      ],
+      "guider": [
+        "6325",
+        0
+      ],
+      "sampler": [
+        "6356",
+        0
+      ],
+      "sigmas": [
+        "6328",
+        0
+      ],
+      "latent_image": [
+        "6327",
+        0
+      ]
+    },
+    "class_type": "SamplerCustomAdvanced",
+    "_meta": {
+      "title": "building-workshop / SamplerCustomAdvanced"
+    }
+  },
+  "6341": {
+    "inputs": {
+      "filename_prefix": "CodexMapLayeredWorkflow/building-workshop",
+      "images": [
+        "6350",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "building-workshop / SaveImage"
+    }
+  },
+  "6350": {
+    "inputs": {
+      "samples": [
+        "6336",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "building-workshop / VAEDecode"
+    }
+  },
+  "6354": {
+    "inputs": {
+      "noise_seed": 202610111
+    },
+    "class_type": "RandomNoise",
+    "_meta": {
+      "title": "building-workshop / RandomNoise"
+    }
+  },
+  "6355": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "atlas-building-blueprint.png"
+    },
+    "_meta": {
+      "title": "building-workshop / LoadImage"
+    }
+  },
+  "6356": {
+    "inputs": {
+      "sampler_name": "euler"
+    },
+    "class_type": "KSamplerSelect",
+    "_meta": {
+      "title": "building-workshop / KSamplerSelect"
+    }
+  },
+  "6365": {
+    "inputs": {
+      "prompt": "Authentic crisp pixel-art RPG asset, orthographic overhead with only a narrow south-facing facade, hand-placed square pixel clusters, controlled warm ochre and terracotta palette, no smooth painterly brushstrokes, no photorealism, no blur, no text, no watermark. Use the input only as the size and placement blueprint. Render exactly ONE entire charming desert adobe building in the center, including a detailed terracotta tiled roof, chimney, small south-facing facade, wooden door at bottom center and shutters. Keep the roof inside the broad horizontal reference rectangle. Complete silhouette, generous empty margin all sides, no clipped edges. No floor, no terrain, no plants, no loose props, no characters, no cast shadow. Background must be completely flat saturated magenta RGB(255,0,255), including all empty gaps. No magenta or pink anywhere on the building, no rim light or color spill, no gradient background. A workshop with stone walls, copper chimney and wooden double doors.",
+      "clip": [
+        "2",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ],
+      "image1": [
+        "6355",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "building-workshop / TextEncodeQwenImageEditPlus"
+    }
+  },
+  "6367": {
+    "inputs": {
+      "conditioning": [
+        "6365",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "building-workshop / ConditioningZeroOut"
+    }
+  },
+  "7325": {
+    "inputs": {
+      "cfg": 1,
+      "model": [
+        "1",
+        0
+      ],
+      "positive": [
+        "7365",
+        0
+      ],
+      "negative": [
+        "7367",
+        0
+      ]
+    },
+    "class_type": "CFGGuider",
+    "_meta": {
+      "title": "building-supply / CFGGuider"
+    }
+  },
+  "7327": {
+    "inputs": {
+      "width": 768,
+      "height": 768,
+      "batch_size": 1
+    },
+    "class_type": "EmptyFlux2LatentImage",
+    "_meta": {
+      "title": "building-supply / EmptyFlux2LatentImage"
+    }
+  },
+  "7328": {
+    "inputs": {
+      "steps": 4,
+      "width": 768,
+      "height": 768
+    },
+    "class_type": "Flux2Scheduler",
+    "_meta": {
+      "title": "building-supply / Flux2Scheduler"
+    }
+  },
+  "7336": {
+    "inputs": {
+      "noise": [
+        "7354",
+        0
+      ],
+      "guider": [
+        "7325",
+        0
+      ],
+      "sampler": [
+        "7356",
+        0
+      ],
+      "sigmas": [
+        "7328",
+        0
+      ],
+      "latent_image": [
+        "7327",
+        0
+      ]
+    },
+    "class_type": "SamplerCustomAdvanced",
+    "_meta": {
+      "title": "building-supply / SamplerCustomAdvanced"
+    }
+  },
+  "7341": {
+    "inputs": {
+      "filename_prefix": "CodexMapLayeredWorkflow/building-supply",
+      "images": [
+        "7350",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "building-supply / SaveImage"
+    }
+  },
+  "7350": {
+    "inputs": {
+      "samples": [
+        "7336",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "building-supply / VAEDecode"
+    }
+  },
+  "7354": {
+    "inputs": {
+      "noise_seed": 202610112
+    },
+    "class_type": "RandomNoise",
+    "_meta": {
+      "title": "building-supply / RandomNoise"
+    }
+  },
+  "7355": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "atlas-building-blueprint.png"
+    },
+    "_meta": {
+      "title": "building-supply / LoadImage"
+    }
+  },
+  "7356": {
+    "inputs": {
+      "sampler_name": "euler"
+    },
+    "class_type": "KSamplerSelect",
+    "_meta": {
+      "title": "building-supply / KSamplerSelect"
+    }
+  },
+  "7365": {
+    "inputs": {
+      "prompt": "Authentic crisp pixel-art RPG asset, orthographic overhead with only a narrow south-facing facade, hand-placed square pixel clusters, controlled warm ochre and terracotta palette, no smooth painterly brushstrokes, no photorealism, no blur, no text, no watermark. Use the input only as the size and placement blueprint. Render exactly ONE entire charming desert adobe building in the center, including a detailed terracotta tiled roof, chimney, small south-facing facade, wooden door at bottom center and shutters. Keep the roof inside the broad horizontal reference rectangle. Complete silhouette, generous empty margin all sides, no clipped edges. No floor, no terrain, no plants, no loose props, no characters, no cast shadow. Background must be completely flat saturated magenta RGB(255,0,255), including all empty gaps. No magenta or pink anywhere on the building, no rim light or color spill, no gradient background. A small provisions store with sun-bleached plaster walls and a simple tiled roof.",
+      "clip": [
+        "2",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ],
+      "image1": [
+        "7355",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "building-supply / TextEncodeQwenImageEditPlus"
+    }
+  },
+  "7367": {
+    "inputs": {
+      "conditioning": [
+        "7365",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "building-supply / ConditioningZeroOut"
+    }
+  },
+  "8325": {
+    "inputs": {
+      "cfg": 1,
+      "model": [
+        "1",
+        0
+      ],
+      "positive": [
+        "8365",
+        0
+      ],
+      "negative": [
+        "8367",
+        0
+      ]
+    },
+    "class_type": "CFGGuider",
+    "_meta": {
+      "title": "prop-cactus / CFGGuider"
+    }
+  },
+  "8327": {
+    "inputs": {
+      "width": 512,
+      "height": 512,
+      "batch_size": 1
+    },
+    "class_type": "EmptyFlux2LatentImage",
+    "_meta": {
+      "title": "prop-cactus / EmptyFlux2LatentImage"
+    }
+  },
+  "8328": {
+    "inputs": {
+      "steps": 4,
+      "width": 512,
+      "height": 512
+    },
+    "class_type": "Flux2Scheduler",
+    "_meta": {
+      "title": "prop-cactus / Flux2Scheduler"
+    }
+  },
+  "8336": {
+    "inputs": {
+      "noise": [
+        "8354",
+        0
+      ],
+      "guider": [
+        "8325",
+        0
+      ],
+      "sampler": [
+        "8356",
+        0
+      ],
+      "sigmas": [
+        "8328",
+        0
+      ],
+      "latent_image": [
+        "8327",
+        0
+      ]
+    },
+    "class_type": "SamplerCustomAdvanced",
+    "_meta": {
+      "title": "prop-cactus / SamplerCustomAdvanced"
+    }
+  },
+  "8341": {
+    "inputs": {
+      "filename_prefix": "CodexMapLayeredWorkflow/prop-cactus",
+      "images": [
+        "8350",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "prop-cactus / SaveImage"
+    }
+  },
+  "8350": {
+    "inputs": {
+      "samples": [
+        "8336",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "prop-cactus / VAEDecode"
+    }
+  },
+  "8354": {
+    "inputs": {
+      "noise_seed": 202610125
+    },
+    "class_type": "RandomNoise",
+    "_meta": {
+      "title": "prop-cactus / RandomNoise"
+    }
+  },
+  "8356": {
+    "inputs": {
+      "sampler_name": "euler"
+    },
+    "class_type": "KSamplerSelect",
+    "_meta": {
+      "title": "prop-cactus / KSamplerSelect"
+    }
+  },
+  "8365": {
+    "inputs": {
+      "prompt": "Authentic crisp pixel-art RPG asset, orthographic overhead with only a narrow south-facing facade, hand-placed square pixel clusters, natural DEEP GREEN and jade-green cactus colors, tan spines, dark green outlines; cactus body MUST BE GREEN, not gold or brown, no smooth painterly brushstrokes, no photorealism, no blur, no text, no watermark. Isolated game object: ONE cactus with three branching arms and small natural spines, full silhouette, no pot. Object centered occupying about 60 percent of image, ample margin, no terrain, no floor, no shadow. Entire empty background is perfectly uniform saturated magenta RGB(255,0,255), including every internal gap. Object contains no magenta or pink. No other objects.",
+      "clip": [
+        "2",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "prop-cactus / TextEncodeQwenImageEditPlus"
+    }
+  },
+  "8367": {
+    "inputs": {
+      "conditioning": [
+        "8365",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "prop-cactus / ConditioningZeroOut"
+    }
+  },
+  "9325": {
+    "inputs": {
+      "cfg": 1,
+      "model": [
+        "1",
+        0
+      ],
+      "positive": [
+        "9365",
+        0
+      ],
+      "negative": [
+        "9367",
+        0
+      ]
+    },
+    "class_type": "CFGGuider",
+    "_meta": {
+      "title": "prop-crate / CFGGuider"
+    }
+  },
+  "9327": {
+    "inputs": {
+      "width": 512,
+      "height": 512,
+      "batch_size": 1
+    },
+    "class_type": "EmptyFlux2LatentImage",
+    "_meta": {
+      "title": "prop-crate / EmptyFlux2LatentImage"
+    }
+  },
+  "9328": {
+    "inputs": {
+      "steps": 4,
+      "width": 512,
+      "height": 512
+    },
+    "class_type": "Flux2Scheduler",
+    "_meta": {
+      "title": "prop-crate / Flux2Scheduler"
+    }
+  },
+  "9336": {
+    "inputs": {
+      "noise": [
+        "9354",
+        0
+      ],
+      "guider": [
+        "9325",
+        0
+      ],
+      "sampler": [
+        "9356",
+        0
+      ],
+      "sigmas": [
+        "9328",
+        0
+      ],
+      "latent_image": [
+        "9327",
+        0
+      ]
+    },
+    "class_type": "SamplerCustomAdvanced",
+    "_meta": {
+      "title": "prop-crate / SamplerCustomAdvanced"
+    }
+  },
+  "9341": {
+    "inputs": {
+      "filename_prefix": "CodexMapLayeredWorkflow/prop-crate",
+      "images": [
+        "9350",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "prop-crate / SaveImage"
+    }
+  },
+  "9350": {
+    "inputs": {
+      "samples": [
+        "9336",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "prop-crate / VAEDecode"
+    }
+  },
+  "9354": {
+    "inputs": {
+      "noise_seed": 202610121
+    },
+    "class_type": "RandomNoise",
+    "_meta": {
+      "title": "prop-crate / RandomNoise"
+    }
+  },
+  "9356": {
+    "inputs": {
+      "sampler_name": "euler"
+    },
+    "class_type": "KSamplerSelect",
+    "_meta": {
+      "title": "prop-crate / KSamplerSelect"
+    }
+  },
+  "9365": {
+    "inputs": {
+      "prompt": "Authentic crisp pixel-art RPG asset, orthographic overhead with only a narrow south-facing facade, hand-placed square pixel clusters, controlled warm ochre and terracotta palette, no smooth painterly brushstrokes, no photorealism, no blur, no text, no watermark. Isolated game object: ONE closed weathered wooden supply crate with metal corner brackets. Object centered occupying about 60 percent of image, ample margin, no terrain, no floor, no shadow. Entire empty background is perfectly uniform saturated magenta RGB(255,0,255), including every internal gap. Object contains no magenta or pink. No other objects.",
+      "clip": [
+        "2",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "prop-crate / TextEncodeQwenImageEditPlus"
+    }
+  },
+  "9367": {
+    "inputs": {
+      "conditioning": [
+        "9365",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "prop-crate / ConditioningZeroOut"
+    }
+  }
+}

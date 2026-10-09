@@ -1,0 +1,179 @@
+{
+  "325": {
+    "inputs": {
+      "cfg": 1,
+      "model": [
+        "329",
+        0
+      ],
+      "positive": [
+        "365",
+        0
+      ],
+      "negative": [
+        "367",
+        0
+      ]
+    },
+    "class_type": "CFGGuider",
+    "_meta": {
+      "title": "CFG引导器"
+    }
+  },
+  "327": {
+    "inputs": {
+      "width": 768,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "class_type": "EmptyFlux2LatentImage",
+    "_meta": {
+      "title": "Empty Flux 2 Latent"
+    }
+  },
+  "328": {
+    "inputs": {
+      "steps": 4,
+      "width": 768,
+      "height": 1024
+    },
+    "class_type": "Flux2Scheduler",
+    "_meta": {
+      "title": "Flux2Scheduler"
+    }
+  },
+  "329": {
+    "inputs": {
+      "unet_name": "flux-2-klein-9b-fp8.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "UNet加载器"
+    }
+  },
+  "330": {
+    "inputs": {
+      "clip_name": "qwen_3_8b_fp8mixed.safetensors",
+      "type": "flux2",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "加载CLIP"
+    }
+  },
+  "331": {
+    "inputs": {
+      "vae_name": "flux2-vae.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "加载VAE"
+    }
+  },
+  "336": {
+    "inputs": {
+      "noise": [
+        "354",
+        0
+      ],
+      "guider": [
+        "325",
+        0
+      ],
+      "sampler": [
+        "356",
+        0
+      ],
+      "sigmas": [
+        "328",
+        0
+      ],
+      "latent_image": [
+        "327",
+        0
+      ]
+    },
+    "class_type": "SamplerCustomAdvanced",
+    "_meta": {
+      "title": "自定义采样器（高级）"
+    }
+  },
+  "341": {
+    "inputs": {
+      "filename_prefix": "CodexMapLayers/tree",
+      "images": [
+        "350",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "保存图像"
+    }
+  },
+  "350": {
+    "inputs": {
+      "samples": [
+        "336",
+        0
+      ],
+      "vae": [
+        "331",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE解码"
+    }
+  },
+  "354": {
+    "inputs": {
+      "noise_seed": 20261009125
+    },
+    "class_type": "RandomNoise",
+    "_meta": {
+      "title": "随机噪波"
+    }
+  },
+  "356": {
+    "inputs": {
+      "sampler_name": "euler"
+    },
+    "class_type": "KSamplerSelect",
+    "_meta": {
+      "title": "K采样器选择"
+    }
+  },
+  "365": {
+    "inputs": {
+      "prompt": "Beautiful premium hand-painted 2D fantasy action RPG environment matching a detailed anime blonde lady knight in silver and gold armor and blue cape. Side-facing horizontal belt-scrolling beat-em-up camera like classic arcade dungeon brawlers. Fine painterly material detail, elegant coherent muted golden sandstone and cool teal palette, soft afternoon light. NOT pixel art, NOT top-down, NOT isometric, no people, no lettering, no interface, no watermark. Exactly ONE entire majestic broadleaf tree, frontal elevation seen from ground level, beautifully branching brown trunk with exposed roots and dense rounded green crown, detailed painterly leaves, a little moss. No ground plane, sky, grass patch, rocks or cast shadow. Full silhouette, ample empty margin. Uniform flat saturated magenta RGB(255,0,255) background, including every internal gap between branches. Tree contains no pink or magenta.",
+      "clip": [
+        "330",
+        0
+      ],
+      "vae": [
+        "331",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "文本编码（QwenImageEditPlus）"
+    }
+  },
+  "367": {
+    "inputs": {
+      "conditioning": [
+        "365",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "条件零化"
+    }
+  }
+}

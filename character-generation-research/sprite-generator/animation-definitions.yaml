@@ -1,0 +1,102 @@
+version: 1
+action_order: [idle, run, jump, crouch, crouch_walk, walk]
+stages:
+  run:
+    template: initial_reference
+    inputs: {character: source, pose: dummy, dimensions: dummy}
+    prompt: {file: prompts/run.txt}
+    generation: {duration_seconds: 2, fps: 24, steps: 4, sampler: seeds_2, scheduler: simple, denoise: 1}
+    outputs:
+      animation: {name: run, label: Run, description: A fast looping run cycle., selection: {method: cycle, frames: 8}, conceptual_loop: true, webp_loop: 0}
+      poses: {run_first: {frame: first}}
+  jump:
+    template: reference_video
+    inputs:
+      character: source
+      pose: {stage: run, output: run_first}
+      dimensions: {stage: run, output: run_first}
+    prompt: {file: prompts/jump.txt}
+    generation: {duration_seconds: 1, fps: 24, steps: 4, sampler: seeds_2, scheduler: simple, denoise: 1}
+    outputs:
+      animation: {name: jump, label: Jump, description: A complete takeoff and landing sequence., selection: {method: uniform, frames: 8, include_last: true}, conceptual_loop: false, webp_loop: 0}
+      poses: {jump_last: {frame: last}}
+  stop:
+    template: reference_video
+    inputs:
+      character: source
+      pose: {stage: run, output: run_first}
+      dimensions: {stage: run, output: run_first}
+    prompt:
+      variants:
+        neutral: {file: prompts/stop-neutral.txt}
+        feminine: {file: prompts/stop-feminine.txt}
+    generation: {duration_seconds: 1, fps: 24, steps: 4, sampler: seeds_2, scheduler: simple, denoise: 1}
+    outputs:
+      poses: {standing: {frame: last}}
+  idle:
+    template: reference_video
+    inputs:
+      character: source
+      pose: {stage: stop, output: standing}
+      dimensions: {stage: stop, output: standing}
+    prompt:
+      variants:
+        neutral: {file: prompts/idle-neutral.txt}
+        feminine: {file: prompts/idle-feminine.txt}
+    generation: {duration_seconds: 2, fps: 24, steps: 4, sampler: seeds_2, scheduler: simple, denoise: 1}
+    outputs:
+      animation: {name: idle, label: Idle, description: A subtle looping standing motion., selection: {method: uniform, frames: 4, include_last: false}, conceptual_loop: true, webp_loop: 0}
+      poses: {idle_last: {frame: last}}
+  crouch:
+    template: reference_video
+    inputs:
+      character: source
+      pose: {stage: stop, output: standing}
+      dimensions: {stage: stop, output: standing}
+    prompt: {file: prompts/crouch.txt}
+    generation: {duration_seconds: 2, fps: 24, steps: 4, sampler: seeds_2, scheduler: simple, denoise: 1}
+    outputs:
+      animation: {name: crouch, label: Crouch, description: A single stationary crouched pose., selection: {method: single, frame: last}, conceptual_loop: false, webp_loop: null}
+      poses: {crouch: {frame: last}}
+  crouch_start:
+    template: reference_video
+    inputs:
+      character: source
+      pose: {stage: crouch, output: crouch}
+      dimensions: {stage: stop, output: standing}
+    prompt: {file: prompts/crouch_start.txt}
+    generation: {duration_seconds: 1, fps: 24, steps: 4, sampler: seeds_2, scheduler: simple, denoise: 1}
+    outputs:
+      poses: {crouch_walk_start: {frame: last}}
+  crouch_walk:
+    template: reference_video
+    inputs:
+      character: source
+      pose: {stage: crouch_start, output: crouch_walk_start}
+      dimensions: {stage: stop, output: standing}
+    prompt: {file: prompts/crouch_walk.txt}
+    generation: {duration_seconds: 4, fps: 24, steps: 4, sampler: seeds_2, scheduler: simple, denoise: 1}
+    outputs:
+      animation: {name: crouch_walk, label: Crouch walk, description: A low looping movement cycle., selection: {method: cycle, frames: 8}, conceptual_loop: true, webp_loop: 0}
+      poses: {crouch_walk_last: {frame: last}}
+  walk_start:
+    template: reference_video
+    inputs:
+      character: source
+      pose: {stage: stop, output: standing}
+      dimensions: {stage: stop, output: standing}
+    prompt: {file: prompts/walk_start.txt}
+    generation: {duration_seconds: 1, fps: 24, steps: 4, sampler: seeds_2, scheduler: simple, denoise: 1}
+    outputs:
+      poses: {walk_start: {frame: last}}
+  walk:
+    template: reference_video
+    inputs:
+      character: source
+      pose: {stage: walk_start, output: walk_start}
+      dimensions: {stage: stop, output: standing}
+    prompt: {file: prompts/walk.txt}
+    generation: {duration_seconds: 4, fps: 24, steps: 4, sampler: seeds_2, scheduler: simple, denoise: 1}
+    outputs:
+      animation: {name: walk, label: Walk, description: A steady looping walk cycle., selection: {method: cycle, frames: 8}, conceptual_loop: true, webp_loop: 0}
+      poses: {walk_last: {frame: last}}

@@ -1,0 +1,24 @@
++Mode: built-in imagegen, transparent background.
+Final reference: ../godot-cutout-knight/assets/knight-parts-v1.png
+Final assets: assets/casual-atlas-v1.png; assets/bikini-atlas-v1.png
+The cancelled neutral tailoring mannequin is not used.
+
+BIKINI:
+Use case: stylized-concept. Production asset: original pixel-art articulated character PARTS, not an animation sheet. Reference is the approved adult princess knight cutout atlas. Match its precise rich pixel-art style, clear painted shadows/highlights and RIGHT-FACING three-quarter side perspective. The character is an ADULT WOMAN age 25+, with mature adult proportions.
+Create exactly a THREE COLUMN by THREE ROW regular atlas, ONE complete separate component centered in each cell, generous transparent margins, no grid/text/labels/scenery, no full assembled figures. Every component is independently painted with the exposed skin and clothing already together; do NOT draw hollow clothing or a generic neutral base.
+Natural organic skin and limb silhouettes, smooth drawn curves; joint ends overlap quietly. Do NOT put circular plates, ball joints, cylindrical toy ends, internal cut lines or wooden/mannequin texture on skin. The components are realistic stylized adult character pieces, not a wooden doll. Sharp fine pixel art, no blur or smooth 3D render.
+Theme: tasteful blue-and-gold beach outfit for an adult fantasy adventurer. Normal opaque two-piece BIKINI with complete top and bottom, regular coverage, nonsexual game-production reference.
+Row1: 1 torso INCLUDING warm natural skin, short neck, waist, hips AND opaque blue bikini top and matching regular bikini bottom, gold narrow trim; complete from neck TOP to hip base BOTTOM, no head/arms/legs. 2 near upper arm, bare skin, vertical shoulder TOP to elbow BOTTOM. 3 near forearm with softly closed hand, bare skin, vertical elbow TOP to fist BOTTOM.
+Row2: 4 far upper arm matching2 slightly darker. 5 far forearm with fist matching3 darker. 6 near thigh, skin, vertical hip TOP to knee BOTTOM.
+Row3: 7 near lower leg with bare foot, skin, vertical knee TOP to complete foot BOTTOM, toes RIGHT. 8 far thigh matching6 darker. 9 far lower leg and right-pointing foot matching7 darker.
+Keep the torso fully covered by the bikini at chest and pelvis; no private anatomical detail. Each complete component should be fully inside its tile. The skin is part of the finished bikini costume pieces, not a separate underwear/nude base. No artificial joint markings.
+
+CASUAL:
+Use case: stylized-concept. Production asset: original pixel-art articulated character PARTS, not an animation sheet. Reference is the approved adult princess knight cutout atlas. Match its precise rich pixel-art style, clear painted shadows/highlights and RIGHT-FACING three-quarter side perspective. The character is an ADULT WOMAN age 25+, with mature adult proportions.
+Create exactly a THREE COLUMN by THREE ROW regular atlas, ONE complete separate component centered in each cell, generous transparent margins, no grid/text/labels/scenery, no full assembled figures. Every component is independently painted with the exposed skin and clothing already together; do NOT draw hollow clothing or a generic neutral base.
+Natural organic skin and limb silhouettes, smooth drawn curves; joint ends overlap quietly. Do NOT put circular plates, ball joints, cylindrical toy ends, internal cut lines or wooden/mannequin texture on skin. The components are realistic stylized adult character pieces, not a wooden doll. Sharp fine pixel art, no blur or smooth 3D render.
+Theme: fantasy casual adventurer outfit. Cream short-sleeve collared blouse, navy short skirt, brown leather belt, wrist gloves/bracers and leather boots.
+Row1: 1 complete torso INCLUDING blouse, visible natural skin at short neck, brown belt and navy short skirt, from neck TOP to upper-thigh skirt hem BOTTOM, no head/arms/legs. 2 near upper arm INCLUDING white short sleeve at shoulder and exposed warm skin down to elbow, vertical shoulder TOP to elbow BOTTOM. 3 near forearm INCLUDING exposed natural skin and slim brown wrist glove around softly closed fist, vertical elbow TOP to hand BOTTOM.
+Row2: 4 far upper arm matching2 but slightly darker. 5 far forearm and glove matching3 darker. 6 near thigh INCLUDING exposed natural skin from hip TOP to knee BOTTOM, vertical.
+Row3: 7 near lower leg INCLUDING leather shin boot and complete brown boot foot, vertical knee TOP to foot BOTTOM, toes RIGHT; no empty hollow footwear. 8 far thigh matching6 darker. 9 far lower leg complete boot matching7 darker.
+All nine components are completed outfit pieces including any visible skin, no mannequin or neutral body underneath. Same anatomical lengths and viewing angle between near/far counterparts. Every item fully within its own tile.

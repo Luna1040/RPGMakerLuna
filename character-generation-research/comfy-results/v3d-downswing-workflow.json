@@ -1,0 +1,192 @@
+{
+  "325": {
+    "inputs": {
+      "cfg": 1,
+      "model": [
+        "329",
+        0
+      ],
+      "positive": [
+        "365",
+        0
+      ],
+      "negative": [
+        "367",
+        0
+      ]
+    },
+    "class_type": "CFGGuider",
+    "_meta": {
+      "title": "CFG\u5f15\u5bfc\u5668"
+    }
+  },
+  "327": {
+    "inputs": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "class_type": "EmptyFlux2LatentImage",
+    "_meta": {
+      "title": "Empty Flux 2 Latent"
+    }
+  },
+  "328": {
+    "inputs": {
+      "steps": 4,
+      "width": 1024,
+      "height": 1024
+    },
+    "class_type": "Flux2Scheduler",
+    "_meta": {
+      "title": "Flux2Scheduler"
+    }
+  },
+  "329": {
+    "inputs": {
+      "unet_name": "flux-2-klein-9b-fp8.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "UNet\u52a0\u8f7d\u5668"
+    }
+  },
+  "330": {
+    "inputs": {
+      "clip_name": "qwen_3_8b_fp8mixed.safetensors",
+      "type": "flux2",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "\u52a0\u8f7dCLIP"
+    }
+  },
+  "331": {
+    "inputs": {
+      "vae_name": "flux2-vae.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "\u52a0\u8f7dVAE"
+    }
+  },
+  "336": {
+    "inputs": {
+      "noise": [
+        "354",
+        0
+      ],
+      "guider": [
+        "325",
+        0
+      ],
+      "sampler": [
+        "356",
+        0
+      ],
+      "sigmas": [
+        "328",
+        0
+      ],
+      "latent_image": [
+        "327",
+        0
+      ]
+    },
+    "class_type": "SamplerCustomAdvanced",
+    "_meta": {
+      "title": "\u81ea\u5b9a\u4e49\u91c7\u6837\u5668\uff08\u9ad8\u7ea7\uff09"
+    }
+  },
+  "341": {
+    "inputs": {
+      "filename_prefix": "CodexCharacterTrial/v3d-downswing",
+      "images": [
+        "350",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "\u4fdd\u5b58\u56fe\u50cf"
+    }
+  },
+  "350": {
+    "inputs": {
+      "samples": [
+        "336",
+        0
+      ],
+      "vae": [
+        "331",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE\u89e3\u7801"
+    }
+  },
+  "354": {
+    "inputs": {
+      "noise_seed": 731420
+    },
+    "class_type": "RandomNoise",
+    "_meta": {
+      "title": "\u968f\u673a\u566a\u6ce2"
+    }
+  },
+  "355": {
+    "inputs": {
+      "image": "v3b-attack-A.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "\u56fe\u50cf1"
+    }
+  },
+  "356": {
+    "inputs": {
+      "sampler_name": "euler"
+    },
+    "class_type": "KSamplerSelect",
+    "_meta": {
+      "title": "K\u91c7\u6837\u5668\u9009\u62e9"
+    }
+  },
+  "365": {
+    "inputs": {
+      "prompt": "\u91cd\u65b0\u7ed8\u5236\u8fd9\u4f4d\u5973\u9a91\u58eb\u6325\u5251\u7ed3\u675f\u7684\u4e0b\u4e00\u5e27\u3002\u5979\u5df2\u7ecf\u628a\u5934\u9876\u7684\u5251\u5288\u5230\u53f3\u4e0b\u65b9\u3002\u4e24\u6761\u80f3\u818a\u90fd\u4ece\u5934\u9876\u653e\u4e0b\u6765\uff0c\u4f38\u5411\u53f3\u4e0b\u65b9\uff0c\u53cc\u624b\u5728\u53f3\u819d\u524d\u65b9\u63e1\u4f4f\u5251\u67c4\uff0c\u5251\u5c16\u6307\u5411\u753b\u9762\u53f3\u4e0b\u89d2\u3002\u5934\u9876\u73b0\u5728\u6ca1\u6709\u5251\u4e5f\u6ca1\u6709\u624b\u81c2\u3002\u80cc\u90e8\u7ee7\u7eed\u524d\u503e\uff0c\u4f4e\u5934\u770b\u5411\u5251\u5c16\uff0c\u524d\u819d\u5f2f\u66f2\uff0c\u540e\u817f\u8e6c\u76f4\uff0c\u91cd\u5fc3\u524d\u79fb\u3002\u5934\u53d1\u548c\u62ab\u98ce\u626c\u8d77\u3002\u4fdd\u6301\u4eba\u7269\u670d\u88c5\u548c\u753b\u98ce\u3002\u5355\u4eba\u5168\u8eab\u5b8c\u6574\u6784\u56fe\uff0c\u7070\u8272\u80cc\u666f\u3002",
+      "clip": [
+        "330",
+        0
+      ],
+      "vae": [
+        "331",
+        0
+      ],
+      "image1": [
+        "355",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "\u6587\u672c\u7f16\u7801\uff08QwenImageEditPlus\uff09"
+    }
+  },
+  "367": {
+    "inputs": {
+      "conditioning": [
+        "365",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "\u6761\u4ef6\u96f6\u5316"
+    }
+  }
+}

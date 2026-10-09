@@ -1,0 +1,78 @@
+{
+	"acceptance_rgb_tolerance": 0.04,
+	"color_note": "GL compatibility color conversion loses several dark RGB levels; not byte-identical to the original PNG",
+	"errors_at_strict_color_tolerance": 53,
+	"fitted_model": "subdivided textured front, extruded silhouette sides, plain rear; no skeleton",
+	"maximum_rgb_error": 0.0274509806185961,
+	"mismatch_examples": [
+		{
+			"render": "000000ff",
+			"source": "000007fd",
+			"xy": [
+				157,
+				141
+			]
+		},
+		{
+			"render": "000000ff",
+			"source": "000007fd",
+			"xy": [
+				157,
+				142
+			]
+		},
+		{
+			"render": "00071cff",
+			"source": "070c1efd",
+			"xy": [
+				155,
+				144
+			]
+		},
+		{
+			"render": "000000ff",
+			"source": "000107fd",
+			"xy": [
+				156,
+				144
+			]
+		},
+		{
+			"render": "00154bff",
+			"source": "07184bfd",
+			"xy": [
+				154,
+				148
+			]
+		},
+		{
+			"render": "00042dff",
+			"source": "070a2efd",
+			"xy": [
+				148,
+				152
+			]
+		},
+		{
+			"render": "000922ff",
+			"source": "070e24fd",
+			"xy": [
+				151,
+				155
+			]
+		},
+		{
+			"render": "00031bff",
+			"source": "07091dfd",
+			"xy": [
+				152,
+				157
+			]
+		}
+	],
+	"missing_interior_texels": 0,
+	"opaque_interior_samples": 3253,
+	"original_frame": "original-atlas cell 0",
+	"strict_tolerance": 0.025,
+	"unlit": true
+}

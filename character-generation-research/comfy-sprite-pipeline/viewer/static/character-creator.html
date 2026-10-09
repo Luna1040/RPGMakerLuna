@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Создать анимированного персонажа</title>
+  <link rel="stylesheet" href="/character-creator.css?v=52">
+  <script type="module" src="/animated-character.js?v=18"></script>
+  <script type="module" src="/character-creator.js?v=56"></script>
+</head>
+<body>
+  <main class="creator" data-build-endpoint="/api/components">
+    <nav class="step-tabs" aria-label="Этапы создания персонажа">
+      <button type="button" data-tab="characters" aria-current="step"><span>1</span> Персонажи</button>
+      <button type="button" data-tab="create"><span>2</span> Создание</button>
+      <button type="button" data-tab="render" disabled><span>3</span> Рендер</button>
+      <button type="button" data-tab="result" disabled><span>4</span> Компонент</button>
+    </nav>
+    <section class="screen characters-screen" data-screen="characters" aria-label="Созданные персонажи">
+      <div class="characters-panel">
+        <div class="characters-heading">
+          <div><span class="eyebrow">Ваши персонажи</span><h1>Персонажи</h1></div>
+          <button id="newCharacter" class="primary-button" type="button">+ Создать нового</button>
+        </div>
+        <div id="characterList" class="character-list"><span class="library-status">Загружаем…</span></div>
+      </div>
+    </section>
+    <section class="screen create-screen" data-screen="create" aria-labelledby="createTitle" hidden>
+      <form id="createForm" class="create-card">
+        <div class="heading">
+          <span class="eyebrow">Animated character</span>
+          <h1 id="createTitle">Создайте персонажа</h1>
+          <p>Загрузите один референс и выберите готовые действия.</p>
+        </div>
+
+        <label class="character-name-field">
+          <span>Имя персонажа</span>
+          <input id="characterName" name="name" type="text" maxlength="100" placeholder="Например, Сиера" required>
+        </label>
+
+        <label class="reference-field">
+          <span class="reference-title">Референс персонажа</span>
+          <img id="referencePreview" class="reference-preview" alt="Выбранный референс персонажа" hidden>
+          <span id="referenceName" class="reference-name">PNG, JPG или WEBP</span>
+          <input id="referenceInput" name="reference" type="file" accept="image/png,image/jpeg,image/webp" required>
+        </label>
+
+        <fieldset id="actionFieldset" class="action-fieldset" aria-busy="true">
+          <legend>Действия</legend>
+          <span class="action-catalog-status">Загружаем доступные анимации…</span>
+        </fieldset>
+
+        <p id="createError" class="form-error" role="alert" hidden></p>
+        <div id="buildProgress" class="build-progress" role="progressbar" aria-label="Прогресс создания персонажа" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" hidden>
+          <div class="progress-label"><span id="progressStage">Подготовка…</span><strong id="progressPercent">0%</strong></div>
+          <div class="progress-track" aria-hidden="true"><span id="progressFill"></span></div>
+        </div>
+        <button id="createButton" class="primary-button" type="submit" disabled>Создать персонажа</button>
+      </form>
+    </section>
+
+    <section class="screen render-screen" data-screen="render" aria-label="Результаты рендера" hidden>
+      <div id="pipelineResults" class="pipeline-results"></div>
+      <div id="renderProgress" class="render-progress">
+        <span id="renderStage">Подготовка…</span><strong id="renderPercent">0%</strong>
+      </div>
+      <button id="openComponent" class="primary-button" type="button" disabled>Открыть готовый компонент →</button>
+    </section>
+
+    <section class="screen result-screen" data-screen="result" aria-labelledby="resultTitle" hidden>
+      <h1 id="resultTitle" class="sr-only">Готовый персонаж</h1>
+      <div class="component-workbench">
+        <div class="character-stage">
+          <animated-character id="resultCharacter" idle="idle" aria-label="Готовый анимированный персонаж"></animated-character>
+          <span id="resultStatus" class="result-status">Загрузка персонажа…</span>
+        </div>
+        <div class="action-panel" aria-label="Команды персонажа">
+          <details open><summary>Idle <small>автоцикл</small></summary><div class="action-buttons idle-actions five-slots">
+            <button data-command="idle" disabled>1</button><button data-command="idle_smile" disabled>2 ☺</button><button data-command="idle_3" disabled>3</button><button data-command="idle_4" disabled>4</button><button data-command="idle_5" disabled>5</button>
+          </div></details>
+          <details open><summary>Передвижение <small>земля</small></summary><div class="locomotion-layout">
+            <div><span class="control-caption">Шаг</span><div class="side-controls"><button data-command="walk_left" aria-label="Шаг влево" title="Шаг влево" disabled>←</button><button data-command="walk_right" aria-label="Шаг вправо" title="Шаг вправо" disabled>→</button></div></div>
+            <div><span class="control-caption">Бег</span><div class="side-controls"><button data-command="run_left" aria-label="Бег влево" title="Бег влево" disabled>←</button><button data-command="run_right" aria-label="Бег вправо" title="Бег вправо" disabled>→</button></div></div>
+          </div></details>
+          <details open><summary>Воздух и препятствия <small>traversal</small></summary><div class="action-grid traversal-actions">
+            <button data-command="jump_start" disabled>Отрыв</button><button data-command="jump_up" disabled>Прыжок ↑</button><button data-command="jump_left" disabled>Прыжок ↖</button><button data-command="jump_right" disabled>Прыжок ↗</button><button data-command="fall" disabled>Падение</button><button data-command="fall_fast" disabled>Падение ↓</button><button data-command="land" disabled>Приземление</button><button data-command="drop_down" disabled>Спрыгнуть</button><button data-command="climb_idle" disabled>На лестнице</button><button data-command="climb_up" disabled>Лезть ↑</button><button data-command="climb_down" disabled>Лезть ↓</button><button data-command="ledge_grab" disabled>Зацепиться</button><button data-command="ledge_climb" disabled>Залезть</button><button data-command="vault" disabled>Перепрыгнуть</button><button data-command="crouch" disabled>Присесть</button><button data-command="crawl" disabled>Ползти</button><button data-command="roll" disabled>Кувырок</button><button data-command="dash" disabled>Рывок</button><button data-command="swim" disabled>Плыть</button><button data-command="float" disabled>На воде</button>
+          </div></details>
+          <details><summary>Бой <small>actions</small></summary><div class="action-grid"><button data-command="attack_1" disabled>Атака 1</button><button data-command="attack_2" disabled>Атака 2</button><button data-command="attack_heavy" disabled>Сильная</button><button data-command="attack_ranged" disabled>Дальняя</button><button data-command="block" disabled>Блок</button><button data-command="dodge" disabled>Уклонение</button><button data-command="hit" disabled>Урон</button><button data-command="knockdown" disabled>Нокдаун</button><button data-command="death" disabled>Смерть</button><button data-command="victory" disabled>Победа</button></div></details>
+          <details><summary>Взаимодействие <small>actions</small></summary><div class="action-grid"><button data-command="interact" disabled>Действие</button><button data-command="pickup" disabled>Поднять</button><button data-command="use" disabled>Использовать</button><button data-command="push" disabled>Толкать</button><button data-command="pull" disabled>Тянуть</button><button data-command="talk" disabled>Говорить</button></div></details>
+          <details open><summary>Спелы <small>5 слотов</small></summary><div class="spell-buttons"><button data-command="spell_1" disabled>1</button><button data-command="spell_2" disabled>2</button><button data-command="spell_3" disabled>3</button><button data-command="spell_4" disabled>4</button><button data-command="spell_5" disabled>5</button></div></details>
+        </div>
+      </div>
+      <div class="result-actions">
+        <button id="addAnimations" class="primary-button" type="button">+ Добавить анимации</button>
+        <a id="downloadPackage" class="download-package" href="#" download hidden>Скачать пакет персонажа</a>
+      </div>
+    </section>
+  </main>
+  <dialog id="addAnimationsDialog" class="rerender-dialog add-animations-dialog">
+    <form id="addAnimationsForm" class="add-animations-form" method="dialog">
+      <div class="dialog-heading">
+        <div><span class="eyebrow">Расширить персонажа</span><h2>Добавить анимации</h2></div>
+        <button type="button" class="dialog-close" data-close-add-animations aria-label="Закрыть">×</button>
+      </div>
+      <p class="add-animations-copy">Выберите новые действия. Готовые останутся без изменений.</p>
+      <div class="animation-picker-summary" aria-live="polite">
+        <span id="createdAnimationsCount">Создано: 0</span>
+        <output id="selectedAnimationsCount">Выбрано: 0</output>
+      </div>
+      <fieldset id="additionalMotions" class="animation-picker">
+        <legend class="sr-only">Доступные анимации</legend>
+      </fieldset>
+      <footer class="add-animations-footer">
+        <p id="addAnimationsError" class="form-error" role="alert" hidden></p>
+        <button class="primary-button" type="submit" disabled>Добавить выбранные</button>
+      </footer>
+    </form>
+  </dialog>
+  <dialog id="rerenderDialog" class="rerender-dialog">
+    <form id="rerenderForm" method="dialog">
+      <div class="dialog-heading">
+        <div><span class="eyebrow">Повторный рендер</span><h2 id="rerenderTitle">Настройка шага</h2></div>
+        <button type="button" class="dialog-close" data-close-dialog aria-label="Закрыть">×</button>
+      </div>
+      <section class="prompt-tag-group"><header><strong>Что сохранить</strong><small>позитивные теги</small></header><div id="positiveTags" class="prompt-tags"></div><input id="rerenderPrompt" maxlength="1000" placeholder="Свой тег или уточнение…"></section>
+      <section class="prompt-tag-group"><header><strong>Что исключить</strong><small>негативные теги</small></header><div id="negativeTags" class="prompt-tags"></div><input id="rerenderNegativePrompt" maxlength="1000" placeholder="Свой запрет…"></section>
+      <section class="frame-count-control">
+        <header><strong>Количество кадров</strong><output id="rerenderFrameValue" for="rerenderFrameCount">48</output></header>
+        <input id="rerenderFrameCount" type="range" min="8" max="80" step="4" value="48"
+          oninput="document.getElementById('rerenderFrameValue').textContent = this.value">
+        <small>Текущее значение анимации. Больше кадров — плавнее движение и дольше рендер.</small>
+      </section>
+      <p id="rerenderError" class="form-error" hidden></p>
+      <button class="primary-button" type="submit">Перезапустить выбранный шаг</button>
+    </form>
+  </dialog>
+  <dialog id="w3EditorDialog" class="w3-editor-dialog">
+    <div class="w3-editor-shell">
+      <header class="w3-editor-header">
+        <div><span class="eyebrow">W3 · Постобработка</span><h2 id="w3EditorTitle">Редактор фона</h2></div>
+        <button type="button" class="dialog-close" id="w3EditorClose" aria-label="Закрыть">×</button>
+      </header>
+      <div class="w3-editor-toolbar">
+        <button type="button" data-editor-tool="fill" aria-pressed="true">Область</button>
+        <button type="button" data-editor-tool="eraser" aria-pressed="false">Ластик</button>
+        <label>Размер <input id="w3BrushSize" type="range" min="4" max="96" value="28"><output id="w3BrushValue">28</output></label>
+        <button type="button" id="w3ZoomOut" aria-label="Отдалить">−</button>
+        <span id="w3ZoomValue">100%</span>
+        <button type="button" id="w3ZoomIn" aria-label="Приблизить">+</button>
+        <button type="button" id="w3Undo" disabled>↶ Отменить</button>
+        <span class="toolbar-separator"></span>
+        <button type="button" id="w3ReplaceFrame">Заменить</button>
+        <button type="button" id="w3InsertBefore">+ До</button>
+        <button type="button" id="w3InsertAfter">+ После</button>
+        <button type="button" id="w3Interpolate">✦ Сгенерировать между</button>
+        <button type="button" id="w3DuplicateFrame">Дублировать</button>
+        <button type="button" id="w3DeleteFrame">Удалить</button>
+        <input id="w3FrameUpload" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+      </div>
+      <div class="w3-editor-viewport" id="w3EditorViewport">
+        <canvas id="w3EditorCanvas" width="512" height="512"></canvas>
+      </div>
+      <div class="w3-timeline-shell">
+        <button type="button" id="w3AutoPlay" aria-pressed="false">▶ Автопрокрутка</button>
+        <div id="w3Timeline" class="w3-timeline" aria-label="Таймлайн кадров"></div>
+      </div>
+      <footer class="w3-editor-footer">
+        <div class="w3-frame-nav">
+          <button type="button" id="w3PrevFrame" aria-label="Предыдущий кадр">‹</button>
+          <span id="w3FrameLabel">Кадр 1 / 1</span>
+          <button type="button" id="w3NextFrame" aria-label="Следующий кадр">›</button>
+        </div>
+        <span id="w3EditorStatus"></span>
+        <button type="button" class="primary-button" id="w3EditorSave">Сохранить</button>
+      </footer>
+    </div>
+  </dialog>
+</body>
+</html>

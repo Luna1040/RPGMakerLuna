@@ -1,0 +1,85 @@
+{
+	"no_underwear_base": true,
+	"png_player_has_no_3d": true,
+	"presets": [
+		{
+			"exact_pixel_match": true,
+			"frames": 11,
+			"loadout": {
+				"body": "female",
+				"effects": true,
+				"hair": "gold",
+				"outfit": "knight",
+				"view": 18.0,
+				"weapon": "steel"
+			},
+			"manifest": "res://exports/sets/pixel_v3/female_knight_gold_steel_v18_fx1/frames.json"
+		},
+		{
+			"exact_pixel_match": true,
+			"frames": 11,
+			"loadout": {
+				"body": "female",
+				"effects": false,
+				"hair": "none",
+				"outfit": "none",
+				"view": 55.0,
+				"weapon": "none"
+			},
+			"manifest": "res://exports/sets/pixel_v3/female_none_none_none_v55_fx0/frames.json"
+		},
+		{
+			"exact_pixel_match": true,
+			"frames": 11,
+			"loadout": {
+				"body": "female",
+				"effects": false,
+				"hair": "gold",
+				"outfit": "swim",
+				"view": 55.0,
+				"weapon": "none"
+			},
+			"manifest": "res://exports/sets/pixel_v3/female_swim_gold_none_v55_fx0/frames.json"
+		},
+		{
+			"exact_pixel_match": true,
+			"frames": 11,
+			"loadout": {
+				"body": "female",
+				"effects": false,
+				"hair": "copper",
+				"outfit": "dress",
+				"view": 55.0,
+				"weapon": "none"
+			},
+			"manifest": "res://exports/sets/pixel_v3/female_dress_copper_none_v55_fx0/frames.json"
+		},
+		{
+			"exact_pixel_match": true,
+			"frames": 11,
+			"loadout": {
+				"body": "male",
+				"effects": false,
+				"hair": "none",
+				"outfit": "none",
+				"view": 90.0,
+				"weapon": "none"
+			},
+			"manifest": "res://exports/sets/pixel_v3/male_none_none_none_v90_fx0/frames.json"
+		},
+		{
+			"exact_pixel_match": true,
+			"frames": 11,
+			"loadout": {
+				"body": "male",
+				"effects": false,
+				"hair": "short",
+				"outfit": "swim",
+				"view": 90.0,
+				"weapon": "none"
+			},
+			"manifest": "res://exports/sets/pixel_v3/male_swim_short_none_v90_fx0/frames.json"
+		}
+	],
+	"rendered": true
+}

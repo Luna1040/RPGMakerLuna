@@ -1,0 +1,31 @@
+{
+  "source_sha256": "27cf64415274add2632a6af2cf584bb2433665662e1f55e2281baa538fb1bb58",
+  "background_hole_boxes": [
+    [
+      440,
+      169,
+      466,
+      217
+    ],
+    [
+      311,
+      232,
+      342,
+      264
+    ],
+    [
+      295,
+      327,
+      303,
+      356
+    ],
+    [
+      341,
+      346,
+      359,
+      383
+    ]
+  ],
+  "removed_pixels": 795669,
+  "note": "Single master annotation; never remove all white pixels (silver armor must survive)."
+}

@@ -1,0 +1,51 @@
+{
+  "repository": "https://github.com/envy-ai/sprite-generator",
+  "commit": "2c8f7a39baacf79f4d88e253ba727aaea12ef4c4",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 11935,
+      "sha256": "d57792c24467e632f10c7b2cb30a8e79673aa3bf9f5f1b101439fb958b632706"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 34523,
+      "sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0"
+    },
+    {
+      "path": "config.default.yaml",
+      "bytes": 1902,
+      "sha256": "6421cb203b3bf34671efac0b5010c9d406ae652529013bed364ab8a7fbd12a2e"
+    },
+    {
+      "path": "workflows/Minimax H3 r2v Simplified - Full Sprite Animation.json",
+      "bytes": 133229,
+      "sha256": "28d76e30bd9b3245877e0b74263c73ad9e38baad6164037f5ab90eb6b8065c1e"
+    },
+    {
+      "path": "workflows/Minimax H3 Running and Idle - 4 directions.json",
+      "bytes": 63712,
+      "sha256": "5a1a045d386f1d30b7d765b7839f3d5b86a117d5abed4511127486979108c75f"
+    },
+    {
+      "path": "workflows/dummy-views-pixel-art/1-right.png",
+      "bytes": 6697,
+      "sha256": "f4d01a0a1d89e4db8150c87fe809c4695de2ac78426a2122f3b5e47d8637bf0d"
+    },
+    {
+      "path": "workflows/dummy-views-pixel-art/2-left.png",
+      "bytes": 8146,
+      "sha256": "c7c13dbcaea777f5f6d92b18ef6bae7c149a0c5962209afc6d0189644d99c9e0"
+    },
+    {
+      "path": "workflows/dummy-views-pixel-art/3-back.png",
+      "bytes": 6855,
+      "sha256": "23fe5927ead333183fca16e3292b9154d99acbb075079174b3bd74e49c9facb0"
+    },
+    {
+      "path": "workflows/dummy-views-pixel-art/4-front.png",
+      "bytes": 6741,
+      "sha256": "09f6ffac51f74fd3c90f986c432a21198c9c93e807abf43c6f9545d486ec52d1"
+    }
+  ]
+}

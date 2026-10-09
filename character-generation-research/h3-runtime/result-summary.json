@@ -1,0 +1,45 @@
+{
+  "models_verified": 5,
+  "download_bytes": 44414604463,
+  "paid_api_used": false,
+  "runs": {
+    "walk": {
+      "status": "success",
+      "seconds": 38.933,
+      "frames": 124,
+      "fps": 24,
+      "workflow": "walk-api.json"
+    },
+    "attack": {
+      "status": "success",
+      "seconds": 36.89,
+      "frames": 124,
+      "fps": 24,
+      "workflow": "attack-api.json"
+    },
+    "walk-hq": {
+      "status": "success",
+      "seconds": 208.674,
+      "frames": 124,
+      "fps": 24,
+      "workflow": "walk-hq-api.json"
+    },
+    "attack-hq": {
+      "status": "success",
+      "seconds": 211.033,
+      "frames": 124,
+      "fps": 24,
+      "workflow": "attack-hq-api.json"
+    }
+  },
+  "visual_review": "12 sampled frames per clip and alpha compositing; full-frame alpha border audit",
+  "production_ready": false,
+  "observations": [
+    "Whole-body poses, head angle, hair and cape change across frames.",
+    "Initial four-step trials have patterned olive backgrounds and edge cropping.",
+    "Second trials output black backgrounds despite green instructions; connected-background extraction used.",
+    "HQ alpha frames have zero opaque canvas-edge pixels across both clips.",
+    "Sword glow remains despite prompt; weapon and costume details drift; loops not guaranteed seamless."
+  ],
+  "godot_launcher": "../../play-h3-test.cmd"
+}

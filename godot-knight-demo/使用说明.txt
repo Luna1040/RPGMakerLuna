@@ -1,0 +1,32 @@
+女性姬骑士：Godot 走路与挥剑动画演示
+
+运行：双击工作目录的 play-knight-animation.cmd。
+也可在 Godot 4.7.2 中打开本目录的 project.godot，按 F6/F5 运行。
+WASD / 方向键移动，空格或鼠标左键挥剑。
+上方分别循环展示走路与挥剑，下方可操作角色。
+
+角色：成年女性姬骑士，金发、银色板甲、蓝披风、金色冠饰、长剑。
+素材使用内置 imagegen 工具生成，并通过同一工具做一次格子隔离修正。
+未使用外部厂商视频生成、视频抽帧，也没有用程序重画替代 AI 角色。
+最终图集：assets/princess-knight-atlas-v2.png（4×4、真实透明 PNG）。
+原始版本：assets/princess-knight-atlas.png。
+生成提示词见 GENERATION-PROMPTS.txt。
+
+动画：walk 8 帧循环；slash 8 帧单次；idle 复用一帧。
+使用 AnimatedSprite2D + SpriteFrames + AtlasTexture。
+整数图集分割，逐帧计算脚底锚点，最近邻纹理采样。
+挥剑期间锁定移动与重复触发，动作结束自动回到待机。
+左右方向通过镜像实现，目前不是四方向动画。
+
+验证：
+1. Godot 4.7.2 导入、解析、120 帧 headless 启动通过。
+2. animation-check.gd 验证 8 帧动画配置、移动、待机切换、攻击锁和结束回调。
+3. 原生 OpenGL 渲染 70 帧预览，已检查挥剑与恢复姿势。
+4. 预览序列在 preview/frame00000000.png 至 frame00000069.png。
+
+局限：这是动画可行性原型，不含攻击命中和战斗系统。
+AI 帧组仍有轻微外观/姿势变化和剑光边缘残留，尚不是生产级逐像素精修素材。
+素材属于高分辨率像素风图集，不应当作严格 64×64 原生像素成品。
+
+运行检查：
+..\godot.cmd --headless --path . --script res://animation-check.gd --fixed-fps 60

@@ -1,0 +1,4 @@
+Pillow
+huggingface_hub
+numpy
+opencv-python-headless

@@ -1,0 +1,223 @@
+{
+  "canvas_size": [
+    768,
+    768
+  ],
+  "root_motion_note": "Full original canvases; fixed per-clip scale. Air strike root offsets remove authored video displacement so the game owns jump height.",
+  "clips": {
+    "run": {
+      "duration_ms": 580,
+      "loop": true,
+      "pivot": [
+        400,
+        695
+      ],
+      "scale": 0.72,
+      "frames": [
+        {
+          "source_frame": 32,
+          "duration_ms": 58,
+          "file": "combat-motion/run-v2/000.png"
+        },
+        {
+          "source_frame": 34,
+          "duration_ms": 58,
+          "file": "combat-motion/run-v2/001.png"
+        },
+        {
+          "source_frame": 35,
+          "duration_ms": 58,
+          "file": "combat-motion/run-v2/002.png"
+        },
+        {
+          "source_frame": 37,
+          "duration_ms": 58,
+          "file": "combat-motion/run-v2/003.png"
+        },
+        {
+          "source_frame": 38,
+          "duration_ms": 58,
+          "file": "combat-motion/run-v2/004.png"
+        },
+        {
+          "source_frame": 40,
+          "duration_ms": 58,
+          "file": "combat-motion/run-v2/005.png"
+        },
+        {
+          "source_frame": 42,
+          "duration_ms": 58,
+          "file": "combat-motion/run-v2/006.png"
+        },
+        {
+          "source_frame": 43,
+          "duration_ms": 58,
+          "file": "combat-motion/run-v2/007.png"
+        },
+        {
+          "source_frame": 45,
+          "duration_ms": 58,
+          "file": "combat-motion/run-v2/008.png"
+        },
+        {
+          "source_frame": 46,
+          "duration_ms": 58,
+          "file": "combat-motion/run-v2/009.png"
+        }
+      ],
+      "source": "H3 56177653-ec48-42df-a6de-cf1f864dfd91"
+    },
+    "dash_attack": {
+      "duration_ms": 420,
+      "loop": false,
+      "pivot": [
+        378,
+        597
+      ],
+      "scale": 0.977,
+      "frames": [
+        {
+          "source_frame": 16,
+          "duration_ms": 42,
+          "file": "combat-motion/dash_attack/000.png"
+        },
+        {
+          "source_frame": 24,
+          "duration_ms": 35,
+          "file": "combat-motion/dash_attack/001.png"
+        },
+        {
+          "source_frame": 28,
+          "duration_ms": 28,
+          "file": "combat-motion/dash_attack/002.png"
+        },
+        {
+          "source_frame": 40,
+          "duration_ms": 45,
+          "file": "combat-motion/dash_attack/003.png"
+        },
+        {
+          "source_frame": 48,
+          "duration_ms": 70,
+          "file": "combat-motion/dash_attack/004.png"
+        },
+        {
+          "source_frame": 64,
+          "duration_ms": 35,
+          "file": "combat-motion/dash_attack/005.png"
+        },
+        {
+          "source_frame": 68,
+          "duration_ms": 40,
+          "file": "combat-motion/dash_attack/006.png"
+        },
+        {
+          "source_frame": 72,
+          "duration_ms": 45,
+          "file": "combat-motion/dash_attack/007.png"
+        },
+        {
+          "source_frame": 80,
+          "duration_ms": 80,
+          "file": "combat-motion/dash_attack/008.png"
+        }
+      ],
+      "source": "H3 3136b4ec-dbc0-4b35-9441-ee54ef825b56"
+    },
+    "air_slash": {
+      "duration_ms": 470,
+      "hold_ms": 249,
+      "landing_start_ms": 250,
+      "loop": false,
+      "pivot": [
+        378,
+        597
+      ],
+      "scale": 0.977,
+      "frames": [
+        {
+          "source_frame": 12,
+          "duration_ms": 35,
+          "pivot": [
+            378,
+            597
+          ],
+          "file": "combat-motion/air_slash/000.png"
+        },
+        {
+          "source_frame": 24,
+          "duration_ms": 45,
+          "pivot": [
+            378,
+            565
+          ],
+          "file": "combat-motion/air_slash/001.png"
+        },
+        {
+          "source_frame": 44,
+          "duration_ms": 50,
+          "pivot": [
+            378,
+            578
+          ],
+          "file": "combat-motion/air_slash/002.png"
+        },
+        {
+          "source_frame": 52,
+          "duration_ms": 120,
+          "pivot": [
+            378,
+            597
+          ],
+          "file": "combat-motion/air_slash/003.png"
+        },
+        {
+          "source_frame": 56,
+          "duration_ms": 40,
+          "pivot": [
+            378,
+            597
+          ],
+          "file": "combat-motion/air_slash/004.png"
+        },
+        {
+          "source_frame": 64,
+          "duration_ms": 40,
+          "pivot": [
+            378,
+            597
+          ],
+          "file": "combat-motion/air_slash/005.png"
+        },
+        {
+          "source_frame": 96,
+          "duration_ms": 40,
+          "pivot": [
+            378,
+            597
+          ],
+          "file": "combat-motion/air_slash/006.png"
+        },
+        {
+          "source_frame": 100,
+          "duration_ms": 40,
+          "pivot": [
+            378,
+            597
+          ],
+          "file": "combat-motion/air_slash/007.png"
+        },
+        {
+          "source_frame": 108,
+          "duration_ms": 60,
+          "pivot": [
+            378,
+            597
+          ],
+          "file": "combat-motion/air_slash/008.png"
+        }
+      ],
+      "source": "H3 5fcfc72e-9e93-4677-be3f-fba1399636eb"
+    }
+  }
+}

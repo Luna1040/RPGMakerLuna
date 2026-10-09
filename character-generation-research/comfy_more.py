@@ -1,0 +1,5 @@
+from comfy_trials import *
+ref=upload(OUT/'knight-reference.png')
+text='Same original adult female knight, blonde ponytail, gold crown, silver armor, blue cape, gold trim, same sword length. Detailed crisp pixel art, full body side view facing right, plain solid pale gray background, no text, no motion blur. Redraw the character in a clearly different attack anticipation pose: sword raised vertically above her head, right arm bent and lifted, left arm naturally bent close to torso, feet spread. Preserve her face and outfit.'
+run('04-klein4b-pose',text,ref,small=True)
+run('05-outfit-only','Edit only the clothing of this original adult female knight: replace silver armor and blue skirt with an elegant red tunic, brown leather belt, brown gloves and knee-high leather boots; replace blue cape with red cape. Preserve exactly the same face, long blonde ponytail, crown, body pose, hand position, sword shape and length, leg placement, pixel art style, canvas, scale and pale gray background. One full body character, no text.',ref)

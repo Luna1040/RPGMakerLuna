@@ -1,0 +1,1602 @@
+{
+	"animations": {
+		"idle": {
+			"frames": [
+				{
+					"attachments": {
+						"hand": [
+							13,
+							-26
+						],
+						"head": [
+							1,
+							-53
+						]
+					},
+					"duration": 0.5,
+					"events": [],
+					"layers": {
+						"body": {
+							"offset": [
+								-7,
+								-61
+							],
+							"path": "res://assets/frames/body/idle/00.png",
+							"size": [
+								23,
+								61
+							]
+						},
+						"boots_knight": {
+							"offset": [
+								-8,
+								-12
+							],
+							"path": "res://assets/frames/boots_knight/idle/00.png",
+							"size": [
+								20,
+								13
+							]
+						},
+						"boots_scout": {
+							"offset": [
+								-8,
+								-12
+							],
+							"path": "res://assets/frames/boots_scout/idle/00.png",
+							"size": [
+								20,
+								13
+							]
+						},
+						"cape": {
+							"offset": [
+								-15,
+								-42
+							],
+							"path": "res://assets/frames/cape/idle/00.png",
+							"size": [
+								12,
+								30
+							]
+						},
+						"grip": {
+							"offset": [
+								12,
+								-27
+							],
+							"path": "res://assets/frames/grip/idle/00.png",
+							"size": [
+								3,
+								3
+							]
+						},
+						"hair_back_copper": {
+							"offset": [
+								-15,
+								-59
+							],
+							"path": "res://assets/frames/hair_back_copper/idle/00.png",
+							"size": [
+								13,
+								27
+							]
+						},
+						"hair_back_gold": {
+							"offset": [
+								-15,
+								-59
+							],
+							"path": "res://assets/frames/hair_back_gold/idle/00.png",
+							"size": [
+								13,
+								27
+							]
+						},
+						"hair_front_copper": {
+							"offset": [
+								-5,
+								-62
+							],
+							"path": "res://assets/frames/hair_front_copper/idle/00.png",
+							"size": [
+								12,
+								12
+							]
+						},
+						"hair_front_gold": {
+							"offset": [
+								-5,
+								-62
+							],
+							"path": "res://assets/frames/hair_front_gold/idle/00.png",
+							"size": [
+								12,
+								12
+							]
+						},
+						"torso_knight": {
+							"offset": [
+								-6,
+								-44
+							],
+							"path": "res://assets/frames/torso_knight/idle/00.png",
+							"size": [
+								22,
+								23
+							]
+						},
+						"torso_scout": {
+							"offset": [
+								-6,
+								-44
+							],
+							"path": "res://assets/frames/torso_scout/idle/00.png",
+							"size": [
+								22,
+								23
+							]
+						}
+					},
+					"weapon_angle": 0.62
+				}
+			],
+			"loop": true
+		},
+		"slash": {
+			"frames": [
+				{
+					"attachments": {
+						"hand": [
+							-9,
+							-46
+						],
+						"head": [
+							1,
+							-53
+						]
+					},
+					"duration": 0.18,
+					"events": [],
+					"layers": {
+						"body": {
+							"offset": [
+								-13,
+								-61
+							],
+							"path": "res://assets/frames/body/slash/00.png",
+							"size": [
+								34,
+								61
+							]
+						},
+						"boots_knight": {
+							"offset": [
+								-14,
+								-13
+							],
+							"path": "res://assets/frames/boots_knight/slash/00.png",
+							"size": [
+								36,
+								14
+							]
+						},
+						"boots_scout": {
+							"offset": [
+								-14,
+								-13
+							],
+							"path": "res://assets/frames/boots_scout/slash/00.png",
+							"size": [
+								36,
+								14
+							]
+						},
+						"cape": {
+							"offset": [
+								-15,
+								-42
+							],
+							"path": "res://assets/frames/cape/slash/00.png",
+							"size": [
+								12,
+								30
+							]
+						},
+						"grip": {
+							"offset": [
+								-10,
+								-47
+							],
+							"path": "res://assets/frames/grip/slash/00.png",
+							"size": [
+								3,
+								3
+							]
+						},
+						"hair_back_copper": {
+							"offset": [
+								-15,
+								-59
+							],
+							"path": "res://assets/frames/hair_back_copper/slash/00.png",
+							"size": [
+								13,
+								27
+							]
+						},
+						"hair_back_gold": {
+							"offset": [
+								-15,
+								-59
+							],
+							"path": "res://assets/frames/hair_back_gold/slash/00.png",
+							"size": [
+								13,
+								27
+							]
+						},
+						"hair_front_copper": {
+							"offset": [
+								-5,
+								-62
+							],
+							"path": "res://assets/frames/hair_front_copper/slash/00.png",
+							"size": [
+								12,
+								12
+							]
+						},
+						"hair_front_gold": {
+							"offset": [
+								-5,
+								-62
+							],
+							"path": "res://assets/frames/hair_front_gold/slash/00.png",
+							"size": [
+								12,
+								12
+							]
+						},
+						"torso_knight": {
+							"offset": [
+								-11,
+								-48
+							],
+							"path": "res://assets/frames/torso_knight/slash/00.png",
+							"size": [
+								18,
+								27
+							]
+						},
+						"torso_scout": {
+							"offset": [
+								-11,
+								-48
+							],
+							"path": "res://assets/frames/torso_scout/slash/00.png",
+							"size": [
+								18,
+								27
+							]
+						}
+					},
+					"weapon_angle": -2.2
+				},
+				{
+					"attachments": {
+						"hand": [
+							5,
+							-53
+						],
+						"head": [
+							1,
+							-53
+						]
+					},
+					"duration": 0.14,
+					"events": [],
+					"layers": {
+						"body": {
+							"offset": [
+								-13,
+								-61
+							],
+							"path": "res://assets/frames/body/slash/01.png",
+							"size": [
+								34,
+								61
+							]
+						},
+						"boots_knight": {
+							"offset": [
+								-14,
+								-13
+							],
+							"path": "res://assets/frames/boots_knight/slash/01.png",
+							"size": [
+								36,
+								14
+							]
+						},
+						"boots_scout": {
+							"offset": [
+								-14,
+								-13
+							],
+							"path": "res://assets/frames/boots_scout/slash/01.png",
+							"size": [
+								36,
+								14
+							]
+						},
+						"cape": {
+							"offset": [
+								-15,
+								-42
+							],
+							"path": "res://assets/frames/cape/slash/01.png",
+							"size": [
+								12,
+								30
+							]
+						},
+						"grip": {
+							"offset": [
+								4,
+								-54
+							],
+							"path": "res://assets/frames/grip/slash/01.png",
+							"size": [
+								3,
+								3
+							]
+						},
+						"hair_back_copper": {
+							"offset": [
+								-15,
+								-59
+							],
+							"path": "res://assets/frames/hair_back_copper/slash/01.png",
+							"size": [
+								13,
+								27
+							]
+						},
+						"hair_back_gold": {
+							"offset": [
+								-15,
+								-59
+							],
+							"path": "res://assets/frames/hair_back_gold/slash/01.png",
+							"size": [
+								13,
+								27
+							]
+						},
+						"hair_front_copper": {
+							"offset": [
+								-5,
+								-62
+							],
+							"path": "res://assets/frames/hair_front_copper/slash/01.png",
+							"size": [
+								12,
+								12
+							]
+						},
+						"hair_front_gold": {
+							"offset": [
+								-5,
+								-62
+							],
+							"path": "res://assets/frames/hair_front_gold/slash/01.png",
+							"size": [
+								12,
+								12
+							]
+						},
+						"torso_knight": {
+							"offset": [
+								-6,
+								-55
+							],
+							"path": "res://assets/frames/torso_knight/slash/01.png",
+							"size": [
+								14,
+								34
+							]
+						},
+						"torso_scout": {
+							"offset": [
+								-6,
+								-55
+							],
+							"path": "res://assets/frames/torso_scout/slash/01.png",
+							"size": [
+								14,
+								34
+							]
+						}
+					},
+					"weapon_angle": -1.2
+				},
+				{
+					"attachments": {
+						"hand": [
+							24,
+							-42
+						],
+						"head": [
+							1,
+							-53
+						]
+					},
+					"duration": 0.08,
+					"events": [
+						"swing",
+						"hit_window"
+					],
+					"layers": {
+						"body": {
+							"offset": [
+								-13,
+								-61
+							],
+							"path": "res://assets/frames/body/slash/02.png",
+							"size": [
+								40,
+								61
+							]
+						},
+						"boots_knight": {
+							"offset": [
+								-14,
+								-13
+							],
+							"path": "res://assets/frames/boots_knight/slash/02.png",
+							"size": [
+								36,
+								14
+							]
+						},
+						"boots_scout": {
+							"offset": [
+								-14,
+								-13
+							],
+							"path": "res://assets/frames/boots_scout/slash/02.png",
+							"size": [
+								36,
+								14
+							]
+						},
+						"cape": {
+							"offset": [
+								-15,
+								-42
+							],
+							"path": "res://assets/frames/cape/slash/02.png",
+							"size": [
+								12,
+								30
+							]
+						},
+						"effect": {
+							"offset": [
+								19,
+								-78
+							],
+							"path": "res://assets/frames/effect/slash/02.png",
+							"size": [
+								32,
+								55
+							]
+						},
+						"grip": {
+							"offset": [
+								23,
+								-43
+							],
+							"path": "res://assets/frames/grip/slash/02.png",
+							"size": [
+								3,
+								3
+							]
+						},
+						"hair_back_copper": {
+							"offset": [
+								-15,
+								-59
+							],
+							"path": "res://assets/frames/hair_back_copper/slash/02.png",
+							"size": [
+								13,
+								27
+							]
+						},
+						"hair_back_gold": {
+							"offset": [
+								-15,
+								-59
+							],
+							"path": "res://assets/frames/hair_back_gold/slash/02.png",
+							"size": [
+								13,
+								27
+							]
+						},
+						"hair_front_copper": {
+							"offset": [
+								-5,
+								-62
+							],
+							"path": "res://assets/frames/hair_front_copper/slash/02.png",
+							"size": [
+								12,
+								12
+							]
+						},
+						"hair_front_gold": {
+							"offset": [
+								-5,
+								-62
+							],
+							"path": "res://assets/frames/hair_front_gold/slash/02.png",
+							"size": [
+								12,
+								12
+							]
+						},
+						"torso_knight": {
+							"offset": [
+								-6,
+								-45
+							],
+							"path": "res://assets/frames/torso_knight/slash/02.png",
+							"size": [
+								33,
+								24
+							]
+						},
+						"torso_scout": {
+							"offset": [
+								-6,
+								-45
+							],
+							"path": "res://assets/frames/torso_scout/slash/02.png",
+							"size": [
+								33,
+								24
+							]
+						}
+					},
+					"weapon_angle": 0.1
+				},
+				{
+					"attachments": {
+						"hand": [
+							22,
+							-24
+						],
+						"head": [
+							1,
+							-53
+						]
+					},
+					"duration": 0.1,
+					"events": [],
+					"layers": {
+						"body": {
+							"offset": [
+								-13,
+								-61
+							],
+							"path": "res://assets/frames/body/slash/03.png",
+							"size": [
+								38,
+								61
+							]
+						},
+						"boots_knight": {
+							"offset": [
+								-14,
+								-13
+							],
+							"path": "res://assets/frames/boots_knight/slash/03.png",
+							"size": [
+								36,
+								14
+							]
+						},
+						"boots_scout": {
+							"offset": [
+								-14,
+								-13
+							],
+							"path": "res://assets/frames/boots_scout/slash/03.png",
+							"size": [
+								36,
+								14
+							]
+						},
+						"cape": {
+							"offset": [
+								-15,
+								-42
+							],
+							"path": "res://assets/frames/cape/slash/03.png",
+							"size": [
+								12,
+								30
+							]
+						},
+						"effect": {
+							"offset": [
+								12,
+								-43
+							],
+							"path": "res://assets/frames/effect/slash/03.png",
+							"size": [
+								39,
+								49
+							]
+						},
+						"grip": {
+							"offset": [
+								21,
+								-25
+							],
+							"path": "res://assets/frames/grip/slash/03.png",
+							"size": [
+								3,
+								3
+							]
+						},
+						"hair_back_copper": {
+							"offset": [
+								-15,
+								-59
+							],
+							"path": "res://assets/frames/hair_back_copper/slash/03.png",
+							"size": [
+								13,
+								27
+							]
+						},
+						"hair_back_gold": {
+							"offset": [
+								-15,
+								-59
+							],
+							"path": "res://assets/frames/hair_back_gold/slash/03.png",
+							"size": [
+								13,
+								27
+							]
+						},
+						"hair_front_copper": {
+							"offset": [
+								-5,
+								-62
+							],
+							"path": "res://assets/frames/hair_front_copper/slash/03.png",
+							"size": [
+								12,
+								12
+							]
+						},
+						"hair_front_gold": {
+							"offset": [
+								-5,
+								-62
+							],
+							"path": "res://assets/frames/hair_front_gold/slash/03.png",
+							"size": [
+								12,
+								12
+							]
+						},
+						"torso_knight": {
+							"offset": [
+								-6,
+								-44
+							],
+							"path": "res://assets/frames/torso_knight/slash/03.png",
+							"size": [
+								31,
+								23
+							]
+						},
+						"torso_scout": {
+							"offset": [
+								-6,
+								-44
+							],
+							"path": "res://assets/frames/torso_scout/slash/03.png",
+							"size": [
+								31,
+								23
+							]
+						}
+					},
+					"weapon_angle": 0.78
+				},
+				{
+					"attachments": {
+						"hand": [
+							16,
+							-24
+						],
+						"head": [
+							1,
+							-53
+						]
+					},
+					"duration": 0.14,
+					"events": [],
+					"layers": {
+						"body": {
+							"offset": [
+								-13,
+								-61
+							],
+							"path": "res://assets/frames/body/slash/04.png",
+							"size": [
+								34,
+								61
+							]
+						},
+						"boots_knight": {
+							"offset": [
+								-14,
+								-13
+							],
+							"path": "res://assets/frames/boots_knight/slash/04.png",
+							"size": [
+								36,
+								14
+							]
+						},
+						"boots_scout": {
+							"offset": [
+								-14,
+								-13
+							],
+							"path": "res://assets/frames/boots_scout/slash/04.png",
+							"size": [
+								36,
+								14
+							]
+						},
+						"cape": {
+							"offset": [
+								-15,
+								-42
+							],
+							"path": "res://assets/frames/cape/slash/04.png",
+							"size": [
+								12,
+								30
+							]
+						},
+						"grip": {
+							"offset": [
+								15,
+								-25
+							],
+							"path": "res://assets/frames/grip/slash/04.png",
+							"size": [
+								3,
+								3
+							]
+						},
+						"hair_back_copper": {
+							"offset": [
+								-15,
+								-59
+							],
+							"path": "res://assets/frames/hair_back_copper/slash/04.png",
+							"size": [
+								13,
+								27
+							]
+						},
+						"hair_back_gold": {
+							"offset": [
+								-15,
+								-59
+							],
+							"path": "res://assets/frames/hair_back_gold/slash/04.png",
+							"size": [
+								13,
+								27
+							]
+						},
+						"hair_front_copper": {
+							"offset": [
+								-5,
+								-62
+							],
+							"path": "res://assets/frames/hair_front_copper/slash/04.png",
+							"size": [
+								12,
+								12
+							]
+						},
+						"hair_front_gold": {
+							"offset": [
+								-5,
+								-62
+							],
+							"path": "res://assets/frames/hair_front_gold/slash/04.png",
+							"size": [
+								12,
+								12
+							]
+						},
+						"torso_knight": {
+							"offset": [
+								-6,
+								-44
+							],
+							"path": "res://assets/frames/torso_knight/slash/04.png",
+							"size": [
+								25,
+								23
+							]
+						},
+						"torso_scout": {
+							"offset": [
+								-6,
+								-44
+							],
+							"path": "res://assets/frames/torso_scout/slash/04.png",
+							"size": [
+								25,
+								23
+							]
+						}
+					},
+					"weapon_angle": 0.65
+				},
+				{
+					"attachments": {
+						"hand": [
+							13,
+							-26
+						],
+						"head": [
+							1,
+							-53
+						]
+					},
+					"duration": 0.2,
+					"events": [],
+					"layers": {
+						"body": {
+							"offset": [
+								-13,
+								-61
+							],
+							"path": "res://assets/frames/body/slash/05.png",
+							"size": [
+								34,
+								61
+							]
+						},
+						"boots_knight": {
+							"offset": [
+								-14,
+								-13
+							],
+							"path": "res://assets/frames/boots_knight/slash/05.png",
+							"size": [
+								36,
+								14
+							]
+						},
+						"boots_scout": {
+							"offset": [
+								-14,
+								-13
+							],
+							"path": "res://assets/frames/boots_scout/slash/05.png",
+							"size": [
+								36,
+								14
+							]
+						},
+						"cape": {
+							"offset": [
+								-15,
+								-42
+							],
+							"path": "res://assets/frames/cape/slash/05.png",
+							"size": [
+								12,
+								30
+							]
+						},
+						"grip": {
+							"offset": [
+								12,
+								-27
+							],
+							"path": "res://assets/frames/grip/slash/05.png",
+							"size": [
+								3,
+								3
+							]
+						},
+						"hair_back_copper": {
+							"offset": [
+								-15,
+								-59
+							],
+							"path": "res://assets/frames/hair_back_copper/slash/05.png",
+							"size": [
+								13,
+								27
+							]
+						},
+						"hair_back_gold": {
+							"offset": [
+								-15,
+								-59
+							],
+							"path": "res://assets/frames/hair_back_gold/slash/05.png",
+							"size": [
+								13,
+								27
+							]
+						},
+						"hair_front_copper": {
+							"offset": [
+								-5,
+								-62
+							],
+							"path": "res://assets/frames/hair_front_copper/slash/05.png",
+							"size": [
+								12,
+								12
+							]
+						},
+						"hair_front_gold": {
+							"offset": [
+								-5,
+								-62
+							],
+							"path": "res://assets/frames/hair_front_gold/slash/05.png",
+							"size": [
+								12,
+								12
+							]
+						},
+						"torso_knight": {
+							"offset": [
+								-6,
+								-44
+							],
+							"path": "res://assets/frames/torso_knight/slash/05.png",
+							"size": [
+								22,
+								23
+							]
+						},
+						"torso_scout": {
+							"offset": [
+								-6,
+								-44
+							],
+							"path": "res://assets/frames/torso_scout/slash/05.png",
+							"size": [
+								22,
+								23
+							]
+						}
+					},
+					"weapon_angle": 0.62
+				}
+			],
+			"loop": false
+		},
+		"walk": {
+			"frames": [
+				{
+					"attachments": {
+						"hand": [
+							13,
+							-26
+						],
+						"head": [
+							1,
+							-53
+						]
+					},
+					"duration": 0.2,
+					"events": [],
+					"layers": {
+						"body": {
+							"offset": [
+								-14,
+								-61
+							],
+							"path": "res://assets/frames/body/walk/00.png",
+							"size": [
+								34,
+								61
+							]
+						},
+						"boots_knight": {
+							"offset": [
+								-15,
+								-13
+							],
+							"path": "res://assets/frames/boots_knight/walk/00.png",
+							"size": [
+								36,
+								14
+							]
+						},
+						"boots_scout": {
+							"offset": [
+								-15,
+								-13
+							],
+							"path": "res://assets/frames/boots_scout/walk/00.png",
+							"size": [
+								36,
+								14
+							]
+						},
+						"cape": {
+							"offset": [
+								-15,
+								-42
+							],
+							"path": "res://assets/frames/cape/walk/00.png",
+							"size": [
+								12,
+								30
+							]
+						},
+						"grip": {
+							"offset": [
+								12,
+								-27
+							],
+							"path": "res://assets/frames/grip/walk/00.png",
+							"size": [
+								3,
+								3
+							]
+						},
+						"hair_back_copper": {
+							"offset": [
+								-15,
+								-59
+							],
+							"path": "res://assets/frames/hair_back_copper/walk/00.png",
+							"size": [
+								13,
+								27
+							]
+						},
+						"hair_back_gold": {
+							"offset": [
+								-15,
+								-59
+							],
+							"path": "res://assets/frames/hair_back_gold/walk/00.png",
+							"size": [
+								13,
+								27
+							]
+						},
+						"hair_front_copper": {
+							"offset": [
+								-5,
+								-62
+							],
+							"path": "res://assets/frames/hair_front_copper/walk/00.png",
+							"size": [
+								12,
+								12
+							]
+						},
+						"hair_front_gold": {
+							"offset": [
+								-5,
+								-62
+							],
+							"path": "res://assets/frames/hair_front_gold/walk/00.png",
+							"size": [
+								12,
+								12
+							]
+						},
+						"torso_knight": {
+							"offset": [
+								-6,
+								-44
+							],
+							"path": "res://assets/frames/torso_knight/walk/00.png",
+							"size": [
+								22,
+								23
+							]
+						},
+						"torso_scout": {
+							"offset": [
+								-6,
+								-44
+							],
+							"path": "res://assets/frames/torso_scout/walk/00.png",
+							"size": [
+								22,
+								23
+							]
+						}
+					},
+					"weapon_angle": 0.62
+				},
+				{
+					"attachments": {
+						"hand": [
+							13,
+							-26
+						],
+						"head": [
+							1,
+							-53
+						]
+					},
+					"duration": 0.2,
+					"events": [],
+					"layers": {
+						"body": {
+							"offset": [
+								-8,
+								-61
+							],
+							"path": "res://assets/frames/body/walk/01.png",
+							"size": [
+								24,
+								61
+							]
+						},
+						"boots_knight": {
+							"offset": [
+								-9,
+								-17
+							],
+							"path": "res://assets/frames/boots_knight/walk/01.png",
+							"size": [
+								16,
+								18
+							]
+						},
+						"boots_scout": {
+							"offset": [
+								-9,
+								-17
+							],
+							"path": "res://assets/frames/boots_scout/walk/01.png",
+							"size": [
+								16,
+								18
+							]
+						},
+						"cape": {
+							"offset": [
+								-15,
+								-42
+							],
+							"path": "res://assets/frames/cape/walk/01.png",
+							"size": [
+								12,
+								30
+							]
+						},
+						"grip": {
+							"offset": [
+								12,
+								-27
+							],
+							"path": "res://assets/frames/grip/walk/01.png",
+							"size": [
+								3,
+								3
+							]
+						},
+						"hair_back_copper": {
+							"offset": [
+								-15,
+								-59
+							],
+							"path": "res://assets/frames/hair_back_copper/walk/01.png",
+							"size": [
+								13,
+								27
+							]
+						},
+						"hair_back_gold": {
+							"offset": [
+								-15,
+								-59
+							],
+							"path": "res://assets/frames/hair_back_gold/walk/01.png",
+							"size": [
+								13,
+								27
+							]
+						},
+						"hair_front_copper": {
+							"offset": [
+								-5,
+								-62
+							],
+							"path": "res://assets/frames/hair_front_copper/walk/01.png",
+							"size": [
+								12,
+								12
+							]
+						},
+						"hair_front_gold": {
+							"offset": [
+								-5,
+								-62
+							],
+							"path": "res://assets/frames/hair_front_gold/walk/01.png",
+							"size": [
+								12,
+								12
+							]
+						},
+						"torso_knight": {
+							"offset": [
+								-6,
+								-44
+							],
+							"path": "res://assets/frames/torso_knight/walk/01.png",
+							"size": [
+								22,
+								23
+							]
+						},
+						"torso_scout": {
+							"offset": [
+								-6,
+								-44
+							],
+							"path": "res://assets/frames/torso_scout/walk/01.png",
+							"size": [
+								22,
+								23
+							]
+						}
+					},
+					"weapon_angle": 0.62
+				},
+				{
+					"attachments": {
+						"hand": [
+							13,
+							-26
+						],
+						"head": [
+							1,
+							-53
+						]
+					},
+					"duration": 0.2,
+					"events": [],
+					"layers": {
+						"body": {
+							"offset": [
+								-14,
+								-61
+							],
+							"path": "res://assets/frames/body/walk/02.png",
+							"size": [
+								34,
+								61
+							]
+						},
+						"boots_knight": {
+							"offset": [
+								-15,
+								-13
+							],
+							"path": "res://assets/frames/boots_knight/walk/02.png",
+							"size": [
+								36,
+								14
+							]
+						},
+						"boots_scout": {
+							"offset": [
+								-15,
+								-13
+							],
+							"path": "res://assets/frames/boots_scout/walk/02.png",
+							"size": [
+								36,
+								14
+							]
+						},
+						"cape": {
+							"offset": [
+								-15,
+								-42
+							],
+							"path": "res://assets/frames/cape/walk/02.png",
+							"size": [
+								12,
+								30
+							]
+						},
+						"grip": {
+							"offset": [
+								12,
+								-27
+							],
+							"path": "res://assets/frames/grip/walk/02.png",
+							"size": [
+								3,
+								3
+							]
+						},
+						"hair_back_copper": {
+							"offset": [
+								-15,
+								-59
+							],
+							"path": "res://assets/frames/hair_back_copper/walk/02.png",
+							"size": [
+								13,
+								27
+							]
+						},
+						"hair_back_gold": {
+							"offset": [
+								-15,
+								-59
+							],
+							"path": "res://assets/frames/hair_back_gold/walk/02.png",
+							"size": [
+								13,
+								27
+							]
+						},
+						"hair_front_copper": {
+							"offset": [
+								-5,
+								-62
+							],
+							"path": "res://assets/frames/hair_front_copper/walk/02.png",
+							"size": [
+								12,
+								12
+							]
+						},
+						"hair_front_gold": {
+							"offset": [
+								-5,
+								-62
+							],
+							"path": "res://assets/frames/hair_front_gold/walk/02.png",
+							"size": [
+								12,
+								12
+							]
+						},
+						"torso_knight": {
+							"offset": [
+								-6,
+								-44
+							],
+							"path": "res://assets/frames/torso_knight/walk/02.png",
+							"size": [
+								22,
+								23
+							]
+						},
+						"torso_scout": {
+							"offset": [
+								-6,
+								-44
+							],
+							"path": "res://assets/frames/torso_scout/walk/02.png",
+							"size": [
+								22,
+								23
+							]
+						}
+					},
+					"weapon_angle": 0.62
+				},
+				{
+					"attachments": {
+						"hand": [
+							13,
+							-26
+						],
+						"head": [
+							1,
+							-53
+						]
+					},
+					"duration": 0.2,
+					"events": [],
+					"layers": {
+						"body": {
+							"offset": [
+								-8,
+								-61
+							],
+							"path": "res://assets/frames/body/walk/03.png",
+							"size": [
+								24,
+								61
+							]
+						},
+						"boots_knight": {
+							"offset": [
+								-9,
+								-17
+							],
+							"path": "res://assets/frames/boots_knight/walk/03.png",
+							"size": [
+								16,
+								18
+							]
+						},
+						"boots_scout": {
+							"offset": [
+								-9,
+								-17
+							],
+							"path": "res://assets/frames/boots_scout/walk/03.png",
+							"size": [
+								16,
+								18
+							]
+						},
+						"cape": {
+							"offset": [
+								-15,
+								-42
+							],
+							"path": "res://assets/frames/cape/walk/03.png",
+							"size": [
+								12,
+								30
+							]
+						},
+						"grip": {
+							"offset": [
+								12,
+								-27
+							],
+							"path": "res://assets/frames/grip/walk/03.png",
+							"size": [
+								3,
+								3
+							]
+						},
+						"hair_back_copper": {
+							"offset": [
+								-15,
+								-59
+							],
+							"path": "res://assets/frames/hair_back_copper/walk/03.png",
+							"size": [
+								13,
+								27
+							]
+						},
+						"hair_back_gold": {
+							"offset": [
+								-15,
+								-59
+							],
+							"path": "res://assets/frames/hair_back_gold/walk/03.png",
+							"size": [
+								13,
+								27
+							]
+						},
+						"hair_front_copper": {
+							"offset": [
+								-5,
+								-62
+							],
+							"path": "res://assets/frames/hair_front_copper/walk/03.png",
+							"size": [
+								12,
+								12
+							]
+						},
+						"hair_front_gold": {
+							"offset": [
+								-5,
+								-62
+							],
+							"path": "res://assets/frames/hair_front_gold/walk/03.png",
+							"size": [
+								12,
+								12
+							]
+						},
+						"torso_knight": {
+							"offset": [
+								-6,
+								-44
+							],
+							"path": "res://assets/frames/torso_knight/walk/03.png",
+							"size": [
+								22,
+								23
+							]
+						},
+						"torso_scout": {
+							"offset": [
+								-6,
+								-44
+							],
+							"path": "res://assets/frames/torso_scout/walk/03.png",
+							"size": [
+								22,
+								23
+							]
+						}
+					},
+					"weapon_angle": 0.62
+				}
+			],
+			"loop": true
+		}
+	},
+	"layers": [
+		"cape",
+		"hair_back_gold",
+		"hair_back_copper",
+		"body",
+		"boots_knight",
+		"boots_scout",
+		"torso_knight",
+		"torso_scout",
+		"hair_front_gold",
+		"hair_front_copper",
+		"grip",
+		"effect"
+	],
+	"origin": [
+		80,
+		104
+	],
+	"pixel_scale": 1,
+	"version": 1,
+	"weapons": {
+		"gold": {
+			"blade_length": 26,
+			"grip": [
+				4,
+				6
+			],
+			"path": "res://assets/weapons/gold.png",
+			"scale": 1
+		},
+		"steel": {
+			"blade_length": 26,
+			"grip": [
+				4,
+				6
+			],
+			"path": "res://assets/weapons/steel.png",
+			"scale": 1
+		}
+	}
+}

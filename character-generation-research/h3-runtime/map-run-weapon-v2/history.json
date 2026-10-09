@@ -1,0 +1,1484 @@
+{
+  "prompt": [
+    16,
+    "56177653-ec48-42df-a6de-cf1f864dfd91",
+    {
+      "1": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "knight-clean-green.png"
+        }
+      },
+      "2": {
+        "class_type": "CLIPLoader",
+        "inputs": {
+          "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+          "type": "minimax",
+          "device": "default"
+        }
+      },
+      "3": {
+        "class_type": "UNETLoader",
+        "inputs": {
+          "unet_name": "minimax_h3_ref2va_pruned_fp8_scaled.safetensors",
+          "weight_dtype": "default"
+        }
+      },
+      "4": {
+        "class_type": "VAELoader",
+        "inputs": {
+          "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+        }
+      },
+      "6": {
+        "class_type": "MiniMaxH3ReferenceToVideo",
+        "inputs": {
+          "clip": [
+            "2",
+            0
+          ],
+          "vae": [
+            "4",
+            0
+          ],
+          "prompt": "The adult female knight in <Picture 1> runs fast IN PLACE facing right through several repeating sprint cycles. The camera sees her right side in a fixed side three-quarter view. Her near right hand firmly grips the gold sword hilt in front of her right hip for the ENTIRE video. She carries the sword forward in a low ready position: the long straight silver blade extends from that hand toward the right and slightly downward into the empty space IN FRONT of her body. The complete sword is clearly visible in EVERY frame, including its gold hilt, guard, continuous silver blade and sharp tip. The blade always stays in front of the knight silhouette and never passes behind her torso, cape, arms or legs. The right elbow stays bent and the sword-bearing right forearm remains in front of her waist, moving only slightly with her torso. The sword is one rigid object of constant full length; the hand remains connected to its hilt at all times. Her other left arm pumps naturally while both legs perform strong alternating high knee drives and powerful rear leg extensions, with clearly visible airborne running strides. Her whole torso leans forward, hips and shoulders counter-rotate, head follows the natural body rise and fall, and blonde ponytail and blue cape stream behind her. Steady fast treadmill running in the same place, several smooth repeating cycles. Preserve the beautiful detailed illustrated face, blonde ponytail, silver and gold armor, blue cape, boots and full length sword of the reference. Fixed camera, full body and whole sword visible, ample empty space on all sides, character occupies central 55 percent of canvas height. Clean detailed illustrated game sprite animation, crisp edges. Uniform pure black background. No sword sheathing, no changing hands, no backward sword swing, no disappearing weapon, no shortening blade, no magic, no trails, no motion blur, no floor, no ground shadow, no scenery, no text, no zoom, no lighting changes. Silent.",
+          "width": 768,
+          "height": 768,
+          "length": 124,
+          "ref_image_size": "match",
+          "ref_images.ref_image_0": [
+            "1",
+            0
+          ]
+        }
+      },
+      "7": {
+        "class_type": "BasicGuider",
+        "inputs": {
+          "model": [
+            "3",
+            0
+          ],
+          "conditioning": [
+            "6",
+            0
+          ]
+        }
+      },
+      "8": {
+        "class_type": "RandomNoise",
+        "inputs": {
+          "noise_seed": 831431
+        }
+      },
+      "9": {
+        "class_type": "KSamplerSelect",
+        "inputs": {
+          "sampler_name": "res_multistep"
+        }
+      },
+      "10": {
+        "class_type": "BasicScheduler",
+        "inputs": {
+          "model": [
+            "3",
+            0
+          ],
+          "scheduler": "normal",
+          "steps": 20,
+          "denoise": 1.0
+        }
+      },
+      "11": {
+        "class_type": "SamplerCustomAdvanced",
+        "inputs": {
+          "noise": [
+            "8",
+            0
+          ],
+          "guider": [
+            "7",
+            0
+          ],
+          "sampler": [
+            "9",
+            0
+          ],
+          "sigmas": [
+            "10",
+            0
+          ],
+          "latent_image": [
+            "6",
+            1
+          ]
+        }
+      },
+      "12": {
+        "class_type": "VAEDecodeTiled",
+        "inputs": {
+          "samples": [
+            "11",
+            0
+          ],
+          "vae": [
+            "4",
+            0
+          ],
+          "tile_size": 384,
+          "overlap": 64,
+          "temporal_size": 32,
+          "temporal_overlap": 8
+        }
+      },
+      "13": {
+        "class_type": "CreateVideo",
+        "inputs": {
+          "images": [
+            "12",
+            0
+          ],
+          "fps": 24.0
+        }
+      },
+      "14": {
+        "class_type": "SaveVideo",
+        "inputs": {
+          "video": [
+            "13",
+            0
+          ],
+          "filename_prefix": "map-run-weapon-v2",
+          "format": "mp4",
+          "format.codec": "h264"
+        }
+      },
+      "15": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "12",
+            0
+          ],
+          "filename_prefix": "frames/map-run-weapon-v2"
+        }
+      }
+    },
+    {
+      "client_id": "map-run-weapon-v2",
+      "create_time": 1791532081522
+    },
+    [
+      "14",
+      "15"
+    ]
+  ],
+  "outputs": {
+    "15": {
+      "images": [
+        {
+          "filename": "map-run-weapon-v2_00001_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00002_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00003_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00004_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00005_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00006_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00007_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00008_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00009_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00010_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00011_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00012_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00013_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00014_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00015_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00016_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00017_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00018_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00019_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00020_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00021_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00022_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00023_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00024_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00025_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00026_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00027_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00028_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00029_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00030_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00031_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00032_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00033_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00034_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00035_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00036_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00037_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00038_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00039_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00040_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00041_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00042_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00043_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00044_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00045_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00046_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00047_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00048_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00049_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00050_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00051_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00052_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00053_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00054_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00055_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00056_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00057_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00058_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00059_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00060_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00061_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00062_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00063_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00064_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00065_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00066_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00067_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00068_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00069_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00070_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00071_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00072_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00073_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00074_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00075_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00076_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00077_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00078_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00079_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00080_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00081_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00082_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00083_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00084_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00085_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00086_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00087_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00088_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00089_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00090_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00091_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00092_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00093_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00094_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00095_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00096_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00097_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00098_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00099_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00100_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00101_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00102_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00103_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00104_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00105_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00106_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00107_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00108_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00109_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00110_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00111_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00112_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00113_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00114_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00115_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00116_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00117_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00118_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00119_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00120_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00121_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00122_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00123_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "map-run-weapon-v2_00124_.png",
+          "subfolder": "frames",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        }
+      ]
+    },
+    "14": {
+      "images": [
+        {
+          "filename": "map-run-weapon-v2_00001_.mp4",
+          "subfolder": "",
+          "type": "output",
+          "metadata": {
+            "kind": "video",
+            "width": 768,
+            "height": 768,
+            "duration": 5.166666666666667,
+            "fps": 24.0,
+            "frame_count": 124
+          }
+        }
+      ],
+      "animated": [
+        true
+      ]
+    }
+  },
+  "status": {
+    "status_str": "success",
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "56177653-ec48-42df-a6de-cf1f864dfd91",
+          "timestamp": 1791532081523
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [],
+          "prompt_id": "56177653-ec48-42df-a6de-cf1f864dfd91",
+          "timestamp": 1791532081526
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "56177653-ec48-42df-a6de-cf1f864dfd91",
+          "timestamp": 1791532307455
+        }
+      ]
+    ]
+  },
+  "meta": {
+    "15": {
+      "node_id": "15",
+      "display_node": "15",
+      "parent_node": null,
+      "real_node_id": "15"
+    },
+    "14": {
+      "node_id": "14",
+      "display_node": "14",
+      "parent_node": null,
+      "real_node_id": "14"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+2026-10-08：参数骨架＋透明角色动作实验
+
+结论：完成两条路线的小样；尚未得到合格的连续游戏动画。本轮先验证高分辨率动作，不把缩小图片宣称为完成精美像素画。
+
+共同输入：pose_ab_test.py 生成 A 蓄力、M 途中、B 收势三姿势。固定上臂/前臂/大腿/小腿长度；用二维逆运动学求肘和膝位置。双脚踝固定，剑轴长 290 像素。17 个中间相位的肢体长度数值检查通过。骨架坐标见 poses.json。骨架是参数化动作原型，不代表已完成专业动作设计。
+
+路线一：内置 GPT 图像生成
+输入：guide-A/M/B.png（OpenPose 骨架＋金色剑轴）和 v2-master.png 角色母版。
+输出：gpt-A/M/B.png，1254×1254，真实 RGBA。
+工具：内置 image_gen，未使用用户 OpenRouter key。具体底层模型标识未由工具结果提供。
+通过：画风和服饰整体接近母版；全身姿势有变化；透明通道存在；深浅背景检查主体完整。
+未通过：手腕和头肩坐标不是精确约束；剑长、服装花纹、发型轮廓在帧间变化。中间帧剑尖距离上边界很近。只有三个关键姿势，不是流畅动作序列。
+完整实际提示词：gpt-prompts.txt。
+
+路线二：本地 ComfyUI
+新安装模型：Animagine XL 3.1（6,938,325,776 字节），Xinsir OpenPose SDXL 1.0（2,502,139,104 字节）。下载后按作者仓库 LFS SHA256 校验通过。
+安装位置：ComfyUI/models/checkpoints/animagine-xl-3.1.safetensors；ComfyUI/models/controlnet/xinsir-openpose-sdxl-1.0.safetensors。
+使用原有 ComfyUI 的内置 ControlNet 节点，没有新增自定义节点，也没有重启 ComfyUI。
+设置：1024×1024，seed 731420，28 步，CFG 6，Euler ancestral，ControlNet 起止 0—1。
+先跑 A，strength 1.0；保留为 controlnet-A-strength1-green.png，剑出画面。随后 A/M/B 使用 strength 1.5。
+通过：躯干、骨盆、腿部能随骨架变化；绿幕颜色可去除，生成真实 RGBA。
+未通过：外观漂移；A 漏掉剑，M 握剑错误，B 剑方向错误；A 还画了黑色地面阴影，绿色去除后阴影仍保留。
+公平性说明：该基础组是文字外观描述＋姿势 ControlNet，没有接入 IP-Adapter 角色参考。因此不能把与 GPT 的画风差距单纯归因为模型能力差距。OpenPose 输入没有武器轴，它不直接控制剑。
+
+追加本地两阶段测试：ControlNet 底稿＋Flux Klein 9B FP8＋原角色母版重绘。
+输出 local-refined-A/M/B-green.png 和 -rgba.png。
+观察：A/M 外观恢复得较好，B 的躯干却退回近似母版直立姿势。该追加路线未通过动作验收，不能用局部改善宣称全套成功。
+
+透明后处理：review_pose_ab.py 对本地绿色背景按绿通道优势估计 alpha，并压制绿边。这个算法针对当前角色无绿色服装的实验；黑色投影不能靠绿幕自动去除。保留原始绿幕图，不覆盖原图。没有逐帧裁切居中、肢体变形、替换武器或光流伪造过渡。
+alpha-audit.json 记录透明度、可见范围及边缘像素检查；有 alpha 并不代表姿势或边缘完全合格。
+
+查看：review.html 是自包含交互对照，三个面板分别为 GPT、本地 ControlNet 底稿、本地追加 Flux 重绘。可切帧、播放三帧、切换背景、叠加骨架。
+Godot：工作区根目录 play-pose-comparison.cmd。空格播放/暂停，左右切帧，O 骨架叠加，B 深浅背景，T 切换本地底稿/重绘。通过 headless 启动与资源加载检查。GIF 循环到 A 为重置，并非恢复动作。
+
+这轮结果支持继续研究姿势约束，但不支持批量生成可直接商用的完整角色动画。若继续本地路线，应优先测试同一次采样中的角色参考＋姿势控制，而不是靠后续自由重绘补回角色设计。
+
+模型来源：
+https://huggingface.co/cagliostrolab/animagine-xl-3.1
+https://huggingface.co/xinsir/controlnet-openpose-sdxl-1.0

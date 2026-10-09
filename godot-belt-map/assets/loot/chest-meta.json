@@ -1,0 +1,54 @@
+{
+  "generator": "built-in image_gen",
+  "assets": {
+    "chest-closed": {
+      "canvas": [
+        1254,
+        1254
+      ],
+      "alphaBBox": [
+        0,
+        70,
+        1250,
+        1254
+      ],
+      "opaqueBBox": [
+        78,
+        212,
+        1189,
+        1123
+      ],
+      "pivot": [
+        635,
+        1123
+      ],
+      "recommendedOpaqueWidth": 95,
+      "recommendedScale": 0.0855085508550855
+    },
+    "chest-open": {
+      "canvas": [
+        1254,
+        1254
+      ],
+      "alphaBBox": [
+        0,
+        36,
+        1216,
+        1254
+      ],
+      "opaqueBBox": [
+        80,
+        90,
+        1211,
+        1160
+      ],
+      "pivot": [
+        645,
+        1160
+      ],
+      "recommendedOpaqueWidth": 95,
+      "recommendedScale": 0.08399646330680813
+    }
+  },
+  "notes": "Alpha retained unchanged. Whole image Sprite2D centered=false, position=-pivot*scale. Closed visual is 95x78px; opened lid raises full height to approximately90px; do not squeeze opened image to closed height."
+}

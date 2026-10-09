@@ -1,0 +1,32 @@
+{
+  "accepted": true,
+  "sourceSha256": "cd97180d4a3ddc9ba96597518689ac4db202d0e9cfd2b38f93cf517f5c2bf0e8",
+  "canvas": [
+    1024,
+    1024
+  ],
+  "alphaBBox": [
+    177,
+    57,
+    865,
+    960
+  ],
+  "pivot": [
+    512,
+    960
+  ],
+  "cornerColor": [
+    240.0,
+    16.0,
+    219.0
+  ],
+  "cornerSpread95": 11.224971771240234,
+  "calibratedKeyRadius": 52.07440948486328,
+  "enclosedKeyComponentsRemoved": 14,
+  "unsupportedNoiseIslandsRemoved": 1,
+  "opaqueBorderPixels": 0,
+  "opaqueKeyPixels": 0,
+  "softAlphaPixels": 4886,
+  "method": "validated pink/magenta family + enclosed holes + local edge color unmixing + unsupported chroma-noise removal",
+  "limits": "For opaque pixel assets, not transparent glass/glow. Color math does not verify semantic foreground completeness; inspect QA sheet."
+}

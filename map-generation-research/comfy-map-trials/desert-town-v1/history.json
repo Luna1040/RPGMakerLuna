@@ -1,0 +1,265 @@
+{
+  "prompt": [
+    41,
+    "3566e3f2-37f0-4fda-bbfe-445eb5e3f9ce",
+    {
+      "325": {
+        "inputs": {
+          "cfg": 1.0,
+          "model": [
+            "329",
+            0
+          ],
+          "positive": [
+            "365",
+            0
+          ],
+          "negative": [
+            "367",
+            0
+          ]
+        },
+        "class_type": "CFGGuider",
+        "_meta": {
+          "title": "CFG引导器"
+        }
+      },
+      "327": {
+        "inputs": {
+          "width": 1024,
+          "height": 768,
+          "batch_size": 1
+        },
+        "class_type": "EmptyFlux2LatentImage",
+        "_meta": {
+          "title": "Empty Flux 2 Latent"
+        }
+      },
+      "328": {
+        "inputs": {
+          "steps": 4,
+          "width": 1024,
+          "height": 768
+        },
+        "class_type": "Flux2Scheduler",
+        "_meta": {
+          "title": "Flux2Scheduler"
+        }
+      },
+      "329": {
+        "inputs": {
+          "unet_name": "flux-2-klein-9b-fp8.safetensors",
+          "weight_dtype": "default"
+        },
+        "class_type": "UNETLoader",
+        "_meta": {
+          "title": "UNet加载器"
+        }
+      },
+      "330": {
+        "inputs": {
+          "clip_name": "qwen_3_8b_fp8mixed.safetensors",
+          "type": "flux2",
+          "device": "default"
+        },
+        "class_type": "CLIPLoader",
+        "_meta": {
+          "title": "加载CLIP"
+        }
+      },
+      "331": {
+        "inputs": {
+          "vae_name": "flux2-vae.safetensors"
+        },
+        "class_type": "VAELoader",
+        "_meta": {
+          "title": "加载VAE"
+        }
+      },
+      "336": {
+        "inputs": {
+          "noise": [
+            "354",
+            0
+          ],
+          "guider": [
+            "325",
+            0
+          ],
+          "sampler": [
+            "356",
+            0
+          ],
+          "sigmas": [
+            "328",
+            0
+          ],
+          "latent_image": [
+            "327",
+            0
+          ]
+        },
+        "class_type": "SamplerCustomAdvanced",
+        "_meta": {
+          "title": "自定义采样器（高级）"
+        }
+      },
+      "341": {
+        "inputs": {
+          "filename_prefix": "CodexMapTrial/desert-town-v1",
+          "images": [
+            "350",
+            0
+          ]
+        },
+        "class_type": "SaveImage",
+        "_meta": {
+          "title": "保存图像"
+        }
+      },
+      "350": {
+        "inputs": {
+          "samples": [
+            "336",
+            0
+          ],
+          "vae": [
+            "331",
+            0
+          ]
+        },
+        "class_type": "VAEDecode",
+        "_meta": {
+          "title": "VAE解码"
+        }
+      },
+      "352": {
+        "inputs": {
+          "image": "atlas-world-context.png"
+        },
+        "class_type": "LoadImage",
+        "_meta": {
+          "title": "图像2"
+        }
+      },
+      "354": {
+        "inputs": {
+          "noise_seed": 202610091
+        },
+        "class_type": "RandomNoise",
+        "_meta": {
+          "title": "随机噪波"
+        }
+      },
+      "355": {
+        "inputs": {
+          "image": "atlas-layout-reference.png"
+        },
+        "class_type": "LoadImage",
+        "_meta": {
+          "title": "图像1"
+        }
+      },
+      "356": {
+        "inputs": {
+          "sampler_name": "euler"
+        },
+        "class_type": "KSamplerSelect",
+        "_meta": {
+          "title": "K采样器选择"
+        }
+      },
+      "365": {
+        "inputs": {
+          "prompt": "Use image 1 as the exact overhead settlement layout blueprint. Image 2 is ONLY the surrounding world biome context, with a red dot marking this settlement; do NOT copy image 2 as a panel or add a red dot. Transform image 1 into a beautiful finished top-down pixel-art RPG desert settlement map, one continuous edge-to-edge landscape, 1024x768, coherent square pixel grid, crisp small pixel clusters, rich handcrafted game environment detail. This town lies in an arid sandy part of the world. Warm ochre sand, subtle dune ridges, weathered sandstone boulders, sparse cactus and desert scrub, small clay pots, crates, market supplies, awnings and charming adobe architecture, warm sun and delicate short shadows. Preserve exactly the three large building footprints, their positions, dimensions and south-facing entrances: inn at upper left, workshop at upper right, supply house below center. Preserve the existing pale sandy footpaths and their connectivity to the south-center map entrance. Upgrade brown blocks to richly detailed terracotta roofs and adobe facades in those same rectangles. Replace small dots with natural desert props at approximately those positions without blocking paths. Do not add any large new buildings. The bottom-center approach must remain open and walkable. No ocean or large water body inside this local map. Roof visibility, strictly overhead orthographic camera, no horizon, no angled isometric view. No people, no text, no labels, no user interface, no frames, no collage, no grid lines, no watermark. The result is a game scene illustration; preserve blueprint layout, enrich only the artwork.",
+          "clip": [
+            "330",
+            0
+          ],
+          "vae": [
+            "331",
+            0
+          ],
+          "image1": [
+            "355",
+            0
+          ],
+          "image2": [
+            "352",
+            0
+          ]
+        },
+        "class_type": "TextEncodeQwenImageEditPlus",
+        "_meta": {
+          "title": "文本编码（QwenImageEditPlus）"
+        }
+      },
+      "367": {
+        "inputs": {
+          "conditioning": [
+            "365",
+            0
+          ]
+        },
+        "class_type": "ConditioningZeroOut",
+        "_meta": {
+          "title": "条件零化"
+        }
+      }
+    },
+    {
+      "client_id": "codex-map-trial",
+      "create_time": 1791517690017
+    },
+    [
+      "341"
+    ]
+  ],
+  "outputs": {
+    "341": {
+      "images": [
+        {
+          "filename": "desert-town-v1_00001_.png",
+          "subfolder": "CodexMapTrial",
+          "type": "output"
+        }
+      ]
+    }
+  },
+  "status": {
+    "status_str": "success",
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "3566e3f2-37f0-4fda-bbfe-445eb5e3f9ce",
+          "timestamp": 1791517690019
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [],
+          "prompt_id": "3566e3f2-37f0-4fda-bbfe-445eb5e3f9ce",
+          "timestamp": 1791517690029
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "3566e3f2-37f0-4fda-bbfe-445eb5e3f9ce",
+          "timestamp": 1791517732159
+        }
+      ]
+    ]
+  },
+  "meta": {
+    "341": {
+      "node_id": "341",
+      "display_node": "341",
+      "parent_node": null,
+      "real_node_id": "341"
+    }
+  }
+}

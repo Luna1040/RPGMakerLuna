@@ -1,0 +1,27 @@
+{
+  "accepted": true,
+  "sourceSha256": "de848c3387a390de1998070f699ce146946bbd6e0605fb54983e300d6a101721",
+  "canvas": [
+    1484,
+    1060
+  ],
+  "alphaBBox": [
+    45,
+    86,
+    1442,
+    941
+  ],
+  "pivot": [
+    743.5,
+    941
+  ],
+  "method": "Built-in image_gen native RGBA, original alpha preserved; atlas bounds alpha > 8",
+  "basinBounds": [
+    46,
+    522,
+    1441,
+    941
+  ],
+  "source": "Original hand-painted fountain generated for this project",
+  "promptFile": "fountain-prompt.txt"
+}

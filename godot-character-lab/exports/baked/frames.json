@@ -1,0 +1,153 @@
+{
+	"animations": {
+		"idle": [
+			{
+				"duration": 0.5,
+				"offset": [
+					-8.91346740722656,
+					-61.0
+				],
+				"path": "res://exports/baked/idle/00.png",
+				"size": [
+					44,
+					61
+				]
+			}
+		],
+		"slash": [
+			{
+				"duration": 0.18,
+				"offset": [
+					-27.9134674072266,
+					-71.0
+				],
+				"path": "res://exports/baked/slash/00.png",
+				"size": [
+					48,
+					71
+				]
+			},
+			{
+				"duration": 0.14,
+				"offset": [
+					-12.9134674072266,
+					-82.0
+				],
+				"path": "res://exports/baked/slash/01.png",
+				"size": [
+					33,
+					82
+				]
+			},
+			{
+				"duration": 0.08,
+				"offset": [
+					-12.9134674072266,
+					-78.0
+				],
+				"path": "res://exports/baked/slash/02.png",
+				"size": [
+					63,
+					78
+				]
+			},
+			{
+				"duration": 0.1,
+				"offset": [
+					-12.9134674072266,
+					-61.0
+				],
+				"path": "res://exports/baked/slash/03.png",
+				"size": [
+					83,
+					75
+				]
+			},
+			{
+				"duration": 0.14,
+				"offset": [
+					-12.9134674072266,
+					-61.0
+				],
+				"path": "res://exports/baked/slash/04.png",
+				"size": [
+					50,
+					61
+				]
+			},
+			{
+				"duration": 0.2,
+				"offset": [
+					-12.9134674072266,
+					-61.0
+				],
+				"path": "res://exports/baked/slash/05.png",
+				"size": [
+					48,
+					61
+				]
+			}
+		],
+		"walk": [
+			{
+				"duration": 0.2,
+				"offset": [
+					-13.9134674072266,
+					-61.0
+				],
+				"path": "res://exports/baked/walk/00.png",
+				"size": [
+					49,
+					61
+				]
+			},
+			{
+				"duration": 0.2,
+				"offset": [
+					-8.91346740722656,
+					-61.0
+				],
+				"path": "res://exports/baked/walk/01.png",
+				"size": [
+					44,
+					61
+				]
+			},
+			{
+				"duration": 0.2,
+				"offset": [
+					-15.9134674072266,
+					-61.0
+				],
+				"path": "res://exports/baked/walk/02.png",
+				"size": [
+					51,
+					61
+				]
+			},
+			{
+				"duration": 0.2,
+				"offset": [
+					-10.9134674072266,
+					-61.0
+				],
+				"path": "res://exports/baked/walk/03.png",
+				"size": [
+					46,
+					61
+				]
+			}
+		]
+	},
+	"camera_degrees": 18.0,
+	"loadout": {
+		"hair": "gold",
+		"outfit": "knight",
+		"weapon": "steel"
+	},
+	"origin": [
+		50.9134674072266,
+		114.0
+	],
+	"version": 1
+}

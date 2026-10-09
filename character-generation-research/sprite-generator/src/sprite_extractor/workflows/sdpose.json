@@ -1,0 +1,53 @@
+{
+  "1": {
+    "inputs": {
+      "image": "sprite-extractor/input.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "SDPose Input"
+    }
+  },
+  "2": {
+    "inputs": {
+      "ckpt_name": "d/sdpose_wholebody_fp16.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {
+      "title": "SDPose Checkpoint"
+    }
+  },
+  "3": {
+    "inputs": {
+      "model": [
+        "2",
+        0
+      ],
+      "vae": [
+        "2",
+        2
+      ],
+      "image": [
+        "1",
+        0
+      ],
+      "batch_size": 8
+    },
+    "class_type": "SDPoseKeypointExtractor",
+    "_meta": {
+      "title": "Extract SDPose Keypoints"
+    }
+  },
+  "4": {
+    "inputs": {
+      "source": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "PreviewAny",
+    "_meta": {
+      "title": "Return SDPose JSON"
+    }
+  }
+}

@@ -1,0 +1,77 @@
+Godot 与 Cocos：AI 开发成本实测与判断（2026-10-08）
+
+结论：本项目选择 Godot 更合适，预期更省 token。
+范围：本地像素 2D RPG / 肉鸽原型，以 AI 编写源码和自动化验证为主。
+这是一项基于工作流程的判断，尚未做同一完整开发任务的双引擎 token A/B。
+没有实际计费 token 记录，不能给出百分比节省承诺。
+
+开源情况：Godot 开源；Cocos 引擎与本次 cocos/cocos-cli 也开源。
+Cocos 4 alpha 的源码安装、中文路径原生库和构建问题属于本次工具链成本；
+不能外推为 Creator 3.8.8 的日常开发成本。
+
+实际开发比较：
+1. 场景：Godot 的 .tscn 为文本，可以局部修改。Cocos .scene 为 JSON，
+   包含对象索引、资源 UUID 和 .meta 关联，手工改复杂结构更容易需要额外检查。
+2. 验证：Godot 官方二进制提供 --headless、--import、--check-only、--quit-after。
+   不需要为基础源码验证安装编辑器 MCP。Cocos 当前 CLI/MCP 也能验证和构建，
+   但本次使用的是 4 alpha，与现有 Creator 3.8.8 不属于同一版本路线。
+3. 代码：两者都可由 Codex 写代码。GDScript 不会自动保证更省 token；
+   类型错误、API 误用、架构过度复杂和反复返工，往往比语言语法差异更影响成本。
+4. MCP：批量操作、定向摘要、限制错误日志能省上下文。只改几行代码时，
+   直接文件编辑配合 CLI 通常更简单。大量细粒度工具与全量结果可能增加成本。
+5. 平台：若目标涉及 Cocos 特定的平台发布能力，应额外做发布平台验证。
+   本次没有测试微信、抖音等平台，不把它们作为已验证的 Godot 能力。
+
+已完成：
+- Godot 4.7.2 官方签名二进制解压于 .tools/godot；来自本机 Downloads。
+- godot-pixel-demo：移动、冲刺、敌人追踪、自动范围攻击、宝石拾取、死亡重开。
+  这是基础玩法验证，不含完整随机地图、装备技能、角色动画和正式像素美术。
+- 引擎导入、GDScript 解析、120 帧 headless 运行通过。
+- gameplay-check.gd：真实调用玩法逻辑，验证移动、攻击掉落、宝石增加分数。
+- Godot 原生渲染画面已生成并目视检查：preview/frame00000001.png。
+
+自制 MCP 原型（非 Godot 官方 MCP；不是正在运行的编辑器内部插件）：
+位置：godot-mini-mcp/server.mjs 与 bridge.gd。
+传输：STDIO。服务用官方 MCP SDK，经 Godot 官方 CLI 和资源 API 完成操作。
+固定项目路径；不会读取或修改其他项目。
+4 个工具：
+  godot_scene_summary：节点路径、类型、位置、标签摘要、文件 SHA-256。
+  godot_scene_batch：最多 64 项新增节点或改属性操作，一次保存；备份与哈希检查。
+  godot_validate：导入并逐一解析脚本，返回最多 24 行错误。
+  godot_run_probe：有上限的 headless 运行，返回简短启动结果与错误。
+
+限制：
+- v0.1 只支持独立场景的原生节点和部分标量、Vector2、Color 属性修改。
+- 嵌套或继承场景、动画轨道、TileMap、资源赋值、撤销 UI 未实现。
+- 修改期间请避免在编辑器里同时保存同一场景；哈希检查不是跨进程文件锁。
+- 游戏脚本本身属于受信任的本地项目代码，加载场景可能执行其初始化逻辑。
+- 失败批次不保存，原文件备份在项目 .godot/ai-bridge 下。
+- headless 运行只验证启动和所执行代码，不能代替视觉与完整玩法测试。
+- 这个原型不是完整 RPG/肉鸽开发平台。
+
+实测记录：godot-mini-mcp/verification.json。
+4 个 Godot MCP 工具定义序列化为 1,913 字符；Cocos 的 104 个工具为
+494,071 字符。这是原始工具目录的字符数，非 tokenizer 测得的 token 数。
+工具功能范围不同，且客户端可能动态加载工具，不能据此推算计费节省比例。
+本次场景摘要返回约 338 字符，成功检查返回约 79 字符，批量修改结果约 215 字符。
+这些有限输出有助于把与当前任务无关的数据留在本机。
+
+操作：
+双击 play-godot-demo.cmd 可玩；WASD/方向键移动，空格冲刺，R 重开。
+命令行：
+  .\godot.cmd --headless --path .\godot-pixel-demo --editor --import
+  .\godot.cmd --headless --path .\godot-pixel-demo --script res://gameplay-check.gd
+在 godot-mini-mcp 目录运行：
+  ..\.tools\node-v22.17.0-win-x64\node.exe smoke.mjs
+
+已写入当前工作区 .codex/config.toml，仅增加 godot_mini 服务。
+按 Codex 项目配置机制，需要该工作区受信任，并在后续会话加载配置。
+当前会话已通过官方 SDK 实测 MCP，不能把测试连接当成 Codex 已加载该服务。
+不需要 localhost 浏览器权限，也没有修改全局 MCP 配置。
+
+官方依据：
+https://docs.godotengine.org/en/stable/tutorials/editor/command_line_tutorial.html
+https://docs.godotengine.org/en/stable/classes/class_packedscene.html
+https://docs.godotengine.org/en/stable/classes/class_resourcesaver.html
+https://github.com/cocos/cocos-cli
+https://learn.chatgpt.com/docs/extend/mcp?surface=cli

@@ -1,0 +1,14 @@
+{
+  "walk-hq": {
+    "frames": 124,
+    "alpha_mass_ratio_min": 0.9159232249059717,
+    "alpha_mass_ratio_max": 0.9515313276930892,
+    "preserves_canvas": true
+  },
+  "attack-hq": {
+    "frames": 124,
+    "alpha_mass_ratio_min": 0.5661544374657105,
+    "alpha_mass_ratio_max": 0.9483205086253793,
+    "preserves_canvas": true
+  }
+}

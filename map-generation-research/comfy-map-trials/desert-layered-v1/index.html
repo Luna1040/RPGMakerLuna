@@ -1,0 +1,12 @@
+<!doctype html><meta charset="utf-8"><title>青苔镇 · 分片分层工作流</title>
+<style>body{margin:30px auto;max-width:1350px;padding:20px;background:#15222b;color:#e8e3cf;font:16px 'Microsoft YaHei',sans-serif}h1{font-size:26px}h2{font-size:20px;margin-top:32px}p{line-height:1.8;color:#b9c9c5}a{color:#c1dfbb}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}img{width:100%;image-rendering:pixelated;border:1px solid #60716c;border-radius:6px}.cut{background:repeating-conic-gradient(#d9dfdb 0% 25%,#b7c3bd 0% 50%) 0/24px 24px}.caption{font-size:13px}pre{font-size:12px;white-space:pre-wrap;max-height:400px;overflow:auto}</style>
+<h1>青苔镇：地表分片 + 独立建筑 + 精确色键分层试作</h1>
+<p>来源：世界沙漠生态、map-2 布局。4 块地表独立生成，接缝用 128px 重叠区混合；旅店、工坊、补给站、仙人掌、箱子分别生成。原图、ComfyUI 工作流、alpha、抠图检查与放置坐标全部保留。</p>
+<h2>组装场景</h2><img src="/layered-assets/scene.png">
+<p>入口和道路来自结构化布局。当前为 16px/地图格的美术试作，不等于已经完成 32px 原生瓦片资源。碰撞仍是原始占位布局，需要根据最终素材重新对齐。</p>
+<h2>独立图层</h2><div class="grid"><section><h3>地表</h3><img src="/layered-assets/ground.png"></section><section><h3>建筑 RGBA</h3><img class="cut" src="/layered-assets/buildings.png"></section><section><h3>物件 RGBA</h3><img class="cut" src="/layered-assets/props.png"></section><section><h3>独立阴影</h3><img class="cut" src="/layered-assets/shadows.png"></section></div>
+<h2>建筑源图与抠图</h2><div class="grid" id="assets"></div>
+<h2>浅色、深色、绿色背景验收</h2><img src="/layered-assets/building-inn/matte-contact-sheet.png"><img src="/layered-assets/prop-cactus/matte-contact-sheet.png">
+<p>色键算法先检查洋红背景是否合规，再清除外部和封闭孔洞中的背景；保留白墙和其他主体颜色，恢复混色边缘。阴影为独立程序近似层。alpha 数值检查不能代替主体完整性肉眼检查。</p>
+<h2>机器可读工作流和放置记录</h2><a href="/layered-assets/layered-workflow.json">工作流任务清单</a> · <a href="/layered-assets/placement-manifest.json">图层 / 锚点 / 抠图检查</a> · <a href="/trial">整图对照样本</a> · <a href="/">地图工坊</a>
+<script>for(const id of ['building-inn','building-workshop','building-supply','prop-cactus','prop-crate']){for(const kind of ['raw','rgba']){const s=document.createElement('section'),h=document.createElement('h3'),im=document.createElement('img');h.textContent=id+' / '+kind;im.src='/layered-assets/'+id+'/'+kind+'.png';if(kind==='rgba')im.className='cut';s.append(h,im);document.getElementById('assets').append(s);}}</script>

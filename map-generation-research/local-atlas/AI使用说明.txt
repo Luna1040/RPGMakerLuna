@@ -1,0 +1,66 @@
+本地地图工坊 v2：主要使用者是 AI，网页用于检查和少量编辑。
+
+启动：node map-generation-research/local-atlas/serve.cjs
+预览：http://127.0.0.1:8791/
+接口：http://127.0.0.1:8791/api/contract
+仅监听本机。网页/API 不直接提交生成。分片分层试作由 map-generation-research/layered_map_trial.py 调用本地 Flux2，见分片分层工作流说明.txt。
+
+AI 工作流程
+1. GET /api/world 读取整体世界。没有世界时在预览点击“发布给 AI”。
+2. GET /api/jobs 读取每个地点的生态上下文、提示词、素材清单、关联场景 ID 和入口/通行约束。
+3. 根据游戏设定规划世界地形：修改 heights、biomes、places、roads；PUT /api/world 提交完整 JSON。
+4. GET /api/maps/map-2 读取一个地点；其 interiors 是独立室内地图，入口 target 关联室内 ID。
+5. GET /api/maps/location-2-inn 读取旅店。PUT 同一路径提交布局、物件、碰撞等修改。
+6. 网页点击“读取 AI 修改”检查结果；JSON 也可直接导入/导出。每个地点可双击或通过下拉菜单进入。
+7. 图像模型接入后，由 AI 将布局和生态上下文作为生成约束，生成地表、物件、建筑、内部家具等独立素材。
+   现阶段接口只提供任务数据，不提交生成。assetRef 是素材引用预留字段，网页可显示 art.imageUrl 指定的已生成场景，也可切回布局；独立图层和透明资产可在 /layered-trial 验收。
+
+坐标与层级
+世界 160×100 格，每格 100 米；当地地图是附着于地点的详细空间，不是把一个世界格直接放大。
+默认地点 64×48 格，每格 1 米，素材规格 32px/格；默认室内 24×18 格。
+世界地点：id、mapId、x、y、name、biome。
+地点/室内：id、width、height、tileSize、layers.ground、layers.collision、layers.objects、entrances、spawn。
+数组按从上到下、从左到右排列，索引 y*width+x；碰撞 0 可通行、1 阻挡。
+入口 target 指向 mapId+entranceId 或 worldLocationId；室内出口返回父地图。
+世界小地图显示当前位置附近区域；地点小地图显示当前地点/室内布局和当前位置。
+网页点击移动是布局检查，不是游戏寻路或运行时角色控制。
+
+生态
+ocean 海洋、coast 海岸、desert 沙漠、grassland 草地、savanna 稀树草原、forest 温带森林、
+rainforest 热带雨林、wetland 湿地、mountain 山地、alpine 高山草甸、snow 雪地、
+tundra 苔原、taiga 寒带针叶林、volcanic 火山地。
+默认程序根据高度、纬度、湿度分类；AI 可以按地形设定改写 biomes 数组。
+temperature/moisture 为程序推导的相对值 0..1，不是气象模拟。火山地通过 AI 或生态笔刷指定。
+世界 terrain 修改会重新推导气候；完整导入的 biomes 是显式覆盖，保持 AI 指定生态。
+地点生态变化时会重建对应占位布局，因此先完成世界生态规划，再制作精细地点地图。
+目前每个地点采用同一套三建筑布局，是接口和连接测试样板；城堡、洞穴、地下城等专用布局需要继续扩展。
+
+状态保存
+“发布给 AI”或 API 写入会保存到 local-atlas/world-state.json，服务重启后继续使用。
+网页刷新先生成默认世界，再自动读取服务保存的世界；“读取 AI 修改”可再次同步。未发布的网页改动不会自动覆盖 AI 数据。
+check.cjs 的测试样本输出 sample-world.json，不覆盖当前世界。
+
+验证
+node map-generation-research/local-atlas/check.cjs
+node map-generation-research/local-atlas/api-check.cjs （需服务运行）
+检查种子复现、地形/生态编辑撤销、JSON 往返、生态区覆盖、地图关联、入口连通、API 写入与无效数据拒绝。
+
+生成尚待接入的部分
+ComfyUI 素材生成与任务调度、图像对齐和瓦片拆分、生成图碰撞提取、素材贴图预览、Godot TileMap 场景导出。
+不能把当前色块预览或规划提示词等同于已完成的 AI 美术生成。
+
+
+碰撞与跳跃（2026-10-09）
+世界地点和室内地图新增 physics.version=1，generation.jobs 要求输出 physics.json。
+表面记录：id、objectId（可选）、x/y/width/depth（水平占地）、baseZ、height（垂直高度）、kind、solid、standable。
+树木/建筑：solid=true，standable=false；默认树高4米，碰撞框按树干占地，不应按透明图片外框。
+水域：kind=water、solid=false、standable=false；不能行走或落在水上，短距离跳过可以。游泳/船只尚未实现。
+箱子：solid=true、standable=true、height=0.8米；侧面阻挡，跳上去后脚底高度0.8米，可以站立、在顶部移动、走下或跳下。
+小岩石默认可站立，草/花/蕨/地衣默认不阻挡。其他物件默认为障碍，AI 应按素材实际形状复核。
+角色半径0.22米、身体高1.7米、跳起相对高度上限1.35米、水平距离上限3米、直接跨步高度0.15米。
+行走与跳跃使用沿途扫掠采样，不能通过点击瞬移穿越障碍；跳跃同时检查身体体积和可站立落点。
+编辑物件的 collision.bounds/height/solid/standable 后，删除对应地图的 physics 字段再 PUT，服务重新派生；也可直接提供一致的显式 surfaces。
+layers.collision 是保守的二维导航网格，箱子标为1，但 physics.standable 表示顶部可站立；不要把二维网格等同于完整跳跃规则。
+当前碰撞框按布局规则派生，图像边缘与真实占地仍需验收；Godot 角色与引擎物理尚未接入。
+预览：进入任意地点 → 碰撞与跳跃测试场。方向键/WASD 行走，空格向前跳2格；选择“跳跃到点击位置”可以精准选择箱子顶部。
+验证：node map-generation-research/local-atlas/physics-check.cjs

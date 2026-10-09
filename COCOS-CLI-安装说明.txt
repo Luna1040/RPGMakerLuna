@@ -1,0 +1,46 @@
+Cocos CLI 本地安装与实测记录（2026-10-08）
+
+来源：https://github.com/cocos/cocos-cli
+源码版本：0.0.1-alpha.43，commit 4aeaf59
+引擎版本：4.0.0-alpha.35
+独立 Node：.tools/node-v22.17.0-win-x64
+这是 Cocos 4 alpha CLI，不能视为 Creator 3.8.8 的编辑器 MCP 插件。
+
+在本目录打开 PowerShell：
+  .\cocos.cmd --version
+  .\cocos.cmd create --project .\my-game --type 2d
+  .\cocos.cmd build --project .\pixel-rpg-cli-test --platform web-mobile
+  .\start-cocos-mcp.cmd
+  .\preview-cocos.cmd
+
+MCP 与预览启动脚本使用相同端口，请分别运行；Ctrl+C 停止服务。
+MCP 地址：http://localhost:9527/mcp
+可在支持 Streamable HTTP 的 AI 客户端配置上述 URL。
+本次使用官方 MCP SDK 连通并读到 104 个工具；尚未修改全局 Codex MCP 配置。
+
+已实测通过：
+1. cocos --version 和 --help。
+2. create --type 2d 创建 pixel-rpg-cli-test。
+3. 官方 MCP 建立连接、列出工具、scene-query-current 调用成功。
+4. scene-create 创建 assets/Main.scene，返回 code 200。
+5. build --platform web-mobile 构建成功，43 秒，生成 build/web-mobile/index.html。
+测试项目目前是空的 2D 场景，没有 RPG 或肉鸽玩法。
+预览服务已启动，Main 场景地址：
+http://localhost:9527/?scene=db%3A%2F%2Fassets%2FMain.scene
+浏览器工具因未获访问许可拒绝打开 localhost，因此未完成浏览器画面验证。
+
+安装处理与限制：
+- 全部依赖安装在当前工作目录；没有替换系统 Node，也没有全局 npm link。
+- npm 使用官方 registry 且开启 TLS 证书验证。
+- 官方原生依赖仓库使用 sparse-checkout，仅获取 emscripten；原生平台尚未验证。
+- gl 库在中文路径中不能加载 ANGLE DLL。启动脚本设置官方补丁支持的
+  COCOS_CLI_GL_NODE，使用 %TEMP%/cocos-cli-native-node127 中的同版本库。
+- 官方仓库的 gl、nan、sharp 补丁已应用。
+- 测试项目安装了本地 TypeScript 5.9.2，避免官方 npx 检查脚本临时联网。
+- npm run build 在生成开发者 API 类型文档阶段崩溃；CLI 编译、网页组件构建
+  和实际项目 Web 导出均成功。完整开发者构建仍有这一限制。
+- 额外纹理压缩工具和原生模拟器未安装或验证。
+- 原先中断的完整原生依赖下载保留在 external-download-incomplete 中。
+
+证据：cocos-web-build.log、cocos-mcp.log、cocos-preview.log。
+MCP 可复用验证脚本：cocos-cli/cli-smoke.mjs（在 cocos-cli 目录执行）。

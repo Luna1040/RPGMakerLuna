@@ -1,0 +1,189 @@
+{
+  "325": {
+    "inputs": {
+      "cfg": 1,
+      "model": [
+        "329",
+        0
+      ],
+      "positive": [
+        "365",
+        0
+      ],
+      "negative": [
+        "367",
+        0
+      ]
+    },
+    "class_type": "CFGGuider",
+    "_meta": {
+      "title": "CFG引导器"
+    }
+  },
+  "327": {
+    "inputs": {
+      "width": 640,
+      "height": 512,
+      "batch_size": 1
+    },
+    "class_type": "EmptyFlux2LatentImage",
+    "_meta": {
+      "title": "Empty Flux 2 Latent"
+    }
+  },
+  "328": {
+    "inputs": {
+      "steps": 4,
+      "width": 640,
+      "height": 512
+    },
+    "class_type": "Flux2Scheduler",
+    "_meta": {
+      "title": "Flux2Scheduler"
+    }
+  },
+  "329": {
+    "inputs": {
+      "unet_name": "flux-2-klein-9b-fp8.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "UNet加载器"
+    }
+  },
+  "330": {
+    "inputs": {
+      "clip_name": "qwen_3_8b_fp8mixed.safetensors",
+      "type": "flux2",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "加载CLIP"
+    }
+  },
+  "331": {
+    "inputs": {
+      "vae_name": "flux2-vae.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "加载VAE"
+    }
+  },
+  "336": {
+    "inputs": {
+      "noise": [
+        "354",
+        0
+      ],
+      "guider": [
+        "325",
+        0
+      ],
+      "sampler": [
+        "356",
+        0
+      ],
+      "sigmas": [
+        "328",
+        0
+      ],
+      "latent_image": [
+        "327",
+        0
+      ]
+    },
+    "class_type": "SamplerCustomAdvanced",
+    "_meta": {
+      "title": "自定义采样器（高级）"
+    }
+  },
+  "341": {
+    "inputs": {
+      "filename_prefix": "CodexMapLayers/ground-0-1",
+      "images": [
+        "350",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "保存图像"
+    }
+  },
+  "350": {
+    "inputs": {
+      "samples": [
+        "336",
+        0
+      ],
+      "vae": [
+        "331",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE解码"
+    }
+  },
+  "354": {
+    "inputs": {
+      "noise_seed": 202610101
+    },
+    "class_type": "RandomNoise",
+    "_meta": {
+      "title": "随机噪波"
+    }
+  },
+  "356": {
+    "inputs": {
+      "sampler_name": "euler"
+    },
+    "class_type": "KSamplerSelect",
+    "_meta": {
+      "title": "K采样器选择"
+    }
+  },
+  "365": {
+    "inputs": {
+      "prompt": "Authentic crisp pixel-art RPG asset, orthographic overhead with only a narrow south-facing facade, hand-placed square pixel clusters, controlled warm ochre and terracotta palette, no smooth painterly brushstrokes, no photorealism, no blur, no text, no watermark. A single continuous tileable desert sand ground texture seen straight from above, warm golden ochre sand, subtle sparse dune ripples, tiny mineral grains and very occasional tiny pebbles, quiet readable ground for an RPG. Absolutely no buildings, vegetation, characters, roads, interface or border. Even soft daylight with no cast shadows. Variation 2: slightly different ripple pattern but exactly the same overall sand palette and scale.",
+      "clip": [
+        "330",
+        0
+      ],
+      "vae": [
+        "331",
+        0
+      ],
+      "image1": [
+        "355",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "文本编码（QwenImageEditPlus）"
+    }
+  },
+  "367": {
+    "inputs": {
+      "conditioning": [
+        "365",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "条件零化"
+    }
+  },
+  "355": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "atlas-raw.png"
+    }
+  }
+}

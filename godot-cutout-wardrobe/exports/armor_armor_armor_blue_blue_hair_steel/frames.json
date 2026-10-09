@@ -1,0 +1,154 @@
+{
+	"animations": {
+		"idle": [
+			{
+				"duration": 0.5,
+				"offset": [
+					-125,
+					-217
+				],
+				"path": "res://exports/armor_armor_armor_blue_blue_hair_steel/idle_00.png",
+				"size": [
+					253,
+					217
+				]
+			}
+		],
+		"slash": [
+			{
+				"duration": 0.19,
+				"offset": [
+					-131,
+					-242
+				],
+				"path": "res://exports/armor_armor_armor_blue_blue_hair_steel/slash_00.png",
+				"size": [
+					184,
+					242
+				]
+			},
+			{
+				"duration": 0.19,
+				"offset": [
+					-124,
+					-325
+				],
+				"path": "res://exports/armor_armor_armor_blue_blue_hair_steel/slash_01.png",
+				"size": [
+					177,
+					325
+				]
+			},
+			{
+				"duration": 0.12,
+				"offset": [
+					-116,
+					-274
+				],
+				"path": "res://exports/armor_armor_armor_blue_blue_hair_steel/slash_02.png",
+				"size": [
+					292,
+					274
+				]
+			},
+			{
+				"duration": 0.12,
+				"offset": [
+					-114,
+					-273
+				],
+				"path": "res://exports/armor_armor_armor_blue_blue_hair_steel/slash_03.png",
+				"size": [
+					260,
+					273
+				]
+			},
+			{
+				"duration": 0.19,
+				"offset": [
+					-120,
+					-217
+				],
+				"path": "res://exports/armor_armor_armor_blue_blue_hair_steel/slash_04.png",
+				"size": [
+					261,
+					217
+				]
+			},
+			{
+				"duration": 0.28,
+				"offset": [
+					-126,
+					-217
+				],
+				"path": "res://exports/armor_armor_armor_blue_blue_hair_steel/slash_05.png",
+				"size": [
+					254,
+					217
+				]
+			}
+		],
+		"walk": [
+			{
+				"duration": 0.22,
+				"offset": [
+					-125,
+					-217
+				],
+				"path": "res://exports/armor_armor_armor_blue_blue_hair_steel/walk_00.png",
+				"size": [
+					258,
+					217
+				]
+			},
+			{
+				"duration": 0.22,
+				"offset": [
+					-122,
+					-219
+				],
+				"path": "res://exports/armor_armor_armor_blue_blue_hair_steel/walk_01.png",
+				"size": [
+					248,
+					219
+				]
+			},
+			{
+				"duration": 0.22,
+				"offset": [
+					-121,
+					-217
+				],
+				"path": "res://exports/armor_armor_armor_blue_blue_hair_steel/walk_02.png",
+				"size": [
+					240,
+					217
+				]
+			},
+			{
+				"duration": 0.22,
+				"offset": [
+					-121,
+					-219
+				],
+				"path": "res://exports/armor_armor_armor_blue_blue_hair_steel/walk_03.png",
+				"size": [
+					249,
+					219
+				]
+			}
+		]
+	},
+	"arms": "armor",
+	"cape": "blue",
+	"legs": "armor",
+	"note": "Each runtime costume part includes clothing and exposed skin. Offline exports are full composite snapshots.",
+	"origin": [
+		0,
+		0
+	],
+	"outfit": "blue",
+	"source": "knight-parts-v1.png + casual-atlas-v1.png + bikini-atlas-v1.png",
+	"top": "armor",
+	"weapon": "steel"
+}

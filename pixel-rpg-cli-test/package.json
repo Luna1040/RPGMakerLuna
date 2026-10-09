@@ -1,0 +1,13 @@
+{
+    "name": "pixel-rpg-cli-test",
+    "type": "2d",
+    "version": "4.0.0",
+    "uuid": "f33395be-0f44-42f3-b219-d0bffb99df5c",
+    "creator": {
+        "version": "4.0.0",
+        "dependencies": {}
+    },
+    "devDependencies": {
+        "typescript": "^5.9.2"
+    }
+}

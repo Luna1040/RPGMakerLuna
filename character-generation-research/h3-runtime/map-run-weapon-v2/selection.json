@@ -1,0 +1,7 @@
+{
+  "indices": [32,34,35,37,38,40,42,43,45,46],
+  "frame_duration_ms": 58,
+  "pivot": [400,695],
+  "scale": 0.72,
+  "review_note": "Full left/right stride cycle. Sword remains in near hand and fully visible throughout all selected raw frames. Fixed scale and pivot compensate larger generated canvas occupancy, without per-frame warping."
+}

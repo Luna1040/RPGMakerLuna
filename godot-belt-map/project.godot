@@ -1,0 +1,13 @@
+config_version=5
+[application]
+config/name="Knight - 2.5D Courtyard"
+run/main_scene="res://stage.tscn"
+[display]
+window/size/viewport_width=1280
+window/size/viewport_height=800
+window/stretch/mode="canvas_items"
+[gui]
+theme/custom_font="res://assets/fonts/NotoSansSC-subset.ttf"
+[rendering]
+renderer/rendering_method="gl_compatibility"
+environment/defaults/default_clear_color=Color(0.19,0.25,0.29,1)

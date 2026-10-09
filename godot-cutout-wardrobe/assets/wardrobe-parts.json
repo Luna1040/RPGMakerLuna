@@ -1,0 +1,272 @@
+{
+	"generator": "built-in imagegen; each costume part includes its visible skin, no neutral fitting form",
+	"logical_character_height": 220,
+	"parts": {
+		"bikini_far_boot": {
+			"derived_from": "bikini_far_lower",
+			"path": "res://assets/bikini_far_boot.png"
+		},
+		"bikini_far_forearm": {
+			"path": "res://assets/bikini_far_forearm.png",
+			"size": [
+				172,
+				316
+			],
+			"source_rect": [
+				570,
+				466,
+				172,
+				316
+			]
+		},
+		"bikini_far_lower": {
+			"path": "res://assets/bikini_far_lower.png",
+			"size": [
+				184,
+				345
+			],
+			"source_rect": [
+				986,
+				836,
+				184,
+				345
+			]
+		},
+		"bikini_far_shin": {
+			"derived_from": "bikini_far_lower",
+			"path": "res://assets/bikini_far_shin.png"
+		},
+		"bikini_far_thigh": {
+			"path": "res://assets/bikini_far_thigh.png",
+			"size": [
+				182,
+				346
+			],
+			"source_rect": [
+				541,
+				836,
+				182,
+				346
+			]
+		},
+		"bikini_far_upper_arm": {
+			"path": "res://assets/bikini_far_upper_arm.png",
+			"size": [
+				166,
+				301
+			],
+			"source_rect": [
+				157,
+				473,
+				166,
+				301
+			]
+		},
+		"bikini_near_boot": {
+			"derived_from": "bikini_near_lower",
+			"path": "res://assets/bikini_near_boot.png"
+		},
+		"bikini_near_forearm": {
+			"path": "res://assets/bikini_near_forearm.png",
+			"size": [
+				176,
+				321
+			],
+			"source_rect": [
+				947,
+				77,
+				176,
+				321
+			]
+		},
+		"bikini_near_lower": {
+			"path": "res://assets/bikini_near_lower.png",
+			"size": [
+				193,
+				356
+			],
+			"source_rect": [
+				160,
+				836,
+				193,
+				356
+			]
+		},
+		"bikini_near_shin": {
+			"derived_from": "bikini_near_lower",
+			"path": "res://assets/bikini_near_shin.png"
+		},
+		"bikini_near_thigh": {
+			"path": "res://assets/bikini_near_thigh.png",
+			"size": [
+				182,
+				347
+			],
+			"source_rect": [
+				963,
+				440,
+				182,
+				347
+			]
+		},
+		"bikini_near_upper_arm": {
+			"path": "res://assets/bikini_near_upper_arm.png",
+			"size": [
+				131,
+				322
+			],
+			"source_rect": [
+				570,
+				64,
+				131,
+				322
+			]
+		},
+		"bikini_torso": {
+			"path": "res://assets/bikini_torso.png",
+			"size": [
+				274,
+				378
+			],
+			"source_rect": [
+				123,
+				40,
+				274,
+				378
+			]
+		},
+		"casual_far_boot": {
+			"derived_from": "casual_far_lower",
+			"path": "res://assets/casual_far_boot.png"
+		},
+		"casual_far_forearm": {
+			"path": "res://assets/casual_far_forearm.png",
+			"size": [
+				205,
+				325
+			],
+			"source_rect": [
+				548,
+				475,
+				205,
+				325
+			]
+		},
+		"casual_far_lower": {
+			"path": "res://assets/casual_far_lower.png",
+			"size": [
+				221,
+				368
+			],
+			"source_rect": [
+				954,
+				844,
+				221,
+				368
+			]
+		},
+		"casual_far_shin": {
+			"derived_from": "casual_far_lower",
+			"path": "res://assets/casual_far_shin.png"
+		},
+		"casual_far_thigh": {
+			"path": "res://assets/casual_far_thigh.png",
+			"size": [
+				214,
+				359
+			],
+			"source_rect": [
+				527,
+				847,
+				214,
+				359
+			]
+		},
+		"casual_far_upper_arm": {
+			"path": "res://assets/casual_far_upper_arm.png",
+			"size": [
+				190,
+				291
+			],
+			"source_rect": [
+				139,
+				486,
+				190,
+				291
+			]
+		},
+		"casual_near_boot": {
+			"derived_from": "casual_near_lower",
+			"path": "res://assets/casual_near_boot.png"
+		},
+		"casual_near_forearm": {
+			"path": "res://assets/casual_near_forearm.png",
+			"size": [
+				209,
+				327
+			],
+			"source_rect": [
+				951,
+				71,
+				209,
+				327
+			]
+		},
+		"casual_near_lower": {
+			"path": "res://assets/casual_near_lower.png",
+			"size": [
+				203,
+				368
+			],
+			"source_rect": [
+				144,
+				844,
+				203,
+				368
+			]
+		},
+		"casual_near_shin": {
+			"derived_from": "casual_near_lower",
+			"path": "res://assets/casual_near_shin.png"
+		},
+		"casual_near_thigh": {
+			"path": "res://assets/casual_near_thigh.png",
+			"size": [
+				207,
+				362
+			],
+			"source_rect": [
+				941,
+				446,
+				207,
+				362
+			]
+		},
+		"casual_near_upper_arm": {
+			"path": "res://assets/casual_near_upper_arm.png",
+			"size": [
+				189,
+				297
+			],
+			"source_rect": [
+				527,
+				76,
+				189,
+				297
+			]
+		},
+		"casual_torso": {
+			"path": "res://assets/casual_torso.png",
+			"size": [
+				304,
+				395
+			],
+			"source_rect": [
+				92,
+				19,
+				304,
+				395
+			]
+		}
+	}
+}

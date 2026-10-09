@@ -1,0 +1,179 @@
+{
+  "frames": [
+    {
+      "file": "smith-idle/000.png",
+      "source_frame": 0
+    },
+    {
+      "file": "smith-idle/001.png",
+      "source_frame": 3
+    },
+    {
+      "file": "smith-idle/002.png",
+      "source_frame": 6
+    },
+    {
+      "file": "smith-idle/003.png",
+      "source_frame": 9
+    },
+    {
+      "file": "smith-idle/004.png",
+      "source_frame": 12
+    },
+    {
+      "file": "smith-idle/005.png",
+      "source_frame": 15
+    },
+    {
+      "file": "smith-idle/006.png",
+      "source_frame": 18
+    },
+    {
+      "file": "smith-idle/007.png",
+      "source_frame": 21
+    },
+    {
+      "file": "smith-idle/008.png",
+      "source_frame": 24
+    },
+    {
+      "file": "smith-idle/009.png",
+      "source_frame": 27
+    },
+    {
+      "file": "smith-idle/010.png",
+      "source_frame": 30
+    },
+    {
+      "file": "smith-idle/011.png",
+      "source_frame": 33
+    },
+    {
+      "file": "smith-idle/012.png",
+      "source_frame": 36
+    },
+    {
+      "file": "smith-idle/013.png",
+      "source_frame": 39
+    },
+    {
+      "file": "smith-idle/014.png",
+      "source_frame": 42
+    },
+    {
+      "file": "smith-idle/015.png",
+      "source_frame": 45
+    },
+    {
+      "file": "smith-idle/016.png",
+      "source_frame": 48
+    },
+    {
+      "file": "smith-idle/017.png",
+      "source_frame": 51
+    },
+    {
+      "file": "smith-idle/018.png",
+      "source_frame": 54
+    },
+    {
+      "file": "smith-idle/019.png",
+      "source_frame": 57
+    },
+    {
+      "file": "smith-idle/020.png",
+      "source_frame": 60
+    },
+    {
+      "file": "smith-idle/021.png",
+      "source_frame": 63
+    },
+    {
+      "file": "smith-idle/022.png",
+      "source_frame": 66
+    },
+    {
+      "file": "smith-idle/023.png",
+      "source_frame": 69
+    },
+    {
+      "file": "smith-idle/024.png",
+      "source_frame": 72
+    },
+    {
+      "file": "smith-idle/025.png",
+      "source_frame": 75
+    },
+    {
+      "file": "smith-idle/026.png",
+      "source_frame": 78
+    },
+    {
+      "file": "smith-idle/027.png",
+      "source_frame": 81
+    },
+    {
+      "file": "smith-idle/028.png",
+      "source_frame": 84
+    },
+    {
+      "file": "smith-idle/029.png",
+      "source_frame": 87
+    },
+    {
+      "file": "smith-idle/030.png",
+      "source_frame": 90
+    },
+    {
+      "file": "smith-idle/031.png",
+      "source_frame": 93
+    },
+    {
+      "file": "smith-idle/032.png",
+      "source_frame": 96
+    },
+    {
+      "file": "smith-idle/033.png",
+      "source_frame": 99
+    },
+    {
+      "file": "smith-idle/034.png",
+      "source_frame": 102
+    },
+    {
+      "file": "smith-idle/035.png",
+      "source_frame": 105
+    },
+    {
+      "file": "smith-idle/036.png",
+      "source_frame": 108
+    },
+    {
+      "file": "smith-idle/037.png",
+      "source_frame": 111
+    },
+    {
+      "file": "smith-idle/038.png",
+      "source_frame": 114
+    },
+    {
+      "file": "smith-idle/039.png",
+      "source_frame": 117
+    },
+    {
+      "file": "smith-idle/040.png",
+      "source_frame": 120
+    },
+    {
+      "file": "smith-idle/041.png",
+      "source_frame": 123
+    }
+  ],
+  "frame_ms": 125,
+  "pivot": [
+    571.0,
+    719.0
+  ],
+  "scale": 0.41444270015698587,
+  "source": "H3 local HQ 20 steps"
+}

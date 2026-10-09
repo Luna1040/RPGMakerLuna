@@ -1,0 +1,429 @@
+{
+  "114": {
+    "inputs": {
+      "image": "721ef8f89ca724beb7ec6b6df1f09835.jpg"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Character Reference Image"
+    }
+  },
+  "124": {
+    "inputs": {
+      "seed": 366
+    },
+    "class_type": "SeedNode",
+    "_meta": {
+      "title": "Seed"
+    }
+  },
+  "149": {
+    "inputs": {
+      "clip_name": "d/qwen3vl_32b_minimax_h3_int8_convrot.safetensors",
+      "type": "minimax",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "Load CLIP"
+    }
+  },
+  "154": {
+    "inputs": {
+      "unet_name": "d/DasiwaMinimaxH3_dasiwaREF2VAHybridV1.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "Load Diffusion Model"
+    }
+  },
+  "156": {
+    "inputs": {
+      "value": true
+    },
+    "class_type": "PrimitiveBoolean",
+    "_meta": {
+      "title": "Use Turbo"
+    }
+  },
+  "157": {
+    "inputs": {
+      "value": 4
+    },
+    "class_type": "JWInteger",
+    "_meta": {
+      "title": "Integer"
+    }
+  },
+  "158": {
+    "inputs": {
+      "value": 50
+    },
+    "class_type": "JWInteger",
+    "_meta": {
+      "title": "Integer"
+    }
+  },
+  "159": {
+    "inputs": {
+      "switch": [
+        "156",
+        0
+      ],
+      "on_false": [
+        "154",
+        0
+      ],
+      "on_true": [
+        "163",
+        0
+      ]
+    },
+    "class_type": "ComfySwitchNode",
+    "_meta": {
+      "title": "Turbo LoRA"
+    }
+  },
+  "163": {
+    "inputs": {
+      "lora_name": "minimax_h3/minimax_h3_fl2v_turbo_4step_v1.2_768p_comfyui_bf16.safetensors",
+      "strength_model": 1,
+      "model": [
+        "154",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "Turbo"
+    }
+  },
+  "166": {
+    "inputs": {
+      "switch": [
+        "156",
+        0
+      ],
+      "on_false": [
+        "158",
+        0
+      ],
+      "on_true": [
+        "157",
+        0
+      ]
+    },
+    "class_type": "ComfySwitchNode",
+    "_meta": {
+      "title": "Turbo Steps"
+    }
+  },
+  "170": {
+    "inputs": {
+      "shift_video": 8,
+      "shift_audio": 3,
+      "model": [
+        "159",
+        0
+      ]
+    },
+    "class_type": "MiniMaxH3SigmaShift",
+    "_meta": {
+      "title": "ModelSamplingMiniMaxH3"
+    }
+  },
+  "173": {
+    "inputs": {
+      "vae_name": "d/minimax_h3_video_vae_fp16.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Load VAE"
+    }
+  },
+  "174": {
+    "inputs": {
+      "vae_name": "d/minimax_h3_audio_vae_fp32.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Load VAE"
+    }
+  },
+  "297": {
+    "inputs": {
+      "scheduler": "simple",
+      "steps": [
+        "166",
+        0
+      ],
+      "denoise": 1,
+      "model": [
+        "170",
+        0
+      ]
+    },
+    "class_type": "BasicScheduler",
+    "_meta": {
+      "title": "BasicScheduler"
+    }
+  },
+  "319": {
+    "inputs": {
+      "image": "__dependency__/standing.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Dependency: standing"
+    }
+  },
+  "364": {
+    "inputs": {
+      "expression": "max(5, round(a * 24)) + (5 - (max(5, round(a * 24)) % 17)) % 17",
+      "values.a": [
+        "365",
+        0
+      ]
+    },
+    "class_type": "ComfyMathExpression",
+    "_meta": {
+      "title": "Math Expression"
+    }
+  },
+  "365": {
+    "inputs": {
+      "value": 2
+    },
+    "class_type": "PrimitiveFloat",
+    "_meta": {
+      "title": "Float (duration)"
+    }
+  },
+  "367": {
+    "inputs": {
+      "value": "subject_definitions:\n<Subject 1> is the character in <Picture 1>, whose appearance, outfit, hairstyle, accessories, art style, lighting, and body proportions — including rendering technique, linework, shading, color treatment, light direction, highlight/shadow treatment, head-to-body ratio, limb lengths, and silhouette — are taken entirely from <Picture 1> and must be reproduced faithfully and identically in all four copies. Only the character's visual identity, art style, lighting, and body proportions are taken from <Picture 1>; its pose and background are not used. The target video stages four identical copies of <Subject 1> simultaneously.\n<Picture 2> is the first frame of [Shot 1], a rendered snapshot: four identical humanoid figures standing side by side in a relaxed standing pose on a plain grey background, each centered in its own equal horizontal quarter at identical height, from left to right: a right-facing profile figure, a left-facing profile figure, a back-facing figure, and a front-facing figure. <Picture 2> defines the starting lineup, facing order, stance, equal height, and grey backdrop only; the figures' surface design, rendering style, lighting, and body proportions in <Picture 2> are not copied — the character's appearance, art style, lighting, and body proportions always follow <Subject 1> from <Picture 1>, and where the snapshot's pose conflicts with those proportions, the proportions take priority and the pose is adapted rather than replicated exactly.\n\nsummary:\n[reference generation + keyframe completion] The target video is a single wide fixed-camera shot that begins exactly on <Picture 2>: four identical copies of <Subject 1> standing in the four cardinal directions — right, left, away (up-screen), and toward (down-screen) — on a plain grey background, rendered in the exact art style, lighting, and body proportions of <Picture 1>. Over the course of the clip all four copies lower smoothly and in unison from the standing pose into a deep crouch, and hold it. Each copy occupies one equal horizontal quarter of the frame throughout, such that equal spacing between copies is maintained; while standing, all four are exactly the same height in the viewport, and during the descent all four sink in perfect sync to the same crouched height, with no one ever drifting from their quarter.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1], quadrupled): partially_preserved - the character's full visual identity, outfit, hairstyle, accessories, art style, lighting, and body proportions from <Picture 1> are retained identically in all four copies, while the pose and background of <Picture 1> are deliberately discarded in favor of a stand-to-crouch cycle on a plain grey backdrop; no feature of the character is invented, removed, or altered beyond what is visibly present in <Picture 1>.\n<Picture 2> ([Shot 1] first frame): partially_preserved - the four-figure lineup, their left-to-right order of facing directions, the standing stance, their equal height and quarter placement, and the plain grey background are matched as the video's opening frame; the surface design, rendering style, lighting, and body proportions of the figures in <Picture 2> are not transferred, and the opening pose is adapted where needed so <Subject 1>'s body proportions are never distorted to fit the snapshot.\n\ndetailed_description:\nThe target video is rendered in the exact art style, lighting, and body proportions of <Picture 1> — its rendering technique, linework, shading, color treatment, light direction, highlight/shadow treatment, head-to-body ratio, limb lengths, and silhouette are faithfully preserved in every frame and in all four copies of the character, so each figure looks exactly as they would in <Picture 1>. Faithful body proportions take priority over exact pose replication: wherever a pose from <Picture 2> would require stretching, compressing, or deforming the character's anatomy, the pose is softened or adjusted to keep <Subject 1>'s natural proportions intact. The style, lighting, and proportions of <Picture 2> are not adopted; <Picture 2> contributes the starting poses and composition only. All motion in this video is smooth, natural, and physically grounded, with realistic weight, timing, and easing — never cartoonish, never snappy, bouncy, or exaggerated. The scene is set against a flat, neutral mid-grey background matching <Picture 2> — a plain, evenly lit solid grey void with no props, gradients, or scenery, with no ground plane detail beyond a flat even floor tone. Two rules override everything else in this shot. First, the height lock: while standing, each figure's silhouette occupies an identical number of vertical pixels — no character ever reads as farther away or closer than the others — and during the descent all four sink in perfect unison at the same rate, ending at the exact same crouched height, with no one dropping faster or lower than the others. Second, the position lock: each figure's torso and hips are anchored to the exact center of their quarter and never translate horizontally in any direction or in any view; only the limbs and joints move through the descent. The background never scrolls, there is no parallax, and no figure ever crosses the boundary of their own quarter. The camera is completely static, never panning, trucking, zooming, or tracking.\n[Shot 1] A very wide Static Shot opens exactly on <Picture 2>: four identical copies of <Subject 1>, rendered in the faithful art style, lighting, and body proportions of <Picture 1> with the exact appearance, outfit, hairstyle, and accessories from that image, standing side by side in the relaxed standing pose of the snapshot, each centered in their own equal quarter of the image horizontally — quarter one far left, quarters two and three center-left and center-right, quarter four far right. All four are at one identical, constant scale, fully visible head to toe with clear grey space between them, heads aligned to the same top line and feet to the same bottom line. From left to right: a right-facing profile figure, a left-facing profile figure, a back-facing figure, and a front-facing figure. The clip opens on a brief held beat of still standing — quiet breathing, a barely perceptible sway — and then all four copies begin a smooth, synchronized descent into a crouch: the knees folding and bending deep, the hips sinking back and down, the torso tipping forward slightly to counterbalance, the arms settling naturally wherever the crouch finds them, and the head staying level and easy with a calm, focused expression. Each figure lowers facing their original direction throughout: the two profile copies sinking edge-on with the folded knees and angled torso reading crisply in silhouette, the back-facing copy sinking with the rear of the outfit, bent knees, and lowered hips clearly visible at the fixed quarter position, the front-facing copy sinking toward the viewer with the bent knees, lowered torso, and face clearly visible at every point. The descent is one continuous controlled motion — no bounce, no pause midway — and all four arrive at the bottom together, settling into a deep, stable, comfortable crouch: knees fully bent and tracking over the toes, weight grounded through the whole foot, hips dropped low, the arms settled comfortably, spine easy, breath slow. The final moments hold the crouch completely still — quiet breathing, no wobble, hair and any loose fabric settled — motionless enough that the final frame is clean and still. The lighting remains constant with no flicker or exposure shift throughout. No dialogue is spoken.\n\noverall_soundscape:\nA quiet, airy studio-like silence with quiet steady breathing that deepens slightly through the descent, the soft rustle of fabric bending at the knees and hips, and a faint shift of weight at the bottom of the crouch, then near-stillness through the held pose.\n\nnon_diegetic_music:\nA light, dreamy loop at a slow tempo with a gentle steady beat that dips slightly in tone as the characters sink and resolves to near-silence at the held crouch, mixed low so it feels weightless."
+    },
+    "class_type": "PrimitiveStringMultiline",
+    "_meta": {
+      "title": "Text (Multiline)"
+    }
+  },
+  "369": {
+    "inputs": {
+      "prompt": [
+        "367",
+        0
+      ],
+      "width": [
+        "374",
+        0
+      ],
+      "height": [
+        "374",
+        1
+      ],
+      "length": [
+        "364",
+        1
+      ],
+      "ref_image_size": "match",
+      "clip": [
+        "149",
+        0
+      ],
+      "vae": [
+        "173",
+        0
+      ],
+      "audio_vae": [
+        "174",
+        0
+      ],
+      "ref_images.ref_image_0": [
+        "114",
+        0
+      ],
+      "ref_images.ref_image_1": [
+        "319",
+        0
+      ]
+    },
+    "class_type": "MiniMaxH3ReferenceToVideo",
+    "_meta": {
+      "title": "MiniMax H3 Reference to Video"
+    }
+  },
+  "370": {
+    "inputs": {
+      "model": [
+        "170",
+        0
+      ],
+      "conditioning": [
+        "369",
+        0
+      ]
+    },
+    "class_type": "BasicGuider",
+    "_meta": {
+      "title": "Basic Guider"
+    }
+  },
+  "371": {
+    "inputs": {
+      "sampler_name": "seeds_2"
+    },
+    "class_type": "KSamplerSelect",
+    "_meta": {
+      "title": "KSamplerSelect"
+    }
+  },
+  "372": {
+    "inputs": {
+      "noise_seed": [
+        "124",
+        0
+      ]
+    },
+    "class_type": "RandomNoise",
+    "_meta": {
+      "title": "RandomNoise"
+    }
+  },
+  "373": {
+    "inputs": {
+      "noise": [
+        "372",
+        0
+      ],
+      "guider": [
+        "370",
+        0
+      ],
+      "sampler": [
+        "371",
+        0
+      ],
+      "sigmas": [
+        "297",
+        0
+      ],
+      "latent_image": [
+        "369",
+        1
+      ]
+    },
+    "class_type": "SamplerCustomAdvanced",
+    "_meta": {
+      "title": "SamplerCustomAdvanced"
+    }
+  },
+  "374": {
+    "inputs": {
+      "image": [
+        "319",
+        0
+      ]
+    },
+    "class_type": "GetImageSize",
+    "_meta": {
+      "title": "Get Image Size"
+    }
+  },
+  "375": {
+    "inputs": {
+      "samples": [
+        "373",
+        1
+      ],
+      "vae": [
+        "174",
+        0
+      ]
+    },
+    "class_type": "VAEDecodeAudio",
+    "_meta": {
+      "title": "VAE Decode Audio"
+    }
+  },
+  "376": {
+    "inputs": {
+      "samples": [
+        "373",
+        0
+      ],
+      "vae": [
+        "173",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "377": {
+    "inputs": {
+      "fps": 24,
+      "bit_depth": 8,
+      "color_space": "sRGB",
+      "images": [
+        "376",
+        0
+      ],
+      "audio": [
+        "375",
+        0
+      ]
+    },
+    "class_type": "CreateVideo",
+    "_meta": {
+      "title": "Create Video"
+    }
+  },
+  "378": {
+    "inputs": {
+      "batch_index": -1,
+      "length": 1,
+      "image": [
+        "376",
+        0
+      ]
+    },
+    "class_type": "ImageFromBatch",
+    "_meta": {
+      "title": "Get Image from Batch"
+    }
+  },
+  "379": {
+    "inputs": {
+      "filename_prefix": "video/MiniMax_H3",
+      "format": "auto",
+      "format.codec": "auto",
+      "codec": "auto",
+      "video-preview": "",
+      "video": [
+        "377",
+        0
+      ]
+    },
+    "class_type": "SaveVideo",
+    "_meta": {
+      "title": "Crouch animation"
+    }
+  },
+  "380": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "images": [
+        "378",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  }
+}

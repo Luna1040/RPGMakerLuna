@@ -1,0 +1,160 @@
+{
+	"animations": {
+		"idle": [
+			{
+				"duration": 0.5,
+				"offset": [
+					-9.91346740722656,
+					-62.0
+				],
+				"path": "res://exports/sets/pixel_v2/female_knight_gold_steel_v18_fx1/idle/00.png",
+				"size": [
+					46,
+					63
+				]
+			}
+		],
+		"slash": [
+			{
+				"duration": 0.18,
+				"offset": [
+					-28.9134674072266,
+					-72.0
+				],
+				"path": "res://exports/sets/pixel_v2/female_knight_gold_steel_v18_fx1/slash/00.png",
+				"size": [
+					50,
+					73
+				]
+			},
+			{
+				"duration": 0.14,
+				"offset": [
+					-13.9134674072266,
+					-83.0
+				],
+				"path": "res://exports/sets/pixel_v2/female_knight_gold_steel_v18_fx1/slash/01.png",
+				"size": [
+					35,
+					84
+				]
+			},
+			{
+				"duration": 0.08,
+				"offset": [
+					-13.9134674072266,
+					-79.0
+				],
+				"path": "res://exports/sets/pixel_v2/female_knight_gold_steel_v18_fx1/slash/02.png",
+				"size": [
+					65,
+					80
+				]
+			},
+			{
+				"duration": 0.1,
+				"offset": [
+					-13.9134674072266,
+					-62.0
+				],
+				"path": "res://exports/sets/pixel_v2/female_knight_gold_steel_v18_fx1/slash/03.png",
+				"size": [
+					85,
+					76
+				]
+			},
+			{
+				"duration": 0.14,
+				"offset": [
+					-13.9134674072266,
+					-62.0
+				],
+				"path": "res://exports/sets/pixel_v2/female_knight_gold_steel_v18_fx1/slash/04.png",
+				"size": [
+					52,
+					63
+				]
+			},
+			{
+				"duration": 0.2,
+				"offset": [
+					-13.9134674072266,
+					-62.0
+				],
+				"path": "res://exports/sets/pixel_v2/female_knight_gold_steel_v18_fx1/slash/05.png",
+				"size": [
+					50,
+					63
+				]
+			}
+		],
+		"walk": [
+			{
+				"duration": 0.2,
+				"offset": [
+					-14.9134674072266,
+					-62.0
+				],
+				"path": "res://exports/sets/pixel_v2/female_knight_gold_steel_v18_fx1/walk/00.png",
+				"size": [
+					51,
+					63
+				]
+			},
+			{
+				"duration": 0.2,
+				"offset": [
+					-9.91346740722656,
+					-62.0
+				],
+				"path": "res://exports/sets/pixel_v2/female_knight_gold_steel_v18_fx1/walk/01.png",
+				"size": [
+					46,
+					63
+				]
+			},
+			{
+				"duration": 0.2,
+				"offset": [
+					-16.9134674072266,
+					-62.0
+				],
+				"path": "res://exports/sets/pixel_v2/female_knight_gold_steel_v18_fx1/walk/02.png",
+				"size": [
+					53,
+					63
+				]
+			},
+			{
+				"duration": 0.2,
+				"offset": [
+					-11.9134674072266,
+					-62.0
+				],
+				"path": "res://exports/sets/pixel_v2/female_knight_gold_steel_v18_fx1/walk/03.png",
+				"size": [
+					48,
+					63
+				]
+			}
+		]
+	},
+	"loadout": {
+		"body": "female",
+		"effects": true,
+		"hair": "gold",
+		"outfit": "knight",
+		"view": 18.0,
+		"weapon": "steel"
+	},
+	"origin": [
+		50.9134674072266,
+		114.0
+	],
+	"render_size": [
+		128,
+		128
+	],
+	"style": "3-band color + 1px outline",
+	"version": 2
+}

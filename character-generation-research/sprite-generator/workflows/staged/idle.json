@@ -1,0 +1,467 @@
+{
+  "114": {
+    "inputs": {
+      "image": "721ef8f89ca724beb7ec6b6df1f09835.jpg"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Character Reference Image"
+    }
+  },
+  "124": {
+    "inputs": {
+      "seed": 366
+    },
+    "class_type": "SeedNode",
+    "_meta": {
+      "title": "Seed"
+    }
+  },
+  "149": {
+    "inputs": {
+      "clip_name": "d/qwen3vl_32b_minimax_h3_int8_convrot.safetensors",
+      "type": "minimax",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "Load CLIP"
+    }
+  },
+  "154": {
+    "inputs": {
+      "unet_name": "d/DasiwaMinimaxH3_dasiwaREF2VAHybridV1.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "Load Diffusion Model"
+    }
+  },
+  "156": {
+    "inputs": {
+      "value": true
+    },
+    "class_type": "PrimitiveBoolean",
+    "_meta": {
+      "title": "Use Turbo"
+    }
+  },
+  "157": {
+    "inputs": {
+      "value": 4
+    },
+    "class_type": "JWInteger",
+    "_meta": {
+      "title": "Integer"
+    }
+  },
+  "158": {
+    "inputs": {
+      "value": 50
+    },
+    "class_type": "JWInteger",
+    "_meta": {
+      "title": "Integer"
+    }
+  },
+  "159": {
+    "inputs": {
+      "switch": [
+        "156",
+        0
+      ],
+      "on_false": [
+        "154",
+        0
+      ],
+      "on_true": [
+        "163",
+        0
+      ]
+    },
+    "class_type": "ComfySwitchNode",
+    "_meta": {
+      "title": "Turbo LoRA"
+    }
+  },
+  "163": {
+    "inputs": {
+      "lora_name": "minimax_h3/minimax_h3_fl2v_turbo_4step_v1.2_768p_comfyui_bf16.safetensors",
+      "strength_model": 1,
+      "model": [
+        "154",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "Turbo"
+    }
+  },
+  "166": {
+    "inputs": {
+      "switch": [
+        "156",
+        0
+      ],
+      "on_false": [
+        "158",
+        0
+      ],
+      "on_true": [
+        "157",
+        0
+      ]
+    },
+    "class_type": "ComfySwitchNode",
+    "_meta": {
+      "title": "Turbo Steps"
+    }
+  },
+  "170": {
+    "inputs": {
+      "shift_video": 8,
+      "shift_audio": 3,
+      "model": [
+        "159",
+        0
+      ]
+    },
+    "class_type": "MiniMaxH3SigmaShift",
+    "_meta": {
+      "title": "ModelSamplingMiniMaxH3"
+    }
+  },
+  "173": {
+    "inputs": {
+      "vae_name": "d/minimax_h3_video_vae_fp16.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Load VAE"
+    }
+  },
+  "174": {
+    "inputs": {
+      "vae_name": "d/minimax_h3_audio_vae_fp32.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Load VAE"
+    }
+  },
+  "297": {
+    "inputs": {
+      "scheduler": "simple",
+      "steps": [
+        "166",
+        0
+      ],
+      "denoise": 1,
+      "model": [
+        "170",
+        0
+      ]
+    },
+    "class_type": "BasicScheduler",
+    "_meta": {
+      "title": "BasicScheduler"
+    }
+  },
+  "319": {
+    "inputs": {
+      "image": "__dependency__/standing.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Dependency: standing"
+    }
+  },
+  "322": {
+    "inputs": {
+      "value": 2
+    },
+    "class_type": "PrimitiveFloat",
+    "_meta": {
+      "title": "Float (duration)"
+    }
+  },
+  "325": {
+    "inputs": {
+      "value": "subject_definitions:\n<Subject 1> is the character in <Picture 1>, whose appearance, outfit, hairstyle, accessories, art style, lighting, and body proportions — including rendering technique, linework, shading, color treatment, light direction, highlight/shadow treatment, head-to-body ratio, limb lengths, and silhouette — are taken entirely from <Picture 1> and must be reproduced faithfully and identically in all four copies. Only the character's visual identity, art style, lighting, and body proportions are taken from <Picture 1>; its pose and background are not used. The target video stages four identical copies of <Subject 1> simultaneously.\n<Picture 2> is both the first frame and the last frame of [Shot 1]: four identical humanoid figures standing side by side in a confident masculine pose on a plain grey background — feet planted shoulder-width apart, shoulders squared, arms crossed low — each centered in its own equal horizontal quarter at identical height, from left to right: a right-facing profile figure, a left-facing profile figure, a back-facing figure, and a front-facing figure. <Picture 2> defines the lineup, facing order, stance, equal height, and grey backdrop only; the figures' surface design, rendering style, lighting, and body proportions in <Picture 2> are not copied — the character's appearance, art style, lighting, and body proportions always follow <Subject 1> from <Picture 1>, and where the snapshot's pose conflicts with those proportions, the proportions take priority and the pose is adapted rather than replicated exactly.\n\nsummary:\n[reference generation + keyframe completion] The target video is a single wide fixed-camera 2-second idle animation loop that both begins and ends exactly on <Picture 2>: four identical copies of <Subject 1> holding the confident masculine standing pose in the four cardinal directions — right, left, away (up-screen), and toward (down-screen) — on a plain grey background, rendered in the exact art style, lighting, and body proportions of <Picture 1>. Each copy occupies one equal horizontal quarter of the frame and all four remain exactly the same height in the viewport from the first frame to the last; no one shrinks, grows, or changes scale. The clip is a seamless idle loop: the first frame and the final frame are the identical composition, stance, and pose of <Picture 2>, so the video can be repeated endlessly without a visible jump.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1], quadrupled): partially_preserved - the character's full visual identity, outfit, hairstyle, accessories, art style, lighting, and body proportions from <Picture 1> are retained identically in all four copies, while the pose and background of <Picture 1> are deliberately discarded in favor of a held masculine idle stance on a plain grey backdrop; no feature of the character is invented, removed, or altered beyond what is visibly present in <Picture 1>.\n<Picture 2> ([Shot 1] first frame and last frame): fully_preserved - the four-figure lineup, their left-to-right order of facing directions, the masculine stance, their equal height and quarter placement, and the plain grey background are matched as both the video's opening frame and its closing frame, with the first and last frames being the identical composition; the surface design, rendering style, lighting, and body proportions of the figures in <Picture 2> are not transferred, and the stance is adapted where needed so <Subject 1>'s body proportions are never distorted to fit the snapshot.\n\ndetailed_description:\nThe target video is rendered in the exact art style, lighting, and body proportions of <Picture 1> — its rendering technique, linework, shading, color treatment, light direction, highlight/shadow treatment, head-to-body ratio, limb lengths, and silhouette are faithfully preserved in every frame and in all four copies of the character. Faithful body proportions take priority over exact pose replication: wherever the stance from <Picture 2> would require stretching, compressing, or deforming the character's anatomy, the pose is softened or adjusted to keep <Subject 1>'s natural proportions intact. The style, lighting, and proportions of <Picture 2> are not adopted; <Picture 2> contributes the poses and composition only. The idle motion is smooth, subtle, and natural — gentle breathing and quiet weight shifts only, never cartoonish, never exaggerated or twitchy. The scene is set against a flat, neutral mid-grey background matching <Picture 2> — a plain, evenly lit solid grey void with no props, gradients, or scenery. One rule overrides everything else in this shot: all four characters remain exactly the same height in the viewport throughout the entire video, each figure's silhouette occupying an identical number of vertical pixels in every frame. The camera is completely static, never panning, trucking, zooming, or tracking, and each figure's body stays anchored at the center of their own quarter.\n[Shot 1] A very wide Static Shot opens exactly on <Picture 2>: four identical copies of <Subject 1>, rendered in the faithful art style, lighting, and body proportions of <Picture 1> with the exact appearance, outfit, hairstyle, and accessories from that image, standing side by side in the confident masculine pose — feet planted shoulder-width apart, shoulders squared, arms crossed low — each centered in their own equal quarter of the image horizontally, at one identical, constant scale, fully visible head to toe with clear grey space between them, heads aligned to the same top line and feet to the same bottom line. From left to right: a right-facing profile figure, a left-facing profile figure, a back-facing figure, and a front-facing figure. The clip plays as a seamless 2-second idle animation loop of this stance, and the shot ends on the identical composition — the final frame is the same lineup, stance, poses, and framing as the first frame, so the loop point is invisible and the video repeats endlessly without a cut or jump. The lighting remains constant with no flicker or exposure shift throughout. No dialogue is spoken.\n\noverall_soundscape:\nA quiet, airy studio-like silence with quiet steady breathing.\n\nnon_diegetic_music:\nN/A"
+    },
+    "class_type": "PrimitiveStringMultiline",
+    "_meta": {
+      "title": "Text (Multiline)"
+    }
+  },
+  "326": {
+    "inputs": {
+      "value": "subject_definitions:\n<Subject 1> is the character in <Picture 1>, whose appearance, outfit, hairstyle, accessories, art style, lighting, and body proportions — including rendering technique, linework, shading, color treatment, light direction, highlight/shadow treatment, head-to-body ratio, limb lengths, and silhouette — are taken entirely from <Picture 1> and must be reproduced faithfully and identically in all four copies. Only the character's visual identity, art style, lighting, and body proportions are taken from <Picture 1>; its pose and background are not used. The target video stages four identical copies of <Subject 1> simultaneously.\n<Picture 2> is both the first frame and the last frame of [Shot 1]: four identical humanoid figures standing side by side in a relaxed standing pose on a plain grey background, each centered in its own equal horizontal quarter at identical height, from left to right: a right-facing profile figure, a left-facing profile figure, a back-facing figure, and a front-facing figure. <Picture 2> defines the lineup, facing order, stance, equal height, and grey backdrop only; the figures' surface design, rendering style, lighting, and body proportions in <Picture 2> are not copied — the character's appearance, art style, lighting, and body proportions always follow <Subject 1> from <Picture 1>, and where the snapshot's pose conflicts with those proportions, the proportions take priority and the pose is adapted rather than replicated exactly.\n\nsummary:\n[reference generation + keyframe completion] The target video is a single wide fixed-camera 2-second idle animation loop that both begins and ends exactly on <Picture 2>: four identical copies of <Subject 1> holding a relaxed standing pose in the four cardinal directions — right, left, away (up-screen), and toward (down-screen) — on a plain grey background, rendered in the exact art style, lighting, and body proportions of <Picture 1>. Each copy occupies one equal horizontal quarter of the frame and all four remain exactly the same height in the viewport from the first frame to the last; no one shrinks, grows, or changes scale. The clip is a seamless idle loop: the first frame and the final frame are the identical composition, stance, and pose of <Picture 2>, so the video can be repeated endlessly without a visible jump.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1], quadrupled): partially_preserved - the character's full visual identity, outfit, hairstyle, accessories, art style, lighting, and body proportions from <Picture 1> are retained identically in all four copies, while the pose and background of <Picture 1> are deliberately discarded in favor of a held relaxed idle stance on a plain grey backdrop; no feature of the character is invented, removed, or altered beyond what is visibly present in <Picture 1>.\n<Picture 2> ([Shot 1] first frame and last frame): fully_preserved - the four-figure lineup, their left-to-right order of facing directions, the relaxed stance, their equal height and quarter placement, and the plain grey background are matched as both the video's opening frame and its closing frame, with the first and last frames being the identical composition; the surface design, rendering style, lighting, and body proportions of the figures in <Picture 2> are not transferred, and the stance is adapted where needed so <Subject 1>'s body proportions are never distorted to fit the snapshot.\n\ndetailed_description:\nThe target video is rendered in the exact art style, lighting, and body proportions of <Picture 1> — its rendering technique, linework, shading, color treatment, light direction, highlight/shadow treatment, head-to-body ratio, limb lengths, and silhouette are faithfully preserved in every frame and in all four copies of the character. Faithful body proportions take priority over exact pose replication: wherever the stance from <Picture 2> would require stretching, compressing, or deforming the character's anatomy, the pose is softened or adjusted to keep <Subject 1>'s natural proportions intact. The style, lighting, and proportions of <Picture 2> are not adopted; <Picture 2> contributes the poses and composition only. The idle motion is smooth, subtle, and natural — gentle breathing and quiet weight shifts only, never cartoonish, never exaggerated or twitchy. The scene is set against a flat, neutral mid-grey background matching <Picture 2> — a plain, evenly lit solid grey void with no props, gradients, or scenery. One rule overrides everything else in this shot: all four characters remain exactly the same height in the viewport throughout the entire video, each figure's silhouette occupying an identical number of vertical pixels in every frame. The camera is completely static, never panning, trucking, zooming, or tracking, and each figure's body stays anchored at the center of their own quarter.\n[Shot 1] A very wide Static Shot opens exactly on <Picture 2>: four identical copies of <Subject 1>, rendered in the faithful art style, lighting, and body proportions of <Picture 1> with the exact appearance, outfit, hairstyle, and accessories from that image, standing side by side in a relaxed standing pose — the pose itself is left entirely to the character's natural read of relaxed, with no further specification — each centered in their own equal quarter of the image horizontally, at one identical, constant scale, fully visible head to toe with clear grey space between them, heads aligned to the same top line and feet to the same bottom line. From left to right: a right-facing profile figure, a left-facing profile figure, a back-facing figure, and a front-facing figure. The clip plays as a seamless 2-second idle animation loop of this stance, and the shot ends on the identical composition — the final frame is the same lineup, stance, poses, and framing as the first frame, so the loop point is invisible and the video repeats endlessly without a cut or jump. The lighting remains constant with no flicker or exposure shift throughout. No dialogue is spoken.\n\noverall_soundscape:\nA quiet, airy studio-like silence with quiet steady breathing.\n\nnon_diegetic_music:\nN/A"
+    },
+    "class_type": "PrimitiveStringMultiline",
+    "_meta": {
+      "title": "Text (Multiline)"
+    }
+  },
+  "328": {
+    "inputs": {
+      "expression": "max(5, round(a * 24)) + (5 - (max(5, round(a * 24)) % 17)) % 17",
+      "values.a": [
+        "322",
+        0
+      ]
+    },
+    "class_type": "ComfyMathExpression",
+    "_meta": {
+      "title": "Math Expression"
+    }
+  },
+  "329": {
+    "inputs": {
+      "image": [
+        "319",
+        0
+      ]
+    },
+    "class_type": "GetImageSize",
+    "_meta": {
+      "title": "Get Image Size"
+    }
+  },
+  "331": {
+    "inputs": {
+      "switch": [
+        "343",
+        0
+      ],
+      "on_false": [
+        "325",
+        0
+      ],
+      "on_true": [
+        "326",
+        0
+      ]
+    },
+    "class_type": "ComfySwitchNode",
+    "_meta": {
+      "title": "Use masculine pose"
+    }
+  },
+  "332": {
+    "inputs": {
+      "prompt": [
+        "331",
+        0
+      ],
+      "width": [
+        "329",
+        0
+      ],
+      "height": [
+        "329",
+        1
+      ],
+      "length": [
+        "328",
+        1
+      ],
+      "ref_image_size": "match",
+      "clip": [
+        "149",
+        0
+      ],
+      "vae": [
+        "173",
+        0
+      ],
+      "audio_vae": [
+        "174",
+        0
+      ],
+      "ref_images.ref_image_0": [
+        "114",
+        0
+      ],
+      "ref_images.ref_image_1": [
+        "319",
+        0
+      ]
+    },
+    "class_type": "MiniMaxH3ReferenceToVideo",
+    "_meta": {
+      "title": "MiniMax H3 Reference to Video"
+    }
+  },
+  "333": {
+    "inputs": {
+      "noise_seed": [
+        "124",
+        0
+      ]
+    },
+    "class_type": "RandomNoise",
+    "_meta": {
+      "title": "RandomNoise"
+    }
+  },
+  "334": {
+    "inputs": {
+      "model": [
+        "170",
+        0
+      ],
+      "conditioning": [
+        "332",
+        0
+      ]
+    },
+    "class_type": "BasicGuider",
+    "_meta": {
+      "title": "Basic Guider"
+    }
+  },
+  "335": {
+    "inputs": {
+      "sampler_name": "seeds_2"
+    },
+    "class_type": "KSamplerSelect",
+    "_meta": {
+      "title": "KSamplerSelect"
+    }
+  },
+  "336": {
+    "inputs": {
+      "noise": [
+        "333",
+        0
+      ],
+      "guider": [
+        "334",
+        0
+      ],
+      "sampler": [
+        "335",
+        0
+      ],
+      "sigmas": [
+        "297",
+        0
+      ],
+      "latent_image": [
+        "332",
+        1
+      ]
+    },
+    "class_type": "SamplerCustomAdvanced",
+    "_meta": {
+      "title": "SamplerCustomAdvanced"
+    }
+  },
+  "337": {
+    "inputs": {
+      "samples": [
+        "336",
+        1
+      ],
+      "vae": [
+        "174",
+        0
+      ]
+    },
+    "class_type": "VAEDecodeAudio",
+    "_meta": {
+      "title": "VAE Decode Audio"
+    }
+  },
+  "338": {
+    "inputs": {
+      "samples": [
+        "336",
+        0
+      ],
+      "vae": [
+        "173",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "339": {
+    "inputs": {
+      "fps": 24,
+      "bit_depth": 8,
+      "color_space": "sRGB",
+      "images": [
+        "338",
+        0
+      ],
+      "audio": [
+        "337",
+        0
+      ]
+    },
+    "class_type": "CreateVideo",
+    "_meta": {
+      "title": "Create Video"
+    }
+  },
+  "340": {
+    "inputs": {
+      "batch_index": -1,
+      "length": 1,
+      "image": [
+        "338",
+        0
+      ]
+    },
+    "class_type": "ImageFromBatch",
+    "_meta": {
+      "title": "Get Image from Batch"
+    }
+  },
+  "341": {
+    "inputs": {
+      "filename_prefix": "video/MiniMax_H3",
+      "format": "auto",
+      "format.codec": "auto",
+      "codec": "auto",
+      "video-preview": "",
+      "video": [
+        "339",
+        0
+      ]
+    },
+    "class_type": "SaveVideo",
+    "_meta": {
+      "title": "Idle Animation"
+    }
+  },
+  "342": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "images": [
+        "340",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "343": {
+    "inputs": {
+      "value": false
+    },
+    "class_type": "PrimitiveBoolean",
+    "_meta": {
+      "title": "Neutral Idle"
+    }
+  }
+}

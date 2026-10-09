@@ -1,0 +1,231 @@
+{
+	"generator": "built-in imagegen; fixed 4x4 cutout atlas",
+	"logical_character_height": 220,
+	"parts": {
+		"cape_blue": {
+			"path": "res://assets/cape_blue.png",
+			"size": [
+				286,
+				281
+			],
+			"source_rect": [
+				947,
+				32,
+				286,
+				281
+			]
+		},
+		"cape_red": {
+			"path": "res://assets/cape_red.png",
+			"size": [
+				275,
+				279
+			],
+			"source_rect": [
+				664,
+				959,
+				275,
+				279
+			]
+		},
+		"far_boot": {
+			"derived_from": "far_lower",
+			"path": "res://assets/far_boot.png"
+		},
+		"far_forearm": {
+			"path": "res://assets/far_forearm.png",
+			"size": [
+				99,
+				227
+			],
+			"source_rect": [
+				1044,
+				399,
+				99,
+				227
+			]
+		},
+		"far_lower": {
+			"path": "res://assets/far_lower.png",
+			"size": [
+				141,
+				245
+			],
+			"source_rect": [
+				1049,
+				687,
+				141,
+				245
+			]
+		},
+		"far_shin": {
+			"derived_from": "far_lower",
+			"path": "res://assets/far_shin.png"
+		},
+		"far_thigh": {
+			"path": "res://assets/far_thigh.png",
+			"size": [
+				116,
+				267
+			],
+			"source_rect": [
+				723,
+				673,
+				116,
+				267
+			]
+		},
+		"far_upper_arm": {
+			"path": "res://assets/far_upper_arm.png",
+			"size": [
+				101,
+				240
+			],
+			"source_rect": [
+				734,
+				383,
+				101,
+				240
+			]
+		},
+		"hair": {
+			"path": "res://assets/hair.png",
+			"size": [
+				250,
+				277
+			],
+			"source_rect": [
+				654,
+				36,
+				250,
+				277
+			]
+		},
+		"head": {
+			"path": "res://assets/head.png",
+			"size": [
+				215,
+				218
+			],
+			"source_rect": [
+				68,
+				95,
+				215,
+				218
+			]
+		},
+		"joint": {
+			"path": "res://assets/joint.png",
+			"size": [
+				107,
+				111
+			],
+			"source_rect": [
+				1043,
+				1039,
+				107,
+				111
+			]
+		},
+		"near_boot": {
+			"derived_from": "near_lower",
+			"path": "res://assets/near_boot.png"
+		},
+		"near_forearm": {
+			"path": "res://assets/near_forearm.png",
+			"size": [
+				114,
+				225
+			],
+			"source_rect": [
+				420,
+				399,
+				114,
+				225
+			]
+		},
+		"near_lower": {
+			"path": "res://assets/near_lower.png",
+			"size": [
+				154,
+				250
+			],
+			"source_rect": [
+				411,
+				681,
+				154,
+				250
+			]
+		},
+		"near_shin": {
+			"derived_from": "near_lower",
+			"path": "res://assets/near_shin.png"
+		},
+		"near_thigh": {
+			"path": "res://assets/near_thigh.png",
+			"size": [
+				124,
+				259
+			],
+			"source_rect": [
+				110,
+				670,
+				124,
+				259
+			]
+		},
+		"near_upper_arm": {
+			"path": "res://assets/near_upper_arm.png",
+			"size": [
+				120,
+				247
+			],
+			"source_rect": [
+				111,
+				380,
+				120,
+				247
+			]
+		},
+		"sword": {
+			"path": "res://assets/sword.png",
+			"size": [
+				343,
+				119
+			],
+			"source_rect": [
+				18,
+				1038,
+				343,
+				119
+			]
+		},
+		"torso_blue": {
+			"path": "res://assets/torso_blue.png",
+			"size": [
+				219,
+				267
+			],
+			"source_rect": [
+				376,
+				46,
+				219,
+				267
+			]
+		},
+		"torso_red": {
+			"path": "res://assets/torso_red.png",
+			"size": [
+				209,
+				272
+			],
+			"source_rect": [
+				394,
+				966,
+				209,
+				272
+			]
+		}
+	},
+	"source": "knight-parts-v1.png"
+}

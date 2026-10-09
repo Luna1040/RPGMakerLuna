@@ -1,0 +1,56 @@
+# Local ComfyUI API endpoint used unless --server overrides it.
+comfyui_url: http://localhost:8188
+generation_timeout: 7200 # seconds (120 minutes)
+# -1 chooses and records a new random seed for each fresh invocation.
+seed: -1
+sprite_box_height: 256
+sprite_render_width: 400
+sprite_render_height: 512
+# Add this percentage of the rendered dummy's original height above the dummy.
+# This affects only the dummy reference and increases the workflow height.
+pad_top_percent: 0
+# Optional folder containing 1-right.png, 2-left.png, 3-back.png, and
+# 4-front.png. Null uses the bundled default guides.
+dummy_image_folder: null
+
+# Selected output frames for every animated action. Crouch is always a single
+# final frame and therefore has no setting here.
+animation_frames:
+  idle: 4
+  run: 8
+  walk: 8
+  jump: 8
+  crouch_walk: 8
+
+postprocess:
+  sdpose_batch_size: 8
+
+# Server-relative model paths for the two post-processing API workflows.
+# Keep the workflow name, node ID, and input name aligned with the JSON files.
+postprocess_workflow_models:
+  sdpose:
+    # ComfyUI/models/checkpoints/
+    "2":
+      ckpt_name: sdpose_wholebody_fp16.safetensors
+  background-removal:
+    # ComfyUI/models/background_removal/
+    "2":
+      bg_removal_name: BiRefNet.safetensors
+
+# Model filenames are resolved by the ComfyUI server. Keep the node and input
+# keys aligned with the bundled API workflow when changing a model.
+workflow_models:
+  # ComfyUI/models/text_encoders/
+  "149":
+    clip_name: qwen3vl_32b_minimax_h3_int8_convrot.safetensors
+  # ComfyUI/models/diffusion_models/
+  "154":
+    unet_name: DasiwaMinimaxH3_dasiwaREF2VAHybridV1.safetensors
+  # ComfyUI/models/loras/
+  "163":
+    lora_name: minimax_h3_fl2v_turbo_4step_v1.2_768p_comfyui_bf16.safetensors
+  # ComfyUI/models/vae/
+  "173":
+    vae_name: minimax_h3_video_vae_fp16.safetensors
+  "174":
+    vae_name: minimax_h3_audio_vae_fp32.safetensors

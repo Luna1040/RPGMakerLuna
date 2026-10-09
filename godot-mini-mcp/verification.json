@@ -1,0 +1,71 @@
+{
+  "tests": [
+    {
+      "tool": "godot_validate",
+      "ok": true,
+      "elapsed_ms": 2803,
+      "response_chars": 79
+    },
+    {
+      "tool": "godot_scene_summary",
+      "ok": true,
+      "elapsed_ms": 204,
+      "response_chars": 338
+    },
+    {
+      "tool": "godot_scene_batch",
+      "ok": true,
+      "elapsed_ms": 206,
+      "response_chars": 215
+    },
+    {
+      "tool": "godot_scene_summary",
+      "ok": true,
+      "elapsed_ms": 201,
+      "response_chars": 395
+    },
+    {
+      "tool": "godot_scene_batch",
+      "ok": false,
+      "elapsed_ms": 1,
+      "response_chars": 66
+    },
+    {
+      "tool": "godot_scene_batch",
+      "ok": false,
+      "elapsed_ms": 207,
+      "response_chars": 283
+    },
+    {
+      "tool": "godot_scene_summary",
+      "ok": false,
+      "elapsed_ms": 2,
+      "response_chars": 62
+    },
+    {
+      "tool": "godot_run_probe",
+      "ok": true,
+      "elapsed_ms": 204,
+      "response_chars": 122
+    },
+    {
+      "tool": "godot_validate",
+      "ok": false,
+      "elapsed_ms": 2922,
+      "response_chars": 378
+    },
+    {
+      "tool": "godot_validate",
+      "ok": true,
+      "elapsed_ms": 2687,
+      "response_chars": 79
+    }
+  ],
+  "metrics": {
+    "godot_tool_definitions_chars": 1913,
+    "cocos_tool_definitions_chars": 494071,
+    "cocos_tools": 104,
+    "godot_tools": 4
+  },
+  "ok": true
+}

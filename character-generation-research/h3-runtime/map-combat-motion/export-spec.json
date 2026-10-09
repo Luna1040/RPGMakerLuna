@@ -1,0 +1,192 @@
+{
+  "canvas_size": [
+    768,
+    768
+  ],
+  "root_motion_note": "Full original canvases; fixed per-clip scale. Air strike root offsets remove authored video displacement so the game owns jump height.",
+  "clips": {
+    "run": {
+      "duration_ms": 580,
+      "loop": true,
+      "pivot": [
+        378,
+        597
+      ],
+      "scale": 0.977,
+      "frames": [
+        {
+          "source_frame": 32,
+          "duration_ms": 58
+        },
+        {
+          "source_frame": 34,
+          "duration_ms": 58
+        },
+        {
+          "source_frame": 35,
+          "duration_ms": 58
+        },
+        {
+          "source_frame": 37,
+          "duration_ms": 58
+        },
+        {
+          "source_frame": 38,
+          "duration_ms": 58
+        },
+        {
+          "source_frame": 40,
+          "duration_ms": 58
+        },
+        {
+          "source_frame": 42,
+          "duration_ms": 58
+        },
+        {
+          "source_frame": 43,
+          "duration_ms": 58
+        },
+        {
+          "source_frame": 45,
+          "duration_ms": 58
+        },
+        {
+          "source_frame": 46,
+          "duration_ms": 58
+        }
+      ]
+    },
+    "dash_attack": {
+      "duration_ms": 420,
+      "loop": false,
+      "pivot": [
+        378,
+        597
+      ],
+      "scale": 0.977,
+      "frames": [
+        {
+          "source_frame": 16,
+          "duration_ms": 42
+        },
+        {
+          "source_frame": 24,
+          "duration_ms": 35
+        },
+        {
+          "source_frame": 28,
+          "duration_ms": 28
+        },
+        {
+          "source_frame": 40,
+          "duration_ms": 45
+        },
+        {
+          "source_frame": 48,
+          "duration_ms": 70
+        },
+        {
+          "source_frame": 64,
+          "duration_ms": 35
+        },
+        {
+          "source_frame": 68,
+          "duration_ms": 40
+        },
+        {
+          "source_frame": 72,
+          "duration_ms": 45
+        },
+        {
+          "source_frame": 80,
+          "duration_ms": 80
+        }
+      ]
+    },
+    "air_slash": {
+      "duration_ms": 470,
+      "hold_ms": 249,
+      "landing_start_ms": 250,
+      "loop": false,
+      "pivot": [
+        378,
+        597
+      ],
+      "scale": 0.977,
+      "frames": [
+        {
+          "source_frame": 12,
+          "duration_ms": 35,
+          "pivot": [
+            378,
+            597
+          ]
+        },
+        {
+          "source_frame": 24,
+          "duration_ms": 45,
+          "pivot": [
+            378,
+            565
+          ]
+        },
+        {
+          "source_frame": 44,
+          "duration_ms": 50,
+          "pivot": [
+            378,
+            578
+          ]
+        },
+        {
+          "source_frame": 52,
+          "duration_ms": 120,
+          "pivot": [
+            378,
+            597
+          ]
+        },
+        {
+          "source_frame": 56,
+          "duration_ms": 40,
+          "pivot": [
+            378,
+            597
+          ]
+        },
+        {
+          "source_frame": 64,
+          "duration_ms": 40,
+          "pivot": [
+            378,
+            597
+          ]
+        },
+        {
+          "source_frame": 96,
+          "duration_ms": 40,
+          "pivot": [
+            378,
+            597
+          ]
+        },
+        {
+          "source_frame": 100,
+          "duration_ms": 40,
+          "pivot": [
+            378,
+            597
+          ]
+        },
+        {
+          "source_frame": 108,
+          "duration_ms": 60,
+          "pivot": [
+            378,
+            597
+          ]
+        }
+      ]
+    }
+  }
+}

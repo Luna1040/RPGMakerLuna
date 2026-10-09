@@ -1,0 +1,202 @@
+{
+  "325": {
+    "inputs": {
+      "cfg": 1,
+      "model": [
+        "329",
+        0
+      ],
+      "positive": [
+        "365",
+        0
+      ],
+      "negative": [
+        "367",
+        0
+      ]
+    },
+    "class_type": "CFGGuider",
+    "_meta": {
+      "title": "CFG\u5f15\u5bfc\u5668"
+    }
+  },
+  "327": {
+    "inputs": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "class_type": "EmptyFlux2LatentImage",
+    "_meta": {
+      "title": "Empty Flux 2 Latent"
+    }
+  },
+  "328": {
+    "inputs": {
+      "steps": 4,
+      "width": 1024,
+      "height": 1024
+    },
+    "class_type": "Flux2Scheduler",
+    "_meta": {
+      "title": "Flux2Scheduler"
+    }
+  },
+  "329": {
+    "inputs": {
+      "unet_name": "flux-2-klein-9b-fp8.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "UNet\u52a0\u8f7d\u5668"
+    }
+  },
+  "330": {
+    "inputs": {
+      "clip_name": "qwen_3_8b_fp8mixed.safetensors",
+      "type": "flux2",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "\u52a0\u8f7dCLIP"
+    }
+  },
+  "331": {
+    "inputs": {
+      "vae_name": "flux2-vae.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "\u52a0\u8f7dVAE"
+    }
+  },
+  "336": {
+    "inputs": {
+      "noise": [
+        "354",
+        0
+      ],
+      "guider": [
+        "325",
+        0
+      ],
+      "sampler": [
+        "356",
+        0
+      ],
+      "sigmas": [
+        "328",
+        0
+      ],
+      "latent_image": [
+        "327",
+        0
+      ]
+    },
+    "class_type": "SamplerCustomAdvanced",
+    "_meta": {
+      "title": "\u81ea\u5b9a\u4e49\u91c7\u6837\u5668\uff08\u9ad8\u7ea7\uff09"
+    }
+  },
+  "341": {
+    "inputs": {
+      "filename_prefix": "CodexCharacterTrial/v3c-recovery",
+      "images": [
+        "350",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "\u4fdd\u5b58\u56fe\u50cf"
+    }
+  },
+  "350": {
+    "inputs": {
+      "samples": [
+        "336",
+        0
+      ],
+      "vae": [
+        "331",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE\u89e3\u7801"
+    }
+  },
+  "354": {
+    "inputs": {
+      "noise_seed": 731420
+    },
+    "class_type": "RandomNoise",
+    "_meta": {
+      "title": "\u968f\u673a\u566a\u6ce2"
+    }
+  },
+  "355": {
+    "inputs": {
+      "image": "v3c-guide-recovery.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "\u56fe\u50cf1"
+    }
+  },
+  "356": {
+    "inputs": {
+      "sampler_name": "euler"
+    },
+    "class_type": "KSamplerSelect",
+    "_meta": {
+      "title": "K\u91c7\u6837\u5668\u9009\u62e9"
+    }
+  },
+  "365": {
+    "inputs": {
+      "prompt": "\u628a\u56fe1\u7684\u51e0\u4f55\u4eba\u5076\u66ff\u6362\u6210\u56fe2\u7684\u6210\u5e74\u91d1\u53d1\u5973\u9a91\u58eb\u3002\u5fc5\u987b\u91c7\u7528\u56fe1\u7684\u5168\u8eab\u59ff\u52bf\u3001\u5934\u90e8\u4f4d\u7f6e\u3001\u8eaf\u5e72\u503e\u659c\u3001\u9aa8\u76c6\u4f4d\u7f6e\u3001\u819d\u76d6\u4f4d\u7f6e\u548c\u811a\u7684\u4f4d\u7f6e\uff0c\u56fe1\u91d1\u8272\u76f4\u7ebf\u4ee3\u8868\u552f\u4e00\u4e00\u628a\u5251\u3002\u56fe2\u53ea\u7528\u4e8e\u8138\u3001\u5934\u53d1\u3001\u94f6\u91d1\u94e0\u7532\u3001\u84dd\u88d9\u548c\u84dd\u62ab\u98ce\u7684\u8bbe\u8ba1\u53ca\u7cbe\u7f8e\u4e8c\u7ef4\u753b\u98ce\uff0c\u4e0d\u80fd\u7167\u642c\u56fe2\u7ad9\u59ff\u3002\u53cc\u624b\u63e1\u540c\u4e00\u628a\u5251\uff0c\u53ea\u6709\u4e24\u53ea\u624b\u4e24\u6761\u817f\u3002\u753b\u51fa\u8fde\u8d2f\u81ea\u7136\u7684\u4eba\u4f53\u548c\u670d\u88c5\uff0c\u5934\u53d1\u62ab\u98ce\u5411\u5de6\u540e\u65b9\u98d8\u3002\u5168\u8eab\uff0c\u7070\u8272\u80cc\u666f\uff0c\u5b8c\u6574\u5251\u8eab\u3002\u4e0d\u8981\u753b\u4eba\u5076\u7ebf\u6761\u3002",
+      "clip": [
+        "330",
+        0
+      ],
+      "vae": [
+        "331",
+        0
+      ],
+      "image1": [
+        "355",
+        0
+      ],
+      "image2": [
+        "352",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "\u6587\u672c\u7f16\u7801\uff08QwenImageEditPlus\uff09"
+    }
+  },
+  "367": {
+    "inputs": {
+      "conditioning": [
+        "365",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "\u6761\u4ef6\u96f6\u5316"
+    }
+  },
+  "352": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "v2-master.png"
+    }
+  }
+}

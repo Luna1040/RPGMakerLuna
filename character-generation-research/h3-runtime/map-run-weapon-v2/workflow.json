@@ -1,0 +1,162 @@
+{
+  "1": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "knight-clean-green.png"
+    }
+  },
+  "2": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+      "type": "minimax",
+      "device": "default"
+    }
+  },
+  "3": {
+    "class_type": "UNETLoader",
+    "inputs": {
+      "unet_name": "minimax_h3_ref2va_pruned_fp8_scaled.safetensors",
+      "weight_dtype": "default"
+    }
+  },
+  "4": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+    }
+  },
+  "6": {
+    "class_type": "MiniMaxH3ReferenceToVideo",
+    "inputs": {
+      "clip": [
+        "2",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "prompt": "The adult female knight in <Picture 1> runs fast IN PLACE facing right through several repeating sprint cycles. The camera sees her right side in a fixed side three-quarter view. Her near right hand firmly grips the gold sword hilt in front of her right hip for the ENTIRE video. She carries the sword forward in a low ready position: the long straight silver blade extends from that hand toward the right and slightly downward into the empty space IN FRONT of her body. The complete sword is clearly visible in EVERY frame, including its gold hilt, guard, continuous silver blade and sharp tip. The blade always stays in front of the knight silhouette and never passes behind her torso, cape, arms or legs. The right elbow stays bent and the sword-bearing right forearm remains in front of her waist, moving only slightly with her torso. The sword is one rigid object of constant full length; the hand remains connected to its hilt at all times. Her other left arm pumps naturally while both legs perform strong alternating high knee drives and powerful rear leg extensions, with clearly visible airborne running strides. Her whole torso leans forward, hips and shoulders counter-rotate, head follows the natural body rise and fall, and blonde ponytail and blue cape stream behind her. Steady fast treadmill running in the same place, several smooth repeating cycles. Preserve the beautiful detailed illustrated face, blonde ponytail, silver and gold armor, blue cape, boots and full length sword of the reference. Fixed camera, full body and whole sword visible, ample empty space on all sides, character occupies central 55 percent of canvas height. Clean detailed illustrated game sprite animation, crisp edges. Uniform pure black background. No sword sheathing, no changing hands, no backward sword swing, no disappearing weapon, no shortening blade, no magic, no trails, no motion blur, no floor, no ground shadow, no scenery, no text, no zoom, no lighting changes. Silent.",
+      "width": 768,
+      "height": 768,
+      "length": 124,
+      "ref_image_size": "match",
+      "ref_images.ref_image_0": [
+        "1",
+        0
+      ]
+    }
+  },
+  "7": {
+    "class_type": "BasicGuider",
+    "inputs": {
+      "model": [
+        "3",
+        0
+      ],
+      "conditioning": [
+        "6",
+        0
+      ]
+    }
+  },
+  "8": {
+    "class_type": "RandomNoise",
+    "inputs": {
+      "noise_seed": 831431
+    }
+  },
+  "9": {
+    "class_type": "KSamplerSelect",
+    "inputs": {
+      "sampler_name": "res_multistep"
+    }
+  },
+  "10": {
+    "class_type": "BasicScheduler",
+    "inputs": {
+      "model": [
+        "3",
+        0
+      ],
+      "scheduler": "normal",
+      "steps": 20,
+      "denoise": 1.0
+    }
+  },
+  "11": {
+    "class_type": "SamplerCustomAdvanced",
+    "inputs": {
+      "noise": [
+        "8",
+        0
+      ],
+      "guider": [
+        "7",
+        0
+      ],
+      "sampler": [
+        "9",
+        0
+      ],
+      "sigmas": [
+        "10",
+        0
+      ],
+      "latent_image": [
+        "6",
+        1
+      ]
+    }
+  },
+  "12": {
+    "class_type": "VAEDecodeTiled",
+    "inputs": {
+      "samples": [
+        "11",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "tile_size": 384,
+      "overlap": 64,
+      "temporal_size": 32,
+      "temporal_overlap": 8
+    }
+  },
+  "13": {
+    "class_type": "CreateVideo",
+    "inputs": {
+      "images": [
+        "12",
+        0
+      ],
+      "fps": 24.0
+    }
+  },
+  "14": {
+    "class_type": "SaveVideo",
+    "inputs": {
+      "video": [
+        "13",
+        0
+      ],
+      "filename_prefix": "map-run-weapon-v2",
+      "format": "mp4",
+      "format.codec": "h264"
+    }
+  },
+  "15": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "12",
+        0
+      ],
+      "filename_prefix": "frames/map-run-weapon-v2"
+    }
+  }
+}

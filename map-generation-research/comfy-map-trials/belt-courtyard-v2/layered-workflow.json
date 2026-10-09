@@ -1,0 +1,83 @@
+{
+  "version": 2,
+  "projection": "side-facing-belt",
+  "worldLocationId": "location-4",
+  "tasks": [
+    {
+      "id": "backdrop",
+      "kind": "scenery",
+      "width": 1536,
+      "height": 768,
+      "seed": 20261009131,
+      "prompt": "Environment asset only, empty scenery with absolutely NO humans, people, knights or human silhouettes. Beautiful premium hand-painted 2D fantasy action RPG environment. Side-facing horizontal belt-scrolling beat-em-up camera like classic arcade dungeon brawlers. Fine painterly material detail, elegant coherent muted golden sandstone and cool teal palette, soft afternoon light. NOT pixel art, NOT top-down, NOT isometric, no people, no lettering, no interface, no watermark. A continuous distant background panorama: quiet mountain village courtyard, distant dramatic blue mountains and hazy clouds, sandstone ruined arches and medieval stone walls in the lower half, lush ivy, ornamental carved stonework, tall cypress silhouettes and weathered banners. Frontal elevation view, horizon at upper third. The bottom edge has a low straight stone foundation. Architecture is background scenery only; no large foreground objects or overhead roofs."
+    },
+    {
+      "id": "ground-left",
+      "kind": "scenery",
+      "width": 1024,
+      "height": 768,
+      "seed": 20261009132,
+      "prompt": "Environment asset only, empty scenery with absolutely NO humans, people, knights or human silhouettes. Beautiful premium hand-painted 2D fantasy action RPG environment. Side-facing horizontal belt-scrolling beat-em-up camera like classic arcade dungeon brawlers. Fine painterly material detail, elegant coherent muted golden sandstone and cool teal palette, soft afternoon light. NOT pixel art, NOT top-down, NOT isometric, no people, no lettering, no interface, no watermark. Ground layer ONLY filling the whole frame: richly detailed continuous broad sandstone courtyard paving with worn irregular large rectangular slabs, subtle cracks, tiny grasses in a few joints, warm mellow ochre stone with faint cool shadows. View the floor from a shallow raised side-scroller camera, NOT straight down. Slabs recede subtly toward top edge, no strong vanishing point. No skyline, buildings, trees, boxes, props or dark cast shadows. Floor must stay flat and playable."
+    },
+    {
+      "id": "ground-right",
+      "kind": "scenery",
+      "width": 1024,
+      "height": 768,
+      "seed": 20261009133,
+      "reference": "ground-left/raw.png",
+      "prompt": "Environment asset only, empty scenery with absolutely NO humans, people, knights or human silhouettes. Beautiful premium hand-painted 2D fantasy action RPG environment. Side-facing horizontal belt-scrolling beat-em-up camera like classic arcade dungeon brawlers. Fine painterly material detail, elegant coherent muted golden sandstone and cool teal palette, soft afternoon light. NOT pixel art, NOT top-down, NOT isometric, no people, no lettering, no interface, no watermark. Create a closely matching variation of this ground layer: same sandstone courtyard paving, exactly same slab scale, color and light. Continuous paving fills entire frame. No buildings, props, plants, skyline, characters or strong cast shadows. Shallow side-scroller perspective, not overhead."
+    },
+    {
+      "id": "inn",
+      "kind": "keyed",
+      "width": 1024,
+      "height": 1024,
+      "seed": 20261009134,
+      "prompt": "Environment asset only, empty scenery with absolutely NO humans, people, knights or human silhouettes. Beautiful premium hand-painted 2D fantasy action RPG environment. Side-facing horizontal belt-scrolling beat-em-up camera like classic arcade dungeon brawlers. Fine painterly material detail, elegant coherent muted golden sandstone and cool teal palette, soft afternoon light. NOT pixel art, NOT top-down, NOT isometric, no people, no lettering, no interface, no watermark. Exactly ONE charming stone-and-timber fantasy inn building, entire building isolated, FRONT elevation, small amount of roof visible, beautiful carved open doorway at bottom center, blue fabric awnings, warm windows, climbing ivy, projecting beams and chimney. Building is wide and tall, facade faces viewer directly. No ground, no horizon, no extra loose objects or cast shadows. Complete uncut silhouette, 10 percent clear margin all sides. Uniform flat saturated magenta RGB(255,0,255) background in ALL empty gaps. No magenta on building."
+    },
+    {
+      "id": "tree",
+      "kind": "keyed",
+      "width": 768,
+      "height": 1024,
+      "seed": 20261009135,
+      "prompt": "Environment asset only, empty scenery with absolutely NO humans, people, knights or human silhouettes. Beautiful premium hand-painted 2D fantasy action RPG environment. Side-facing horizontal belt-scrolling beat-em-up camera like classic arcade dungeon brawlers. Fine painterly material detail, elegant coherent muted golden sandstone and cool teal palette, soft afternoon light. NOT pixel art, NOT top-down, NOT isometric, no people, no lettering, no interface, no watermark. Exactly ONE entire majestic broadleaf tree, frontal elevation seen from ground level, beautifully branching brown trunk with exposed roots and dense rounded green crown, detailed painterly leaves, a little moss. No ground plane, sky, grass patch, rocks or cast shadow. Full silhouette, ample empty margin. Uniform flat saturated magenta RGB(255,0,255) background, including every internal gap between branches. Tree contains no pink or magenta."
+    },
+    {
+      "id": "crate",
+      "kind": "keyed",
+      "width": 512,
+      "height": 512,
+      "seed": 20261009136,
+      "prompt": "Environment asset only, empty scenery with absolutely NO humans, people, knights or human silhouettes. Beautiful premium hand-painted 2D fantasy action RPG environment. Side-facing horizontal belt-scrolling beat-em-up camera like classic arcade dungeon brawlers. Fine painterly material detail, elegant coherent muted golden sandstone and cool teal palette, soft afternoon light. NOT pixel art, NOT top-down, NOT isometric, no people, no lettering, no interface, no watermark. Exactly ONE isolated closed rectangular wooden supply crate, broad front face with a shallow visible flat top, near frontal camera, brass reinforced corners, believable weathered wood and bevelled edges. Flat unobstructed top surface. No ground, floor, shadow, decoration or extra objects. Full silhouette, ample margins. Uniform flat saturated magenta RGB(255,0,255) background. No magenta on the object."
+    }
+  ],
+  "coordinates": {
+    "x": "horizontal ground meters",
+    "depth": "ground depth meters",
+    "z": "height meters",
+    "screen": "x * pxPerMeter, originY + depth * depthScale - z * pxPerMeter"
+  },
+  "pipeline": [
+    "world biome context",
+    "separate distant panorama",
+    "two ground patches",
+    "independent frontal architecture and props",
+    "validated chroma matte and enclosed gaps",
+    "foot-pivot annotations",
+    "x/depth/z collision volumes",
+    "foot-depth occlusion; jump changes visual height only"
+  ],
+  "status": "generated-and-matted",
+  "review": {
+    "firstAttempt": "../belt-courtyard-v1",
+    "rejectedReason": "unwanted generated character; inn shadow touches canvas boundary",
+    "matteAccepted": [
+      "inn",
+      "tree",
+      "crate"
+    ],
+    "floorAssembly": "A/B/A/B with 160px overlap and 90px top alpha fade"
+  }
+}

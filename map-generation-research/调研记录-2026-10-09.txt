@@ -1,0 +1,54 @@
+像素地图本地生成调研 — 2026-10-09
+
+目标：在现有 Flux2 Klein / ComfyUI 与 MiniMax H3 环境上建立精美游戏场景、独立物件填充、大场景拼接及导航小地图能力。
+当前阶段：核对视频标题、发布时间、页面说明及 FrameRonin 在线功能。没有声称完整观看视频，尚未进行生成、分层、导出或运行性能实测。
+
+用户提供的视频
+1. 【工具更新】AI地图也能自动分层分物件了，新增自由生图模块
+   https://www.bilibili.com/video/BV164Lj6XEfc/ — 2026-05-17
+2. 【工具更新】AI生复杂室内/洞穴地图的碰撞、分层、遮罩处理办法
+   https://www.bilibili.com/video/BV1gwVp67E2i/ — 2026-05-28
+3. 【实战教程】AI生成45度无限分层大地图
+   https://www.bilibili.com/video/BV1v7316UEwk/ — 2026-07-29
+4. 【工具教程】开源免费的无限像素地图生成法V2--附工具及一键导入godot
+   https://www.bilibili.com/video/BV1HBQgBZETC/ — 2026-04-14
+   页面说明明确提到 PSD 分层、Godot 导入和 frameronin.com。
+5. 炸裂更新！GPT6-Astra+Godot仅10分钟自动生成HD2D城镇
+   https://www.bilibili.com/video/BV1pQbL6REVj/ — 2026-09-05
+6. Frameronin工具ai美术纯小白入门教程3-工具全面简介
+   https://www.bilibili.com/video/BV1JGH16EEsh/ — 2026-10-07
+7. 随机HD2D武侠修仙小镇--支持室内外无缝切换
+   https://www.bilibili.com/video/BV1Jjao66EN3/ — 2026-09-30
+   页面说明明确提到 NPC、地形和建筑插件。
+8. 【工具更新】全自动AI生成游戏无限地图
+   https://www.bilibili.com/video/BV1ydjC6rEUj/ — 2026-06-20
+
+直接观察到的工具能力（界面与宣传说明，未实测）
+FrameRonin V4.3 地图拼接：整体层、地表层、物件层、黑层、白层；全自动扩图；重叠比例；PNG、PSD、Godot、Unity 导出按钮。
+地图模块提醒外部图片可能有分辨率偏差，要求选择 topdown、45度或横板模式；手动生成链接指向 Gemini。
+这不能证明自动扩图能调用本地 ComfyUI，也不能证明 Flux2 图片可不经调整直接扩展。
+
+https://frameronin.com/terrain-plugin
+当前 Roninterr 页面介绍 Godot 4 三维地形、C++ GDExtension、地形雕刻、碰撞及植被工作流，标价人民币 1000 元。
+https://frameronin.com/building-generator
+当前页面介绍参数化建筑、六种风格、2849 套预设、小镇布局、JSON 存档及带材质碰撞的静态场景导出，标价人民币 1000 元。
+不要把网页工具免费、图像模型免费、插件免费混为一谈。插件宣传性能与预设数量未经本机测试。
+https://raw.githubusercontent.com/systemchester/FrameRonin/main/README.md
+仓库 README 仍介绍 V3，不能由此断言可部署的公开源码与在线 V4.3 功能完全一致。
+
+本地已读取信息
+CHARACTER_PIPELINE.md 记录原 ComfyUI 9315、独立 H3 9316、嵌入式 Python、Godot 位置与角色对接约定。
+Flux2 根目录存在 Flux2Klein_t2i.json 和 Flux2Klein_edit.json。
+当前沙箱对 localhost 套接字读取失败，尚未确认服务在线或任务队列状态，不应将失败解读为服务未运行。
+
+拟验证路线（设计方案，未完成实现）
+Flux2：场景母图、独立建筑/家具/树木、参考图统一风格、边缘重叠扩图实验。
+后处理：统一像素网格和色板、透明物件、脚点与原始偏移、地表补洞、图层及碰撞数据。
+Godot：分块加载、角色遮挡、独立碰撞、物件交互、门与室内切换。
+导航小地图：从同一份地图几何/区域/物件坐标生成，不独立生成另一张可能不对应的地图。
+H3：仅在静态场景稳定后尝试水面、火焰等动态装饰，检查相机漂移与循环接缝。
+
+首个样板验收
+先完成一个精美场景与一个对应室内：地表、建筑、树冠、家具可独立编辑；角色可走通道路与入口；前后遮挡正确；碰撞可调；导航小地图与场景坐标对应。
+然后验证相邻区域拼接与分块加载。不要以大分辨率整图或生成作业排队代替可用地图验收。
+角色研究目录保持独立；遵守角色对接约定，不修改已有角色工作流与认可素材。

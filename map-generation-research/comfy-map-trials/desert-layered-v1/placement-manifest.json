@@ -1,0 +1,1056 @@
+{
+  "mapId": "map-2",
+  "layers": [
+    "ground.png",
+    "roads.png",
+    "shadows.png",
+    "buildings.png",
+    "props.png"
+  ],
+  "previewSize": [
+    1024,
+    768
+  ],
+  "pixelsPerMapCell": 16,
+  "nativeTilePixels": 32,
+  "placements": [
+    {
+      "objectId": "prop-10-4",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        153,
+        45,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-38-5",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        601,
+        61,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-25-7",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        393,
+        93,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-10-8",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        153,
+        109,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-6-9",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        89,
+        125,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-44-9",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        697,
+        125,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-58-10",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        921,
+        141,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-43-11",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        681,
+        157,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-53-11",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        841,
+        157,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-19-14",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        297,
+        205,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-25-14",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        393,
+        205,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-3-15",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        41,
+        221,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-24-15",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        377,
+        221,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-47-17",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        745,
+        253,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-57-17",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        905,
+        253,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-28-19",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        441,
+        285,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-9-20",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        137,
+        301,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-38-22",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        601,
+        333,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-59-24",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        937,
+        365,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-5-26",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        73,
+        397,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-47-26",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        745,
+        397,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-60-29",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        953,
+        445,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-61-32",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        969,
+        493,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-12-34",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        185,
+        525,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-55-37",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        873,
+        573,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-22-38",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        345,
+        589,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-41-38",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        649,
+        589,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-45-40",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        713,
+        621,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-8-43",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        121,
+        669,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-10-43",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        153,
+        669,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-24-44",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        377,
+        685,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-32-44",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        505,
+        685,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-24-45",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        377,
+        701,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "prop-55-45",
+      "assetId": "prop-cactus",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "targetBounds": [
+        873,
+        701,
+        30,
+        35
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "location-2-inn",
+      "assetId": "building-inn",
+      "sourceCanvas": [
+        768,
+        768
+      ],
+      "sourceCrop": [
+        100,
+        181,
+        669,
+        547
+      ],
+      "targetBounds": [
+        214,
+        176,
+        99,
+        64
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "location-2-workshop",
+      "assetId": "building-workshop",
+      "sourceCanvas": [
+        768,
+        768
+      ],
+      "sourceCrop": [
+        91,
+        152,
+        677,
+        551
+      ],
+      "targetBounds": [
+        649,
+        192,
+        94,
+        64
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "objectId": "location-2-supply",
+      "assetId": "building-supply",
+      "sourceCanvas": [
+        768,
+        768
+      ],
+      "sourceCrop": [
+        102,
+        192,
+        664,
+        528
+      ],
+      "targetBounds": [
+        434,
+        400,
+        107,
+        64
+      ],
+      "anchor": "bottom-center",
+      "worldLocationId": "location-2"
+    },
+    {
+      "assetId": "prop-crate",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        98,
+        88,
+        412,
+        445
+      ],
+      "targetBounds": [
+        608,
+        272,
+        19,
+        22
+      ],
+      "anchor": "bottom-center"
+    },
+    {
+      "assetId": "prop-crate",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        98,
+        88,
+        412,
+        445
+      ],
+      "targetBounds": [
+        624,
+        272,
+        19,
+        22
+      ],
+      "anchor": "bottom-center"
+    },
+    {
+      "assetId": "prop-crate",
+      "sourceCanvas": [
+        512,
+        512
+      ],
+      "sourceCrop": [
+        98,
+        88,
+        412,
+        445
+      ],
+      "targetBounds": [
+        400,
+        464,
+        19,
+        22
+      ],
+      "anchor": "bottom-center"
+    }
+  ],
+  "assetQA": {
+    "building-inn": {
+      "accepted": true,
+      "sourceSha256": "0e78122d88d9ddc021d5bd9472f01c3c4122eaace8c612ff744f2a6d650b3f3c",
+      "canvas": [
+        768,
+        768
+      ],
+      "alphaBBox": [
+        100,
+        181,
+        669,
+        547
+      ],
+      "pivot": [
+        384,
+        547
+      ],
+      "cornerColor": [
+        232.0,
+        11.0,
+        226.0
+      ],
+      "cornerSpread95": 11.721590042114258,
+      "calibratedKeyRadius": 59.67961883544922,
+      "enclosedKeyComponentsRemoved": 0,
+      "unsupportedNoiseIslandsRemoved": 0,
+      "opaqueBorderPixels": 0,
+      "opaqueKeyPixels": 0,
+      "softAlphaPixels": 2515,
+      "method": "validated pink/magenta family + enclosed holes + local edge color unmixing + unsupported chroma-noise removal",
+      "limits": "For opaque pixel assets, not transparent glass/glow. Color math does not verify semantic foreground completeness; inspect QA sheet."
+    },
+    "building-workshop": {
+      "accepted": true,
+      "sourceSha256": "9e6e9f0aa01ca295e35488a39064390667a0997da7c3c1d51473e1fb53d0465e",
+      "canvas": [
+        768,
+        768
+      ],
+      "alphaBBox": [
+        91,
+        152,
+        677,
+        551
+      ],
+      "pivot": [
+        384,
+        551
+      ],
+      "cornerColor": [
+        234.0,
+        16.0,
+        219.0
+      ],
+      "cornerSpread95": 11.661903381347656,
+      "calibratedKeyRadius": 53.70942687988281,
+      "enclosedKeyComponentsRemoved": 0,
+      "unsupportedNoiseIslandsRemoved": 0,
+      "opaqueBorderPixels": 0,
+      "opaqueKeyPixels": 0,
+      "softAlphaPixels": 2476,
+      "method": "validated pink/magenta family + enclosed holes + local edge color unmixing + unsupported chroma-noise removal",
+      "limits": "For opaque pixel assets, not transparent glass/glow. Color math does not verify semantic foreground completeness; inspect QA sheet."
+    },
+    "building-supply": {
+      "accepted": true,
+      "sourceSha256": "44687fea8bade61ca42cee7db78835adf937b4792232f4a62b4e7ede711d2cff",
+      "canvas": [
+        768,
+        768
+      ],
+      "alphaBBox": [
+        102,
+        192,
+        664,
+        528
+      ],
+      "pivot": [
+        384,
+        528
+      ],
+      "cornerColor": [
+        233.0,
+        15.0,
+        235.0
+      ],
+      "cornerSpread95": 12.845232963562012,
+      "calibratedKeyRadius": 58.77079772949219,
+      "enclosedKeyComponentsRemoved": 0,
+      "unsupportedNoiseIslandsRemoved": 0,
+      "opaqueBorderPixels": 0,
+      "opaqueKeyPixels": 0,
+      "softAlphaPixels": 2178,
+      "method": "validated pink/magenta family + enclosed holes + local edge color unmixing + unsupported chroma-noise removal",
+      "limits": "For opaque pixel assets, not transparent glass/glow. Color math does not verify semantic foreground completeness; inspect QA sheet."
+    },
+    "prop-cactus": {
+      "accepted": true,
+      "sourceSha256": "f5cbc04569805b6e2f04fcb42a46b271b6f35919a33da4f8b889a49982008b7e",
+      "canvas": [
+        512,
+        512
+      ],
+      "alphaBBox": [
+        109,
+        96,
+        393,
+        423
+      ],
+      "pivot": [
+        256,
+        423
+      ],
+      "cornerColor": [
+        239.0,
+        18.0,
+        227.0
+      ],
+      "cornerSpread95": 15.65247631072998,
+      "calibratedKeyRadius": 63.06892395019531,
+      "enclosedKeyComponentsRemoved": 0,
+      "unsupportedNoiseIslandsRemoved": 1,
+      "opaqueBorderPixels": 0,
+      "opaqueKeyPixels": 0,
+      "softAlphaPixels": 2427,
+      "method": "validated pink/magenta family + enclosed holes + local edge color unmixing + unsupported chroma-noise removal",
+      "limits": "For opaque pixel assets, not transparent glass/glow. Color math does not verify semantic foreground completeness; inspect QA sheet."
+    },
+    "prop-crate": {
+      "accepted": true,
+      "sourceSha256": "0022a4c3f067d5aec5fa8c263e53ed62337a09c5bb7413def7ce94688fecb509",
+      "canvas": [
+        512,
+        512
+      ],
+      "alphaBBox": [
+        98,
+        88,
+        412,
+        445
+      ],
+      "pivot": [
+        256,
+        445
+      ],
+      "cornerColor": [
+        242.0,
+        19.0,
+        239.0
+      ],
+      "cornerSpread95": 14.451632499694824,
+      "calibratedKeyRadius": 62.07889175415039,
+      "enclosedKeyComponentsRemoved": 0,
+      "unsupportedNoiseIslandsRemoved": 0,
+      "opaqueBorderPixels": 0,
+      "opaqueKeyPixels": 0,
+      "softAlphaPixels": 1619,
+      "method": "validated pink/magenta family + enclosed holes + local edge color unmixing + unsupported chroma-noise removal",
+      "limits": "For opaque pixel assets, not transparent glass/glow. Color math does not verify semantic foreground completeness; inspect QA sheet."
+    }
+  },
+  "collisionStatus": "procedural object bases; not extracted from artwork",
+  "shadowMethod": "separate procedural approximate shadow, not recovered baked lighting"
+}

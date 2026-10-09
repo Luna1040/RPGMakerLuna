@@ -1,0 +1,51 @@
+视频、网站与公开接口调研 — 2026-10-09
+
+VVD
+视频：https://www.bilibili.com/video/BV1hyHh6FE4A/
+官网：https://vvd.world/
+视频说明展示地形笔刷、河湖、道路、区域命名、地标与卡片关联、3D 地图和旅行路线。
+实际官网演示可切换到地图介绍，明确提到区域、标记、地区和标签；没有进入账号内编辑器。
+公开更新记录：https://vvd.world/whats-new
+记录确认地图图像导出与 Workshop/CLI 功能，但本轮未取得可直接调用的地图生成 API、导出数据 schema 或 SDK 文档。
+不能把“存在 CLI”解读成“已取得地图 API”。
+
+OCity
+视频：https://www.bilibili.com/video/BV1jHe265EPk/
+官网：https://ocity.zeelin.cn/web/
+视频是等高线地图功能更新前瞻，说明指向 iOS / Android / HarmonyOS App。
+实际官网页面主要显示 Android 下载、登录账号及账号权益。
+没有下载或执行 APK，没有进入用户账号，没有取得地图 API。
+两条视频本轮读取了页面说明，未取得完整可播放视频或字幕，不声称逐段观看。
+
+FrameRonin 公开源码（只读研究）
+来源：https://github.com/systemchester/FrameRonin
+已保存至 reference-source/：
+- MapStitch.tsx
+- blobTerrain.ts
+- simpleStitchVertical.ts
+对应 raw 地址均为 https://raw.githubusercontent.com/systemchester/FrameRonin/main/ 下同名路径。
+源码路径：frontend/src/components/MapStitch.tsx、frontend/src/components/infiniteMap/blobTerrain.ts、frontend/src/lib/simpleStitchVertical.ts。
+MapStitch 可观察到：重叠分块、相对位置模板、边缘羽化、PNG 合成、PSD 二进制图层写出、Godot 图片包与 manifest。
+godotSceneTscn 函数把各块导出为带位置的 Sprite2D（centered=false）；此函数本身不生成碰撞、导航或物件交互，不应认为导入包就是完整可玩场景。
+blobTerrain：Perlin/FBM 地形、八邻域掩码选图块、32×32 分块与缓存、平地可走规则。
+下载的参考源码没有运行，也没有直接复制进本地原型。未在此次操作中证明其代码可再分发授权。
+
+开放替代方案
+https://github.com/Azgaar/Fantasy-Map-Generator
+官方 LICENSE 为 MIT；文档确认高度图编辑、图像导入、等高线、离线版及 URL 参数 seed/width/height/preset。
+https://github.com/Azgaar/Fantasy-Map-Generator/wiki/Heightmap-customization
+https://github.com/Azgaar/Fantasy-Map-Generator/wiki/URL-parameters
+如果需要成熟世界观地图，可优先评估此项目而非绑定尚未查到接口的服务。
+
+本地原创实现
+入口：local-atlas/index.html；可直接打开，零外部依赖。
+预览服务：node local-atlas/serve.cjs，http://127.0.0.1:8791/，只绑定本机。
+核心文件：local-atlas/atlas.js。
+实现：种子高度场、海平面、等高线、地形笔刷、地点、道路、撤销、JSON 往返接口、PNG/灰度高度图/本地平面 GeoJSON 导出、小地图共享坐标。
+已运行 node local-atlas/check.cjs：确定性生成、抬高/降低/平滑、撤销、高度范围、坐标更新及 JSON bounds 检查通过。
+已在 Edge 实际打开：地图和小地图可见；添加地点、撤销、探索位置更新可正常操作。
+浏览器验收点位置从 54.5,13.5 更新到 80.0,50.0，小地图随之重绘。
+未调用 ComfyUI，也未修改现有角色工程。
+限制：程序化数据原型，不是精美 AI 像素场景；没有 3D、导航碰撞、自动场景语义分层；河流局部下坡，道路不具备完整寻路。
+
+后续接入应复用同一逻辑世界坐标，以区域 ID 关联精美场景与室内；世界地图表达地区关系，场景小地图表达角色附近区域，不能将独立 AI 图片当作准确坐标底图。
