@@ -10,22 +10,94 @@
 - `CHARACTER_PIPELINE.md`：角色素材生产流程。
 - `godot-belt-map/使用与对接说明.txt`：最新操作、机制、测试与集成记录。
 
-## 克隆与运行
+## Windows / macOS 正确开始
 
-二进制素材使用 Git LFS。请安装 Git LFS 后克隆，避免仅获得指针文件：
+当前应打开 **`godot-belt-map/project.godot`**。仓库里其他 `godot-*` 文件夹是历史实验，不是本次庭院试玩入口。
+
+运行现成游戏只需要 Godot 和仓库素材，**不需要安装 ComfyUI、AI 模型、Python、Node.js 或配置 API Key**。当前开发机使用 Godot **4.7.2 标准版**（GDScript，无需 .NET）；优先使用同版本。引擎不包含在仓库中，可从 [Godot 官方下载归档](https://godotengine.org/download/archive/) 获取对应系统版本。
+
+### 第一步：下载完整仓库（两个系统都需要）
+
+1. 安装 [Git](https://git-scm.com/downloads) 和 [Git LFS](https://git-lfs.com/)。安装完成后重新打开终端。macOS 已安装 Homebrew 的用户也可以运行 `brew install git git-lfs`。
+2. 在 Windows PowerShell 或 macOS「终端」进入想存放项目的目录，执行：
 
 ```sh
 git lfs install
 git clone https://github.com/Luna1040/RPGMakerLuna.git
 cd RPGMakerLuna
 git lfs pull
-godot --path godot-belt-map
+git lfs fsck
 ```
 
-安装 Godot 4.7.2 并将可执行文件命名/配置为 `godot`，或用编辑器导入 `godot-belt-map/project.godot`。
-根目录的旧 `.cmd` 启动器保留原始开发机路径约定，需要自行配置 `.tools/godot`。
+等待素材下载结束、`git lfs fsck` 校验通过，再启动工程。仓库包含大量历史图片和视频，首次下载可能较久。不要用 GitHub 的「Download ZIP」代替以上步骤，以免拿到 LFS 指针而缺少真实素材。
 
-网页包：在 `releases/knight-web` 中运行 `python -m http.server 8793`，访问 `http://localhost:8793/`。不能直接使用 `file://` 双击 HTML。
+### Windows：启动游戏
+
+1. 下载并解压 Windows 版 Godot，双击 Godot 编辑器 `.exe`。
+2. 在项目管理器点击 **导入 / Import**，选择刚克隆的 `RPGMakerLuna/godot-belt-map/project.godot`，然后打开编辑器。
+3. 首次打开等待素材导入完成，点击编辑器右上角 **运行项目 ▶**，或按 **F5**。会进入「苍石庭院」试玩。
+
+推荐先使用上述编辑器方式，不需要配置环境变量。仓库根目录的 `play-knight-map.cmd` 沿用开发机目录约定：只有把对应引擎放到 `.tools/godot/Godot_v4.7.2-stable_win64.exe` 后才能直接双击；新克隆的仓库不包含这个文件。
+
+### macOS：启动游戏
+
+1. 下载适合自己 Mac 的 Godot 标准版，解压并把 `Godot.app` 放进「应用程序 / Applications」。
+2. 打开 Godot，点击 **导入 / Import**，选择 `RPGMakerLuna/godot-belt-map/project.godot`，打开编辑器并等待素材导入。
+3. 点击右上角 **运行项目 ▶**。也可以按 **F5**；如果键盘把 F5 用作系统功能，使用 **Fn + F5**。
+
+macOS 使用同一份 GDScript 和素材，不使用 Windows 的 `.cmd` 启动器。需要命令行打开编辑器时，在仓库根目录运行（假设应用名为 `Godot.app`）：
+
+```sh
+/Applications/Godot.app/Contents/MacOS/Godot --editor --path godot-belt-map
+```
+
+当前已在 Windows 验证，**尚未在 Mac 实机验证**。本节针对现成游戏工程；仓库里的 AI 素材生产脚本包含 Windows 路径及 NVIDIA/CUDA 环境依赖，不能据此认为整套生图环境也能直接在 Mac 运行。
+
+导入步骤也可参考 [Godot 官方项目管理器说明](https://docs.godotengine.org/en/stable/tutorials/editor/project_manager.html)。
+
+### 只想试玩网页版
+
+已导出的网页包不需要 Godot。先完成上面的 LFS 下载，然后使用 HTTP 静态服务器托管 `releases/knight-web/`，入口是 `index.html`。如果已安装 Python 3，可在仓库根目录执行：
+
+Windows（PowerShell）：
+
+```powershell
+py -3 -m http.server 8793 --bind 127.0.0.1 --directory releases/knight-web
+```
+
+macOS（终端）：
+
+```sh
+python3 -m http.server 8793 --bind 127.0.0.1 --directory releases/knight-web
+```
+
+保持终端打开，在浏览器访问 [本机试玩](http://127.0.0.1:8793/)，点击开始后再操作。结束时在终端按 `Ctrl+C`。这两个命令只供本机访问；对外分发可将 `releases/苍石庭院-网页试玩-20261009.zip` 解压上传静态托管服务。**不要直接双击 HTML，以 `file://` 打开不能正常加载游戏。**
+
+### 基本操作
+
+| 按键 | 功能 |
+| --- | --- |
+| WASD / 方向键 | 移动；同方向 0.5 秒内双击并保持按住可奔跑 |
+| 空格 | 跳跃 |
+| J | 普通连击；奔跑时冲刺攻击；空中下劈 |
+| K / 1 / 2 / 3 | 施法 / 三个主动技能 |
+| E | 交谈、开箱、拾取 |
+| Q | 拾取并穿戴附近装备，或穿戴待装备物 |
+| I / M | 背包和属性 / 大地图 |
+| Esc | 关闭界面或结束对话 |
+| R | 角色复位 |
+
+开发检查台快捷键见下方「导出与开发」，仅桌面工程提供；Mac 的功能键必要时配合 Fn 使用。
+
+### 启动问题排查
+
+- **贴图丢失、字体报错、素材无法读取**：在仓库根目录重新运行 `git lfs pull` 和 `git lfs fsck`。如果 PNG 文件只有几行 `version https://git-lfs.github.com/spec/v1` 文本，就是指针文件，尚未下载真实素材。
+- **提示没有 `git lfs` 命令**：安装 Git LFS、重开终端，再运行 `git lfs install` 和 `git lfs pull`。
+- **双击 `.cmd` 提示找不到路径**：按上面的编辑器导入方式启动；Mac 不运行 `.cmd`。
+- **首次打开很慢**：等待 Godot 完成首次素材导入；不要在导入过程中反复关闭编辑器。
+- **运行了其他演示或空场景**：确认导入的是 `godot-belt-map/project.godot`，使用「运行项目」而非「运行当前场景」。
+- **网页无法打开或按键无效**：确认静态服务器仍在运行、地址端口一致，并点击游戏区域使其获得键盘焦点。
+- **更新项目**：没有本地改动时，在仓库根目录运行 `git pull`、`git lfs pull`，然后重新打开工程；有本地改动请先提交或备份。
 
 ## 素材与实验归档
 
