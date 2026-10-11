@@ -13,6 +13,8 @@ var speech := Label.new()
 var prompt_label := Label.new()
 var conversation: Dictionary = {}
 var line_index := 0
+var external_modal: Callable
+var close_external: Callable
 
 func _ready() -> void:
 	layer = 10
@@ -79,7 +81,7 @@ func setup(character, world_loot) -> void:
 	actor.equipment.changed.connect(refresh_inventory)
 
 func is_modal() -> bool:
-	return inventory.visible or dialogue.visible or (atlas.is_inside_tree() and atlas.visible)
+	return inventory.visible or dialogue.visible or (atlas.is_inside_tree() and atlas.visible) or (external_modal.is_valid() and external_modal.call())
 
 func setup_atlas(stage) -> void:
 	atlas.setup(stage)
@@ -128,6 +130,7 @@ func advance_conversation() -> void:
 	show_line()
 
 func close_panels() -> void:
+	if close_external.is_valid(): close_external.call()
 	atlas.hide()
 	inventory.hide()
 	dialogue.hide()

@@ -2,6 +2,8 @@ config_version=5
 [application]
 config/name="Knight - 2.5D Courtyard"
 run/main_scene="res://stage.tscn"
+[autoload]
+GameSession="*res://systems/session_bridge.gd"
 [display]
 window/size/viewport_width=1280
 window/size/viewport_height=800

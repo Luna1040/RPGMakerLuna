@@ -35,4 +35,8 @@ func run() -> void:
 	check(not ui.is_modal(), "Inventory did not close")
 	for error in failures: push_error(error)
 	print("INVENTORY_PANEL_TEST ", "PASS" if failures.is_empty() else "FAIL", " · hover/focus preview, net replacement, actual combat values, live health, close")
+	ui.queue_free()
+	actor.queue_free()
+	await process_frame
+	await process_frame
 	quit(0 if failures.is_empty() else 1)

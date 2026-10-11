@@ -153,6 +153,10 @@ func save_report() -> void:
 	await RenderingServer.frame_post_draw
 	get_viewport().get_texture().get_image().save_png(folder+"/"+stamp+".png")
 	var data := {"foot":{"x":stage.foot.x,"depth":stage.foot.y},"height":stage.height_z,"state":stage.knight.state,"frame":stage.knight.action_frame,"elapsed":stage.knight.elapsed,"grounded":stage.grounded,"platform":stage.platform,"speed":speed,"volumes":stage.volumes,"last_hit":hit_event,"equipment":stage.knight.equipment.equipped}
+	if stage.runtime!=null:
+		data["session"]=stage.runtime.snapshot()
+		data["event_trace"]=stage.runtime.events.trace.duplicate(true)
+		data["encounters"]=stage.runtime.encounters.snapshot()
 	var file := FileAccess.open(folder+"/"+stamp+".json",FileAccess.WRITE)
 	file.store_string(JSON.stringify(data,"  "))
 	message="已保存至 captures/debug"

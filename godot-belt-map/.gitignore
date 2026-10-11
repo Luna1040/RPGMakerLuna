@@ -1,0 +1,4 @@
+.godot/
+test-results/
+__pycache__/
+*.log

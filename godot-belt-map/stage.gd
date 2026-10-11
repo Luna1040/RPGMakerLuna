@@ -49,6 +49,8 @@ var captured := false
 var capture_mode := ""
 var testing_motion := false
 var test_input := Vector2.ZERO
+var runtime
+@export var foundations_enabled := true
 
 func project(p: Vector2, z: float = 0.0) -> Vector2:
 	return Vector2(p.x*ppm, origin_y+p.y*depth_scale-z*ppm)
@@ -56,6 +58,17 @@ func project(p: Vector2, z: float = 0.0) -> Vector2:
 func _ready() -> void:
 	ThemeDB.fallback_font=load("res://assets/fonts/NotoSansSC-subset.ttf")
 	contract=JSON.parse_string(FileAccess.get_file_as_string("res://map-contract.json"))
+	var launch_args:=OS.get_cmdline_args()+OS.get_cmdline_user_args()
+	var isolated_test:=false
+	for arg in launch_args:
+		if arg=="--script" or arg.begins_with("--smoke-") or arg.begins_with("--capture="):
+			isolated_test=true
+	foundations_enabled=foundations_enabled and (not isolated_test or "--foundations" in launch_args)
+	if foundations_enabled:
+		var bridge=get_node_or_null("/root/GameSession")
+		if bridge!=null and not bridge.pending.is_empty():
+			var target:Dictionary=preload("systems/world_registry.gd").load_zone(bridge.target_zone)
+			if not target.is_empty(): contract=target
 	volumes=contract.volumes
 	var b: Dictionary=contract.bounds
 	bounds=Rect2(b.x,b.depth,b.width,b.depth_size)
@@ -84,7 +97,7 @@ func _ready() -> void:
 	loot.setup(sorting, volumes, project, knight.equipment)
 	loot.notice.connect(func(text: String): notice = text)
 	townsfolk = TownNPCs.new()
-	townsfolk.setup(self)
+	if contract.get("town_npcs",true): townsfolk.setup(self)
 	interface = MapInterface.new()
 	add_child(interface)
 	interface.setup(knight, loot)
@@ -98,7 +111,7 @@ func _ready() -> void:
 	combat_fx.z_index=5
 	add_child(combat_fx)
 	practice=PracticeTargets.new()
-	practice.setup(self)
+	if contract.get("town_npcs",true): practice.setup(self)
 	camera.position=Vector2(clampf(foot.x*ppm,640,2432),400)
 	add_child(camera)
 	var layer := CanvasLayer.new()
@@ -130,6 +143,10 @@ func _ready() -> void:
 		developer_tools=preload("developer_tools.gd").new()
 		add_child(developer_tools)
 		developer_tools.setup(self)
+	if foundations_enabled:
+		runtime=preload("systems/game_runtime.gd").new()
+		add_child(runtime)
+		runtime.setup(self)
 	var args := OS.get_cmdline_user_args()
 	if "--smoke-map" in args:
 		call_deferred("smoke_test")
@@ -206,6 +223,9 @@ func _ready() -> void:
 			use_skill(["crescent","rising","trinity"][int(capture_mode.right(1))-1])
 	if not capture_mode.is_empty():
 		camera.position.y=clampf(project(foot).y-220,400,570)
+	if capture_mode.begins_with("foundation-") and runtime!=null:
+		runtime.panel.open(capture_mode.trim_prefix("foundation-"))
+		call_deferred("save_capture")
 
 func capture_dialogue() -> void:
 	_physics_process(0.016)
@@ -250,6 +270,13 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		return
 	if not event.is_pressed() or event.is_echo():
 		return
+	if runtime!=null and event is InputEventKey:
+		if runtime.handle_key(event):
+			get_viewport().set_input_as_handled()
+			return
+		var mapped:InputEventKey=event.duplicate()
+		mapped.keycode=runtime.controls.canonical(event)
+		event=mapped
 	if event.keycode == KEY_M:
 		interface.toggle_atlas()
 		sprint.reset()
@@ -284,6 +311,9 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	elif event.keycode==KEY_F2:
 		debug_collision=not debug_collision
 	elif event.keycode==KEY_R:
+		if runtime!=null and runtime.zone=="ruins":
+			runtime.say("试炼中使用冒险菜单撤退或读档。")
+			return
 		foot=Vector2(contract.spawn.x,contract.spawn.depth)
 		last_safe=foot
 		height_z=0
@@ -293,17 +323,27 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		sprint.reset()
 		hit_pause=0
 		shake_left=0
-		knight.reset_character()
+		if runtime==null:
+			knight.reset_character()
+		else:
+			knight.set_airborne(false,0)
+			if not knight.defeated: knight.change_action("stand")
+			notice="已返回庭院出生点；生命与法力保持不变。"
 	elif event.keycode==KEY_Q:
 		if grounded and knight.is_locomotion():
 			loot.quick_equip(foot,height_z)
 
 func _input(event: InputEvent) -> void:
+	if runtime!=null and event is InputEventKey and runtime.panel.capture_action!="":
+		runtime.panel.capture_key(event)
+		get_viewport().set_input_as_handled()
+		return
 	if event is InputEventKey and capture_mode.is_empty():
 		if interface != null and interface.is_modal():
 			sprint.reset()
 			return
 		var key: int=event.physical_keycode if event.physical_keycode!=0 else event.keycode
+		if runtime!=null: key=runtime.controls.canonical(event)
 		sprint.register_key(key,event.pressed,event.echo)
 
 func _notification(what: int) -> void:
@@ -346,23 +386,27 @@ func interact() -> void:
 	if not npc.is_empty():
 		knight.set_movement_axis(0)
 		knight.change_action("stand")
-		interface.begin_conversation(npc)
+		if runtime!=null: runtime.open_npc(npc)
+		else: interface.begin_conversation(npc)
 
 func _physics_process(delta: float) -> void:
 	if not is_instance_valid(knight):
 		return
+	# Death is a state transition and must settle even if Esc opened this frame.
+	if runtime!=null and runtime.death_pending: runtime.step(0)
 	skill_bar.visible=not interface.is_modal()
 	if interface.is_modal():
 		sprint.reset()
 		knight.set_running(false)
 		knight.set_movement_axis(0)
-		knight._physics_process(delta)
+		if runtime==null: knight._physics_process(delta)
 		interface.set_prompt("")
 		return
 	if hit_pause>0:
 		hit_pause=maxf(0,hit_pause-delta)
 		return
 	var input := Vector2(float(Input.is_physical_key_pressed(KEY_D) or Input.is_physical_key_pressed(KEY_RIGHT))-float(Input.is_physical_key_pressed(KEY_A) or Input.is_physical_key_pressed(KEY_LEFT)),float(Input.is_physical_key_pressed(KEY_S) or Input.is_physical_key_pressed(KEY_DOWN))-float(Input.is_physical_key_pressed(KEY_W) or Input.is_physical_key_pressed(KEY_UP)))
+	if runtime!=null: input=runtime.controls.movement()
 	if testing_motion:
 		input=test_input
 	if not capture_mode.is_empty():
@@ -438,6 +482,7 @@ func _physics_process(delta: float) -> void:
 	camera.position.y=lerpf(camera.position.y,clampf(project(foot).y-220,400,570),minf(1,delta*6))
 	shake_left=maxf(0,shake_left-delta)
 	camera.offset=Vector2(sin(capture_time*90)*4,cos(capture_time*75)*2)*minf(1,shake_left/.08)
+	if runtime!=null and not runtime.controls.screen_shake: camera.offset=Vector2.ZERO
 	dash_fx_left-=delta
 	if moved and (is_running or knight.state=="dash_attack") and dash_fx_left<=0:
 		combat_fx.play("dash",project(foot,height_z),knight.facing,.7)
@@ -447,6 +492,8 @@ func _physics_process(delta: float) -> void:
 		p.node.position.x += p.facing*680*delta
 		p.life-=delta
 		var impact: bool = loot.hit_projectile(before_x, p.node.position.x / ppm, p.depth, p.height, p.damage)
+		if not impact and runtime!=null:
+			impact=runtime.encounters.hit_projectile(before_x,p.node.position.x/ppm,p.depth,p.height,p.damage)
 		if not impact:
 			impact=practice.projectile(before_x,p.node.position.x/ppm,p.depth,p.height,p.damage)
 		if impact or p.life<=0:
@@ -454,13 +501,18 @@ func _physics_process(delta: float) -> void:
 			projectiles.erase(p)
 	townsfolk.step(delta, foot, height_z)
 	practice.step(delta)
+	if runtime!=null: runtime.step(delta)
 	var hint: String = loot.prompt(foot, height_z)
 	if hint.is_empty():
 		var near: Dictionary = townsfolk.nearest(foot, height_z)
 		if not near.is_empty():
 			hint = "E 交谈 · " + str(near.name)
+	if runtime!=null:
+		hint=hint.replace("E ",runtime.controls.key_name("interact")+" ").replace("Q ",runtime.controls.key_name("equip")+" ")
 	interface.set_prompt(hint)
 	hud.text="苍石庭院  /  姬骑士 · 战斗演示\n双击方向 奔跑   空格 跳跃   J 攻击/冲刺斩/下劈   1–3 技能   K 雷光   E 交互   I 背包   R 复位\n高度 %.2fm  ·  %s  ·  %s" % [height_z,("奔跑" if is_running else "箱顶 "+platform if not platform.is_empty() else "地面" if grounded else "空中"),notice]
+	if runtime!=null:
+		hud.text="%s  /  姬骑士\n双击方向 奔跑   %s 攻击   %s 交互   %s 背包   %s 地图   %s 手册   Esc 暂停\n%s" % ["苍石庭院" if runtime.zone=="town" else "古塔试炼场",runtime.controls.key_name("attack"),runtime.controls.key_name("interact"),runtime.controls.key_name("inventory"),runtime.controls.key_name("map"),runtime.controls.key_name("journal"),notice]
 	queue_redraw()
 	minimap.queue_redraw()
 	capture_time+=delta
@@ -473,6 +525,9 @@ func on_attack(event: Dictionary) -> void:
 	attacks+=1
 	notice="%s · 攻击事件 %d（沿用原角色时序）" % [str(event.action),attacks]
 	var hit_count: int=loot.hit_melee(foot, height_z, event)+practice.hit(foot,height_z,event)
+	if runtime!=null:
+		hit_count+=runtime.encounters.hit(foot,height_z,event)
+		runtime.audio.play("hit" if hit_count>0 else "swing")
 	if developer_tools!=null:
 		developer_tools.record_hit(event,hit_count)
 	var kind: String=event.get("skill","")

@@ -3,6 +3,9 @@ const HitQuery = preload("combat_query.gd")
 ## All collision tests use world meters and ground depth, never projected screen distance.
 signal notice(text: String)
 signal crate_destroyed(id: String)
+signal collected(id: String, amount: int, is_equipment: bool)
+signal chest_opened(id: String)
+var original_crates: Dictionary = {}
 var crates: Dictionary = {}
 var chests: Array = []
 var drops: Array = []
@@ -84,8 +87,14 @@ func setup(sort_root: Node2D, world_volumes: Array, project_fn: Callable, gear: 
 	for v: Dictionary in volumes:
 		if v.kind=="crate":
 			crates[str(v.id)]={"volume":v,"hp":30.0,"node":sorting.get_node_or_null(NodePath(str(v.id)))}
-	add_chest("courtyard-cache",Vector2(11.8,6.8),["courtyard_blade","courtyard_mail"])
-	add_chest("east-cache",Vector2(22.2,4.8),["courtyard_charm"])
+			original_crates[str(v.id)]=v.duplicate(true)
+	var host = get_parent()
+	var entries: Array = host.contract.get("chests", [{"id":"courtyard-cache","foot":[11.8,6.8],"items":["courtyard_blade","courtyard_mail"]},{"id":"east-cache","foot":[22.2,4.8],"items":["courtyard_charm"]}]) if host != null and "contract" in host else []
+	# Standalone loot tests use a plain parent and expect the courtyard fixtures.
+	if host == null or not "contract" in host:
+		entries=[{"id":"courtyard-cache","foot":[11.8,6.8],"items":["courtyard_blade","courtyard_mail"]},{"id":"east-cache","foot":[22.2,4.8],"items":["courtyard_charm"]}]
+	for entry in entries:
+		add_chest(entry.id,Vector2(entry.foot[0],entry.foot[1]),entry.items)
 
 func add_chest(id: String, position_world: Vector2, contents: Array) -> void:
 	var art := LootArt.new()
@@ -96,6 +105,8 @@ func add_chest(id: String, position_world: Vector2, contents: Array) -> void:
 	chests.append({"id":id,"foot":position_world,"opened":false,"contents":contents,"node":art})
 
 func _process(delta: float) -> void:
+	var host=get_parent()
+	if host!=null and "interface" in host and host.interface!=null and host.interface.is_modal(): return
 	time+=delta
 	for drop: Dictionary in drops:
 		drop.age+=delta
@@ -188,6 +199,7 @@ func interact(foot: Vector2, z: float) -> bool:
 		else:
 			materials[drop.id]=int(materials.get(drop.id,0))+int(drop.amount)
 			picked.append("%s ×%d" % [drop.id,drop.amount])
+		collected.emit(str(drop.id),int(drop.amount),bool(drop.equipment))
 		drop.node.queue_free()
 		drops.erase(drop)
 	if not picked.is_empty():
@@ -198,6 +210,7 @@ func interact(foot: Vector2, z: float) -> bool:
 			chest.opened=true
 			chest.node.opened=true
 			chest.node.queue_redraw()
+			chest_opened.emit(str(chest.id))
 			for i in chest.contents.size():
 				spawn_drop(chest.contents[i],1,chest.foot+Vector2((i-0.5)*0.44,0.45),true)
 			notice.emit("宝箱已打开！靠近装备按 Q 直接穿戴，E 拾取附近物品")
@@ -259,7 +272,53 @@ func quick_equip(foot: Vector2, z: float) -> bool:
 	pending_equipment.erase(id)
 	drop.node.queue_free()
 	drops.erase(drop)
+	collected.emit(id,int(drop.amount),true)
 	return true
+
+func snapshot_world() -> Dictionary:
+	var broken: Array = []
+	for id in original_crates:
+		if not crates.has(id): broken.append(id)
+	var opened: Array = []
+	for chest in chests:
+		if chest.opened: opened.append(chest.id)
+	var pending: Array = []
+	for drop in drops:
+		pending.append({"id":drop.id,"amount":drop.amount,"foot":[drop.foot.x,drop.foot.y],"equipment":drop.equipment})
+	return {"broken":broken,"opened":opened,"drops":pending}
+
+func restore_world(data: Dictionary) -> void:
+	# Restore by IDs, never serialize scene nodes or replay destruction rewards.
+	for drop in drops:
+		if is_instance_valid(drop.node): drop.node.queue_free()
+	drops.clear()
+	for id in original_crates:
+		if id in data.get("broken", []):
+			if crates.has(id):
+				var c: Dictionary=crates[id]
+				volumes.erase(c.volume)
+				if is_instance_valid(c.node): c.node.queue_free()
+				crates.erase(id)
+		elif not crates.has(id):
+			var volume: Dictionary=original_crates[id].duplicate(true)
+			volumes.append(volume)
+			var host=get_parent()
+			if host != null and host.has_method("add_prop"):
+				host.add_prop(volume)
+				crates[id]={"volume":volume,"hp":30.0,"node":sorting.get_node_or_null(NodePath(id))}
+		else:
+			crates[id].hp=30.0
+	for chest in chests:
+		chest.opened=chest.id in data.get("opened",[])
+		chest.node.opened=chest.opened
+		chest.node.queue_redraw()
+	for entry in data.get("drops",[]):
+		if not entry is Dictionary or not entry.get("foot") is Array or entry.foot.size()!=2: continue
+		var id:=str(entry.get("id",""))
+		var gear:=bool(entry.get("equipment",false))
+		if (gear and not equipment.CATALOG.has(id)) or (not gear and not materials.has(id)): continue
+		spawn_drop(id,clampi(int(entry.get("amount",1)),1,9999),Vector2(float(entry.foot[0]),float(entry.foot[1])),gear)
+		for drop in drops: drop.age=.3
 
 func equip_latest() -> bool:
 	while not pending_equipment.is_empty():

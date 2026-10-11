@@ -43,6 +43,11 @@ func _draw() -> void:
 			draw_line(p-Vector2(5,0),p+Vector2(5,0),Color.WHITE,2)
 			draw_line(p-Vector2(0,5),p+Vector2(0,5),Color.WHITE,2)
 	if tools.hit_toggle.button_pressed:
+		if stage.runtime!=null:
+			for enemy in stage.runtime.encounters.enemies:
+				if enemy.state=="dead": continue
+				var half:=Vector2(.30,.25) if enemy.kind=="boss" else Vector2(.23,.22)
+				volume({"x":enemy.foot.x-half.x,"depth":enemy.foot.y-half.y,"width":half.x*2,"depth_size":half.y*2,"base_z":enemy.reaction.height/120.0,"height":1.5},Color("ff95b6"),"敌人 · "+str(enemy.state))
 		for target in stage.practice.targets:
 			volume({"x":target.foot.x-.23,"depth":target.foot.y-.22,"width":.46,"depth_size":.44,"base_z":target.reaction.height/120.0,"height":1.35},Color("f2a3df"),"木桩受击体")
 		if not tools.hit_event.is_empty():

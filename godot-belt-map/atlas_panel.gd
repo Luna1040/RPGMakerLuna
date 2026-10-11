@@ -1,6 +1,11 @@
 extends PanelContainer
 var canvas := preload("atlas_canvas.gd").new()
 var footer := Label.new()
+func _notification(what: int) -> void:
+	if what==NOTIFICATION_PREDELETE:
+		# Standalone inventory users may never call setup_atlas().
+		for node in [canvas,footer]:
+			if is_instance_valid(node) and node.get_parent()==null: node.free()
 func setup(stage) -> void:
 	position=Vector2(100,75)
 	size=Vector2(1080,650)

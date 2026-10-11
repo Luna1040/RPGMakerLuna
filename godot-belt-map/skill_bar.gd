@@ -11,6 +11,7 @@ const ENTRIES := [
 ]
 var actor
 var bar: SkillPanel
+var key_names: Dictionary = {}
 
 func _ready() -> void:
 	layer = 9
@@ -27,6 +28,7 @@ func entry_at(index: int) -> Dictionary:
 	var entry: Dictionary = ENTRIES[index].duplicate()
 	if is_instance_valid(actor) and entry.id != "spell":
 		entry.merge(actor.SKILLS.get(entry.id, {}), true)
+	if key_names.has(entry.id): entry.key=key_names[entry.id]
 	return entry
 
 func _process(_delta: float) -> void:

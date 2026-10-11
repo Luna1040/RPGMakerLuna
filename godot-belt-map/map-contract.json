@@ -146,12 +146,10 @@
     "Preserve walking paths and valid landing surfaces"
   ],
   "limitations": [
-    "Prototype collision bounds require visual review",
-    "Jump and aerial downward attack have separate animations; no back-facing combat sprites yet",
-    "No back-facing character animation",
-    "Fountain has a fixed illustrated water layer; water animation is not implemented",
-    "Courtyard is not yet an enterable building interior",
-    "Loot and opened chests last for the current session only; restarting the demo resets them",
-    "Town residents currently offer dialogue and subtle breathing, not shops or quest chains"
-  ]
+    "Original character animation frames contain the weapon; equipment changes stats only.",
+    "No back-facing character animation.",
+    "Inn is not an enterable interior.",
+    "Enemy sprites are code-drawn prototypes; companion is an invulnerable support echo."
+  ],
+  "zone_id": "town"
 }

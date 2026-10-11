@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "title": "苍石庭院：失踪的补给",
+  "materials": ["旧铜币", "木料", "碎布", "秘银碎屑"],
+  "flags": ["supply_hint", "smith_marks", "ward_repaired", "bargain_struck", "culprit_exposed", "finale_cleared", "companion_bond"],
+  "routes": {"supply_resolution": ["repair", "bargain", "investigate"]},
+  "consumables": {
+    "healing_potion": {"name": "庭院治疗药剂", "description": "恢复 55 点生命；生命已满或倒下时不消耗。", "stat": "health", "amount": 55, "max_stack": 99},
+    "mana_potion": {"name": "澄蓝法力药剂", "description": "恢复 45 点法力；法力已满或倒下时不消耗。", "stat": "mana", "amount": 45, "max_stack": 99}
+  },
+  "quests": [
+    {"id": "courtyard_provisions", "title": "艾琳的补给", "description": "旅店的补给箱丢了。打碎庭院旧木箱，把木料和碎布交给艾琳。也可以支付铜币托她采购。", "npc": "innkeeper", "position": [0, 0], "requires": {}, "objectives": [
+      {"id": "crate", "kind": "event", "event": "crate_destroyed", "target": 1, "label": "打碎一个旧木箱"},
+      {"id": "wood", "kind": "material", "material": "木料", "target": 3, "label": "准备木料"},
+      {"id": "cloth", "kind": "material", "material": "碎布", "target": 1, "label": "准备碎布"}
+    ], "consume": {"木料": 3, "碎布": 1}, "rewards": {"xp": 45, "materials": {"旧铜币": 20}, "consumables": {"healing_potion": 2}, "reputation": {"innkeeper": 2}}},
+    {"id": "courtyard_menace", "title": "雷恩的试炼", "description": "清理威胁庭院的敌人。可独立完成，无需先帮助旅店。木桩不算敌人。", "npc": "smith", "position": [0, 2], "requires": {}, "objectives": [
+      {"id": "enemies", "kind": "event", "event": "enemy_killed", "target": 3, "label": "击败真正的敌人"}
+    ], "rewards": {"xp": 65, "materials": {"旧铜币": 30, "秘银碎屑": 2}, "reputation": {"smith": 2}}},
+    {"id": "missing_supplies", "title": "消失的补给车", "description": "同时询问艾琳与雷恩，将账簿缺口和车辙痕迹串起来。调查、修复结界和协商交易会形成不同结果。", "npc": "innkeeper", "position": [1, 1], "requires": {}, "objectives": [
+      {"id": "ledger", "kind": "flag", "flag": "supply_hint", "target": 1, "label": "向艾琳询问缺失账簿"},
+      {"id": "tracks", "kind": "flag", "flag": "smith_marks", "target": 1, "label": "请雷恩辨认车辙"}
+    ], "rewards": {"xp": 35, "materials": {"旧铜币": 10}, "reputation": {"innkeeper": 1, "smith": 1}}},
+    {"id": "courtyard_finale", "title": "庭院守夜人", "description": "击败试炼中的首领，再找雷恩领取报酬。修复、交易或查明真相都可以通向此处；帮助两位镇民也能直接获得委托。", "npc": "smith", "position": [3, 1], "requires": {"any": [
+      {"route": {"group": "supply_resolution", "value": "repair"}},
+      {"route": {"group": "supply_resolution", "value": "bargain"}},
+      {"route": {"group": "supply_resolution", "value": "investigate"}},
+      {"all": [{"quest": {"id": "courtyard_provisions", "status": ["claimed"]}}, {"quest": {"id": "courtyard_menace", "status": ["claimed"]}}]}
+    ]}, "objectives": [{"id": "boss", "kind": "event", "event": "boss_killed", "target": 1, "label": "击败试炼首领"}], "rewards": {"xp": 120, "materials": {"旧铜币": 60, "秘银碎屑": 4}, "flags": {"finale_cleared": true}, "reputation": {"smith": 2}}, "route_rewards": {
+      "repair": {"consumables": {"healing_potion": 2}},
+      "bargain": {"materials": {"旧铜币": 30}},
+      "investigate": {"xp": 35, "consumables": {"mana_potion": 2}}
+    }},
+    {"id": "clearance_waves", "title": "守住三波", "description": "接受后完成三波战斗。同一波仅计数一次，可以分次试炼完成。", "npc": "smith", "position": [1, 3], "requires": {}, "objectives": [{"id": "waves", "kind": "event", "event": "wave_cleared", "target": 3, "label": "清理敌人波次"}], "rewards": {"xp": 80, "materials": {"旧铜币": 35}, "consumables": {"mana_potion": 1}, "reputation": {"smith": 1}}},
+    {"id": "companion_oath", "title": "可以托付后背的人", "description": "两位镇民都认可你后，和艾琳缔结同行约定。此支线不阻碍主线结局。", "npc": "innkeeper", "position": [3, 3], "requires": {"all": [{"reputation": {"npc": "innkeeper", "min": 2}}, {"reputation": {"npc": "smith", "min": 2}}]}, "objectives": [{"id": "bond", "kind": "flag", "flag": "companion_bond", "target": 1, "label": "与艾琳约定照应同伴"}], "rewards": {"xp": 50, "consumables": {"healing_potion": 1, "mana_potion": 1}, "reputation": {"innkeeper": 1}}}
+  ],
+  "shop": [
+    {"id": "healing_potion", "kind": "consumable", "cost": {"旧铜币": 8}},
+    {"id": "mana_potion", "kind": "consumable", "cost": {"旧铜币": 10}},
+    {"id": "courtyard_blade", "kind": "equipment", "cost": {"旧铜币": 50}},
+    {"id": "courtyard_mail", "kind": "equipment", "cost": {"旧铜币": 45}},
+    {"id": "courtyard_charm", "kind": "equipment", "cost": {"旧铜币": 40}}
+  ],
+  "recipes": [
+    {"id": "brew_healing", "name": "配制治疗药剂", "cost": {"碎布": 1, "旧铜币": 3}, "output": {"kind": "consumable", "id": "healing_potion", "amount": 1}},
+    {"id": "brew_mana", "name": "调配法力药剂", "cost": {"秘银碎屑": 1, "旧铜币": 3}, "output": {"kind": "consumable", "id": "mana_potion", "amount": 1}},
+    {"id": "forge_courtyard_blade", "name": "锻造庭卫精钢剑", "cost": {"木料": 3, "秘银碎屑": 4, "旧铜币": 15}, "output": {"kind": "equipment", "id": "courtyard_blade", "amount": 1}}
+  ],
+  "npcs": {
+    "innkeeper": {"name": "艾琳 · 旅店主人", "greeting": "旅店缺了补给，我也担心失踪车队。你可以帮忙搬运、和雷恩一起调查，或者先去应付敌人。", "variants": [
+      {"when": {"flag": {"id": "finale_cleared", "value": true}}, "text": "守夜人回来了！无论你用什么办法解决车队的事，庭院今晚终于能安心睡了。"},
+      {"when": {"route": {"group": "supply_resolution", "value": "investigate"}}, "text": "账簿和车辙果然对得上。失踪车队是被引向旧结界的，雷恩会替你准备最后的试炼。"},
+      {"when": {"route": {"group": "supply_resolution", "value": "bargain"}}, "text": "你的采购款已经交给商队。补给有了着落，但那些把车队吓跑的家伙还得处理。"},
+      {"when": {"route": {"group": "supply_resolution", "value": "repair"}}, "text": "结界修好了，商队敢沿原路回来。谢谢你先照顾这里的人。"}
+    ], "choices": [
+      {"id": "ask_ledger", "label": "询问失踪补给与账簿", "action": "effect", "effects": {"accept": ["missing_supplies"], "flags": {"supply_hint": true}}, "text": "最后一车在东门登记后就没有回执。找雷恩看看车辙，也许他知道发生了什么。"},
+      {"id": "provision_order", "label": "接受：艾琳的补给", "action": "accept", "quest": "courtyard_provisions", "when": {"quest": {"id": "courtyard_provisions", "status": ["available"]}}},
+      {"id": "provision_delivery", "label": "交付补给并领取报酬", "action": "claim", "quest": "courtyard_provisions", "when": {"quest": {"id": "courtyard_provisions", "status": ["active", "ready"]}}},
+      {"id": "provision_procurement", "label": "委托采购替代搬运（10 铜币）", "action": "procure", "quest": "courtyard_provisions", "when": {"quest": {"id": "courtyard_provisions", "status": ["active"]}}, "cost": {"旧铜币": 10}, "text": "我来找熟悉的货商补齐物资。补给委托现在可以交付了。"},
+      {"id": "investigation_report", "label": "对照线索，领取调查报酬", "action": "claim", "quest": "missing_supplies", "when": {"quest": {"id": "missing_supplies", "status": ["active", "ready"]}}},
+      {"id": "route_bargain", "label": "选择协商：资助商队绕路（20 铜币）", "action": "route", "route": "bargain", "group": "supply_resolution", "cost": {"旧铜币": 20}, "when": {"excludes": [{"route_selected": "supply_resolution"}]}, "effects": {"flags": {"bargain_struck": true}, "reputation": {"innkeeper": 1}}, "text": "商队改道补货。这个选择已记入故事，雷恩的首领委托现在开放。"},
+      {"id": "route_investigate", "label": "选择追查：公开两条线索的真相", "action": "route", "route": "investigate", "group": "supply_resolution", "when": {"all": [{"flag": {"id": "supply_hint", "value": true}}, {"flag": {"id": "smith_marks", "value": true}}], "excludes": [{"route_selected": "supply_resolution"}]}, "effects": {"flags": {"culprit_exposed": true}, "reputation": {"innkeeper": 1, "smith": 1}}, "text": "你揭露了车队被诱向旧结界的经过。雷恩准备了首领委托，去找他吧。"},
+      {"id": "oath_accept", "label": "接受：可以托付后背的人", "action": "accept", "quest": "companion_oath", "when": {"quest": {"id": "companion_oath", "status": ["available"]}}},
+      {"id": "oath_bond", "label": "约定在冒险中彼此照应", "action": "effect", "when": {"quest": {"id": "companion_oath", "status": ["active"]}}, "effects": {"flags": {"companion_bond": true}}, "text": "我们把这份约定记下。回到任务页领取报酬，战斗时可以呼叫同伴。"},
+      {"id": "oath_reward", "label": "领取同行约定报酬", "action": "claim", "quest": "companion_oath", "when": {"quest": {"id": "companion_oath", "status": ["ready"]}}},
+      {"id": "call_companion", "label": "呼叫同行伙伴", "action": "recruit_companion", "when": {"flag": {"id": "companion_bond", "value": true}}},
+      {"id": "supply_shop", "label": "购买药剂与装备", "action": "shop"},
+      {"id": "journal", "label": "查看任务与故事分支", "action": "journal"}
+    ]},
+    "smith": {"name": "雷恩 · 铁匠", "greeting": "车轮痕迹停在旧结界旁。先清理威胁、调查痕迹、或者帮我修复结界，都能让庭院往前走。", "variants": [
+      {"when": {"flag": {"id": "finale_cleared", "value": true}}, "text": "守夜人的名号是你挣来的。想再磨练身手，随时可以重开试炼；任务报酬只发一次。"},
+      {"when": {"route_selected": "supply_resolution"}, "text": "车队的事有了方案。首领委托已开放，先接下它再开始战斗，胜利就会记在委托里。"}
+    ], "choices": [
+      {"id": "ask_tracks", "label": "请雷恩辨认车辙", "action": "effect", "effects": {"accept": ["missing_supplies"], "flags": {"smith_marks": true}}, "text": "这不是货车翻覆，而是有人故意改了路标。艾琳那里应该还有出入账簿。"},
+      {"id": "menace_order", "label": "接受：雷恩的试炼", "action": "accept", "quest": "courtyard_menace", "when": {"quest": {"id": "courtyard_menace", "status": ["available"]}}},
+      {"id": "menace_reward", "label": "交付清敌委托", "action": "claim", "quest": "courtyard_menace", "when": {"quest": {"id": "courtyard_menace", "status": ["active", "ready"]}}},
+      {"id": "waves_order", "label": "接受：守住三波", "action": "accept", "quest": "clearance_waves", "when": {"quest": {"id": "clearance_waves", "status": ["available"]}}},
+      {"id": "waves_reward", "label": "领取守住三波报酬", "action": "claim", "quest": "clearance_waves", "when": {"quest": {"id": "clearance_waves", "status": ["active", "ready"]}}},
+      {"id": "route_repair", "label": "选择修复：重铸结界（木料 3 / 秘银 2）", "action": "route", "route": "repair", "group": "supply_resolution", "cost": {"木料": 3, "秘银碎屑": 2}, "when": {"excludes": [{"route_selected": "supply_resolution"}]}, "effects": {"flags": {"ward_repaired": true}, "reputation": {"smith": 2}}, "text": "结界重新亮起来了。我们选择了修复道路；接下首领委托，清掉最后的威胁。"},
+      {"id": "finale_order", "label": "接受：庭院守夜人", "action": "accept", "quest": "courtyard_finale", "when": {"quest": {"id": "courtyard_finale", "status": ["available"]}}},
+      {"id": "finale_reward", "label": "报告首领败退，领取结局报酬", "action": "claim", "quest": "courtyard_finale", "when": {"quest": {"id": "courtyard_finale", "status": ["active", "ready"]}}},
+      {"id": "trial", "label": "开始 / 重开战斗试炼", "action": "request_trial", "text": "先确认想做的清敌、波次和首领委托已经接受，再进入试炼。"},
+      {"id": "smith_shop", "label": "购买装备与药剂", "action": "shop"},
+      {"id": "forge", "label": "锻造与配制", "action": "craft"},
+      {"id": "journal", "label": "查看任务与故事分支", "action": "journal"}
+    ]}
+  },
+  "graph_edges": [
+    {"from": "courtyard_provisions", "to": "route_repair", "label": "补给支持修复", "kind": "optional"},
+    {"from": "courtyard_menace", "to": "route_repair", "label": "清敌带回秘银", "kind": "optional"},
+    {"from": "courtyard_provisions", "to": "route_bargain", "label": "报酬可支付协商", "kind": "optional"},
+    {"from": "missing_supplies", "to": "route_investigate", "label": "两条线索", "kind": "condition"},
+    {"from": "route_repair", "to": "courtyard_finale", "label": "修复道路", "kind": "converge"},
+    {"from": "route_bargain", "to": "courtyard_finale", "label": "改道补货", "kind": "converge"},
+    {"from": "route_investigate", "to": "courtyard_finale", "label": "查明真相", "kind": "converge"},
+    {"from": "courtyard_provisions", "to": "courtyard_finale", "label": "与清敌共同完成也可解锁", "kind": "all"},
+    {"from": "courtyard_menace", "to": "courtyard_finale", "label": "与补给共同完成也可解锁", "kind": "all"},
+    {"from": "courtyard_provisions", "to": "companion_oath", "label": "艾琳的信任", "kind": "optional"},
+    {"from": "courtyard_menace", "to": "companion_oath", "label": "雷恩的认可", "kind": "optional"}
+  ]
+}

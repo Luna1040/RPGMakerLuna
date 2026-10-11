@@ -49,6 +49,8 @@ var magic_bonus := 0.0
 var defense := 0.0
 var mana_regen := 7.0
 var equipment_speed_bonus := 0.0
+var progression_bonuses: Dictionary = {}
+var run_bonuses: Dictionary = {}
 ## The map owns height/gravity. These values select an independent visual pose.
 var airborne := false
 var air_vertical_speed := 0.0
@@ -72,6 +74,9 @@ func set_airborne(active: bool, vertical_speed: float) -> void:
 
 func refresh_equipment() -> void:
 	var bonus: Dictionary = equipment.bonuses()
+	for source in [progression_bonuses, run_bonuses]:
+		for key in source:
+			if bonus.has(key): bonus[key] += float(source[key])
 	max_health = 100.0 + bonus["health"]
 	max_mana = 100.0 + bonus["mana"]
 	attack_bonus = bonus["attack"]

@@ -76,7 +76,7 @@ func signed(value: float) -> String:
 
 func update_stats() -> void:
 	var s: Dictionary = actor.get_effective_stats()
-	stat_text.text = "生命  [color=#8de1b0]%s / %s[/color]\n法力  [color=#82caff]%s / %s[/color]\n\n攻击力  %s\n魔法攻击力  %s\n护甲  %s\n移动速度  %s\n法力回复  %s / 秒\n\n[color=#a6b5c7]物理加成  %s\n魔法加成  %s\n攻击力：普攻首击伤害\n魔法攻击力：雷光直接伤害\n其他招式：基础伤害＋装备加成。[/color]" % [number(actor.health), number(s.health), number(actor.mana), number(s.mana), number(actor.get_attack_damage("attack1")), number(actor.get_spell_damage()), number(s.defense), number(s.speed), number(s.regen), signed(s.attack), signed(s.magic)]
+	stat_text.text = "生命  [color=#8de1b0]%s / %s[/color]\n法力  [color=#82caff]%s / %s[/color]\n\n攻击力  %s\n魔法攻击力  %s\n护甲  %s\n移动速度  %s\n法力回复  %s / 秒\n\n[color=#a6b5c7]物理加成  %s\n魔法加成  %s\n攻击力：普攻首击伤害\n魔法攻击力：雷光直接伤害\n其他招式：基础伤害＋总加成。[/color]" % [number(actor.health), number(s.health), number(actor.mana), number(s.mana), number(actor.get_attack_damage("attack1")), number(actor.get_spell_damage()), number(s.defense), number(s.speed), number(s.regen), signed(s.attack), signed(s.magic)]
 
 func refresh() -> void:
 	update_stats()

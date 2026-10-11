@@ -18,3 +18,4 @@ venv/
 *.whl
 *.exe
 *.dll
+test-results/
