@@ -1,0 +1,421 @@
+{
+  "version": 1,
+  "id": "scout",
+  "name": "灰誓斥候",
+  "canvas": [
+    768,
+    768
+  ],
+  "portrait": "portrait.png",
+  "actions": {
+    "stand": {
+      "frames": [
+        {
+          "file": "stand/000.png",
+          "source_frame": 27,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/001.png",
+          "source_frame": 30,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/002.png",
+          "source_frame": 33,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/003.png",
+          "source_frame": 36,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/004.png",
+          "source_frame": 39,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/005.png",
+          "source_frame": 42,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/006.png",
+          "source_frame": 45,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/007.png",
+          "source_frame": 48,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/008.png",
+          "source_frame": 51,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/009.png",
+          "source_frame": 54,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/010.png",
+          "source_frame": 57,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/011.png",
+          "source_frame": 60,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/012.png",
+          "source_frame": 63,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/013.png",
+          "source_frame": 66,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/014.png",
+          "source_frame": 69,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/015.png",
+          "source_frame": 72,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/016.png",
+          "source_frame": 75,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/017.png",
+          "source_frame": 78,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/018.png",
+          "source_frame": 81,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/019.png",
+          "source_frame": 84,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/020.png",
+          "source_frame": 87,
+          "duration_ms": 125
+        }
+      ],
+      "duration_ms": 2625,
+      "pivot": [
+        334.0,
+        643
+      ],
+      "scale": 0.5042372881355932,
+      "source": "npc-roster-v1-scout-stand",
+      "review_status": "visually_reviewed",
+      "source_count": 124,
+      "loop_selection": {
+        "start": 27,
+        "end": 89,
+        "seam_score": 1.331208336353302,
+        "mean_motion": 0.2283543199300766
+      },
+      "storage_crop": [
+        214,
+        165,
+        342,
+        487
+      ]
+    },
+    "walk": {
+      "frames": [
+        {
+          "file": "walk/000.png",
+          "source_frame": 52,
+          "duration_ms": 65
+        },
+        {
+          "file": "walk/001.png",
+          "source_frame": 54,
+          "duration_ms": 65
+        },
+        {
+          "file": "walk/002.png",
+          "source_frame": 56,
+          "duration_ms": 65
+        },
+        {
+          "file": "walk/003.png",
+          "source_frame": 58,
+          "duration_ms": 65
+        },
+        {
+          "file": "walk/004.png",
+          "source_frame": 60,
+          "duration_ms": 65
+        },
+        {
+          "file": "walk/005.png",
+          "source_frame": 62,
+          "duration_ms": 65
+        },
+        {
+          "file": "walk/006.png",
+          "source_frame": 64,
+          "duration_ms": 65
+        },
+        {
+          "file": "walk/007.png",
+          "source_frame": 66,
+          "duration_ms": 65
+        },
+        {
+          "file": "walk/008.png",
+          "source_frame": 68,
+          "duration_ms": 65
+        },
+        {
+          "file": "walk/009.png",
+          "source_frame": 70,
+          "duration_ms": 65
+        },
+        {
+          "file": "walk/010.png",
+          "source_frame": 72,
+          "duration_ms": 65
+        },
+        {
+          "file": "walk/011.png",
+          "source_frame": 74,
+          "duration_ms": 65
+        },
+        {
+          "file": "walk/012.png",
+          "source_frame": 76,
+          "duration_ms": 65
+        },
+        {
+          "file": "walk/013.png",
+          "source_frame": 78,
+          "duration_ms": 65
+        },
+        {
+          "file": "walk/014.png",
+          "source_frame": 80,
+          "duration_ms": 65
+        },
+        {
+          "file": "walk/015.png",
+          "source_frame": 82,
+          "duration_ms": 65
+        }
+      ],
+      "duration_ms": 1040,
+      "pivot": [
+        334.0,
+        643
+      ],
+      "scale": 0.5042372881355932,
+      "source": "npc-roster-v1-scout-walk",
+      "review_status": "visually_reviewed",
+      "source_count": 124,
+      "loop_selection": {
+        "start": 52,
+        "end": 83,
+        "seam_score": 13.72875280380249,
+        "mean_motion": 1.9180326461791992
+      },
+      "storage_crop": [
+        176,
+        158,
+        495,
+        491
+      ]
+    },
+    "attack": {
+      "frames": [
+        {
+          "file": "attack/000.png",
+          "source_frame": 18,
+          "duration_ms": 30
+        },
+        {
+          "file": "attack/001.png",
+          "source_frame": 24,
+          "duration_ms": 30
+        },
+        {
+          "file": "attack/002.png",
+          "source_frame": 30,
+          "duration_ms": 30
+        },
+        {
+          "file": "attack/003.png",
+          "source_frame": 38,
+          "duration_ms": 30
+        },
+        {
+          "file": "attack/004.png",
+          "source_frame": 46,
+          "duration_ms": 30
+        },
+        {
+          "file": "attack/005.png",
+          "source_frame": 50,
+          "duration_ms": 35
+        },
+        {
+          "file": "attack/006.png",
+          "source_frame": 55,
+          "duration_ms": 35
+        },
+        {
+          "file": "attack/007.png",
+          "source_frame": 59,
+          "duration_ms": 25
+        },
+        {
+          "file": "attack/008.png",
+          "source_frame": 62,
+          "duration_ms": 20
+        },
+        {
+          "file": "attack/009.png",
+          "source_frame": 63,
+          "duration_ms": 18
+        },
+        {
+          "file": "attack/010.png",
+          "source_frame": 64,
+          "duration_ms": 35
+        },
+        {
+          "file": "attack/011.png",
+          "source_frame": 82,
+          "duration_ms": 45
+        },
+        {
+          "file": "attack/012.png",
+          "source_frame": 87,
+          "duration_ms": 40
+        },
+        {
+          "file": "attack/013.png",
+          "source_frame": 92,
+          "duration_ms": 40
+        },
+        {
+          "file": "attack/014.png",
+          "source_frame": 100,
+          "duration_ms": 40
+        },
+        {
+          "file": "attack/015.png",
+          "source_frame": 108,
+          "duration_ms": 35
+        }
+      ],
+      "duration_ms": 518,
+      "pivot": [
+        334.0,
+        643
+      ],
+      "scale": 0.5042372881355932,
+      "source": "npc-roster-v1-scout-attack",
+      "review_status": "visually_reviewed",
+      "source_count": 124,
+      "event_ms": 283,
+      "storage_crop": [
+        220,
+        40,
+        543,
+        612
+      ]
+    },
+    "hurt": {
+      "frames": [
+        {
+          "file": "hurt/000.png",
+          "source_frame": 12,
+          "duration_ms": 20
+        },
+        {
+          "file": "hurt/001.png",
+          "source_frame": 14,
+          "duration_ms": 25
+        },
+        {
+          "file": "hurt/002.png",
+          "source_frame": 16,
+          "duration_ms": 35
+        },
+        {
+          "file": "hurt/003.png",
+          "source_frame": 20,
+          "duration_ms": 35
+        },
+        {
+          "file": "hurt/004.png",
+          "source_frame": 28,
+          "duration_ms": 35
+        },
+        {
+          "file": "hurt/005.png",
+          "source_frame": 44,
+          "duration_ms": 40
+        },
+        {
+          "file": "hurt/006.png",
+          "source_frame": 56,
+          "duration_ms": 35
+        },
+        {
+          "file": "hurt/007.png",
+          "source_frame": 60,
+          "duration_ms": 40
+        },
+        {
+          "file": "hurt/008.png",
+          "source_frame": 64,
+          "duration_ms": 40
+        },
+        {
+          "file": "hurt/009.png",
+          "source_frame": 68,
+          "duration_ms": 40
+        },
+        {
+          "file": "hurt/010.png",
+          "source_frame": 72,
+          "duration_ms": 35
+        }
+      ],
+      "duration_ms": 380,
+      "pivot": [
+        334.0,
+        643
+      ],
+      "scale": 0.5042372881355932,
+      "source": "npc-roster-v1-scout-hurt",
+      "review_status": "visually_reviewed",
+      "source_count": 124,
+      "storage_crop": [
+        194,
+        166,
+        497,
+        487
+      ]
+    }
+  }
+}

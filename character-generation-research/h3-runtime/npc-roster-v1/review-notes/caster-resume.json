@@ -1,0 +1,117 @@
+{
+  "id": "caster",
+  "actions": {
+    "stand": {
+      "verdict": "accept",
+      "note": "All selected dark/light frames inspected. Staff and detached crystal intact, full gait and torso recoil. Palm glow coverage corrected while preserving sleeve/body. Release source42 at265ms; empty hand source48. Four actions share initial framing.",
+      "indices": [
+        4,
+        7,
+        10,
+        13,
+        16,
+        19,
+        22,
+        25,
+        28,
+        31,
+        34,
+        37,
+        40,
+        43,
+        46,
+        49,
+        52,
+        55,
+        58,
+        61,
+        64,
+        67,
+        70,
+        73,
+        76,
+        79
+      ],
+      "evidence": [
+        "caster-stand-all-dark.jpg",
+        "caster-stand-all-light.jpg"
+      ]
+    },
+    "walk": {
+      "verdict": "accept",
+      "note": "All selected dark/light frames inspected. Staff and detached crystal intact, full gait and torso recoil. Palm glow coverage corrected while preserving sleeve/body. Release source42 at265ms; empty hand source48. Four actions share initial framing.",
+      "indices": [
+        42,
+        45,
+        48,
+        51,
+        54,
+        57,
+        60,
+        63,
+        66,
+        69,
+        72,
+        75,
+        78,
+        81,
+        84,
+        87,
+        90
+      ],
+      "evidence": [
+        "caster-walk-all-dark.jpg",
+        "caster-walk-all-light.jpg"
+      ]
+    },
+    "attack": {
+      "verdict": "accept",
+      "note": "All selected dark/light frames inspected. Staff and detached crystal intact, full gait and torso recoil. Palm glow coverage corrected while preserving sleeve/body. Release source42 at265ms; empty hand source48. Four actions share initial framing.",
+      "indices": [
+        21,
+        24,
+        28,
+        34,
+        38,
+        40,
+        42,
+        48,
+        50,
+        66,
+        82,
+        88,
+        94,
+        102
+      ],
+      "evidence": [
+        "caster-attack-all-dark.jpg",
+        "caster-attack-all-light.jpg"
+      ]
+    },
+    "hurt": {
+      "verdict": "accept",
+      "note": "All selected dark/light frames inspected. Staff and detached crystal intact, full gait and torso recoil. Palm glow coverage corrected while preserving sleeve/body. Release source42 at265ms; empty hand source48. Four actions share initial framing.",
+      "indices": [
+        8,
+        10,
+        12,
+        14,
+        16,
+        20,
+        24,
+        28,
+        40,
+        80,
+        104,
+        108,
+        112,
+        116,
+        120
+      ],
+      "evidence": [
+        "caster-hurt-all-dark.jpg",
+        "caster-hurt-all-light.jpg"
+      ]
+    }
+  }
+}

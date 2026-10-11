@@ -1,0 +1,170 @@
+[
+  {
+    "id": "scout",
+    "action": "stand",
+    "reference_ready": true,
+    "generated": true,
+    "exported": true,
+    "review": "visually_reviewed"
+  },
+  {
+    "id": "scout",
+    "action": "walk",
+    "reference_ready": true,
+    "generated": true,
+    "exported": true,
+    "review": "visually_reviewed"
+  },
+  {
+    "id": "scout",
+    "action": "attack",
+    "reference_ready": true,
+    "generated": true,
+    "exported": true,
+    "review": "visually_reviewed"
+  },
+  {
+    "id": "scout",
+    "action": "hurt",
+    "reference_ready": true,
+    "generated": true,
+    "exported": true,
+    "review": "visually_reviewed"
+  },
+  {
+    "id": "caster",
+    "action": "stand",
+    "reference_ready": true,
+    "generated": true,
+    "exported": true,
+    "review": "visually_reviewed"
+  },
+  {
+    "id": "caster",
+    "action": "walk",
+    "reference_ready": true,
+    "generated": true,
+    "exported": true,
+    "review": "visually_reviewed"
+  },
+  {
+    "id": "caster",
+    "action": "attack",
+    "reference_ready": true,
+    "generated": true,
+    "exported": true,
+    "review": "visually_reviewed"
+  },
+  {
+    "id": "caster",
+    "action": "hurt",
+    "reference_ready": true,
+    "generated": true,
+    "exported": true,
+    "review": "visually_reviewed"
+  },
+  {
+    "id": "elite",
+    "action": "stand",
+    "reference_ready": true,
+    "generated": true,
+    "exported": true,
+    "review": "visually_reviewed"
+  },
+  {
+    "id": "elite",
+    "action": "walk",
+    "reference_ready": true,
+    "generated": true,
+    "exported": true,
+    "review": "visually_reviewed"
+  },
+  {
+    "id": "elite",
+    "action": "attack",
+    "reference_ready": true,
+    "generated": true,
+    "exported": true,
+    "review": "visually_reviewed"
+  },
+  {
+    "id": "elite",
+    "action": "hurt",
+    "reference_ready": true,
+    "generated": true,
+    "exported": true,
+    "review": "visually_reviewed"
+  },
+  {
+    "id": "boss",
+    "action": "stand",
+    "reference_ready": true,
+    "generated": true,
+    "exported": true,
+    "review": "needs_visual_review"
+  },
+  {
+    "id": "boss",
+    "action": "walk",
+    "reference_ready": true,
+    "generated": true,
+    "exported": true,
+    "review": "needs_visual_review"
+  },
+  {
+    "id": "boss",
+    "action": "attack",
+    "reference_ready": true,
+    "generated": true,
+    "exported": true,
+    "review": "needs_visual_review"
+  },
+  {
+    "id": "boss",
+    "action": "hurt",
+    "reference_ready": true,
+    "generated": true,
+    "exported": true,
+    "review": "needs_visual_review"
+  },
+  {
+    "id": "serin",
+    "action": "stand",
+    "reference_ready": true,
+    "generated": true,
+    "exported": true,
+    "review": "visually_reviewed"
+  },
+  {
+    "id": "serin",
+    "action": "walk",
+    "reference_ready": true,
+    "generated": true,
+    "exported": true,
+    "review": "visually_reviewed"
+  },
+  {
+    "id": "serin",
+    "action": "attack",
+    "reference_ready": true,
+    "generated": true,
+    "exported": true,
+    "review": "visually_reviewed"
+  },
+  {
+    "id": "serin",
+    "action": "hurt",
+    "reference_ready": true,
+    "generated": true,
+    "exported": true,
+    "review": "visually_reviewed"
+  },
+  {
+    "id": "serin",
+    "action": "cast",
+    "reference_ready": true,
+    "generated": true,
+    "exported": true,
+    "review": "visually_reviewed"
+  }
+]

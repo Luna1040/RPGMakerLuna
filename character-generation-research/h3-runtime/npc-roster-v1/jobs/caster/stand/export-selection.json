@@ -1,0 +1,337 @@
+{
+  "loop_selection": {
+    "start": 4,
+    "end": 82,
+    "seam_score": 0.5126536332070828,
+    "mean_motion": 0.22992652654647827
+  },
+  "indices": [
+    4,
+    7,
+    10,
+    13,
+    16,
+    19,
+    22,
+    25,
+    28,
+    31,
+    34,
+    37,
+    40,
+    43,
+    46,
+    49,
+    52,
+    55,
+    58,
+    61,
+    64,
+    67,
+    70,
+    73,
+    76,
+    79
+  ],
+  "durations": [
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125
+  ],
+  "alpha_cleanup": {
+    "10": {
+      "mode": "glow_from_source",
+      "glow_center": [
+        274,
+        224
+      ],
+      "radius": 52,
+      "protect_polygons": [
+        [
+          [
+            274,
+            207
+          ],
+          [
+            283,
+            226
+          ],
+          [
+            275,
+            241
+          ],
+          [
+            267,
+            228
+          ]
+        ]
+      ],
+      "max_y": 259,
+      "protect_mask": "review/caster-stand-metal-protect.png"
+    },
+    "13": {
+      "mode": "glow_from_source",
+      "glow_center": [
+        274,
+        224
+      ],
+      "radius": 52,
+      "protect_polygons": [
+        [
+          [
+            274,
+            207
+          ],
+          [
+            283,
+            226
+          ],
+          [
+            275,
+            241
+          ],
+          [
+            267,
+            228
+          ]
+        ]
+      ],
+      "max_y": 259,
+      "protect_mask": "review/caster-stand-metal-protect.png"
+    },
+    "16": {
+      "mode": "glow_from_source",
+      "glow_center": [
+        274,
+        224
+      ],
+      "radius": 52,
+      "protect_polygons": [
+        [
+          [
+            274,
+            207
+          ],
+          [
+            283,
+            226
+          ],
+          [
+            275,
+            241
+          ],
+          [
+            267,
+            228
+          ]
+        ]
+      ],
+      "max_y": 259,
+      "protect_mask": "review/caster-stand-metal-protect.png"
+    },
+    "19": {
+      "mode": "glow_from_source",
+      "glow_center": [
+        274,
+        224
+      ],
+      "radius": 52,
+      "protect_polygons": [
+        [
+          [
+            274,
+            207
+          ],
+          [
+            283,
+            226
+          ],
+          [
+            275,
+            241
+          ],
+          [
+            267,
+            228
+          ]
+        ]
+      ],
+      "max_y": 259,
+      "protect_mask": "review/caster-stand-metal-protect.png"
+    },
+    "22": {
+      "mode": "glow_from_source",
+      "glow_center": [
+        274,
+        224
+      ],
+      "radius": 52,
+      "protect_polygons": [
+        [
+          [
+            274,
+            207
+          ],
+          [
+            283,
+            226
+          ],
+          [
+            275,
+            241
+          ],
+          [
+            267,
+            228
+          ]
+        ]
+      ],
+      "max_y": 259,
+      "protect_mask": "review/caster-stand-metal-protect.png"
+    },
+    "25": {
+      "mode": "glow_from_source",
+      "glow_center": [
+        274,
+        224
+      ],
+      "radius": 52,
+      "protect_polygons": [
+        [
+          [
+            274,
+            207
+          ],
+          [
+            283,
+            226
+          ],
+          [
+            275,
+            241
+          ],
+          [
+            267,
+            228
+          ]
+        ]
+      ],
+      "max_y": 259,
+      "protect_mask": "review/caster-stand-metal-protect.png"
+    },
+    "28": {
+      "mode": "glow_from_source",
+      "glow_center": [
+        274,
+        224
+      ],
+      "radius": 52,
+      "protect_polygons": [
+        [
+          [
+            274,
+            207
+          ],
+          [
+            283,
+            226
+          ],
+          [
+            275,
+            241
+          ],
+          [
+            267,
+            228
+          ]
+        ]
+      ],
+      "max_y": 259,
+      "protect_mask": "review/caster-stand-metal-protect.png"
+    },
+    "31": {
+      "mode": "glow_from_source",
+      "glow_center": [
+        274,
+        224
+      ],
+      "radius": 52,
+      "protect_polygons": [
+        [
+          [
+            274,
+            207
+          ],
+          [
+            283,
+            226
+          ],
+          [
+            275,
+            241
+          ],
+          [
+            267,
+            228
+          ]
+        ]
+      ],
+      "max_y": 259,
+      "protect_mask": "review/caster-stand-metal-protect.png"
+    },
+    "34": {
+      "mode": "glow_from_source",
+      "glow_center": [
+        274,
+        224
+      ],
+      "radius": 52,
+      "protect_polygons": [
+        [
+          [
+            274,
+            207
+          ],
+          [
+            283,
+            226
+          ],
+          [
+            275,
+            241
+          ],
+          [
+            267,
+            228
+          ]
+        ]
+      ],
+      "max_y": 259,
+      "protect_mask": "review/caster-stand-metal-protect.png"
+    }
+  },
+  "review_status": "visually_reviewed"
+}

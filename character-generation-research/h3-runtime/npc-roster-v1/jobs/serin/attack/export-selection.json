@@ -1,0 +1,149 @@
+{
+  "indices": [
+    8,
+    14,
+    20,
+    26,
+    32,
+    40,
+    44,
+    46,
+    48,
+    50,
+    60,
+    64,
+    74,
+    82,
+    90,
+    100
+  ],
+  "durations": [
+    40,
+    45,
+    45,
+    45,
+    45,
+    40,
+    30,
+    20,
+    20,
+    30,
+    45,
+    35,
+    40,
+    45,
+    45,
+    40
+  ],
+  "event_ms": 330,
+  "review_status": "visually_reviewed",
+  "alpha_cleanup": {
+    "48": {
+      "mode": "clear_background_regions",
+      "rects": [
+        [
+          0,
+          0,
+          768,
+          134
+        ],
+        [
+          0,
+          0,
+          320,
+          180
+        ],
+        [
+          0,
+          0,
+          350,
+          154
+        ]
+      ],
+      "glow_center": [
+        466,
+        58
+      ],
+      "radius": 45,
+      "protect_capsules": [
+        [
+          470,
+          59,
+          470,
+          59,
+          26
+        ],
+        [
+          470,
+          59,
+          488,
+          150,
+          12
+        ]
+      ]
+    },
+    "50": {
+      "mode": "semantic",
+      "probability": "review/serin-attack-prob-50.npy",
+      "glow_center": [
+        657,
+        230
+      ],
+      "radius": 45
+    },
+    "60": {
+      "mode": "semantic",
+      "probability": "review/serin-attack-prob-60.npy",
+      "glow_center": [
+        648,
+        221
+      ],
+      "radius": 45
+    },
+    "26": {
+      "mode": "glow_coverage",
+      "glow_center": [
+        523,
+        193
+      ],
+      "radius": 52
+    },
+    "32": {
+      "mode": "glow_coverage",
+      "glow_center": [
+        280,
+        129
+      ],
+      "radius": 45
+    },
+    "40": {
+      "mode": "glow_coverage",
+      "glow_center": [
+        302,
+        142
+      ],
+      "radius": 45
+    },
+    "44": {
+      "mode": "glow_coverage",
+      "glow_center": [
+        273,
+        147
+      ],
+      "radius": 45
+    },
+    "46": {
+      "mode": "glow_coverage",
+      "glow_center": [
+        258,
+        147
+      ],
+      "radius": 45
+    }
+  },
+  "emitter": [
+    657,
+    230
+  ],
+  "emitter_source_frame": 50
+}

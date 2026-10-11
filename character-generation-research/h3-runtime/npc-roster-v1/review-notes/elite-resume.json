@@ -1,0 +1,116 @@
+{
+  "id": "elite",
+  "actions": {
+    "stand": {
+      "verdict": "accept",
+      "note": "All selected dark/light frames inspected. Complete axe and cape; anticipation, fast downward strike source64 at470ms and compressed recovery. Trails use coverage with protected metal and shaft. Full gait; recoil16-82. Source62 steel reach2.30m, gameplay2.40m.",
+      "indices": [
+        10,
+        13,
+        16,
+        19,
+        22,
+        25,
+        28,
+        31,
+        34,
+        37,
+        40,
+        43,
+        46,
+        49,
+        52,
+        55,
+        58,
+        61,
+        64,
+        67
+      ],
+      "evidence": [
+        "elite-stand-all-dark.jpg",
+        "elite-stand-all-light.jpg"
+      ]
+    },
+    "walk": {
+      "verdict": "accept",
+      "note": "All selected dark/light frames inspected. Complete axe and cape; anticipation, fast downward strike source64 at470ms and compressed recovery. Trails use coverage with protected metal and shaft. Full gait; recoil16-82. Source62 steel reach2.30m, gameplay2.40m.",
+      "indices": [
+        29,
+        32,
+        35,
+        38,
+        41,
+        44,
+        47,
+        50,
+        53,
+        56,
+        59,
+        62,
+        65,
+        68,
+        71,
+        74,
+        77,
+        80,
+        83,
+        86
+      ],
+      "evidence": [
+        "elite-walk-all-dark.jpg",
+        "elite-walk-all-light.jpg"
+      ]
+    },
+    "attack": {
+      "verdict": "accept",
+      "note": "Replaced source62 faint canvas-edge trail with complete source63. Reviewed selected motion on light/dark; steel and shaft retained, strike source64 at470ms. Range includes the full swing.",
+      "indices": [
+        12,
+        20,
+        24,
+        28,
+        32,
+        36,
+        40,
+        48,
+        54,
+        58,
+        60,
+        63,
+        64,
+        66,
+        92,
+        108,
+        120
+      ],
+      "evidence": [
+        "elite-attack-all-dark.jpg",
+        "elite-attack-all-light.jpg"
+      ]
+    },
+    "hurt": {
+      "verdict": "accept",
+      "note": "All selected dark/light frames inspected. Complete axe and cape; anticipation, fast downward strike source64 at470ms and compressed recovery. Trails use coverage with protected metal and shaft. Full gait; recoil16-82. Source62 steel reach2.30m, gameplay2.40m.",
+      "indices": [
+        16,
+        18,
+        20,
+        22,
+        24,
+        28,
+        34,
+        44,
+        50,
+        56,
+        60,
+        66,
+        74,
+        82
+      ],
+      "evidence": [
+        "elite-hurt-all-dark.jpg",
+        "elite-hurt-all-light.jpg"
+      ]
+    }
+  }
+}

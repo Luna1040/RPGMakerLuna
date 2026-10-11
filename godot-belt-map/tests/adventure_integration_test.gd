@@ -27,6 +27,18 @@ func click(text: String) -> void:
 		if not button.disabled:
 			button.pressed.emit()
 
+func click_choice(id: String) -> void:
+	# Stable content IDs survive copy edits; still exercise the actual rendered button.
+	var dialogue:Dictionary=stage.runtime.adventure.dialogue_for(stage.runtime.panel.npc_id)
+	for choice:Dictionary in dialogue.get("choices",[]):
+		if choice.id==id:
+			check(bool(choice.get("enabled",true)),"Required dialogue choice unavailable: "+id)
+			var label:String=str(choice.label)
+			if not bool(choice.get("enabled",true)): label+=" · "+str(choice.get("reason",""))
+			click(label)
+			return
+	check(false,"Current NPC has no visible dialogue choice: "+id)
+
 func npc(id: String) -> void:
 	for resident: Dictionary in stage.townsfolk.residents:
 		if resident.id == id:
@@ -53,20 +65,20 @@ func run() -> void:
 
 	# Choose real rendered NPC buttons, not merely service methods.
 	npc("innkeeper")
-	click("接受：艾琳的补给")
-	click("询问失踪补给与账簿")
+	click_choice("provision_order")
+	click_choice("ask_ledger")
 	check(runtime.adventure.flags.supply_hint, "innkeeper clue did not enter narrative")
 	npc("smith")
-	click("接受：雷恩的试炼")
-	click("接受：守住三波")
-	click("请雷恩辨认车辙")
+	click_choice("menace_order")
+	click_choice("waves_order")
+	click_choice("ask_tracks")
 	check(runtime.adventure.flags.smith_marks, "smith clue did not enter narrative")
 	npc("innkeeper")
-	click("对照线索，领取调查报酬")
-	click("选择追查：公开两条线索的真相")
+	click_choice("investigation_report")
+	click_choice("route_investigate")
 	check(runtime.adventure.routes.get("supply_resolution") == "investigate", "dialogue route not committed")
 	npc("smith")
-	click("接受：庭院守夜人")
+	click_choice("finale_order")
 
 	# Actual destructible loot -> event bus -> quest -> shared wallet.
 	check(not stage.loot.crates.is_empty(), "test map has no destructible crate")
@@ -81,7 +93,7 @@ func run() -> void:
 	check(runtime.adventure.quests.courtyard_provisions.counts.get("crate", 0) == 1, "crate signal never reached accepted quest")
 	check(stage.loot.materials["木料"] >= 3 and stage.loot.materials["碎布"] >= 1, "real drop pickup failed")
 	npc("innkeeper")
-	click("交付补给并领取报酬")
+	click_choice("provision_delivery")
 	check(runtime.adventure.quests.courtyard_provisions.claimed, "NPC reward action did not claim provisions")
 	check(stage.loot.materials["木料"] == 0 and stage.loot.materials["碎布"] == 0, "claim did not consume real shared materials")
 
@@ -98,21 +110,21 @@ func run() -> void:
 	check(runtime.adventure.quests.clearance_waves.counts.waves == 3, "actual wave events failed quest")
 	check(runtime.adventure.quests.courtyard_finale.counts.boss == 1, "boss/wave dual event duplicated or missed boss objective")
 	npc("smith")
-	click("交付清敌委托")
-	click("领取守住三波报酬")
-	click("报告首领败退，领取结局报酬")
+	click_choice("menace_reward")
+	click_choice("waves_reward")
+	click_choice("finale_reward")
 	check(runtime.adventure.flags.finale_cleared, "finale flag never reached NPC story")
 	check(runtime.progression.level >= 2 and stage.knight.max_health > 100, "quest XP did not update real character level bonus")
 	npc("innkeeper")
-	click("接受：可以托付后背的人")
-	click("约定在冒险中彼此照应")
-	click("领取同行约定报酬")
-	click("呼叫同行伙伴")
+	click_choice("oath_accept")
+	click_choice("oath_bond")
+	click_choice("oath_reward")
+	click_choice("call_companion")
 	check(runtime.companion_recruited and runtime.encounters.companion_enabled, "earned companion action not integrated")
 	var trust: Dictionary = runtime.adventure.reputation.duplicate()
 	var progression: Dictionary = runtime.progression.snapshot()
 	var materials: Dictionary = stage.loot.materials.duplicate()
-	click("呼叫同行伙伴")
+	click_choice("call_companion")
 	check(runtime.adventure.reputation == trust and runtime.progression.snapshot() == progression and stage.loot.materials == materials, "repeated recruitment minted rewards or trust")
 
 	# Menus must render using real service row shapes without unpausing the stage.
@@ -147,6 +159,7 @@ func run() -> void:
 	DirAccess.remove_absolute(temporary)
 	stage.queue_free()
 	await process_frame
+	await create_timer(.15).timeout
 	for message: String in failures:
 		push_error(message)
 	print("ADVENTURE_INTEGRATION_TEST ", "PASS" if failures.is_empty() else "FAIL", " · real NPC buttons, crate loot, encounter events, nonlinear conclusion, level stats, companion, modal menus, disk save roundtrip")

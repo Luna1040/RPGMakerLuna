@@ -1,0 +1,524 @@
+{
+	"failures": [],
+	"reports": [
+		{
+			"action": "stand",
+			"id": "serin",
+			"path": "res://captures/roster-before-pack/serin-stand-contact.png",
+			"render_texture_bytes_while_captured": 35737143,
+			"samples": [
+				{
+					"frame": 0,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 0.0,
+					"scale": 0.486381322957198,
+					"screen_body_height": 252.918287937743,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 13.0,
+					"source_used_rect": [
+						240,
+						128,
+						281,
+						520
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 2,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 339.285571428571,
+					"scale": 0.486381322957198,
+					"screen_body_height": 252.918287937743,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 19.0,
+					"source_used_rect": [
+						234,
+						128,
+						287,
+						520
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 5,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 678.571142857143,
+					"scale": 0.486381322957198,
+					"screen_body_height": 252.918287937743,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 28.0,
+					"source_used_rect": [
+						236,
+						128,
+						284,
+						520
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 8,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 1017.85671428571,
+					"scale": 0.486381322957198,
+					"screen_body_height": 252.918287937743,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 37.0,
+					"source_used_rect": [
+						246,
+						128,
+						272,
+						520
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 10,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 1357.14228571429,
+					"scale": 0.486381322957198,
+					"screen_body_height": 252.918287937743,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 43.0,
+					"source_used_rect": [
+						252,
+						128,
+						266,
+						520
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 13,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 1696.42785714286,
+					"scale": 0.486381322957198,
+					"screen_body_height": 252.918287937743,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 52.0,
+					"source_used_rect": [
+						255,
+						128,
+						264,
+						520
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 16,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 2035.71342857143,
+					"scale": 0.486381322957198,
+					"screen_body_height": 252.918287937743,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 61.0,
+					"source_used_rect": [
+						249,
+						128,
+						271,
+						520
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 18,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 2374.999,
+					"scale": 0.486381322957198,
+					"screen_body_height": 252.918287937743,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 67.0,
+					"source_used_rect": [
+						242,
+						128,
+						279,
+						520
+					],
+					"touches_canvas_edge": false
+				}
+			],
+			"status": "captured"
+		},
+		{
+			"action": "walk",
+			"id": "serin",
+			"path": "res://captures/roster-before-pack/serin-walk-contact.png",
+			"render_texture_bytes_while_captured": 38839173,
+			"samples": [
+				{
+					"frame": 0,
+					"pivot": [
+						393.0,
+						641.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 0.0,
+					"scale": 0.487329434697856,
+					"screen_body_height": 245.614035087719,
+					"screen_foot_offset": 0.0,
+					"source_frame": 40.0,
+					"source_used_rect": [
+						215,
+						137,
+						291,
+						504
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 2,
+					"pivot": [
+						393.0,
+						641.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 159.999857142857,
+					"scale": 0.487329434697856,
+					"screen_body_height": 249.025341130604,
+					"screen_foot_offset": 0.974658869395711,
+					"source_frame": 46.0,
+					"source_used_rect": [
+						232,
+						132,
+						277,
+						511
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 4,
+					"pivot": [
+						393.0,
+						641.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 319.999714285714,
+					"scale": 0.487329434697856,
+					"screen_body_height": 249.025341130604,
+					"screen_foot_offset": -0.974658869395711,
+					"source_frame": 52.0,
+					"source_used_rect": [
+						260,
+						128,
+						252,
+						511
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 6,
+					"pivot": [
+						393.0,
+						641.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 479.999571428571,
+					"scale": 0.487329434697856,
+					"screen_body_height": 245.126705653021,
+					"screen_foot_offset": -1.94931773879142,
+					"source_frame": 58.0,
+					"source_used_rect": [
+						246,
+						134,
+						269,
+						503
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 9,
+					"pivot": [
+						393.0,
+						641.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 639.999428571429,
+					"scale": 0.487329434697856,
+					"screen_body_height": 251.949317738791,
+					"screen_foot_offset": 4.3859649122807,
+					"source_frame": 67.0,
+					"source_used_rect": [
+						223,
+						133,
+						302,
+						517
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 11,
+					"pivot": [
+						393.0,
+						641.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 799.999285714286,
+					"scale": 0.487329434697856,
+					"screen_body_height": 252.923976608187,
+					"screen_foot_offset": 2.92397660818713,
+					"source_frame": 73.0,
+					"source_used_rect": [
+						244,
+						128,
+						274,
+						519
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 13,
+					"pivot": [
+						393.0,
+						641.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 959.999142857143,
+					"scale": 0.487329434697856,
+					"screen_body_height": 249.025341130604,
+					"screen_foot_offset": 0.0,
+					"source_frame": 79.0,
+					"source_used_rect": [
+						250,
+						130,
+						259,
+						511
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 15,
+					"pivot": [
+						393.0,
+						641.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 1119.999,
+					"scale": 0.487329434697856,
+					"screen_body_height": 244.639376218324,
+					"screen_foot_offset": -0.974658869395711,
+					"source_frame": 85.0,
+					"source_used_rect": [
+						220,
+						137,
+						297,
+						502
+					],
+					"touches_canvas_edge": false
+				}
+			],
+			"status": "captured"
+		},
+		{
+			"action": "attack",
+			"id": "serin",
+			"status": "skipped_missing_action"
+		},
+		{
+			"action": "hurt",
+			"id": "serin",
+			"status": "skipped_missing_action"
+		},
+		{
+			"action": "cast",
+			"id": "serin",
+			"status": "skipped_missing_action"
+		},
+		{
+			"characters": [
+				{
+					"id": "knight",
+					"screen_body_height": 266.469935595989
+				},
+				{
+					"frame": -1,
+					"id": "scout",
+					"pivot": [
+						512.0,
+						1474.56005859375
+					],
+					"portrait_fallback": true,
+					"scale": 0.13671875,
+					"screen_body_height": 191.26953125,
+					"screen_foot_offset": -0.896883010864258,
+					"source_frame": -1,
+					"source_used_rect": [
+						51,
+						69,
+						861,
+						1399
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": -1,
+					"id": "caster",
+					"pivot": [
+						512.0,
+						1474.56005859375
+					],
+					"portrait_fallback": true,
+					"scale": 0.13671875,
+					"screen_body_height": 196.19140625,
+					"screen_foot_offset": 3.34139823913574,
+					"source_frame": -1,
+					"source_used_rect": [
+						105,
+						64,
+						811,
+						1435
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": -1,
+					"id": "elite",
+					"pivot": [
+						512.0,
+						1474.56005859375
+					],
+					"portrait_fallback": true,
+					"scale": 0.13671875,
+					"screen_body_height": 192.2265625,
+					"screen_foot_offset": -0.213289260864258,
+					"source_frame": -1,
+					"source_used_rect": [
+						15,
+						67,
+						993,
+						1406
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": -1,
+					"id": "boss",
+					"pivot": [
+						512.0,
+						1474.56005859375
+					],
+					"portrait_fallback": true,
+					"scale": 0.13671875,
+					"screen_body_height": 203.1640625,
+					"screen_foot_offset": 5.25546073913574,
+					"source_frame": -1,
+					"source_used_rect": [
+						15,
+						27,
+						992,
+						1486
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 0,
+					"id": "serin",
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"scale": 0.486381322957198,
+					"screen_body_height": 252.918287937743,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 13.0,
+					"source_used_rect": [
+						240,
+						128,
+						281,
+						520
+					],
+					"touches_canvas_edge": false
+				}
+			],
+			"render_texture_bytes_while_captured": 1080062519,
+			"status": "captured",
+			"type": "lineup_actual_scale"
+		},
+		{
+			"characters": [
+				{
+					"checked_frame": "",
+					"clips": 0,
+					"id": "scout",
+					"import_metadata_exists": false,
+					"rgba_bytes_no_mips": 0,
+					"same_texture_across_two_players": null,
+					"unique_frames": 0
+				},
+				{
+					"checked_frame": "",
+					"clips": 0,
+					"id": "caster",
+					"import_metadata_exists": false,
+					"rgba_bytes_no_mips": 0,
+					"same_texture_across_two_players": null,
+					"unique_frames": 0
+				},
+				{
+					"checked_frame": "",
+					"clips": 0,
+					"id": "elite",
+					"import_metadata_exists": false,
+					"rgba_bytes_no_mips": 0,
+					"same_texture_across_two_players": null,
+					"unique_frames": 0
+				},
+				{
+					"checked_frame": "",
+					"clips": 0,
+					"id": "boss",
+					"import_metadata_exists": false,
+					"rgba_bytes_no_mips": 0,
+					"same_texture_across_two_players": null,
+					"unique_frames": 0
+				},
+				{
+					"checked_frame": "stand/000.png",
+					"clips": 2,
+					"id": "serin",
+					"import_metadata_exists": false,
+					"rgba_bytes_no_mips": 82575360,
+					"same_texture_across_two_players": true,
+					"unique_frames": 35
+				}
+			],
+			"estimate_350_frames_768": 825753600,
+			"estimate_400_frames_384": 235929600,
+			"estimate_400_frames_768": 943718400,
+			"rgba_bytes_no_mips": 82575360,
+			"type": "texture_budget",
+			"unique_frames": 35
+		}
+	]
+}

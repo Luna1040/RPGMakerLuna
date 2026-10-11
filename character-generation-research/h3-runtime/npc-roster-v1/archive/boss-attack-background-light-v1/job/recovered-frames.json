@@ -1,0 +1,503 @@
+{
+  "reason": "Backend crashed after PNG output; original history unavailable",
+  "validation": "124 contiguous decoded 768x768 PNGs; each embedded prompt matches saved workflow",
+  "workflow_sha256": "099f3bf3023684599ab69ad65d0d06ede1227d1762d1ea050999fe393c33123c",
+  "frames": [
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00001_.png",
+      "sha256": "a79b336d7e2f0563d5c799539fccd0af1b6aab537fcaf4701663018fb64992c1"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00002_.png",
+      "sha256": "3dbe2fc259f6c8b0a73bdfe3400c409bd9585878c06829f498edcb2b858617fc"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00003_.png",
+      "sha256": "92e5b8837bf760b9943025bbc7e60fa92ea6ddfe248a53f7a895047e6531ce41"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00004_.png",
+      "sha256": "044053fa3c24d4d9ac20f4af73cfebd631b16d641584ab8dee3ffbf17aa52109"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00005_.png",
+      "sha256": "cd530e4a5fb3c729f1946a760a026b8e7a0984105c874fd9740321e9beb29aef"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00006_.png",
+      "sha256": "b40383c7180442ebf6df2b11388006489b27a77c124a38d45143d054a81f4262"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00007_.png",
+      "sha256": "8cfca68df194f23762d55fd7a9a3ec9142b7e0944b502ee4b84fab2ad0e2c580"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00008_.png",
+      "sha256": "783ac76729dade8bc3acd03c82fb3fc34c73191cbc8f63deb0f0d81baf8daa29"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00009_.png",
+      "sha256": "90cefc76466f268fffae9bf2a93b4af539c81f2635a94d556fa2ae1f3978a134"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00010_.png",
+      "sha256": "d33fb68ab81eb40bd7232a492dba17eb3de149fb3596f20af1f0852c14f7c0be"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00011_.png",
+      "sha256": "a0d2875223a5602ade08f63c5411bbd75295e7b1e35dd9ad56a25ab1b114f75e"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00012_.png",
+      "sha256": "3103e51be3e2c153c68da6e43d8d7f3dcb422821e3193cb0c8d052bfbd7790f3"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00013_.png",
+      "sha256": "c34fe8db8125387dc6c4a1f2f0a538f5429f036691b0e42b7a94d9b1c1bd2ead"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00014_.png",
+      "sha256": "50c72b77c7b432d84eb52d7d74ea76be3b4bb51b3673185f8690cc52c6a74539"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00015_.png",
+      "sha256": "38021951123e18d7fe0b047ddb5ac0bf0396fa92b254fc19ad2826f687ed9cad"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00016_.png",
+      "sha256": "2fb35df41329b13b93f4d509e4590c3c4b43c1fee66a62ae1a9d140a146477d3"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00017_.png",
+      "sha256": "a7783760eb322343b6d4cbc5b60df942f1ecd21deed56b0b1e9d0f5d481947a3"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00018_.png",
+      "sha256": "e3a2318ec44b317f04dbc584751ade6bf964f4c3fc37c1b0567b4b00ec2e9aec"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00019_.png",
+      "sha256": "96e23d27325415a88c0577189bfdbb18c677c212f3c68121b06badc8705c3af4"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00020_.png",
+      "sha256": "79a90406942ed62c78874fc4136ecd8c1cf269a2e46283c2b170d750df0a1538"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00021_.png",
+      "sha256": "4672fb25889c4a16ea01a0ddd4131579550b88d8510aab91e61c4f96999e70d9"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00022_.png",
+      "sha256": "637628ea289ca30e602093a075d0a149361968ae25e475834f4bc51c34bf6d9f"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00023_.png",
+      "sha256": "b5c99b7683c478b302bfea71d727ac7208be8e70177d16c4f300080af5da4b66"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00024_.png",
+      "sha256": "66af5b26fe36cae1bad54b30dc49b78ce8c110f32fa69ecdfadb77ed4f674a78"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00025_.png",
+      "sha256": "346101ecccbaf0ec570ba4f1a1cd2eb46e3c83dc201c25741337c518920be644"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00026_.png",
+      "sha256": "190ad503d09ed725701551381a489d305a09659afa6099bd5e2bace4684809e3"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00027_.png",
+      "sha256": "9d6733a02f6a9e62d0dbc7d3d1fc85d55afd4585bb66f7b42c1f8d48471037c7"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00028_.png",
+      "sha256": "5b4f32ab33e09823fece511a0c87b18186274f364bf6af769d564714fef5b41f"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00029_.png",
+      "sha256": "273c5d82f876d77cd54b02fbef2374ed610858655ad3c74b0385f0a24aa73e55"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00030_.png",
+      "sha256": "d40ede39ff20b85dbcafeec37cb1d6942a7fd7050a32c48b75722b000ecfa965"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00031_.png",
+      "sha256": "b7f542cfed6a319f6562d67376288e19eec4587f3cb1299a602d29260507ae8d"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00032_.png",
+      "sha256": "f9a49d9d7d1497247ae8aa62fae62152b7c468e70883f4ab9b66370b70a6a9ff"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00033_.png",
+      "sha256": "351c3d03cbdc6bb8c822c233ea6e5e9b8671d76bb24ba2820f91e00124bb1568"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00034_.png",
+      "sha256": "385b0d741daf729a4bfa0ea58ec9c21e1ce1f4a49996a9e0dde081c3d3bea93b"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00035_.png",
+      "sha256": "69a1ccf1f53593a4d727640da3803d6f8e0c30383a5bc72cf4c21e5ff59962ed"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00036_.png",
+      "sha256": "0cc0b9cbe496f7de1adf3abdbdfc2ceb84c93862586b97f0c2ca9a175561a441"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00037_.png",
+      "sha256": "03523faac43cf2a9cbaf060cc152f528fc3dbe73ac56a8eede0345ffc7330f0d"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00038_.png",
+      "sha256": "e64f1b3bf9df4321f16f8d27ac412ce02f12c43e3a3626bb71d9f9292e9a6e21"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00039_.png",
+      "sha256": "4a81b46dcd9464fe43f62d54998c78175486f6c15556bc6ad802fb10a8c37dd1"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00040_.png",
+      "sha256": "2397dd80fa46e0fba454eeeb1e675935e991c70d7f0aab9d0333ae144048264e"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00041_.png",
+      "sha256": "9ba6834feede6479ff4e20e48bded808dfa7085cae8aa0bac744ac4dbfb0697c"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00042_.png",
+      "sha256": "7a10502aae7aa066347beada87ad0a1b1e15a07214448ddaedd7fc53b99ec9e4"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00043_.png",
+      "sha256": "9089c59735cf47f8d24f3c31c010e0a93d53ee29a03ee70706c57b4793e891cd"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00044_.png",
+      "sha256": "fdff43ead537595e2969b0746b7fe634ed7731a7197e8aa31b99f8568ca4d8d1"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00045_.png",
+      "sha256": "fdae0d225708483d4907569d1a42487d9217d1b3e70054fea2d5353aadf85c2f"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00046_.png",
+      "sha256": "07b2a1c1dd40b5a73820ed9482babdb3286a85b548b86210b50a630f344ffc1a"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00047_.png",
+      "sha256": "e1b40cdff7333464eae89deae4d803dc607be8dc5b0873a295a6b33f59c6880b"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00048_.png",
+      "sha256": "f550cf4540e0d9c19805ca61e4522d0012b533c5a63aca4cd072a71928c6c033"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00049_.png",
+      "sha256": "183a9013e028727dd52d2c1fbfd42f8b7d0cbffe8b37c5c65798bbfa5dc43582"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00050_.png",
+      "sha256": "6ec508d8d5022e748edba5968ca1ac442cf0b38f572a6ae7109d4e94767b8aaf"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00051_.png",
+      "sha256": "30b48428776f5004a0d808b660372c014dcae0103569176054f24143f398669e"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00052_.png",
+      "sha256": "a515b6e6d0506a5e4f8cd5c5b7d4702f9ea129cccaee0737f47bc927d0fb41ec"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00053_.png",
+      "sha256": "0c99538789add06d7cc2ba46aa1e0ca8bbf4b1beaa864680da2ab04cb16ccff5"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00054_.png",
+      "sha256": "67211f8ebcfa1e7f858159c7b6f3de2dcb444d6d1c20fc9f9423e472b64409b6"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00055_.png",
+      "sha256": "7d1b729b2f716fa8517c70681190adbbcd1e10d6f880f46472e04517dcb528d6"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00056_.png",
+      "sha256": "e05ff3faa0ef64693757efa95ef922b273845b1c5fb4b95cf0602d2381118e95"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00057_.png",
+      "sha256": "322a144b91b57db382324ac4be374b1de74712afad43b1d9ea960b93dad715d9"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00058_.png",
+      "sha256": "19277bfcc4734ff5e283baeff6dfa32cd23f167ecda0b4c3d20bf14b951b4d5b"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00059_.png",
+      "sha256": "b267686224f853335f3d6c446c4f5aabcbd2bf428bdd644b593219bdffffc7bf"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00060_.png",
+      "sha256": "20001d2cd75aa5a014a8c8f27316e0aae4ecd2d80677ceaaf0bd51e14d6f833c"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00061_.png",
+      "sha256": "108e4801e80968c442ed7afe7a1eb8062aadf804cd958df3f22cb6b0de57c94d"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00062_.png",
+      "sha256": "04daee8bde4f57597e5d6bbfc895fe23857e1541a269adc0849251344d713cad"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00063_.png",
+      "sha256": "0630a89c1f3aa7d537593742f558490298fe16ecaa9e877e6c10f054f510528e"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00064_.png",
+      "sha256": "8ce1b03e63eb15e260b1ee67645da2464ce7a451c598a41f86f0135a79008bbf"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00065_.png",
+      "sha256": "4686ab0bc9bf62639227dacb1c5684145a6ef3ff5ba2badd9861ed99e31a68a6"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00066_.png",
+      "sha256": "dbc70efcfd31d6334a70b84fb4de3691d91417822e65bf3a1ffbe362b84dd417"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00067_.png",
+      "sha256": "828f89e8b38c13eee8a25fba46d540b218c19673719180bae58387c116bc19e6"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00068_.png",
+      "sha256": "e01f6dc0964327b38ec7b2cac12b2a63e424cf8ef635cc95fe2f2ad2e6de01dd"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00069_.png",
+      "sha256": "367d04c6b6499b50268f327c93336fd38356d36dc27a01e3429e37bc340917ba"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00070_.png",
+      "sha256": "203942c1df12a3a628cc723784a2d9da56db2cc44e4dfa00542050cfa33569aa"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00071_.png",
+      "sha256": "c1cee25b5f67dcc7d21cb28525cfb79547bbd509b7f925b2a179201afe03cc4e"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00072_.png",
+      "sha256": "92971099d02a0611e0e81a6c0293c496f772271d9ab1418bc26d9fcfb31a202f"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00073_.png",
+      "sha256": "ce7f0bb9613d147aea10145d3ab0f77f4c47d946ab70ef84bd892305317b88c4"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00074_.png",
+      "sha256": "de74191309bbc45143cd4868730774d4e284113ebd7d3cdd520894ab63802ec4"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00075_.png",
+      "sha256": "56926e00fc978c16997384d4a2a2c1f218e2c04272c8c29dcfa5bcfdab7bc0b3"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00076_.png",
+      "sha256": "6a606f66b18bc8b1081b41d8ece9e3ec9db7a84933548c2fc0f50ab39d858748"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00077_.png",
+      "sha256": "931fbf633e35e978b865f4b3c415a43e3ede382a4753fcf926ba7a19d1cf5205"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00078_.png",
+      "sha256": "3a37f18ac63ad24460e48a614d080b428f6288c025934a23e2dff6279332311a"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00079_.png",
+      "sha256": "3d81abb35305c454be6d634c27f06aa1c5233d688e4ac9de992b769c0f8f8af4"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00080_.png",
+      "sha256": "8eb80b5e934cdb54c038a7462f7487cbbb6a804658b30d5efaa7a4d8ffb5d71f"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00081_.png",
+      "sha256": "961612ecf46a0523c2e72d1931ef056abd47854083cb3df264bb9a0d6135b2f5"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00082_.png",
+      "sha256": "321e20a5f73299551146f55342523b36ccb8f1fb26dc7bd7e6eb9d81fae62b66"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00083_.png",
+      "sha256": "af0b2b01ee5628c275df35031b165402f039613beec4cdbba8d89a91b76626d5"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00084_.png",
+      "sha256": "a1ec762697fc6234e757351726e6c8fdf874bd3b7a075e59ad490d7fa5ab71fd"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00085_.png",
+      "sha256": "c983b1c422729d4e80ebb20dbf3a117b3bb5124cb54c70c1f758cd40193603a7"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00086_.png",
+      "sha256": "48642a0fd4e00ccac751d03d334bacb347fde1dbb11e4136995c49144f283133"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00087_.png",
+      "sha256": "ea8b51b88e8cf79388f50323d297ff06a80084671a72e2ff618da991eb21853e"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00088_.png",
+      "sha256": "d73155712bfe401ecececde22362208b7abf2d542cd307f83ddb1a38f254b902"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00089_.png",
+      "sha256": "9d1a61f7ce4c09bdf56360fde84cf0b855630b604255ca2a444266157d10f41a"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00090_.png",
+      "sha256": "82c03657ec934d0b52cdbf48a66fec399bb4bdbde9270e04fb3baec9fe2b74d7"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00091_.png",
+      "sha256": "e1bf8f83869e0fa3f0008639c5135701aa0c0a79b287831ad442aba4d09d2def"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00092_.png",
+      "sha256": "1cbd0aace864db3daf46816cf518dbdc937b79621d2c42db7e1b0fa781ff99f6"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00093_.png",
+      "sha256": "98d24422753453538363f2239a6ce18e0d582cee9a892fce1523ee090940d35e"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00094_.png",
+      "sha256": "0ea858c951d4a0d606a1e99d3d1dec0eea9d6632944597291da87b42a4d57e28"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00095_.png",
+      "sha256": "bc23a08f0cd8702951c09870a12c421f082daea1bf7778f88096d762ad6d8e71"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00096_.png",
+      "sha256": "9adfd4a43e4ead79a5bd816e131e93885322b7b3addac83cb736f71b08b89b3a"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00097_.png",
+      "sha256": "7cbebdde74c21ef242f7e3002993da0c6836f30771a593795dd1a3756bb980d4"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00098_.png",
+      "sha256": "b901e61b1c842fefcf69bc1f5b982399c983e82f0211850d23dded2715683751"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00099_.png",
+      "sha256": "6de5ee5d9748c1796ccc14b3104cc2875a29513c0781cc01da4fb638b73120a6"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00100_.png",
+      "sha256": "8adaedb099107072f84f8a6bc8e3059577a8178fd18732e3e8b90d06504c3d92"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00101_.png",
+      "sha256": "49d974f817ac3ca78510e3d74b3f43b7fff6ac6831ec23ca50860ce039846b6b"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00102_.png",
+      "sha256": "22bf192a17216d6b1c58ec9433bfb04d8287a6e8f7c9d3cb1c3765a48475254d"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00103_.png",
+      "sha256": "2d3ba53e117c3cf4c72a2d16c97563b77101668f314a22fbc002261332e7a17b"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00104_.png",
+      "sha256": "86f166df18f81d488501e6b60601911481b440bca5628e4583e79ad101d2c439"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00105_.png",
+      "sha256": "54bc01ef93a68ef9a9affa1155079c0e49483d395be07b0de5321be13aad30d6"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00106_.png",
+      "sha256": "c1ad48b060658baf9873e25c1ffea321d75b29668de50bf84f38df2a9e41bef7"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00107_.png",
+      "sha256": "0004acad1773842a8952a3cfaa9a3f56fbaf767af3361d240d975c2a53eb294f"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00108_.png",
+      "sha256": "1fe667b01f60b124c410241e1bfbebf658d56342e21d88e7729f491f6e8a1e8a"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00109_.png",
+      "sha256": "37cd6cbd2ce9164525ebf176e301d5549fc849498b0a2cc5211afbdde88947fb"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00110_.png",
+      "sha256": "60cee849143e9d81d7964cc960ef0302c560bd07a9d20e32d7021d64c3519c9d"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00111_.png",
+      "sha256": "15f4cc73fc39019b73d5a1c1262417fd7ac4d4cdda44fea52c15a22709d40427"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00112_.png",
+      "sha256": "437edc6c6f37de7d545f31b3ccfbdefc81eeedd498a01f4d37afdd5e1cc75d1f"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00113_.png",
+      "sha256": "72be961211a8f0984cc49e457886b39a1ee80b5be5afec3272fc4f5be93e6fe1"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00114_.png",
+      "sha256": "5414bf1a9ba7df6927542d63c146fb49f7849541fffc3d8f710b2978f3852334"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00115_.png",
+      "sha256": "aa7b70300a753afb551d3133b2ef5b445a5a31ce707e407dbf860c20099da363"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00116_.png",
+      "sha256": "e32a0d5655df67a3ad0b169f5dd2b0b124bf3c6fb28f85a7bc32af7ffa72f4ce"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00117_.png",
+      "sha256": "ef650ef1a6434042d6d9d01a22c2b5d926b99dfe5f9c8f2c68c0d90a1cda156a"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00118_.png",
+      "sha256": "862bd39371bcfbf68edb585bf7e540069c9891710a6834250bf80cccedddb9fa"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00119_.png",
+      "sha256": "6fdeec31a27c109b75e850377c4fd46e1d84034ed7d924677e916774cfce38c0"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00120_.png",
+      "sha256": "941da938f1395d237e2457c2e6c379b149888cc17e6884ca6e7442426fe98243"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00121_.png",
+      "sha256": "e3a3391e6d282c57ec19c678a2b47a5a672bb2209d0e9b971f0ac17819302a14"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00122_.png",
+      "sha256": "117aefd2eaab18b923da9b84152669defc57bcea79178a7c7c490964e5f33c45"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00123_.png",
+      "sha256": "46367a8d54ff23dec5ef9874235b9f1808f65d250706dfd1bbdb35256a1c67a9"
+    },
+    {
+      "file": "frames/npc-roster-v1-boss-attack_00124_.png",
+      "sha256": "5a178fcb2b94f30d5a21972ea9e04cf64972661327f3242fe64f6d95c9997774"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "source": "C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\npc-roster-v1\\references\\boss.png",
+  "sha256": "69ee10f1384d3e80f9667ae6972369070ea40bd503b8fdf84e7bd6521ca31962",
+  "source_bbox": [
+    15,
+    27,
+    1007,
+    1513
+  ],
+  "prepared_origin": [
+    237,
+    208
+  ],
+  "prepared_size": [
+    294,
+    440
+  ],
+  "canvas": [
+    768,
+    768
+  ],
+  "ground_y": 648
+}

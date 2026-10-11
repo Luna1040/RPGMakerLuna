@@ -35,6 +35,7 @@ func fresh() -> void:
 	arena.foot = Vector2(21,4)
 	arena.height_z = 0
 	arena.knight.reset_character()
+	service.rest_companion()
 	service.set_companion("passive")
 	service.companion_foot = Vector2(2,2)
 	rewards.clear()
@@ -145,11 +146,72 @@ func run() -> void:
 	fresh()
 	enemy = one("melee",Vector2(22,4))
 	enemy.state = "chase"
-	advance(0.75)
+	for tick in 60:
+		advance(1.0/60.0)
+		if arena.knight.health < 100:
+			break
 	check(arena.knight.health < 100,"enemy must damage actual knight actor")
+	check(enemy.state == "attack" and enemy.attack_active and is_equal_approx(enemy.attack_elapsed,enemy.attack_windup),"actual damage release must set the visual timeline exactly at the authored impact mapping")
 	var after_attack: float = arena.knight.health
 	advance(0.8)
 	check(arena.knight.health == after_attack,"attack cooldown must prevent repeated frame damage")
+	for facing in [1,-1]:
+		fresh()
+		enemy = one("melee",Vector2(22,4))
+		enemy.state = "chase"
+		# Target near the authored steel tip, including its body half-width.
+		# The former 1.1 m placeholder attack missed this visible sword contact.
+		arena.foot = enemy.foot+Vector2(facing*1.85,0)
+		advance(1.0/60.0)
+		check(enemy.state == "telegraph","authored scout tip reach must begin a real strike in either facing")
+		advance(0.7)
+		check(arena.knight.health < 100,"authored scout sword contact must damage a stationary target in either facing")
+		fresh()
+		enemy = one("melee",Vector2(22,4))
+		enemy.state = "chase"
+		arena.foot = enemy.foot+Vector2(facing*(float(Encounters.DEFINITIONS.melee.range)+0.27),0)
+		var before_step: Vector2 = enemy.foot
+		advance(1.0/60.0)
+		check(enemy.state == "chase" and enemy.foot.distance_to(before_step)>0.001,"outside the real hurt rectangle AI must advance, not repeatedly telegraph an unreachable strike")
+		advance(1.2)
+		check(arena.knight.health < 100,"AI must close the former empty-swing gap and hit a stationary target")
+		fresh()
+		enemy = one("melee",Vector2(22,4))
+		enemy.state = "chase"
+		arena.foot = Vector2(2,2)
+		service.companion_foot = enemy.foot+Vector2(facing*1.9,0)
+		service._step_enemy(enemy,1.0/60.0)
+		check(enemy.target_id == "serin" and enemy.state == "telegraph","melee acquisition must use the companion's actual body rectangle")
+		service._resolve_attack(enemy)
+		check(service.companion_hp < Encounters.COMPANION_MAX_HP,"the companion must be hittable at the same visible sword tip")
+		fresh()
+		enemy = one("melee",Vector2(22,4))
+		enemy.state = "chase"
+		arena.foot = Vector2(2,2)
+		service.companion_foot = enemy.foot+Vector2(facing*(float(Encounters.DEFINITIONS.melee.range)+0.27),0)
+		service._step_enemy(enemy,1.0/60.0)
+		check(enemy.state == "chase","an out-of-range companion must not trap AI in empty swings")
+	# Authored axe/greatsword tip reach replaces the old placeholder ranges.
+	for kind in ["elite","boss"]:
+		for facing in [1,-1]:
+			fresh()
+			service.companion_enabled = false
+			enemy = one(kind,Vector2(22,4))
+			enemy.state = "chase"
+			var visible_reach: float = 2.30 if kind == "elite" else 2.09
+			arena.foot = enemy.foot+Vector2(facing*(visible_reach+0.15),0)
+			advance(1.0/60.0)
+			check(enemy.state == "telegraph",kind+" must acquire a target at the authored weapon tip")
+			advance(float(Encounters.DEFINITIONS[kind].windup)+0.01)
+			check(arena.knight.health < 100,kind+" visible weapon contact must damage in both facings")
+			fresh()
+			service.companion_enabled = false
+			enemy = one(kind,Vector2(22,4))
+			enemy.state = "chase"
+			arena.foot = enemy.foot+Vector2(facing*(float(Encounters.DEFINITIONS[kind].range)+0.3),0)
+			advance(1.0/60.0)
+			check(enemy.state == "chase",kind+" must approach targets beyond the hit rectangle")
+	service.companion_enabled = true
 	fresh()
 	enemy = one("ranged",Vector2(24,4))
 	enemy.state = "chase"
@@ -200,16 +262,150 @@ func run() -> void:
 	advance(6.0)
 	check(service.companion_foot.x > 10.8,"companion pathfinding must go around blocking wall")
 	check(not service.Physics.blocked(arena.volumes,service.companion_foot,0),"companion must never finish inside collision")
-	check(service.companion_sprite.texture != null,"companion should reuse actor textures")
+	check(service.companion_sprite.texture != null or is_instance_valid(service.companion_view),"companion must have a visible authored view")
 	fresh()
 	enemy = one()
 	enemy.state = "chase"
 	arena.foot = Vector2(5,4)
 	advance(0.1)
 	check(enemy.state in ["return","idle"],"enemy must return rather than invade town")
+	# Serin has her own combat body and resources; modes never grant immunity.
+	fresh()
+	service.companion_foot = Vector2(22,4)
+	enemy = one("melee",Vector2(23,4))
+	enemy.state = "chase"
+	arena.foot = Vector2(19,4)
+	service.set_companion("guard")
+	service.companion_cooldown = 1.6
+	advance(0.1)
+	check(enemy.target_id == "serin" and enemy.state == "telegraph","nearby living companion must be a real enemy target")
+	advance(0.7)
+	check(service.companion_hp < service.COMPANION_MAX_HP and arena.knight.health == 100,"enemy melee must damage Serin independently from hero")
+	check(service.companion_action == "hit" or service.companion_hurt_left > 0,"companion must react to damage")
+	fresh()
+	service.companion_foot = Vector2(22,4)
+	arena.foot = Vector2(21,4)
+	service.hostile_projectiles.append({"foot":Vector2(24,4),"velocity":Vector2(-4,0),"z":0.7,"damage":20,"life":3,"owner":"projectile-test"})
+	service.set_companion("guard")
+	advance(0.55)
+	check(service.companion_hp == 120 and arena.knight.health == 100 and service.hostile_projectiles.is_empty(),"nearest party body must intercept a hostile projectile exactly once")
+	fresh()
+	service.companion_foot = Vector2(20,4)
+	service.companion_hp = 80
+	service.set_companion("follow")
+	arena.knight.health = 35
+	advance(0.15)
+	check(arena.knight.health == 35 and service.companion_mp < 63,"healing must spend MP before an interruptible cast, not instantly restore HP")
+	advance(0.2)
+	check(arena.knight.health == 75 and service.companion_hp == 80,"healer must heal the lower-ratio nearby party member by 40 HP")
+	var healing_cd: float = service.companion_heal_cooldown
+	arena.knight.health = 20
+	advance(0.7)
+	check(arena.knight.health == 20 and service.companion_heal_cooldown > 6 and service.companion_heal_cooldown < healing_cd,"healing cooldown must prevent free repeated casts")
+	fresh()
+	service.companion_foot = Vector2(20,4)
+	service.companion_mp = 0
+	service.companion_hp = 30
+	service.set_companion("follow")
+	advance(0.8)
+	check(service.companion_hp == 30 and service.companion_heal_cooldown == 0,"not enough MP must block healing")
+	fresh()
+	service.companion_foot = Vector2(20,4)
+	service.companion_hp = 90
+	service.set_companion("follow")
+	enemy = one("melee",Vector2(23,4))
+	enemy.state = "recover"
+	enemy.timer = 99
+	advance(0.3)
+	check(service.companion_shield == 38 and service.companion_mp < 57 and service.companion_ward_cooldown > 11,"ward must spend MP and grant a timed, finite shield")
+	check(service.damage_companion(20,Vector2(23,4)) == 0 and service.companion_shield == 18 and service.companion_hp == 90,"shield must absorb only its remaining capacity")
+	service.companion_invuln_left = 0
+	check(service.damage_companion(30,Vector2(23,4)) == 12 and service.companion_shield == 0 and service.companion_hp == 78,"damage exceeding shield must reach independent HP")
+	fresh()
+	service.companion_foot = Vector2(21,4)
+	service.set_companion("follow")
+	enemy = one("melee",Vector2(22,4))
+	enemy.state = "recover"
+	enemy.timer = 99
+	advance(0.28)
+	check(service.companion_action == "attack1","support bolt must have a visible attack windup")
+	service.damage_companion(10,Vector2(22,4))
+	advance(0.35)
+	check(enemy.hp == enemy.max_hp and service.companion_projectiles.is_empty(),"taking damage must interrupt an unreleased companion cast")
+	service.companion_invuln_left = 0
+	service.damage_companion(999,Vector2(22,4))
+	check(service.companion_dead and service.companion_hp == 0 and service.companion_action == "dead","lethal damage must down Serin")
+	service.set_companion("guard")
+	service.set_companion_enabled(false)
+	service.set_companion_enabled(true)
+	check(service.companion_dead and service.companion_hp == 0,"mode, dismissal, and recruitment toggles must not revive a fallen companion")
+	advance(3)
+	check(enemy.hp == enemy.max_hp and service.companion_action == "dead","fallen companion must stop all autonomous attacks and spells")
+	var fallen: Dictionary = service.companion_snapshot()
+	check(service.restore_companion(JSON.parse_string(JSON.stringify(fallen))) and service.companion_dead,"JSON save must preserve defeat and never refill companion HP")
+	var invalid_ally: Dictionary = fallen.duplicate(true)
+	invalid_ally.hp = service.COMPANION_MAX_HP+1
+	check(not service.restore_companion(invalid_ally) and service.companion_hp == 0,"invalid resource values must reject atomically")
+	invalid_ally = fallen.duplicate(true)
+	invalid_ally.dead = false
+	check(not service.restore_companion(invalid_ally) and service.companion_dead,"contradictory dead/HP state must reject")
+	check(service.rest_companion() and not service.companion_dead and service.companion_hp == service.COMPANION_MAX_HP and service.companion_mp == service.COMPANION_MAX_MP,"explicit town rest must revive and restore both resources")
+	check(not service.rest_companion(),"resting a completely refreshed companion must not report a healing need")
+	service.companion_hp = 77
+	service.companion_mp = 31
+	service.companion_heal_cooldown = 4.2
+	service.companion_ward_cooldown = 8.3
+	var wounded: Dictionary = service.companion_snapshot()
+	check(service.restore_companion(JSON.parse_string(JSON.stringify(wounded))) and service.companion_hp == 77 and service.companion_mp == 31 and is_equal_approx(service.companion_heal_cooldown,4.2),"HP/MP and class cooldowns must roundtrip without resetting")
+	var paused: Dictionary = service.companion_snapshot()
+	service.step(0.0)
+	check(service.companion_snapshot() == paused,"zero simulation time must not regenerate resources or advance cooldowns")
+	# A spell is born at its authored hand/staff tip, in the same coordinates
+	# before and after lossless texture cropping. Its initial sweep still covers
+	# nearby targets and obstacles between the caster body and the muzzle.
+	fresh()
+	service._spell_clips = {"serin":{"pivot":[300,600],"emitter":[540,360],"scale":0.5,"storage_crop":[100,100,600,650]},"caster":{"pivot":[300,600],"emitter":[540,360],"scale":0.5}}
+	var socket: Dictionary = service._projectile_socket("serin",Vector2(21,4),1,0.8)
+	check(socket.foot.is_equal_approx(Vector2(22,4)) and is_equal_approx(socket.z,1.0),"authored emitter must map from original image pixels to world units")
+	var reflected: Dictionary = service._projectile_socket("serin",Vector2(21,4),-1,0.8)
+	check(reflected.foot.is_equal_approx(Vector2(20,4)) and is_equal_approx(reflected.z,1.0),"facing mirrors emitter x around the fixed foot, never its height")
+	check(service._projectile_direction(Vector2(21,4),Vector2(22,4),Vector2(21.5,4)).x > 0,"point-blank targets must not reverse a bolt behind its muzzle")
+	service.companion_foot = Vector2(21,4)
+	service.companion_facing = 1
+	service.set_companion("guard")
+	enemy = one("melee",Vector2(21.5,4))
+	enemy.state = "recover"
+	enemy.timer = 99
+	service.companion_cast = "bolt"
+	service.companion_target_id = enemy.id
+	service._resolve_companion_cast()
+	check(service.companion_projectiles.size() == 1 and service.companion_projectiles[0].foot == Vector2(22,4),"holy bolt must start at the authored staff tip")
+	var launched: Dictionary = service.snapshot()
+	check(service.restore(JSON.parse_string(JSON.stringify(launched))) and service.companion_projectiles[0].get("launch_from") == Vector2(21,4),"save roundtrip preserves a pending initial projectile sweep")
+	var invalid_launch: Dictionary = launched.duplicate(true)
+	invalid_launch.companion_projectiles[0].launch_from = ["bad",4]
+	check(not service.restore(invalid_launch),"invalid pending launch origin rejects before changing combat")
+	service._step_companion_projectiles(1.0/60)
+	check(service.enemies[0].hp < service.enemies[0].max_hp and service.companion_projectiles.is_empty(),"launch sweep must hit a close enemy that is already behind the staff tip")
+	fresh()
+	enemy = one("melee",Vector2(23,4))
+	arena.volumes.append({"id":"muzzle-wall","kind":"wall","x":21.4,"depth":3,"width":0.2,"depth_size":2,"base_z":0,"height":3,"solid":true,"standable":false})
+	service.companion_projectiles.append({"foot":Vector2(22,4),"launch_from":Vector2(21,4),"velocity":Vector2(7,0),"z":1.0,"damage":18,"life":0.85})
+	service._step_companion_projectiles(0.2)
+	check(enemy.hp == enemy.max_hp and service.companion_projectiles.is_empty(),"staff tip beyond a wall must not bypass launch collision")
+	fresh()
+	arena.foot = Vector2(23.5,4)
+	enemy = one("ranged",Vector2(24,4))
+	enemy.aim = arena.foot
+	enemy.attack_facing = -1
+	enemy.attack_variant = "ranged"
+	service._resolve_attack(enemy)
+	check(service.hostile_projectiles[0].foot == Vector2(23,4) and is_equal_approx(service.hostile_projectiles[0].z,1.0),"hostile caster uses its own mirrored spell socket")
+	service._step_projectiles(1.0/60)
+	check(arena.knight.health == 92 and service.hostile_projectiles.is_empty(),"hostile launch sweep must hit a close party member exactly once")
 	for error in failures:
 		push_error(error)
-	print("ENCOUNTERS_TEST ","PASS" if failures.is_empty() else "FAIL", " · waves, save, seeded drops, depth/height/facing, launch/air combos/shock, damage/death, telegraphs/cooldowns, projectiles/walls, companion modes/pathfinding")
+	print("ENCOUNTERS_TEST ","PASS" if failures.is_empty() else "FAIL", " · waves/save/rewards, collision, Serin HP/MP/targeting/heal/ward/interrupt/death/revive/persistence")
 	arena.queue_free()
 	await process_frame
 	quit(0 if failures.is_empty() else 1)

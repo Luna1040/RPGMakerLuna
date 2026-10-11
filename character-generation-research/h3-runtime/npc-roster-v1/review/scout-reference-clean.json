@@ -1,0 +1,20 @@
+{
+  "source_sha256": "81306c5e640479a2d25271fb5ecf8c17b5e5605dc475f0b751fabb4139a65fc6",
+  "original_size": [
+    1024,
+    1536
+  ],
+  "opaque_alpha_percentile": 253.0,
+  "bounds": [
+    51,
+    69,
+    912,
+    1468
+  ],
+  "opaque_pixels": 421098,
+  "fractional_pixels": 24424,
+  "method": "native opaque alpha preserved; BiRefNet trims fractional fringe",
+  "has_native_alpha": true,
+  "published": true,
+  "review_status": "visually_reviewed_dark_and_light"
+}

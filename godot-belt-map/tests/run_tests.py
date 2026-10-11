@@ -51,12 +51,16 @@ def script(name: str, path: str, marker: str, suite: str = "gameplay", *, founda
 
 
 TESTS = (
+    script("roster_atlas", "tests/roster_atlas_test.gd", "ROSTER_ATLAS_TEST PASS", "core"),
+    script("roster_animation", "tests/roster_animation_test.gd", "ROSTER_ANIMATION_TEST PASS", "core"),
     script("core_foundations", "tests/core_foundations_test.gd", "CORE_FOUNDATIONS_TEST PASS", "core"),
     script("core_talents", "tests/core_talents_test.gd", "CORE_TALENTS_TEST PASS", "core"),
     script("core_runtime_validation", "tests/core_runtime_validation_test.gd", "CORE_RUNTIME_VALIDATION_TEST PASS", "core"),
     script("adventure_state", "tests/adventure_state_test.gd", "ADVENTURE_STATE_TEST PASS", "core"),
     script("runtime_foundations", "tests/runtime_foundations_test.gd", "RUNTIME_FOUNDATIONS_TEST PASS", foundations=True),
     script("adventure_integration", "tests/adventure_integration_test.gd", "ADVENTURE_INTEGRATION_TEST PASS", foundations=True),
+    script("roster_integration", "tests/roster_integration_test.gd", "ROSTER_INTEGRATION_TEST PASS", foundations=True),
+    script("menu_input", "tests/menu_input_test.gd", "MENU INPUT PASS", foundations=True),
     script("encounters", "tests/encounters_test.gd", "ENCOUNTERS_TEST PASS"),
     script("encounters_integration", "tests/encounters_integration_test.gd", "ENCOUNTERS_INTEGRATION_TEST PASS", foundations=True),
     script("combat_actor", "combat_actor_test.gd", "COMBAT_ACTOR_TEST PASS"),

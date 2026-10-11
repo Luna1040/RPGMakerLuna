@@ -1,0 +1,23 @@
+{
+  "source": "C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\npc-roster-v1\\references\\scout.png",
+  "sha256": "ed280dea67c89903f0e44fae68907afc36d61a3631563041009ce1ed0db19073",
+  "source_bbox": [
+    51,
+    69,
+    912,
+    1468
+  ],
+  "prepared_origin": [
+    236,
+    168
+  ],
+  "prepared_size": [
+    295,
+    480
+  ],
+  "canvas": [
+    768,
+    768
+  ],
+  "ground_y": 648
+}

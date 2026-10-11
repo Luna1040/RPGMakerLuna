@@ -1,0 +1,466 @@
+{
+  "version": 1,
+  "id": "caster",
+  "name": "灰誓咒术师",
+  "canvas": [
+    768,
+    768
+  ],
+  "portrait": "portrait.png",
+  "actions": {
+    "stand": {
+      "frames": [
+        {
+          "file": "stand/000.png",
+          "source_frame": 4,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/001.png",
+          "source_frame": 7,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/002.png",
+          "source_frame": 10,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/003.png",
+          "source_frame": 13,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/004.png",
+          "source_frame": 16,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/005.png",
+          "source_frame": 19,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/006.png",
+          "source_frame": 22,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/007.png",
+          "source_frame": 25,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/008.png",
+          "source_frame": 28,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/009.png",
+          "source_frame": 31,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/010.png",
+          "source_frame": 34,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/011.png",
+          "source_frame": 37,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/012.png",
+          "source_frame": 40,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/013.png",
+          "source_frame": 43,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/014.png",
+          "source_frame": 46,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/015.png",
+          "source_frame": 49,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/016.png",
+          "source_frame": 52,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/017.png",
+          "source_frame": 55,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/018.png",
+          "source_frame": 58,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/019.png",
+          "source_frame": 61,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/020.png",
+          "source_frame": 64,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/021.png",
+          "source_frame": 67,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/022.png",
+          "source_frame": 70,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/023.png",
+          "source_frame": 73,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/024.png",
+          "source_frame": 76,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/025.png",
+          "source_frame": 79,
+          "duration_ms": 125
+        }
+      ],
+      "duration_ms": 3250,
+      "pivot": [
+        368.0,
+        639
+      ],
+      "scale": 0.5234042553191489,
+      "source": "npc-roster-v1-caster-stand",
+      "review_status": "visually_reviewed",
+      "source_count": 124,
+      "loop_selection": {
+        "start": 4,
+        "end": 82,
+        "seam_score": 0.5126536332070828,
+        "mean_motion": 0.22992652654647827
+      },
+      "storage_crop": [
+        218,
+        164,
+        307,
+        488
+      ]
+    },
+    "walk": {
+      "frames": [
+        {
+          "file": "walk/000.png",
+          "source_frame": 42,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/001.png",
+          "source_frame": 45,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/002.png",
+          "source_frame": 48,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/003.png",
+          "source_frame": 51,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/004.png",
+          "source_frame": 54,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/005.png",
+          "source_frame": 57,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/006.png",
+          "source_frame": 60,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/007.png",
+          "source_frame": 63,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/008.png",
+          "source_frame": 66,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/009.png",
+          "source_frame": 69,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/010.png",
+          "source_frame": 72,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/011.png",
+          "source_frame": 75,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/012.png",
+          "source_frame": 78,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/013.png",
+          "source_frame": 81,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/014.png",
+          "source_frame": 84,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/015.png",
+          "source_frame": 87,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/016.png",
+          "source_frame": 90,
+          "duration_ms": 70
+        }
+      ],
+      "duration_ms": 1190,
+      "pivot": [
+        368.0,
+        639
+      ],
+      "scale": 0.5234042553191489,
+      "source": "npc-roster-v1-caster-walk",
+      "review_status": "visually_reviewed",
+      "source_count": 124,
+      "loop_selection": {
+        "start": 42,
+        "end": 91,
+        "seam_score": 80.5354721069336,
+        "mean_motion": 1.4448308944702148
+      },
+      "storage_crop": [
+        220,
+        152,
+        349,
+        486
+      ]
+    },
+    "attack": {
+      "frames": [
+        {
+          "file": "attack/000.png",
+          "source_frame": 21,
+          "duration_ms": 35
+        },
+        {
+          "file": "attack/001.png",
+          "source_frame": 24,
+          "duration_ms": 45
+        },
+        {
+          "file": "attack/002.png",
+          "source_frame": 28,
+          "duration_ms": 65
+        },
+        {
+          "file": "attack/003.png",
+          "source_frame": 34,
+          "duration_ms": 55
+        },
+        {
+          "file": "attack/004.png",
+          "source_frame": 38,
+          "duration_ms": 40
+        },
+        {
+          "file": "attack/005.png",
+          "source_frame": 40,
+          "duration_ms": 25
+        },
+        {
+          "file": "attack/006.png",
+          "source_frame": 42,
+          "duration_ms": 40
+        },
+        {
+          "file": "attack/007.png",
+          "source_frame": 48,
+          "duration_ms": 35
+        },
+        {
+          "file": "attack/008.png",
+          "source_frame": 50,
+          "duration_ms": 45
+        },
+        {
+          "file": "attack/009.png",
+          "source_frame": 66,
+          "duration_ms": 40
+        },
+        {
+          "file": "attack/010.png",
+          "source_frame": 82,
+          "duration_ms": 40
+        },
+        {
+          "file": "attack/011.png",
+          "source_frame": 88,
+          "duration_ms": 45
+        },
+        {
+          "file": "attack/012.png",
+          "source_frame": 94,
+          "duration_ms": 45
+        },
+        {
+          "file": "attack/013.png",
+          "source_frame": 102,
+          "duration_ms": 40
+        }
+      ],
+      "duration_ms": 595,
+      "pivot": [
+        368.0,
+        639
+      ],
+      "scale": 0.5234042553191489,
+      "source": "npc-roster-v1-caster-attack",
+      "review_status": "visually_reviewed",
+      "source_count": 124,
+      "event_ms": 265,
+      "emitter": [
+        566,
+        260
+      ],
+      "emitter_source_frame": 42,
+      "storage_crop": [
+        209,
+        164,
+        445,
+        488
+      ]
+    },
+    "hurt": {
+      "frames": [
+        {
+          "file": "hurt/000.png",
+          "source_frame": 8,
+          "duration_ms": 20
+        },
+        {
+          "file": "hurt/001.png",
+          "source_frame": 10,
+          "duration_ms": 20
+        },
+        {
+          "file": "hurt/002.png",
+          "source_frame": 12,
+          "duration_ms": 25
+        },
+        {
+          "file": "hurt/003.png",
+          "source_frame": 14,
+          "duration_ms": 25
+        },
+        {
+          "file": "hurt/004.png",
+          "source_frame": 16,
+          "duration_ms": 30
+        },
+        {
+          "file": "hurt/005.png",
+          "source_frame": 20,
+          "duration_ms": 30
+        },
+        {
+          "file": "hurt/006.png",
+          "source_frame": 24,
+          "duration_ms": 25
+        },
+        {
+          "file": "hurt/007.png",
+          "source_frame": 28,
+          "duration_ms": 25
+        },
+        {
+          "file": "hurt/008.png",
+          "source_frame": 40,
+          "duration_ms": 25
+        },
+        {
+          "file": "hurt/009.png",
+          "source_frame": 80,
+          "duration_ms": 25
+        },
+        {
+          "file": "hurt/010.png",
+          "source_frame": 104,
+          "duration_ms": 35
+        },
+        {
+          "file": "hurt/011.png",
+          "source_frame": 108,
+          "duration_ms": 35
+        },
+        {
+          "file": "hurt/012.png",
+          "source_frame": 112,
+          "duration_ms": 35
+        },
+        {
+          "file": "hurt/013.png",
+          "source_frame": 116,
+          "duration_ms": 35
+        },
+        {
+          "file": "hurt/014.png",
+          "source_frame": 120,
+          "duration_ms": 35
+        }
+      ],
+      "duration_ms": 425,
+      "pivot": [
+        368.0,
+        639
+      ],
+      "scale": 0.5234042553191489,
+      "source": "npc-roster-v1-caster-hurt",
+      "review_status": "visually_reviewed",
+      "source_count": 124,
+      "storage_crop": [
+        108,
+        164,
+        489,
+        488
+      ]
+    }
+  }
+}

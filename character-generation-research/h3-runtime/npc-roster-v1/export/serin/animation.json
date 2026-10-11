@@ -1,0 +1,480 @@
+{
+  "version": 1,
+  "id": "serin",
+  "name": "瑟琳",
+  "canvas": [
+    768,
+    768
+  ],
+  "portrait": "portrait.png",
+  "actions": {
+    "stand": {
+      "frames": [
+        {
+          "file": "stand/000.png",
+          "source_frame": 13,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/001.png",
+          "source_frame": 16,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/002.png",
+          "source_frame": 19,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/003.png",
+          "source_frame": 22,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/004.png",
+          "source_frame": 25,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/005.png",
+          "source_frame": 28,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/006.png",
+          "source_frame": 31,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/007.png",
+          "source_frame": 34,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/008.png",
+          "source_frame": 37,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/009.png",
+          "source_frame": 40,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/010.png",
+          "source_frame": 43,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/011.png",
+          "source_frame": 46,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/012.png",
+          "source_frame": 49,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/013.png",
+          "source_frame": 52,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/014.png",
+          "source_frame": 55,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/015.png",
+          "source_frame": 58,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/016.png",
+          "source_frame": 61,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/017.png",
+          "source_frame": 64,
+          "duration_ms": 125
+        },
+        {
+          "file": "stand/018.png",
+          "source_frame": 67,
+          "duration_ms": 125
+        }
+      ],
+      "duration_ms": 2375,
+      "pivot": [
+        393.0,
+        642
+      ],
+      "scale": 0.48638132295719844,
+      "source": "npc-roster-v1-serin-stand",
+      "review_status": "visually_reviewed",
+      "source_count": 124,
+      "loop_selection": {
+        "start": 13,
+        "end": 69,
+        "seam_score": 1.3212525501847268,
+        "mean_motion": 0.16335566341876984
+      }
+    },
+    "walk": {
+      "frames": [
+        {
+          "file": "walk/000.png",
+          "source_frame": 40,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/001.png",
+          "source_frame": 43,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/002.png",
+          "source_frame": 46,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/003.png",
+          "source_frame": 49,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/004.png",
+          "source_frame": 52,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/005.png",
+          "source_frame": 55,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/006.png",
+          "source_frame": 58,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/007.png",
+          "source_frame": 61,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/008.png",
+          "source_frame": 64,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/009.png",
+          "source_frame": 67,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/010.png",
+          "source_frame": 70,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/011.png",
+          "source_frame": 73,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/012.png",
+          "source_frame": 76,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/013.png",
+          "source_frame": 79,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/014.png",
+          "source_frame": 82,
+          "duration_ms": 70
+        },
+        {
+          "file": "walk/015.png",
+          "source_frame": 85,
+          "duration_ms": 70
+        }
+      ],
+      "duration_ms": 1120,
+      "pivot": [
+        393.0,
+        642
+      ],
+      "scale": 0.48638132295719844,
+      "source": "npc-roster-v1-serin-walk",
+      "review_status": "visually_reviewed",
+      "source_count": 124,
+      "loop_selection": {
+        "start": 40,
+        "end": 86,
+        "seam_score": 10.4484
+      }
+    },
+    "attack": {
+      "frames": [
+        {
+          "file": "attack/000.png",
+          "source_frame": 8,
+          "duration_ms": 40
+        },
+        {
+          "file": "attack/001.png",
+          "source_frame": 14,
+          "duration_ms": 45
+        },
+        {
+          "file": "attack/002.png",
+          "source_frame": 20,
+          "duration_ms": 45
+        },
+        {
+          "file": "attack/003.png",
+          "source_frame": 26,
+          "duration_ms": 45
+        },
+        {
+          "file": "attack/004.png",
+          "source_frame": 32,
+          "duration_ms": 45
+        },
+        {
+          "file": "attack/005.png",
+          "source_frame": 40,
+          "duration_ms": 40
+        },
+        {
+          "file": "attack/006.png",
+          "source_frame": 44,
+          "duration_ms": 30
+        },
+        {
+          "file": "attack/007.png",
+          "source_frame": 46,
+          "duration_ms": 20
+        },
+        {
+          "file": "attack/008.png",
+          "source_frame": 48,
+          "duration_ms": 20
+        },
+        {
+          "file": "attack/009.png",
+          "source_frame": 50,
+          "duration_ms": 30
+        },
+        {
+          "file": "attack/010.png",
+          "source_frame": 60,
+          "duration_ms": 45
+        },
+        {
+          "file": "attack/011.png",
+          "source_frame": 64,
+          "duration_ms": 35
+        },
+        {
+          "file": "attack/012.png",
+          "source_frame": 74,
+          "duration_ms": 40
+        },
+        {
+          "file": "attack/013.png",
+          "source_frame": 82,
+          "duration_ms": 45
+        },
+        {
+          "file": "attack/014.png",
+          "source_frame": 90,
+          "duration_ms": 45
+        },
+        {
+          "file": "attack/015.png",
+          "source_frame": 100,
+          "duration_ms": 40
+        }
+      ],
+      "duration_ms": 610,
+      "pivot": [
+        393.0,
+        642
+      ],
+      "scale": 0.48638132295719844,
+      "source": "npc-roster-v1-serin-attack",
+      "review_status": "visually_reviewed",
+      "source_count": 124,
+      "event_ms": 330,
+      "emitter": [
+        657,
+        230
+      ],
+      "emitter_source_frame": 50
+    },
+    "hurt": {
+      "frames": [
+        {
+          "file": "hurt/000.png",
+          "source_frame": 32,
+          "duration_ms": 35
+        },
+        {
+          "file": "hurt/001.png",
+          "source_frame": 36,
+          "duration_ms": 35
+        },
+        {
+          "file": "hurt/002.png",
+          "source_frame": 40,
+          "duration_ms": 35
+        },
+        {
+          "file": "hurt/003.png",
+          "source_frame": 46,
+          "duration_ms": 40
+        },
+        {
+          "file": "hurt/004.png",
+          "source_frame": 52,
+          "duration_ms": 40
+        },
+        {
+          "file": "hurt/005.png",
+          "source_frame": 58,
+          "duration_ms": 40
+        },
+        {
+          "file": "hurt/006.png",
+          "source_frame": 64,
+          "duration_ms": 45
+        },
+        {
+          "file": "hurt/007.png",
+          "source_frame": 70,
+          "duration_ms": 45
+        },
+        {
+          "file": "hurt/008.png",
+          "source_frame": 76,
+          "duration_ms": 45
+        },
+        {
+          "file": "hurt/009.png",
+          "source_frame": 82,
+          "duration_ms": 45
+        },
+        {
+          "file": "hurt/010.png",
+          "source_frame": 88,
+          "duration_ms": 40
+        }
+      ],
+      "duration_ms": 445,
+      "pivot": [
+        393.0,
+        642
+      ],
+      "scale": 0.48638132295719844,
+      "source": "npc-roster-v1-serin-hurt",
+      "review_status": "visually_reviewed",
+      "source_count": 124
+    },
+    "cast": {
+      "frames": [
+        {
+          "file": "cast/000.png",
+          "source_frame": 12,
+          "duration_ms": 45
+        },
+        {
+          "file": "cast/001.png",
+          "source_frame": 18,
+          "duration_ms": 50
+        },
+        {
+          "file": "cast/002.png",
+          "source_frame": 24,
+          "duration_ms": 55
+        },
+        {
+          "file": "cast/003.png",
+          "source_frame": 28,
+          "duration_ms": 55
+        },
+        {
+          "file": "cast/004.png",
+          "source_frame": 32,
+          "duration_ms": 60
+        },
+        {
+          "file": "cast/005.png",
+          "source_frame": 36,
+          "duration_ms": 45
+        },
+        {
+          "file": "cast/006.png",
+          "source_frame": 38,
+          "duration_ms": 45
+        },
+        {
+          "file": "cast/007.png",
+          "source_frame": 42,
+          "duration_ms": 65
+        },
+        {
+          "file": "cast/008.png",
+          "source_frame": 60,
+          "duration_ms": 70
+        },
+        {
+          "file": "cast/009.png",
+          "source_frame": 80,
+          "duration_ms": 45
+        },
+        {
+          "file": "cast/010.png",
+          "source_frame": 84,
+          "duration_ms": 45
+        },
+        {
+          "file": "cast/011.png",
+          "source_frame": 88,
+          "duration_ms": 45
+        },
+        {
+          "file": "cast/012.png",
+          "source_frame": 92,
+          "duration_ms": 45
+        },
+        {
+          "file": "cast/013.png",
+          "source_frame": 96,
+          "duration_ms": 45
+        },
+        {
+          "file": "cast/014.png",
+          "source_frame": 104,
+          "duration_ms": 40
+        }
+      ],
+      "duration_ms": 755,
+      "pivot": [
+        393.0,
+        642
+      ],
+      "scale": 0.48638132295719844,
+      "source": "npc-roster-v1-serin-cast",
+      "review_status": "visually_reviewed",
+      "source_count": 124,
+      "event_ms": 310
+    }
+  }
+}

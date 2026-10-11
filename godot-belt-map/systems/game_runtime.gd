@@ -24,6 +24,7 @@ var events = EventBus.new()
 var talents = TalentTree.new()
 var audio = preload("game_audio.gd").new()
 var panel
+var party_hud
 var zone := "town"
 var worlds: Dictionary = {}
 var run_state: Dictionary = {"phase":"none","wave":0,"seed":1,"boons":[],"offers":[]}
@@ -47,7 +48,7 @@ func setup(map_stage) -> void:
 	add_child(encounters)
 	encounters.setup(stage)
 	# Companion is optional; passive alone should never spawn an unrecruited ally.
-	encounters.set_companion("passive")
+	encounters.set_companion(companion_mode)
 	encounters.set_companion_enabled(false)
 	adventure.set_up(stage.knight.equipment,stage.loot,progression)
 	adventure.notice.connect(say)
@@ -86,6 +87,9 @@ func setup(map_stage) -> void:
 	panel.setup(self)
 	stage.interface.external_modal=panel.is_open
 	stage.interface.close_external=panel.close
+	party_hud=preload("party_hud.gd").new()
+	stage.add_child(party_hud)
+	party_hud.setup(self)
 	if zone=="ruins":
 		var backdrop=stage.get_node_or_null("CourtyardBackdrop")
 		if backdrop != null: backdrop.modulate=Color(.65,.77,.95)
@@ -232,7 +236,7 @@ func safe_to_save() -> bool:
 
 func snapshot() -> Dictionary:
 	worlds[zone]=stage.loot.snapshot_world()
-	return {"schema":1,"zone":zone,"worlds":worlds.duplicate(true),"player":{"foot":[stage.foot.x,stage.foot.y],"height":stage.height_z,"health":stage.knight.health,"mana":stage.knight.mana,"facing":stage.knight.facing},"equipment":{"owned":stage.knight.equipment.owned.duplicate(),"equipped":stage.knight.equipment.equipped.duplicate()},"materials":stage.loot.materials.duplicate(),"progression":progression.snapshot(),"talents":talents.snapshot(),"adventure":adventure.snapshot(),"run":run_state.duplicate(true),"companion":{"recruited":companion_recruited,"mode":companion_mode},"play_seconds":play_seconds,"run_counter":run_counter,"slot":current_slot,"autosave_armed":autosave_armed}
+	return {"schema":1,"zone":zone,"worlds":worlds.duplicate(true),"player":{"foot":[stage.foot.x,stage.foot.y],"height":stage.height_z,"health":stage.knight.health,"mana":stage.knight.mana,"facing":stage.knight.facing},"equipment":{"owned":stage.knight.equipment.owned.duplicate(),"equipped":stage.knight.equipment.equipped.duplicate()},"materials":stage.loot.materials.duplicate(),"progression":progression.snapshot(),"talents":talents.snapshot(),"adventure":adventure.snapshot(),"run":run_state.duplicate(true),"companion":{"recruited":companion_recruited,"mode":companion_mode,"state":encounters.companion_snapshot()},"play_seconds":play_seconds,"run_counter":run_counter,"slot":current_slot,"autosave_armed":autosave_armed}
 
 func whole(value, low: int, high: int) -> bool:
 	return (value is int or value is float) and is_finite(float(value)) and floorf(float(value))==float(value) and float(value)>=low and float(value)<=high
@@ -272,6 +276,10 @@ func validate_snapshot(data: Dictionary) -> bool:
 	if not (played is int or played is float) or not is_finite(float(played)) or float(played)<0 or float(played)>1e10: return false
 	if not data.companion.get("recruited") is bool or not data.get("autosave_armed",false) is bool: return false
 	if data.companion.get("mode","") not in ["follow","guard","passive"]: return false
+	if data.companion.has("state"):
+		if not data.companion.state is Dictionary or data.companion.state.is_empty() or not encounters.validate_companion(data.companion.state): return false
+		if data.companion.state.get("enabled",false)!=data.companion.recruited: return false
+		if data.companion.state.get("mode","follow")!=data.companion.mode: return false
 	for id in data.worlds:
 		if not Registry.ZONES.has(id) or not data.worlds[id] is Dictionary: return false
 		var world: Dictionary=data.worlds[id]
@@ -345,7 +353,33 @@ func restore(data: Dictionary) -> bool:
 	stage.knight.position=Vector2(0,-stage.height_z*stage.ppm)
 	stage.camera.position=Vector2(clampf(stage.foot.x*stage.ppm,640,2432),clampf(stage.project(stage.foot).y-220,400,570))
 	encounters.set_companion_enabled(companion_recruited)
-	if companion_recruited: encounters.set_companion(companion_mode)
+	encounters.set_companion(companion_mode)
+	var ally_state:Dictionary=data.companion.get("state",{})
+	encounters.restore_companion(ally_state)
+	# Older saves have no independent vitals; preserve their recruitment and orders.
+	if ally_state.is_empty():
+		encounters.set_companion_enabled(companion_recruited)
+		encounters.set_companion(companion_mode)
+	return true
+
+func rest_party() -> bool:
+	if zone!="town" or stage.knight.defeated: return false
+	var actor=stage.knight
+	var ally:Dictionary=encounters.companion_status()
+	var hero_needs_rest:bool=actor.health<actor.max_health or actor.mana<actor.max_mana
+	var ally_needs_rest:bool=companion_recruited and (bool(ally.dead) or float(ally.hp)<float(ally.max_hp) or float(ally.mp)<float(ally.max_mp))
+	if not hero_needs_rest and not ally_needs_rest:
+		say("全队已经恢复到最佳状态。")
+		return false
+	if int(stage.loot.materials.get("旧铜币",0))<10:
+		say("休息需要 10 铜币。")
+		return false
+	stage.loot.materials["旧铜币"]-=10
+	actor.health=actor.max_health
+	actor.mana=actor.max_mana
+	actor.stats_changed.emit(actor.health,actor.mana)
+	if companion_recruited: encounters.rest_companion()
+	say("休整完毕，全队生命与法力已恢复；倒下的同伴已复苏。" if ally_needs_rest else "休整完毕，生命与法力已恢复。")
 	return true
 
 func save_game(slot: int = 1, automatic: bool = false) -> bool:

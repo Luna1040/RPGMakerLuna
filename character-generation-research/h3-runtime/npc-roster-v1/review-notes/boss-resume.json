@@ -1,0 +1,112 @@
+{
+  "id": "boss",
+  "actions": {
+    "stand": {
+      "verdict": "accept",
+      "note": "Reviewed full selected frames on light/dark backgrounds. Attack v2 has complete sword and clean background; old light-contaminated v1 rejected. Stand uses reversible planted weight shift for seamless loop. Walk alternates both feet. Hurt moves torso/head/knees with cape follow-through. Separate source framing calibrated with action-fixed pivots.",
+      "indices": [
+        88,
+        91,
+        94,
+        97,
+        100,
+        103,
+        106,
+        109,
+        112,
+        115,
+        118,
+        121,
+        118,
+        115,
+        112,
+        109,
+        106,
+        103,
+        100,
+        97,
+        94,
+        91
+      ],
+      "evidence": [
+        "boss-stand-all-dark.jpg",
+        "boss-stand-all-light.jpg"
+      ]
+    },
+    "walk": {
+      "verdict": "accept",
+      "note": "Reviewed full selected frames on light/dark backgrounds. Attack v2 has complete sword and clean background; old light-contaminated v1 rejected. Stand uses reversible planted weight shift for seamless loop. Walk alternates both feet. Hurt moves torso/head/knees with cape follow-through. Separate source framing calibrated with action-fixed pivots.",
+      "indices": [
+        32,
+        35,
+        38,
+        41,
+        44,
+        47,
+        50,
+        53,
+        56,
+        59,
+        62,
+        65,
+        68,
+        71
+      ],
+      "evidence": [
+        "boss-walk-all-dark.jpg",
+        "boss-walk-all-light.jpg"
+      ]
+    },
+    "attack": {
+      "verdict": "accept",
+      "note": "Reviewed full selected frames on light/dark backgrounds. Attack v2 has complete sword and clean background; old light-contaminated v1 rejected. Stand uses reversible planted weight shift for seamless loop. Walk alternates both feet. Hurt moves torso/head/knees with cape follow-through. Separate source framing calibrated with action-fixed pivots.",
+      "indices": [
+        8,
+        12,
+        14,
+        18,
+        20,
+        24,
+        32,
+        56,
+        60,
+        64,
+        68,
+        70,
+        72,
+        80,
+        92,
+        110,
+        120
+      ],
+      "evidence": [
+        "boss-attack-all-dark.jpg",
+        "boss-attack-all-light.jpg"
+      ]
+    },
+    "hurt": {
+      "verdict": "accept",
+      "note": "Reviewed full selected frames on light/dark backgrounds. Attack v2 has complete sword and clean background; old light-contaminated v1 rejected. Stand uses reversible planted weight shift for seamless loop. Walk alternates both feet. Hurt moves torso/head/knees with cape follow-through. Separate source framing calibrated with action-fixed pivots.",
+      "indices": [
+        16,
+        18,
+        20,
+        22,
+        24,
+        28,
+        36,
+        48,
+        56,
+        64,
+        70,
+        76,
+        82,
+        94
+      ],
+      "evidence": [
+        "boss-hurt-all-dark.jpg",
+        "boss-hurt-all-light.jpg"
+      ]
+    }
+  }
+}

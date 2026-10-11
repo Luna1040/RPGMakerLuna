@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "characters": {
+    "scout": {
+      "name": "灰誓斥候",
+      "description": "An adult male fantasy scout wearing brown leather armor and a dark red scarf, holding one one-handed sword. Preserve his exact illustrated face, hair, outfit, proportions and weapon from the reference.",
+      "attack": "One complete physical fencing practice toward the right. From the ready stance shift weight backward and draw the short sword near the hip, drive hips and shoulders forward into one compact diagonal sword cut, follow through and recover to ready. Clear preparation, quick swing and full-body recovery. The sword is a solid rigid unlit metal object of constant length. A quiet physical rehearsal. Only the body, clothes and sword move; the empty background remains completely unchanged, with no motion lines, energy effects or sparks.",
+      "height": 238,
+      "reference": "C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\npc-roster-v1\\references\\scout.png",
+      "seed": 1011000,
+      "actions": [
+        "stand",
+        "walk",
+        "attack",
+        "hurt"
+      ],
+      "hurt": "One complete quick recoiling body gesture. From the ready stance, abruptly lean the head and shoulders backward, bend the knees and lower the hips while drawing the arms closer to the torso, then regain balance and return to the starting stance. The whole torso, hips, knees and head participate naturally, and hair and fabric follow through. Keep feet in the same small area and keep the same held weapon. Only the character moves. The surrounding empty background stays entirely unchanged and featureless throughout."
+    },
+    "caster": {
+      "name": "灰誓咒术师",
+      "description": "An adult woman in a purple long robe with silver ornaments, holding an unlit crescent-shaped decorative staff with a small floating purple crystal at its tip. Preserve her exact illustrated face, hair, clothing, body proportions and complete physical staff including that crystal from the reference.",
+      "attack": "One complete quick open-palm reaching and pointing gesture toward the right. Begin in the ready stance with the same staff held steadily in one hand. Draw the free open hand toward the chest, rotate shoulders and hips, then extend the free arm and open palm firmly toward the right at shoulder height. Briefly hold the fully extended pose and recover to the starting stance. Her head tracks the hand, shoulders, chest, hips and knees coordinate naturally, and hair and fabric follow through. This is a plain physical acting gesture. Nothing appears, shines, flies, or changes in the background; preserve the same unlit staff and normal clothing colors throughout.",
+      "height": 246,
+      "reference": "C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\npc-roster-v1\\references\\caster.png",
+      "seed": 1011100,
+      "actions": [
+        "stand",
+        "walk",
+        "attack",
+        "hurt"
+      ],
+      "hurt": "One complete quick recoiling body gesture. From the ready stance, abruptly lean the head and shoulders backward, bend the knees and lower the hips while drawing the arms closer to the torso, then regain balance and return to the starting stance. The whole torso, hips, knees and head participate naturally, and hair and fabric follow through. Keep feet in the same small area and keep the same held weapon. Only the character moves. The surrounding empty background stays entirely unchanged and featureless throughout."
+    },
+    "elite": {
+      "name": "灰誓重卫",
+      "description": "A broad adult male heavy guard in iron gray plate armor and a dark red cape, holding one great axe. Preserve his exact illustrated helmet or face, armor, proportions and large axe from the reference.",
+      "attack": "One complete physical rehearsal of an overhead axe swing toward the right. Bend knees and load the hips, wind shoulders and lift the same double-headed axe overhead, push through the legs and rotate the torso into a downward diagonal chop, then follow through and recover to ready. Both axe blades and its long shaft stay rigid and unchanged. Full-body effort and delayed fabric movement. Only the person, clothing and unlit metal axe move. Empty black background stays completely unchanged, without motion lines, dust, sparks, flashes or energy effects.",
+      "height": 266,
+      "reference": "C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\npc-roster-v1\\references\\elite.png",
+      "seed": 1011200,
+      "actions": [
+        "stand",
+        "walk",
+        "attack",
+        "hurt"
+      ],
+      "reference_height": 440,
+      "hurt": "One complete quick recoiling body gesture. From the ready stance, abruptly lean the head and shoulders backward, bend the knees and lower the hips while drawing the arms closer to the torso, then regain balance and return to the starting stance. The whole torso, hips, knees and head participate naturally, and hair and fabric follow through. Keep feet in the same small area and keep the same held weapon. Only the character moves. The surrounding empty background stays entirely unchanged and featureless throughout."
+    },
+    "boss": {
+      "name": "陨星执政官",
+      "description": "An imposing adult male fantasy commander in black and gold plate armor with a burgundy cape, holding one great sword. Preserve his exact illustrated face or helmet, armor, proportions and great sword from the reference.",
+      "attack": "One complete physical rehearsal of a broad sword cut toward the right. Settle body weight, bend the knees and draw the full-length great sword back, rotate shoulders and hips together into one strong diagonal sweeping cut, then recover to the original poised stance while the heavy cape settles. Keep the same rigid full-length metal blade, completely visible and unlit throughout. Only the person, armor, clothing and sword move. Background remains entirely featureless with no motion lines, sparks, dust, energy waves or flashes.",
+      "height": 294,
+      "reference": "C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\npc-roster-v1\\references\\boss.png",
+      "seed": 1011300,
+      "actions": [
+        "stand",
+        "walk",
+        "attack",
+        "hurt"
+      ],
+      "reference_height": 440,
+      "hurt": "One complete quick recoiling body gesture. From the ready stance, abruptly lean the head and shoulders backward, bend the knees and lower the hips while drawing the arms closer to the torso, then regain balance and return to the starting stance. The whole torso, hips, knees and head participate naturally, and hair and fabric follow through. Keep feet in the same small area and keep the same held weapon. Only the character moves. The surrounding empty background stays entirely unchanged and featureless throughout."
+    },
+    "serin": {
+      "name": "瑟琳",
+      "description": "An adult silver-haired woman wearing an ivory white and teal short robe with gold ornaments and tall boots, holding an unlit decorative short staff. Preserve the illustrated face, hair, outfit, proportions and physical prop.",
+      "attack": "One complete precise holy-bolt casting gesture toward the right. Keep the short staff in one hand, draw it back near the shoulder as hips turn, then extend the staff with a crisp full-body forward weight transfer to aim a light bolt, and recover to ready. Her head tracks the aim, shoulders and chest respond naturally, hair and robe follow. Draw only the character and staff, no beam, glow, projectile or particle; effects are independent game layers.",
+      "cast": "One complete practical greeting gesture. The woman holds the same unlit short staff steadily in one hand. Her free empty hand lifts naturally near her chest as her head inclines, then she extends the open hand toward the right as if indicating the direction to another person. Fingers naturally spread. Her shoulders, chest and hips coordinate with the reaching hand, then she lowers the hand and returns to the initial stance. Silver hair and teal fabric follow her movement. Only physical body movement, completely flat unlit background. The staff stays physically unchanged and unlit for the entire sequence. No energy is produced.",
+      "height": 250,
+      "reference": "C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\npc-roster-v1\\references\\serin.png",
+      "seed": 1011450,
+      "actions": [
+        "stand",
+        "walk",
+        "attack",
+        "hurt",
+        "cast"
+      ]
+    }
+  }
+}

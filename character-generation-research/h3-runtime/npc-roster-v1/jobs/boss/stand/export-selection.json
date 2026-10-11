@@ -1,0 +1,62 @@
+{
+  "indices": [
+    88,
+    91,
+    94,
+    97,
+    100,
+    103,
+    106,
+    109,
+    112,
+    115,
+    118,
+    121,
+    118,
+    115,
+    112,
+    109,
+    106,
+    103,
+    100,
+    97,
+    94,
+    91
+  ],
+  "durations": [
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125
+  ],
+  "review_status": "visually_reviewed",
+  "pivot": [
+    232,
+    643
+  ],
+  "scale": 0.6533333333333333,
+  "loop_selection": {
+    "start": 88,
+    "end": 122,
+    "mode": "ping_pong",
+    "note": "Reversible planted weight shift; mirrored time closes loop without pose snapping."
+  }
+}

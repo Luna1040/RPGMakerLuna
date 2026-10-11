@@ -1,0 +1,24 @@
+{
+  "status": "pass",
+  "method": "actual Godot GPU viewport PNG comparison",
+  "images": [
+    {
+      "image": "serin-stand-contact.png",
+      "size": [
+        1280,
+        957
+      ],
+      "difference_bbox": null,
+      "max_channel_delta": 0
+    },
+    {
+      "image": "lineup-actual-scale.png",
+      "size": [
+        1280,
+        800
+      ],
+      "difference_bbox": null,
+      "max_channel_delta": 0
+    }
+  ]
+}

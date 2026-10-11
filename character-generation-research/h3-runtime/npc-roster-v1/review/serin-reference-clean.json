@@ -1,0 +1,18 @@
+{
+  "source_sha256": "d681e7476264fa686ce3253981f275e4c179d91024682288778ec660a2249a29",
+  "original_size": [
+    1024,
+    1536
+  ],
+  "opaque_alpha_percentile": 253.0,
+  "bounds": [
+    132,
+    26,
+    893,
+    1463
+  ],
+  "opaque_pixels": 452592,
+  "fractional_pixels": 26086,
+  "method": "original-alpha normalization intersect BiRefNet semantic mask",
+  "published": true
+}

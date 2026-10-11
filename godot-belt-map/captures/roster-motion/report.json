@@ -1,0 +1,3740 @@
+{
+	"failures": [],
+	"reports": [
+		{
+			"action": "stand",
+			"id": "scout",
+			"path": "res://captures/roster-motion/scout-stand-contact.png",
+			"render_texture_bytes_while_captured": 17737869,
+			"samples": [
+				{
+					"frame": 0,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 0.0,
+					"scale": 0.504237288135593,
+					"screen_body_height": 236.991525423729,
+					"screen_foot_offset": 2.52118644067797,
+					"source_frame": 27.0,
+					"source_used_rect": [
+						218,
+						178,
+						334,
+						470
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 2,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 374.999857142857,
+					"scale": 0.504237288135593,
+					"screen_body_height": 237.495762711864,
+					"screen_foot_offset": 2.52118644067797,
+					"source_frame": 33.0,
+					"source_used_rect": [
+						237,
+						177,
+						315,
+						471
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 5,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 749.999714285714,
+					"scale": 0.504237288135593,
+					"screen_body_height": 239.512711864407,
+					"screen_foot_offset": 2.52118644067797,
+					"source_frame": 42.0,
+					"source_used_rect": [
+						247,
+						173,
+						298,
+						475
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 8,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 1124.99957142857,
+					"scale": 0.504237288135593,
+					"screen_body_height": 241.025423728814,
+					"screen_foot_offset": 2.52118644067797,
+					"source_frame": 51.0,
+					"source_used_rect": [
+						230,
+						170,
+						307,
+						478
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 11,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 1499.99942857143,
+					"scale": 0.504237288135593,
+					"screen_body_height": 241.529661016949,
+					"screen_foot_offset": 2.52118644067797,
+					"source_frame": 60.0,
+					"source_used_rect": [
+						236,
+						169,
+						296,
+						479
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 14,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 1874.99928571429,
+					"scale": 0.504237288135593,
+					"screen_body_height": 239.512711864407,
+					"screen_foot_offset": 2.52118644067797,
+					"source_frame": 69.0,
+					"source_used_rect": [
+						236,
+						173,
+						299,
+						475
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 17,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 2249.99914285714,
+					"scale": 0.504237288135593,
+					"screen_body_height": 237.495762711864,
+					"screen_foot_offset": 2.52118644067797,
+					"source_frame": 78.0,
+					"source_used_rect": [
+						224,
+						177,
+						323,
+						471
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 20,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 2624.999,
+					"scale": 0.504237288135593,
+					"screen_body_height": 236.991525423729,
+					"screen_foot_offset": 2.52118644067797,
+					"source_frame": 87.0,
+					"source_used_rect": [
+						219,
+						178,
+						333,
+						470
+					],
+					"touches_canvas_edge": false
+				}
+			],
+			"status": "captured"
+		},
+		{
+			"action": "walk",
+			"id": "scout",
+			"path": "res://captures/roster-motion/scout-walk-contact.png",
+			"render_texture_bytes_while_captured": 23469083,
+			"samples": [
+				{
+					"frame": 0,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 0.0,
+					"scale": 0.504237288135593,
+					"screen_body_height": 233.966101694915,
+					"screen_foot_offset": -1.00847457627119,
+					"source_frame": 52.0,
+					"source_used_rect": [
+						180,
+						177,
+						379,
+						464
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 2,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 148.571285714286,
+					"scale": 0.504237288135593,
+					"screen_body_height": 241.529661016949,
+					"screen_foot_offset": 1.00847457627119,
+					"source_frame": 56.0,
+					"source_used_rect": [
+						203,
+						166,
+						390,
+						479
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 4,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 297.142571428571,
+					"scale": 0.504237288135593,
+					"screen_body_height": 243.042372881356,
+					"screen_foot_offset": 0.504237288135593,
+					"source_frame": 60.0,
+					"source_used_rect": [
+						216,
+						162,
+						424,
+						482
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 6,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 445.713857142857,
+					"scale": 0.504237288135593,
+					"screen_body_height": 239.512711864407,
+					"screen_foot_offset": 0.0,
+					"source_frame": 64.0,
+					"source_used_rect": [
+						199,
+						168,
+						466,
+						475
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 9,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 594.285142857143,
+					"scale": 0.504237288135593,
+					"screen_body_height": 235.983050847458,
+					"screen_foot_offset": -2.52118644067797,
+					"source_frame": 70.0,
+					"source_used_rect": [
+						192,
+						170,
+						463,
+						468
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 11,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 742.856428571429,
+					"scale": 0.504237288135593,
+					"screen_body_height": 240.521186440678,
+					"screen_foot_offset": -2.01694915254237,
+					"source_frame": 74.0,
+					"source_used_rect": [
+						221,
+						162,
+						403,
+						477
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 13,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 891.427714285714,
+					"scale": 0.504237288135593,
+					"screen_body_height": 237.495762711864,
+					"screen_foot_offset": -3.52966101694915,
+					"source_frame": 78.0,
+					"source_used_rect": [
+						200,
+						165,
+						386,
+						471
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 15,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 1039.999,
+					"scale": 0.504237288135593,
+					"screen_body_height": 233.966101694915,
+					"screen_foot_offset": -2.01694915254237,
+					"source_frame": 82.0,
+					"source_used_rect": [
+						181,
+						175,
+						379,
+						464
+					],
+					"touches_canvas_edge": false
+				}
+			],
+			"status": "captured"
+		},
+		{
+			"action": "attack",
+			"id": "scout",
+			"path": "res://captures/roster-motion/scout-attack-contact.png",
+			"render_texture_bytes_while_captured": 30201947,
+			"samples": [
+				{
+					"frame": 0,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 0.0,
+					"scale": 0.504237288135593,
+					"screen_body_height": 241.529661016949,
+					"screen_foot_offset": 2.52118644067797,
+					"source_frame": 18.0,
+					"source_used_rect": [
+						224,
+						169,
+						307,
+						479
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 2,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 73.9998571428571,
+					"scale": 0.504237288135593,
+					"screen_body_height": 219.847457627119,
+					"screen_foot_offset": 1.51271186440678,
+					"source_frame": 30.0,
+					"source_used_rect": [
+						244,
+						210,
+						500,
+						436
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 4,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 147.999714285714,
+					"scale": 0.504237288135593,
+					"screen_body_height": 217.830508474576,
+					"screen_foot_offset": 2.01694915254237,
+					"source_frame": 46.0,
+					"source_used_rect": [
+						262,
+						215,
+						348,
+						432
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 7,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 221.999571428571,
+					"scale": 0.504237288135593,
+					"screen_body_height": 238.504237288136,
+					"screen_foot_offset": 1.51271186440678,
+					"source_frame": 59.0,
+					"source_used_rect": [
+						234,
+						173,
+						305,
+						473
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 10,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 295.999428571429,
+					"scale": 0.504237288135593,
+					"screen_body_height": 281.868644067797,
+					"screen_foot_offset": 1.51271186440678,
+					"source_frame": 64.0,
+					"source_used_rect": [
+						238,
+						87,
+						491,
+						559
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 12,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 369.999285714286,
+					"scale": 0.504237288135593,
+					"screen_body_height": 219.847457627119,
+					"screen_foot_offset": 1.51271186440678,
+					"source_frame": 87.0,
+					"source_used_rect": [
+						239,
+						210,
+						458,
+						436
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 14,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 443.999142857143,
+					"scale": 0.504237288135593,
+					"screen_body_height": 235.478813559322,
+					"screen_foot_offset": 1.00847457627119,
+					"source_frame": 100.0,
+					"source_used_rect": [
+						244,
+						178,
+						285,
+						467
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 15,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 517.999,
+					"scale": 0.504237288135593,
+					"screen_body_height": 241.529661016949,
+					"screen_foot_offset": 2.52118644067797,
+					"source_frame": 108.0,
+					"source_used_rect": [
+						240,
+						169,
+						290,
+						479
+					],
+					"touches_canvas_edge": false
+				}
+			],
+			"status": "captured"
+		},
+		{
+			"action": "hurt",
+			"id": "scout",
+			"path": "res://captures/roster-motion/scout-hurt-contact.png",
+			"render_texture_bytes_while_captured": 24088955,
+			"samples": [
+				{
+					"frame": 0,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 0.0,
+					"scale": 0.504237288135593,
+					"screen_body_height": 234.470338983051,
+					"screen_foot_offset": 2.52118644067797,
+					"source_frame": 12.0,
+					"source_used_rect": [
+						213,
+						183,
+						361,
+						465
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 2,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 54.2855714285714,
+					"scale": 0.504237288135593,
+					"screen_body_height": 203.71186440678,
+					"screen_foot_offset": 3.02542372881356,
+					"source_frame": 16.0,
+					"source_used_rect": [
+						218,
+						245,
+						467,
+						404
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 3,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 108.571142857143,
+					"scale": 0.504237288135593,
+					"screen_body_height": 197.156779661017,
+					"screen_foot_offset": 3.02542372881356,
+					"source_frame": 20.0,
+					"source_used_rect": [
+						198,
+						258,
+						488,
+						391
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 5,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 162.856714285714,
+					"scale": 0.504237288135593,
+					"screen_body_height": 199.677966101695,
+					"screen_foot_offset": 3.02542372881356,
+					"source_frame": 44.0,
+					"source_used_rect": [
+						253,
+						253,
+						433,
+						396
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 6,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 217.142285714286,
+					"scale": 0.504237288135593,
+					"screen_body_height": 203.207627118644,
+					"screen_foot_offset": 3.02542372881356,
+					"source_frame": 56.0,
+					"source_used_rect": [
+						205,
+						246,
+						478,
+						403
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 8,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 271.427857142857,
+					"scale": 0.504237288135593,
+					"screen_body_height": 226.402542372881,
+					"screen_foot_offset": 2.52118644067797,
+					"source_frame": 64.0,
+					"source_used_rect": [
+						224,
+						199,
+						401,
+						449
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 9,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 325.713428571429,
+					"scale": 0.504237288135593,
+					"screen_body_height": 236.991525423729,
+					"screen_foot_offset": 2.52118644067797,
+					"source_frame": 68.0,
+					"source_used_rect": [
+						241,
+						178,
+						334,
+						470
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 10,
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 379.999,
+					"scale": 0.504237288135593,
+					"screen_body_height": 241.025423728814,
+					"screen_foot_offset": 2.52118644067797,
+					"source_frame": 72.0,
+					"source_used_rect": [
+						253,
+						170,
+						284,
+						478
+					],
+					"touches_canvas_edge": false
+				}
+			],
+			"status": "captured"
+		},
+		{
+			"action": "cast",
+			"id": "scout",
+			"status": "skipped_missing_action"
+		},
+		{
+			"action": "stand",
+			"id": "caster",
+			"path": "res://captures/roster-motion/caster-stand-contact.png",
+			"render_texture_bytes_while_captured": 17186787,
+			"samples": [
+				{
+					"frame": 0,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 0.0,
+					"scale": 0.523404255319149,
+					"screen_body_height": 251.234042553191,
+					"screen_foot_offset": 4.71063829787234,
+					"source_frame": 4.0,
+					"source_used_rect": [
+						248,
+						168,
+						268,
+						480
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 3,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 464.285571428571,
+					"scale": 0.523404255319149,
+					"screen_body_height": 251.234042553191,
+					"screen_foot_offset": 4.71063829787234,
+					"source_frame": 13.0,
+					"source_used_rect": [
+						222,
+						168,
+						284,
+						480
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 7,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 928.571142857143,
+					"scale": 0.523404255319149,
+					"screen_body_height": 251.234042553191,
+					"screen_foot_offset": 4.71063829787234,
+					"source_frame": 25.0,
+					"source_used_rect": [
+						222,
+						168,
+						285,
+						480
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 11,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 1392.85671428571,
+					"scale": 0.523404255319149,
+					"screen_body_height": 251.234042553191,
+					"screen_foot_offset": 4.71063829787234,
+					"source_frame": 37.0,
+					"source_used_rect": [
+						247,
+						168,
+						274,
+						480
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 14,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 1857.14228571429,
+					"scale": 0.523404255319149,
+					"screen_body_height": 251.234042553191,
+					"screen_foot_offset": 4.71063829787234,
+					"source_frame": 46.0,
+					"source_used_rect": [
+						245,
+						168,
+						267,
+						480
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 18,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 2321.42785714286,
+					"scale": 0.523404255319149,
+					"screen_body_height": 251.234042553191,
+					"screen_foot_offset": 4.71063829787234,
+					"source_frame": 58.0,
+					"source_used_rect": [
+						223,
+						168,
+						284,
+						480
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 22,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 2785.71342857143,
+					"scale": 0.523404255319149,
+					"screen_body_height": 251.234042553191,
+					"screen_foot_offset": 4.71063829787234,
+					"source_frame": 70.0,
+					"source_used_rect": [
+						240,
+						168,
+						275,
+						480
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 25,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 3249.999,
+					"scale": 0.523404255319149,
+					"screen_body_height": 251.234042553191,
+					"screen_foot_offset": 4.71063829787234,
+					"source_frame": 79.0,
+					"source_used_rect": [
+						248,
+						168,
+						272,
+						480
+					],
+					"touches_canvas_edge": false
+				}
+			],
+			"status": "captured"
+		},
+		{
+			"action": "walk",
+			"id": "caster",
+			"path": "res://captures/roster-motion/caster-walk-contact.png",
+			"render_texture_bytes_while_captured": 18827803,
+			"samples": [
+				{
+					"frame": 0,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 0.0,
+					"scale": 0.523404255319149,
+					"screen_body_height": 245.476595744681,
+					"screen_foot_offset": -4.18723404255319,
+					"source_frame": 42.0,
+					"source_used_rect": [
+						246,
+						162,
+						299,
+						469
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 2,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 169.999857142857,
+					"scale": 0.523404255319149,
+					"screen_body_height": 245.476595744681,
+					"screen_foot_offset": -6.28085106382979,
+					"source_frame": 48.0,
+					"source_used_rect": [
+						237,
+						158,
+						278,
+						469
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 4,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 339.999714285714,
+					"scale": 0.523404255319149,
+					"screen_body_height": 242.336170212766,
+					"screen_foot_offset": -3.14042553191489,
+					"source_frame": 54.0,
+					"source_used_rect": [
+						224,
+						170,
+						302,
+						463
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 7,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 509.999571428571,
+					"scale": 0.523404255319149,
+					"screen_body_height": 243.382978723404,
+					"screen_foot_offset": -5.75744680851064,
+					"source_frame": 63.0,
+					"source_used_rect": [
+						246,
+						163,
+						241,
+						465
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 9,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 679.999428571429,
+					"scale": 0.523404255319149,
+					"screen_body_height": 240.765957446809,
+					"screen_foot_offset": -4.18723404255319,
+					"source_frame": 69.0,
+					"source_used_rect": [
+						256,
+						171,
+						287,
+						460
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 12,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 849.999285714286,
+					"scale": 0.523404255319149,
+					"screen_body_height": 245.476595744681,
+					"screen_foot_offset": -3.14042553191489,
+					"source_frame": 78.0,
+					"source_used_rect": [
+						241,
+						164,
+						298,
+						469
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 14,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 1019.99914285714,
+					"scale": 0.523404255319149,
+					"screen_body_height": 242.859574468085,
+					"screen_foot_offset": -3.66382978723404,
+					"source_frame": 84.0,
+					"source_used_rect": [
+						230,
+						168,
+						331,
+						464
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 16,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 1189.999,
+					"scale": 0.523404255319149,
+					"screen_body_height": 243.382978723404,
+					"screen_foot_offset": -4.18723404255319,
+					"source_frame": 90.0,
+					"source_used_rect": [
+						237,
+						166,
+						313,
+						465
+					],
+					"touches_canvas_edge": false
+				}
+			],
+			"status": "captured"
+		},
+		{
+			"action": "attack",
+			"id": "caster",
+			"path": "res://captures/roster-motion/caster-attack-contact.png",
+			"render_texture_bytes_while_captured": 21242811,
+			"samples": [
+				{
+					"frame": 0,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 0.0,
+					"scale": 0.523404255319149,
+					"screen_body_height": 251.234042553191,
+					"screen_foot_offset": 4.71063829787234,
+					"source_frame": 21.0,
+					"source_used_rect": [
+						239,
+						168,
+						258,
+						480
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 2,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 84.9998571428571,
+					"scale": 0.523404255319149,
+					"screen_body_height": 249.140425531915,
+					"screen_foot_offset": 4.71063829787234,
+					"source_frame": 28.0,
+					"source_used_rect": [
+						223,
+						172,
+						259,
+						476
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 3,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 169.999714285714,
+					"scale": 0.523404255319149,
+					"screen_body_height": 248.617021276596,
+					"screen_foot_offset": 4.71063829787234,
+					"source_frame": 34.0,
+					"source_used_rect": [
+						213,
+						173,
+						287,
+						475
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 5,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 254.999571428571,
+					"scale": 0.523404255319149,
+					"screen_body_height": 250.710638297872,
+					"screen_foot_offset": 4.71063829787234,
+					"source_frame": 40.0,
+					"source_used_rect": [
+						217,
+						169,
+						407,
+						479
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 7,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 339.999428571429,
+					"scale": 0.523404255319149,
+					"screen_body_height": 251.234042553191,
+					"screen_foot_offset": 4.71063829787234,
+					"source_frame": 48.0,
+					"source_used_rect": [
+						233,
+						168,
+						363,
+						480
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 9,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 424.999285714286,
+					"scale": 0.523404255319149,
+					"screen_body_height": 251.234042553191,
+					"screen_foot_offset": 4.71063829787234,
+					"source_frame": 66.0,
+					"source_used_rect": [
+						236,
+						168,
+						360,
+						480
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 11,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 509.999142857143,
+					"scale": 0.523404255319149,
+					"screen_body_height": 251.234042553191,
+					"screen_foot_offset": 4.71063829787234,
+					"source_frame": 88.0,
+					"source_used_rect": [
+						217,
+						168,
+						351,
+						480
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 13,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 594.999,
+					"scale": 0.523404255319149,
+					"screen_body_height": 251.234042553191,
+					"screen_foot_offset": 4.71063829787234,
+					"source_frame": 102.0,
+					"source_used_rect": [
+						241,
+						168,
+						277,
+						480
+					],
+					"touches_canvas_edge": false
+				}
+			],
+			"status": "captured"
+		},
+		{
+			"action": "hurt",
+			"id": "caster",
+			"path": "res://captures/roster-motion/caster-hurt-contact.png",
+			"render_texture_bytes_while_captured": 21776027,
+			"samples": [
+				{
+					"frame": 0,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 0.0,
+					"scale": 0.523404255319149,
+					"screen_body_height": 251.234042553191,
+					"screen_foot_offset": 4.71063829787234,
+					"source_frame": 8.0,
+					"source_used_rect": [
+						248,
+						168,
+						266,
+						480
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 2,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 60.7141428571429,
+					"scale": 0.523404255319149,
+					"screen_body_height": 251.234042553191,
+					"screen_foot_offset": 4.71063829787234,
+					"source_frame": 12.0,
+					"source_used_rect": [
+						243,
+						168,
+						269,
+						480
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 5,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 121.428285714286,
+					"scale": 0.523404255319149,
+					"screen_body_height": 211.455319148936,
+					"screen_foot_offset": 4.71063829787234,
+					"source_frame": 20.0,
+					"source_used_rect": [
+						112,
+						244,
+						456,
+						404
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 7,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 182.142428571429,
+					"scale": 0.523404255319149,
+					"screen_body_height": 215.11914893617,
+					"screen_foot_offset": 4.71063829787234,
+					"source_frame": 28.0,
+					"source_used_rect": [
+						138,
+						237,
+						455,
+						411
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 9,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 242.856571428571,
+					"scale": 0.523404255319149,
+					"screen_body_height": 219.829787234043,
+					"screen_foot_offset": 4.71063829787234,
+					"source_frame": 80.0,
+					"source_used_rect": [
+						157,
+						228,
+						362,
+						420
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 11,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 303.570714285714,
+					"scale": 0.523404255319149,
+					"screen_body_height": 234.485106382979,
+					"screen_foot_offset": 4.71063829787234,
+					"source_frame": 108.0,
+					"source_used_rect": [
+						176,
+						200,
+						334,
+						448
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 13,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 364.284857142857,
+					"scale": 0.523404255319149,
+					"screen_body_height": 251.234042553191,
+					"screen_foot_offset": 4.71063829787234,
+					"source_frame": 116.0,
+					"source_used_rect": [
+						243,
+						168,
+						278,
+						480
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 14,
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 424.999,
+					"scale": 0.523404255319149,
+					"screen_body_height": 251.234042553191,
+					"screen_foot_offset": 4.71063829787234,
+					"source_frame": 120.0,
+					"source_used_rect": [
+						248,
+						168,
+						272,
+						480
+					],
+					"touches_canvas_edge": false
+				}
+			],
+			"status": "captured"
+		},
+		{
+			"action": "cast",
+			"id": "caster",
+			"status": "skipped_missing_action"
+		},
+		{
+			"action": "stand",
+			"id": "elite",
+			"path": "res://captures/roster-motion/elite-stand-contact.png",
+			"render_texture_bytes_while_captured": 19480547,
+			"samples": [
+				{
+					"frame": 0,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 0.0,
+					"scale": 0.615740740740741,
+					"screen_body_height": 270.310185185185,
+					"screen_foot_offset": 3.69444444444444,
+					"source_frame": 10.0,
+					"source_used_rect": [
+						227,
+						209,
+						312,
+						439
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 2,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 357.142714285714,
+					"scale": 0.615740740740741,
+					"screen_body_height": 270.310185185185,
+					"screen_foot_offset": 3.69444444444444,
+					"source_frame": 16.0,
+					"source_used_rect": [
+						216,
+						209,
+						325,
+						439
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 5,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 714.285428571429,
+					"scale": 0.615740740740741,
+					"screen_body_height": 270.310185185185,
+					"screen_foot_offset": 3.69444444444444,
+					"source_frame": 25.0,
+					"source_used_rect": [
+						193,
+						209,
+						352,
+						439
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 8,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 1071.42814285714,
+					"scale": 0.615740740740741,
+					"screen_body_height": 270.310185185185,
+					"screen_foot_offset": 3.69444444444444,
+					"source_frame": 34.0,
+					"source_used_rect": [
+						179,
+						209,
+						369,
+						439
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 11,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 1428.57085714286,
+					"scale": 0.615740740740741,
+					"screen_body_height": 269.694444444444,
+					"screen_foot_offset": 3.69444444444444,
+					"source_frame": 43.0,
+					"source_used_rect": [
+						181,
+						210,
+						366,
+						438
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 14,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 1785.71357142857,
+					"scale": 0.615740740740741,
+					"screen_body_height": 269.694444444444,
+					"screen_foot_offset": 3.69444444444444,
+					"source_frame": 52.0,
+					"source_used_rect": [
+						208,
+						210,
+						334,
+						438
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 17,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 2142.85628571429,
+					"scale": 0.615740740740741,
+					"screen_body_height": 269.694444444444,
+					"screen_foot_offset": 3.69444444444444,
+					"source_frame": 61.0,
+					"source_used_rect": [
+						226,
+						210,
+						313,
+						438
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 19,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 2499.999,
+					"scale": 0.615740740740741,
+					"screen_body_height": 269.694444444444,
+					"screen_foot_offset": 3.69444444444444,
+					"source_frame": 67.0,
+					"source_used_rect": [
+						228,
+						210,
+						311,
+						438
+					],
+					"touches_canvas_edge": false
+				}
+			],
+			"status": "captured"
+		},
+		{
+			"action": "walk",
+			"id": "elite",
+			"path": "res://captures/roster-motion/elite-walk-contact.png",
+			"render_texture_bytes_while_captured": 22721331,
+			"samples": [
+				{
+					"frame": 0,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 0.0,
+					"scale": 0.615740740740741,
+					"screen_body_height": 271.541666666667,
+					"screen_foot_offset": 2.46296296296296,
+					"source_frame": 29.0,
+					"source_used_rect": [
+						225,
+						205,
+						370,
+						441
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 2,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 199.999857142857,
+					"scale": 0.615740740740741,
+					"screen_body_height": 266.0,
+					"screen_foot_offset": -1.23148148148148,
+					"source_frame": 35.0,
+					"source_used_rect": [
+						220,
+						208,
+						353,
+						432
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 5,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 399.999714285714,
+					"scale": 0.615740740740741,
+					"screen_body_height": 262.305555555556,
+					"screen_foot_offset": -3.69444444444444,
+					"source_frame": 44.0,
+					"source_used_rect": [
+						228,
+						210,
+						331,
+						426
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 8,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 599.999571428571,
+					"scale": 0.615740740740741,
+					"screen_body_height": 264.152777777778,
+					"screen_foot_offset": -4.31018518518519,
+					"source_frame": 53.0,
+					"source_used_rect": [
+						220,
+						206,
+						342,
+						429
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 11,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 799.999428571429,
+					"scale": 0.615740740740741,
+					"screen_body_height": 260.458333333333,
+					"screen_foot_offset": -4.31018518518519,
+					"source_frame": 62.0,
+					"source_used_rect": [
+						227,
+						212,
+						362,
+						423
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 14,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 999.999285714286,
+					"scale": 0.615740740740741,
+					"screen_body_height": 269.078703703704,
+					"screen_foot_offset": 0.0,
+					"source_frame": 71.0,
+					"source_used_rect": [
+						221,
+						205,
+						369,
+						437
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 17,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 1199.99914285714,
+					"scale": 0.615740740740741,
+					"screen_body_height": 265.384259259259,
+					"screen_foot_offset": 1.23148148148148,
+					"source_frame": 80.0,
+					"source_used_rect": [
+						224,
+						213,
+						361,
+						431
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 19,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 1399.999,
+					"scale": 0.615740740740741,
+					"screen_body_height": 271.541666666667,
+					"screen_foot_offset": 2.46296296296296,
+					"source_frame": 86.0,
+					"source_used_rect": [
+						226,
+						205,
+						370,
+						441
+					],
+					"touches_canvas_edge": false
+				}
+			],
+			"status": "captured"
+		},
+		{
+			"action": "attack",
+			"id": "elite",
+			"path": "res://captures/roster-motion/elite-attack-contact.png",
+			"render_texture_bytes_while_captured": 44474227,
+			"samples": [
+				{
+					"frame": 0,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 0.0,
+					"scale": 0.615740740740741,
+					"screen_body_height": 266.0,
+					"screen_foot_offset": 3.69444444444444,
+					"source_frame": 12.0,
+					"source_used_rect": [
+						226,
+						216,
+						369,
+						432
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 2,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 95.7141428571429,
+					"scale": 0.615740740740741,
+					"screen_body_height": 254.916666666667,
+					"screen_foot_offset": 5.54166666666667,
+					"source_frame": 24.0,
+					"source_used_rect": [
+						214,
+						237,
+						516,
+						414
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 5,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 191.428285714286,
+					"scale": 0.615740740740741,
+					"screen_body_height": 362.055555555556,
+					"screen_foot_offset": 3.69444444444444,
+					"source_frame": 36.0,
+					"source_used_rect": [
+						21,
+						60,
+						454,
+						588
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 7,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 287.142428571429,
+					"scale": 0.615740740740741,
+					"screen_body_height": 327.574074074074,
+					"screen_foot_offset": 4.31018518518519,
+					"source_frame": 48.0,
+					"source_used_rect": [
+						199,
+						117,
+						284,
+						532
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 9,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 382.856571428571,
+					"scale": 0.615740740740741,
+					"screen_body_height": 360.824074074074,
+					"screen_foot_offset": 3.69444444444444,
+					"source_frame": 58.0,
+					"source_used_rect": [
+						232,
+						62,
+						317,
+						586
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 12,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 478.570714285714,
+					"scale": 0.615740740740741,
+					"screen_body_height": 401.462962962963,
+					"screen_foot_offset": 25.8611111111111,
+					"source_frame": 64.0,
+					"source_used_rect": [
+						181,
+						32,
+						571,
+						652
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 14,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 574.284857142857,
+					"scale": 0.615740740740741,
+					"screen_body_height": 259.226851851852,
+					"screen_foot_offset": 3.69444444444444,
+					"source_frame": 92.0,
+					"source_used_rect": [
+						258,
+						227,
+						373,
+						421
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 16,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 669.999,
+					"scale": 0.615740740740741,
+					"screen_body_height": 270.310185185185,
+					"screen_foot_offset": 3.69444444444444,
+					"source_frame": 120.0,
+					"source_used_rect": [
+						224,
+						209,
+						316,
+						439
+					],
+					"touches_canvas_edge": false
+				}
+			],
+			"status": "captured"
+		},
+		{
+			"action": "hurt",
+			"id": "elite",
+			"path": "res://captures/roster-motion/elite-hurt-contact.png",
+			"render_texture_bytes_while_captured": 27136051,
+			"samples": [
+				{
+					"frame": 0,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 0.0,
+					"scale": 0.615740740740741,
+					"screen_body_height": 270.310185185185,
+					"screen_foot_offset": 3.69444444444444,
+					"source_frame": 16.0,
+					"source_used_rect": [
+						228,
+						209,
+						312,
+						439
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 2,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 55.7141428571429,
+					"scale": 0.615740740740741,
+					"screen_body_height": 264.152777777778,
+					"screen_foot_offset": 3.69444444444444,
+					"source_frame": 20.0,
+					"source_used_rect": [
+						227,
+						219,
+						328,
+						429
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 4,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 111.428285714286,
+					"scale": 0.615740740740741,
+					"screen_body_height": 213.046296296296,
+					"screen_foot_offset": 3.69444444444444,
+					"source_frame": 24.0,
+					"source_used_rect": [
+						173,
+						302,
+						471,
+						346
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 6,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 167.142428571429,
+					"scale": 0.615740740740741,
+					"screen_body_height": 211.814814814815,
+					"screen_foot_offset": 3.69444444444444,
+					"source_frame": 34.0,
+					"source_used_rect": [
+						141,
+						304,
+						487,
+						344
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 8,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 222.856571428571,
+					"scale": 0.615740740740741,
+					"screen_body_height": 211.814814814815,
+					"screen_foot_offset": 3.69444444444444,
+					"source_frame": 50.0,
+					"source_used_rect": [
+						210,
+						304,
+						424,
+						344
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 10,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 278.570714285714,
+					"scale": 0.615740740740741,
+					"screen_body_height": 266.615740740741,
+					"screen_foot_offset": 3.69444444444444,
+					"source_frame": 60.0,
+					"source_used_rect": [
+						233,
+						215,
+						336,
+						433
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 12,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 334.284857142857,
+					"scale": 0.615740740740741,
+					"screen_body_height": 270.310185185185,
+					"screen_foot_offset": 3.69444444444444,
+					"source_frame": 74.0,
+					"source_used_rect": [
+						213,
+						209,
+						326,
+						439
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 13,
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 389.999,
+					"scale": 0.615740740740741,
+					"screen_body_height": 270.310185185185,
+					"screen_foot_offset": 3.69444444444444,
+					"source_frame": 82.0,
+					"source_used_rect": [
+						233,
+						209,
+						306,
+						439
+					],
+					"touches_canvas_edge": false
+				}
+			],
+			"status": "captured"
+		},
+		{
+			"action": "cast",
+			"id": "elite",
+			"status": "skipped_missing_action"
+		},
+		{
+			"action": "stand",
+			"id": "boss",
+			"path": "res://captures/roster-motion/boss-stand-contact.png",
+			"render_texture_bytes_while_captured": 23969411,
+			"samples": [
+				{
+					"frame": 0,
+					"pivot": [
+						232.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 0.0,
+					"scale": 0.653333333333333,
+					"screen_body_height": 301.84,
+					"screen_foot_offset": 1.30666666666667,
+					"source_frame": 88.0,
+					"source_used_rect": [
+						164,
+						183,
+						363,
+						462
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 3,
+					"pivot": [
+						232.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 392.857,
+					"scale": 0.653333333333333,
+					"screen_body_height": 300.533333333333,
+					"screen_foot_offset": 1.96,
+					"source_frame": 97.0,
+					"source_used_rect": [
+						185,
+						186,
+						333,
+						460
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 6,
+					"pivot": [
+						232.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 785.714,
+					"scale": 0.653333333333333,
+					"screen_body_height": 302.493333333333,
+					"screen_foot_offset": 3.26666666666667,
+					"source_frame": 106.0,
+					"source_used_rect": [
+						192,
+						185,
+						318,
+						463
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 9,
+					"pivot": [
+						232.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 1178.571,
+					"scale": 0.653333333333333,
+					"screen_body_height": 302.493333333333,
+					"screen_foot_offset": 3.26666666666667,
+					"source_frame": 115.0,
+					"source_used_rect": [
+						196,
+						185,
+						309,
+						463
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 12,
+					"pivot": [
+						232.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 1571.428,
+					"scale": 0.653333333333333,
+					"screen_body_height": 302.493333333333,
+					"screen_foot_offset": 3.26666666666667,
+					"source_frame": 118.0,
+					"source_used_rect": [
+						200,
+						185,
+						303,
+						463
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 15,
+					"pivot": [
+						232.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 1964.285,
+					"scale": 0.653333333333333,
+					"screen_body_height": 302.493333333333,
+					"screen_foot_offset": 3.26666666666667,
+					"source_frame": 109.0,
+					"source_used_rect": [
+						193,
+						185,
+						317,
+						463
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 18,
+					"pivot": [
+						232.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 2357.142,
+					"scale": 0.653333333333333,
+					"screen_body_height": 300.533333333333,
+					"screen_foot_offset": 1.96,
+					"source_frame": 100.0,
+					"source_used_rect": [
+						189,
+						186,
+						323,
+						460
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 21,
+					"pivot": [
+						232.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 2749.999,
+					"scale": 0.653333333333333,
+					"screen_body_height": 300.533333333333,
+					"screen_foot_offset": 1.30666666666667,
+					"source_frame": 91.0,
+					"source_used_rect": [
+						171,
+						185,
+						357,
+						460
+					],
+					"touches_canvas_edge": false
+				}
+			],
+			"status": "captured"
+		},
+		{
+			"action": "walk",
+			"id": "boss",
+			"path": "res://captures/roster-motion/boss-walk-contact.png",
+			"render_texture_bytes_while_captured": 31327727,
+			"samples": [
+				{
+					"frame": 0,
+					"pivot": [
+						389.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 0.0,
+					"scale": 0.67741935483871,
+					"screen_body_height": 294.677419354839,
+					"screen_foot_offset": -1.35483870967742,
+					"source_frame": 32.0,
+					"source_used_rect": [
+						194,
+						206,
+						530,
+						435
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 1,
+					"pivot": [
+						389.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 139.999857142857,
+					"scale": 0.67741935483871,
+					"screen_body_height": 290.612903225806,
+					"screen_foot_offset": -2.70967741935484,
+					"source_frame": 35.0,
+					"source_used_rect": [
+						192,
+						210,
+						540,
+						429
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 3,
+					"pivot": [
+						389.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 279.999714285714,
+					"scale": 0.67741935483871,
+					"screen_body_height": 289.935483870968,
+					"screen_foot_offset": -4.06451612903226,
+					"source_frame": 41.0,
+					"source_used_rect": [
+						202,
+						209,
+						493,
+						428
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 5,
+					"pivot": [
+						389.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 419.999571428571,
+					"scale": 0.67741935483871,
+					"screen_body_height": 290.612903225806,
+					"screen_foot_offset": -6.09677419354839,
+					"source_frame": 47.0,
+					"source_used_rect": [
+						224,
+						205,
+						381,
+						429
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 7,
+					"pivot": [
+						389.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 559.999428571429,
+					"scale": 0.67741935483871,
+					"screen_body_height": 294.0,
+					"screen_foot_offset": -1.35483870967742,
+					"source_frame": 53.0,
+					"source_used_rect": [
+						233,
+						207,
+						309,
+						434
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 9,
+					"pivot": [
+						389.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 699.999285714286,
+					"scale": 0.67741935483871,
+					"screen_body_height": 289.935483870968,
+					"screen_foot_offset": -2.70967741935484,
+					"source_frame": 59.0,
+					"source_used_rect": [
+						222,
+						211,
+						331,
+						428
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 11,
+					"pivot": [
+						389.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 839.999142857143,
+					"scale": 0.67741935483871,
+					"screen_body_height": 296.709677419355,
+					"screen_foot_offset": 0.67741935483871,
+					"source_frame": 65.0,
+					"source_used_rect": [
+						210,
+						206,
+						417,
+						438
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 13,
+					"pivot": [
+						389.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 979.999,
+					"scale": 0.67741935483871,
+					"screen_body_height": 296.032258064516,
+					"screen_foot_offset": -0.67741935483871,
+					"source_frame": 71.0,
+					"source_used_rect": [
+						198,
+						205,
+						505,
+						437
+					],
+					"touches_canvas_edge": false
+				}
+			],
+			"status": "captured"
+		},
+		{
+			"action": "attack",
+			"id": "boss",
+			"path": "res://captures/roster-motion/boss-attack-contact.png",
+			"render_texture_bytes_while_captured": 37325391,
+			"samples": [
+				{
+					"frame": 0,
+					"pivot": [
+						389.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 0.0,
+					"scale": 0.67741935483871,
+					"screen_body_height": 297.387096774194,
+					"screen_foot_offset": 3.38709677419355,
+					"source_frame": 8.0,
+					"source_used_rect": [
+						236,
+						209,
+						384,
+						439
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 2,
+					"pivot": [
+						389.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 98.5712857142857,
+					"scale": 0.67741935483871,
+					"screen_body_height": 346.838709677419,
+					"screen_foot_offset": 3.38709677419355,
+					"source_frame": 14.0,
+					"source_used_rect": [
+						232,
+						136,
+						454,
+						512
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 4,
+					"pivot": [
+						389.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 197.142571428571,
+					"scale": 0.67741935483871,
+					"screen_body_height": 432.193548387097,
+					"screen_foot_offset": 3.38709677419355,
+					"source_frame": 20.0,
+					"source_used_rect": [
+						215,
+						10,
+						297,
+						638
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 6,
+					"pivot": [
+						389.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 295.713857142857,
+					"scale": 0.67741935483871,
+					"screen_body_height": 302.129032258065,
+					"screen_foot_offset": 2.03225806451613,
+					"source_frame": 32.0,
+					"source_used_rect": [
+						149,
+						200,
+						339,
+						446
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 7,
+					"pivot": [
+						389.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 394.285142857143,
+					"scale": 0.67741935483871,
+					"screen_body_height": 336.0,
+					"screen_foot_offset": 2.03225806451613,
+					"source_frame": 56.0,
+					"source_used_rect": [
+						172,
+						150,
+						322,
+						496
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 11,
+					"pivot": [
+						389.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 492.856428571429,
+					"scale": 0.67741935483871,
+					"screen_body_height": 296.032258064516,
+					"screen_foot_offset": 3.38709677419355,
+					"source_frame": 70.0,
+					"source_used_rect": [
+						206,
+						211,
+						520,
+						437
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 14,
+					"pivot": [
+						389.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 591.427714285714,
+					"scale": 0.67741935483871,
+					"screen_body_height": 298.064516129032,
+					"screen_foot_offset": 3.38709677419355,
+					"source_frame": 92.0,
+					"source_used_rect": [
+						207,
+						208,
+						326,
+						440
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 16,
+					"pivot": [
+						389.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 689.999,
+					"scale": 0.67741935483871,
+					"screen_body_height": 298.064516129032,
+					"screen_foot_offset": 3.38709677419355,
+					"source_frame": 120.0,
+					"source_used_rect": [
+						238,
+						208,
+						294,
+						440
+					],
+					"touches_canvas_edge": false
+				}
+			],
+			"status": "captured"
+		},
+		{
+			"action": "hurt",
+			"id": "boss",
+			"path": "res://captures/roster-motion/boss-hurt-contact.png",
+			"render_texture_bytes_while_captured": 29206351,
+			"samples": [
+				{
+					"frame": 0,
+					"pivot": [
+						389.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 0.0,
+					"scale": 0.67741935483871,
+					"screen_body_height": 298.064516129032,
+					"screen_foot_offset": 3.38709677419355,
+					"source_frame": 16.0,
+					"source_used_rect": [
+						237,
+						208,
+						295,
+						440
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 2,
+					"pivot": [
+						389.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 58.5712857142857,
+					"scale": 0.67741935483871,
+					"screen_body_height": 290.612903225806,
+					"screen_foot_offset": 3.38709677419355,
+					"source_frame": 20.0,
+					"source_used_rect": [
+						237,
+						219,
+						343,
+						429
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 4,
+					"pivot": [
+						389.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 117.142571428571,
+					"scale": 0.67741935483871,
+					"screen_body_height": 255.387096774194,
+					"screen_foot_offset": 3.38709677419355,
+					"source_frame": 24.0,
+					"source_used_rect": [
+						208,
+						271,
+						472,
+						377
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 6,
+					"pivot": [
+						389.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 175.713857142857,
+					"scale": 0.67741935483871,
+					"screen_body_height": 231.677419354839,
+					"screen_foot_offset": 3.38709677419355,
+					"source_frame": 36.0,
+					"source_used_rect": [
+						119,
+						306,
+						560,
+						342
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 8,
+					"pivot": [
+						389.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 234.285142857143,
+					"scale": 0.67741935483871,
+					"screen_body_height": 243.193548387097,
+					"screen_foot_offset": 3.38709677419355,
+					"source_frame": 56.0,
+					"source_used_rect": [
+						204,
+						289,
+						449,
+						359
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 10,
+					"pivot": [
+						389.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 292.856428571429,
+					"scale": 0.67741935483871,
+					"screen_body_height": 285.870967741935,
+					"screen_foot_offset": 3.38709677419355,
+					"source_frame": 70.0,
+					"source_used_rect": [
+						162,
+						226,
+						413,
+						422
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 12,
+					"pivot": [
+						389.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 351.427714285714,
+					"scale": 0.67741935483871,
+					"screen_body_height": 296.709677419355,
+					"screen_foot_offset": 3.38709677419355,
+					"source_frame": 82.0,
+					"source_used_rect": [
+						169,
+						210,
+						367,
+						438
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 13,
+					"pivot": [
+						389.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 409.999,
+					"scale": 0.67741935483871,
+					"screen_body_height": 297.387096774194,
+					"screen_foot_offset": 3.38709677419355,
+					"source_frame": 94.0,
+					"source_used_rect": [
+						208,
+						209,
+						324,
+						439
+					],
+					"touches_canvas_edge": false
+				}
+			],
+			"status": "captured"
+		},
+		{
+			"action": "cast",
+			"id": "boss",
+			"status": "skipped_missing_action"
+		},
+		{
+			"action": "stand",
+			"id": "serin",
+			"path": "res://captures/roster-motion/serin-stand-contact.png",
+			"render_texture_bytes_while_captured": 17020163,
+			"samples": [
+				{
+					"frame": 0,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 0.0,
+					"scale": 0.486381322957198,
+					"screen_body_height": 252.918287937743,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 13.0,
+					"source_used_rect": [
+						240,
+						128,
+						281,
+						520
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 2,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 339.285571428571,
+					"scale": 0.486381322957198,
+					"screen_body_height": 252.918287937743,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 19.0,
+					"source_used_rect": [
+						234,
+						128,
+						287,
+						520
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 5,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 678.571142857143,
+					"scale": 0.486381322957198,
+					"screen_body_height": 252.918287937743,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 28.0,
+					"source_used_rect": [
+						236,
+						128,
+						284,
+						520
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 8,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 1017.85671428571,
+					"scale": 0.486381322957198,
+					"screen_body_height": 252.918287937743,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 37.0,
+					"source_used_rect": [
+						246,
+						128,
+						272,
+						520
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 10,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 1357.14228571429,
+					"scale": 0.486381322957198,
+					"screen_body_height": 252.918287937743,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 43.0,
+					"source_used_rect": [
+						252,
+						128,
+						266,
+						520
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 13,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 1696.42785714286,
+					"scale": 0.486381322957198,
+					"screen_body_height": 252.918287937743,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 52.0,
+					"source_used_rect": [
+						255,
+						128,
+						264,
+						520
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 16,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 2035.71342857143,
+					"scale": 0.486381322957198,
+					"screen_body_height": 252.918287937743,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 61.0,
+					"source_used_rect": [
+						249,
+						128,
+						271,
+						520
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 18,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 2374.999,
+					"scale": 0.486381322957198,
+					"screen_body_height": 252.918287937743,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 67.0,
+					"source_used_rect": [
+						242,
+						128,
+						279,
+						520
+					],
+					"touches_canvas_edge": false
+				}
+			],
+			"status": "captured"
+		},
+		{
+			"action": "walk",
+			"id": "serin",
+			"path": "res://captures/roster-motion/serin-walk-contact.png",
+			"render_texture_bytes_while_captured": 18437567,
+			"samples": [
+				{
+					"frame": 0,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 0.0,
+					"scale": 0.486381322957198,
+					"screen_body_height": 245.136186770428,
+					"screen_foot_offset": -0.486381322957198,
+					"source_frame": 40.0,
+					"source_used_rect": [
+						215,
+						137,
+						291,
+						504
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 2,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 159.999857142857,
+					"scale": 0.486381322957198,
+					"screen_body_height": 248.540856031128,
+					"screen_foot_offset": 0.486381322957198,
+					"source_frame": 46.0,
+					"source_used_rect": [
+						232,
+						132,
+						277,
+						511
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 4,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 319.999714285714,
+					"scale": 0.486381322957198,
+					"screen_body_height": 248.540856031128,
+					"screen_foot_offset": -1.4591439688716,
+					"source_frame": 52.0,
+					"source_used_rect": [
+						260,
+						128,
+						252,
+						511
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 6,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 479.999571428571,
+					"scale": 0.486381322957198,
+					"screen_body_height": 244.649805447471,
+					"screen_foot_offset": -2.43190661478599,
+					"source_frame": 58.0,
+					"source_used_rect": [
+						246,
+						134,
+						269,
+						503
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 9,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 639.999428571429,
+					"scale": 0.486381322957198,
+					"screen_body_height": 251.459143968872,
+					"screen_foot_offset": 3.89105058365759,
+					"source_frame": 67.0,
+					"source_used_rect": [
+						223,
+						133,
+						302,
+						517
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 11,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 799.999285714286,
+					"scale": 0.486381322957198,
+					"screen_body_height": 252.431906614786,
+					"screen_foot_offset": 2.43190661478599,
+					"source_frame": 73.0,
+					"source_used_rect": [
+						244,
+						128,
+						274,
+						519
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 13,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 959.999142857143,
+					"scale": 0.486381322957198,
+					"screen_body_height": 248.540856031128,
+					"screen_foot_offset": -0.486381322957198,
+					"source_frame": 79.0,
+					"source_used_rect": [
+						250,
+						130,
+						259,
+						511
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 15,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 1119.999,
+					"scale": 0.486381322957198,
+					"screen_body_height": 244.163424124514,
+					"screen_foot_offset": -1.4591439688716,
+					"source_frame": 85.0,
+					"source_used_rect": [
+						220,
+						137,
+						297,
+						502
+					],
+					"touches_canvas_edge": false
+				}
+			],
+			"status": "captured"
+		},
+		{
+			"action": "attack",
+			"id": "serin",
+			"path": "res://captures/roster-motion/serin-attack-contact.png",
+			"render_texture_bytes_while_captured": 24247039,
+			"samples": [
+				{
+					"frame": 0,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 0.0,
+					"scale": 0.486381322957198,
+					"screen_body_height": 252.918287937743,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 8.0,
+					"source_used_rect": [
+						247,
+						128,
+						274,
+						520
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 2,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 87.1427142857143,
+					"scale": 0.486381322957198,
+					"screen_body_height": 250.0,
+					"screen_foot_offset": 1.94552529182879,
+					"source_frame": 20.0,
+					"source_used_rect": [
+						233,
+						132,
+						289,
+						514
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 3,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 174.285428571429,
+					"scale": 0.486381322957198,
+					"screen_body_height": 247.568093385214,
+					"screen_foot_offset": 0.486381322957198,
+					"source_frame": 26.0,
+					"source_used_rect": [
+						246,
+						134,
+						312,
+						509
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 6,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 261.428142857143,
+					"scale": 0.486381322957198,
+					"screen_body_height": 252.431906614786,
+					"screen_foot_offset": 0.486381322957198,
+					"source_frame": 44.0,
+					"source_used_rect": [
+						238,
+						124,
+						238,
+						519
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 9,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 348.570857142857,
+					"scale": 0.486381322957198,
+					"screen_body_height": 247.081712062257,
+					"screen_foot_offset": 0.486381322957198,
+					"source_frame": 50.0,
+					"source_used_rect": [
+						214,
+						135,
+						470,
+						508
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 11,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 435.713571428571,
+					"scale": 0.486381322957198,
+					"screen_body_height": 248.054474708171,
+					"screen_foot_offset": 0.972762645914397,
+					"source_frame": 64.0,
+					"source_used_rect": [
+						266,
+						134,
+						414,
+						510
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 13,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 522.856285714286,
+					"scale": 0.486381322957198,
+					"screen_body_height": 251.945525291829,
+					"screen_foot_offset": 3.40466926070039,
+					"source_frame": 82.0,
+					"source_used_rect": [
+						255,
+						131,
+						318,
+						518
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 15,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 609.999,
+					"scale": 0.486381322957198,
+					"screen_body_height": 252.918287937743,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 100.0,
+					"source_used_rect": [
+						225,
+						128,
+						296,
+						520
+					],
+					"touches_canvas_edge": false
+				}
+			],
+			"status": "captured"
+		},
+		{
+			"action": "hurt",
+			"id": "serin",
+			"path": "res://captures/roster-motion/serin-hurt-contact.png",
+			"render_texture_bytes_while_captured": 21938559,
+			"samples": [
+				{
+					"frame": 0,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 0.0,
+					"scale": 0.486381322957198,
+					"screen_body_height": 232.490272373541,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 32.0,
+					"source_used_rect": [
+						82,
+						170,
+						393,
+						478
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 1,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 63.5712857142857,
+					"scale": 0.486381322957198,
+					"screen_body_height": 232.976653696498,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 36.0,
+					"source_used_rect": [
+						109,
+						169,
+						366,
+						479
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 3,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 127.142571428571,
+					"scale": 0.486381322957198,
+					"screen_body_height": 235.894941634241,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 46.0,
+					"source_used_rect": [
+						120,
+						163,
+						355,
+						485
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 5,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 190.713857142857,
+					"scale": 0.486381322957198,
+					"screen_body_height": 241.731517509728,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 58.0,
+					"source_used_rect": [
+						159,
+						151,
+						330,
+						497
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 6,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 254.285142857143,
+					"scale": 0.486381322957198,
+					"screen_body_height": 249.027237354086,
+					"screen_foot_offset": 1.94552529182879,
+					"source_frame": 64.0,
+					"source_used_rect": [
+						210,
+						134,
+						308,
+						512
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 8,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 317.856428571429,
+					"scale": 0.486381322957198,
+					"screen_body_height": 253.4046692607,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 76.0,
+					"source_used_rect": [
+						262,
+						127,
+						259,
+						521
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 9,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 381.427714285714,
+					"scale": 0.486381322957198,
+					"screen_body_height": 252.918287937743,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 82.0,
+					"source_used_rect": [
+						251,
+						128,
+						269,
+						520
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 10,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 444.999,
+					"scale": 0.486381322957198,
+					"screen_body_height": 252.918287937743,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 88.0,
+					"source_used_rect": [
+						242,
+						128,
+						278,
+						520
+					],
+					"touches_canvas_edge": false
+				}
+			],
+			"status": "captured"
+		},
+		{
+			"action": "cast",
+			"id": "serin",
+			"path": "res://captures/roster-motion/serin-cast-contact.png",
+			"render_texture_bytes_while_captured": 18761567,
+			"samples": [
+				{
+					"frame": 0,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 0.0,
+					"scale": 0.486381322957198,
+					"screen_body_height": 252.918287937743,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 12.0,
+					"source_used_rect": [
+						246,
+						128,
+						273,
+						520
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 2,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 107.857,
+					"scale": 0.486381322957198,
+					"screen_body_height": 252.918287937743,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 24.0,
+					"source_used_rect": [
+						240,
+						128,
+						280,
+						520
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 4,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 215.714,
+					"scale": 0.486381322957198,
+					"screen_body_height": 253.891050583658,
+					"screen_foot_offset": 3.40466926070039,
+					"source_frame": 32.0,
+					"source_used_rect": [
+						228,
+						127,
+						318,
+						522
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 6,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 323.571,
+					"scale": 0.486381322957198,
+					"screen_body_height": 252.918287937743,
+					"screen_foot_offset": 3.89105058365759,
+					"source_frame": 38.0,
+					"source_used_rect": [
+						236,
+						130,
+						318,
+						520
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 8,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 431.428,
+					"scale": 0.486381322957198,
+					"screen_body_height": 253.4046692607,
+					"screen_foot_offset": 3.89105058365759,
+					"source_frame": 60.0,
+					"source_used_rect": [
+						296,
+						129,
+						257,
+						521
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 10,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 539.285,
+					"scale": 0.486381322957198,
+					"screen_body_height": 252.918287937743,
+					"screen_foot_offset": 3.89105058365759,
+					"source_frame": 84.0,
+					"source_used_rect": [
+						278,
+						130,
+						271,
+						520
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 12,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 647.142,
+					"scale": 0.486381322957198,
+					"screen_body_height": 253.891050583658,
+					"screen_foot_offset": 3.40466926070039,
+					"source_frame": 92.0,
+					"source_used_rect": [
+						280,
+						127,
+						254,
+						522
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 14,
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"sample_ms": 754.999,
+					"scale": 0.486381322957198,
+					"screen_body_height": 253.4046692607,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 104.0,
+					"source_used_rect": [
+						253,
+						127,
+						268,
+						521
+					],
+					"touches_canvas_edge": false
+				}
+			],
+			"status": "captured"
+		},
+		{
+			"characters": [
+				{
+					"id": "knight",
+					"screen_body_height": 266.469935595989
+				},
+				{
+					"frame": 0,
+					"id": "scout",
+					"pivot": [
+						334.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"scale": 0.504237288135593,
+					"screen_body_height": 236.991525423729,
+					"screen_foot_offset": 2.52118644067797,
+					"source_frame": 27.0,
+					"source_used_rect": [
+						218,
+						178,
+						334,
+						470
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 0,
+					"id": "caster",
+					"pivot": [
+						368.0,
+						639.0
+					],
+					"portrait_fallback": false,
+					"scale": 0.523404255319149,
+					"screen_body_height": 251.234042553191,
+					"screen_foot_offset": 4.71063829787234,
+					"source_frame": 4.0,
+					"source_used_rect": [
+						248,
+						168,
+						268,
+						480
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 0,
+					"id": "elite",
+					"pivot": [
+						314.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"scale": 0.615740740740741,
+					"screen_body_height": 270.310185185185,
+					"screen_foot_offset": 3.69444444444444,
+					"source_frame": 10.0,
+					"source_used_rect": [
+						227,
+						209,
+						312,
+						439
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 0,
+					"id": "boss",
+					"pivot": [
+						232.0,
+						643.0
+					],
+					"portrait_fallback": false,
+					"scale": 0.653333333333333,
+					"screen_body_height": 301.84,
+					"screen_foot_offset": 1.30666666666667,
+					"source_frame": 88.0,
+					"source_used_rect": [
+						164,
+						183,
+						363,
+						462
+					],
+					"touches_canvas_edge": false
+				},
+				{
+					"frame": 0,
+					"id": "serin",
+					"pivot": [
+						393.0,
+						642.0
+					],
+					"portrait_fallback": false,
+					"scale": 0.486381322957198,
+					"screen_body_height": 252.918287937743,
+					"screen_foot_offset": 2.91828793774319,
+					"source_frame": 13.0,
+					"source_used_rect": [
+						240,
+						128,
+						281,
+						520
+					],
+					"touches_canvas_edge": false
+				}
+			],
+			"render_texture_bytes_while_captured": 1047413933,
+			"status": "captured",
+			"type": "lineup_actual_scale"
+		},
+		{
+			"characters": [
+				{
+					"checked_frame": "stand/000.png",
+					"clips": 4,
+					"id": "scout",
+					"import_metadata_exists": true,
+					"rgba_bytes_no_mips": 61463356,
+					"same_texture_across_two_players": true,
+					"unique_frames": 64
+				},
+				{
+					"checked_frame": "stand/000.png",
+					"clips": 4,
+					"id": "caster",
+					"import_metadata_exists": true,
+					"rgba_bytes_no_mips": 53593496,
+					"same_texture_across_two_players": true,
+					"unique_frames": 72
+				},
+				{
+					"checked_frame": "stand/000.png",
+					"clips": 4,
+					"id": "elite",
+					"import_metadata_exists": true,
+					"rgba_bytes_no_mips": 75822712,
+					"same_texture_across_two_players": true,
+					"unique_frames": 71
+				},
+				{
+					"checked_frame": "stand/000.png",
+					"clips": 4,
+					"id": "boss",
+					"import_metadata_exists": true,
+					"rgba_bytes_no_mips": 69789344,
+					"same_texture_across_two_players": true,
+					"unique_frames": 67
+				},
+				{
+					"checked_frame": "stand/000.png",
+					"clips": 5,
+					"id": "serin",
+					"import_metadata_exists": true,
+					"rgba_bytes_no_mips": 63530064,
+					"same_texture_across_two_players": true,
+					"unique_frames": 77
+				}
+			],
+			"estimate_350_frames_768": 825753600,
+			"estimate_400_frames_384": 235929600,
+			"estimate_400_frames_768": 943718400,
+			"rgba_bytes_no_mips": 324198972,
+			"type": "texture_budget",
+			"unique_frames": 351
+		}
+	]
+}

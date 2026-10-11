@@ -1,0 +1,209 @@
+{
+  "id": "caster",
+  "reviewer": "enemy_frame_review",
+  "actions": {
+    "stand": {
+      "verdict": "accept",
+      "indices": [
+        4,
+        7,
+        10,
+        13,
+        16,
+        19,
+        22,
+        25,
+        28,
+        31,
+        34,
+        37,
+        40,
+        43,
+        46,
+        49,
+        52,
+        55,
+        58,
+        61,
+        64,
+        67,
+        70,
+        73,
+        76,
+        79
+      ],
+      "durations": [
+        125,
+        125,
+        125,
+        125,
+        125,
+        125,
+        125,
+        125,
+        125,
+        125,
+        125,
+        125,
+        125,
+        125,
+        125,
+        125,
+        125,
+        125,
+        125,
+        125,
+        125,
+        125,
+        125,
+        125,
+        125,
+        125
+      ],
+      "duration_ms": 3250,
+      "reviewed": "All 26 source and RGBA frames checked on dark and light backgrounds at 384px. Character, robe, staff and detached crystal intact. Coherent relaxed stance loop. Source10-34 has opaque dark violet halo around pulse, clearly visible against light background; requires glow coverage with metal crescent and gemstone protection.",
+      "glow_center": [
+        274,
+        224
+      ],
+      "glow_radius": 48,
+      "crystal_polygon": [
+        [
+          274,
+          208
+        ],
+        [
+          282,
+          226
+        ],
+        [
+          275,
+          240
+        ],
+        [
+          267,
+          227
+        ]
+      ],
+      "crescent_bbox": [
+        246,
+        190,
+        297,
+        257
+      ],
+      "evidence": [
+        "caster-stand-crystal-close.jpg",
+        "caster-stand-alpha-light-0.jpg",
+        "caster-stand-alpha-light-1.jpg",
+        "caster-stand-alpha-light-2.jpg",
+        "caster-stand-alpha-dark-0.jpg",
+        "caster-stand-alpha-dark-1.jpg",
+        "caster-stand-alpha-dark-2.jpg",
+        "caster-stand-crystal-cleaned-v2.jpg"
+      ],
+      "alpha_review": "Corrected source-based glow coverage reviewed for all nine affected frames. Halo fades smoothly, no dark pocket or hard cut edge. Moon metal and diamond gemstone preserved."
+    },
+    "walk": {
+      "verdict": "accept",
+      "indices": [
+        42,
+        45,
+        48,
+        51,
+        54,
+        57,
+        60,
+        63,
+        66,
+        69,
+        72,
+        75,
+        78,
+        81,
+        84,
+        87,
+        90
+      ],
+      "durations": [
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70
+      ],
+      "duration_ms": 1190,
+      "reviewed": "Source loop42-91 returns to matching staff/torso position; completes full body and limb motion. Staff crossing in front of face is physical occlusion. No detached FX or weapon crop.",
+      "alpha_review": "All 17 RGBA frames reviewed at384px on dark and light. Long hair strands, patterned robe tails, heels, full staff shaft, silver crescent and floating crystal complete. No dark background pockets in the crescent gap. No white residual.",
+      "evidence": [
+        "caster-walk-alpha-dark-0.jpg",
+        "caster-walk-alpha-dark-1.jpg",
+        "caster-walk-alpha-light-0.jpg",
+        "caster-walk-alpha-light-1.jpg"
+      ]
+    },
+    "attack": {
+      "verdict": "source_selection_ready_alpha_pending",
+      "indices": [
+        21,
+        24,
+        28,
+        34,
+        38,
+        40,
+        42,
+        46,
+        50,
+        66,
+        82,
+        88,
+        94,
+        102
+      ],
+      "durations": [
+        35,
+        45,
+        65,
+        55,
+        40,
+        25,
+        40,
+        35,
+        45,
+        40,
+        40,
+        45,
+        45,
+        40
+      ],
+      "duration_ms": 595,
+      "event_ms": 265,
+      "emitter": [
+        566,
+        260
+      ],
+      "emitter_source_frame": 42,
+      "reviewed": "Actual source includes a brief chest-to-palm violet charge ribbon despite physical gesture prompt. Selected charge/extension phases to preserve continuity. Source42 palm fully extended; independent projectile should begin at265ms from[566,260]. Preserve painted light on opaque costume; only external glow needs local coverage extraction. Body and staff uncropped. Long hand-out hold source50-82 compressed.",
+      "evidence": [
+        "caster-attack-dense-0.jpg",
+        "caster-attack-dense-1.jpg",
+        "caster-attack-dense-2.jpg",
+        "caster-attack-release-0.jpg",
+        "caster-attack-release-1.jpg",
+        "caster-attack-palm-grid.jpg",
+        "caster-attack-charge-grid.jpg"
+      ]
+    }
+  }
+}

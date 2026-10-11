@@ -1,0 +1,23 @@
+{
+  "source": "C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\npc-roster-v1\\references\\serin.png",
+  "sha256": "d0084444c45d770fb1b64ab6660f1ac794fcd0a4b149599b2a3ad61f6a4dc0cb",
+  "source_bbox": [
+    132,
+    26,
+    893,
+    1463
+  ],
+  "prepared_origin": [
+    246,
+    128
+  ],
+  "prepared_size": [
+    275,
+    520
+  ],
+  "canvas": [
+    768,
+    768
+  ],
+  "ground_y": 648
+}

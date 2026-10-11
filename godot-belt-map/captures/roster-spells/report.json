@@ -1,0 +1,214 @@
+{
+	"captures": 4,
+	"failures": [],
+	"reports": [
+		{
+			"elapsed_seconds": 0.24,
+			"emitter": [
+				657.0,
+				230.0
+			],
+			"event_ms": 330.0,
+			"expected_screen": [
+				528.40478515625,
+				444.610900878906
+			],
+			"facing": 1,
+			"frame": 9,
+			"id": "serin",
+			"launch_from": [
+				19.2999992370605,
+				8.39999961853027
+			],
+			"path": "res://captures/roster-spells/serin-birth-right.png",
+			"pivot": [
+				393.0,
+				642.0
+			],
+			"projectile_foot": [
+				20.3700389862061,
+				8.39999961853027
+			],
+			"projectile_life": 0.85,
+			"projectile_screen": [
+				528.40478515625,
+				444.610900878906
+			],
+			"projectile_z": 1.66990915934245,
+			"scale": 0.486381322957198,
+			"screen_error_px": 0.0,
+			"source_frame": 50.0,
+			"source_origin": [
+				19.2999992370605,
+				8.39999961853027
+			],
+			"status": "captured",
+			"storage_crop": [
+				197.0,
+				29.0,
+				491.0,
+				624.0
+			],
+			"target": [
+				23.2999992370605,
+				8.39999961853027
+			]
+		},
+		{
+			"elapsed_seconds": 0.24,
+			"emitter": [
+				657.0,
+				230.0
+			],
+			"event_ms": 330.0,
+			"expected_screen": [
+				751.59521484375,
+				444.610900878906
+			],
+			"facing": -1,
+			"frame": 9,
+			"id": "serin",
+			"launch_from": [
+				23.2999992370605,
+				8.39999961853027
+			],
+			"path": "res://captures/roster-spells/serin-birth-left.png",
+			"pivot": [
+				393.0,
+				642.0
+			],
+			"projectile_foot": [
+				22.229959487915,
+				8.39999961853027
+			],
+			"projectile_life": 0.85,
+			"projectile_screen": [
+				751.59521484375,
+				444.610900878906
+			],
+			"projectile_z": 1.66990915934245,
+			"scale": 0.486381322957198,
+			"screen_error_px": 0.0,
+			"source_frame": 50.0,
+			"source_origin": [
+				23.2999992370605,
+				8.39999961853027
+			],
+			"status": "captured",
+			"storage_crop": [
+				197.0,
+				29.0,
+				491.0,
+				624.0
+			],
+			"target": [
+				19.2999992370605,
+				8.39999961853027
+			]
+		},
+		{
+			"elapsed_seconds": 0.9,
+			"emitter": [
+				566.0,
+				260.0
+			],
+			"event_ms": 265.0,
+			"expected_screen": [
+				503.634033203125,
+				446.629760742188
+			],
+			"facing": 1,
+			"frame": 6,
+			"id": "caster",
+			"launch_from": [
+				19.2999992370605,
+				8.39999961853027
+			],
+			"path": "res://captures/roster-spells/caster-birth-right.png",
+			"pivot": [
+				368.0,
+				639.0
+			],
+			"projectile_foot": [
+				20.1636161804199,
+				8.39999961853027
+			],
+			"projectile_life": 2.2,
+			"projectile_screen": [
+				503.634033203125,
+				446.629760742188
+			],
+			"projectile_z": 1.65308507283529,
+			"scale": 0.523404255319149,
+			"screen_error_px": 0.0,
+			"source_frame": 42.0,
+			"source_origin": [
+				19.2999992370605,
+				8.39999961853027
+			],
+			"status": "captured",
+			"storage_crop": [
+				209.0,
+				164.0,
+				445.0,
+				488.0
+			],
+			"target": [
+				23.2999992370605,
+				8.39999961853027
+			]
+		},
+		{
+			"elapsed_seconds": 0.9,
+			"emitter": [
+				566.0,
+				260.0
+			],
+			"event_ms": 265.0,
+			"expected_screen": [
+				776.365966796875,
+				446.629760742188
+			],
+			"facing": -1,
+			"frame": 6,
+			"id": "caster",
+			"launch_from": [
+				23.2999992370605,
+				8.39999961853027
+			],
+			"path": "res://captures/roster-spells/caster-birth-left.png",
+			"pivot": [
+				368.0,
+				639.0
+			],
+			"projectile_foot": [
+				22.4363822937012,
+				8.39999961853027
+			],
+			"projectile_life": 2.2,
+			"projectile_screen": [
+				776.365966796875,
+				446.629760742188
+			],
+			"projectile_z": 1.65308507283529,
+			"scale": 0.523404255319149,
+			"screen_error_px": 0.0,
+			"source_frame": 42.0,
+			"source_origin": [
+				23.2999992370605,
+				8.39999961853027
+			],
+			"status": "captured",
+			"storage_crop": [
+				209.0,
+				164.0,
+				445.0,
+				488.0
+			],
+			"target": [
+				19.2999992370605,
+				8.39999961853027
+			]
+		}
+	]
+}

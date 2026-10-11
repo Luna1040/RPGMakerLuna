@@ -10,6 +10,7 @@ var heading:=Label.new()
 var tab:="adventure"
 var npc_id:="innkeeper"
 var npc_portrait
+var roster_id:="scout"
 var capture_action:=""
 var overwrite_slot:=0
 var transition_confirm:=false
@@ -64,7 +65,7 @@ func setup(service) -> void:
 	button(top,"继续游戏 · Esc",close)
 	var tabs:=HBoxContainer.new()
 	layout.add_child(tabs)
-	for entry in [["adventure","冒险"],["journal","任务"],["network","叙事网络"],["trade","补给与锻造"],["saves","存档"],["settings","设置"]]:
+	for entry in [["adventure","冒险"],["journal","任务"],["network","叙事网络"],["roster","角色图鉴"],["trade","补给与锻造"],["saves","存档"],["settings","设置"]]:
 		var id:String=entry[0]
 		button(tabs,entry[1],func(): open(id))
 	layout.add_child(HSeparator.new())
@@ -136,11 +137,12 @@ func refresh() -> void:
 		body.remove_child(child)
 		child.queue_free()
 	scroll.scroll_vertical=0
-	heading.text={"adventure":"苍石手记 · 冒险","journal":"任务与人情","network":"交织的线索","trade":"补给与锻造","saves":"旅途存档","settings":"游戏设置","dialogue":"城镇交谈"}.get(tab,"苍石手记")
+	heading.text={"adventure":"苍石手记 · 冒险","journal":"任务与人情","network":"交织的线索","roster":"同行者与古塔敌影","trade":"补给与锻造","saves":"旅途存档","settings":"游戏设置","dialogue":"城镇交谈"}.get(tab,"苍石手记")
 	match tab:
 		"adventure": render_adventure()
 		"journal": render_journal()
 		"network": render_network()
+		"roster": render_roster()
 		"trade": render_trade()
 		"saves": render_saves()
 		"settings": render_settings()
@@ -183,10 +185,14 @@ func render_adventure() -> void:
 			else: runtime.return_town())
 	words("队友",Color("f7d78e"),21)
 	if runtime.companion_recruited:
+		var ally:Dictionary=runtime.encounters.companion_status()
+		words("瑟琳 · 战牧  /  生命 %d/%d  ·  法力 %d/%d%s" % [ally.hp,ally.max_hp,ally.mp,ally.max_mp,"  ·  已倒下，回城休整可复苏" if ally.dead else ""],Color("a8ded7"),18)
+		words("以圣光弹支援输出，自动治疗受伤同伴；危急时施放圣域盾。技能消耗她自己的法力。",Color("a9bccd"),17)
 		var modes:=row()
 		for entry in [["follow","跟随作战"],["guard","原地守卫"],["passive","停战跟随"]]:
 			var mode:String=entry[0]
 			button(modes,("● " if mode==runtime.companion_mode else "")+entry[1],func(): runtime.companion_mode=mode; runtime.encounters.set_companion(mode); refresh())
+		button(modes,"职业与技能",func(): roster_id="serin"; open("roster"))
 	else:
 		words("与镇民建立信任后，可以通过对话邀请援手。")
 	var potions:=row()
@@ -200,20 +206,14 @@ func render_adventure() -> void:
 	button(body,"重置天赋（测试版免费，城镇可用）",func(): runtime.talents.refund(runtime.progression); refresh(),runtime.zone=="town" and runtime.talents.spent_points()>0)
 
 func rest() -> void:
-	if runtime.zone!="town" or runtime.stage.knight.defeated: return
-	var actor=runtime.stage.knight
-	if actor.health>=actor.max_health and actor.mana>=actor.max_mana:
-		runtime.say("已经恢复到最佳状态。")
-		return
-	if runtime.stage.loot.materials["旧铜币"]<10:
-		runtime.say("休息需要 10 铜币。")
-		return
-	runtime.stage.loot.materials["旧铜币"]-=10
-	actor.health=actor.max_health
-	actor.mana=actor.max_mana
-	actor.stats_changed.emit(actor.health,actor.mana)
-	runtime.say("休息完毕，生命与法力已恢复。")
+	runtime.rest_party()
 	refresh()
+
+func render_roster() -> void:
+	var roster:=preload("roster_panel.gd").new()
+	roster.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	body.add_child(roster)
+	roster.setup(runtime,roster_id)
 
 func render_journal() -> void:
 	words("任务记录与当前目标",Color("f7d78e"),23)
