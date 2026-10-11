@@ -37058,8 +37058,8 @@
     },
     {
       "path": "godot-belt-map/systems/encounters/README.md",
-      "bytes": 12766,
-      "sha256": "ad793dbeb6dfa19203826a3ce823215ea8c951b5e25c7a34c82292f0c962ec59"
+      "bytes": 13040,
+      "sha256": "c87c5163c8fc1bfd3ce7b4204415f3bb71331e39d24524217280c50a340f4e24"
     },
     {
       "path": "godot-belt-map/systems/encounters/encounters.gd",
@@ -37293,8 +37293,8 @@
     },
     {
       "path": "NPC_ROSTER_INTEGRATION.md",
-      "bytes": 11331,
-      "sha256": "5a3a6df603a838b35eed23d474641247dddc605a4e4332afe939633067ef0aa3"
+      "bytes": 11373,
+      "sha256": "be136997a9865780b89611c519fb16d914a41c28d67c5ba9978da15bdc6b5ddb"
     },
     {
       "path": "character-generation-research/approve_roster_review.py",

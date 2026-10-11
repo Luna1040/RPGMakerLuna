@@ -84,7 +84,7 @@ python godot-belt-map/tests/run_tests.py --godot /path/to/godot --suite all
 
 `game_runtime.snapshot()` 保存 `companion:{recruited,mode,state}`；state 由战斗服务生成，包含资源、护盾、冷却和动作进度。`validate_snapshot()` 在修改主角之前验证全部队友数据，拒绝越界、非有限数、真假字符串及招募/命令矛盾。旧存档完全没有 state 时迁移初始血蓝；新档含空 state 会被拒绝。重复读取不产生资源回复。
 
-本轮已完成的 UI/runtime 专项结果：角色集成 64 项（包含已导入的瑟琳待机预览），原 runtime 61 项，基础存档验证 22 项，以及剧情集成和 Esc/L 菜单输入通过。独立资源门槛另有结构、坏数据及无损存储裁切的自身测试；这只证明验收脚本能拒绝坏数据，**不证明正在生成的实际素材已合格**。
+本轮已完成的 UI/runtime 专项结果：角色集成 64 项（包含已导入的瑟琳待机预览），原 runtime 61 项，基础存档验证 22 项，以及剧情集成和 Esc/L 菜单输入通过。独立资源门槛另有结构、坏数据及无损存储裁切的自身测试；这只证明验收脚本能拒绝坏数据，**不能代替实际素材复核；本次实际素材的最终通过证据见本文开头**。
 
 ```sh
 python -m unittest discover -s godot-belt-map/tests -p test_validate_roster_assets.py -v

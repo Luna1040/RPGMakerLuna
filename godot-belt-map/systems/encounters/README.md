@@ -70,7 +70,7 @@ Visual timing is not a new combat clock. `attack_time` maps the engine's exact w
 
 There is **no separately generated death clip**. An enemy holds the endpoint of its hurt clip while fading over 0.7 s. A defeated Serin holds a tinted hurt endpoint with a downed label until town revival; this must not be described as an authored collapse animation. Ground spell projectiles, shields and telegraphs remain separate runtime effects.
 
-**Production status:** the code and independent party resources are integrated; the five generated art sets are still pending final generation and visual acceptance. A missing clip may fall back to the portrait during development, but that fallback does not satisfy the user-facing animation requirement. Release only after all 21 required clips pass `validate_roster_assets.py` and the full-motion review.
+**Production status (2026-10-11):** all five portraits and 21 required whole-frame clips are published (351 transparent frames). The source-comparison asset gate reports `release_ready:true` and lossless storage; all 25 Godot checks pass. Native motion sheets cover every required clip, and four real-stage captures verify both projectile facings. The web build was checked for roster portraits, action playback and Escape dismissal. A portrait fallback remains development protection, not an accepted animation. See root `NPC_ROSTER_INTEGRATION.md` for evidence and remaining limitations.
 
 `review.png` is a development view of the art and telegraphs. Regenerate it with `tests/encounters_review.gd`; it is not gameplay source data.
 
