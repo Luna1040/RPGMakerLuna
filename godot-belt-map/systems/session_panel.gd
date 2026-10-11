@@ -98,6 +98,9 @@ func open(id: String) -> void:
 	refresh()
 
 func close() -> void:
+	var focused:=get_viewport().gui_get_focus_owner()
+	if focused!=null and overlay.is_ancestor_of(focused):
+		focused.release_focus()
 	overlay.hide()
 	capture_action=""
 	overwrite_slot=0

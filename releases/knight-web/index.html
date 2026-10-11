@@ -4,4 +4,18 @@
 <body><header><div><h1>苍石庭院</h1><small>网状叙事与试炼 · 框架试玩 · 2026.10.11</small></div><button id="fullscreen">全屏</button></header><main>
 <div class="screen" id="screen"><div class="intro" id="intro"><h2>剑锋初鸣</h2><p>调查失踪补给，选择故事路线，挑战三轮古塔试炼。<br>桌面浏览器试玩 · 需要键盘 · 首次加载请稍候</p><p id="mobile">本版本尚未提供手机触控操作，请使用电脑试玩。</p><button id="start">进入庭院</button><small>Esc 存档 / 设置 · L 冒险手册 · 进度保存在当前浏览器站点数据。</small></div><iframe id="game" title="苍石庭院游戏" allow="fullscreen; autoplay" allowfullscreen></iframe></div>
 <div class="help"><kbd>WASD / 方向键</kbd> 移动　<kbd>0.5 秒内双击方向</kbd> 奔跑　<kbd>空格</kbd> 跳跃　<kbd>J</kbd> 攻击　<kbd>1–3 / K</kbd> 技能　<kbd>M</kbd> 地图　<kbd>L / Esc</kbd> 冒险手册 / 暂停　<kbd>4 / 5</kbd> 药水<br><details><summary>完整操作与试玩提示</summary><kbd>J</kbd> 地面三段连击；奔跑中为冲刺斩；空中为下劈。<br><kbd>E</kbd> 对话、开宝箱、拾取；<kbd>Q</kbd> 拾取并穿戴附近装备；<kbd>I</kbd> 背包与属性；<kbd>R</kbd> 城镇位置复位。<br>木桩可感电、击飞并浮空连击；木箱可破坏。装备悬停可比较属性，目前更换装备不改变角色外观。<br>找艾琳和雷恩接取委托，在冒险手册进入古塔。三轮战斗之间选择祝福，回城交付任务并学习天赋。<br>Esc 菜单提供三个存档槽；清场后可保存。重进页面后从菜单读取存档，清除站点数据会丢失进度。<br>可在设置中重绑按键；点击游戏画面获得键盘焦点。</details><p class="notice">测试版：敌人为占位外观，队友为支援幻影；暂未提供手机触控或云存档。无登录、无付费、无需安装客户端。</p></div></main>
-<script>const game=document.getElementById('game');document.getElementById('start').onclick=()=>{game.src='game.html';game.style.display='block';document.getElementById('intro').style.display='none';game.focus()};document.getElementById('fullscreen').onclick=()=>document.getElementById('screen').requestFullscreen?.();</script></body></html>
+<script>
+const game=document.getElementById('game');
+function focusGame(){if(!game.src)return;game.contentWindow?.focus();game.contentDocument?.getElementById('canvas')?.focus()}
+game.addEventListener('load',focusGame);
+document.getElementById('start').onclick=()=>{game.src='game.html';game.style.display='block';document.getElementById('intro').style.display='none';focusGame()};
+document.getElementById('fullscreen').onclick=async()=>{await document.getElementById('screen').requestFullscreen?.();focusGame()};
+document.addEventListener('fullscreenchange',focusGame);
+// Recover menu control when a click on the surrounding page moved focus out of the iframe.
+for(const type of ['keydown','keyup'])document.addEventListener(type,event=>{
+ if(event.key!=='Escape'||event.ctrlKey||event.altKey||event.metaKey||!game.src)return;
+ const canvas=game.contentDocument?.getElementById('canvas');if(!canvas)return;
+ event.preventDefault();focusGame();
+ canvas.dispatchEvent(new KeyboardEvent(type,{key:'Escape',code:'Escape',keyCode:27,which:27,bubbles:true,cancelable:true,repeat:event.repeat}));
+});
+</script></body></html>

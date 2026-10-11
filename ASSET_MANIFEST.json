@@ -22818,8 +22818,8 @@
     },
     {
       "path": "godot-belt-map/stage.gd",
-      "bytes": 28026,
-      "sha256": "98b47349f083959a5270a38481066ebdc5f3bdbda6cba77deb8f520759b9842f"
+      "bytes": 28463,
+      "sha256": "eb107c117c8421f30c436d8bcbee4b75681e394d1cf682adf8698a2024c17d55"
     },
     {
       "path": "godot-belt-map/stage.gd.uid",
@@ -36844,7 +36844,7 @@
     {
       "path": "releases/knight-web/game.html",
       "bytes": 5485,
-      "sha256": "5d614ae039bb26918d5d253c8b4c58f8750ee8f78e5f023675683a9cda1f6ff0"
+      "sha256": "469a885f5a060c163ef8b1b20eb2cb55715520e2ce37349ae142f31bcb10e8aa"
     },
     {
       "path": "releases/knight-web/game.icon.png",
@@ -36858,8 +36858,8 @@
     },
     {
       "path": "releases/knight-web/game.pck",
-      "bytes": 54010664,
-      "sha256": "e411485e6509b136b44a7b0f19ddf4de835f6f600f57562aaed99240370aec3b"
+      "bytes": 54010984,
+      "sha256": "56d7e8c575a9d574fe5f401261ee34ee135cbd9184c7915372dab6ed214def50"
     },
     {
       "path": "releases/knight-web/game.png",
@@ -36878,8 +36878,8 @@
     },
     {
       "path": "releases/knight-web/index.html",
-      "bytes": 3747,
-      "sha256": "00f0d2cd1a027f29ae49e8da8b4c3d674b07d74d830dd43e16796e0f4094c10a"
+      "bytes": 4524,
+      "sha256": "eef6f877cf2f78e3aaa47ef2d4533a7852f070667d19b76d235f8289ea4b2cbf"
     },
     {
       "path": "releases/knight-web/试玩说明.txt",
@@ -37153,8 +37153,8 @@
     },
     {
       "path": "godot-belt-map/systems/session_panel.gd",
-      "bytes": 16613,
-      "sha256": "f83b91ee16586226f9a62a9b4cb6f4060f2b51e995758252a2f61ccabe9c1bad"
+      "bytes": 16745,
+      "sha256": "2d66ee7c11d4e004fb836a3d328ed6a5f640ca1a4f1ee7a517aa2e6680f2c74d"
     },
     {
       "path": "godot-belt-map/systems/session_panel.gd.uid",
@@ -37274,12 +37274,22 @@
     {
       "path": "releases/苍石庭院-底层框架试玩-20261011.sha256.txt",
       "bytes": 112,
-      "sha256": "7318b51c7ea9dc5ae5f1cc887ff912dcce2363930a506084846cc64f111f28ef"
+      "sha256": "d2521d3417f14fa370c86aca53d303d9881509939d31fbfeaf6929fb75846450"
     },
     {
       "path": "releases/苍石庭院-底层框架试玩-20261011.zip",
-      "bytes": 63791645,
-      "sha256": "e1f115dd357ee7d2240ae036da2acf57fee78bfcaec137eb28ae38b8ed93892c"
+      "bytes": 63792406,
+      "sha256": "cf05da6bf5d364795cf5540e4b537c655c54d8198fa8e0153577b1abda55ca3e"
+    },
+    {
+      "path": "godot-belt-map/tests/menu_input_test.gd",
+      "bytes": 1389,
+      "sha256": "d9c0bcf1c29e8fbb1740b0bbf76ca8980c676835419f13763ef2b6dc89fdf8d8"
+    },
+    {
+      "path": "godot-belt-map/tests/menu_input_test.gd.uid",
+      "bytes": 20,
+      "sha256": "69c37961165f3030fd49c7ef89f1cd36a70eedd7bf58404aae7160cd33ff6e77"
     }
   ]
 }

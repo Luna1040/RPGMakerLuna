@@ -338,6 +338,13 @@ func _input(event: InputEvent) -> void:
 		runtime.panel.capture_key(event)
 		get_viewport().set_input_as_handled()
 		return
+	# Modal shortcuts must run before focused Controls consume ui_cancel/navigation.
+	if runtime!=null and event is InputEventKey and event.pressed and not event.echo and capture_mode.is_empty() and not get_tree().paused:
+		var modal_key:int=runtime.controls.canonical(event)
+		if modal_key==KEY_ESCAPE or (modal_key==KEY_L and runtime.panel.is_open()):
+			if runtime.handle_key(event):
+				get_viewport().set_input_as_handled()
+				return
 	if event is InputEventKey and capture_mode.is_empty():
 		if interface != null and interface.is_modal():
 			sprint.reset()
