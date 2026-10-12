@@ -56,6 +56,7 @@ TESTS = (
     script("core_foundations", "tests/core_foundations_test.gd", "CORE_FOUNDATIONS_TEST PASS", "core"),
     script("core_talents", "tests/core_talents_test.gd", "CORE_TALENTS_TEST PASS", "core"),
     script("core_runtime_validation", "tests/core_runtime_validation_test.gd", "CORE_RUNTIME_VALIDATION_TEST PASS", "core"),
+    script("content_patch_foundation", "tests/content_patch_foundation_test.gd", "CONTENT_PATCH_FOUNDATION_TEST PASS", "core"),
     script("adventure_state", "tests/adventure_state_test.gd", "ADVENTURE_STATE_TEST PASS", "core"),
     script("runtime_foundations", "tests/runtime_foundations_test.gd", "RUNTIME_FOUNDATIONS_TEST PASS", foundations=True),
     script("adventure_integration", "tests/adventure_integration_test.gd", "ADVENTURE_INTEGRATION_TEST PASS", foundations=True),

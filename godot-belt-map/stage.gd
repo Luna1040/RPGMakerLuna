@@ -498,9 +498,13 @@ func _physics_process(delta: float) -> void:
 		var before_x: float = p.node.position.x / ppm
 		p.node.position.x += p.facing*680*delta
 		p.life-=delta
+		# Preserve the authored environment-hit forgiveness. Skill depth radius
+		# governs actors only; shrinking crate collision changed the shipped feel.
 		var impact: bool = loot.hit_projectile(before_x, p.node.position.x / ppm, p.depth, p.height, p.damage)
 		if not impact and runtime!=null:
-			impact=runtime.encounters.hit_projectile(before_x,p.node.position.x/ppm,p.depth,p.height,p.damage)
+			var outcome: Dictionary=runtime.encounters.hit_skill_projectile(before_x,p.node.position.x/ppm,p.depth,p.height,p.damage,p.depth_radius,p.chain_count,p.chain_radius_m)
+			impact=bool(outcome.consumed)
+			if not outcome.segments.is_empty(): _show_lightning_chains(outcome.segments)
 		if not impact:
 			impact=practice.projectile(before_x,p.node.position.x/ppm,p.depth,p.height,p.damage)
 		if impact or p.life<=0:
@@ -557,8 +561,28 @@ func on_spell(event: Dictionary) -> void:
 	mat.blend_mode=CanvasItemMaterial.BLEND_MODE_ADD
 	sprite.material=mat
 	add_child(sprite)
-	projectiles.append({"node":sprite,"facing":event.facing,"life":2.5,"depth":foot.y,"height":(project(foot).y-sprite.position.y)/ppm,"damage":event.damage})
+	projectiles.append({"node":sprite,"facing":event.facing,"life":2.5,"depth":foot.y,
+		"height":(project(foot).y-sprite.position.y)/ppm,"damage":event.damage,
+		"skill_id":str(event.get("skill_id", "skill.knight.lightning")),
+		"depth_radius":float(event.get("depth_radius", 0.65)),
+		"chain_count":int(event.get("chain_count", 1)),
+		"chain_radius_m":float(event.get("chain_radius_m", 0.0))})
 	notice="施法事件 %d · 独立加法特效" % spells
+
+func _show_lightning_chains(segments: Array) -> void:
+	for segment in segments:
+		if not segment is Dictionary or not segment.get("from") is Array or not segment.get("to") is Array:
+			continue
+		var line := Line2D.new()
+		line.points = PackedVector2Array([project(Vector2(segment.from[0], segment.from[1]), 0.8),
+			project(Vector2(segment.to[0], segment.to[1]), 0.8)])
+		line.width = 7.0
+		line.default_color = Color(0.55, 0.82, 1.0, 0.92)
+		line.z_index = 8
+		add_child(line)
+		var tween := create_tween()
+		tween.tween_property(line, "modulate:a", 0.0, 0.18)
+		tween.tween_callback(line.queue_free)
 
 func _draw() -> void:
 	if volumes==null:

@@ -40,9 +40,15 @@ var loaded_message := ""
 var run_counter := 0
 var autosave_armed := false
 var last_autosave_error := ""
+var content_registry = null
+var workbench_bridge = null
 
 func setup(map_stage) -> void:
 	stage=map_stage
+	content_registry=stage.get_node_or_null("/root/ContentRegistry")
+	workbench_bridge=stage.get_node_or_null("/root/WorkbenchBridge")
+	if content_registry != null: stage.knight.content_registry_override=content_registry
+	if workbench_bridge != null: workbench_bridge.bind_runtime(self)
 	zone=str(stage.contract.get("zone_id","town"))
 	add_child(audio)
 	add_child(encounters)
@@ -236,7 +242,7 @@ func safe_to_save() -> bool:
 
 func snapshot() -> Dictionary:
 	worlds[zone]=stage.loot.snapshot_world()
-	return {"schema":1,"zone":zone,"worlds":worlds.duplicate(true),"player":{"foot":[stage.foot.x,stage.foot.y],"height":stage.height_z,"health":stage.knight.health,"mana":stage.knight.mana,"facing":stage.knight.facing},"equipment":{"owned":stage.knight.equipment.owned.duplicate(),"equipped":stage.knight.equipment.equipped.duplicate()},"materials":stage.loot.materials.duplicate(),"progression":progression.snapshot(),"talents":talents.snapshot(),"adventure":adventure.snapshot(),"run":run_state.duplicate(true),"companion":{"recruited":companion_recruited,"mode":companion_mode,"state":encounters.companion_snapshot()},"play_seconds":play_seconds,"run_counter":run_counter,"slot":current_slot,"autosave_armed":autosave_armed}
+	return {"schema":1,"zone":zone,"worlds":worlds.duplicate(true),"player":{"foot":[stage.foot.x,stage.foot.y],"height":stage.height_z,"health":stage.knight.health,"mana":stage.knight.mana,"facing":stage.knight.facing},"equipment":{"owned":stage.knight.equipment.owned.duplicate(),"equipped":stage.knight.equipment.equipped.duplicate()},"materials":stage.loot.materials.duplicate(),"progression":progression.snapshot(),"talents":talents.snapshot(),"adventure":adventure.snapshot(),"run":run_state.duplicate(true),"companion":{"recruited":companion_recruited,"mode":companion_mode,"state":encounters.companion_snapshot()},"content":content_registry.export_runtime_state() if content_registry != null else {},"play_seconds":play_seconds,"run_counter":run_counter,"slot":current_slot,"autosave_armed":autosave_armed}
 
 func whole(value, low: int, high: int) -> bool:
 	return (value is int or value is float) and is_finite(float(value)) and floorf(float(value))==float(value) and float(value)>=low and float(value)<=high
@@ -275,6 +281,9 @@ func validate_snapshot(data: Dictionary) -> bool:
 	var played=data.get("play_seconds",0)
 	if not (played is int or played is float) or not is_finite(float(played)) or float(played)<0 or float(played)>1e10: return false
 	if not data.companion.get("recruited") is bool or not data.get("autosave_armed",false) is bool: return false
+	if data.has("content"):
+		var registry=_content_registry()
+		if registry==null or not data.content is Dictionary or not registry.validate_runtime_state(data.content).is_empty(): return false
 	if data.companion.get("mode","") not in ["follow","guard","passive"]: return false
 	if data.companion.has("state"):
 		if not data.companion.state is Dictionary or data.companion.state.is_empty() or not encounters.validate_companion(data.companion.state): return false
@@ -308,6 +317,10 @@ func validate_snapshot(data: Dictionary) -> bool:
 func restore(data: Dictionary) -> bool:
 	if not validate_snapshot(data): return false
 	# Validation completes before changing any current gameplay state.
+	var registry=_content_registry()
+	if registry!=null:
+		var content_state: Dictionary=data.get("content",registry.empty_runtime_state())
+		if not registry.restore_runtime_state(content_state): return false
 	encounters.clear()
 	progression.restore(data.progression)
 	talents.restore(data.get("talents",TalentTree.new().snapshot()))
@@ -443,10 +456,16 @@ func step(delta: float) -> void:
 		say("挑战失败。可保留已拾取的战利品回城，或读取上个检查点。")
 		return
 	encounters.step(delta)
+	if workbench_bridge != null: workbench_bridge.process_pending()
 	autosave_elapsed+=delta
 	if autosave_elapsed>=45 and persistence_enabled and autosave_armed and safe_to_save():
 		autosave_elapsed=0
 		if not save_game(current_slot,true): autosave_armed=false
+
+func _content_registry():
+	if content_registry != null:
+		return content_registry
+	return get_node_or_null("/root/ContentRegistry")
 
 func open_npc(npc: Dictionary) -> void:
 	panel.npc_id=str(npc.id)

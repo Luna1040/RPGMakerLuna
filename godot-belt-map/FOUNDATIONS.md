@@ -23,6 +23,8 @@
 | `stage.gd` | 现有地面坐标、碰撞、输入分发、渲染与明确的模拟步进 | `project`, `_physics_process`, `on_attack`, `on_spell` |
 | `systems/game_runtime.gd` | 组合系统、角色快照、旅行、检查点、三轮试炼、祝福、任务事件 | `setup`, `snapshot`, `validate_snapshot`, `restore`, `travel`, `save_game`, `load_game` |
 | `systems/session_bridge.gd` | 两个场景实例之间传递纯数据；不充当永久存档 | `pending`, `target_zone`, `take` |
+| `systems/content/` | 稳定内容 ID、Schema 校验、原子 Patch、覆盖状态与撤销 | `get_skill`, `apply_runtime_patch`, `export_runtime_state` |
+| `systems/workbench_bridge.gd` | 创作工作台能力查询、安全点排队与 Patch 结果 | `capabilities`, `submit_patch`, `process_pending`, `request_undo` |
 | `systems/world_registry.gd` | 地点 ID 到地图合同的映射 | `ZONES`, `load_zone` |
 | `systems/core/save_store.gd` | 三槽、版本、校验和、临时文件、备份与坏档保护 | `save_slot`, `load_slot`, `list_slots`, `protect_slot` |
 | `systems/core/progression.gd` | 经验曲线、50 级上限、每级技能点和固有属性成长 | `add_xp`, `bonuses`, `snapshot`, `restore` |
@@ -70,6 +72,7 @@ RNG 的 64 位 `state` 若需要持久化，转成字符串再写 JSON；Godot J
 - **新装备**：扩展 `characters/first_knight/equipment.gd` 的 CATALOG。当前库存是一种装备 ID 一份，不支持同名随机词缀实例；要引入随机词缀，先升级存档模型为实例 ID，再接装备 UI。
 - **新成长**：天赋属性统一叠加到真实伤害与容量；刷新从装备、等级、天赋、本轮祝福重新求和，禁止对现有数值反复累加。
 - **新输入**：在 `game_settings.gd` 注册动作并由 stage 分发。UI、技能栏读取当前键位，禁止修改一个键后保留旧键的隐藏攻击行为。
+- **Agent / 工作台修改**：先读取 `WorkbenchBridge.capabilities()`，只提交符合 `content/schemas/runtime-patch.schema.json` 的 JSON。当前雷光已支持安全修改消耗、冷却、伤害、纵深宽度、弹射数和弹射半径；不接受生成脚本或资源路径。具体合同见 `systems/content/README.md`。
 
 ## 验证
 

@@ -3,6 +3,8 @@ config_version=5
 config/name="Knight - 2.5D Courtyard"
 run/main_scene="res://stage.tscn"
 [autoload]
+ContentRegistry="*res://systems/content/content_registry.gd"
+WorkbenchBridge="*res://systems/workbench_bridge.gd"
 GameSession="*res://systems/session_bridge.gd"
 [display]
 window/size/viewport_width=1280

@@ -403,12 +403,20 @@ func hit(source: Vector2, z: float, event: Dictionary) -> int:
 	return count
 
 func hit_projectile(from_x: float, to_x: float, depth: float, z: float, damage: float) -> bool:
+	return bool(hit_skill_projectile(from_x, to_x, depth, z, damage).consumed)
+
+func hit_skill_projectile(from_x: float, to_x: float, depth: float, z: float, damage: float,
+		depth_radius: float = 0.55, chain_count: int = 1, chain_radius_m: float = 0.0) -> Dictionary:
+	var result := {"consumed": false, "hit_ids": [], "segments": []}
 	if damage <= 0.0:
-		return false
+		return result
+	depth_radius = clampf(depth_radius, 0.05, 3.0)
+	chain_count = clampi(chain_count, 1, 8)
+	chain_radius_m = clampf(chain_radius_m, 0.0, 12.0)
 	var nearest: Dictionary = {}
 	var best := INF
 	for enemy: Dictionary in enemies:
-		if enemy.state == "dead" or absf(depth-enemy.foot.y) > 0.55:
+		if enemy.state == "dead" or absf(depth-enemy.foot.y) > depth_radius:
 			continue
 		var bottom: float = enemy.reaction.height/120.0
 		# The authored knight's hand releases its bolt at 1.666 m. Include the
@@ -426,10 +434,30 @@ func hit_projectile(from_x: float, to_x: float, depth: float, z: float, damage: 
 		# True means the projectile was consumed, including a wall impact.
 		# Merely rejecting damage for this segment would let the next frame
 		# start beyond the wall and hit an enemy from the other side.
-		return not _line_clear(Vector2(from_x,depth),Vector2(to_x,depth),z)
+		result.consumed = not _line_clear(Vector2(from_x,depth),Vector2(to_x,depth),z)
+		return result
+	result.consumed = true
 	_apply_hit(nearest,{"action":"magic","damage":damage})
+	result.hit_ids.append(str(nearest.id))
+	var previous: Dictionary = nearest
+	while result.hit_ids.size() < chain_count and chain_radius_m > 0.0:
+		var next: Dictionary = {}
+		var next_distance := INF
+		for enemy: Dictionary in enemies:
+			if enemy.state == "dead" or str(enemy.id) in result.hit_ids:
+				continue
+			var distance: float = previous.foot.distance_to(enemy.foot)
+			if distance <= chain_radius_m and distance < next_distance and _line_clear(previous.foot, enemy.foot, maxf(z, 0.45)):
+				next = enemy
+				next_distance = distance
+		if next.is_empty():
+			break
+		result.segments.append({"from":[previous.foot.x, previous.foot.y], "to":[next.foot.x, next.foot.y]})
+		_apply_hit(next,{"action":"magic","damage":damage})
+		result.hit_ids.append(str(next.id))
+		previous = next
 	_check_cleared()
-	return true
+	return result
 
 func _apply_hit(enemy: Dictionary, event: Dictionary) -> void:
 	var action := str(event.get("action","attack1"))

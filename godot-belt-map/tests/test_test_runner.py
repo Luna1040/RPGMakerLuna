@@ -35,7 +35,10 @@ class RunnerTests(unittest.TestCase):
 
     def test_foundations_flag_only_on_integrations(self):
         opted_in = {test.name for test in run_tests.TESTS if "--foundations" in test.arguments}
-        self.assertEqual(opted_in, {"runtime_foundations", "adventure_integration", "encounters_integration"})
+        self.assertEqual(opted_in, {
+            "runtime_foundations", "adventure_integration", "roster_integration",
+            "menu_input", "encounters_integration",
+        })
 
     def test_child_with_script_error_and_exit_zero_is_caught(self):
         with tempfile.TemporaryDirectory(prefix="godot-runner-test-") as folder:
