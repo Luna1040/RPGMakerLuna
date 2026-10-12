@@ -58,6 +58,7 @@ func capabilities() -> Dictionary:
 		"campaign_library": "validated_read_only_with_save_slot_summaries",
 		"authoring_orchestration": "main_agent_validated_child_agent_state_machine",
 		"authoring_transport": "strict_agent_task_and_result_json",
+		"agent_transport": _transport().capabilities() if _transport() != null else {"ready":false, "errors":["AgentTransportService is unavailable."]},
 		"content_context": registry.content_context() if registry != null else {},
 		"active_save_directory": _campaign_session().active_save_directory() if _campaign_session() != null else "user://rpg_saves",
 		"safe_to_apply": safe_to_apply(),
@@ -275,7 +276,38 @@ func publish_authoring_run(run_id: String, preview_token: String) -> Dictionary:
 
 func cancel_authoring_run(run_id: String) -> Dictionary:
 	var service = _authoring()
+	if _transport() != null: _transport().cancel_run_jobs(run_id)
 	return service.cancel_run(run_id) if service != null else {"ok":false, "errors":["AuthoringOrchestrator is unavailable."]}
+
+func agent_transport_capabilities() -> Dictionary:
+	var service = _transport()
+	return service.capabilities() if service != null else {"ready":false, "errors":["AgentTransportService is unavailable."]}
+
+func configure_agent_transport(value: Variant, session_api_key: String = "") -> Dictionary:
+	var service = _transport()
+	return service.configure(value, session_api_key) if service != null else {"ok":false, "errors":["AgentTransportService is unavailable."]}
+
+func clear_agent_transport_session_key() -> Dictionary:
+	var service = _transport()
+	if service == null: return {"ok":false, "errors":["AgentTransportService is unavailable."]}
+	service.clear_session_api_key()
+	return {"ok":true, "errors":[], "capabilities":service.capabilities()}
+
+func run_authoring_agent_stage(run_id: String) -> Dictionary:
+	var service = _transport()
+	return service.run_ready_stage(run_id) if service != null else {"ok":false, "errors":["AgentTransportService is unavailable."], "jobs":[]}
+
+func list_authoring_agent_jobs(run_id: String = "") -> Array[Dictionary]:
+	var service = _transport()
+	return service.list_jobs(run_id) if service != null else []
+
+func cancel_authoring_agent_job(job_id: String) -> Dictionary:
+	var service = _transport()
+	return service.cancel_job(job_id) if service != null else {"ok":false, "errors":["AgentTransportService is unavailable."]}
+
+func cancel_authoring_run_jobs(run_id: String) -> Dictionary:
+	var service = _transport()
+	return service.cancel_run_jobs(run_id) if service != null else {"ok":false, "errors":["AgentTransportService is unavailable."]}
 
 func submit_patch(value: Variant) -> Dictionary:
 	var registry = _registry()
@@ -353,6 +385,9 @@ func _campaign_session():
 
 func _authoring():
 	return get_node_or_null("/root/AuthoringOrchestrator")
+
+func _transport():
+	return get_node_or_null("/root/AgentTransportService")
 
 func _whole(value: Variant) -> bool:
 	return (value is int or value is float) and is_finite(float(value)) and floorf(float(value)) == float(value)

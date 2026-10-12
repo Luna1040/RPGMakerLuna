@@ -151,6 +151,8 @@ func active_task_bundles(run_id: String) -> Dictionary:
 	var run := _mutable_run(run_id)
 	if run.is_empty():
 		return _run_failure(run_id, ["Unknown authoring run."])
+	if run.status in TERMINAL_STATUSES:
+		return _run_failure(run_id, ["Authoring run does not accept active task retrieval."])
 	var bundles: Array[Dictionary] = []
 	for record: Dictionary in run.tasks:
 		if record.status in ["dispatched", "needs_revision", "blocked"]:
@@ -163,6 +165,8 @@ func submit_agent_result(run_id: String, result_value: Variant) -> Dictionary:
 	var errors := _current_errors(run)
 	if not errors.is_empty():
 		return _run_failure(run_id, errors)
+	if run.status in TERMINAL_STATUSES:
+		return _run_failure(run_id, ["Authoring run does not accept Agent results in its terminal state."])
 	if not result_value is Dictionary:
 		return _run_failure(run_id, ["Agent result must be an object."])
 	var result: Dictionary = result_value
@@ -337,10 +341,11 @@ func _agent_prompt(run: Dictionary, record: Dictionary, prior: Array[Dictionary]
 		"systems":"只可分析或提出白名单 runtime_patch；不得自动执行补丁。",
 		"validator":"只审查全部上游结果；deliverables 必须为空，用 summary/evidence/warnings 给出结论。"}
 	var boundary := "成熟内容仅限明确成年的自愿角色，禁止胁迫与性暴力。" if run.request.content_policy == "mature_consensual" else "遵守全年龄内容边界。"
-	return "你是 %s 子 Agent。%s %s 只返回严格符合 agent-result/1 的 JSON，不要 Markdown，不要工具调用。任务：%s%s" % [
+	var revision_note := ("\n上轮结果被可信边界拒绝，请逐项修正：" + "；".join(record.get("errors", []))) if not record.get("errors", []).is_empty() else ""
+	return "你是 %s 子 Agent。%s %s 只返回严格符合 agent-result/1 的 JSON，不要 Markdown，不要工具调用。任务：%s%s%s" % [
 		record.role, role_rules.get(record.role, ""), boundary,
 		JSON.stringify(record.task, "", true, true),
-		("\n待验证的上游结果：" + JSON.stringify(prior, "", true, true)) if not prior.is_empty() else ""]
+		("\n待验证的上游结果：" + JSON.stringify(prior, "", true, true)) if not prior.is_empty() else "", revision_note]
 
 func _validator_objective(run: Dictionary) -> String:
 	var summaries: Array[String] = []

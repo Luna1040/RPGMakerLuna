@@ -24,6 +24,13 @@ var authoring_form: Dictionary = {
 var authoring_selected_run:=""
 var authoring_result_text:=""
 var authoring_publish_confirm:=false
+var transport_form_initialized:=false
+var transport_endpoint:=""
+var transport_model:=""
+var transport_session_key:=""
+var transport_timeout:=45
+var transport_retries:=2
+var transport_concurrency:=2
 var summary_clock:=0.0
 
 func setup(service) -> void:
@@ -92,6 +99,11 @@ func setup(service) -> void:
 	layout.add_child(HSeparator.new())
 	layout.add_child(message)
 	overlay.hide()
+	var agent_transport=get_node_or_null("/root/AgentTransportService")
+	if agent_transport!=null:
+		agent_transport.job_updated.connect(_on_agent_transport_update)
+		agent_transport.run_stage_finished.connect(_on_agent_transport_stage_finished)
+		agent_transport.configuration_changed.connect(_on_agent_transport_configuration_changed)
 	update_status()
 
 func is_open() -> bool:
@@ -395,6 +407,7 @@ func render_authoring() -> void:
 	if bridge==null:
 		words("创作编排服务不可用。",Color("ef9a9a"))
 		return
+	_render_authoring_transport(bridge)
 	_render_authoring_form(bridge)
 	var run:Dictionary=bridge.get_authoring_run(authoring_selected_run) if not authoring_selected_run.is_empty() else {}
 	if run.is_empty():
@@ -404,6 +417,63 @@ func render_authoring() -> void:
 			run=bridge.get_authoring_run(authoring_selected_run)
 	if not run.is_empty():
 		_render_authoring_run(bridge,run)
+
+func _render_authoring_transport(bridge) -> void:
+	var caps:Dictionary=bridge.agent_transport_capabilities()
+	if not transport_form_initialized:
+		transport_endpoint=str(caps.get("endpoint",""))
+		transport_model=str(caps.get("model",""))
+		transport_timeout=int(caps.get("timeout_seconds",45))
+		transport_retries=int(caps.get("max_retries",2))
+		transport_concurrency=int(caps.get("max_concurrency",2))
+		transport_form_initialized=true
+	body.add_child(HSeparator.new())
+	words("Agent Transport · OpenAI-compatible",Color("f7d78e"),21)
+	var ready:=bool(caps.get("ready",false))
+	var key_source:=str(caps.get("key_source","none"))
+	words(("● 已就绪" if ready else "○ 尚未就绪")+"  ·  密钥来源："+{"session":"本次会话内存","environment":"RPG_AGENT_API_KEY 环境变量","none":"未设置"}.get(key_source,key_source)+"  ·  活跃任务 %d" % int(caps.get("active_jobs",0)),Color("8fd6ae") if ready else Color("efc879"),17)
+	var endpoint:=LineEdit.new()
+	endpoint.name="AgentTransportEndpoint"
+	endpoint.placeholder_text="HTTPS endpoint，例如 https://provider.example/v1/chat/completions"
+	endpoint.text=transport_endpoint
+	endpoint.text_changed.connect(func(value): transport_endpoint=value)
+	body.add_child(endpoint)
+	var model_row:=row()
+	var model:=LineEdit.new()
+	model.name="AgentTransportModel"
+	model.placeholder_text="模型 ID"
+	model.text=transport_model
+	model.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	model.text_changed.connect(func(value): transport_model=value)
+	model_row.add_child(model)
+	var secret:=LineEdit.new()
+	secret.name="AgentTransportSessionKey"
+	secret.placeholder_text="会话 API Key（不落盘）"
+	secret.secret=true
+	secret.text=transport_session_key
+	secret.custom_minimum_size.x=330
+	secret.text_changed.connect(func(value): transport_session_key=value)
+	model_row.add_child(secret)
+	var tuning:=row()
+	_authoring_option(tuning,"超时",[["15","15 秒"],["30","30 秒"],["45","45 秒"],["60","60 秒"],["90","90 秒"]],str(transport_timeout),func(value): transport_timeout=int(value))
+	_authoring_option(tuning,"重试",[["0","0 次"],["1","1 次"],["2","2 次"],["3","3 次"]],str(transport_retries),func(value): transport_retries=int(value))
+	_authoring_option(tuning,"并发",[["1","1"],["2","2"],["3","3"],["4","4"]],str(transport_concurrency),func(value): transport_concurrency=int(value))
+	var actions:=row()
+	button(actions,"保存配置",func(): _save_agent_transport(bridge))
+	button(actions,"清除会话密钥",func(): bridge.clear_agent_transport_session_key(); transport_session_key=""; message.text="已清除内存中的会话密钥。"; refresh(),key_source=="session")
+	words("端点与模型保存在 user://agent_transport.cfg；API Key 只从 RPG_AGENT_API_KEY 或当前进程内存读取。配置禁止 URL 查询参数、远程明文 HTTP、工具调用和生成代码。",Color("91a9bd"),15)
+
+func _save_agent_transport(bridge) -> void:
+	var config:={"schema_version":"agent-transport-config/1","provider":"openai_compatible",
+		"endpoint":transport_endpoint.strip_edges(),"model":transport_model.strip_edges(),
+		"timeout_seconds":transport_timeout,"max_retries":transport_retries,"max_concurrency":transport_concurrency}
+	var result:Dictionary=bridge.configure_agent_transport(config,transport_session_key)
+	if result.get("ok",false):
+		transport_session_key=""
+		message.text="Agent Transport 配置已保存；密钥未写入文件。"
+	else:
+		message.text="传输配置无效："+"；".join(result.get("errors",[]))
+	refresh()
 
 func _render_authoring_form(bridge) -> void:
 	body.add_child(HSeparator.new())
@@ -508,8 +578,12 @@ func _render_authoring_run(bridge, run: Dictionary) -> void:
 		if not record is Dictionary: continue
 		words("%s  ·  %s\n%s" % [str(record.role).to_upper(),_authoring_task_status(str(record.status)),str(record.task.objective)],Color("d5dfec"),16)
 	if not run.get("errors",[]).is_empty(): words("阻塞："+"；".join(run.errors),Color("ef9a9a"),16)
+	_render_authoring_jobs(bridge,str(run.run_id))
 	var status_text:=str(run.status)
 	if status_text in ["planned","awaiting_agents","validator_ready","awaiting_validator","needs_revision"]:
+		var transport_caps:Dictionary=bridge.agent_transport_capabilities()
+		button(body,"运行当前就绪 Agent 阶段",func(): _run_authoring_agent_stage(bridge,str(run.run_id)),bool(transport_caps.get("ready",false)))
+		if not transport_caps.get("ready",false): words("自动派发需要有效 endpoint、模型和会话/环境变量密钥；仍可继续使用下方人工 JSON 通道。",Color("efc879"),15)
 		var actions:=row()
 		button(actions,"派发就绪任务并复制 JSON",func(): _dispatch_authoring(bridge,str(run.run_id)))
 		button(actions,"复制待处理任务",func(): _copy_active_authoring(bridge,str(run.run_id)))
@@ -535,7 +609,53 @@ func _render_authoring_run(bridge, run: Dictionary) -> void:
 		for finding in run.get("analysis_report",[]):
 			if finding is Dictionary: words("%s：%s" % [str(finding.get("agent_role","")).to_upper(),str(finding.get("summary",""))],Color("c9d6e3"),16)
 	if status_text not in ["published","completed_analysis","cancelled","stale"]:
-		button(body,"取消本次创作 Run",func(): var result:Dictionary=bridge.cancel_authoring_run(str(run.run_id)); message.text="已取消" if result.get("ok",false) else "取消失败："+"；".join(result.get("errors",[])); refresh())
+		button(body,"取消本次创作 Run",func(): _cancel_authoring_run(bridge,str(run.run_id)))
+
+func _render_authoring_jobs(bridge,run_id:String)->void:
+	var jobs:Array[Dictionary]=bridge.list_authoring_agent_jobs(run_id)
+	if jobs.is_empty(): return
+	words("Transport 任务",Color("a8ded7"),18)
+	for job in jobs:
+		var line:=row()
+		var label:=Label.new()
+		label.text="%s  ·  %s  ·  尝试 %d" % [str(job.agent_role).to_upper(),_agent_job_status(str(job.status)),int(job.attempts)]
+		label.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+		line.add_child(label)
+		if str(job.status) in ["queued","running","retry_wait"]:
+			var job_id:=str(job.job_id)
+			button(line,"取消",func(): var result:Dictionary=bridge.cancel_authoring_agent_job(job_id); message.text="传输任务已取消" if result.get("ok",false) else "取消失败："+"；".join(result.get("errors",[])); refresh())
+		if not job.get("errors",[]).is_empty(): words("  "+"；".join(job.errors),Color("ef9a9a"),14)
+
+func _run_authoring_agent_stage(bridge,run_id:String)->void:
+	var result:Dictionary=bridge.run_authoring_agent_stage(run_id)
+	if not result.get("ok",false):
+		message.text="自动派发失败："+"；".join(result.get("errors",[]))
+	elif result.get("jobs",[]).is_empty():
+		message.text="当前阶段没有可重新派发的 Agent 任务。"
+	else:
+		message.text="已启动 %d 个 Agent 任务；完成后仍需明确启动 Validator 或预览。" % result.jobs.size()
+	refresh()
+
+func _cancel_authoring_run(bridge,run_id:String)->void:
+	bridge.cancel_authoring_run_jobs(run_id)
+	var result:Dictionary=bridge.cancel_authoring_run(run_id)
+	message.text="已取消 Run 及其传输任务" if result.get("ok",false) else "取消失败："+"；".join(result.get("errors",[]))
+	refresh()
+
+func _agent_job_status(value:String)->String:
+	return {"queued":"排队中","running":"请求中","retry_wait":"等待重试","completed":"已通过","rejected":"结果被拒绝","failed":"传输失败","cancelled":"已取消"}.get(value,value)
+
+func _on_agent_transport_update(_job_id:String,_status:String)->void:
+	if is_open() and tab=="authoring": call_deferred("_refresh_authoring_if_open")
+
+func _on_agent_transport_stage_finished(_run_id:String,_run_status:String)->void:
+	if is_open() and tab=="authoring": call_deferred("_refresh_authoring_if_open")
+
+func _on_agent_transport_configuration_changed(_capabilities:Dictionary)->void:
+	if is_open() and tab=="authoring": call_deferred("_refresh_authoring_if_open")
+
+func _refresh_authoring_if_open()->void:
+	if is_open() and tab=="authoring": refresh()
 
 func _dispatch_authoring(bridge, run_id: String) -> void:
 	var result:Dictionary=bridge.dispatch_authoring_tasks(run_id)

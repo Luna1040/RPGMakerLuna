@@ -132,6 +132,35 @@ create_authoring_run
 
 Godot Esc 菜单的“创作”页提供请求表单、任务状态、派发/复制 JSON、回填结果、Validator 闸门、合并预览与二次发布确认。剪贴板信封是 `authoring-dispatch/1`，其中每项包含原始 `agent-task/1`、面向该角色的 Prompt，以及 Validator 所需的已审查上游结果。当前没有内置模型供应商：外部传输层必须消费这些 JSON，再把单个严格 `agent-result/1` 回填；不能通过 UI 文字伪装成已完成的模型调用。
 
+## Agent Transport
+
+`AgentTransportService` 是 B-07 合同之上的可替换网络适配器。它当前实现 OpenAI-compatible chat-completions 请求，但不信任供应商返回值：响应必须位于 `choices[0].message.content`，内容必须是没有 Markdown 围栏的 JSON 对象，然后仍调用 `AuthoringOrchestrator.submit_agent_result()` 和 `WorkbenchBridge.review_agent_result()`。
+
+安全配置使用 `agent-transport-config/1`：
+
+- 远程 endpoint 必须为 HTTPS；只有 `localhost` / `127.0.0.1` 可以使用 HTTP。
+- endpoint 不接受查询参数、fragment、userinfo 或其他可携带密钥的位置。
+- model ID 使用严格字符与长度限制。
+- 超时为 5–120 秒，重试为 0–3 次，并发为 1–4。
+- 响应上限 1 MiB；Provider 返回 408、425、429 或 5xx 时才执行指数退避重试。
+- 401/403、非法 JSON、缺失 message content、Markdown 围栏和合同拒绝都不会无限重试。
+
+非敏感配置默认保存在 `user://agent_transport.cfg`。API Key 永远不写入该文件：桌面运行可设置 `RPG_AGENT_API_KEY`，也可以在 Godot 控制台输入只存在本次进程内存的会话密钥。`capabilities()` 只公开 `session` / `environment` / `none` 来源，不返回密钥；`list_jobs()` 也不返回 Prompt、HTTP Header、Provider body 或内部 task bundle。
+
+自动运行按阶段执行：
+
+```text
+run_authoring_agent_stage
+→ 领取当前 ready / needs_revision / interrupted tasks
+→ 有界并发 HTTPRequest
+→ 严格解析 provider envelope 和 agent-result/1
+→ 可信审查
+→ 全部业务任务完成后停在 validator_ready
+→ 玩家再次明确运行 Validator 阶段
+```
+
+任务状态为 `queued / running / retry_wait / completed / rejected / failed / cancelled`。取消 Run 会先终止关联 HTTPRequest；随后到达的响应不能再提交给终态 Run。传输失败、取消或格式拒绝不会把 Agent 任务伪装为完成，玩家可以在同一 Run 上重新运行该阶段。当前队列与 Run 都是进程内状态，并非重启可恢复的 durable job；需要跨重启时必须新增带校验和的任务存储，而不能复用游戏存档。
+
 ## 生成内容草稿与发布
 
 任务、对话和 NPC 结构不使用热 Patch，而是进入两阶段创作流水线：
