@@ -137,6 +137,44 @@ user://projects/<project_id>/published/<draft_id>.json
 
 重要边界：发布不等于激活。B-03 不会把生成的任务图热替换进当前战役，也不会修改当前存档；返回值明确给出 `activates_runtime:false` 与 `reload_required:"new_campaign_import"`。后续导入器必须在独立项目/战役命名空间中加载制品并重新校验，不能覆盖正在进行的官方战役。
 
+## 独立战役导入
+
+`CampaignImportService` 把已经发布的制品转换为独立、不可变的战役包。调用方先提交 `campaign-import-request/1`，再执行：
+
+```text
+preview_campaign_import
+→ 重新读取并校验 published-content/1
+→ 重新物化完整技能/装备/NPC/剧情目录
+→ 校验候选哈希、任务图、NPC 资产与全部交叉引用
+→ 返回 campaign preview_token 和独立存档命名空间
+→ install_campaign 原子安装 manifest.json + content.json
+```
+
+导入请求只能选择：
+
+- `new_campaign`：明确作为新战役启动。
+- `explicit_project_copy`：明确复制为另一个项目/战役实例后启动。
+
+`campaign.official.*`、`campaign.base.*`、`campaign.system.*` 为保留 ID，不能成为导入目标。所有项目、草稿和战役 ID 都先通过规范化检查，再用于拼接固定目录；调用方不能提供任意文件路径。
+
+安装目录：
+
+```text
+user://projects/<project_id>/campaigns/<campaign_id>/
+├── manifest.json
+└── content.json
+```
+
+`manifest.json` 使用 `campaign-manifest/1`，记录来源制品、完整内容哈希、激活策略、`runtime_activation:"new_session_only"` 和相对存档目录 `saves`。`content.json` 使用 `campaign-content/1`，冻结完整技能、装备、NPC 与冒险目录。两个文件都带规范化 JSON 校验和。
+
+安装先在同级临时目录写入两个文件，执行落盘回读、Schema、校验和、严格字段、任务图、NPC 资产登记与交叉引用检查，全部通过后才整体原子重命名。现有相同战役包返回幂等成功；现有不同或损坏目录不会被覆盖。
+
+导入和安装均返回 `activates_runtime:false` 与 `requires_new_session:true`。它们不会调用 `ContentRegistry` 的加载/修改接口，也不会访问 `user://rpg_saves`。未来启动器只能在新会话中读取战役包，并把存档定向到：
+
+```text
+user://projects/<project_id>/campaigns/<campaign_id>/saves
+```
+
 ## 运行时 Patch
 
 技能 Patch 是原子事务：任一操作非法时全部拒绝；重复 `patch_id` 不会重复修改。会话内最近一次 Patch 可撤销；覆盖状态进入现有 `GameRuntime` 快照和 `SaveStore`，不另建第二套状态或存档。

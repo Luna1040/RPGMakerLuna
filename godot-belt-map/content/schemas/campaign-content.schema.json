@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:rpgmakerluna:schema:campaign-content",
+  "title": "Isolated Campaign Content Snapshot",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "project_id", "campaign_id", "source_catalog_hash", "source_content_revision", "candidate_content_hash", "skills", "equipment", "npcs", "adventure", "content_hash"],
+  "properties": {
+    "schema_version": {"const": "campaign-content/1"},
+    "project_id": {"type": "string", "pattern": "^project\\.[a-z0-9][a-z0-9_.-]+$", "maxLength": 128},
+    "campaign_id": {"type": "string", "pattern": "^campaign\\.[a-z0-9][a-z0-9_.-]+$", "maxLength": 128},
+    "source_catalog_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "source_content_revision": {"type": "integer", "minimum": 0},
+    "candidate_content_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "skills": {"type": "object", "minProperties": 1, "maxProperties": 512},
+    "equipment": {"type": "object", "minProperties": 1, "maxProperties": 512},
+    "npcs": {"type": "object", "minProperties": 1, "maxProperties": 512},
+    "adventure": {"type": "object"},
+    "content_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

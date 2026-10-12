@@ -25,6 +25,7 @@
 | `systems/session_bridge.gd` | 两个场景实例之间传递纯数据；不充当永久存档 | `pending`, `target_zone`, `take` |
 | `systems/content/` | 技能/装备/NPC/任务/对话稳定 ID、Schema 校验、原子 Patch、覆盖状态与撤销 | `get_definition`, `registered_ids`, `apply_runtime_patch`, `export_runtime_state` |
 | `systems/content/content_draft_service.gd` | Agent 任务/NPC/对话草稿的全目录校验、差异预览与不可变原子发布；不热激活当前战役 | `validate_draft`, `preview_draft`, `publish_draft` |
+| `systems/content/campaign_import_service.gd` | 已发布制品的重新物化、独立战役预览、双文件原子安装与篡改复检；不激活当前会话 | `preview_import`, `install_campaign`, `inspect_campaign` |
 | `systems/workbench_bridge.gd` | 创作工作台能力查询、Main→子 Agent 合同审查、安全点排队与 Patch 结果 | `capabilities`, `inspect_target`, `validate_agent_task`, `review_agent_result`, `submit_patch` |
 | `systems/world_registry.gd` | 地点 ID 到地图合同的映射 | `ZONES`, `load_zone` |
 | `systems/core/save_store.gd` | 三槽、版本、校验和、临时文件、备份与坏档保护 | `save_slot`, `load_slot`, `list_slots`, `protect_slot` |
@@ -76,6 +77,7 @@ RNG 的 64 位 `state` 若需要持久化，转成字符串再写 JSON；Godot J
 - **NPC 定义**：城镇站位、名称、环境对话与登记资产 ID 位于 `content/base/town_npcs.json`。JSON 不得出现 `res://` 路径；新资产必须先进入 `town_npcs.gd` 的 allowlist，再引用 `asset.*` ID。
 - **Agent / 工作台修改**：Main Agent 先读取 `WorkbenchBridge.capabilities()` 和目标定义，使用 `agent-task/1` 派发子任务，再用 `review_agent_result` 审查 `agent-result/1`。审查不会自动执行；只有 Main Agent 选中的 `runtime-patch/1` 才能进入 `submit_patch`。当前雷光支持安全修改消耗、冷却、伤害、纵深宽度、弹射数和弹射半径；不接受生成脚本或资源路径。具体合同见 `systems/content/README.md`。
 - **Agent 生成任务/NPC/对话**：结构变更使用 `content-draft/1`；Main Agent 先审查，再调用 `preview_content_draft` 检查完整候选目录和差异，最后用完全相同的草稿与令牌调用 `publish_content_draft`。发布只生成带校验和的不可变 JSON 制品，不会热激活当前战役或改写现有存档；新战役导入器必须再次校验。
+- **导入生成战役**：使用 `campaign-import-request/1` 选择 `new_campaign` 或 `explicit_project_copy`，先预览、再安装。安装结果固定在 `user://projects/<project_id>/campaigns/<campaign_id>`，使用独立 `saves` 子目录，并声明 `new_session_only`；保留战役 ID、既有不同内容和损坏目录都不会被覆盖。
 
 ## 验证
 
@@ -87,7 +89,7 @@ RNG 的 64 位 `state` 若需要持久化，转成字符串再写 JSON；Godot J
 python tests/run_tests.py --godot /path/to/godot --suite all
 ```
 
-macOS 默认应用路径可用 `/Applications/Godot.app/Contents/MacOS/Godot`，Windows 用 Godot console exe。测试脚本也支持 `GODOT_BIN` 环境变量，日志在 `test-results/`，不会进入网页包。核心、内容草稿发布、任务、遭遇、存档事务与真实场景的集成测试分开运行，旧庭院回归使用隔离模式避免读取玩家进度。仅测试脚本需要 `-- --foundations` 强制开启新框架；正常 F5 自动开启。
+macOS 默认应用路径可用 `/Applications/Godot.app/Contents/MacOS/Godot`，Windows 用 Godot console exe。测试脚本也支持 `GODOT_BIN` 环境变量，日志在 `test-results/`，不会进入网页包。核心、内容草稿发布、独立战役导入、任务、遭遇、存档事务与真实场景的集成测试分开运行，旧庭院回归使用隔离模式避免读取玩家进度。仅测试脚本需要 `-- --foundations` 强制开启新框架；正常 F5 自动开启。
 
 新增素材发布门槛（需要 Pillow）：
 

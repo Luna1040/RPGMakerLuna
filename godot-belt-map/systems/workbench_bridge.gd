@@ -30,6 +30,9 @@ func capabilities() -> Dictionary:
 		"agent_result_schema": "agent-result/1",
 		"content_draft_schema": "content-draft/1",
 		"published_content_schema": "published-content/1",
+		"campaign_import_request_schema": "campaign-import-request/1",
+		"campaign_manifest_schema": "campaign-manifest/1",
+		"campaign_content_schema": "campaign-content/1",
 		"content_revision": registry.revision if registry != null else -1,
 		"catalog_hash": registry.catalog_hash if registry != null else "",
 		"targets": registry.registered_skill_ids() if registry != null else [],
@@ -39,6 +42,7 @@ func capabilities() -> Dictionary:
 		"role_target_types": ROLE_TARGET_TYPES.duplicate(true),
 		"draft_target_types": ["quest", "dialogue", "npc"],
 		"published_content_activation": "new_campaign_import",
+		"campaign_activation_policies": ["new_campaign", "explicit_project_copy"],
 		"safe_to_apply": safe_to_apply(),
 		"pending_count": pending.size(),
 		"allows_generated_code": false
@@ -163,6 +167,28 @@ func publish_content_draft(value: Variant, preview_token: String) -> Dictionary:
 		return _reject(str(value.get("draft_id", "")) if value is Dictionary else "", ["ContentDraftService is unavailable."])
 	return service.publish_draft(value, preview_token)
 
+func preview_campaign_import(value: Variant) -> Dictionary:
+	var service = _campaign_service()
+	if service == null:
+		return {"ok":false, "errors":["CampaignImportService is unavailable."],
+			"campaign_id":str(value.get("campaign_id", "")) if value is Dictionary else ""}
+	return service.preview_import(value)
+
+func install_campaign(value: Variant, preview_token: String) -> Dictionary:
+	## Installation only creates an isolated package. A future launcher must start
+	## a fresh session and use the manifest's separate save namespace.
+	var service = _campaign_service()
+	if service == null:
+		return {"ok":false, "errors":["CampaignImportService is unavailable."],
+			"campaign_id":str(value.get("campaign_id", "")) if value is Dictionary else ""}
+	return service.install_campaign(value, preview_token)
+
+func inspect_campaign(project_id: String, campaign_id: String) -> Dictionary:
+	var service = _campaign_service()
+	if service == null:
+		return {"ok":false, "errors":["CampaignImportService is unavailable."], "manifest":{}}
+	return service.inspect_campaign(project_id, campaign_id)
+
 func submit_patch(value: Variant) -> Dictionary:
 	var registry = _registry()
 	if registry == null or not registry.loaded:
@@ -230,6 +256,9 @@ func _registry():
 
 func _draft_service():
 	return get_node_or_null("/root/ContentDraftService")
+
+func _campaign_service():
+	return get_node_or_null("/root/CampaignImportService")
 
 func _whole(value: Variant) -> bool:
 	return (value is int or value is float) and is_finite(float(value)) and floorf(float(value)) == float(value)

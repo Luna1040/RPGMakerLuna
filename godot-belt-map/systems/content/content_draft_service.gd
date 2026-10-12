@@ -22,6 +22,30 @@ var _preview_order: Array[String] = []
 func validate_draft(value: Variant) -> Array[String]:
 	return _evaluate(value).errors
 
+func verify_published_artifact(value: Variant) -> Array[String]:
+	var errors := Validator.validate_published_content(value)
+	if value is Dictionary and value.get("artifact_hash") != _artifact_hash(value):
+		errors.append("Published artifact checksum does not match its contents.")
+	return errors
+
+func materialize_candidate(value: Variant) -> Dictionary:
+	var evaluated := _evaluate(value)
+	if not evaluated.errors.is_empty():
+		return {"ok":false, "errors":evaluated.errors, "candidate_content_hash":"", "content":{}}
+	var registry = _registry()
+	return {"ok":true, "errors":[], "candidate_content_hash":str(evaluated.candidate_hash),
+		"content":{"skills":registry.definitions("skill"), "equipment":registry.definitions("equipment"),
+			"npcs":evaluated.npcs.duplicate(true), "adventure":evaluated.adventure.duplicate(true)}}
+
+func validate_materialized_content(npcs: Variant, adventure: Variant, equipment: Variant) -> Array[String]:
+	var errors: Array[String] = []
+	if not npcs is Dictionary or not adventure is Dictionary or not equipment is Dictionary:
+		return ["Materialized NPC, adventure, and equipment catalogs must be objects."]
+	if _registry() == null or not _registry().loaded:
+		return ["ContentRegistry is unavailable."]
+	_validate_candidate(npcs, adventure, equipment, errors)
+	return errors
+
 func preview_draft(value: Variant) -> Dictionary:
 	var evaluated := _evaluate(value)
 	var draft_id := str(value.get("draft_id", "")) if value is Dictionary else ""
@@ -70,7 +94,7 @@ func publish_draft(value: Variant, preview_token: String) -> Dictionary:
 		"source_content_revision":int(draft.base_content_revision),
 		"candidate_content_hash":str(evaluated.candidate_hash), "draft":draft.duplicate(true)}
 	artifact["artifact_hash"] = _artifact_hash(artifact)
-	var errors := Validator.validate_published_content(artifact)
+	var errors := verify_published_artifact(artifact)
 	if not errors.is_empty():
 		return _reject(draft_id, errors)
 	var directory := publish_root.path_join(str(draft.project_id)).path_join("published")
@@ -88,11 +112,9 @@ func publish_draft(value: Variant, preview_token: String) -> Dictionary:
 	var persisted = JSON.parse_string(FileAccess.get_file_as_string(artifact_path))
 	if not persisted is Dictionary:
 		return _reject(draft_id, ["Published artifact failed JSON read-back verification."])
-	var persisted_errors := Validator.validate_published_content(persisted)
+	var persisted_errors := verify_published_artifact(persisted)
 	if not persisted_errors.is_empty():
 		return _reject(draft_id, ["Published artifact failed schema read-back verification: " + "; ".join(persisted_errors)])
-	if persisted.get("artifact_hash") != _artifact_hash(persisted):
-		return _reject(draft_id, ["Published artifact checksum changed during read-back."])
 	draft_published.emit(draft_id, artifact_path)
 	return {"ok":true, "duplicate":false, "errors":[], "draft_id":draft_id,
 		"artifact_path":artifact_path, "artifact_hash":artifact.artifact_hash,
@@ -307,7 +329,7 @@ func _write_atomic(path: String, text: String) -> String:
 	if write_error != OK:
 		return "Could not write published content artifact."
 	var persisted = JSON.parse_string(FileAccess.get_file_as_string(temp_path))
-	if not persisted is Dictionary or not Validator.validate_published_content(persisted).is_empty() or persisted.get("artifact_hash") != _artifact_hash(persisted):
+	if not persisted is Dictionary or not verify_published_artifact(persisted).is_empty():
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(temp_path))
 		return "Temporary published content artifact failed verification."
 	var rename_error := DirAccess.rename_absolute(ProjectSettings.globalize_path(temp_path), ProjectSettings.globalize_path(path))

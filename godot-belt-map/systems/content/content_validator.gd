@@ -9,6 +9,9 @@ const AGENT_TASK_SCHEMA := "agent-task/1"
 const AGENT_RESULT_SCHEMA := "agent-result/1"
 const CONTENT_DRAFT_SCHEMA := "content-draft/1"
 const PUBLISHED_CONTENT_SCHEMA := "published-content/1"
+const CAMPAIGN_IMPORT_REQUEST_SCHEMA := "campaign-import-request/1"
+const CAMPAIGN_CONTENT_SCHEMA := "campaign-content/1"
+const CAMPAIGN_MANIFEST_SCHEMA := "campaign-manifest/1"
 const CONTENT_TYPES := ["skills", "equipment", "npcs"]
 const TARGET_TYPES := ["skill", "equipment", "npc", "quest", "dialogue"]
 const AGENT_ROLES := ["narrative", "world", "npc", "systems", "validator"]
@@ -341,6 +344,76 @@ static func validate_published_content(value: Variant) -> Array[String]:
 			errors.append("Published content identity does not match its draft.")
 		if artifact.get("source_catalog_hash") != artifact.draft.get("base_catalog_hash") or artifact.get("source_content_revision") != artifact.draft.get("base_content_revision"):
 			errors.append("Published content source context does not match its draft.")
+	return errors
+
+static func validate_campaign_import_request(value: Variant) -> Array[String]:
+	var errors: Array[String] = []
+	if not value is Dictionary:
+		return ["Campaign import request must be a JSON object."]
+	var request: Dictionary = value
+	_unknown_keys(request, ["schema_version", "request_id", "project_id", "draft_id", "campaign_id", "display_name", "activation_policy"], "campaign_import", errors)
+	if request.get("schema_version") != CAMPAIGN_IMPORT_REQUEST_SCHEMA:
+		errors.append("Unsupported campaign import request schema_version.")
+	for pair in [["request_id", "request"], ["project_id", "project"], ["draft_id", "draft"], ["campaign_id", "campaign"]]:
+		if not _registered_id(str(request.get(pair[0], "")), pair[1]):
+			errors.append("campaign_import." + pair[0] + " must be a canonical " + pair[1] + " id.")
+	_validate_text(request.get("display_name"), 96, "campaign_import.display_name", errors)
+	if request.get("activation_policy") not in ["new_campaign", "explicit_project_copy"]:
+		errors.append("campaign_import.activation_policy is unsupported.")
+	return errors
+
+static func validate_campaign_content_shape(value: Variant) -> Array[String]:
+	var errors: Array[String] = []
+	if not value is Dictionary:
+		return ["Campaign content must be a JSON object."]
+	var content: Dictionary = value
+	_unknown_keys(content, ["schema_version", "project_id", "campaign_id", "source_catalog_hash", "source_content_revision", "candidate_content_hash", "skills", "equipment", "npcs", "adventure", "content_hash"], "campaign_content", errors)
+	if content.get("schema_version") != CAMPAIGN_CONTENT_SCHEMA:
+		errors.append("Unsupported campaign content schema_version.")
+	for pair in [["project_id", "project"], ["campaign_id", "campaign"]]:
+		if not _registered_id(str(content.get(pair[0], "")), pair[1]):
+			errors.append("campaign_content." + pair[0] + " must be a canonical " + pair[1] + " id.")
+	for field in ["source_catalog_hash", "candidate_content_hash", "content_hash"]:
+		if not _sha256(str(content.get(field, ""))):
+			errors.append("campaign_content." + field + " must be a lowercase SHA-256 hash.")
+	_validate_number(content.get("source_content_revision"), 0.0, 2147483647.0, true, "campaign_content.source_content_revision", errors)
+	for field in ["skills", "equipment", "npcs", "adventure"]:
+		if not content.get(field) is Dictionary:
+			errors.append("campaign_content." + field + " must be an object.")
+	return errors
+
+static func validate_campaign_manifest(value: Variant) -> Array[String]:
+	var errors: Array[String] = []
+	if not value is Dictionary:
+		return ["Campaign manifest must be a JSON object."]
+	var manifest: Dictionary = value
+	_unknown_keys(manifest, ["schema_version", "project_id", "campaign_id", "display_name", "activation_policy", "source_artifact", "content_file", "content_hash", "save_namespace", "runtime_activation", "manifest_hash"], "campaign_manifest", errors)
+	if manifest.get("schema_version") != CAMPAIGN_MANIFEST_SCHEMA:
+		errors.append("Unsupported campaign manifest schema_version.")
+	for pair in [["project_id", "project"], ["campaign_id", "campaign"]]:
+		if not _registered_id(str(manifest.get(pair[0], "")), pair[1]):
+			errors.append("campaign_manifest." + pair[0] + " must be a canonical " + pair[1] + " id.")
+	_validate_text(manifest.get("display_name"), 96, "campaign_manifest.display_name", errors)
+	if manifest.get("activation_policy") not in ["new_campaign", "explicit_project_copy"]:
+		errors.append("campaign_manifest.activation_policy is unsupported.")
+	if manifest.get("content_file") != "content.json" or manifest.get("save_namespace") != "saves":
+		errors.append("Campaign manifest paths must use the isolated content.json and saves names.")
+	if manifest.get("runtime_activation") != "new_session_only":
+		errors.append("Campaign manifest runtime_activation must equal new_session_only.")
+	for field in ["content_hash", "manifest_hash"]:
+		if not _sha256(str(manifest.get(field, ""))):
+			errors.append("campaign_manifest." + field + " must be a lowercase SHA-256 hash.")
+	var source = manifest.get("source_artifact")
+	if not source is Dictionary:
+		errors.append("campaign_manifest.source_artifact must be an object.")
+	else:
+		_unknown_keys(source, ["draft_id", "artifact_hash", "source_catalog_hash", "source_content_revision", "candidate_content_hash"], "campaign_manifest.source_artifact", errors)
+		if not _registered_id(str(source.get("draft_id", "")), "draft"):
+			errors.append("campaign_manifest.source_artifact.draft_id must be canonical.")
+		for field in ["artifact_hash", "source_catalog_hash", "candidate_content_hash"]:
+			if not _sha256(str(source.get(field, ""))):
+				errors.append("campaign_manifest.source_artifact." + field + " must be a lowercase SHA-256 hash.")
+		_validate_number(source.get("source_content_revision"), 0.0, 2147483647.0, true, "campaign_manifest.source_artifact.source_content_revision", errors)
 	return errors
 
 static func validate_patch_value(path: String, value: Variant, location := "value") -> Array[String]:
