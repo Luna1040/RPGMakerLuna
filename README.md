@@ -8,6 +8,7 @@
 - `releases/knight-web/`：网页试玩成品，入口 `index.html`；通过 HTTP/HTTPS 静态服务器运行。
 - `releases/苍石庭院-角色与队友试玩-20261011.zip`：最新网页试玩包，可上传静态托管；底层框架版及 20261009 包保留为历史版。
 - [`godot-belt-map/FOUNDATIONS.md`](godot-belt-map/FOUNDATIONS.md)：底层架构、接口、存档边界、剧情扩写和测试方法。
+- [`godot-belt-map/README.md`](godot-belt-map/README.md)：团队克隆、Godot 导入、分支协作与完整验收说明。
 - `CHARACTER_PIPELINE.md`：角色素材生产流程。
 - [`NPC_ROSTER_INTEGRATION.md`](NPC_ROSTER_INTEGRATION.md)：五角色动作、队友机制、资源格式和验收方法。
 - `godot-belt-map/使用与对接说明.txt`：最新操作、机制、测试与集成记录。
@@ -27,11 +28,14 @@
 git lfs install
 git clone https://github.com/Luna1040/RPGMakerLuna.git
 cd RPGMakerLuna
+git switch b/content-patch-foundation
 git lfs pull
 git lfs fsck
 ```
 
-等待素材下载结束、`git lfs fsck` 校验通过，再启动工程。仓库包含大量历史图片和视频，首次下载可能较久。不要用 GitHub 的「Download ZIP」代替以上步骤，以免拿到 LFS 指针而缺少真实素材。
+`b/content-patch-foundation` 是当前成员 B 成果所在分支；合并后可使用默认分支。等待素材下载结束、`git lfs fsck` 校验通过，再启动工程。仓库包含大量历史图片和视频，首次下载可能较久。不要用 GitHub 的「Download ZIP」代替以上步骤，以免拿到 LFS 指针而缺少真实素材。
+
+开发者还应运行 `python3 godot-belt-map/tools/verify_checkout.py`（Windows 可用 `py -3`），确认工程文件齐全且不存在未还原的 LFS 指针。
 
 ### Windows：启动游戏
 
@@ -53,7 +57,7 @@ macOS 使用同一份 GDScript 和素材，不使用 Windows 的 `.cmd` 启动�
 /Applications/Godot.app/Contents/MacOS/Godot --editor --path godot-belt-map
 ```
 
-当前已在 Windows 验证，**尚未在 Mac 实机验证**。本节针对现成游戏工程；仓库里的 AI 素材生产脚本包含 Windows 路径及 NVIDIA/CUDA 环境依赖，不能据此认为整套生图环境也能直接在 Mac 运行。
+当前已在 Windows 验证，并在 macOS 15.7.4 Apple Silicon、Godot 4.7.2 上完成全新克隆、首次资源导入与自动化回归。本节针对现成游戏工程；仓库里的 AI 素材生产脚本包含 Windows 路径及 NVIDIA/CUDA 环境依赖，不能据此认为整套生图环境也能直接在 Mac 运行。
 
 导入步骤也可参考 [Godot 官方项目管理器说明](https://docs.godotengine.org/en/stable/tutorials/editor/project_manager.html)。
 
@@ -152,7 +156,7 @@ Esc 关闭菜单在按钮获得键盘焦点后仍有效；网页外层重新点�
 
 存档仅在城镇或清场后的安全检查点写入。新启动不会自动覆盖已有角色槽；继续游戏请在 Esc → 存档中读取。网页存档保留在当前浏览器的站点数据，不是云存档。
 
-**当前边界**：敌人死亡使用受击末帧淡出，瑟琳倒下使用灰暗受击末帧，尚无单独死亡动画。瑟琳暂不提供个人装备栏或独立升级；古塔复用庭院美术。换装尚不改变角色外观；未实现联机、账号云同步或手机触控。Windows 已验证，macOS 仍需实机验收。
+**当前边界**：敌人死亡使用受击末帧淡出，瑟琳倒下使用灰暗受击末帧，尚无单独死亡动画。瑟琳暂不提供个人装备栏或独立升级；古塔复用庭院美术。换装尚不改变角色外观；未实现联机、账号云同步或手机触控。Windows 已验证；macOS 已完成干净克隆、首次导入和自动化回归。
 
 开发者在 `godot-belt-map` 目录运行：
 
@@ -160,4 +164,4 @@ Esc 关闭菜单在按钮获得键盘焦点后仍有效；网页外层重新点�
 python tests/run_tests.py --godot /absolute/path/to/godot --suite all
 ```
 
-完整回归含 24 组测试与 1 次资源导入检查；工具会同时检查退出码、错误日志和 PASS 标记，避免把 Godot 退出码 0 误当作成功。角色素材还需通过原稿逐像素与动作记录一致性检查，详见 [角色交接](NPC_ROSTER_INTEGRATION.md) 和 [底层说明](godot-belt-map/FOUNDATIONS.md)。
+完整回归含 36 组自动化测试与 1 次资源导入检查；正常结果为 `PASS: 37 passed, 0 failed.`。工具会同时检查退出码、错误日志和 PASS 标记，避免把 Godot 退出码 0 误当作成功。角色素材还需通过原稿逐像素与动作记录一致性检查，详见 [角色交接](NPC_ROSTER_INTEGRATION.md) 和 [底层说明](godot-belt-map/FOUNDATIONS.md)。
