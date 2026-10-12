@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:rpgmakerluna:schema:published-content",
+  "title": "Immutable Published RPG Content",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "draft_id", "project_id", "source_catalog_hash", "source_content_revision", "candidate_content_hash", "draft", "artifact_hash"],
+  "properties": {
+    "schema_version": {"const": "published-content/1"},
+    "draft_id": {"type": "string", "pattern": "^draft\\.[a-z0-9][a-z0-9_.-]+$", "maxLength": 128},
+    "project_id": {"type": "string", "pattern": "^project\\.[a-z0-9][a-z0-9_.-]+$", "maxLength": 128},
+    "source_catalog_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "source_content_revision": {"type": "integer", "minimum": 0},
+    "candidate_content_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "draft": {"$ref": "content-draft.schema.json"},
+    "artifact_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

@@ -10,7 +10,7 @@
     "agent_role": {"enum": ["narrative", "world", "npc", "systems", "validator"]},
     "status": {"enum": ["completed", "needs_revision", "blocked"]},
     "summary": {"type": "string", "minLength": 1, "maxLength": 2000},
-    "deliverables": {"type": "array", "maxItems": 32, "items": {"oneOf": [{"$ref": "#/$defs/analysis"}, {"$ref": "#/$defs/runtimePatch"}]}},
+    "deliverables": {"type": "array", "maxItems": 32, "items": {"oneOf": [{"$ref": "#/$defs/analysis"}, {"$ref": "#/$defs/runtimePatch"}, {"$ref": "#/$defs/contentDraft"}]}},
     "evidence": {"$ref": "#/$defs/messages"}, "warnings": {"$ref": "#/$defs/messages"}
   },
   "$defs": {
@@ -24,6 +24,10 @@
     "runtimePatch": {"type": "object", "additionalProperties": false, "required": ["deliverable_id", "kind", "payload"], "properties": {
       "deliverable_id": {"type": "string", "pattern": "^deliverable\\.[a-z0-9_.-]+$", "maxLength": 128}, "kind": {"const": "runtime_patch"},
       "payload": {"$ref": "runtime-patch.schema.json"}
+    }},
+    "contentDraft": {"type": "object", "additionalProperties": false, "required": ["deliverable_id", "kind", "payload"], "properties": {
+      "deliverable_id": {"type": "string", "pattern": "^deliverable\\.[a-z0-9_.-]+$", "maxLength": 128}, "kind": {"const": "content_draft"},
+      "payload": {"$ref": "content-draft.schema.json"}
     }}
   }
 }

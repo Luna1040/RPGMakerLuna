@@ -7,9 +7,12 @@ const RUNTIME_PATCH_SCHEMA := "runtime-patch/1"
 const RUNTIME_STATE_SCHEMA := "runtime-content-state/1"
 const AGENT_TASK_SCHEMA := "agent-task/1"
 const AGENT_RESULT_SCHEMA := "agent-result/1"
+const CONTENT_DRAFT_SCHEMA := "content-draft/1"
+const PUBLISHED_CONTENT_SCHEMA := "published-content/1"
 const CONTENT_TYPES := ["skills", "equipment", "npcs"]
 const TARGET_TYPES := ["skill", "equipment", "npc", "quest", "dialogue"]
 const AGENT_ROLES := ["narrative", "world", "npc", "systems", "validator"]
+const DRAFT_AUTHOR_ROLES := ["main", "narrative", "npc"]
 const PATCHABLE_SKILL_PATHS := {
 	"/resource_cost/amount": {"min": 0.0, "max": 999.0, "integer": false},
 	"/cooldown_seconds": {"min": 0.0, "max": 600.0, "integer": false},
@@ -264,8 +267,80 @@ static func validate_agent_result(value: Variant) -> Array[String]:
 				if deliverable.has("target_type") or deliverable.has("target_id") or deliverable.has("content"):
 					errors.append(location + " runtime_patch must describe targets inside payload.operations only.")
 				errors.append_array(validate_runtime_patch(deliverable.get("payload")))
+			"content_draft":
+				if deliverable.has("target_type") or deliverable.has("target_id") or deliverable.has("content"):
+					errors.append(location + " content_draft must describe targets inside payload.operations only.")
+				errors.append_array(validate_content_draft_shape(deliverable.get("payload")))
 			_:
 				errors.append(location + ".kind is unsupported.")
+	return errors
+
+static func validate_content_draft_shape(value: Variant) -> Array[String]:
+	var errors: Array[String] = []
+	if not value is Dictionary:
+		return ["Content draft must be a JSON object."]
+	var draft: Dictionary = value
+	_unknown_keys(draft, ["schema_version", "draft_id", "project_id", "base_catalog_hash", "base_content_revision", "author_role", "summary", "operations"], "draft", errors)
+	if draft.get("schema_version") != CONTENT_DRAFT_SCHEMA:
+		errors.append("Unsupported content draft schema_version.")
+	for pair in [["draft_id", "draft"], ["project_id", "project"]]:
+		if not _registered_id(str(draft.get(pair[0], "")), pair[1]):
+			errors.append("draft." + pair[0] + " must be a canonical " + pair[1] + " id.")
+	if not _sha256(str(draft.get("base_catalog_hash", ""))):
+		errors.append("draft.base_catalog_hash must be a lowercase SHA-256 hash.")
+	_validate_number(draft.get("base_content_revision"), 0.0, 2147483647.0, true, "draft.base_content_revision", errors)
+	if draft.get("author_role") not in DRAFT_AUTHOR_ROLES:
+		errors.append("draft.author_role is unsupported.")
+	_validate_text(draft.get("summary"), 2000, "draft.summary", errors)
+	var operations = draft.get("operations")
+	if not operations is Array:
+		errors.append("draft.operations must be an array.")
+		return errors
+	if operations.is_empty() or operations.size() > 64:
+		errors.append("draft.operations must contain between 1 and 64 operations.")
+	var seen := {}
+	for index in operations.size():
+		var location := "draft.operations[%d]" % index
+		var operation = operations[index]
+		if not operation is Dictionary:
+			errors.append(location + " must be an object.")
+			continue
+		_unknown_keys(operation, ["op", "target_type", "target_id", "definition"], location, errors)
+		if operation.get("op") != "upsert":
+			errors.append(location + ".op must equal 'upsert'.")
+		var target_type := str(operation.get("target_type", ""))
+		var target_id := str(operation.get("target_id", ""))
+		if target_type not in ["quest", "dialogue", "npc"] or not valid_target_id(target_type, target_id):
+			errors.append(location + " contains an invalid draft target.")
+		var key := target_type + ":" + target_id
+		if seen.has(key):
+			errors.append(location + " duplicates draft target " + key)
+		seen[key] = true
+		if not operation.get("definition") is Dictionary:
+			errors.append(location + ".definition must be an object.")
+	return errors
+
+static func validate_published_content(value: Variant) -> Array[String]:
+	var errors: Array[String] = []
+	if not value is Dictionary:
+		return ["Published content must be a JSON object."]
+	var artifact: Dictionary = value
+	_unknown_keys(artifact, ["schema_version", "draft_id", "project_id", "source_catalog_hash", "source_content_revision", "candidate_content_hash", "draft", "artifact_hash"], "published", errors)
+	if artifact.get("schema_version") != PUBLISHED_CONTENT_SCHEMA:
+		errors.append("Unsupported published content schema_version.")
+	for pair in [["draft_id", "draft"], ["project_id", "project"]]:
+		if not _registered_id(str(artifact.get(pair[0], "")), pair[1]):
+			errors.append("published." + pair[0] + " must be a canonical " + pair[1] + " id.")
+	for field in ["source_catalog_hash", "candidate_content_hash", "artifact_hash"]:
+		if not _sha256(str(artifact.get(field, ""))):
+			errors.append("published." + field + " must be a lowercase SHA-256 hash.")
+	_validate_number(artifact.get("source_content_revision"), 0.0, 2147483647.0, true, "published.source_content_revision", errors)
+	errors.append_array(validate_content_draft_shape(artifact.get("draft")))
+	if artifact.get("draft") is Dictionary:
+		if artifact.get("draft_id") != artifact.draft.get("draft_id") or artifact.get("project_id") != artifact.draft.get("project_id"):
+			errors.append("Published content identity does not match its draft.")
+		if artifact.get("source_catalog_hash") != artifact.draft.get("base_catalog_hash") or artifact.get("source_content_revision") != artifact.draft.get("base_content_revision"):
+			errors.append("Published content source context does not match its draft.")
 	return errors
 
 static func validate_patch_value(path: String, value: Variant, location := "value") -> Array[String]:
@@ -349,6 +424,12 @@ static func _registered_id(value: String, id_prefix: String) -> bool:
 		return false
 	var expression := RegEx.new()
 	return expression.compile("^" + id_prefix + "\\.[a-z0-9][a-z0-9_.-]+$") == OK and expression.search(value) != null
+
+static func _sha256(value: String) -> bool:
+	if value.length() != 64:
+		return false
+	var expression := RegEx.new()
+	return expression.compile("^[a-f0-9]{64}$") == OK and expression.search(value) != null
 
 static func _simple_id(value: String) -> bool:
 	if value.length() > 64:

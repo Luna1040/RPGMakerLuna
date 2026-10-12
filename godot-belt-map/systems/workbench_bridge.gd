@@ -28,6 +28,8 @@ func capabilities() -> Dictionary:
 		"runtime_patch_schema": "runtime-patch/1",
 		"agent_task_schema": "agent-task/1",
 		"agent_result_schema": "agent-result/1",
+		"content_draft_schema": "content-draft/1",
+		"published_content_schema": "published-content/1",
 		"content_revision": registry.revision if registry != null else -1,
 		"catalog_hash": registry.catalog_hash if registry != null else "",
 		"targets": registry.registered_skill_ids() if registry != null else [],
@@ -35,6 +37,8 @@ func capabilities() -> Dictionary:
 		"patchable_paths": registry.patchable_paths() if registry != null else [],
 		"agent_roles": Validator.AGENT_ROLES.duplicate(),
 		"role_target_types": ROLE_TARGET_TYPES.duplicate(true),
+		"draft_target_types": ["quest", "dialogue", "npc"],
+		"published_content_activation": "new_campaign_import",
 		"safe_to_apply": safe_to_apply(),
 		"pending_count": pending.size(),
 		"allows_generated_code": false
@@ -60,17 +64,18 @@ func validate_agent_task(value: Variant) -> Array[String]:
 	var task: Dictionary = value
 	if _whole(task.get("content_revision")) and int(task.content_revision) != registry.revision:
 		errors.append("Agent task content_revision does not match the current registry revision.")
-	if task.get("constraints", {}) is Dictionary and task.get("constraints", {}).get("allow_new_ids", false):
-		errors.append("This runtime does not allow Agent-created IDs yet.")
 	var role := str(task.get("agent_role", ""))
 	var allowed_types: Array = ROLE_TARGET_TYPES.get(role, [])
+	var allow_new_ids := bool(task.get("constraints", {}).get("allow_new_ids", false)) if task.get("constraints", {}) is Dictionary else false
+	if allow_new_ids and role not in ["narrative", "npc"]:
+		errors.append("Only Narrative or NPC Agents may propose new draft IDs.")
 	for field in ["allowed_targets", "context_refs"]:
 		for ref in task.get(field, []):
 			if not ref is Dictionary:
 				continue
 			var target_type := str(ref.get("target_type", ""))
 			var target_id := str(ref.get("target_id", ""))
-			if not registry.target_exists(target_type, target_id):
+			if not registry.target_exists(target_type, target_id) and (field == "context_refs" or not allow_new_ids):
 				errors.append("Unknown %s target: %s:%s" % [field, target_type, target_id])
 			if field == "allowed_targets" and target_type not in allowed_types:
 				errors.append("Agent role %s cannot propose changes for %s targets." % [role, target_type])
@@ -82,7 +87,7 @@ func review_agent_result(task_value: Variant, result_value: Variant) -> Dictiona
 	var errors := validate_agent_task(task_value)
 	errors.append_array(Validator.validate_agent_result(result_value))
 	if not task_value is Dictionary or not result_value is Dictionary:
-		return {"ok":false, "errors":errors, "actionable_patches":[]}
+		return {"ok":false, "errors":errors, "actionable_patches":[], "content_drafts":[]}
 	var task: Dictionary = task_value
 	var result: Dictionary = result_value
 	if result.get("request_id") != task.get("request_id"):
@@ -102,6 +107,7 @@ func review_agent_result(task_value: Variant, result_value: Variant) -> Dictiona
 		if ref is Dictionary:
 			readable[str(ref.get("target_type", "")) + ":" + str(ref.get("target_id", ""))] = true
 	var actionable: Array[Dictionary] = []
+	var content_drafts: Array[Dictionary] = []
 	for deliverable in deliverables:
 		if not deliverable is Dictionary:
 			continue
@@ -120,9 +126,42 @@ func review_agent_result(task_value: Variant, result_value: Variant) -> Dictiona
 					if not allowed.has(key):
 						errors.append("Runtime patch targets content outside task.allowed_targets: " + key)
 			actionable.append(patch.duplicate(true))
-	if result.get("status") != "completed" and not actionable.is_empty():
-		errors.append("Incomplete or blocked Agent results cannot contain actionable patches.")
-	return {"ok":errors.is_empty(), "errors":errors, "actionable_patches":actionable if errors.is_empty() else []}
+		elif deliverable.get("kind") == "content_draft" and deliverable.get("payload") is Dictionary:
+			var draft: Dictionary = deliverable.payload
+			if task.get("agent_role") not in ["narrative", "npc"] or draft.get("author_role") != task.get("agent_role"):
+				errors.append("Content draft author_role must match its Narrative or NPC Agent task.")
+			if draft.get("project_id") != task.get("project_id"):
+				errors.append("Content draft project_id must match its Agent task.")
+			for operation in draft.get("operations", []):
+				if operation is Dictionary:
+					var key := str(operation.get("target_type", "")) + ":" + str(operation.get("target_id", ""))
+					if not allowed.has(key):
+						errors.append("Content draft targets content outside task.allowed_targets: " + key)
+			var draft_service = _draft_service()
+			if draft_service == null:
+				errors.append("ContentDraftService is unavailable.")
+			else:
+				errors.append_array(draft_service.validate_draft(draft))
+			content_drafts.append(draft.duplicate(true))
+	if result.get("status") != "completed" and (not actionable.is_empty() or not content_drafts.is_empty()):
+		errors.append("Incomplete or blocked Agent results cannot contain actionable proposals.")
+	return {"ok":errors.is_empty(), "errors":errors,
+		"actionable_patches":actionable if errors.is_empty() else [],
+		"content_drafts":content_drafts if errors.is_empty() else []}
+
+func preview_content_draft(value: Variant) -> Dictionary:
+	var service = _draft_service()
+	if service == null:
+		return _reject(str(value.get("draft_id", "")) if value is Dictionary else "", ["ContentDraftService is unavailable."])
+	return service.preview_draft(value)
+
+func publish_content_draft(value: Variant, preview_token: String) -> Dictionary:
+	## Publishing writes an immutable data artifact only. It never hot-replaces the
+	## active campaign; activation belongs to a future isolated campaign importer.
+	var service = _draft_service()
+	if service == null:
+		return _reject(str(value.get("draft_id", "")) if value is Dictionary else "", ["ContentDraftService is unavailable."])
+	return service.publish_draft(value, preview_token)
 
 func submit_patch(value: Variant) -> Dictionary:
 	var registry = _registry()
@@ -188,6 +227,9 @@ func _reject(patch_id: String, errors: Array[String]) -> Dictionary:
 
 func _registry():
 	return get_node_or_null("/root/ContentRegistry")
+
+func _draft_service():
+	return get_node_or_null("/root/ContentDraftService")
 
 func _whole(value: Variant) -> bool:
 	return (value is int or value is float) and is_finite(float(value)) and floorf(float(value)) == float(value)

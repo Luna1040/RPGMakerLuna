@@ -101,6 +101,42 @@ Main Agent 是唯一编排者。它先读取 `WorkbenchBridge.capabilities()` �
 
 若 `request_id`、角色、revision、目标授权或数量预算不匹配，整个结果被拒绝。`needs_revision` / `blocked` 结果不能携带可执行 Patch。
 
+## 生成内容草稿与发布
+
+任务、对话和 NPC 结构不使用热 Patch，而是进入两阶段创作流水线：
+
+```text
+子 Agent content_draft
+→ Main Agent 汇总
+→ ContentDraftService 完整候选目录校验
+→ preview_content_draft 生成差异和 preview_token
+→ 人或 Main Agent 选择
+→ publish_content_draft 原子发布不可变 JSON 制品
+```
+
+草稿使用 `content/schemas/content-draft.schema.json`。支持 `quest`、`dialogue`、`npc` 的 `upsert`；同一草稿不能重复写同一目标。Narrative Agent 只能生成任务/对话，NPC Agent 只能生成 NPC/对话，Main Agent 可以把已经审查的片段合并成 `author_role: "main"` 的草稿。
+
+Godot 会在完整候选目录上重新检查：
+
+- 任务 ID、目标、条件、奖励、前置依赖和循环。
+- 对话动作、条件、任务引用、费用与效果。
+- NPC 定义与对话一一对应。
+- 新 NPC 只能复用正式目录已经登记的 `asset.*`，不能声明路径或凭空增加资产。
+- `base_catalog_hash` 与 `base_content_revision` 必须仍等于当前内容上下文。
+- 草稿字段使用严格 allowlist，未知字段不会被静默带入发布制品。
+
+`preview_content_draft()` 返回每个目标是新增还是替换、变动路径、候选内容哈希和与草稿内容绑定的预览令牌，但不会改变 `ContentRegistry`。`publish_content_draft()` 必须携带完全相同的草稿与令牌；预览后有任何改动或基础目录发生变化都会失败。服务只保留最近 32 个预览；同一制品的重复发布则按幂等请求处理。
+
+发布制品使用 `content/schemas/published-content.schema.json`，默认写入：
+
+```text
+user://projects/<project_id>/published/<draft_id>.json
+```
+
+写入采用临时文件验证后原子重命名，同一 `draft_id` 同内容重复发布为幂等成功，不同内容冲突会被拒绝。制品包含源目录哈希、候选内容哈希和自身校验和。
+
+重要边界：发布不等于激活。B-03 不会把生成的任务图热替换进当前战役，也不会修改当前存档；返回值明确给出 `activates_runtime:false` 与 `reload_required:"new_campaign_import"`。后续导入器必须在独立项目/战役命名空间中加载制品并重新校验，不能覆盖正在进行的官方战役。
+
 ## 运行时 Patch
 
 技能 Patch 是原子事务：任一操作非法时全部拒绝；重复 `patch_id` 不会重复修改。会话内最近一次 Patch 可撤销；覆盖状态进入现有 `GameRuntime` 快照和 `SaveStore`，不另建第二套状态或存档。
