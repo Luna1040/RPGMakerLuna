@@ -12,6 +12,7 @@ const PUBLISHED_CONTENT_SCHEMA := "published-content/1"
 const CAMPAIGN_IMPORT_REQUEST_SCHEMA := "campaign-import-request/1"
 const CAMPAIGN_CONTENT_SCHEMA := "campaign-content/1"
 const CAMPAIGN_MANIFEST_SCHEMA := "campaign-manifest/1"
+const WorldBlueprint = preload("res://systems/content/world_blueprint_service.gd")
 const CONTENT_TYPES := ["skills", "equipment", "npcs"]
 const TARGET_TYPES := ["skill", "equipment", "npc", "quest", "dialogue"]
 const AGENT_ROLES := ["narrative", "world", "npc", "systems", "validator"]
@@ -274,6 +275,10 @@ static func validate_agent_result(value: Variant) -> Array[String]:
 				if deliverable.has("target_type") or deliverable.has("target_id") or deliverable.has("content"):
 					errors.append(location + " content_draft must describe targets inside payload.operations only.")
 				errors.append_array(validate_content_draft_shape(deliverable.get("payload")))
+			"world_blueprint":
+				if deliverable.has("target_type") or deliverable.has("target_id") or deliverable.has("content"):
+					errors.append(location + " world_blueprint must describe its world inside payload only.")
+				errors.append_array(WorldBlueprint.validate_shape(deliverable.get("payload")))
 			_:
 				errors.append(location + ".kind is unsupported.")
 	return errors

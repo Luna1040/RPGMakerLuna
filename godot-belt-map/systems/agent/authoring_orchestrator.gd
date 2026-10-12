@@ -102,7 +102,7 @@ func create_run(value: Variant) -> Dictionary:
 	var run := {"schema_version":RUN_SCHEMA, "run_id":run_id, "status":"planned",
 		"request":request, "base_catalog_hash":registry.catalog_hash,
 		"base_content_revision":registry.revision, "content_context":registry.content_context(),
-		"tasks":tasks, "draft":{}, "analysis_report":[], "actionable_patches":[], "preview":{}, "publication":{},
+		"tasks":tasks, "draft":{}, "world_bundle":{}, "analysis_report":[], "actionable_patches":[], "preview":{}, "publication":{},
 		"errors":[], "warnings":[], "created_at":int(Time.get_unix_time_from_system())}
 	_runs[run_id] = run
 	_run_order.append(run_id)
@@ -313,7 +313,7 @@ func _plan_tasks(request: Dictionary, suffix: String) -> Array[Dictionary]:
 	var npc_id := "agent_npc_" + suffix
 	if requested.any(func(id): return id in ["world", "map", "town"]):
 		var world_task := _task(request, suffix, "world", [], context, false, 1,
-			"规划世界背景、区域关系、初始城镇、阵营与可达地图结构；只输出分析，不生成代码或资源路径。")
+			"生成严格 world-blueprint/1：世界背景、区域关系、初始城镇与可达地图；只引用 asset.world.* 白名单，由 Godot 编译，不生成代码或资源路径。")
 		records.append(_task_record_value(world_task, "world", []))
 		primary_ids.append(world_task.request_id)
 	if requested.any(func(id): return id in ["main_quest", "side_quests", "affinity"]):
@@ -366,7 +366,7 @@ func _restore_run(value: Variant) -> Dictionary:
 		"base_catalog_hash":str(saved.get("base_catalog_hash", "")),
 		"base_content_revision":int(saved.get("base_content_revision", 0)),
 		"content_context":saved.get("content_context", {}).duplicate(true), "tasks":tasks,
-		"draft":{}, "analysis_report":[], "actionable_patches":[], "preview":{}, "publication":{},
+		"draft":{}, "world_bundle":{}, "analysis_report":[], "actionable_patches":[], "preview":{}, "publication":{},
 		"errors":[], "warnings":[], "created_at":int(saved.get("created_at", 0))}
 	_runs[run_id] = run
 	_run_order.append(run_id)
@@ -485,7 +485,7 @@ func _task_bundle(run: Dictionary, record: Dictionary) -> Dictionary:
 		"prior_results":prior, "prompt":_agent_prompt(run, record, prior)}
 
 func _agent_prompt(run: Dictionary, record: Dictionary, prior: Array[Dictionary]) -> String:
-	var role_rules := {"world":"只做世界与地图分析；不得伪造可执行地图或代码。",
+	var role_rules := {"world":"地图必须作为 world_blueprint deliverable；只能使用预置 asset.world.*，不得生成脚本或资源路径。",
 		"narrative":"任务/对话变化必须放入 content_draft，且只能使用 allowed_targets。",
 		"npc":"NPC/对话变化必须放入 content_draft；资产只能使用已有 asset.* ID。",
 		"systems":"只可分析或提出白名单 runtime_patch；不得自动执行补丁。",
@@ -509,8 +509,11 @@ func _compose_main_draft(run: Dictionary) -> Array[String]:
 	var operations: Array[Dictionary] = []
 	var patches: Array[Dictionary] = []
 	var targets := {}
+	var world_bundles:Array[Dictionary]=[]
 	for record: Dictionary in run.tasks:
 		if record.role == "validator": continue
+		for world_bundle in record.review.get("world_bundles",[]):
+			if world_bundle is Dictionary: world_bundles.append(world_bundle.duplicate(true))
 		for draft in record.review.get("content_drafts", []):
 			for operation in draft.get("operations", []):
 				var key := str(operation.get("target_type", "")) + ":" + str(operation.get("target_id", ""))
@@ -527,7 +530,10 @@ func _compose_main_draft(run: Dictionary) -> Array[String]:
 		errors.append("No validated narrative or NPC content draft was produced.")
 	if operations.size() > 64:
 		errors.append("Merged Main Agent draft exceeds 64 operations.")
+	if world_bundles.size()>1:
+		errors.append("Main Agent received conflicting world blueprints.")
 	if not errors.is_empty(): return errors
+	run.world_bundle=world_bundles[0] if world_bundles.size()==1 else {}
 	run.actionable_patches = patches
 	if operations.is_empty():
 		var report:Array[Dictionary]=[]

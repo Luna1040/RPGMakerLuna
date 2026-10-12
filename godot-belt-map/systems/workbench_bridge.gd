@@ -38,6 +38,8 @@ func capabilities() -> Dictionary:
 		"agent_task_schema": "agent-task/1",
 		"agent_result_schema": "agent-result/1",
 		"content_draft_schema": "content-draft/1",
+		"world_blueprint_schema": "world-blueprint/1",
+		"world_bundle_schema": "world-bundle/1",
 		"published_content_schema": "published-content/1",
 		"campaign_import_request_schema": "campaign-import-request/1",
 		"campaign_manifest_schema": "campaign-manifest/1",
@@ -109,7 +111,7 @@ func review_agent_result(task_value: Variant, result_value: Variant) -> Dictiona
 	var errors := validate_agent_task(task_value)
 	errors.append_array(Validator.validate_agent_result(result_value))
 	if not task_value is Dictionary or not result_value is Dictionary:
-		return {"ok":false, "errors":errors, "actionable_patches":[], "content_drafts":[]}
+		return {"ok":false, "errors":errors, "actionable_patches":[], "content_drafts":[], "world_bundles":[]}
 	var task: Dictionary = task_value
 	var result: Dictionary = result_value
 	if result.get("request_id") != task.get("request_id"):
@@ -130,6 +132,7 @@ func review_agent_result(task_value: Variant, result_value: Variant) -> Dictiona
 			readable[str(ref.get("target_type", "")) + ":" + str(ref.get("target_id", ""))] = true
 	var actionable: Array[Dictionary] = []
 	var content_drafts: Array[Dictionary] = []
+	var world_bundles: Array[Dictionary] = []
 	for deliverable in deliverables:
 		if not deliverable is Dictionary:
 			continue
@@ -165,11 +168,23 @@ func review_agent_result(task_value: Variant, result_value: Variant) -> Dictiona
 			else:
 				errors.append_array(draft_service.validate_draft(draft))
 			content_drafts.append(draft.duplicate(true))
-	if result.get("status") != "completed" and (not actionable.is_empty() or not content_drafts.is_empty()):
+		elif deliverable.get("kind") == "world_blueprint" and deliverable.get("payload") is Dictionary:
+			var blueprint:Dictionary=deliverable.payload
+			if task.get("agent_role")!="world": errors.append("Only the World Agent may produce a world_blueprint.")
+			if blueprint.get("project_id")!=task.get("project_id"): errors.append("World blueprint project_id must match its Agent task.")
+			var world_service=get_node_or_null("/root/WorldBlueprintService")
+			if world_service==null:
+				errors.append("WorldBlueprintService is unavailable.")
+			else:
+				var compiled:Dictionary=world_service.compile_blueprint(blueprint)
+				errors.append_array(compiled.get("errors",[]))
+				if compiled.get("ok",false): world_bundles.append(compiled.world_bundle)
+	if result.get("status") != "completed" and (not actionable.is_empty() or not content_drafts.is_empty() or not world_bundles.is_empty()):
 		errors.append("Incomplete or blocked Agent results cannot contain actionable proposals.")
 	return {"ok":errors.is_empty(), "errors":errors,
 		"actionable_patches":actionable if errors.is_empty() else [],
-		"content_drafts":content_drafts if errors.is_empty() else []}
+		"content_drafts":content_drafts if errors.is_empty() else [],
+		"world_bundles":world_bundles if errors.is_empty() else []}
 
 func preview_content_draft(value: Variant) -> Dictionary:
 	var service = _draft_service()

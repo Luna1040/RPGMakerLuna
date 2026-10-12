@@ -5,6 +5,7 @@ run/main_scene="res://stage.tscn"
 [autoload]
 ContentRegistry="*res://systems/content/content_registry.gd"
 ContentDraftService="*res://systems/content/content_draft_service.gd"
+WorldBlueprintService="*res://systems/content/world_blueprint_service.gd"
 CampaignImportService="*res://systems/content/campaign_import_service.gd"
 CampaignSessionService="*res://systems/content/campaign_session_service.gd"
 WorkbenchBridge="*res://systems/workbench_bridge.gd"

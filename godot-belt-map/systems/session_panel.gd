@@ -604,6 +604,9 @@ func _render_authoring_run(bridge, run: Dictionary) -> void:
 		if not record is Dictionary: continue
 		words("%s  ·  %s\n%s" % [str(record.role).to_upper(),_authoring_task_status(str(record.status)),str(record.task.objective)],Color("d5dfec"),16)
 	if not run.get("errors",[]).is_empty(): words("阻塞："+"；".join(run.errors),Color("ef9a9a"),16)
+	var world_bundle:Dictionary=run.get("world_bundle",{})
+	if not world_bundle.is_empty():
+		words("已编译世界：%d 个区域地图  ·  初始地图 %s  ·  %s" % [world_bundle.get("zones",{}).size(),str(world_bundle.get("initial_zone_id","")),str(world_bundle.get("world_hash","")).left(16)],Color("8fd6ae"),16)
 	_render_authoring_jobs(bridge,str(run.run_id))
 	var status_text:=str(run.status)
 	if status_text in ["planned","awaiting_agents","validator_ready","awaiting_validator","needs_revision"]:
@@ -631,7 +634,7 @@ func _render_authoring_run(bridge, run: Dictionary) -> void:
 		words("已发布不可变内容产物。它不会热替换当前游戏；请在导入流程中创建独立战役后，从“战役”页启动新会话。",Color("8fd6ae"),17)
 		words(str(run.publication.get("artifact_path",run.publication.get("artifact_file",""))),Color("91a9bd"),15)
 	if status_text=="completed_analysis":
-		words("Validator 已通过分析型 Run；没有生成可发布的剧情/NPC 草稿。",Color("8fd6ae"),17)
+		words("Validator 已通过世界/分析型 Run；world-blueprint 已由 Godot 预置编译器复检。" if not world_bundle.is_empty() else "Validator 已通过分析型 Run；没有生成可发布的剧情/NPC 草稿。",Color("8fd6ae"),17)
 		for finding in run.get("analysis_report",[]):
 			if finding is Dictionary: words("%s：%s" % [str(finding.get("agent_role","")).to_upper(),str(finding.get("summary",""))],Color("c9d6e3"),16)
 	if status_text not in ["published","completed_analysis","cancelled","stale"]:

@@ -10,7 +10,7 @@
     "agent_role": {"enum": ["narrative", "world", "npc", "systems", "validator"]},
     "status": {"enum": ["completed", "needs_revision", "blocked"]},
     "summary": {"type": "string", "minLength": 1, "maxLength": 2000},
-    "deliverables": {"type": "array", "maxItems": 32, "items": {"oneOf": [{"$ref": "#/$defs/analysis"}, {"$ref": "#/$defs/runtimePatch"}, {"$ref": "#/$defs/contentDraft"}]}},
+    "deliverables": {"type": "array", "maxItems": 32, "items": {"oneOf": [{"$ref": "#/$defs/analysis"}, {"$ref": "#/$defs/runtimePatch"}, {"$ref": "#/$defs/contentDraft"}, {"$ref": "#/$defs/worldBlueprint"}]}},
     "evidence": {"$ref": "#/$defs/messages"}, "warnings": {"$ref": "#/$defs/messages"}
   },
   "$defs": {
@@ -28,6 +28,10 @@
     "contentDraft": {"type": "object", "additionalProperties": false, "required": ["deliverable_id", "kind", "payload"], "properties": {
       "deliverable_id": {"type": "string", "pattern": "^deliverable\\.[a-z0-9_.-]+$", "maxLength": 128}, "kind": {"const": "content_draft"},
       "payload": {"$ref": "content-draft.schema.json"}
+    }},
+    "worldBlueprint": {"type": "object", "additionalProperties": false, "required": ["deliverable_id", "kind", "payload"], "properties": {
+      "deliverable_id": {"type": "string", "pattern": "^deliverable\\.[a-z0-9_.-]+$", "maxLength": 128}, "kind": {"const": "world_blueprint"},
+      "payload": {"$ref": "world-blueprint.schema.json"}
     }}
   }
 }

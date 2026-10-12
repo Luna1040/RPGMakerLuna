@@ -30,6 +30,7 @@
 | `systems/agent/authoring_orchestrator.gd` | 可信 Main Agent 状态机：拆分 World/Narrative/NPC/Systems，等待 Validator，合并已审查草稿并控制预览/发布 | `create_run`, `dispatch_ready_tasks`, `submit_agent_result`, `preview_run`, `publish_run` |
 | `systems/agent/agent_transport_service.gd` | 可替换的 OpenAI-compatible HTTP 传输；会话/环境密钥、并发、超时、有界重试、取消和严格 JSON 回收 | `configure`, `run_ready_stage`, `list_jobs`, `cancel_job`, `capabilities` |
 | `systems/agent/authoring_persistence_service.gd` | Main Agent Run 与未完成传输队列的原子校验点、备份恢复和安全重建；不持久化密钥、请求头、Prompt 或预览令牌 | `flush_now`, `restore_now`, `status`, `clear_persisted_state` |
+| `systems/content/world_blueprint_service.gd` | 严格 `world-blueprint/1` 的区域图、地图、初始城镇、碰撞与出口可达性校验，并编译为预置 2.5D map contract | `validate_shape`, `compile_blueprint`, `validate_world_bundle` |
 | `systems/workbench_bridge.gd` | 创作工作台能力查询、Main→子 Agent 合同审查、安全点排队与 Patch 结果 | `capabilities`, `inspect_target`, `validate_agent_task`, `review_agent_result`, `submit_patch` |
 | `systems/world_registry.gd` | 地点 ID 到地图合同的映射 | `ZONES`, `load_zone` |
 | `systems/core/save_store.gd` | 三槽、版本、校验和、临时文件、备份与坏档保护 | `save_slot`, `load_slot`, `list_slots`, `protect_slot` |
@@ -90,6 +91,7 @@ RNG 的 64 位 `state` 若需要持久化，转成字符串再写 JSON；Godot J
 - **Agent Transport**：在“创作”页配置 OpenAI-compatible chat-completions endpoint 与模型。远程端点必须为 HTTPS；仅 localhost 可使用 HTTP；URL 不接受查询参数或凭据。API Key 使用 `RPG_AGENT_API_KEY` 环境变量或当前 Godot 进程内存，不进入 `agent_transport.cfg`、任务元数据或日志。点击“运行当前就绪 Agent 阶段”只运行当前依赖已满足的阶段；业务子 Agent 完成后仍需玩家再次明确启动 Validator。失败按配置执行最多三次指数退避重试，任务可以取消，迟到结果不能复活已取消 Run。
 - **Agent 断点续作**：正常游戏中每次 Run/任务/传输状态变化会写入 `user://authoring_state.json`，保留最后一个有效 `.bak`。恢复不会信任落盘 review、draft 或 task bundle，而是根据请求重建任务并让每份 Agent result 重新经过 Workbench 审查；中断的 running/retry job 一律回到 queued，补充本次会话凭据后才继续。旧预览令牌不会恢复。
 - **供应商验收**：Transport 提供自定义、OpenAI 官方 Chat Completions 固定端点和本机兼容服务三种 Profile。用户可明确发起一次最小真实模型调用，检查 HTTPS/localhost、鉴权、模型与严格 JSON 回包；调用可能产生供应商费用，因此不会在启动时自动执行。控制台只保留无敏感信息的最近预检结论，并展示完成/拒绝/失败/取消/重试计数、成功率、平均延迟和最近 128 个任务的 P95。离线评测使用真实 `agent-task/1` / `agent-result/1` 审查器验证正常结果与越权样本。
+- **世界蓝图编译**：World Agent 用 `world_blueprint` deliverable 返回最多 8 张可达地图。蓝图只包含世界观、区域/地图图、边界、出生点、出口和预登记 `asset.world.*` 地标，不接受 `res://`、脚本或任意文件路径。Godot 编译器把资产 ID 映射到已有 `inn/tree/crate/fountain` 渲染组件，生成带 SHA-256 的 `world-bundle/1` 和现有 side-facing-belt map contract；出生点被实体阻挡、越界布局、未知资产与不可达地图会被拒绝。
 
 ## 验证
 
