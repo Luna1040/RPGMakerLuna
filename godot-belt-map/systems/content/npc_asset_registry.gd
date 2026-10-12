@@ -65,7 +65,10 @@ func validate_catalog(value: Variant) -> Array[String]:
 		if entry.get("release_status") != "approved": errors.append(location + " is not release-approved.")
 		var base_path := str(entry.get("base_path", ""))
 		var manifest_path := str(entry.get("manifest_path", ""))
-		var base_ready := _trusted_path(base_path, ".png") and FileAccess.file_exists(base_path)
+		# Imported textures are remapped inside exported PCKs. FileAccess only sees
+		# the source PNG in editor checkouts, while ResourceLoader resolves both the
+		# source and its exported .ctex representation.
+		var base_ready := _trusted_path(base_path, ".png") and _texture_exists(base_path)
 		var manifest_ready := _trusted_path(manifest_path, ".json") and FileAccess.file_exists(manifest_path)
 		if not base_ready: errors.append(location + ".base_path is missing or unsafe.")
 		if not manifest_ready: errors.append(location + ".manifest_path is missing or unsafe.")
@@ -115,7 +118,7 @@ func _validate_legacy(entry: Dictionary, location: String, errors: Array[String]
 		errors.append(location + " legacy idle manifest is invalid.")
 		return
 	for frame in manifest.frames:
-		if not frame is Dictionary or not _relative_png(str(frame.get("file", ""))) or not FileAccess.file_exists(str(entry.manifest_path).get_base_dir().path_join(str(frame.get("file", "")))):
+		if not frame is Dictionary or not _relative_png(str(frame.get("file", ""))) or not _texture_exists(str(entry.manifest_path).get_base_dir().path_join(str(frame.get("file", "")))):
 			errors.append(location + " legacy idle frame is missing or unsafe.")
 			break
 
@@ -135,7 +138,7 @@ func _validate_roster(entry: Dictionary, location: String, errors: Array[String]
 			errors.append(location + " action is missing or not visually reviewed: " + str(action_name))
 			continue
 		for frame in clip.frames:
-			if not frame is Dictionary or not _relative_png(str(frame.get("file", ""))) or not FileAccess.file_exists(str(entry.manifest_path).get_base_dir().path_join(str(frame.get("file", "")))):
+			if not frame is Dictionary or not _relative_png(str(frame.get("file", ""))) or not _texture_exists(str(entry.manifest_path).get_base_dir().path_join(str(frame.get("file", "")))):
 				errors.append(location + " action frame is missing or unsafe: " + str(action_name))
 				break
 
@@ -144,6 +147,9 @@ func _trusted_path(path: String, suffix: String) -> bool:
 
 func _relative_png(path: String) -> bool:
 	return not path.is_empty() and path.ends_with(".png") and not path.is_absolute_path() and ".." not in path and "\\" not in path
+
+func _texture_exists(path: String) -> bool:
+	return ResourceLoader.exists(path, "Texture2D")
 
 func _scoped(value: String, prefix: String) -> bool:
 	var regex := RegEx.new()
