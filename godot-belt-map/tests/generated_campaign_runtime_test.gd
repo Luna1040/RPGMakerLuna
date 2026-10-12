@@ -72,7 +72,7 @@ func run() -> void:
 		check(runtime.available_travel().any(func(route): return route.zone_id == "zone.echo_ruins"), "generated exit graph was not playable")
 		var transfer: Dictionary = runtime.prepare_transfer("zone.echo_ruins")
 		check(transfer.get("zone") == "zone.echo_ruins" and transfer.get("player", {}).get("foot") == [2.0, 5.5], "generated travel did not use the target spawn")
-		check(registry.target_exists("npc", "star_sage") and stage.townsfolk.residents.any(func(row): return row.id == "star_sage"), "generated NPC did not appear in the real stage")
+		check(registry.target_exists("npc", "star_sage") and stage.townsfolk.residents.any(func(row): return row.id == "star_sage" and row.renderer == "roster_actions"), "generated multi-action NPC did not appear in the real stage")
 		check(runtime.stage.knight.equipment.CATALOG.has("star_blade"), "generated equipment did not enter the character catalog")
 		check(runtime.adventure.catalog.get("consumables", {}).has("star_tonic"), "generated item did not enter the adventure catalog")
 		check(runtime.adventure.catalog.get("shop", []).any(func(row): return row.id == "star_blade"), "generated shop row did not enter the runtime")
@@ -118,6 +118,10 @@ func full_draft(registry, world_bundle: Dictionary) -> Dictionary:
 	npc.display_name = "弥娅 · 星潮学者"
 	npc.position_m = [12.0, 6.0]
 	npc.ambient_lines = ["星潮让遗迹的回声越过了旧王道。", "你的选择会改变我们之间的信任。"]
+	npc.visual.profile_id = "profile.npc.serin"
+	npc.visual.base_asset_id = "asset.npc.serin.portrait"
+	npc.visual.idle_manifest_asset_id = "asset.npc.serin.actions"
+	npc.visual.ambient_action = "stand"
 	var dialogue := {"name":"弥娅 · 星潮学者", "greeting":"旅人，愿意追踪庭院外的回声吗？", "variants":[], "choices":[
 		{"id":"star_sage_accept", "label":"接受：回声的源头", "action":"accept", "quest":"starfall_echo",
 			"when":{"quest":{"id":"starfall_echo", "status":["available"]}}},

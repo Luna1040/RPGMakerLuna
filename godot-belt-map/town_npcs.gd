@@ -1,15 +1,9 @@
 extends RefCounted
 ## Original town residents. The map owns input and dialogue presentation.
 const Validator = preload("res://systems/content/content_validator.gd")
+const RosterAnimation = preload("res://systems/encounters/roster_animation.gd")
 const CATALOG_PATH := "res://content/base/town_npcs.json"
 const INTERACTION_RADIUS := 1.4
-## Data contains only registered asset IDs. This local allowlist is the sole path resolver.
-const ASSET_PATHS := {
-	"asset.npc.innkeeper.base": "res://assets/npcs/innkeeper.png",
-	"asset.npc.innkeeper.idle_manifest": "res://assets/npcs/innkeeper-idle.json",
-	"asset.npc.smith.base": "res://assets/npcs/smith.png",
-	"asset.npc.smith.idle_manifest": "res://assets/npcs/smith-idle.json"
-}
 var residents: Array[Dictionary] = []
 var elapsed := 0.0
 var stage: Node2D
@@ -41,9 +35,11 @@ func _add_resident(definition: Dictionary) -> void:
 	var display_name := str(definition.display_name)
 	var world_position := Vector2(float(definition.position_m[0]), float(definition.position_m[1]))
 	var visual_definition: Dictionary = definition.visual
-	var base_path := str(ASSET_PATHS.get(visual_definition.base_asset_id, ""))
-	var idle_path := str(ASSET_PATHS.get(visual_definition.idle_manifest_asset_id, ""))
-	if base_path.is_empty() or idle_path.is_empty():
+	var asset_registry = stage.get_node_or_null("/root/NpcAssetRegistry")
+	var asset_profile: Dictionary = asset_registry.resolve_visual(visual_definition) if asset_registry != null else {}
+	var base_path := str(asset_profile.get("base_path", ""))
+	var idle_path := str(asset_profile.get("manifest_path", ""))
+	if asset_profile.is_empty() or base_path.is_empty() or idle_path.is_empty():
 		push_error("Town NPC uses an unregistered asset id: " + id)
 		return
 	var pivot := Vector2(float(visual_definition.pivot_px[0]), float(visual_definition.pivot_px[1]))
@@ -77,8 +73,21 @@ func _add_resident(definition: Dictionary) -> void:
 	visual.add_child(sprite)
 	var idle_frames: Array[Texture2D] = []
 	var idle_data: Dictionary = {}
+	var roster_animation = null
 	var blend := Sprite2D.new()
-	if FileAccess.file_exists(idle_path):
+	visual.add_child(blend)
+	if asset_profile.renderer == "roster_actions":
+		roster_animation = RosterAnimation.new()
+		roster_animation.configure(str(asset_profile.roster_id))
+		var sampled: Dictionary = roster_animation.sample(str(asset_profile.ambient_action), 0.0, true)
+		if sampled.is_empty():
+			push_error("Town NPC asset profile has no playable ambient action: " + id)
+			root.queue_free()
+			return
+		sprite.texture = sampled.texture
+		sprite.scale = Vector2.ONE * float(sampled.scale)
+		sprite.position = -Vector2(sampled.pivot) * float(sampled.scale)
+	elif FileAccess.file_exists(idle_path):
 		idle_data = JSON.parse_string(FileAccess.get_file_as_string(idle_path))
 		for frame: Dictionary in idle_data.frames:
 			idle_frames.append(load("res://assets/npcs/" + str(frame.file)))
@@ -90,7 +99,6 @@ func _add_resident(definition: Dictionary) -> void:
 		blend.scale = sprite.scale
 		blend.position = sprite.position
 		blend.modulate.a = 0.0
-		visual.add_child(blend)
 	var label := Label.new()
 	label.position = Vector2(-120, -292)
 	label.size = Vector2(240, 27)
@@ -102,17 +110,29 @@ func _add_resident(definition: Dictionary) -> void:
 	label.add_theme_constant_override("shadow_offset_y", 2)
 	label.text = display_name
 	root.add_child(label)
-	var portrait := AtlasTexture.new()
-	portrait.atlas = texture
-	portrait.region = portrait_region
-	residents.append({"id": id, "name": display_name, "position": world_position, "portrait": portrait, "lines": lines, "root": root, "visual": visual, "label": label, "sprite":sprite, "blend":blend, "idle_frames":idle_frames, "idle_data":idle_data})
+	var portrait: Texture2D
+	if asset_profile.renderer == "roster_actions":
+		portrait = texture
+	else:
+		var atlas := AtlasTexture.new()
+		atlas.atlas = texture
+		atlas.region = portrait_region
+		portrait = atlas
+	residents.append({"id": id, "name": display_name, "position": world_position, "portrait": portrait, "lines": lines, "root": root, "visual": visual, "label": label, "sprite":sprite, "blend":blend, "idle_frames":idle_frames, "idle_data":idle_data,
+		"renderer":str(asset_profile.renderer), "animation":roster_animation, "ambient_action":str(asset_profile.ambient_action), "asset_profile_id":str(asset_profile.profile_id)})
 
 func step(delta: float, player_foot: Vector2, player_height: float) -> void:
 	elapsed += delta
 	var candidate := nearest(player_foot, player_height)
 	for i in range(residents.size()):
 		var resident: Dictionary = residents[i]
-		if not resident.idle_frames.is_empty():
+		if resident.animation != null:
+			var sampled: Dictionary = resident.animation.sample(str(resident.ambient_action), elapsed * 1000.0 + i * 310.0, true)
+			if not sampled.is_empty():
+				resident.sprite.texture = sampled.texture
+				resident.sprite.scale = Vector2.ONE * float(sampled.scale)
+				resident.sprite.position = -Vector2(sampled.pivot) * float(sampled.scale)
+		elif not resident.idle_frames.is_empty():
 			var duration: float = resident.idle_frames.size() * float(resident.idle_data.frame_ms) / 1000.0
 			# Play the actual occupational gesture, pause, then dissolve back to its start.
 			# Each NPC starts at a different phase; collision and foot root never move.

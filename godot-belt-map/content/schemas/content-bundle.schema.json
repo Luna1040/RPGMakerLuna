@@ -66,8 +66,10 @@
         "display_name": {"type": "string", "minLength": 1, "maxLength": 64},
         "position_m": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "number", "minimum": -10000, "maximum": 10000}},
         "visual": {"type": "object", "additionalProperties": false, "required": ["base_asset_id", "idle_manifest_asset_id", "pivot_px", "drawn_height_px", "portrait_region_px"], "properties": {
+          "profile_id": {"type": "string", "pattern": "^profile\\.npc\\.[a-z0-9_.-]+$"},
           "base_asset_id": {"type": "string", "pattern": "^asset\\.[a-z0-9_.-]+$"},
           "idle_manifest_asset_id": {"type": "string", "pattern": "^asset\\.[a-z0-9_.-]+$"},
+          "ambient_action": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$", "maxLength": 32},
           "pivot_px": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "number", "minimum": -10000, "maximum": 10000}},
           "drawn_height_px": {"type": "number", "exclusiveMinimum": 0, "maximum": 10000},
           "portrait_region_px": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "number", "minimum": 0, "maximum": 10000}}

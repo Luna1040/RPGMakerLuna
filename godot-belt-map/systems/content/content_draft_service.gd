@@ -181,10 +181,9 @@ func _evaluate(value: Variant) -> Dictionary:
 func _validate_candidate(npcs: Dictionary, adventure: Dictionary, equipment: Dictionary, errors: Array[String]) -> void:
 	if npcs.size() > 512 or adventure.get("quests", []).size() > 512 or adventure.get("npcs", {}).size() > 512:
 		errors.append("Candidate content exceeds the 512-entry catalog limit.")
-	var allowed_assets := {}
-	for base_npc: Dictionary in _registry().definitions("npc").values():
-		allowed_assets[str(base_npc.visual.base_asset_id)] = true
-		allowed_assets[str(base_npc.visual.idle_manifest_asset_id)] = true
+	var asset_registry = get_node_or_null("/root/NpcAssetRegistry")
+	if asset_registry == null or not asset_registry.loaded:
+		errors.append("NpcAssetRegistry is unavailable for NPC candidate validation.")
 	for npc_id in npcs:
 		var definition = npcs[npc_id]
 		errors.append_array(Validator.validate_town_npc(definition, "candidate.npcs[" + str(npc_id) + "]"))
@@ -192,10 +191,7 @@ func _validate_candidate(npcs: Dictionary, adventure: Dictionary, equipment: Dic
 			if str(definition.get("id", "")) != str(npc_id):
 				errors.append("NPC definition id does not match target: " + str(npc_id))
 			var visual = definition.get("visual", {})
-			if visual is Dictionary:
-				for field in ["base_asset_id", "idle_manifest_asset_id"]:
-					if not allowed_assets.has(str(visual.get(field, ""))):
-						errors.append("NPC uses an unregistered asset id: " + str(visual.get(field, "")))
+			if asset_registry != null: errors.append_array(asset_registry.validate_visual(visual))
 	for equipment_id in equipment:
 		var equipment_definition=equipment[equipment_id]
 		errors.append_array(Validator.validate_equipment(equipment_definition,"candidate.equipment["+str(equipment_id)+"]"))

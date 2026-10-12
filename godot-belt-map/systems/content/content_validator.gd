@@ -151,7 +151,11 @@ static func validate_town_npc(value: Variant, location := "npc") -> Array[String
 	if not visual is Dictionary:
 		errors.append(location + ".visual must be an object.")
 	else:
-		_unknown_keys(visual, ["base_asset_id", "idle_manifest_asset_id", "pivot_px", "drawn_height_px", "portrait_region_px"], location + ".visual", errors)
+		_unknown_keys(visual, ["profile_id", "base_asset_id", "idle_manifest_asset_id", "ambient_action", "pivot_px", "drawn_height_px", "portrait_region_px"], location + ".visual", errors)
+		if visual.has("profile_id") and not _registered_id(str(visual.profile_id), "profile"):
+			errors.append(location + ".visual.profile_id must be a registered profile id.")
+		if visual.has("ambient_action") and (not visual.ambient_action is String or not _simple_id(str(visual.ambient_action))):
+			errors.append(location + ".visual.ambient_action must be a stable action id.")
 		for key in ["base_asset_id", "idle_manifest_asset_id"]:
 			if not _registered_id(str(visual.get(key, "")), "asset"):
 				errors.append(location + ".visual." + key + " must be a registered asset id.")

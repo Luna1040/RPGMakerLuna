@@ -67,6 +67,7 @@ TESTS = (
     script("agent_provider_acceptance", "tests/agent_provider_acceptance_test.gd", "AGENT_PROVIDER_ACCEPTANCE_TEST PASS", "core", foundations=True),
     script("world_blueprint_compiler", "tests/world_blueprint_compiler_test.gd", "WORLD_BLUEPRINT_COMPILER_TEST PASS", "core", foundations=True),
     script("generated_campaign_runtime", "tests/generated_campaign_runtime_test.gd", "GENERATED_CAMPAIGN_RUNTIME_TEST PASS", "core", foundations=True),
+    script("npc_asset_registry", "tests/npc_asset_registry_test.gd", "NPC_ASSET_REGISTRY_TEST PASS", "core"),
     script("adventure_state", "tests/adventure_state_test.gd", "ADVENTURE_STATE_TEST PASS", "core"),
     script("runtime_foundations", "tests/runtime_foundations_test.gd", "RUNTIME_FOUNDATIONS_TEST PASS", foundations=True),
     script("adventure_integration", "tests/adventure_integration_test.gd", "ADVENTURE_INTEGRATION_TEST PASS", foundations=True),

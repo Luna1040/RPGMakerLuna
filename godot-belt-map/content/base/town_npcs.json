@@ -9,8 +9,10 @@
       "display_name": "艾琳 · 旅店主人",
       "position_m": [5.2, 4.1],
       "visual": {
+        "profile_id": "profile.npc.innkeeper",
         "base_asset_id": "asset.npc.innkeeper.base",
         "idle_manifest_asset_id": "asset.npc.innkeeper.idle_manifest",
+        "ambient_action": "idle",
         "pivot_px": [520.0, 1500.0],
         "drawn_height_px": 1458.0,
         "portrait_region_px": [300.0, 40.0, 410.0, 455.0]
@@ -27,8 +29,10 @@
       "display_name": "雷恩 · 铁匠",
       "position_m": [18.5, 6.4],
       "visual": {
+        "profile_id": "profile.npc.smith",
         "base_asset_id": "asset.npc.smith.base",
         "idle_manifest_asset_id": "asset.npc.smith.idle_manifest",
+        "ambient_action": "idle",
         "pivot_px": [520.0, 1510.0],
         "drawn_height_px": 1500.0,
         "portrait_region_px": [300.0, 5.0, 410.0, 450.0]

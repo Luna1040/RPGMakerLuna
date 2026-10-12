@@ -327,9 +327,10 @@ func _plan_tasks(request: Dictionary, suffix: String) -> Array[Dictionary]:
 		records.append(_task_record_value(narrative_task, "narrative", []))
 		primary_ids.append(narrative_task.request_id)
 	if requested.any(func(id): return id in ["npcs", "affinity"]):
+		var asset_profiles: Array = get_node("/root/NpcAssetRegistry").public_profiles()
 		var npc_task := _task(request, suffix, "npc", [
 			{"target_type":"npc", "target_id":npc_id}, {"target_type":"dialogue", "target_id":npc_id}], context, true, 1,
-			"创作不同于现有角色的新 NPC、身份、关系与条件对话；ID 使用 %s，只能复用已登记资产 ID。" % npc_id)
+			("创作不同于现有角色的新 NPC、身份、关系与条件对话；ID 使用 %s。视觉必须完整复制下列一个已验收 profile 的 profile_id/base_asset_id/idle_manifest_asset_id/ambient_action，禁止路径：%s" % [npc_id, JSON.stringify(asset_profiles, "", true, true)]).left(780))
 		records.append(_task_record_value(npc_task, "npc", []))
 		primary_ids.append(npc_task.request_id)
 	if requested.any(func(id): return id in ["items", "equipment", "shops"]):

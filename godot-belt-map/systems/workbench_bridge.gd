@@ -54,6 +54,7 @@ func capabilities() -> Dictionary:
 		"agent_roles": Validator.AGENT_ROLES.duplicate(),
 		"role_target_types": ROLE_TARGET_TYPES.duplicate(true),
 		"draft_target_types": ["quest", "dialogue", "npc", "equipment", "item", "shop"],
+		"npc_asset_profiles": _npc_assets().public_profiles() if _npc_assets() != null else [],
 		"published_content_activation": "new_campaign_import",
 		"campaign_activation_policies": ["new_campaign", "explicit_project_copy"],
 		"campaign_session_activation": "scene_bootstrap_new_session_only",
@@ -408,6 +409,9 @@ func _reject(patch_id: String, errors: Array[String]) -> Dictionary:
 
 func _registry():
 	return get_node_or_null("/root/ContentRegistry")
+
+func _npc_assets():
+	return get_node_or_null("/root/NpcAssetRegistry")
 
 func _draft_service():
 	return get_node_or_null("/root/ContentDraftService")

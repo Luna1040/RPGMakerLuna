@@ -55,6 +55,11 @@ func load_base_content(path := BASE_SKILLS_PATH) -> bool:
 	var next_skills := _entries_by_id(skills_value.entries)
 	var next_equipment := _entries_by_id(equipment_value.entries)
 	var next_npcs := _entries_by_id(npcs_value.entries)
+	var asset_registry = get_node_or_null("/root/NpcAssetRegistry")
+	if asset_registry == null or not asset_registry.loaded:
+		errors.append("NpcAssetRegistry is unavailable.")
+	else:
+		for npc_id in next_npcs: errors.append_array(asset_registry.validate_visual(next_npcs[npc_id].get("visual", {})))
 	errors.append_array(AdventureValidator.validate(adventure_value, next_equipment))
 	for npc_id in next_npcs:
 		if not adventure_value.get("npcs", {}).has(npc_id):
@@ -81,7 +86,8 @@ func load_base_content(path := BASE_SKILLS_PATH) -> bool:
 	}
 	base_hash = JSON.stringify(skills_value, "", true, true).sha256_text()
 	catalog_hash = JSON.stringify({"skills":skills_value, "equipment":equipment_value,
-		"npcs":npcs_value, "adventure":adventure_value}, "", true, true).sha256_text()
+		"npcs":npcs_value, "adventure":adventure_value,
+		"npc_asset_catalog_hash":str(asset_registry.catalog_hash)}, "", true, true).sha256_text()
 	_content_context = {"kind":"official", "project_id":OFFICIAL_PROJECT_ID,
 		"campaign_id":OFFICIAL_CAMPAIGN_ID, "content_hash":catalog_hash, "manifest_hash":""}
 	revision = 0

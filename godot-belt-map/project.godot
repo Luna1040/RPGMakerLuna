@@ -3,6 +3,7 @@ config_version=5
 config/name="Knight - 2.5D Courtyard"
 run/main_scene="res://stage.tscn"
 [autoload]
+NpcAssetRegistry="*res://systems/content/npc_asset_registry.gd"
 ContentRegistry="*res://systems/content/content_registry.gd"
 ContentDraftService="*res://systems/content/content_draft_service.gd"
 WorldBlueprintService="*res://systems/content/world_blueprint_service.gd"
