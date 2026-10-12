@@ -31,6 +31,7 @@ var _npcs: Dictionary = {}
 var _quests: Dictionary = {}
 var _dialogues: Dictionary = {}
 var _adventure: Dictionary = {}
+var _world:Dictionary={}
 var _applied_patch_ids: Array[String] = []
 var _history: Array[Dictionary] = []
 var _content_context: Dictionary = {}
@@ -70,6 +71,7 @@ func load_base_content(path := BASE_SKILLS_PATH) -> bool:
 	_quests = next_quests
 	_dialogues = adventure_value.npcs.duplicate(true)
 	_adventure = adventure_value.duplicate(true)
+	_world={}
 	bundle_id = str(skills_value.bundle_id)
 	bundle_ids = {
 		"skills": str(skills_value.bundle_id),
@@ -111,6 +113,7 @@ func activate_campaign_content(content: Variant, manifest: Variant) -> bool:
 	var next_equipment: Dictionary = content.equipment.duplicate(true)
 	var next_npcs: Dictionary = content.npcs.duplicate(true)
 	var next_adventure: Dictionary = content.adventure.duplicate(true)
+	var next_world:Dictionary=content.get("world",{}).duplicate(true)
 	var next_quests := {}
 	for quest: Dictionary in next_adventure.quests:
 		next_quests[str(quest.id)] = quest.duplicate(true)
@@ -121,6 +124,7 @@ func activate_campaign_content(content: Variant, manifest: Variant) -> bool:
 	_quests = next_quests
 	_dialogues = next_adventure.npcs.duplicate(true)
 	_adventure = next_adventure
+	_world=next_world
 	bundle_id = str(manifest.campaign_id)
 	bundle_ids = {"skills":bundle_id + ".skills", "equipment":bundle_id + ".equipment",
 		"npcs":bundle_id + ".npcs", "adventure":bundle_id + ".adventure"}
@@ -170,6 +174,10 @@ func get_definition(target_type: String, target_id: String) -> Dictionary:
 		"npc": return get_npc(target_id)
 		"quest": return get_quest(target_id)
 		"dialogue": return get_dialogue(target_id)
+		"item": return _adventure.get("consumables",{}).get(target_id,{}).duplicate(true)
+		"shop":
+			for row in _adventure.get("shop",[]):
+				if row is Dictionary and row.get("id")==target_id: return row.duplicate(true)
 	return {}
 
 func definitions(target_type: String) -> Dictionary:
@@ -179,10 +187,19 @@ func definitions(target_type: String) -> Dictionary:
 		"npc": return _npcs.duplicate(true)
 		"quest": return _quests.duplicate(true)
 		"dialogue": return _dialogues.duplicate(true)
+		"item": return _adventure.get("consumables",{}).duplicate(true)
+		"shop":
+			var rows:Dictionary={}
+			for row in _adventure.get("shop",[]):
+				if row is Dictionary: rows[str(row.get("id",""))]=row.duplicate(true)
+			return rows
 	return {}
 
 func adventure_catalog() -> Dictionary:
 	return _adventure.duplicate(true)
+
+func world_bundle()->Dictionary:
+	return _world.duplicate(true)
 
 func registered_skill_ids() -> Array[String]:
 	return registered_ids("skill")

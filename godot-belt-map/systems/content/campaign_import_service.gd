@@ -125,15 +125,16 @@ func validate_campaign_content(value: Variant) -> Array[String]:
 	var npcs = content.get("npcs")
 	var equipment = content.get("equipment")
 	var adventure = content.get("adventure")
-	if npcs is Dictionary and equipment is Dictionary and adventure is Dictionary:
+	var world = content.get("world")
+	if npcs is Dictionary and equipment is Dictionary and adventure is Dictionary and world is Dictionary:
 		var draft_service = _draft_service()
 		if draft_service == null:
 			errors.append("ContentDraftService is unavailable for campaign catalog validation.")
 		else:
-			errors.append_array(draft_service.validate_materialized_content(npcs, adventure, equipment))
-		var candidate_hash := _canonical_hash({"npcs":npcs, "adventure":adventure})
+			errors.append_array(draft_service.validate_materialized_content(npcs, adventure, equipment, world))
+		var candidate_hash := _canonical_hash({"npcs":npcs, "adventure":adventure, "equipment":equipment, "world":world})
 		if content.get("candidate_content_hash") != candidate_hash:
-			errors.append("Campaign candidate content hash does not match NPC/adventure content.")
+			errors.append("Campaign candidate content hash does not match its materialized content.")
 	if content.get("content_hash") != _document_hash(content, "content_hash"):
 		errors.append("Campaign content checksum does not match its contents.")
 	return errors
@@ -190,7 +191,8 @@ func _evaluate(value: Variant) -> Dictionary:
 		"skills":materialized_content.skills.duplicate(true),
 		"equipment":materialized_content.equipment.duplicate(true),
 		"npcs":materialized_content.npcs.duplicate(true),
-		"adventure":materialized_content.adventure.duplicate(true)}
+		"adventure":materialized_content.adventure.duplicate(true),
+		"world":materialized_content.world.duplicate(true)}
 	content["content_hash"] = _document_hash(content, "content_hash")
 	errors.append_array(validate_campaign_content(content))
 	var manifest := {"schema_version":Validator.CAMPAIGN_MANIFEST_SCHEMA,

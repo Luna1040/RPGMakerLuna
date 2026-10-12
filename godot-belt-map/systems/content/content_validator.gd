@@ -14,9 +14,9 @@ const CAMPAIGN_CONTENT_SCHEMA := "campaign-content/1"
 const CAMPAIGN_MANIFEST_SCHEMA := "campaign-manifest/1"
 const WorldBlueprint = preload("res://systems/content/world_blueprint_service.gd")
 const CONTENT_TYPES := ["skills", "equipment", "npcs"]
-const TARGET_TYPES := ["skill", "equipment", "npc", "quest", "dialogue"]
+const TARGET_TYPES := ["skill", "equipment", "item", "shop", "npc", "quest", "dialogue"]
 const AGENT_ROLES := ["narrative", "world", "npc", "systems", "validator"]
-const DRAFT_AUTHOR_ROLES := ["main", "narrative", "npc"]
+const DRAFT_AUTHOR_ROLES := ["main", "narrative", "npc", "systems"]
 const PATCHABLE_SKILL_PATHS := {
 	"/resource_cost/amount": {"min": 0.0, "max": 999.0, "integer": false},
 	"/cooldown_seconds": {"min": 0.0, "max": 600.0, "integer": false},
@@ -288,7 +288,7 @@ static func validate_content_draft_shape(value: Variant) -> Array[String]:
 	if not value is Dictionary:
 		return ["Content draft must be a JSON object."]
 	var draft: Dictionary = value
-	_unknown_keys(draft, ["schema_version", "draft_id", "project_id", "base_catalog_hash", "base_content_revision", "author_role", "summary", "operations"], "draft", errors)
+	_unknown_keys(draft, ["schema_version", "draft_id", "project_id", "base_catalog_hash", "base_content_revision", "author_role", "summary", "operations", "world_bundle"], "draft", errors)
 	if draft.get("schema_version") != CONTENT_DRAFT_SCHEMA:
 		errors.append("Unsupported content draft schema_version.")
 	for pair in [["draft_id", "draft"], ["project_id", "project"]]:
@@ -299,6 +299,9 @@ static func validate_content_draft_shape(value: Variant) -> Array[String]:
 	_validate_number(draft.get("base_content_revision"), 0.0, 2147483647.0, true, "draft.base_content_revision", errors)
 	if draft.get("author_role") not in DRAFT_AUTHOR_ROLES:
 		errors.append("draft.author_role is unsupported.")
+	if draft.has("world_bundle"):
+		if draft.get("author_role")!="main": errors.append("Only a Main Agent draft may contain world_bundle.")
+		errors.append_array(WorldBlueprint.validate_world_bundle(draft.world_bundle))
 	_validate_text(draft.get("summary"), 2000, "draft.summary", errors)
 	var operations = draft.get("operations")
 	if not operations is Array:
@@ -318,7 +321,7 @@ static func validate_content_draft_shape(value: Variant) -> Array[String]:
 			errors.append(location + ".op must equal 'upsert'.")
 		var target_type := str(operation.get("target_type", ""))
 		var target_id := str(operation.get("target_id", ""))
-		if target_type not in ["quest", "dialogue", "npc"] or not valid_target_id(target_type, target_id):
+		if target_type not in TARGET_TYPES or not valid_target_id(target_type, target_id):
 			errors.append(location + " contains an invalid draft target.")
 		var key := target_type + ":" + target_id
 		if seen.has(key):
@@ -372,7 +375,7 @@ static func validate_campaign_content_shape(value: Variant) -> Array[String]:
 	if not value is Dictionary:
 		return ["Campaign content must be a JSON object."]
 	var content: Dictionary = value
-	_unknown_keys(content, ["schema_version", "project_id", "campaign_id", "source_catalog_hash", "source_content_revision", "candidate_content_hash", "skills", "equipment", "npcs", "adventure", "content_hash"], "campaign_content", errors)
+	_unknown_keys(content, ["schema_version", "project_id", "campaign_id", "source_catalog_hash", "source_content_revision", "candidate_content_hash", "skills", "equipment", "npcs", "adventure", "world", "content_hash"], "campaign_content", errors)
 	if content.get("schema_version") != CAMPAIGN_CONTENT_SCHEMA:
 		errors.append("Unsupported campaign content schema_version.")
 	for pair in [["project_id", "project"], ["campaign_id", "campaign"]]:
@@ -382,7 +385,7 @@ static func validate_campaign_content_shape(value: Variant) -> Array[String]:
 		if not _sha256(str(content.get(field, ""))):
 			errors.append("campaign_content." + field + " must be a lowercase SHA-256 hash.")
 	_validate_number(content.get("source_content_revision"), 0.0, 2147483647.0, true, "campaign_content.source_content_revision", errors)
-	for field in ["skills", "equipment", "npcs", "adventure"]:
+	for field in ["skills", "equipment", "npcs", "adventure", "world"]:
 		if not content.get(field) is Dictionary:
 			errors.append("campaign_content." + field + " must be an object.")
 	return errors

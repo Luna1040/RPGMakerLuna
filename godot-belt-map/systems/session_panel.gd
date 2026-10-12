@@ -179,7 +179,7 @@ func refresh() -> void:
 	update_status()
 
 func update_status() -> void:
-	status.text="Lv.%d  经验 %d/%d   铜币 %d   %s  ·  %s" % [runtime.progression.level,runtime.progression.xp,runtime.progression.xp_to_next(),runtime.stage.loot.materials.get("旧铜币",0),"苍石庭院" if runtime.zone=="town" else "古塔试炼场", "城镇休整" if runtime.zone=="town" else "第 %d / 3 轮" % runtime.run_state.wave]
+	status.text="Lv.%d  经验 %d/%d   铜币 %d   %s  ·  %s" % [runtime.progression.level,runtime.progression.xp,runtime.progression.xp_to_next(),runtime.stage.loot.materials.get("旧铜币",0),runtime.current_zone_name(), "城镇休整" if runtime.is_home_zone() else "探索中"]
 
 func _process(delta: float) -> void:
 	summary_clock+=delta
@@ -190,7 +190,17 @@ func _process(delta: float) -> void:
 func render_adventure() -> void:
 	words("姬骑士 · 等级 %d / 经验 %d / 技能点 %d" % [runtime.progression.level,runtime.progression.xp,runtime.progression.skill_points],Color("f7d78e"),24)
 	words("城镇接取委托、调查失踪物资；进入古塔完成三轮试炼。轮间选择祝福，装备、经验与人物关系随旅程保留。")
-	if runtime.zone=="town":
+	var generated_world: bool = runtime.content_registry != null and not runtime.content_registry.world_bundle().is_empty()
+	if generated_world:
+		words("当前区域：" + runtime.current_zone_name(), Color("8fd6ae"), 20)
+		var routes: Array[Dictionary] = runtime.available_travel()
+		if routes.is_empty():
+			words("此处暂时没有可通行的相邻区域。", Color("91a9bd"))
+		else:
+			for route: Dictionary in routes:
+				var target: String = str(route.zone_id)
+				button(body, "前往 · " + str(route.name), func(): runtime.travel(target))
+	elif runtime.is_home_zone():
 		words("先靠近艾琳或雷恩按 %s 交谈。不同选择会汇入同一场危机，支线可以交叉推进。" % runtime.controls.key_name("interact"))
 		var actions:=row()
 		button(actions,"进入古塔试炼",func(): runtime.start_trial())
@@ -232,7 +242,7 @@ func render_adventure() -> void:
 		var talent:String=id
 		var info:Dictionary=runtime.talents.CATALOG[id]
 		button(body,"%s %d/3 · %s" % [info.name,runtime.talents.rank(id),info.description],func(): runtime.talents.spend(talent,runtime.progression); refresh(),runtime.talents.can_spend(id,runtime.progression))
-	button(body,"重置天赋（测试版免费，城镇可用）",func(): runtime.talents.refund(runtime.progression); refresh(),runtime.zone=="town" and runtime.talents.spent_points()>0)
+	button(body,"重置天赋（测试版免费，城镇可用）",func(): runtime.talents.refund(runtime.progression); refresh(),runtime.is_home_zone() and runtime.talents.spent_points()>0)
 
 func rest() -> void:
 	runtime.rest_party()
@@ -259,7 +269,7 @@ func render_journal() -> void:
 				else: words(str(objective))
 		if quest.get("can_claim",false):
 			var id:String=quest.id
-			button(body,"领取奖励" if runtime.zone=="town" else "回城后交付",func(): var result:Dictionary=runtime.adventure.claim_quest(id); runtime.say(str(result.get("message",""))); refresh(),runtime.zone=="town")
+			button(body,"领取奖励" if runtime.is_home_zone() else "回城后交付",func(): var result:Dictionary=runtime.adventure.claim_quest(id); runtime.say(str(result.get("message",""))); refresh(),runtime.is_home_zone())
 		body.add_child(HSeparator.new())
 	words("任务可同时推进。未接取的任务请先与镇民交谈；分支承诺会保留在存档里。",Color("91a9bd"))
 
@@ -273,7 +283,7 @@ func render_network() -> void:
 	words("点击节点查看完整说明。亮金：已完成  ·  青色：进行中 / 可用  ·  灰色：未解锁  ·  红色：互斥锁定",Color("a2bed0"),16)
 
 func render_trade() -> void:
-	if runtime.zone!="town":
+	if not runtime.is_home_zone():
 		words("商店与锻造只在城镇开放。")
 		return
 	words("铜币 %d · 木料 %d · 碎布 %d · 秘银碎屑 %d" % [runtime.stage.loot.materials["旧铜币"],runtime.stage.loot.materials["木料"],runtime.stage.loot.materials["碎布"],runtime.stage.loot.materials["秘银碎屑"]],Color("f7d78e"),21)

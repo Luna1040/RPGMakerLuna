@@ -311,6 +311,8 @@ func _plan_tasks(request: Dictionary, suffix: String) -> Array[Dictionary]:
 	var primary_ids: Array[String] = []
 	var quest_id := "agent_story_" + suffix
 	var npc_id := "agent_npc_" + suffix
+	var equipment_id := "agent_equipment_" + suffix
+	var item_id := "agent_item_" + suffix
 	if requested.any(func(id): return id in ["world", "map", "town"]):
 		var world_task := _task(request, suffix, "world", [], context, false, 1,
 			"生成严格 world-blueprint/1：世界背景、区域关系、初始城镇与可达地图；只引用 asset.world.* 白名单，由 Godot 编译，不生成代码或资源路径。")
@@ -331,11 +333,13 @@ func _plan_tasks(request: Dictionary, suffix: String) -> Array[Dictionary]:
 		records.append(_task_record_value(npc_task, "npc", []))
 		primary_ids.append(npc_task.request_id)
 	if requested.any(func(id): return id in ["items", "equipment", "shops"]):
-		var allowed: Array[Dictionary] = []
-		for ref in [{"target_type":"skill", "target_id":"skill.knight.lightning"}, {"target_type":"equipment", "target_id":"courtyard_blade"}]:
-			if registry.target_exists(ref.target_type, ref.target_id): allowed.append(ref)
-		var systems_task := _task(request, suffix, "systems", allowed, context, false, 2,
-			"分析道具、装备、商店与战斗数值；只能提出白名单 Runtime Patch 或分析，不得直接应用。")
+		var allowed: Array[Dictionary] = [
+			{"target_type":"equipment", "target_id":equipment_id},
+			{"target_type":"item", "target_id":item_id},
+			{"target_type":"shop", "target_id":equipment_id},
+		]
+		var systems_task := _task(request, suffix, "systems", allowed, context, true, 2,
+			"创作可验证的道具、装备与商店库存 content_draft；装备 ID 使用 %s、道具 ID 使用 %s，商店 target_id 必须等于所售装备或道具 ID。可另附白名单 Runtime Patch 建议，但不得直接执行。" % [equipment_id, item_id])
 		records.append(_task_record_value(systems_task, "systems", []))
 		primary_ids.append(systems_task.request_id)
 	var validator_task := _task(request, suffix, "validator", [], context, false, 0,
@@ -488,7 +492,7 @@ func _agent_prompt(run: Dictionary, record: Dictionary, prior: Array[Dictionary]
 	var role_rules := {"world":"地图必须作为 world_blueprint deliverable；只能使用预置 asset.world.*，不得生成脚本或资源路径。",
 		"narrative":"任务/对话变化必须放入 content_draft，且只能使用 allowed_targets。",
 		"npc":"NPC/对话变化必须放入 content_draft；资产只能使用已有 asset.* ID。",
-		"systems":"只可分析或提出白名单 runtime_patch；不得自动执行补丁。",
+		"systems":"道具、装备、商店变化必须放入 content_draft 且只能使用 allowed_targets；可提出白名单 runtime_patch，但不得自动执行。",
 		"validator":"只审查全部上游结果；deliverables 必须为空，用 summary/evidence/warnings 给出结论。"}
 	var boundary := "成熟内容仅限明确成年的自愿角色，禁止胁迫与性暴力。" if run.request.content_policy == "mature_consensual" else "遵守全年龄内容边界。"
 	var revision_note := ("\n上轮结果被可信边界拒绝，请逐项修正：" + "；".join(record.get("errors", []))) if not record.get("errors", []).is_empty() else ""
@@ -525,7 +529,7 @@ func _compose_main_draft(run: Dictionary) -> Array[String]:
 				operations.append(operation.duplicate(true))
 		for patch in record.review.get("actionable_patches", []):
 			patches.append(patch.duplicate(true))
-	var requires_content_draft:bool = run.tasks.any(func(record): return record.role in ["narrative", "npc"])
+	var requires_content_draft:bool = run.tasks.any(func(record): return record.role in ["narrative", "npc", "systems"])
 	if operations.is_empty() and requires_content_draft:
 		errors.append("No validated narrative or NPC content draft was produced.")
 	if operations.size() > 64:
@@ -550,6 +554,8 @@ func _compose_main_draft(run: Dictionary) -> Array[String]:
 		"base_content_revision":int(run.base_content_revision), "author_role":"main",
 		"summary":"Main Agent 汇总：%s（%s / %s）" % [run.request.theme, run.request.genre, run.request.scope],
 		"operations":operations}
+	if not run.world_bundle.is_empty():
+		draft.world_bundle = run.world_bundle.duplicate(true)
 	var draft_service = get_node_or_null("/root/ContentDraftService")
 	if draft_service == null:
 		return ["ContentDraftService is unavailable."]

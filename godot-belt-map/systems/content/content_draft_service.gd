@@ -10,9 +10,10 @@ const Validator = preload("content_validator.gd")
 const AdventureValidator = preload("res://systems/adventure/adventure_catalog.gd")
 const MAX_PREVIEWS := 32
 const ROLE_TARGET_TYPES := {
-	"main": ["quest", "dialogue", "npc"],
+	"main": ["quest", "dialogue", "npc", "equipment", "item", "shop"],
 	"narrative": ["quest", "dialogue"],
-	"npc": ["npc", "dialogue"]
+	"npc": ["npc", "dialogue"],
+	"systems": ["equipment", "item", "shop"]
 }
 
 var publish_root := "user://projects"
@@ -34,16 +35,18 @@ func materialize_candidate(value: Variant) -> Dictionary:
 		return {"ok":false, "errors":evaluated.errors, "candidate_content_hash":"", "content":{}}
 	var registry = _registry()
 	return {"ok":true, "errors":[], "candidate_content_hash":str(evaluated.candidate_hash),
-		"content":{"skills":registry.definitions("skill"), "equipment":registry.definitions("equipment"),
-			"npcs":evaluated.npcs.duplicate(true), "adventure":evaluated.adventure.duplicate(true)}}
+		"content":{"skills":registry.definitions("skill"), "equipment":evaluated.equipment.duplicate(true),
+			"npcs":evaluated.npcs.duplicate(true), "adventure":evaluated.adventure.duplicate(true),
+			"world":evaluated.world.duplicate(true)}}
 
-func validate_materialized_content(npcs: Variant, adventure: Variant, equipment: Variant) -> Array[String]:
+func validate_materialized_content(npcs: Variant, adventure: Variant, equipment: Variant, world:Variant={}) -> Array[String]:
 	var errors: Array[String] = []
 	if not npcs is Dictionary or not adventure is Dictionary or not equipment is Dictionary:
 		return ["Materialized NPC, adventure, and equipment catalogs must be objects."]
 	if _registry() == null or not _registry().loaded:
 		return ["ContentRegistry is unavailable."]
 	_validate_candidate(npcs, adventure, equipment, errors)
+	if world is Dictionary and not world.is_empty(): errors.append_array(get_node("/root/WorldBlueprintService").validate_world_bundle(world))
 	return errors
 
 func preview_draft(value: Variant) -> Dictionary:
@@ -141,6 +144,8 @@ func _evaluate(value: Variant) -> Dictionary:
 	var allowed_types: Array = ROLE_TARGET_TYPES.get(author_role, [])
 	var candidate_npcs: Dictionary = registry.definitions("npc")
 	var candidate_adventure: Dictionary = registry.adventure_catalog()
+	var candidate_equipment:Dictionary=registry.definitions("equipment")
+	var candidate_world:Dictionary=draft.get("world_bundle",{}).duplicate(true)
 	for operation in draft.get("operations", []):
 		if not operation is Dictionary:
 			continue
@@ -151,16 +156,27 @@ func _evaluate(value: Variant) -> Dictionary:
 			errors.append("Draft author role %s cannot upsert %s targets." % [author_role, target_type])
 		if not definition is Dictionary:
 			continue
-		if target_type in ["quest", "npc"] and str(definition.get("id", "")) != target_id:
+		if target_type in ["quest", "npc", "equipment", "item", "shop"] and str(definition.get("id", "")) != target_id:
 			errors.append("Draft %s definition id does not match target: %s" % [target_type, target_id])
+		match target_type:
+			"equipment": errors.append_array(Validator.validate_equipment(definition,"draft.equipment["+target_id+"]"))
+			"item": _strict_item(definition,"draft.item["+target_id+"]",errors)
+			"shop": _strict_shop(definition,"draft.shop["+target_id+"]",errors)
 		match target_type:
 			"quest": _upsert_quest(candidate_adventure, target_id, definition)
 			"dialogue": candidate_adventure.npcs[target_id] = definition.duplicate(true)
 			"npc": candidate_npcs[target_id] = definition.duplicate(true)
-	_validate_candidate(candidate_npcs, candidate_adventure, registry.definitions("equipment"), errors)
-	var candidate_hash := _canonical_hash({"npcs":candidate_npcs, "adventure":candidate_adventure})
+			"equipment": candidate_equipment[target_id]=definition.duplicate(true)
+			"item":
+				var item: Dictionary = definition.duplicate(true)
+				item.erase("id")
+				candidate_adventure.consumables[target_id]=item
+			"shop": _upsert_shop(candidate_adventure,target_id,definition)
+	_validate_candidate(candidate_npcs, candidate_adventure, candidate_equipment, errors)
+	if not candidate_world.is_empty(): errors.append_array(get_node("/root/WorldBlueprintService").validate_world_bundle(candidate_world))
+	var candidate_hash := _canonical_hash({"npcs":candidate_npcs, "adventure":candidate_adventure,"equipment":candidate_equipment,"world":candidate_world})
 	return {"errors":errors, "candidate_hash":candidate_hash,
-		"npcs":candidate_npcs, "adventure":candidate_adventure}
+		"npcs":candidate_npcs, "adventure":candidate_adventure,"equipment":candidate_equipment,"world":candidate_world}
 
 func _validate_candidate(npcs: Dictionary, adventure: Dictionary, equipment: Dictionary, errors: Array[String]) -> void:
 	if npcs.size() > 512 or adventure.get("quests", []).size() > 512 or adventure.get("npcs", {}).size() > 512:
@@ -180,6 +196,10 @@ func _validate_candidate(npcs: Dictionary, adventure: Dictionary, equipment: Dic
 				for field in ["base_asset_id", "idle_manifest_asset_id"]:
 					if not allowed_assets.has(str(visual.get(field, ""))):
 						errors.append("NPC uses an unregistered asset id: " + str(visual.get(field, "")))
+	for equipment_id in equipment:
+		var equipment_definition=equipment[equipment_id]
+		errors.append_array(Validator.validate_equipment(equipment_definition,"candidate.equipment["+str(equipment_id)+"]"))
+		if equipment_definition is Dictionary and equipment_definition.get("id")!=equipment_id: errors.append("Equipment definition id does not match target: "+str(equipment_id))
 	for quest in adventure.get("quests", []):
 		_strict_quest(quest, "candidate.quest", errors)
 	for dialogue_id in adventure.get("npcs", {}):
@@ -283,12 +303,36 @@ func _strict_reward(value: Variant, allow_accept: bool, location: String, errors
 	if reward.has("accept") and not reward.accept is Array:
 		errors.append(location + ".accept must be an array.")
 
+func _strict_item(value:Dictionary,location:String,errors:Array[String])->void:
+	_unknown_keys(value,["id","name","description","stat","amount","max_stack"],location,errors)
+	_text(value.get("id"),64,location+".id",errors)
+	_text(value.get("name"),64,location+".name",errors)
+	_text(value.get("description"),240,location+".description",errors)
+	if value.get("stat") not in ["health","mana"]: errors.append(location+".stat is unsupported.")
+	for field in ["amount","max_stack"]:
+		var number=value.get(field)
+		if not (number is int or number is float) or not is_finite(float(number)) or floorf(float(number))!=float(number) or int(number)<1 or int(number)>9999:
+			errors.append(location+"."+field+" must be an integer from 1 to 9999.")
+
+func _strict_shop(value:Dictionary,location:String,errors:Array[String])->void:
+	_unknown_keys(value,["id","kind","cost"],location,errors)
+	_text(value.get("id"),64,location+".id",errors)
+	if value.get("kind") not in ["equipment","consumable"]: errors.append(location+".kind is unsupported.")
+	if not value.get("cost") is Dictionary or value.cost.is_empty() or value.cost.size()>8: errors.append(location+".cost must contain 1 to 8 material prices.")
+
 func _upsert_quest(adventure: Dictionary, target_id: String, definition: Dictionary) -> void:
 	for index in adventure.get("quests", []).size():
 		if str(adventure.quests[index].get("id", "")) == target_id:
 			adventure.quests[index] = definition.duplicate(true)
 			return
 	adventure.quests.append(definition.duplicate(true))
+
+func _upsert_shop(adventure:Dictionary,target_id:String,definition:Dictionary)->void:
+	for index in adventure.get("shop",[]).size():
+		if str(adventure.shop[index].get("id",""))==target_id:
+			adventure.shop[index]=definition.duplicate(true)
+			return
+	adventure.shop.append(definition.duplicate(true))
 
 func _collect_changed_paths(before: Variant, after: Variant, path: String, result: Array[String]) -> void:
 	if result.size() >= 128 or before == after:

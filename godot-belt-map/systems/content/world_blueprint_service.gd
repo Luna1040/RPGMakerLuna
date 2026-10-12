@@ -99,7 +99,7 @@ func compile_blueprint(value:Variant)->Dictionary:
 	bundle["world_hash"]=_hash(bundle)
 	return {"ok":true,"errors":[],"world_bundle":bundle}
 
-func validate_world_bundle(value:Variant)->Array[String]:
+static func validate_world_bundle(value:Variant)->Array[String]:
 	if not value is Dictionary: return ["Compiled world bundle must be an object."]
 	var bundle:Dictionary=value
 	var errors:Array[String]=[]

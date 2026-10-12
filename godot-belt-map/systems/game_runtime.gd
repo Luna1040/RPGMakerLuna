@@ -104,7 +104,24 @@ func setup(map_stage) -> void:
 		if backdrop != null: backdrop.modulate=Color(.65,.77,.95)
 		panel.open("adventure")
 	events.publish("zone_entered",{"id":zone})
-	say("L 冒险手册 · Esc 暂停 / 存档 · 4/5 药水。先找艾琳或雷恩聊聊。" if zone=="town" else "古塔试炼场 · 在冒险手册选择开始本轮")
+	say("L 冒险手册 · Esc 暂停 / 存档 · 4/5 药水。探索当前城镇并与居民交谈。" if is_home_zone() else "已进入" + current_zone_name() + "。")
+
+func is_home_zone() -> bool:
+	return zone == Registry.initial_zone_id()
+
+func current_zone_name() -> String:
+	return str(Registry.load_zone(zone).get("name", zone))
+
+func available_travel() -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	var contract: Dictionary = Registry.load_zone(zone)
+	for exit_value in contract.get("exits", []):
+		if not exit_value is Dictionary: continue
+		var target := str(exit_value.get("to_zone_id", ""))
+		if target.is_empty() or not Registry.has_zone(target): continue
+		result.append({"zone_id":target, "name":str(Registry.load_zone(target).get("name", target)),
+			"exit_id":str(exit_value.get("exit_id", ""))})
+	return result
 
 func say(text: String) -> void:
 	stage.notice=text
@@ -177,7 +194,7 @@ func _wave_cleared(wave: int) -> void:
 	if persistence_enabled and autosave_armed: save_game(current_slot,true)
 
 func start_trial(seed_value: int = 0) -> bool:
-	if zone!="town" or stage.knight.defeated: return false
+	if not is_home_zone() or stage.knight.defeated or not Registry.has_zone("ruins"): return false
 	run_counter+=1
 	var seed_number:=seed_value if seed_value>0 else int(Time.get_unix_time_from_system())+run_counter*7919
 	run_state={"phase":"ready","wave":0,"seed":seed_number,"boons":[],"offers":[]}
@@ -209,27 +226,28 @@ func choose_boon(id: String) -> bool:
 	return true
 
 func return_town() -> bool:
-	if zone!="ruins": return false
+	var home:=Registry.initial_zone_id()
+	if zone==home: return false
 	encounters.clear()
 	run_state.phase="none"
 	run_state.boons=[]
 	run_state.offers=[]
 	stage.knight.reset_character()
-	return travel("town")
+	return travel(home)
 
 func prepare_transfer(target: String) -> Dictionary:
-	if not Registry.ZONES.has(target): return {}
+	if not Registry.has_zone(target): return {}
 	var data:=snapshot()
 	data.zone=target
 	var map_data:=Registry.load_zone(target)
 	data.player.foot=[map_data.spawn.x,map_data.spawn.depth]
 	data.player.height=0.0
-	data.player.health=stage.knight.max_health if target=="town" else stage.knight.health
-	data.player.mana=stage.knight.max_mana if target=="town" else stage.knight.mana
+	data.player.health=stage.knight.max_health if target==Registry.initial_zone_id() else stage.knight.health
+	data.player.mana=stage.knight.max_mana if target==Registry.initial_zone_id() else stage.knight.mana
 	return data
 
 func travel(target: String) -> bool:
-	if transitioning or not Registry.ZONES.has(target): return false
+	if transitioning or not Registry.has_zone(target): return false
 	var bridge=stage.get_node_or_null("/root/GameSession")
 	if bridge==null or get_tree().current_scene != stage:
 		say("场景路由只在正式游戏主场景运行")
@@ -251,7 +269,7 @@ func whole(value, low: int, high: int) -> bool:
 	return (value is int or value is float) and is_finite(float(value)) and floorf(float(value))==float(value) and float(value)>=low and float(value)<=high
 
 func validate_snapshot(data: Dictionary) -> bool:
-	if not whole(data.get("schema"),1,1) or not data.get("zone") is String or not Registry.ZONES.has(data.zone): return false
+	if not whole(data.get("schema"),1,1) or not data.get("zone") is String or not Registry.has_zone(data.zone): return false
 	for field in ["worlds","player","equipment","materials","progression","adventure","run","companion"]:
 		if not data.get(field) is Dictionary: return false
 	var p: Dictionary=data.player
@@ -299,7 +317,7 @@ func validate_snapshot(data: Dictionary) -> bool:
 		if data.companion.state.get("enabled",false)!=data.companion.recruited: return false
 		if data.companion.state.get("mode","follow")!=data.companion.mode: return false
 	for id in data.worlds:
-		if not Registry.ZONES.has(id) or not data.worlds[id] is Dictionary: return false
+		if not Registry.has_zone(id) or not data.worlds[id] is Dictionary: return false
 		var world: Dictionary=data.worlds[id]
 		for key in ["broken","opened","drops"]:
 			if not world.get(key) is Array or world[key].size()>500: return false
@@ -385,7 +403,7 @@ func restore(data: Dictionary) -> bool:
 	return true
 
 func rest_party() -> bool:
-	if zone!="town" or stage.knight.defeated: return false
+	if not is_home_zone() or stage.knight.defeated: return false
 	var actor=stage.knight
 	var ally:Dictionary=encounters.companion_status()
 	var hero_needs_rest:bool=actor.health<actor.max_health or actor.mana<actor.max_mana

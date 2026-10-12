@@ -69,6 +69,9 @@ func _ready() -> void:
 		if bridge!=null and not bridge.pending.is_empty():
 			var target:Dictionary=preload("systems/world_registry.gd").load_zone(bridge.target_zone)
 			if not target.is_empty(): contract=target
+		elif preload("systems/world_registry.gd").initial_zone_id()!="town":
+			var generated:Dictionary=preload("systems/world_registry.gd").load_zone(preload("systems/world_registry.gd").initial_zone_id())
+			if not generated.is_empty(): contract=generated
 	volumes=contract.volumes
 	var b: Dictionary=contract.bounds
 	bounds=Rect2(b.x,b.depth,b.width,b.depth_size)
@@ -523,7 +526,7 @@ func _physics_process(delta: float) -> void:
 	interface.set_prompt(hint)
 	hud.text="苍石庭院  /  姬骑士 · 战斗演示\n双击方向 奔跑   空格 跳跃   J 攻击/冲刺斩/下劈   1–3 技能   K 雷光   E 交互   I 背包   R 复位\n高度 %.2fm  ·  %s  ·  %s" % [height_z,("奔跑" if is_running else "箱顶 "+platform if not platform.is_empty() else "地面" if grounded else "空中"),notice]
 	if runtime!=null:
-		hud.text="%s  /  姬骑士\n双击方向 奔跑   %s 攻击   %s 交互   %s 背包   %s 地图   %s 手册   Esc 暂停\n%s" % ["苍石庭院" if runtime.zone=="town" else "古塔试炼场",runtime.controls.key_name("attack"),runtime.controls.key_name("interact"),runtime.controls.key_name("inventory"),runtime.controls.key_name("map"),runtime.controls.key_name("journal"),notice]
+		hud.text="%s  /  姬骑士\n双击方向 奔跑   %s 攻击   %s 交互   %s 背包   %s 地图   %s 手册   Esc 暂停\n%s" % [runtime.current_zone_name(),runtime.controls.key_name("attack"),runtime.controls.key_name("interact"),runtime.controls.key_name("inventory"),runtime.controls.key_name("map"),runtime.controls.key_name("journal"),notice]
 	queue_redraw()
 	minimap.queue_redraw()
 	capture_time+=delta

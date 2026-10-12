@@ -10,9 +10,10 @@
     "project_id": {"type": "string", "pattern": "^project\\.[a-z0-9][a-z0-9_.-]+$", "maxLength": 128},
     "base_catalog_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
     "base_content_revision": {"type": "integer", "minimum": 0},
-    "author_role": {"enum": ["main", "narrative", "npc"]},
+    "author_role": {"enum": ["main", "narrative", "npc", "systems"]},
     "summary": {"type": "string", "minLength": 1, "maxLength": 2000},
-    "operations": {"type": "array", "minItems": 1, "maxItems": 64, "items": {"$ref": "#/$defs/operation"}}
+    "operations": {"type": "array", "minItems": 1, "maxItems": 64, "items": {"$ref": "#/$defs/operation"}},
+    "world_bundle": {"type": "object"}
   },
   "$defs": {
     "operation": {
@@ -20,7 +21,7 @@
       "required": ["op", "target_type", "target_id", "definition"],
       "properties": {
         "op": {"const": "upsert"},
-        "target_type": {"enum": ["quest", "dialogue", "npc"]},
+        "target_type": {"enum": ["quest", "dialogue", "npc", "equipment", "item", "shop"]},
         "target_id": {"type": "string", "pattern": "^[a-z][a-z0-9_]{2,63}$"},
         "definition": {"type": "object"}
       }

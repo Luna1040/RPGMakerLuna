@@ -12,8 +12,8 @@ const ROLE_TARGET_TYPES := {
 	"narrative": ["quest", "dialogue"],
 	"world": [],
 	"npc": ["npc", "dialogue"],
-	"systems": ["skill", "equipment"],
-	"validator": ["skill", "equipment", "npc", "quest", "dialogue"]
+	"systems": ["skill", "equipment", "item", "shop"],
+	"validator": ["skill", "equipment", "item", "shop", "npc", "quest", "dialogue"]
 }
 var runtime = null
 var pending: Array[Dictionary] = []
@@ -53,7 +53,7 @@ func capabilities() -> Dictionary:
 		"patchable_paths": registry.patchable_paths() if registry != null else [],
 		"agent_roles": Validator.AGENT_ROLES.duplicate(),
 		"role_target_types": ROLE_TARGET_TYPES.duplicate(true),
-		"draft_target_types": ["quest", "dialogue", "npc"],
+		"draft_target_types": ["quest", "dialogue", "npc", "equipment", "item", "shop"],
 		"published_content_activation": "new_campaign_import",
 		"campaign_activation_policies": ["new_campaign", "explicit_project_copy"],
 		"campaign_session_activation": "scene_bootstrap_new_session_only",
@@ -91,8 +91,8 @@ func validate_agent_task(value: Variant) -> Array[String]:
 	var role := str(task.get("agent_role", ""))
 	var allowed_types: Array = ROLE_TARGET_TYPES.get(role, [])
 	var allow_new_ids := bool(task.get("constraints", {}).get("allow_new_ids", false)) if task.get("constraints", {}) is Dictionary else false
-	if allow_new_ids and role not in ["narrative", "npc"]:
-		errors.append("Only Narrative or NPC Agents may propose new draft IDs.")
+	if allow_new_ids and role not in ["narrative", "npc", "systems"]:
+		errors.append("Only Narrative, NPC or Systems Agents may propose new draft IDs.")
 	for field in ["allowed_targets", "context_refs"]:
 		for ref in task.get(field, []):
 			if not ref is Dictionary:
@@ -153,8 +153,8 @@ func review_agent_result(task_value: Variant, result_value: Variant) -> Dictiona
 			actionable.append(patch.duplicate(true))
 		elif deliverable.get("kind") == "content_draft" and deliverable.get("payload") is Dictionary:
 			var draft: Dictionary = deliverable.payload
-			if task.get("agent_role") not in ["narrative", "npc"] or draft.get("author_role") != task.get("agent_role"):
-				errors.append("Content draft author_role must match its Narrative or NPC Agent task.")
+			if task.get("agent_role") not in ["narrative", "npc", "systems"] or draft.get("author_role") != task.get("agent_role"):
+				errors.append("Content draft author_role must match its Narrative, NPC or Systems Agent task.")
 			if draft.get("project_id") != task.get("project_id"):
 				errors.append("Content draft project_id must match its Agent task.")
 			for operation in draft.get("operations", []):
