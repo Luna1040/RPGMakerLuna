@@ -1,0 +1,127 @@
+{
+  "schema_version": "release-acceptance/1",
+  "created_at": "2026-10-12T11:37:51.873630+00:00",
+  "status": "pass",
+  "project_root": "/Users/ciguguanyin/Documents/Codex/2026-10-09/wo/work/RPGMakerLuna-real/godot-belt-map",
+  "web_root": "/Users/ciguguanyin/Documents/Codex/2026-10-09/wo/work/RPGMakerLuna-real/releases/knight-web",
+  "summary": {
+    "passed": 15,
+    "failed": 0
+  },
+  "results": [
+    {
+      "name": "export_policy",
+      "status": "pass",
+      "detail": "test/capture/log sources are excluded and the no-threads release template is pinned",
+      "missing_excludes": [],
+      "release_template_configured": true
+    },
+    {
+      "name": "game.html_present",
+      "status": "pass",
+      "detail": "5486 bytes",
+      "minimum_bytes": 1024
+    },
+    {
+      "name": "game.js_present",
+      "status": "pass",
+      "detail": "279815 bytes",
+      "minimum_bytes": 100000
+    },
+    {
+      "name": "game.pck_present",
+      "status": "pass",
+      "detail": "101098284 bytes",
+      "minimum_bytes": 1000000
+    },
+    {
+      "name": "game.wasm_present",
+      "status": "pass",
+      "detail": "39514754 bytes",
+      "minimum_bytes": 1000000
+    },
+    {
+      "name": "html_bootstrap",
+      "status": "pass",
+      "detail": "canvas and no-threads Godot bootstrap are present"
+    },
+    {
+      "name": "pck_signature",
+      "status": "pass",
+      "detail": "Godot pack signature"
+    },
+    {
+      "name": "wasm_signature",
+      "status": "pass",
+      "detail": "WebAssembly signature"
+    },
+    {
+      "name": "distribution_surface",
+      "status": "pass",
+      "detail": "no tests, captures, source scripts, logs, or environment files are adjacent to the release",
+      "forbidden_files": []
+    },
+    {
+      "name": "packed_development_artifacts",
+      "status": "pass",
+      "detail": "no known test, capture, report, or credential-assignment marker is embedded in the PCK",
+      "matched_markers": []
+    },
+    {
+      "name": "credential_isolation",
+      "status": "pass",
+      "detail": "no provider credential pattern or configured session secret is embedded",
+      "generic_key_pattern_found": false,
+      "configured_secret_found": false
+    },
+    {
+      "name": "http_game_html",
+      "status": "pass",
+      "detail": "HTTP 200",
+      "content_type": "text/html"
+    },
+    {
+      "name": "http_game_pck",
+      "status": "pass",
+      "detail": "HTTP 200; 101098284 bytes",
+      "expected_bytes": 101098284,
+      "content_type": "application/octet-stream"
+    },
+    {
+      "name": "http_game_wasm",
+      "status": "pass",
+      "detail": "HTTP 200; 39514754 bytes",
+      "expected_bytes": 39514754,
+      "content_type": "application/wasm"
+    },
+    {
+      "name": "godot_pck_boot",
+      "status": "pass",
+      "detail": "exported pack booted without engine/script errors",
+      "returncode": 0,
+      "error_lines": []
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "game.html",
+      "bytes": 5486,
+      "sha256": "d53872b245f403f86cfe2a0bd7abdee34719a52ea2d05768ee44f0c72ace6569"
+    },
+    {
+      "name": "game.js",
+      "bytes": 279815,
+      "sha256": "33c94cb3175f3333b82e2a3be5e8e86f77986f0aa2042b1631f6367a4e5bb6ba"
+    },
+    {
+      "name": "game.pck",
+      "bytes": 101098284,
+      "sha256": "966276bb3e67711bce035242392bedbbd470244d410eeff233029bffd623a475"
+    },
+    {
+      "name": "game.wasm",
+      "bytes": 39514754,
+      "sha256": "fc74679e3b97f76878947fcd4fbe1268cbfa6188182a2e33bbc3f5dc9bfa57d0"
+    }
+  ]
+}
