@@ -36,7 +36,7 @@ class RunnerTests(unittest.TestCase):
     def test_foundations_flag_only_on_integrations(self):
         opted_in = {test.name for test in run_tests.TESTS if "--foundations" in test.arguments}
         self.assertEqual(opted_in, {
-            "campaign_session_pipeline", "runtime_foundations", "adventure_integration", "roster_integration",
+            "campaign_session_pipeline", "campaign_manager_ui", "runtime_foundations", "adventure_integration", "roster_integration",
             "menu_input", "encounters_integration",
         })
 

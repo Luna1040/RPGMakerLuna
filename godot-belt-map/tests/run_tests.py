@@ -60,6 +60,7 @@ TESTS = (
     script("content_draft_pipeline", "tests/content_draft_pipeline_test.gd", "CONTENT_DRAFT_PIPELINE_TEST PASS", "core"),
     script("campaign_import_pipeline", "tests/campaign_import_pipeline_test.gd", "CAMPAIGN_IMPORT_PIPELINE_TEST PASS", "core"),
     script("campaign_session_pipeline", "tests/campaign_session_pipeline_test.gd", "CAMPAIGN_SESSION_PIPELINE_TEST PASS", "core", foundations=True),
+    script("campaign_manager_ui", "tests/campaign_manager_ui_test.gd", "CAMPAIGN_MANAGER_UI_TEST PASS", "core", foundations=True),
     script("adventure_state", "tests/adventure_state_test.gd", "ADVENTURE_STATE_TEST PASS", "core"),
     script("runtime_foundations", "tests/runtime_foundations_test.gd", "RUNTIME_FOUNDATIONS_TEST PASS", foundations=True),
     script("adventure_integration", "tests/adventure_integration_test.gd", "ADVENTURE_INTEGRATION_TEST PASS", foundations=True),

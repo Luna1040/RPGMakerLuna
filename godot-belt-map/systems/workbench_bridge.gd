@@ -53,6 +53,7 @@ func capabilities() -> Dictionary:
 		"published_content_activation": "new_campaign_import",
 		"campaign_activation_policies": ["new_campaign", "explicit_project_copy"],
 		"campaign_session_activation": "scene_bootstrap_new_session_only",
+		"campaign_library": "validated_read_only_with_save_slot_summaries",
 		"content_context": registry.content_context() if registry != null else {},
 		"active_save_directory": _campaign_session().active_save_directory() if _campaign_session() != null else "user://rpg_saves",
 		"safe_to_apply": safe_to_apply(),
@@ -201,11 +202,24 @@ func inspect_campaign(project_id: String, campaign_id: String) -> Dictionary:
 		return {"ok":false, "errors":["CampaignImportService is unavailable."], "manifest":{}}
 	return service.inspect_campaign(project_id, campaign_id)
 
+func list_campaigns(project_id: String = "") -> Dictionary:
+	var service = _campaign_session()
+	if service == null:
+		return {"ok":false, "errors":["CampaignSessionService is unavailable."],
+			"campaigns":[], "active_context":{}}
+	return service.list_campaigns(project_id)
+
 func preview_campaign_launch(project_id: String, campaign_id: String) -> Dictionary:
 	var service = _campaign_session()
 	if service == null:
 		return {"ok":false, "errors":["CampaignSessionService is unavailable."], "campaign_id":campaign_id}
 	return service.preview_campaign_launch(project_id, campaign_id)
+
+func preview_official_launch() -> Dictionary:
+	var service = _campaign_session()
+	if service == null:
+		return {"ok":false, "errors":["CampaignSessionService is unavailable."]}
+	return service.preview_official_launch()
 
 func start_campaign_session(project_id: String, campaign_id: String, launch_token: String) -> Dictionary:
 	var service = _campaign_session()

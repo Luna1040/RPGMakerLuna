@@ -2,6 +2,8 @@ extends Node
 ## New-session-only campaign launcher. Content activation is committed only while
 ## the bootstrap scene owns the SceneTree (or from an isolated script test).
 
+const SaveStore = preload("res://systems/core/save_store.gd")
+
 signal launch_previewed(campaign_id: String, launch_token: String)
 signal session_activated(context: Dictionary, save_directory: String)
 signal session_launch_failed(campaign_id: String, errors: Array[String])
@@ -10,6 +12,8 @@ const BOOTSTRAP_SCENE := "res://systems/content/campaign_bootstrap.tscn"
 const GAME_SCENE := "res://stage.tscn"
 const OFFICIAL_SAVE_DIRECTORY := "user://rpg_saves"
 const MAX_PREVIEWS := 16
+const MAX_LIBRARY_PROJECTS := 64
+const MAX_LIBRARY_CAMPAIGNS := 256
 
 var last_error := ""
 var _active_save_directory := OFFICIAL_SAVE_DIRECTORY
@@ -45,6 +49,70 @@ func preview_campaign_launch(project_id: String, campaign_id: String) -> Diction
 		"requires_scene_bootstrap":true, "auto_loads_save":false}
 	launch_previewed.emit(campaign_id, token)
 	return result
+
+func preview_official_launch() -> Dictionary:
+	return {"ok":true, "errors":[], "kind":"official",
+		"project_id":"project.rpgmakerluna.courtyard",
+		"campaign_id":"campaign.official.courtyard", "display_name":"苍石庭院",
+		"save_directory":OFFICIAL_SAVE_DIRECTORY, "replaces_current_session":true,
+		"activates_immediately":false, "requires_scene_bootstrap":true,
+		"auto_loads_save":false}
+
+func list_campaigns(project_id: String = "") -> Dictionary:
+	## Read-only library view for Godot and web workbenches. Invalid packages are
+	## visible but cannot be launched; no caller-supplied path is accepted.
+	var requested := project_id.strip_edges()
+	if not requested.is_empty() and not _scoped_id(requested, "project"):
+		return {"ok":false, "errors":["Project ID must be canonical."],
+			"campaigns":[], "active_context":active_context()}
+	var campaigns: Array[Dictionary] = []
+	var truncated := false
+	if requested.is_empty() or requested == "project.rpgmakerluna.courtyard":
+		campaigns.append(_official_library_entry())
+	var import_service = _import_service()
+	if import_service == null:
+		return {"ok":false, "errors":["CampaignImportService is unavailable."],
+			"campaigns":campaigns, "active_context":active_context()}
+	var projects: Array[String] = []
+	if not requested.is_empty():
+		projects.append(requested)
+	else:
+		var root_directory := DirAccess.open(import_service.projects_root)
+		if root_directory != null:
+			for directory in root_directory.get_directories():
+				if _scoped_id(directory, "project"):
+					if projects.size() >= MAX_LIBRARY_PROJECTS:
+						truncated = true
+						continue
+					projects.append(directory)
+	projects.sort()
+	var custom: Array[Dictionary] = []
+	for candidate_project in projects:
+		var campaigns_path: String = import_service.projects_root.path_join(candidate_project).path_join("campaigns")
+		var campaigns_directory := DirAccess.open(campaigns_path)
+		if campaigns_directory == null:
+			continue
+		var campaign_ids: Array[String] = []
+		for directory in campaigns_directory.get_directories():
+			if _scoped_id(directory, "campaign"):
+				if campaign_ids.size() >= MAX_LIBRARY_CAMPAIGNS:
+					truncated = true
+					continue
+				campaign_ids.append(directory)
+		campaign_ids.sort()
+		for campaign_id in campaign_ids:
+			if custom.size() >= MAX_LIBRARY_CAMPAIGNS:
+				truncated = true
+				break
+			custom.append(_campaign_library_entry(import_service, candidate_project, campaign_id))
+		if custom.size() >= MAX_LIBRARY_CAMPAIGNS:
+			break
+	custom.sort_custom(func(a: Dictionary, b: Dictionary):
+		return str(a.get("display_name", a.get("campaign_id", ""))).naturalnocasecmp_to(
+			str(b.get("display_name", b.get("campaign_id", "")))) < 0)
+	campaigns.append_array(custom)
+	return {"ok":true, "errors":[], "campaigns":campaigns, "truncated":truncated,
+		"active_context":active_context()}
 
 func queue_campaign_launch(project_id: String, campaign_id: String, launch_token: String) -> Dictionary:
 	if not _previews.has(launch_token):
@@ -143,6 +211,54 @@ func has_pending_launch() -> bool:
 func clear_launch_previews() -> void:
 	_previews.clear()
 	_preview_order.clear()
+
+func _official_library_entry() -> Dictionary:
+	var context := active_context()
+	return {"kind":"official", "project_id":"project.rpgmakerluna.courtyard",
+		"campaign_id":"campaign.official.courtyard", "display_name":"苍石庭院",
+		"activation_policy":"official", "available":true,
+		"active":context.get("kind") == "official",
+		"content_hash":str(context.get("content_hash", "")) if context.get("kind") == "official" else "",
+		"manifest_hash":"", "source_draft_id":"official",
+		"save_directory":OFFICIAL_SAVE_DIRECTORY,
+		"slots":_slot_summaries(OFFICIAL_SAVE_DIRECTORY), "errors":[]}
+
+func _campaign_library_entry(import_service, project_id: String, campaign_id: String) -> Dictionary:
+	var campaign_path: String = import_service.projects_root.path_join(project_id).path_join("campaigns").path_join(campaign_id)
+	var inspected: Dictionary = import_service.inspect_campaign(project_id, campaign_id)
+	var context := active_context()
+	if not inspected.ok:
+		return {"kind":"campaign", "project_id":project_id, "campaign_id":campaign_id,
+			"display_name":campaign_id, "activation_policy":"unknown", "available":false,
+			"active":context.get("project_id") == project_id and context.get("campaign_id") == campaign_id,
+			"content_hash":"", "manifest_hash":"", "source_draft_id":"",
+			"save_directory":campaign_path.path_join("saves"), "slots":[],
+			"errors":inspected.errors.duplicate()}
+	var manifest: Dictionary = inspected.manifest
+	var source: Dictionary = manifest.get("source_artifact", {})
+	var save_directory := campaign_path.path_join(str(manifest.save_namespace))
+	return {"kind":"campaign", "project_id":project_id, "campaign_id":campaign_id,
+		"display_name":str(manifest.display_name),
+		"activation_policy":str(manifest.activation_policy), "available":true,
+		"active":context.get("project_id") == project_id and context.get("campaign_id") == campaign_id,
+		"content_hash":str(manifest.content_hash), "manifest_hash":str(manifest.manifest_hash),
+		"source_draft_id":str(source.get("draft_id", "")), "save_directory":save_directory,
+		"slots":_slot_summaries(save_directory), "errors":[]}
+
+func _slot_summaries(directory: String) -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	for slot in SaveStore.new(directory).list_slots():
+		var metadata: Dictionary = slot.get("metadata", {})
+		result.append({"slot":int(slot.get("slot", 0)), "exists":bool(slot.get("exists", false)),
+			"ok":bool(slot.get("ok", false)), "recovered":bool(slot.get("recovered", false)),
+			"updated_at":int(metadata.get("updated_at", 0)), "error":str(slot.get("error", ""))})
+	return result
+
+func _scoped_id(value: String, prefix: String) -> bool:
+	var expression := RegEx.new()
+	if expression.compile("^" + prefix + "\\.[a-z0-9][a-z0-9_.-]+$") != OK:
+		return false
+	return value.length() <= 128 and expression.search(value) != null
 
 func _rollback(errors: Array[String]) -> Dictionary:
 	var campaign_id := str(_pending_launch.get("campaign_id", ""))

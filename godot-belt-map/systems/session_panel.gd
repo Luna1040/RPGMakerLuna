@@ -14,6 +14,7 @@ var roster_id:="scout"
 var capture_action:=""
 var overwrite_slot:=0
 var transition_confirm:=false
+var campaign_launch_preview: Dictionary = {}
 var summary_clock:=0.0
 
 func setup(service) -> void:
@@ -65,7 +66,7 @@ func setup(service) -> void:
 	button(top,"继续游戏 · Esc",close)
 	var tabs:=HBoxContainer.new()
 	layout.add_child(tabs)
-	for entry in [["adventure","冒险"],["journal","任务"],["network","叙事网络"],["roster","角色图鉴"],["trade","补给与锻造"],["saves","存档"],["settings","设置"]]:
+	for entry in [["adventure","冒险"],["journal","任务"],["network","叙事网络"],["roster","角色图鉴"],["trade","补给与锻造"],["saves","存档"],["campaigns","战役"],["settings","设置"]]:
 		var id:String=entry[0]
 		button(tabs,entry[1],func(): open(id))
 	layout.add_child(HSeparator.new())
@@ -93,6 +94,7 @@ func open(id: String) -> void:
 	capture_action=""
 	overwrite_slot=0
 	transition_confirm=false
+	if id!="campaigns": campaign_launch_preview={}
 	runtime.stage.sprint.reset()
 	runtime.stage.knight.set_movement_axis(0)
 	overlay.show()
@@ -106,6 +108,7 @@ func close() -> void:
 	capture_action=""
 	overwrite_slot=0
 	transition_confirm=false
+	campaign_launch_preview={}
 
 func button(parent: Node, text: String, action: Callable, enabled: bool = true) -> Button:
 	var b:=Button.new()
@@ -137,7 +140,7 @@ func refresh() -> void:
 		body.remove_child(child)
 		child.queue_free()
 	scroll.scroll_vertical=0
-	heading.text={"adventure":"苍石手记 · 冒险","journal":"任务与人情","network":"交织的线索","roster":"同行者与古塔敌影","trade":"补给与锻造","saves":"旅途存档","settings":"游戏设置","dialogue":"城镇交谈"}.get(tab,"苍石手记")
+	heading.text={"adventure":"苍石手记 · 冒险","journal":"任务与人情","network":"交织的线索","roster":"同行者与古塔敌影","trade":"补给与锻造","saves":"旅途存档","campaigns":"战役管理","settings":"游戏设置","dialogue":"城镇交谈"}.get(tab,"苍石手记")
 	match tab:
 		"adventure": render_adventure()
 		"journal": render_journal()
@@ -145,6 +148,7 @@ func refresh() -> void:
 		"roster": render_roster()
 		"trade": render_trade()
 		"saves": render_saves()
+		"campaigns": render_campaigns()
 		"settings": render_settings()
 		"dialogue": render_dialogue()
 	update_status()
@@ -289,6 +293,89 @@ func render_saves() -> void:
 			refresh(),runtime.safe_to_save())
 		button(r,"读取",func(): runtime.load_game(slot))
 	words("Mac / Windows 共用存档格式；保存在各系统的 Godot user:// 目录。网页存档留在当前浏览器的站点数据中，清理站点数据会丢失。",Color("91a9bd"),17)
+
+func render_campaigns() -> void:
+	words("已安装战役",Color("f7d78e"),23)
+	words("切换战役会结束当前会话，但不会自动加载、复制或覆盖任何存档。每个生成战役拥有独立三槽存档。",Color("c9d6e3"),17)
+	var bridge=runtime.workbench_bridge
+	if bridge==null:
+		words("战役服务不可用。",Color("ef9a9a"))
+		return
+	var library:Dictionary=bridge.list_campaigns()
+	var context:Dictionary=library.get("active_context",{})
+	words("当前内容：%s  ·  %s" % ["官方战役" if context.get("kind")=="official" else "自定义战役",str(context.get("campaign_id","未知"))],Color("a8ded7"),18)
+	if not library.get("ok",false) and library.get("campaigns",[]).is_empty():
+		words("无法读取战役库："+"；".join(library.get("errors",[])),Color("ef9a9a"))
+		return
+	if library.get("truncated",false):
+		words("战役数量超过安全展示上限，仅显示前 256 个有效目录。",Color("efc879"),16)
+	for entry in library.get("campaigns",[]):
+		if not entry is Dictionary: continue
+		var campaign:Dictionary=entry.duplicate(true)
+		body.add_child(HSeparator.new())
+		words(("● " if campaign.get("active",false) else "")+str(campaign.get("display_name",campaign.get("campaign_id","未命名战役"))),Color("f7d78e") if campaign.get("active",false) else Color("d5dfec"),21)
+		words("%s / %s  ·  %s" % [campaign.get("project_id",""),campaign.get("campaign_id",""),"官方内容" if campaign.get("kind")=="official" else "来源 "+str(campaign.get("source_draft_id","未知"))],Color("91a9bd"),15)
+		if campaign.get("available",false):
+			words(_campaign_slots_text(campaign.get("slots",[])),Color("a9bccd"),16)
+			var label:=("重新开始此战役 · " if campaign.get("active",false) else "预览并开始 · ")+str(campaign.get("display_name",campaign.get("campaign_id","")))
+			button(body,label,func(): _preview_campaign(campaign))
+		else:
+			words("战役包损坏或不完整："+"；".join(campaign.get("errors",[])),Color("ef9a9a"),16)
+			button(body,"不可启动",func(): pass,false)
+	if not campaign_launch_preview.is_empty():
+		body.add_child(HSeparator.new())
+		words("确认开始新会话",Color("efc879"),23)
+		words("即将结束当前会话并启动「%s」。请先在“存档”页保存需要保留的进度。此次操作不会自动读取目标战役的存档。" % campaign_launch_preview.get("display_name","所选战役"),Color("f2d7aa"),18)
+		words("目标存档："+str(campaign_launch_preview.get("save_directory","")),Color("91a9bd"),15)
+		var actions:=row()
+		button(actions,"确认结束当前会话并启动",_confirm_campaign_launch)
+		button(actions,"取消",func(): campaign_launch_preview={}; message.text="已取消战役切换"; refresh())
+
+func _campaign_slots_text(slots: Array) -> String:
+	var summaries:Array[String]=[]
+	for entry in slots:
+		if not entry is Dictionary: continue
+		var slot:=int(entry.get("slot",0))
+		if not entry.get("exists",false):
+			summaries.append("槽 %d：空" % slot)
+		elif not entry.get("ok",false):
+			summaries.append("槽 %d：异常" % slot)
+		else:
+			var updated:=int(entry.get("updated_at",0))
+			var date:=Time.get_datetime_string_from_unix_time(updated).replace("T"," ")+" UTC" if updated>0 else "已有存档"
+			summaries.append("槽 %d：%s%s" % [slot,date,"（备份恢复）" if entry.get("recovered",false) else ""])
+	return "  ·  ".join(summaries) if not summaries.is_empty() else "暂无可用存档信息"
+
+func _preview_campaign(campaign: Dictionary) -> void:
+	var result:Dictionary
+	if campaign.get("kind")=="official":
+		result=runtime.workbench_bridge.preview_official_launch()
+	else:
+		result=runtime.workbench_bridge.preview_campaign_launch(str(campaign.get("project_id","")),str(campaign.get("campaign_id","")))
+	if not result.get("ok",false):
+		campaign_launch_preview={}
+		message.text="无法预览战役："+"；".join(result.get("errors",[]))
+		refresh()
+		return
+	campaign_launch_preview=result.duplicate(true)
+	message.text="已完成启动前复检；确认后才会结束当前会话。"
+	refresh()
+
+func _confirm_campaign_launch() -> void:
+	if campaign_launch_preview.is_empty() or runtime.workbench_bridge==null: return
+	var preview:=campaign_launch_preview.duplicate(true)
+	var result:Dictionary
+	if preview.get("kind")=="official":
+		result=runtime.workbench_bridge.start_official_session()
+	else:
+		result=runtime.workbench_bridge.start_campaign_session(str(preview.get("project_id","")),str(preview.get("campaign_id","")),str(preview.get("launch_token","")))
+	if not result.get("ok",false):
+		message.text="战役启动失败："+"；".join(result.get("errors",[]))
+		campaign_launch_preview={}
+		refresh()
+		return
+	message.text="正在结束当前会话并载入战役……"
+	overlay.hide()
 
 func render_settings() -> void:
 	var volume:=HSlider.new()

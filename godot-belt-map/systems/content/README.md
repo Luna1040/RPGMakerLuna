@@ -197,6 +197,30 @@ WorkbenchBridge.preview_campaign_launch(project_id, campaign_id)
 
 工作台 UI 只应使用 `preview_campaign_launch()` 与 `start_campaign_session()`。`queue_campaign_launch()` / `commit_pending_launch()` 是启动服务和 bootstrap 之间的内部事务接口，不能作为当前场景的“刷新内容”按钮。
 
+## 战役管理器
+
+Godot 的 Esc 菜单现已提供“战役”页。页面通过 `WorkbenchBridge.list_campaigns()` 读取战役库，不直接遍历文件系统或解析 manifest。返回结果包含：
+
+- 官方战役与所有规范项目目录中的已安装战役；
+- 当前激活的项目/战役上下文；
+- 显示名、激活策略、来源草稿、内容与 manifest 哈希；
+- 每个战役独立三槽的存在、可读性、更新时间和备份恢复状态；
+- 损坏或不完整战役包的只读错误信息。
+
+损坏包会显示但启动按钮禁用。项目 ID 不能是路径；目录扫描只接受规范 `project.*` / `campaign.*` ID，并限制为最多 64 个项目、256 个战役，避免异常目录拖垮菜单。槽位摘要只读取 `SaveStore` 信封元数据，不恢复游戏状态。
+
+Godot 与网页工作台应使用同一交互：
+
+```text
+list_campaigns
+→ 选择战役
+→ preview_campaign_launch / preview_official_launch
+→ 显示“结束当前会话”二次确认和目标存档目录
+→ start_campaign_session / start_official_session
+```
+
+预览后仍不会激活内容；只有玩家点击最终确认才会进入 B-05 的 bootstrap 链路。管理器不会自动读取目标槽位，进入新会话后由玩家在对应战役的“存档”页明确选择。
+
 ## 运行时 Patch
 
 技能 Patch 是原子事务：任一操作非法时全部拒绝；重复 `patch_id` 不会重复修改。会话内最近一次 Patch 可撤销；覆盖状态进入现有 `GameRuntime` 快照和 `SaveStore`，不另建第二套状态或存档。
