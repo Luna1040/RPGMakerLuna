@@ -42,6 +42,8 @@ func capabilities() -> Dictionary:
 		"campaign_import_request_schema": "campaign-import-request/1",
 		"campaign_manifest_schema": "campaign-manifest/1",
 		"campaign_content_schema": "campaign-content/1",
+		"authoring_run_request_schema": "authoring-run-request/1",
+		"authoring_run_schema": "authoring-run/1",
 		"content_revision": registry.revision if registry != null else -1,
 		"catalog_hash": registry.catalog_hash if registry != null else "",
 		"targets": registry.registered_skill_ids() if registry != null else [],
@@ -54,6 +56,8 @@ func capabilities() -> Dictionary:
 		"campaign_activation_policies": ["new_campaign", "explicit_project_copy"],
 		"campaign_session_activation": "scene_bootstrap_new_session_only",
 		"campaign_library": "validated_read_only_with_save_slot_summaries",
+		"authoring_orchestration": "main_agent_validated_child_agent_state_machine",
+		"authoring_transport": "strict_agent_task_and_result_json",
 		"content_context": registry.content_context() if registry != null else {},
 		"active_save_directory": _campaign_session().active_save_directory() if _campaign_session() != null else "user://rpg_saves",
 		"safe_to_apply": safe_to_apply(),
@@ -233,6 +237,46 @@ func start_official_session() -> Dictionary:
 		return {"ok":false, "errors":["CampaignSessionService is unavailable."]}
 	return service.start_official_session()
 
+func validate_authoring_run_request(value: Variant) -> Array[String]:
+	var service = _authoring()
+	return service.validate_run_request(value) if service != null else ["AuthoringOrchestrator is unavailable."]
+
+func create_authoring_run(value: Variant) -> Dictionary:
+	var service = _authoring()
+	return service.create_run(value) if service != null else {"ok":false, "errors":["AuthoringOrchestrator is unavailable."], "run":{}}
+
+func list_authoring_runs() -> Array[Dictionary]:
+	var service = _authoring()
+	return service.list_runs() if service != null else []
+
+func get_authoring_run(run_id: String) -> Dictionary:
+	var service = _authoring()
+	return service.get_run(run_id) if service != null else {}
+
+func dispatch_authoring_tasks(run_id: String) -> Dictionary:
+	var service = _authoring()
+	return service.dispatch_ready_tasks(run_id) if service != null else {"ok":false, "errors":["AuthoringOrchestrator is unavailable."], "tasks":[]}
+
+func active_authoring_tasks(run_id: String) -> Dictionary:
+	var service = _authoring()
+	return service.active_task_bundles(run_id) if service != null else {"ok":false, "errors":["AuthoringOrchestrator is unavailable."], "tasks":[]}
+
+func submit_authoring_result(run_id: String, result_value: Variant) -> Dictionary:
+	var service = _authoring()
+	return service.submit_agent_result(run_id, result_value) if service != null else {"ok":false, "errors":["AuthoringOrchestrator is unavailable."]}
+
+func preview_authoring_run(run_id: String) -> Dictionary:
+	var service = _authoring()
+	return service.preview_run(run_id) if service != null else {"ok":false, "errors":["AuthoringOrchestrator is unavailable."]}
+
+func publish_authoring_run(run_id: String, preview_token: String) -> Dictionary:
+	var service = _authoring()
+	return service.publish_run(run_id, preview_token) if service != null else {"ok":false, "errors":["AuthoringOrchestrator is unavailable."]}
+
+func cancel_authoring_run(run_id: String) -> Dictionary:
+	var service = _authoring()
+	return service.cancel_run(run_id) if service != null else {"ok":false, "errors":["AuthoringOrchestrator is unavailable."]}
+
 func submit_patch(value: Variant) -> Dictionary:
 	var registry = _registry()
 	if registry == null or not registry.loaded:
@@ -306,6 +350,9 @@ func _campaign_service():
 
 func _campaign_session():
 	return get_node_or_null("/root/CampaignSessionService")
+
+func _authoring():
+	return get_node_or_null("/root/AuthoringOrchestrator")
 
 func _whole(value: Variant) -> bool:
 	return (value is int or value is float) and is_finite(float(value)) and floorf(float(value)) == float(value)

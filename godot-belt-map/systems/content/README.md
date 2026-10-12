@@ -101,6 +101,37 @@ Main Agent 是唯一编排者。它先读取 `WorkbenchBridge.capabilities()` �
 
 若 `request_id`、角色、revision、目标授权或数量预算不匹配，整个结果被拒绝。`needs_revision` / `blocked` 结果不能携带可执行 Patch。
 
+## 可信创作 Run
+
+`AuthoringOrchestrator` 把上述合同变成 Godot 内真正的状态机。入口请求使用 `content/schemas/authoring-run-request.schema.json`，支持西幻、修仙、武林和混合题材，并声明主题、基调、规模、内容策略、所需系统和附加限制。
+
+```text
+create_authoring_run
+→ Main Agent 按需求拆出 World / Narrative / NPC / Systems
+→ dispatch_authoring_tasks 返回可派发任务和角色专属 Prompt
+→ submit_authoring_result 逐项配对并调用 review_agent_result
+→ 所有业务子 Agent 完成后，Validator 才能派发
+→ Validator 通过后，Main Agent 合并已审查 content_draft
+→ preview_authoring_run
+→ 玩家二次确认
+→ publish_authoring_run
+```
+
+每个 Run 绑定创建时的 `catalog_hash`、`content_revision` 和 `content_context`。任意一项变化，未结束 Run 都会进入 `stale`，不能把旧建议写入新战役。最多保留 16 个 Run；容量满时只清理最旧的终态 Run，不丢弃仍在等待结果的任务。
+
+状态和权限约束：
+
+- World 只产出世界、区域、地图和城镇分析；当前不能生成场景、脚本或资源路径。
+- Narrative 和 NPC 必须把结构修改包装为 `content_draft/1`，并且只能写任务里列出的目标。
+- Systems 只能提交白名单 Runtime Patch 候选；编排器仅保存候选，不会自动调用 `submit_patch()`。
+- Validator 依赖所有业务任务，只审查上游结果，`deliverables` 必须为空；它不能生成补丁或草稿。
+- Main Agent 只合并 Workbench 已经审查通过的草稿；两个子 Agent 对同一目标给出不同操作时，Run 进入修订状态。
+- `preview_token` 同时绑定草稿和候选内容。错误、过期或不匹配令牌不能发布。
+
+内容策略 `mature_consensual` 只代表“成年人之间明确自愿的成熟内容”，请求必须显式带上三条硬边界：`所有相关角色必须为成年人`、`亲密内容必须明确自愿`、`禁止性暴力与胁迫`。缺任一条时，Run 创建即失败。该策略不放宽目标权限、Schema、代码禁令或发布确认。
+
+Godot Esc 菜单的“创作”页提供请求表单、任务状态、派发/复制 JSON、回填结果、Validator 闸门、合并预览与二次发布确认。剪贴板信封是 `authoring-dispatch/1`，其中每项包含原始 `agent-task/1`、面向该角色的 Prompt，以及 Validator 所需的已审查上游结果。当前没有内置模型供应商：外部传输层必须消费这些 JSON，再把单个严格 `agent-result/1` 回填；不能通过 UI 文字伪装成已完成的模型调用。
+
 ## 生成内容草稿与发布
 
 任务、对话和 NPC 结构不使用热 Patch，而是进入两阶段创作流水线：

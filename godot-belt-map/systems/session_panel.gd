@@ -15,6 +15,15 @@ var capture_action:=""
 var overwrite_slot:=0
 var transition_confirm:=false
 var campaign_launch_preview: Dictionary = {}
+var authoring_form: Dictionary = {
+	"genre":"western_fantasy", "theme":"失落边境与古老誓约", "tone":"heroic",
+	"scope":"chapter", "content_policy":"general",
+	"requested_systems":["world","map","town","npcs","main_quest","side_quests","affinity","items","equipment","shops"],
+	"constraints":[]
+}
+var authoring_selected_run:=""
+var authoring_result_text:=""
+var authoring_publish_confirm:=false
 var summary_clock:=0.0
 
 func setup(service) -> void:
@@ -66,7 +75,7 @@ func setup(service) -> void:
 	button(top,"继续游戏 · Esc",close)
 	var tabs:=HBoxContainer.new()
 	layout.add_child(tabs)
-	for entry in [["adventure","冒险"],["journal","任务"],["network","叙事网络"],["roster","角色图鉴"],["trade","补给与锻造"],["saves","存档"],["campaigns","战役"],["settings","设置"]]:
+	for entry in [["adventure","冒险"],["journal","任务"],["network","叙事网络"],["roster","角色图鉴"],["trade","补给与锻造"],["saves","存档"],["campaigns","战役"],["authoring","创作"],["settings","设置"]]:
 		var id:String=entry[0]
 		button(tabs,entry[1],func(): open(id))
 	layout.add_child(HSeparator.new())
@@ -95,6 +104,7 @@ func open(id: String) -> void:
 	overwrite_slot=0
 	transition_confirm=false
 	if id!="campaigns": campaign_launch_preview={}
+	if id!="authoring": authoring_publish_confirm=false
 	runtime.stage.sprint.reset()
 	runtime.stage.knight.set_movement_axis(0)
 	overlay.show()
@@ -140,7 +150,7 @@ func refresh() -> void:
 		body.remove_child(child)
 		child.queue_free()
 	scroll.scroll_vertical=0
-	heading.text={"adventure":"苍石手记 · 冒险","journal":"任务与人情","network":"交织的线索","roster":"同行者与古塔敌影","trade":"补给与锻造","saves":"旅途存档","campaigns":"战役管理","settings":"游戏设置","dialogue":"城镇交谈"}.get(tab,"苍石手记")
+	heading.text={"adventure":"苍石手记 · 冒险","journal":"任务与人情","network":"交织的线索","roster":"同行者与古塔敌影","trade":"补给与锻造","saves":"旅途存档","campaigns":"战役管理","authoring":"通用动态 RPG 世界引擎 Prompt","settings":"游戏设置","dialogue":"城镇交谈"}.get(tab,"苍石手记")
 	match tab:
 		"adventure": render_adventure()
 		"journal": render_journal()
@@ -149,6 +159,7 @@ func refresh() -> void:
 		"trade": render_trade()
 		"saves": render_saves()
 		"campaigns": render_campaigns()
+		"authoring": render_authoring()
 		"settings": render_settings()
 		"dialogue": render_dialogue()
 	update_status()
@@ -376,6 +387,212 @@ func _confirm_campaign_launch() -> void:
 		return
 	message.text="正在结束当前会话并载入战役……"
 	overlay.hide()
+
+func render_authoring() -> void:
+	words("Main Agent → World / Narrative / NPC / Systems → Validator",Color("f7d78e"),23)
+	words("Godot 只负责可信编排、Schema 校验、授权目标、冲突检测和发布闸门。外部模型必须领取 agent-task/1，并回传纯 agent-result/1 JSON；模型永远不能直接改场景、代码或运行中战役。",Color("c9d6e3"),17)
+	var bridge=runtime.workbench_bridge
+	if bridge==null:
+		words("创作编排服务不可用。",Color("ef9a9a"))
+		return
+	_render_authoring_form(bridge)
+	var run:Dictionary=bridge.get_authoring_run(authoring_selected_run) if not authoring_selected_run.is_empty() else {}
+	if run.is_empty():
+		var runs:Array[Dictionary]=bridge.list_authoring_runs()
+		if not runs.is_empty():
+			authoring_selected_run=str(runs.back().run_id)
+			run=bridge.get_authoring_run(authoring_selected_run)
+	if not run.is_empty():
+		_render_authoring_run(bridge,run)
+
+func _render_authoring_form(bridge) -> void:
+	body.add_child(HSeparator.new())
+	words("新建创作任务",Color("f7d78e"),21)
+	var theme:=LineEdit.new()
+	theme.name="AuthoringTheme"
+	theme.placeholder_text="一句话描述世界主题与玩家体验"
+	theme.text=str(authoring_form.theme)
+	theme.text_changed.connect(func(value): authoring_form.theme=value)
+	body.add_child(theme)
+	var option_row:=row()
+	_authoring_option(option_row,"题材",[["western_fantasy","西幻"],["cultivation","修仙"],["wuxia","武林"],["hybrid","混合"]],str(authoring_form.genre),func(value): authoring_form.genre=value)
+	_authoring_option(option_row,"基调",[["heroic","英雄史诗"],["dark","黑暗"],["light","轻松"],["mystery","悬疑"]],str(authoring_form.tone),func(value): authoring_form.tone=value)
+	_authoring_option(option_row,"规模",[["demo","试玩"],["chapter","章节"],["campaign","完整战役"]],str(authoring_form.scope),func(value): authoring_form.scope=value)
+	_authoring_option(option_row,"内容",[["general","通用"],["mature_consensual","成人自愿"]],str(authoring_form.content_policy),func(value): _set_authoring_policy(value))
+	words("生成模块（至少选择一项）",Color("a8ded7"),17)
+	var systems_grid:=GridContainer.new()
+	systems_grid.columns=5
+	systems_grid.add_theme_constant_override("h_separation",10)
+	systems_grid.add_theme_constant_override("v_separation",4)
+	body.add_child(systems_grid)
+	var titles:={"world":"世界","map":"地图","town":"初始城镇","npcs":"NPC","main_quest":"主线","side_quests":"支线","affinity":"好感度","items":"道具","equipment":"装备","shops":"商店"}
+	for system_id in titles:
+		var choice:=CheckButton.new()
+		choice.text=str(titles[system_id])
+		choice.button_pressed=system_id in authoring_form.requested_systems
+		choice.toggled.connect(func(enabled): _toggle_authoring_system(str(system_id),enabled))
+		systems_grid.add_child(choice)
+	var constraints:=LineEdit.new()
+	constraints.name="AuthoringConstraints"
+	constraints.placeholder_text="附加限制，用中文分号分隔（可留空）"
+	constraints.text="；".join(authoring_form.constraints)
+	constraints.text_changed.connect(func(value): authoring_form.constraints=_authoring_constraints(str(value)))
+	body.add_child(constraints)
+	if authoring_form.content_policy=="mature_consensual":
+		words("成人内容硬边界：仅限成年人、必须明确自愿、禁止性暴力与胁迫。",Color("efc879"),16)
+	button(body,"生成 Main Agent 计划",func(): _create_authoring_run(bridge))
+
+func _authoring_option(parent: Node, label_text: String, entries: Array, current: String, changed: Callable) -> void:
+	var label:=Label.new()
+	label.text=label_text
+	label.add_theme_color_override("font_color",Color("91a9bd"))
+	parent.add_child(label)
+	var options:=OptionButton.new()
+	options.custom_minimum_size.x=135
+	var selected:=0
+	for index in entries.size():
+		options.add_item(str(entries[index][1]))
+		options.set_item_metadata(index,str(entries[index][0]))
+		if str(entries[index][0])==current: selected=index
+	options.select(selected)
+	options.item_selected.connect(func(index): changed.call(str(options.get_item_metadata(index))))
+	parent.add_child(options)
+
+func _set_authoring_policy(value: String) -> void:
+	authoring_form.content_policy=value
+	if value=="mature_consensual":
+		for boundary in ["所有相关角色必须为成年人","亲密内容必须明确自愿","禁止性暴力与胁迫"]:
+			if boundary not in authoring_form.constraints: authoring_form.constraints.append(boundary)
+	else:
+		for boundary in ["所有相关角色必须为成年人","亲密内容必须明确自愿","禁止性暴力与胁迫"]:
+			authoring_form.constraints.erase(boundary)
+	refresh()
+
+func _toggle_authoring_system(system_id: String, enabled: bool) -> void:
+	if enabled and system_id not in authoring_form.requested_systems:
+		authoring_form.requested_systems.append(system_id)
+	elif not enabled:
+		authoring_form.requested_systems.erase(system_id)
+
+func _authoring_constraints(value: String) -> Array[String]:
+	var result:Array[String]=[]
+	for part in value.replace("\n","；").split("；",false):
+		var cleaned:=part.strip_edges()
+		if not cleaned.is_empty() and cleaned not in result: result.append(cleaned)
+	return result
+
+func _create_authoring_run(bridge) -> void:
+	var context:Dictionary=bridge.capabilities().get("content_context",{})
+	var request:={"schema_version":"authoring-run-request/1",
+		"project_id":str(context.get("project_id","project.rpgmakerluna.courtyard")),
+		"genre":str(authoring_form.genre),"theme":str(authoring_form.theme).strip_edges(),
+		"tone":str(authoring_form.tone),"scope":str(authoring_form.scope),
+		"content_policy":str(authoring_form.content_policy),
+		"requested_systems":authoring_form.requested_systems.duplicate(),
+		"constraints":authoring_form.constraints.duplicate()}
+	var result:Dictionary=bridge.create_authoring_run(request)
+	if not result.get("ok",false):
+		message.text="无法创建计划："+"；".join(result.get("errors",[]))
+	else:
+		authoring_selected_run=str(result.run.run_id)
+		authoring_result_text=""
+		authoring_publish_confirm=false
+		message.text="Main Agent 已拆分子任务；请派发严格 JSON。"
+	refresh()
+
+func _render_authoring_run(bridge, run: Dictionary) -> void:
+	body.add_child(HSeparator.new())
+	words("当前 Run · %s" % run.run_id,Color("f7d78e"),21)
+	words("状态：%s  ·  内容基线 r%s  ·  %s" % [_authoring_status(str(run.status)),str(run.base_content_revision),str(run.request.theme)],Color("a8ded7"),18)
+	for record in run.tasks:
+		if not record is Dictionary: continue
+		words("%s  ·  %s\n%s" % [str(record.role).to_upper(),_authoring_task_status(str(record.status)),str(record.task.objective)],Color("d5dfec"),16)
+	if not run.get("errors",[]).is_empty(): words("阻塞："+"；".join(run.errors),Color("ef9a9a"),16)
+	var status_text:=str(run.status)
+	if status_text in ["planned","awaiting_agents","validator_ready","awaiting_validator","needs_revision"]:
+		var actions:=row()
+		button(actions,"派发就绪任务并复制 JSON",func(): _dispatch_authoring(bridge,str(run.run_id)))
+		button(actions,"复制待处理任务",func(): _copy_active_authoring(bridge,str(run.run_id)))
+		var input:=TextEdit.new()
+		input.name="AuthoringResultInput"
+		input.placeholder_text="在此粘贴单个子 Agent 返回的纯 agent-result/1 JSON"
+		input.text=authoring_result_text
+		input.custom_minimum_size=Vector2(0,150)
+		input.text_changed.connect(func(): authoring_result_text=input.text)
+		body.add_child(input)
+		button(body,"提交并校验子 Agent JSON",func(): _submit_authoring_result(bridge,str(run.run_id)))
+	if status_text=="ready_for_preview":
+		button(body,"生成合并预览（不修改当前战役）",func(): _preview_authoring(bridge,str(run.run_id)))
+	if status_text=="previewed":
+		var preview:Dictionary=run.preview
+		words("已通过合并预览：%d 项变更，候选内容哈希 %s" % [preview.get("change_count",run.draft.get("operations",[]).size()),str(preview.get("candidate_content_hash","")).left(16)],Color("efc879"),17)
+		button(body,"再次确认：发布不可变内容包" if authoring_publish_confirm else "发布预览内容包",func(): _publish_authoring(bridge,str(run.run_id),str(preview.get("preview_token",""))))
+	if status_text=="published":
+		words("已发布不可变内容产物。它不会热替换当前游戏；请在导入流程中创建独立战役后，从“战役”页启动新会话。",Color("8fd6ae"),17)
+		words(str(run.publication.get("artifact_path",run.publication.get("artifact_file",""))),Color("91a9bd"),15)
+	if status_text=="completed_analysis":
+		words("Validator 已通过分析型 Run；没有生成可发布的剧情/NPC 草稿。",Color("8fd6ae"),17)
+		for finding in run.get("analysis_report",[]):
+			if finding is Dictionary: words("%s：%s" % [str(finding.get("agent_role","")).to_upper(),str(finding.get("summary",""))],Color("c9d6e3"),16)
+	if status_text not in ["published","completed_analysis","cancelled","stale"]:
+		button(body,"取消本次创作 Run",func(): var result:Dictionary=bridge.cancel_authoring_run(str(run.run_id)); message.text="已取消" if result.get("ok",false) else "取消失败："+"；".join(result.get("errors",[])); refresh())
+
+func _dispatch_authoring(bridge, run_id: String) -> void:
+	var result:Dictionary=bridge.dispatch_authoring_tasks(run_id)
+	if not result.get("ok",false):
+		message.text="派发失败："+"；".join(result.get("errors",[]))
+	elif result.get("tasks",[]).is_empty():
+		message.text="当前没有依赖已满足且尚未派发的任务。"
+	else:
+		var envelope:={"schema_version":"authoring-dispatch/1","run_id":run_id,"tasks":result.tasks}
+		DisplayServer.clipboard_set(JSON.stringify(envelope,"  ",false,true))
+		message.text="已派发 %d 个任务并复制 JSON；请交给对应外部 Agent。" % result.tasks.size()
+	refresh()
+
+func _copy_active_authoring(bridge, run_id: String) -> void:
+	var result:Dictionary=bridge.active_authoring_tasks(run_id)
+	if not result.get("ok",false):
+		message.text="读取任务失败："+"；".join(result.get("errors",[]))
+	elif result.get("tasks",[]).is_empty():
+		message.text="当前没有等待外部 Agent 的任务。"
+	else:
+		DisplayServer.clipboard_set(JSON.stringify({"schema_version":"authoring-dispatch/1","run_id":run_id,"tasks":result.tasks},"  ",false,true))
+		message.text="已复制 %d 个待处理任务。" % result.tasks.size()
+
+func _submit_authoring_result(bridge, run_id: String) -> void:
+	var parsed=JSON.parse_string(authoring_result_text)
+	if not parsed is Dictionary:
+		message.text="结果不是有效 JSON 对象；请勿包含 Markdown 代码围栏。"
+		return
+	var result:Dictionary=bridge.submit_authoring_result(run_id,parsed)
+	if not result.get("ok",false):
+		message.text="结果被拒绝："+"；".join(result.get("errors",[]))
+	else:
+		authoring_result_text=""
+		message.text="子 Agent 结果已通过合同校验。"+(" Validator 现可派发。" if result.get("validator_ready",false) else "")
+	refresh()
+
+func _preview_authoring(bridge, run_id: String) -> void:
+	var result:Dictionary=bridge.preview_authoring_run(run_id)
+	message.text="合并预览已生成；尚未写入发布目录。" if result.get("ok",false) else "预览失败："+"；".join(result.get("errors",[]))
+	refresh()
+
+func _publish_authoring(bridge, run_id: String, token: String) -> void:
+	if not authoring_publish_confirm:
+		authoring_publish_confirm=true
+		message.text="请再次点击确认发布；发布只生成不可变数据产物，不会修改当前战役。"
+		refresh()
+		return
+	var result:Dictionary=bridge.publish_authoring_run(run_id,token)
+	message.text="发布完成；下一步是校验导入并创建独立战役。" if result.get("ok",false) else "发布失败："+"；".join(result.get("errors",[]))
+	authoring_publish_confirm=false
+	refresh()
+
+func _authoring_status(value: String) -> String:
+	return {"planned":"已规划","awaiting_agents":"等待子 Agent","validator_ready":"可派发 Validator","awaiting_validator":"等待 Validator","needs_revision":"需要修订","ready_for_preview":"可预览","previewed":"已预览","published":"已发布","completed_analysis":"分析已完成","cancelled":"已取消","stale":"内容基线已变化"}.get(value,value)
+
+func _authoring_task_status(value: String) -> String:
+	return {"planned":"待派发","dispatched":"等待结果","completed":"已验证","needs_revision":"需修订","blocked":"阻塞"}.get(value,value)
 
 func render_settings() -> void:
 	var volume:=HSlider.new()
