@@ -9,6 +9,7 @@ signal task_updated(run_id: String, request_id: String, status: String)
 
 const REQUEST_SCHEMA := "authoring-run-request/1"
 const RUN_SCHEMA := "authoring-run/1"
+const STATE_SCHEMA := "authoring-orchestrator-state/1"
 const MAX_RUNS := 16
 const GENRES := ["western_fantasy", "cultivation", "wuxia", "hybrid"]
 const TONES := ["heroic", "dark", "light", "mystery"]
@@ -122,6 +123,49 @@ func list_runs() -> Array[Dictionary]:
 			"theme":str(run.request.theme), "genre":str(run.request.genre),
 			"created_at":int(run.created_at), "task_count":run.tasks.size()})
 	return result
+
+func export_state() -> Dictionary:
+	## Persist only source requests and untrusted Agent results. Derived reviews,
+	## prompts, preview tokens and drafts are rebuilt through the trusted gates.
+	var persisted_runs: Array[Dictionary] = []
+	for run_id in _run_order:
+		var run: Dictionary = _runs[run_id]
+		var tasks: Array[Dictionary] = []
+		for record: Dictionary in run.tasks:
+			tasks.append({"role":str(record.role), "status":str(record.status),
+				"result":record.result.duplicate(true), "errors":record.errors.duplicate(true)})
+		persisted_runs.append({"run_id":run_id, "status":str(run.status),
+			"request":run.request.duplicate(true), "base_catalog_hash":str(run.base_catalog_hash),
+			"base_content_revision":int(run.base_content_revision),
+			"content_context":run.content_context.duplicate(true), "tasks":tasks,
+			"publication":run.publication.duplicate(true), "created_at":int(run.created_at)})
+	return {"schema_version":STATE_SCHEMA, "runs":persisted_runs}
+
+func import_state(value: Variant) -> Dictionary:
+	var errors: Array[String] = []
+	if not value is Dictionary or value.get("schema_version") != STATE_SCHEMA:
+		return {"ok":false, "errors":["Unsupported authoring orchestrator state."], "restored":0}
+	var persisted = value.get("runs")
+	if not persisted is Array or persisted.size() > MAX_RUNS:
+		return {"ok":false, "errors":["Authoring orchestrator state exceeds its run limit."], "restored":0}
+	_runs.clear()
+	_run_order.clear()
+	var restored := 0
+	for raw_run in persisted:
+		var restored_result := _restore_run(raw_run)
+		if restored_result.get("ok", false):
+			restored += 1
+		else:
+			for message in restored_result.get("errors", []):
+				errors.append(str(message))
+	_counter += restored
+	return {"ok":errors.is_empty(), "errors":errors, "restored":restored}
+
+func clear_state_for_restore() -> bool:
+	if not OS.is_debug_build(): return false
+	_runs.clear()
+	_run_order.clear()
+	return true
 
 func dispatch_ready_tasks(run_id: String) -> Dictionary:
 	var run := _mutable_run(run_id)
@@ -298,6 +342,112 @@ func _plan_tasks(request: Dictionary, suffix: String) -> Array[Dictionary]:
 		"等待其他子 Agent；随后检查 Schema、引用、冲突、任务可达性、权限与内容边界。")
 	records.append(_task_record_value(validator_task, "validator", primary_ids))
 	return records
+
+func _restore_run(value: Variant) -> Dictionary:
+	if not value is Dictionary:
+		return {"ok":false, "errors":["Persisted authoring run is not an object."]}
+	var saved: Dictionary = value
+	var run_id := str(saved.get("run_id", ""))
+	var suffix := run_id.trim_prefix("run.authoring.")
+	var suffix_pattern := RegEx.new()
+	if not run_id.begins_with("run.authoring.") or suffix_pattern.compile("^[0-9]+_[0-9]+_[0-9]+$") != OK or suffix_pattern.search(suffix) == null or _runs.has(run_id):
+		return {"ok":false, "errors":["Persisted authoring run_id is invalid or duplicated."]}
+	var request = saved.get("request")
+	var request_errors := validate_run_request(request)
+	if not request_errors.is_empty():
+		return {"ok":false, "errors":request_errors}
+	var registry = _registry()
+	var context_matches: bool = registry != null and str(saved.get("base_catalog_hash", "")) == registry.catalog_hash \
+		and int(saved.get("base_content_revision", -1)) == registry.revision \
+		and saved.get("content_context") == registry.content_context()
+	var tasks := _plan_tasks(request, suffix)
+	var run := {"schema_version":RUN_SCHEMA, "run_id":run_id,
+		"status":"planned" if context_matches else "stale", "request":request.duplicate(true),
+		"base_catalog_hash":str(saved.get("base_catalog_hash", "")),
+		"base_content_revision":int(saved.get("base_content_revision", 0)),
+		"content_context":saved.get("content_context", {}).duplicate(true), "tasks":tasks,
+		"draft":{}, "analysis_report":[], "actionable_patches":[], "preview":{}, "publication":{},
+		"errors":[], "warnings":[], "created_at":int(saved.get("created_at", 0))}
+	_runs[run_id] = run
+	_run_order.append(run_id)
+	if not context_matches:
+		run.errors = ["Content context changed while the authoring run was offline."]
+		return {"ok":true, "errors":[]}
+	var saved_tasks = saved.get("tasks")
+	if not saved_tasks is Array or saved_tasks.size() != tasks.size():
+		_runs.erase(run_id)
+		_run_order.erase(run_id)
+		return {"ok":false, "errors":["Persisted authoring run task plan is invalid."]}
+	# Re-review every stored result. Never trust persisted task status, draft or review.
+	for role in ["world", "narrative", "npc", "systems", "validator"]:
+		for raw_record in saved_tasks:
+			if not raw_record is Dictionary or str(raw_record.get("role", "")) != role:
+				continue
+			var record := _record_for_role(run, role)
+			if record.is_empty(): continue
+			var result = raw_record.get("result", {})
+			if result is Dictionary and not result.is_empty():
+				if role == "validator": record.task.objective = _validator_objective(run)
+				record.status = "dispatched"
+				submit_agent_result(run_id, result)
+	# Restore unfinished queue positions only after all trustworthy results replayed.
+	for raw_record in saved_tasks:
+		if not raw_record is Dictionary: continue
+		var record := _record_for_role(run, str(raw_record.get("role", "")))
+		if record.is_empty() or record.status == "completed": continue
+		var saved_status := str(raw_record.get("status", "planned"))
+		if saved_status in ["planned", "dispatched", "needs_revision", "blocked"]:
+			record.status = "planned" if record.role == "validator" and not _dependencies_complete(run, record.dependencies) else saved_status
+			record.errors = _safe_string_array(raw_record.get("errors", []), 16, 500)
+	var saved_status := str(saved.get("status", "planned"))
+	if saved_status == "cancelled":
+		run.status = "cancelled"
+	elif saved_status == "previewed" and run.status == "ready_for_preview":
+		run.warnings.append("The pre-restart preview token expired; preview the run again before publishing.")
+	elif saved_status == "published":
+		_restore_publication(run, saved.get("publication", {}))
+	elif run.status not in ["ready_for_preview", "completed_analysis", "needs_revision"]:
+		_recompute_resumed_status(run)
+	return {"ok":true, "errors":[]}
+
+func _record_for_role(run: Dictionary, role: String) -> Dictionary:
+	for record: Dictionary in run.tasks:
+		if record.role == role: return record
+	return {}
+
+func _safe_string_array(value: Variant, limit: int, maximum: int) -> Array[String]:
+	var result: Array[String] = []
+	if not value is Array: return result
+	for entry in value:
+		if entry is String and not entry.is_empty() and entry.length() <= maximum:
+			result.append(entry)
+			if result.size() >= limit: break
+	return result
+
+func _recompute_resumed_status(run: Dictionary) -> void:
+	if _all_primary_tasks_complete(run):
+		var validator := _record_for_role(run, "validator")
+		run.status = "validator_ready" if validator.status == "planned" else "awaiting_validator"
+	elif run.tasks.any(func(record): return record.status == "needs_revision"):
+		run.status = "needs_revision"
+	elif run.tasks.any(func(record): return record.status in ["dispatched", "blocked"]):
+		run.status = "awaiting_agents"
+	else:
+		run.status = "planned"
+
+func _restore_publication(run: Dictionary, value: Variant) -> void:
+	if not value is Dictionary or run.draft.is_empty():
+		run.warnings.append("Published state could not be verified after restart; review and publish again.")
+		return
+	var path := str(value.get("artifact_path", ""))
+	var service = get_node_or_null("/root/ContentDraftService")
+	var expected_path := str(service.publish_root).path_join(str(run.request.project_id)).path_join("published").path_join(str(run.draft.draft_id) + ".json") if service != null else ""
+	var artifact = JSON.parse_string(FileAccess.get_file_as_string(path)) if path == expected_path and FileAccess.file_exists(path) else null
+	if service != null and artifact is Dictionary and service.verify_published_artifact(artifact).is_empty() and artifact.get("draft") == run.draft:
+		run.publication = value.duplicate(true)
+		run.status = "published"
+	else:
+		run.warnings.append("Published artifact could not be verified after restart; review and publish again.")
 
 func _task(request: Dictionary, suffix: String, role: String, allowed: Array, context: Array,
 		allow_new_ids: bool, max_proposals: int, role_objective: String) -> Dictionary:

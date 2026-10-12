@@ -298,4 +298,4 @@ list_campaigns
 
 调用方应先读取当前 revision 并检查目标，然后提交符合 `content/schemas/runtime-patch.schema.json` 的 JSON。版本不匹配会被拒绝；调用方必须重新读取，不可盲目重放。`WorkbenchBridge` 只在非战斗、角色站稳、无飞行投射物的安全点应用，否则进入有界队列。
 
-网络、鉴权、持久任务队列和真正的 Agent 进程调度属于平台端。本目录实现的是 Godot 内的可信执行边界：传输层只能调用公开方法，不能绕过注册表直接改场景、奖励或存档。
+网络供应商账号与真正的外部 Agent 进程仍属于平台端。Godot 已通过 `AgentTransportService` 接入受限 HTTP，通过 `AuthoringPersistenceService` 保存 Run 与未完成队列；校验点不包含 API Key、Authorization、Prompt、预览令牌或受信任 review，恢复时从请求重建合同并重新审查结果。传输层仍只能调用公开方法，不能绕过注册表直接改场景、奖励或存档。

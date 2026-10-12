@@ -8,6 +8,7 @@ signal job_updated(job_id: String, status: String)
 signal run_stage_finished(run_id: String, run_status: String)
 
 const CONFIG_SCHEMA := "agent-transport-config/1"
+const STATE_SCHEMA := "agent-transport-state/1"
 const DEFAULT_CONFIG_PATH := "user://agent_transport.cfg"
 const MAX_JOBS := 64
 const MAX_RESPONSE_BYTES := 1024 * 1024
@@ -67,6 +68,7 @@ func configure(value:Variant,session_api_key:String="")->Dictionary:
 	var saved:=_save_config()
 	if not saved.is_empty(): return {"ok":false,"errors":[saved],"capabilities":capabilities()}
 	configuration_changed.emit(capabilities())
+	_pump_if_ready()
 	return {"ok":true,"errors":[],"capabilities":capabilities()}
 
 func load_config()->Dictionary:
@@ -92,6 +94,7 @@ func set_session_api_key(value:String)->Dictionary:
 	if not errors.is_empty(): return {"ok":false,"errors":errors,"capabilities":capabilities()}
 	_session_api_key=value.strip_edges()
 	configuration_changed.emit(capabilities())
+	_pump_if_ready()
 	return {"ok":true,"errors":[],"capabilities":capabilities()}
 
 func clear_session_api_key()->void:
@@ -146,6 +149,58 @@ func list_jobs(run_id:String="")->Array[Dictionary]:
 
 func get_job(job_id:String)->Dictionary:
 	return _public_job(_jobs.get(job_id,{}))
+
+func export_state()->Dictionary:
+	## Bundles/prompts and credentials are deliberately absent. On restore each
+	## request is rehydrated from the trusted orchestrator's active task bundle.
+	var active:Array[Dictionary]=[]
+	for job_id in _job_order:
+		var job:Dictionary=_jobs[job_id]
+		if job.status in ACTIVE_STATUSES:
+			active.append({"run_id":str(job.run_id),"request_id":str(job.request_id),
+				"agent_role":str(job.agent_role),"status":str(job.status),
+				"attempts":int(job.attempts),"created_at":int(job.created_at)})
+	return {"schema_version":STATE_SCHEMA,"active_jobs":active}
+
+func import_state(value:Variant)->Dictionary:
+	if not value is Dictionary or value.get("schema_version")!=STATE_SCHEMA:
+		return {"ok":false,"errors":["Unsupported agent transport state."],"restored":0}
+	var values=value.get("active_jobs")
+	if not values is Array or values.size()>MAX_JOBS:
+		return {"ok":false,"errors":["Agent transport state exceeds its job limit."],"restored":0}
+	_clear_jobs()
+	var restored:=0
+	var errors:Array[String]=[]
+	var seen:Dictionary={}
+	for entry in values:
+		if not entry is Dictionary: continue
+		var run_id:=str(entry.get("run_id",""))
+		var request_id:=str(entry.get("request_id",""))
+		if run_id.is_empty() or request_id.is_empty() or seen.has(request_id):
+			errors.append("Persisted agent transport job identity is invalid or duplicated.")
+			continue
+		seen[request_id]=true
+		var active:Dictionary=_bridge().active_authoring_tasks(run_id) if _bridge()!=null else {}
+		var bundle:Dictionary={}
+		for candidate in active.get("tasks",[]):
+			if candidate is Dictionary and candidate.get("request_id")==request_id:
+				bundle=candidate
+				break
+		if bundle.is_empty() or str(bundle.get("agent_role",""))!=str(entry.get("agent_role","")):
+			errors.append("Persisted agent job no longer matches an active trusted task: "+request_id)
+			continue
+		var public_job:=_enqueue(bundle)
+		var job:Dictionary=_jobs[public_job.job_id]
+		job.attempts=mini(maxi(int(entry.get("attempts",0)),0),int(_config.max_retries)+1)
+		job.created_at=maxi(int(entry.get("created_at",0)),0)
+		restored+=1
+	_pump_if_ready()
+	return {"ok":errors.is_empty(),"errors":errors,"restored":restored}
+
+func clear_state_for_restore()->bool:
+	if not OS.is_debug_build(): return false
+	_clear_jobs()
+	return true
 
 func cancel_job(job_id:String)->Dictionary:
 	var job:Dictionary=_jobs.get(job_id,{})
@@ -210,6 +265,20 @@ func _pump()->void:
 				break
 		if next.is_empty(): return
 		_start_job(next)
+
+func _pump_if_ready()->void:
+	if capabilities().ready: _pump()
+
+func _clear_jobs()->void:
+	for job_id in _request_nodes.keys():
+		var request=_request_nodes[job_id]
+		if is_instance_valid(request):
+			request.cancel_request()
+			request.queue_free()
+	_request_nodes.clear()
+	_jobs.clear()
+	_job_order.clear()
+	_active_request_ids.clear()
 
 func _start_job(job:Dictionary)->void:
 	job.status="running"

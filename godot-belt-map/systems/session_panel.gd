@@ -420,6 +420,7 @@ func render_authoring() -> void:
 
 func _render_authoring_transport(bridge) -> void:
 	var caps:Dictionary=bridge.agent_transport_capabilities()
+	var persistence:Dictionary=bridge.authoring_persistence_status()
 	if not transport_form_initialized:
 		transport_endpoint=str(caps.get("endpoint",""))
 		transport_model=str(caps.get("model",""))
@@ -432,6 +433,8 @@ func _render_authoring_transport(bridge) -> void:
 	var ready:=bool(caps.get("ready",false))
 	var key_source:=str(caps.get("key_source","none"))
 	words(("● 已就绪" if ready else "○ 尚未就绪")+"  ·  密钥来源："+{"session":"本次会话内存","environment":"RPG_AGENT_API_KEY 环境变量","none":"未设置"}.get(key_source,key_source)+"  ·  活跃任务 %d" % int(caps.get("active_jobs",0)),Color("8fd6ae") if ready else Color("efc879"),17)
+	words("断点续作：%s  ·  %s" % ["已启用" if persistence.get("enabled",false) else "已禁用",
+		"已从备份恢复" if persistence.get("recovered",false) else "原子校验点"],Color("91a9bd"),15)
 	var endpoint:=LineEdit.new()
 	endpoint.name="AgentTransportEndpoint"
 	endpoint.placeholder_text="HTTPS endpoint，例如 https://provider.example/v1/chat/completions"
@@ -461,7 +464,7 @@ func _render_authoring_transport(bridge) -> void:
 	var actions:=row()
 	button(actions,"保存配置",func(): _save_agent_transport(bridge))
 	button(actions,"清除会话密钥",func(): bridge.clear_agent_transport_session_key(); transport_session_key=""; message.text="已清除内存中的会话密钥。"; refresh(),key_source=="session")
-	words("端点与模型保存在 user://agent_transport.cfg；API Key 只从 RPG_AGENT_API_KEY 或当前进程内存读取。配置禁止 URL 查询参数、远程明文 HTTP、工具调用和生成代码。",Color("91a9bd"),15)
+	words("端点与模型保存在 user://agent_transport.cfg；Run/队列保存在校验和保护的 user://authoring_state.json。API Key、Authorization、Prompt 与预览令牌绝不落盘。",Color("91a9bd"),15)
 
 func _save_agent_transport(bridge) -> void:
 	var config:={"schema_version":"agent-transport-config/1","provider":"openai_compatible",

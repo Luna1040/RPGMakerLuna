@@ -309,6 +309,10 @@ func cancel_authoring_run_jobs(run_id: String) -> Dictionary:
 	var service = _transport()
 	return service.cancel_run_jobs(run_id) if service != null else {"ok":false, "errors":["AgentTransportService is unavailable."]}
 
+func authoring_persistence_status() -> Dictionary:
+	var service = get_node_or_null("/root/AuthoringPersistenceService")
+	return service.status() if service != null else {"enabled":false,"error":"AuthoringPersistenceService is unavailable."}
+
 func submit_patch(value: Variant) -> Dictionary:
 	var registry = _registry()
 	if registry == null or not registry.loaded:
