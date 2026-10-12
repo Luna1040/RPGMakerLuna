@@ -1,25 +1,57 @@
 extends RefCounted
 ## Original town residents. The map owns input and dialogue presentation.
+const Validator = preload("res://systems/content/content_validator.gd")
+const CATALOG_PATH := "res://content/base/town_npcs.json"
 const INTERACTION_RADIUS := 1.4
+## Data contains only registered asset IDs. This local allowlist is the sole path resolver.
+const ASSET_PATHS := {
+	"asset.npc.innkeeper.base": "res://assets/npcs/innkeeper.png",
+	"asset.npc.innkeeper.idle_manifest": "res://assets/npcs/innkeeper-idle.json",
+	"asset.npc.smith.base": "res://assets/npcs/smith.png",
+	"asset.npc.smith.idle_manifest": "res://assets/npcs/smith-idle.json"
+}
 var residents: Array[Dictionary] = []
 var elapsed := 0.0
 var stage: Node2D
 
 func setup(map_stage: Node2D) -> void:
 	stage = map_stage
-	_add_resident("innkeeper", "艾琳 · 旅店主人", Vector2(5.2, 4.1), "res://assets/npcs/innkeeper.png", Vector2(520, 1500), 1458.0, Rect2(300, 40, 410, 455), [
-		"欢迎来到苍石庭院。我是艾琳，旅店就在身后。先在这里熟悉一下身手吧。",
-		"旧木箱已经没人用了，打碎后留下的杂物可以收进背包。别对着镇民挥剑就好。",
-		"庭院东边住着铁匠雷恩。如果找到了新装备，可以去和他聊聊。"
-	])
-	_add_resident("smith", "雷恩 · 铁匠", Vector2(18.5, 6.4), "res://assets/npcs/smith.png", Vector2(520, 1510), 1500.0, Rect2(300, 5, 410, 450), [
-		"我是雷恩。剑刃要锋利，握剑的手也要稳。欢迎来我的小作坊。",
-		"庭院的宝箱里留了些武器与装备，靠近后交互就能打开。拿到手，记得检查背包。",
-		"木箱能踩，也能打碎。喷泉池沿和中间的石柱都是实体，池水里不能落脚。"
-	])
+	var definitions := _definitions()
+	var ids: Array = definitions.keys()
+	ids.sort()
+	for id in ids:
+		_add_resident(definitions[id])
 
-func _add_resident(id: String, display_name: String, world_position: Vector2, path: String, pivot: Vector2, drawn_height: float, portrait_region: Rect2, lines: Array) -> void:
-	var texture: Texture2D = load(path)
+func _definitions() -> Dictionary:
+	var registry = stage.get_node_or_null("/root/ContentRegistry")
+	if registry != null and registry.loaded:
+		return registry.definitions("npc")
+	var parsed = JSON.parse_string(FileAccess.get_file_as_string(CATALOG_PATH))
+	var errors := Validator.validate_content_bundle(parsed)
+	if not errors.is_empty():
+		push_error("Town NPC catalog: " + "; ".join(errors))
+		return {}
+	var result := {}
+	for entry: Dictionary in parsed.entries:
+		result[str(entry.id)] = entry.duplicate(true)
+	return result
+
+func _add_resident(definition: Dictionary) -> void:
+	var id := str(definition.id)
+	var display_name := str(definition.display_name)
+	var world_position := Vector2(float(definition.position_m[0]), float(definition.position_m[1]))
+	var visual_definition: Dictionary = definition.visual
+	var base_path := str(ASSET_PATHS.get(visual_definition.base_asset_id, ""))
+	var idle_path := str(ASSET_PATHS.get(visual_definition.idle_manifest_asset_id, ""))
+	if base_path.is_empty() or idle_path.is_empty():
+		push_error("Town NPC uses an unregistered asset id: " + id)
+		return
+	var pivot := Vector2(float(visual_definition.pivot_px[0]), float(visual_definition.pivot_px[1]))
+	var drawn_height := float(visual_definition.drawn_height_px)
+	var region: Array = visual_definition.portrait_region_px
+	var portrait_region := Rect2(float(region[0]), float(region[1]), float(region[2]), float(region[3]))
+	var lines: Array = definition.ambient_lines.duplicate()
+	var texture: Texture2D = load(base_path)
 	var root := Node2D.new()
 	root.name = "TownNPC_" + id
 	root.position = stage.project(world_position)
@@ -45,7 +77,6 @@ func _add_resident(id: String, display_name: String, world_position: Vector2, pa
 	visual.add_child(sprite)
 	var idle_frames: Array[Texture2D] = []
 	var idle_data: Dictionary = {}
-	var idle_path := "res://assets/npcs/" + id + "-idle.json"
 	var blend := Sprite2D.new()
 	if FileAccess.file_exists(idle_path):
 		idle_data = JSON.parse_string(FileAccess.get_file_as_string(idle_path))

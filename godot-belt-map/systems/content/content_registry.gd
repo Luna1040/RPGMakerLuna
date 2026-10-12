@@ -6,16 +6,29 @@ signal content_changed(revision: int, patch_id: String)
 signal content_rejected(patch_id: String, errors: Array[String])
 
 const Validator = preload("content_validator.gd")
+const AdventureValidator = preload("res://systems/adventure/adventure_catalog.gd")
 const BASE_SKILLS_PATH := "res://content/base/skills.json"
+const BASE_EQUIPMENT_PATH := "res://content/base/equipment.json"
+const BASE_NPCS_PATH := "res://content/base/town_npcs.json"
+const ADVENTURE_PATH := "res://systems/adventure/adventure_data.json"
 const STATE_SCHEMA := "runtime-content-state/1"
 
 var loaded := false
 var revision := 0
 var bundle_id := ""
+var bundle_ids: Dictionary = {}
+## Patch/save compatibility hash: intentionally covers only the patchable skill bundle.
 var base_hash := ""
+## Full read-only catalog hash for Main Agent context and cache invalidation.
+var catalog_hash := ""
 var last_errors: Array[String] = []
 var _base_skills: Dictionary = {}
 var _skills: Dictionary = {}
+var _equipment: Dictionary = {}
+var _npcs: Dictionary = {}
+var _quests: Dictionary = {}
+var _dialogues: Dictionary = {}
+var _adventure: Dictionary = {}
 var _applied_patch_ids: Array[String] = []
 var _history: Array[Dictionary] = []
 
@@ -24,26 +37,50 @@ func _ready() -> void:
 		push_error("ContentRegistry rejected base content: " + "; ".join(last_errors))
 
 func load_base_content(path := BASE_SKILLS_PATH) -> bool:
-	last_errors.clear()
-	if not FileAccess.file_exists(path):
-		return _reject("base-load", ["Content bundle file does not exist: " + path])
-	var parser := JSON.new()
-	if parser.parse(FileAccess.get_file_as_string(path)) != OK:
-		return _reject("base-load", ["Invalid JSON at line %d: %s" % [parser.get_error_line(), parser.get_error_message()]])
-	var errors := Validator.validate_content_bundle(parser.data)
+	var errors: Array[String] = []
+	var skills_value = _read_json(path, "skills", errors)
+	var equipment_value = _read_json(BASE_EQUIPMENT_PATH, "equipment", errors)
+	var npcs_value = _read_json(BASE_NPCS_PATH, "town NPCs", errors)
+	var adventure_value = _read_json(ADVENTURE_PATH, "adventure", errors)
 	if not errors.is_empty():
 		return _reject("base-load", errors)
-	var bundle: Dictionary = parser.data
-	var next := {}
-	for entry in bundle.entries:
-		next[str(entry.id)] = entry.duplicate(true)
-	_base_skills = next
-	_skills = next.duplicate(true)
-	bundle_id = str(bundle.bundle_id)
-	base_hash = JSON.stringify(bundle, "", true, true).sha256_text()
+	for bundle in [skills_value, equipment_value, npcs_value]:
+		errors.append_array(Validator.validate_content_bundle(bundle))
+	if not errors.is_empty():
+		return _reject("base-load", errors)
+	var next_skills := _entries_by_id(skills_value.entries)
+	var next_equipment := _entries_by_id(equipment_value.entries)
+	var next_npcs := _entries_by_id(npcs_value.entries)
+	errors.append_array(AdventureValidator.validate(adventure_value, next_equipment))
+	for npc_id in next_npcs:
+		if not adventure_value.get("npcs", {}).has(npc_id):
+			errors.append("Town NPC has no registered dialogue definition: " + npc_id)
+	if not errors.is_empty():
+		return _reject("base-load", errors)
+	var next_quests := {}
+	for quest: Dictionary in adventure_value.quests:
+		next_quests[str(quest.id)] = quest.duplicate(true)
+	_base_skills = next_skills
+	_skills = next_skills.duplicate(true)
+	_equipment = next_equipment
+	_npcs = next_npcs
+	_quests = next_quests
+	_dialogues = adventure_value.npcs.duplicate(true)
+	_adventure = adventure_value.duplicate(true)
+	bundle_id = str(skills_value.bundle_id)
+	bundle_ids = {
+		"skills": str(skills_value.bundle_id),
+		"equipment": str(equipment_value.bundle_id),
+		"npcs": str(npcs_value.bundle_id),
+		"adventure": "base.courtyard.adventure"
+	}
+	base_hash = JSON.stringify(skills_value, "", true, true).sha256_text()
+	catalog_hash = JSON.stringify({"skills":skills_value, "equipment":equipment_value,
+		"npcs":npcs_value, "adventure":adventure_value}, "", true, true).sha256_text()
 	revision = 0
 	_applied_patch_ids.clear()
 	_history.clear()
+	last_errors.clear()
 	loaded = true
 	content_loaded.emit(bundle_id, base_hash)
 	return true
@@ -51,12 +88,57 @@ func load_base_content(path := BASE_SKILLS_PATH) -> bool:
 func get_skill(skill_id: String) -> Dictionary:
 	return _skills.get(skill_id, {}).duplicate(true)
 
+func get_equipment(equipment_id: String) -> Dictionary:
+	return _equipment.get(equipment_id, {}).duplicate(true)
+
+func get_npc(npc_id: String) -> Dictionary:
+	return _npcs.get(npc_id, {}).duplicate(true)
+
+func get_quest(quest_id: String) -> Dictionary:
+	return _quests.get(quest_id, {}).duplicate(true)
+
+func get_dialogue(npc_id: String) -> Dictionary:
+	return _dialogues.get(npc_id, {}).duplicate(true)
+
+func get_definition(target_type: String, target_id: String) -> Dictionary:
+	match target_type:
+		"skill": return get_skill(target_id)
+		"equipment": return get_equipment(target_id)
+		"npc": return get_npc(target_id)
+		"quest": return get_quest(target_id)
+		"dialogue": return get_dialogue(target_id)
+	return {}
+
+func definitions(target_type: String) -> Dictionary:
+	match target_type:
+		"skill": return _skills.duplicate(true)
+		"equipment": return _equipment.duplicate(true)
+		"npc": return _npcs.duplicate(true)
+		"quest": return _quests.duplicate(true)
+		"dialogue": return _dialogues.duplicate(true)
+	return {}
+
+func adventure_catalog() -> Dictionary:
+	return _adventure.duplicate(true)
+
 func registered_skill_ids() -> Array[String]:
+	return registered_ids("skill")
+
+func registered_ids(target_type: String) -> Array[String]:
 	var result: Array[String] = []
-	for id in _skills:
+	for id in definitions(target_type):
 		result.append(str(id))
 	result.sort()
 	return result
+
+func registered_targets() -> Dictionary:
+	var result := {}
+	for target_type in Validator.TARGET_TYPES:
+		result[target_type] = registered_ids(target_type)
+	return result
+
+func target_exists(target_type: String, target_id: String) -> bool:
+	return not get_definition(target_type, target_id).is_empty()
 
 func patchable_paths() -> Array[String]:
 	var result: Array[String] = []
@@ -198,6 +280,22 @@ func restore_runtime_state(value: Variant) -> bool:
 	_history.clear()
 	content_changed.emit(revision, "state-restore")
 	return true
+
+func _read_json(path: String, label: String, errors: Array[String]) -> Variant:
+	if not FileAccess.file_exists(path):
+		errors.append("%s content file does not exist: %s" % [label, path])
+		return null
+	var parser := JSON.new()
+	if parser.parse(FileAccess.get_file_as_string(path)) != OK:
+		errors.append("Invalid %s JSON at line %d: %s" % [label, parser.get_error_line(), parser.get_error_message()])
+		return null
+	return parser.data
+
+func _entries_by_id(entries: Array) -> Dictionary:
+	var result := {}
+	for entry: Dictionary in entries:
+		result[str(entry.id)] = entry.duplicate(true)
+	return result
 
 func _set_path(definition: Dictionary, path: String, value: Variant) -> void:
 	match path:

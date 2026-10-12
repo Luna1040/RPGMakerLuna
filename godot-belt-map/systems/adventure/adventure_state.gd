@@ -24,8 +24,10 @@ func set_up(gear: RefCounted, world_loot: Node, levels: RefCounted) -> void:
 	equipment = gear
 	loot = world_loot
 	progression = levels
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(DATA_PATH))
-	catalog = parsed if parsed is Dictionary else {}
+	catalog = _registered_catalog()
+	if catalog.is_empty():
+		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(DATA_PATH))
+		catalog = parsed if parsed is Dictionary else {}
 	validation_errors = CatalogValidator.validate(catalog, equipment.CATALOG if equipment != null else {})
 	if not validation_errors.is_empty():
 		push_error("Adventure catalog: " + "; ".join(validation_errors))
@@ -36,6 +38,14 @@ func set_up(gear: RefCounted, world_loot: Node, levels: RefCounted) -> void:
 			flags[id] = false
 	for id: String in catalog.consumables:
 		consumables[id] = clampi(int(consumables.get(id, 0)), 0, int(catalog.consumables[id].max_stack))
+
+func _registered_catalog() -> Dictionary:
+	var main_loop := Engine.get_main_loop()
+	if main_loop is SceneTree:
+		var registry = main_loop.root.get_node_or_null("ContentRegistry")
+		if registry != null and registry.loaded:
+			return registry.adventure_catalog()
+	return {}
 
 func _ready_to_mutate() -> bool:
 	return not _busy and equipment != null and is_instance_valid(loot) and validation_errors.is_empty() and not catalog.is_empty()

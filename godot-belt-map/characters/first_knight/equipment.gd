@@ -5,25 +5,30 @@ const SAVE_PATH := "user://first_knight_equipment.json"
 const SLOTS := ["weapon", "armor", "charm", "boots"]
 const SLOT_NAMES := {"weapon":"武器", "armor":"铠甲", "charm":"饰品", "boots":"战靴"}
 const STAT_NAMES := {"health":"生命上限", "mana":"法力上限", "attack":"近战加成", "magic":"法术加成", "defense":"护甲", "speed":"移动速度", "regen":"法力回复"}
-const CATALOG := {
-	"knight_sword":{"name":"骑士长剑", "slot":"weapon", "quality":"初始", "symbol":"剑", "description":"陪伴骑士的长剑。保留原有三段攻击。", "stats":{}},
-	"knight_armor":{"name":"银金骑士甲", "slot":"armor", "quality":"初始", "symbol":"甲", "description":"骑士原有的银金铠甲。", "stats":{}},
-	"edge_sword":{"name":"破锋长剑", "slot":"weapon", "quality":"精良", "symbol":"剑", "description":"每一段近战攻击额外造成 8 点伤害。", "stats":{"attack":8.0}},
-	"arcane_sword":{"name":"秘银符文剑", "slot":"weapon", "quality":"稀有", "symbol":"剑", "description":"兼顾剑术与法术的符文武器。", "stats":{"attack":4.0,"magic":14.0}},
-	"guardian_armor":{"name":"守誓重甲", "slot":"armor", "quality":"稀有", "symbol":"甲", "description":"增加生存能力，但略微降低移动速度。", "stats":{"health":40.0,"defense":6.0,"speed":-15.0}},
-	"mage_armor":{"name":"灵纹轻甲", "slot":"armor", "quality":"精良", "symbol":"甲", "description":"提高法力储备，适合连续施法。", "stats":{"mana":30.0,"defense":2.0}},
-	"storm_charm":{"name":"雷光护符", "slot":"charm", "quality":"稀有", "symbol":"符", "description":"增强法术直接伤害；感电机制保持原样。", "stats":{"magic":10.0,"mana":20.0}},
-	"spring_charm":{"name":"泉息吊坠", "slot":"charm", "quality":"精良", "symbol":"符", "description":"提高每秒法力回复和生命上限。", "stats":{"regen":3.0,"health":15.0}},
-	"wind_boots":{"name":"疾风战靴", "slot":"boots", "quality":"精良", "symbol":"靴", "description":"提升地面移动速度。", "stats":{"speed":35.0}},
-	"courtyard_blade":{"name":"庭卫精钢剑", "slot":"weapon", "quality":"稀有", "symbol":"剑", "description":"庭院宝箱中的精钢长剑，近战伤害提高 12。", "stats":{"attack":12.0}},
-	"courtyard_mail":{"name":"苍石护甲", "slot":"armor", "quality":"稀有", "symbol":"甲", "description":"庭卫珍藏的护甲，提高生命与防御。", "stats":{"health":25.0,"defense":5.0}},
-	"courtyard_charm":{"name":"晨星吊坠", "slot":"charm", "quality":"稀有", "symbol":"符", "description":"散发微光的护符，提高法力与回复。", "stats":{"mana":15.0,"regen":2.0}},
-	"steel_boots":{"name":"钢铸战靴", "slot":"boots", "quality":"精良", "symbol":"靴", "description":"用少量机动性换取更坚实的防护。", "stats":{"defense":3.0,"health":15.0,"speed":-5.0}}
-}
+const Validator = preload("res://systems/content/content_validator.gd")
+const CATALOG_PATH := "res://content/base/equipment.json"
+## Instance compatibility name retained for existing gameplay consumers and saves.
+## Its authority is the validated ContentRegistry, not a second hard-coded table.
+var CATALOG: Dictionary = {}
 var owned: Array = ["knight_sword", "knight_armor", "edge_sword", "arcane_sword", "guardian_armor", "mage_armor", "storm_charm", "spring_charm", "wind_boots", "steel_boots"]
 var equipped: Dictionary = {"weapon":"knight_sword", "armor":"knight_armor", "charm":"", "boots":""}
 var persistence_enabled := true
 var save_error := ""
+
+func _init() -> void:
+	var main_loop := Engine.get_main_loop()
+	if main_loop is SceneTree:
+		var registry = main_loop.root.get_node_or_null("ContentRegistry")
+		if registry != null and registry.loaded:
+			CATALOG = registry.definitions("equipment")
+			return
+	var parsed = JSON.parse_string(FileAccess.get_file_as_string(CATALOG_PATH))
+	var errors := Validator.validate_content_bundle(parsed)
+	if not errors.is_empty():
+		push_error("Equipment catalog: " + "; ".join(errors))
+		return
+	for entry: Dictionary in parsed.entries:
+		CATALOG[str(entry.id)] = entry.duplicate(true)
 
 func grant(id: String) -> bool:
 	if not CATALOG.has(id) or owned.has(id):

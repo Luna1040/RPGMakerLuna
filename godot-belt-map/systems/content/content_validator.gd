@@ -5,6 +5,11 @@ extends RefCounted
 const CONTENT_BUNDLE_SCHEMA := "rpg-content-bundle/1"
 const RUNTIME_PATCH_SCHEMA := "runtime-patch/1"
 const RUNTIME_STATE_SCHEMA := "runtime-content-state/1"
+const AGENT_TASK_SCHEMA := "agent-task/1"
+const AGENT_RESULT_SCHEMA := "agent-result/1"
+const CONTENT_TYPES := ["skills", "equipment", "npcs"]
+const TARGET_TYPES := ["skill", "equipment", "npc", "quest", "dialogue"]
+const AGENT_ROLES := ["narrative", "world", "npc", "systems", "validator"]
 const PATCHABLE_SKILL_PATHS := {
 	"/resource_cost/amount": {"min": 0.0, "max": 999.0, "integer": false},
 	"/cooldown_seconds": {"min": 0.0, "max": 600.0, "integer": false},
@@ -23,8 +28,9 @@ static func validate_content_bundle(value: Variant) -> Array[String]:
 	_require_string(bundle, "bundle_id", "bundle", errors)
 	if bundle.get("schema_version") != CONTENT_BUNDLE_SCHEMA:
 		errors.append("Unsupported content bundle schema_version.")
-	if bundle.get("content_type") != "skills":
-		errors.append("Only the registered skills content type is supported.")
+	var content_type := str(bundle.get("content_type", ""))
+	if content_type not in CONTENT_TYPES:
+		errors.append("Unsupported content type: " + content_type)
 	var entries = bundle.get("entries")
 	if not entries is Array:
 		errors.append("bundle.entries must be an array.")
@@ -34,7 +40,10 @@ static func validate_content_bundle(value: Variant) -> Array[String]:
 	var seen := {}
 	for index in entries.size():
 		var location := "bundle.entries[%d]" % index
-		errors.append_array(validate_skill(entries[index], location))
+		match content_type:
+			"skills": errors.append_array(validate_skill(entries[index], location))
+			"equipment": errors.append_array(validate_equipment(entries[index], location))
+			"npcs": errors.append_array(validate_town_npc(entries[index], location))
 		if entries[index] is Dictionary:
 			var id := str(entries[index].get("id", ""))
 			if seen.has(id):
@@ -54,10 +63,8 @@ static func validate_skill(value: Variant, location := "skill") -> Array[String]
 		errors.append(location + ".id must be a canonical skill id.")
 	if skill.get("kind") != "skill":
 		errors.append(location + ".kind must equal 'skill'.")
-	if str(skill.get("display_name", "")).length() > 64:
-		errors.append(location + ".display_name exceeds 64 characters.")
-	if str(skill.get("description", "")).length() > 240:
-		errors.append(location + ".description exceeds 240 characters.")
+	_validate_text(skill.get("display_name"), 64, location + ".display_name", errors)
+	_validate_text(skill.get("description"), 240, location + ".description", errors)
 	if not _registered_id(str(skill.get("action_profile_id", "")), "action"):
 		errors.append(location + ".action_profile_id must be a canonical action id.")
 	var cost = skill.get("resource_cost")
@@ -78,11 +85,7 @@ static func validate_skill(value: Variant, location := "skill") -> Array[String]
 		_validate_number(combat.get("depth_radius"), 0.05, 3.0, false, location + ".combat.depth_radius", errors)
 		_validate_number(combat.get("chain_count"), 1.0, 8.0, true, location + ".combat.chain_count", errors)
 		_validate_number(combat.get("chain_radius_m"), 0.0, 12.0, false, location + ".combat.chain_radius_m", errors)
-		var tags = combat.get("tags")
-		if not tags is Array or tags.size() > 32:
-			errors.append(location + ".combat.tags must be an array of at most 32 tags.")
-		elif tags.size() != _unique_strings(tags).size():
-			errors.append(location + ".combat.tags must contain unique non-empty strings.")
+		_validate_string_array(combat.get("tags"), 32, 64, location + ".combat.tags", errors)
 	var presentation = skill.get("presentation")
 	if not presentation is Dictionary:
 		errors.append(location + ".presentation must be an object.")
@@ -91,6 +94,63 @@ static func validate_skill(value: Variant, location := "skill") -> Array[String]
 		for pair in [["vfx_id", "vfx"], ["sfx_id", "sfx"]]:
 			if not _registered_id(str(presentation.get(pair[0], "")), pair[1]):
 				errors.append(location + ".presentation." + pair[0] + " must be a canonical registered id.")
+	return errors
+
+static func validate_equipment(value: Variant, location := "equipment") -> Array[String]:
+	var errors: Array[String] = []
+	if not value is Dictionary:
+		return [location + " must be an object."]
+	var item: Dictionary = value
+	_unknown_keys(item, ["id", "kind", "name", "slot", "quality", "symbol", "description", "stats"], location, errors)
+	for key in ["id", "kind", "name", "slot", "quality", "symbol", "description"]:
+		_require_string(item, key, location, errors)
+	if not _simple_id(str(item.get("id", ""))):
+		errors.append(location + ".id must be a stable snake_case id.")
+	if item.get("kind") != "equipment":
+		errors.append(location + ".kind must equal 'equipment'.")
+	if item.get("slot") not in ["weapon", "armor", "charm", "boots"]:
+		errors.append(location + ".slot is unsupported.")
+	_validate_text(item.get("name"), 64, location + ".name", errors)
+	_validate_text(item.get("quality"), 32, location + ".quality", errors)
+	_validate_text(item.get("symbol"), 8, location + ".symbol", errors)
+	_validate_text(item.get("description"), 240, location + ".description", errors)
+	var stats = item.get("stats")
+	if not stats is Dictionary or stats.size() > 7:
+		errors.append(location + ".stats must be an object with at most 7 stats.")
+	else:
+		for stat in stats:
+			if stat not in ["health", "mana", "attack", "magic", "defense", "speed", "regen"]:
+				errors.append(location + ".stats contains an unsupported stat: " + str(stat))
+			else:
+				_validate_number(stats[stat], -10000.0, 10000.0, false, location + ".stats." + str(stat), errors)
+	return errors
+
+static func validate_town_npc(value: Variant, location := "npc") -> Array[String]:
+	var errors: Array[String] = []
+	if not value is Dictionary:
+		return [location + " must be an object."]
+	var npc: Dictionary = value
+	_unknown_keys(npc, ["id", "kind", "display_name", "position_m", "visual", "ambient_lines"], location, errors)
+	for key in ["id", "kind", "display_name"]:
+		_require_string(npc, key, location, errors)
+	if not _simple_id(str(npc.get("id", ""))):
+		errors.append(location + ".id must be a stable snake_case id.")
+	if npc.get("kind") != "npc":
+		errors.append(location + ".kind must equal 'npc'.")
+	_validate_text(npc.get("display_name"), 64, location + ".display_name", errors)
+	_validate_number_array(npc.get("position_m"), 2, -10000.0, 10000.0, location + ".position_m", errors)
+	_validate_string_array(npc.get("ambient_lines"), 32, 400, location + ".ambient_lines", errors, 1)
+	var visual = npc.get("visual")
+	if not visual is Dictionary:
+		errors.append(location + ".visual must be an object.")
+	else:
+		_unknown_keys(visual, ["base_asset_id", "idle_manifest_asset_id", "pivot_px", "drawn_height_px", "portrait_region_px"], location + ".visual", errors)
+		for key in ["base_asset_id", "idle_manifest_asset_id"]:
+			if not _registered_id(str(visual.get(key, "")), "asset"):
+				errors.append(location + ".visual." + key + " must be a registered asset id.")
+		_validate_number_array(visual.get("pivot_px"), 2, -10000.0, 10000.0, location + ".visual.pivot_px", errors)
+		_validate_number(visual.get("drawn_height_px"), 1.0, 10000.0, false, location + ".visual.drawn_height_px", errors)
+		_validate_number_array(visual.get("portrait_region_px"), 4, 0.0, 10000.0, location + ".visual.portrait_region_px", errors)
 	return errors
 
 static func validate_runtime_patch(value: Variant) -> Array[String]:
@@ -132,6 +192,82 @@ static func validate_runtime_patch(value: Variant) -> Array[String]:
 		_validate_number(operation.get("value"), limits.min, limits.max, limits.integer, location + ".value", errors)
 	return errors
 
+static func validate_agent_task(value: Variant) -> Array[String]:
+	var errors: Array[String] = []
+	if not value is Dictionary:
+		return ["Agent task must be a JSON object."]
+	var task: Dictionary = value
+	_unknown_keys(task, ["schema_version", "request_id", "project_id", "content_revision", "agent_role", "objective", "allowed_targets", "constraints", "context_refs"], "task", errors)
+	if task.get("schema_version") != AGENT_TASK_SCHEMA:
+		errors.append("Unsupported agent task schema_version.")
+	for pair in [["request_id", "request"], ["project_id", "project"]]:
+		if not _registered_id(str(task.get(pair[0], "")), pair[1]):
+			errors.append("task." + pair[0] + " must be a canonical " + pair[1] + " id.")
+	_validate_number(task.get("content_revision"), 0.0, 2147483647.0, true, "task.content_revision", errors)
+	if task.get("agent_role") not in AGENT_ROLES:
+		errors.append("task.agent_role is unsupported.")
+	_validate_text(task.get("objective"), 1000, "task.objective", errors)
+	_validate_target_refs(task.get("allowed_targets"), 64, "task.allowed_targets", errors)
+	_validate_target_refs(task.get("context_refs"), 128, "task.context_refs", errors)
+	var constraints = task.get("constraints")
+	if not constraints is Dictionary:
+		errors.append("task.constraints must be an object.")
+	else:
+		_unknown_keys(constraints, ["max_proposals", "allow_new_ids", "allow_generated_code"], "task.constraints", errors)
+		_validate_number(constraints.get("max_proposals"), 0.0, 32.0, true, "task.constraints.max_proposals", errors)
+		if not constraints.get("allow_new_ids") is bool:
+			errors.append("task.constraints.allow_new_ids must be a boolean.")
+		if constraints.get("allow_generated_code") != false:
+			errors.append("task.constraints.allow_generated_code must be false.")
+	return errors
+
+static func validate_agent_result(value: Variant) -> Array[String]:
+	var errors: Array[String] = []
+	if not value is Dictionary:
+		return ["Agent result must be a JSON object."]
+	var result: Dictionary = value
+	_unknown_keys(result, ["schema_version", "request_id", "agent_role", "status", "summary", "deliverables", "evidence", "warnings"], "result", errors)
+	if result.get("schema_version") != AGENT_RESULT_SCHEMA:
+		errors.append("Unsupported agent result schema_version.")
+	if not _registered_id(str(result.get("request_id", "")), "request"):
+		errors.append("result.request_id must be a canonical request id.")
+	if result.get("agent_role") not in AGENT_ROLES:
+		errors.append("result.agent_role is unsupported.")
+	if result.get("status") not in ["completed", "needs_revision", "blocked"]:
+		errors.append("result.status is unsupported.")
+	_validate_text(result.get("summary"), 2000, "result.summary", errors)
+	_validate_string_array(result.get("evidence"), 64, 1000, "result.evidence", errors)
+	_validate_string_array(result.get("warnings"), 64, 1000, "result.warnings", errors)
+	var deliverables = result.get("deliverables")
+	if not deliverables is Array or deliverables.size() > 32:
+		errors.append("result.deliverables must be an array of at most 32 entries.")
+		return errors
+	var seen := {}
+	for index in deliverables.size():
+		var location := "result.deliverables[%d]" % index
+		var deliverable = deliverables[index]
+		if not deliverable is Dictionary:
+			errors.append(location + " must be an object.")
+			continue
+		_unknown_keys(deliverable, ["deliverable_id", "kind", "target_type", "target_id", "content", "payload"], location, errors)
+		var deliverable_id := str(deliverable.get("deliverable_id", ""))
+		if not _registered_id(deliverable_id, "deliverable") or seen.has(deliverable_id):
+			errors.append(location + ".deliverable_id must be a unique canonical id.")
+		seen[deliverable_id] = true
+		match str(deliverable.get("kind", "")):
+			"analysis":
+				_validate_target_ref(deliverable, location, errors)
+				_validate_text(deliverable.get("content"), 4000, location + ".content", errors)
+				if deliverable.has("payload"):
+					errors.append(location + ".payload is not allowed for analysis.")
+			"runtime_patch":
+				if deliverable.has("target_type") or deliverable.has("target_id") or deliverable.has("content"):
+					errors.append(location + " runtime_patch must describe targets inside payload.operations only.")
+				errors.append_array(validate_runtime_patch(deliverable.get("payload")))
+			_:
+				errors.append(location + ".kind is unsupported.")
+	return errors
+
 static func validate_patch_value(path: String, value: Variant, location := "value") -> Array[String]:
 	var errors: Array[String] = []
 	if not PATCHABLE_SKILL_PATHS.has(path):
@@ -139,6 +275,35 @@ static func validate_patch_value(path: String, value: Variant, location := "valu
 	var limits: Dictionary = PATCHABLE_SKILL_PATHS[path]
 	_validate_number(value, limits.min, limits.max, limits.integer, location, errors)
 	return errors
+
+static func valid_target_id(target_type: String, target_id: String) -> bool:
+	if target_type == "skill":
+		return _registered_id(target_id, "skill")
+	return target_type in TARGET_TYPES and _simple_id(target_id)
+
+static func _validate_target_refs(value: Variant, maximum: int, location: String, errors: Array[String]) -> void:
+	if not value is Array or value.size() > maximum:
+		errors.append("%s must be an array of at most %d target references." % [location, maximum])
+		return
+	var seen := {}
+	for index in value.size():
+		var ref_location := "%s[%d]" % [location, index]
+		var ref = value[index]
+		if not ref is Dictionary:
+			errors.append(ref_location + " must be an object.")
+			continue
+		_unknown_keys(ref, ["target_type", "target_id"], ref_location, errors)
+		_validate_target_ref(ref, ref_location, errors)
+		var key := str(ref.get("target_type", "")) + ":" + str(ref.get("target_id", ""))
+		if seen.has(key):
+			errors.append(ref_location + " duplicates target " + key)
+		seen[key] = true
+
+static func _validate_target_ref(ref: Dictionary, location: String, errors: Array[String]) -> void:
+	var target_type := str(ref.get("target_type", ""))
+	var target_id := str(ref.get("target_id", ""))
+	if not valid_target_id(target_type, target_id):
+		errors.append(location + " contains an invalid target reference.")
 
 static func _unknown_keys(value: Dictionary, allowed: Array, location: String, errors: Array[String]) -> void:
 	for key in value:
@@ -148,6 +313,28 @@ static func _unknown_keys(value: Dictionary, allowed: Array, location: String, e
 static func _require_string(value: Dictionary, key: String, location: String, errors: Array[String]) -> void:
 	if not value.get(key) is String or str(value.get(key)).strip_edges().is_empty():
 		errors.append(location + "." + key + " must be a non-empty string.")
+
+static func _validate_text(value: Variant, maximum: int, location: String, errors: Array[String]) -> void:
+	if not value is String or str(value).strip_edges().is_empty() or str(value).length() > maximum:
+		errors.append("%s must be a non-empty string of at most %d characters." % [location, maximum])
+
+static func _validate_string_array(value: Variant, maximum: int, text_maximum: int, location: String, errors: Array[String], minimum := 0) -> void:
+	if not value is Array or value.size() < minimum or value.size() > maximum:
+		errors.append("%s must be an array containing %d to %d strings." % [location, minimum, maximum])
+		return
+	var seen := {}
+	for index in value.size():
+		var text = value[index]
+		if not text is String or str(text).strip_edges().is_empty() or str(text).length() > text_maximum or seen.has(text):
+			errors.append("%s[%d] must be a unique non-empty string of at most %d characters." % [location, index, text_maximum])
+		seen[text] = true
+
+static func _validate_number_array(value: Variant, count: int, minimum: float, maximum: float, location: String, errors: Array[String]) -> void:
+	if not value is Array or value.size() != count:
+		errors.append("%s must be an array of %d numbers." % [location, count])
+		return
+	for index in count:
+		_validate_number(value[index], minimum, maximum, false, "%s[%d]" % [location, index], errors)
 
 static func _validate_number(value: Variant, minimum: float, maximum: float, integer: bool, location: String, errors: Array[String]) -> void:
 	if not (value is int or value is float) or not is_finite(float(value)):
@@ -163,10 +350,8 @@ static func _registered_id(value: String, id_prefix: String) -> bool:
 	var expression := RegEx.new()
 	return expression.compile("^" + id_prefix + "\\.[a-z0-9][a-z0-9_.-]+$") == OK and expression.search(value) != null
 
-static func _unique_strings(values: Array) -> Dictionary:
-	var result := {}
-	for value in values:
-		if not value is String or str(value).strip_edges().is_empty() or str(value).length() > 64:
-			return {}
-		result[value] = true
-	return result
+static func _simple_id(value: String) -> bool:
+	if value.length() > 64:
+		return false
+	var expression := RegEx.new()
+	return expression.compile("^[a-z][a-z0-9_]{2,63}$") == OK and expression.search(value) != null

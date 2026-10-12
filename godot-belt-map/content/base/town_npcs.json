@@ -1,0 +1,43 @@
+{
+  "schema_version": "rpg-content-bundle/1",
+  "bundle_id": "base.courtyard.town-npcs",
+  "content_type": "npcs",
+  "entries": [
+    {
+      "id": "innkeeper",
+      "kind": "npc",
+      "display_name": "艾琳 · 旅店主人",
+      "position_m": [5.2, 4.1],
+      "visual": {
+        "base_asset_id": "asset.npc.innkeeper.base",
+        "idle_manifest_asset_id": "asset.npc.innkeeper.idle_manifest",
+        "pivot_px": [520.0, 1500.0],
+        "drawn_height_px": 1458.0,
+        "portrait_region_px": [300.0, 40.0, 410.0, 455.0]
+      },
+      "ambient_lines": [
+        "欢迎来到苍石庭院。我是艾琳，旅店就在身后。先在这里熟悉一下身手吧。",
+        "旧木箱已经没人用了，打碎后留下的杂物可以收进背包。别对着镇民挥剑就好。",
+        "庭院东边住着铁匠雷恩。如果找到了新装备，可以去和他聊聊。"
+      ]
+    },
+    {
+      "id": "smith",
+      "kind": "npc",
+      "display_name": "雷恩 · 铁匠",
+      "position_m": [18.5, 6.4],
+      "visual": {
+        "base_asset_id": "asset.npc.smith.base",
+        "idle_manifest_asset_id": "asset.npc.smith.idle_manifest",
+        "pivot_px": [520.0, 1510.0],
+        "drawn_height_px": 1500.0,
+        "portrait_region_px": [300.0, 5.0, 410.0, 450.0]
+      },
+      "ambient_lines": [
+        "我是雷恩。剑刃要锋利，握剑的手也要稳。欢迎来我的小作坊。",
+        "庭院的宝箱里留了些武器与装备，靠近后交互就能打开。拿到手，记得检查背包。",
+        "木箱能踩，也能打碎。喷泉池沿和中间的石柱都是实体，池水里不能落脚。"
+      ]
+    }
+  ]
+}

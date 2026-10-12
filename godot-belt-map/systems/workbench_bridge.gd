@@ -6,7 +6,15 @@ signal patch_applied(result: Dictionary)
 signal patch_rejected(result: Dictionary)
 signal patch_undone(result: Dictionary)
 
+const Validator = preload("res://systems/content/content_validator.gd")
 const MAX_PENDING := 32
+const ROLE_TARGET_TYPES := {
+	"narrative": ["quest", "dialogue"],
+	"world": [],
+	"npc": ["npc", "dialogue"],
+	"systems": ["skill", "equipment"],
+	"validator": ["skill", "equipment", "npc", "quest", "dialogue"]
+}
 var runtime = null
 var pending: Array[Dictionary] = []
 
@@ -18,9 +26,15 @@ func capabilities() -> Dictionary:
 	return {
 		"schema_version": "workbench-capabilities/1",
 		"runtime_patch_schema": "runtime-patch/1",
+		"agent_task_schema": "agent-task/1",
+		"agent_result_schema": "agent-result/1",
 		"content_revision": registry.revision if registry != null else -1,
+		"catalog_hash": registry.catalog_hash if registry != null else "",
 		"targets": registry.registered_skill_ids() if registry != null else [],
+		"targets_by_type": registry.registered_targets() if registry != null else {},
 		"patchable_paths": registry.patchable_paths() if registry != null else [],
+		"agent_roles": Validator.AGENT_ROLES.duplicate(),
+		"role_target_types": ROLE_TARGET_TYPES.duplicate(true),
 		"safe_to_apply": safe_to_apply(),
 		"pending_count": pending.size(),
 		"allows_generated_code": false
@@ -30,10 +44,85 @@ func inspect_target(target_type: String, target_id: String) -> Dictionary:
 	## Agents read the current validated definition before proposing a patch.
 	## Copies prevent the transport or UI layer from mutating live content.
 	var registry = _registry()
-	if registry == null or target_type != "skill":
+	if registry == null or not registry.target_exists(target_type, target_id):
 		return {}
-	return {"target_type":"skill", "target_id":target_id, "content_revision":registry.revision,
-		"definition":registry.get_skill(target_id)} if target_id in registry.registered_skill_ids() else {}
+	return {"target_type":target_type, "target_id":target_id, "content_revision":registry.revision,
+		"catalog_hash":registry.catalog_hash, "definition":registry.get_definition(target_type, target_id)}
+
+func validate_agent_task(value: Variant) -> Array[String]:
+	var errors := Validator.validate_agent_task(value)
+	var registry = _registry()
+	if registry == null or not registry.loaded:
+		errors.append("ContentRegistry is unavailable.")
+		return errors
+	if not value is Dictionary:
+		return errors
+	var task: Dictionary = value
+	if _whole(task.get("content_revision")) and int(task.content_revision) != registry.revision:
+		errors.append("Agent task content_revision does not match the current registry revision.")
+	if task.get("constraints", {}) is Dictionary and task.get("constraints", {}).get("allow_new_ids", false):
+		errors.append("This runtime does not allow Agent-created IDs yet.")
+	var role := str(task.get("agent_role", ""))
+	var allowed_types: Array = ROLE_TARGET_TYPES.get(role, [])
+	for field in ["allowed_targets", "context_refs"]:
+		for ref in task.get(field, []):
+			if not ref is Dictionary:
+				continue
+			var target_type := str(ref.get("target_type", ""))
+			var target_id := str(ref.get("target_id", ""))
+			if not registry.target_exists(target_type, target_id):
+				errors.append("Unknown %s target: %s:%s" % [field, target_type, target_id])
+			if field == "allowed_targets" and target_type not in allowed_types:
+				errors.append("Agent role %s cannot propose changes for %s targets." % [role, target_type])
+	return errors
+
+func review_agent_result(task_value: Variant, result_value: Variant) -> Dictionary:
+	## Validation is deliberately non-mutating. Main Agent must explicitly send each
+	## returned runtime patch through submit_patch(), preserving safe-point checks.
+	var errors := validate_agent_task(task_value)
+	errors.append_array(Validator.validate_agent_result(result_value))
+	if not task_value is Dictionary or not result_value is Dictionary:
+		return {"ok":false, "errors":errors, "actionable_patches":[]}
+	var task: Dictionary = task_value
+	var result: Dictionary = result_value
+	if result.get("request_id") != task.get("request_id"):
+		errors.append("Agent result request_id does not match its task.")
+	if result.get("agent_role") != task.get("agent_role"):
+		errors.append("Agent result role does not match its task.")
+	var deliverables: Array = result.get("deliverables", []) if result.get("deliverables", []) is Array else []
+	var maximum := int(task.get("constraints", {}).get("max_proposals", 0)) if task.get("constraints", {}) is Dictionary else 0
+	if deliverables.size() > maximum:
+		errors.append("Agent result exceeds task.constraints.max_proposals.")
+	var allowed := {}
+	for ref in task.get("allowed_targets", []):
+		if ref is Dictionary:
+			allowed[str(ref.get("target_type", "")) + ":" + str(ref.get("target_id", ""))] = true
+	var readable := allowed.duplicate()
+	for ref in task.get("context_refs", []):
+		if ref is Dictionary:
+			readable[str(ref.get("target_type", "")) + ":" + str(ref.get("target_id", ""))] = true
+	var actionable: Array[Dictionary] = []
+	for deliverable in deliverables:
+		if not deliverable is Dictionary:
+			continue
+		if deliverable.get("kind") == "analysis":
+			var key := str(deliverable.get("target_type", "")) + ":" + str(deliverable.get("target_id", ""))
+			if not readable.has(key):
+				errors.append("Analysis deliverable targets content outside the task context: " + key)
+		elif deliverable.get("kind") == "runtime_patch" and deliverable.get("payload") is Dictionary:
+			if task.get("agent_role") != "systems":
+				errors.append("Only the systems Agent may propose runtime patches.")
+			var patch: Dictionary = deliverable.payload
+			errors.append_array(_registry().validate_runtime_patch(patch))
+			for operation in patch.get("operations", []):
+				if operation is Dictionary:
+					var key := str(operation.get("target_type", "")) + ":" + str(operation.get("target_id", ""))
+					if not allowed.has(key):
+						errors.append("Runtime patch targets content outside task.allowed_targets: " + key)
+			actionable.append(patch.duplicate(true))
+	if result.get("status") != "completed" and not actionable.is_empty():
+		errors.append("Incomplete or blocked Agent results cannot contain actionable patches.")
+	return {"ok":errors.is_empty(), "errors":errors, "actionable_patches":actionable if errors.is_empty() else []}
 
 func submit_patch(value: Variant) -> Dictionary:
 	var registry = _registry()
@@ -99,3 +188,6 @@ func _reject(patch_id: String, errors: Array[String]) -> Dictionary:
 
 func _registry():
 	return get_node_or_null("/root/ContentRegistry")
+
+func _whole(value: Variant) -> bool:
+	return (value is int or value is float) and is_finite(float(value)) and floorf(float(value)) == float(value)

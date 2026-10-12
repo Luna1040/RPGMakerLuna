@@ -23,8 +23,8 @@
 | `stage.gd` | 现有地面坐标、碰撞、输入分发、渲染与明确的模拟步进 | `project`, `_physics_process`, `on_attack`, `on_spell` |
 | `systems/game_runtime.gd` | 组合系统、角色快照、旅行、检查点、三轮试炼、祝福、任务事件 | `setup`, `snapshot`, `validate_snapshot`, `restore`, `travel`, `save_game`, `load_game` |
 | `systems/session_bridge.gd` | 两个场景实例之间传递纯数据；不充当永久存档 | `pending`, `target_zone`, `take` |
-| `systems/content/` | 稳定内容 ID、Schema 校验、原子 Patch、覆盖状态与撤销 | `get_skill`, `apply_runtime_patch`, `export_runtime_state` |
-| `systems/workbench_bridge.gd` | 创作工作台能力查询、安全点排队与 Patch 结果 | `capabilities`, `submit_patch`, `process_pending`, `request_undo` |
+| `systems/content/` | 技能/装备/NPC/任务/对话稳定 ID、Schema 校验、原子 Patch、覆盖状态与撤销 | `get_definition`, `registered_ids`, `apply_runtime_patch`, `export_runtime_state` |
+| `systems/workbench_bridge.gd` | 创作工作台能力查询、Main→子 Agent 合同审查、安全点排队与 Patch 结果 | `capabilities`, `inspect_target`, `validate_agent_task`, `review_agent_result`, `submit_patch` |
 | `systems/world_registry.gd` | 地点 ID 到地图合同的映射 | `ZONES`, `load_zone` |
 | `systems/core/save_store.gd` | 三槽、版本、校验和、临时文件、备份与坏档保护 | `save_slot`, `load_slot`, `list_slots`, `protect_slot` |
 | `systems/core/progression.gd` | 经验曲线、50 级上限、每级技能点和固有属性成长 | `add_xp`, `bonuses`, `snapshot`, `restore` |
@@ -66,13 +66,14 @@ RNG 的 64 位 `state` 若需要持久化，转成字符串再写 JSON；Godot J
 
 ## 扩写内容
 
-- **任务 / 剧情**：编辑 `systems/adventure/adventure_data.json`，使用稳定 ID，`all`/`any`/`excludes` 条件和 `graph_edges`。已经发布的任务 ID 不要改名；新增分支后运行目录引用/循环检查和三路线测试。所有效果通过服务方法结算，UI 不直接加声望或发奖励。
+- **任务 / 剧情**：编辑 `systems/adventure/adventure_data.json`，使用稳定 ID，`all`/`any`/`excludes` 条件和 `graph_edges`。该文件由 `ContentRegistry` 与冒险服务双重校验；已经发布的任务 ID 不要改名。新增分支后运行引用/循环检查和三路线测试。所有效果通过服务方法结算，UI 不直接加声望或发奖励。
 - **新地点**：在 `world_registry.gd` 注册 ID 与合同 JSON。合同沿用 `map-contract.json`；`town_npcs:false` 可关闭城镇 NPC/木桩，`chests` 提供每个地点自己的宝箱。位置、碰撞、掉落保存使用地点 ID 隔离。当前背景与镜头仍按 3072 像素宽的庭院规格，新尺寸需要同时更新镜头及背景逻辑。
 - **新敌人**：扩展 `encounters.gd` 的 DEFINITIONS/roster，并提供 `assets/roster/<id>/portrait.png` 与 `animation.json`。当前 `melee → scout`、`ranged → caster`，另有 `elite`、`boss` 和队友 `serin`。保留脚底坐标、明确出手时刻、唯一死亡事件和伤害查询。不要在动画/UI 内直接奖励。素材工作流与 manifest 约定见仓库根目录 `CHARACTER_PIPELINE.md`、`NPC_ROSTER_INTEGRATION.md`。
-- **新装备**：扩展 `characters/first_knight/equipment.gd` 的 CATALOG。当前库存是一种装备 ID 一份，不支持同名随机词缀实例；要引入随机词缀，先升级存档模型为实例 ID，再接装备 UI。
+- **新装备**：扩展 `content/base/equipment.json`，不要改动已经进入存档的装备 ID。当前库存是一种装备 ID 一份，不支持同名随机词缀实例；要引入随机词缀，先升级存档模型为实例 ID，再接装备 UI。
 - **新成长**：天赋属性统一叠加到真实伤害与容量；刷新从装备、等级、天赋、本轮祝福重新求和，禁止对现有数值反复累加。
 - **新输入**：在 `game_settings.gd` 注册动作并由 stage 分发。UI、技能栏读取当前键位，禁止修改一个键后保留旧键的隐藏攻击行为。
-- **Agent / 工作台修改**：先读取 `WorkbenchBridge.capabilities()`，只提交符合 `content/schemas/runtime-patch.schema.json` 的 JSON。当前雷光已支持安全修改消耗、冷却、伤害、纵深宽度、弹射数和弹射半径；不接受生成脚本或资源路径。具体合同见 `systems/content/README.md`。
+- **NPC 定义**：城镇站位、名称、环境对话与登记资产 ID 位于 `content/base/town_npcs.json`。JSON 不得出现 `res://` 路径；新资产必须先进入 `town_npcs.gd` 的 allowlist，再引用 `asset.*` ID。
+- **Agent / 工作台修改**：Main Agent 先读取 `WorkbenchBridge.capabilities()` 和目标定义，使用 `agent-task/1` 派发子任务，再用 `review_agent_result` 审查 `agent-result/1`。审查不会自动执行；只有 Main Agent 选中的 `runtime-patch/1` 才能进入 `submit_patch`。当前雷光支持安全修改消耗、冷却、伤害、纵深宽度、弹射数和弹射半径；不接受生成脚本或资源路径。具体合同见 `systems/content/README.md`。
 
 ## 验证
 

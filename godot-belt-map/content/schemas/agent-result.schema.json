@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:rpgmakerluna:schema:agent-result",
+  "title": "Child Agent Result",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "request_id", "agent_role", "status", "summary", "deliverables", "evidence", "warnings"],
+  "properties": {
+    "schema_version": {"const": "agent-result/1"},
+    "request_id": {"type": "string", "pattern": "^request\\.[a-z0-9_.-]+$", "maxLength": 128},
+    "agent_role": {"enum": ["narrative", "world", "npc", "systems", "validator"]},
+    "status": {"enum": ["completed", "needs_revision", "blocked"]},
+    "summary": {"type": "string", "minLength": 1, "maxLength": 2000},
+    "deliverables": {"type": "array", "maxItems": 32, "items": {"oneOf": [{"$ref": "#/$defs/analysis"}, {"$ref": "#/$defs/runtimePatch"}]}},
+    "evidence": {"$ref": "#/$defs/messages"}, "warnings": {"$ref": "#/$defs/messages"}
+  },
+  "$defs": {
+    "messages": {"type": "array", "maxItems": 64, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 1000}},
+    "base": {"type": "object", "properties": {"deliverable_id": {"type": "string", "pattern": "^deliverable\\.[a-z0-9_.-]+$", "maxLength": 128}}},
+    "analysis": {"type": "object", "additionalProperties": false, "required": ["deliverable_id", "kind", "target_type", "target_id", "content"], "properties": {
+      "deliverable_id": {"type": "string", "pattern": "^deliverable\\.[a-z0-9_.-]+$", "maxLength": 128}, "kind": {"const": "analysis"},
+      "target_type": {"enum": ["skill", "equipment", "npc", "quest", "dialogue"]}, "target_id": {"type": "string", "minLength": 3, "maxLength": 128},
+      "content": {"type": "string", "minLength": 1, "maxLength": 4000}
+    }},
+    "runtimePatch": {"type": "object", "additionalProperties": false, "required": ["deliverable_id", "kind", "payload"], "properties": {
+      "deliverable_id": {"type": "string", "pattern": "^deliverable\\.[a-z0-9_.-]+$", "maxLength": 128}, "kind": {"const": "runtime_patch"},
+      "payload": {"$ref": "runtime-patch.schema.json"}
+    }}
+  }
+}
