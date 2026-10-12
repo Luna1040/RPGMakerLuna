@@ -8,6 +8,7 @@
   "properties": {
     "schema_version": {"const": "agent-transport-config/1"},
     "provider": {"const": "openai_compatible"},
+    "profile_id": {"enum": ["custom", "openai", "local"], "default": "custom"},
     "endpoint": {"type": "string", "minLength": 12, "maxLength": 512},
     "model": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{1,127}$"},
     "timeout_seconds": {"type": "integer", "minimum": 5, "maximum": 120},

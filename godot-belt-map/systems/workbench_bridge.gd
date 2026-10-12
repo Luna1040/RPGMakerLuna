@@ -287,6 +287,22 @@ func configure_agent_transport(value: Variant, session_api_key: String = "") -> 
 	var service = _transport()
 	return service.configure(value, session_api_key) if service != null else {"ok":false, "errors":["AgentTransportService is unavailable."]}
 
+func agent_provider_profiles() -> Array[Dictionary]:
+	var service = _transport()
+	return service.provider_profiles() if service != null else []
+
+func start_agent_transport_preflight() -> Dictionary:
+	var service = _transport()
+	return service.start_preflight() if service != null else {"ok":false,"started":false,"errors":["AgentTransportService is unavailable."]}
+
+func agent_transport_metrics() -> Dictionary:
+	var service = _transport()
+	return service.metrics() if service != null else {"counts":{},"terminal_jobs":0,"success_rate":0.0,"average_latency_msec":0,"p95_latency_msec":0}
+
+func evaluate_agent_transport_cases(cases: Variant) -> Dictionary:
+	var service = _transport()
+	return service.evaluate_cases(cases) if service != null else {"ok":false,"errors":["AgentTransportService is unavailable."],"cases":[]}
+
 func clear_agent_transport_session_key() -> Dictionary:
 	var service = _transport()
 	if service == null: return {"ok":false, "errors":["AgentTransportService is unavailable."]}

@@ -27,6 +27,7 @@ var authoring_publish_confirm:=false
 var transport_form_initialized:=false
 var transport_endpoint:=""
 var transport_model:=""
+var transport_profile:="custom"
 var transport_session_key:=""
 var transport_timeout:=45
 var transport_retries:=2
@@ -104,6 +105,7 @@ func setup(service) -> void:
 		agent_transport.job_updated.connect(_on_agent_transport_update)
 		agent_transport.run_stage_finished.connect(_on_agent_transport_stage_finished)
 		agent_transport.configuration_changed.connect(_on_agent_transport_configuration_changed)
+		agent_transport.preflight_updated.connect(_on_agent_transport_preflight_updated)
 	update_status()
 
 func is_open() -> bool:
@@ -424,6 +426,7 @@ func _render_authoring_transport(bridge) -> void:
 	if not transport_form_initialized:
 		transport_endpoint=str(caps.get("endpoint",""))
 		transport_model=str(caps.get("model",""))
+		transport_profile=str(caps.get("profile_id","custom"))
 		transport_timeout=int(caps.get("timeout_seconds",45))
 		transport_retries=int(caps.get("max_retries",2))
 		transport_concurrency=int(caps.get("max_concurrency",2))
@@ -432,13 +435,19 @@ func _render_authoring_transport(bridge) -> void:
 	words("Agent Transport · OpenAI-compatible",Color("f7d78e"),21)
 	var ready:=bool(caps.get("ready",false))
 	var key_source:=str(caps.get("key_source","none"))
+	var metrics:Dictionary=bridge.agent_transport_metrics()
 	words(("● 已就绪" if ready else "○ 尚未就绪")+"  ·  密钥来源："+{"session":"本次会话内存","environment":"RPG_AGENT_API_KEY 环境变量","none":"未设置"}.get(key_source,key_source)+"  ·  活跃任务 %d" % int(caps.get("active_jobs",0)),Color("8fd6ae") if ready else Color("efc879"),17)
+	var profile_row:=row()
+	_authoring_option(profile_row,"供应商",[["custom","自定义"],["openai","OpenAI"],["local","本机"]],transport_profile,func(value): _set_transport_profile(bridge,str(value)))
+	var preflight:Dictionary=caps.get("preflight",{})
+	words("真实预检：%s  ·  HTTP %d  ·  %d ms  |  任务成功率 %.0f%% · P95 %d ms" % [str(preflight.get("message","尚未预检")),int(preflight.get("http_status",0)),int(preflight.get("latency_msec",0)),float(metrics.get("success_rate",0.0))*100.0,int(metrics.get("p95_latency_msec",0))],Color("8fd6ae") if preflight.get("ok",false) else Color("91a9bd"),15)
 	words("断点续作：%s  ·  %s" % ["已启用" if persistence.get("enabled",false) else "已禁用",
 		"已从备份恢复" if persistence.get("recovered",false) else "原子校验点"],Color("91a9bd"),15)
 	var endpoint:=LineEdit.new()
 	endpoint.name="AgentTransportEndpoint"
 	endpoint.placeholder_text="HTTPS endpoint，例如 https://provider.example/v1/chat/completions"
 	endpoint.text=transport_endpoint
+	endpoint.editable=transport_profile!="openai"
 	endpoint.text_changed.connect(func(value): transport_endpoint=value)
 	body.add_child(endpoint)
 	var model_row:=row()
@@ -463,11 +472,13 @@ func _render_authoring_transport(bridge) -> void:
 	_authoring_option(tuning,"并发",[["1","1"],["2","2"],["3","3"],["4","4"]],str(transport_concurrency),func(value): transport_concurrency=int(value))
 	var actions:=row()
 	button(actions,"保存配置",func(): _save_agent_transport(bridge))
+	button(actions,"真实 HTTP 预检（会调用模型）",func(): _start_transport_preflight(bridge),ready and str(preflight.get("status",""))!="running")
 	button(actions,"清除会话密钥",func(): bridge.clear_agent_transport_session_key(); transport_session_key=""; message.text="已清除内存中的会话密钥。"; refresh(),key_source=="session")
 	words("端点与模型保存在 user://agent_transport.cfg；Run/队列保存在校验和保护的 user://authoring_state.json。API Key、Authorization、Prompt 与预览令牌绝不落盘。",Color("91a9bd"),15)
 
 func _save_agent_transport(bridge) -> void:
 	var config:={"schema_version":"agent-transport-config/1","provider":"openai_compatible",
+		"profile_id":transport_profile,
 		"endpoint":transport_endpoint.strip_edges(),"model":transport_model.strip_edges(),
 		"timeout_seconds":transport_timeout,"max_retries":transport_retries,"max_concurrency":transport_concurrency}
 	var result:Dictionary=bridge.configure_agent_transport(config,transport_session_key)
@@ -476,6 +487,18 @@ func _save_agent_transport(bridge) -> void:
 		message.text="Agent Transport 配置已保存；密钥未写入文件。"
 	else:
 		message.text="传输配置无效："+"；".join(result.get("errors",[]))
+	refresh()
+
+func _set_transport_profile(bridge, value:String)->void:
+	transport_profile=value
+	for profile:Dictionary in bridge.agent_provider_profiles():
+		if profile.profile_id==value and not str(profile.endpoint).is_empty():
+			transport_endpoint=str(profile.endpoint)
+	refresh()
+
+func _start_transport_preflight(bridge)->void:
+	var result:Dictionary=bridge.start_agent_transport_preflight()
+	message.text="真实预检已启动；该操作会发出一次最小模型调用。" if result.get("ok",false) else "预检未启动："+"；".join(result.get("errors",[]))
 	refresh()
 
 func _render_authoring_form(bridge) -> void:
@@ -655,6 +678,9 @@ func _on_agent_transport_stage_finished(_run_id:String,_run_status:String)->void
 	if is_open() and tab=="authoring": call_deferred("_refresh_authoring_if_open")
 
 func _on_agent_transport_configuration_changed(_capabilities:Dictionary)->void:
+	if is_open() and tab=="authoring": call_deferred("_refresh_authoring_if_open")
+
+func _on_agent_transport_preflight_updated(_result:Dictionary)->void:
 	if is_open() and tab=="authoring": call_deferred("_refresh_authoring_if_open")
 
 func _refresh_authoring_if_open()->void:

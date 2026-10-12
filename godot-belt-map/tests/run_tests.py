@@ -64,6 +64,7 @@ TESTS = (
     script("authoring_orchestrator", "tests/authoring_orchestrator_test.gd", "AUTHORING_ORCHESTRATOR_TEST PASS", "core", foundations=True),
     script("agent_transport_service", "tests/agent_transport_service_test.gd", "AGENT_TRANSPORT_SERVICE_TEST PASS", "core", foundations=True),
     script("authoring_persistence_service", "tests/authoring_persistence_service_test.gd", "AUTHORING_PERSISTENCE_SERVICE_TEST PASS", "core", foundations=True),
+    script("agent_provider_acceptance", "tests/agent_provider_acceptance_test.gd", "AGENT_PROVIDER_ACCEPTANCE_TEST PASS", "core", foundations=True),
     script("adventure_state", "tests/adventure_state_test.gd", "ADVENTURE_STATE_TEST PASS", "core"),
     script("runtime_foundations", "tests/runtime_foundations_test.gd", "RUNTIME_FOUNDATIONS_TEST PASS", foundations=True),
     script("adventure_integration", "tests/adventure_integration_test.gd", "ADVENTURE_INTEGRATION_TEST PASS", foundations=True),

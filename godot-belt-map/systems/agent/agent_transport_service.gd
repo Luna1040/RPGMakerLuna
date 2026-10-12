@@ -6,6 +6,7 @@ extends Node
 signal configuration_changed(capabilities: Dictionary)
 signal job_updated(job_id: String, status: String)
 signal run_stage_finished(run_id: String, run_status: String)
+signal preflight_updated(result: Dictionary)
 
 const CONFIG_SCHEMA := "agent-transport-config/1"
 const STATE_SCHEMA := "agent-transport-state/1"
@@ -14,10 +15,15 @@ const MAX_JOBS := 64
 const MAX_RESPONSE_BYTES := 1024 * 1024
 const ACTIVE_STATUSES := ["queued", "running", "retry_wait"]
 const TERMINAL_STATUSES := ["completed", "rejected", "failed", "cancelled"]
+const PROVIDER_PROFILES := {
+	"custom":{"label":"自定义 OpenAI-compatible","endpoint":"","endpoint_locked":false},
+	"openai":{"label":"OpenAI Chat Completions","endpoint":"https://api.openai.com/v1/chat/completions","endpoint_locked":true},
+	"local":{"label":"本机 OpenAI-compatible","endpoint":"http://127.0.0.1:8080/v1/chat/completions","endpoint_locked":false}
+}
 
 var config_path := DEFAULT_CONFIG_PATH
 var retry_base_seconds := 1.0
-var _config := {"schema_version":CONFIG_SCHEMA, "provider":"openai_compatible", "endpoint":"", "model":"",
+var _config := {"schema_version":CONFIG_SCHEMA, "provider":"openai_compatible", "profile_id":"custom", "endpoint":"", "model":"",
 	"timeout_seconds":45, "max_retries":2, "max_concurrency":2}
 var _session_api_key := ""
 var _environment_api_key := ""
@@ -27,6 +33,11 @@ var _active_request_ids:Dictionary={}
 var _request_nodes:Dictionary={}
 var _counter:=0
 var _test_responder:Callable=Callable()
+var _preflight_request:HTTPRequest
+var _preflight_started_msec:=0
+var _last_preflight:Dictionary={"status":"not_run","ok":false,"latency_msec":0,"http_status":0,"message":"尚未预检","checked_at":0}
+var _metric_counts:Dictionary={"completed":0,"rejected":0,"failed":0,"cancelled":0,"retried":0}
+var _latency_samples:Array[int]=[]
 
 func _ready()->void:
 	var environment_value:=OS.get_environment("RPG_AGENT_API_KEY").strip_edges()
@@ -39,13 +50,19 @@ func validate_config(value:Variant)->Array[String]:
 	if not value is Dictionary: return ["Agent transport config must be an object."]
 	var candidate:Dictionary=value
 	for key in candidate:
-		if key not in ["schema_version","provider","endpoint","model","timeout_seconds","max_retries","max_concurrency"]:
+		if key not in ["schema_version","provider","profile_id","endpoint","model","timeout_seconds","max_retries","max_concurrency"]:
 			errors.append("Agent transport config contains unsupported field: "+str(key))
 	if candidate.get("schema_version")!=CONFIG_SCHEMA: errors.append("Unsupported agent transport config schema_version.")
 	if candidate.get("provider")!="openai_compatible": errors.append("Agent transport provider must be openai_compatible.")
+	var profile_id:=str(candidate.get("profile_id","custom"))
+	if not PROVIDER_PROFILES.has(profile_id): errors.append("Agent transport profile_id is unsupported.")
 	var endpoint:=str(candidate.get("endpoint","")).strip_edges()
 	if not _valid_endpoint(endpoint):
 		errors.append("Endpoint must be HTTPS, or HTTP on localhost, without query parameters or credentials.")
+	if profile_id=="openai" and endpoint!=str(PROVIDER_PROFILES.openai.endpoint):
+		errors.append("The OpenAI profile uses its fixed official Chat Completions endpoint.")
+	if profile_id=="local" and not (endpoint.begins_with("http://127.0.0.1") or endpoint.begins_with("http://localhost")):
+		errors.append("The local profile only accepts a localhost endpoint.")
 	var model:=str(candidate.get("model","")).strip_edges()
 	var model_pattern:=RegEx.new()
 	if model_pattern.compile("^[A-Za-z0-9][A-Za-z0-9._:/-]{1,127}$")!=OK or model_pattern.search(model)==null:
@@ -58,10 +75,13 @@ func validate_config(value:Variant)->Array[String]:
 func configure(value:Variant,session_api_key:String="")->Dictionary:
 	if _active_job_count()>0:
 		return {"ok":false,"errors":["Agent transport cannot be reconfigured while jobs are active."],"capabilities":capabilities()}
+	if _preflight_request!=null and is_instance_valid(_preflight_request):
+		return {"ok":false,"errors":["Agent transport cannot be reconfigured during provider preflight."],"capabilities":capabilities()}
 	var errors:=validate_config(value)
 	if not session_api_key.is_empty(): errors.append_array(_validate_api_key(session_api_key))
 	if not errors.is_empty(): return {"ok":false,"errors":errors,"capabilities":capabilities()}
 	_config=(value as Dictionary).duplicate(true)
+	_config.profile_id=str(_config.get("profile_id","custom"))
 	_config.endpoint=str(_config.endpoint).strip_edges()
 	_config.model=str(_config.model).strip_edges()
 	if not session_api_key.is_empty(): _session_api_key=session_api_key.strip_edges()
@@ -78,6 +98,7 @@ func load_config()->Dictionary:
 	if load_error!=OK: return {"ok":false,"loaded":false,"errors":["Could not read agent transport config."]}
 	var candidate:={"schema_version":str(file.get_value("transport","schema_version","")),
 		"provider":str(file.get_value("transport","provider","")),
+		"profile_id":str(file.get_value("transport","profile_id","custom")),
 		"endpoint":str(file.get_value("transport","endpoint","")),
 		"model":str(file.get_value("transport","model","")),
 		"timeout_seconds":file.get_value("transport","timeout_seconds",45),
@@ -104,13 +125,78 @@ func clear_session_api_key()->void:
 func capabilities()->Dictionary:
 	var config_errors:=validate_config(_config)
 	var key_source:="session" if not _session_api_key.is_empty() else ("environment" if not _environment_api_key.is_empty() else "none")
-	return {"schema_version":"agent-transport-capabilities/1","provider":"openai_compatible",
+	return {"schema_version":"agent-transport-capabilities/1","provider":"openai_compatible","profile_id":str(_config.get("profile_id","custom")),
 		"configured":config_errors.is_empty(),"ready":config_errors.is_empty() and key_source!="none",
 		"endpoint":str(_config.endpoint),"model":str(_config.model),
 		"timeout_seconds":int(_config.timeout_seconds),"max_retries":int(_config.max_retries),
 		"max_concurrency":int(_config.max_concurrency),"key_source":key_source,
 		"config_path":config_path,"active_jobs":_active_job_count(),"retained_jobs":_job_order.size(),
-		"allows_tools":false,"allows_generated_code":false,"errors":config_errors}
+		"allows_tools":false,"allows_generated_code":false,"preflight":_last_preflight.duplicate(true),"errors":config_errors}
+
+func provider_profiles()->Array[Dictionary]:
+	var result:Array[Dictionary]=[]
+	for profile_id in ["custom","openai","local"]:
+		var profile:Dictionary=PROVIDER_PROFILES[profile_id]
+		result.append({"profile_id":profile_id,"label":str(profile.label),"endpoint":str(profile.endpoint),
+			"endpoint_locked":bool(profile.endpoint_locked)})
+	return result
+
+func start_preflight()->Dictionary:
+	var caps:=capabilities()
+	if not caps.ready: return {"ok":false,"started":false,"errors":["Configure an endpoint, model and session/environment key before preflight."]}
+	if _preflight_request!=null and is_instance_valid(_preflight_request):
+		return {"ok":false,"started":false,"errors":["A provider preflight is already running."]}
+	_preflight_request=HTTPRequest.new()
+	_preflight_request.timeout=float(_config.timeout_seconds)
+	_preflight_request.body_size_limit=MAX_RESPONSE_BYTES
+	add_child(_preflight_request)
+	_preflight_request.request_completed.connect(_on_preflight_completed,CONNECT_ONE_SHOT)
+	var headers:=PackedStringArray(["Content-Type: application/json","Accept: application/json",
+		"Authorization: Bearer "+_api_key(),"User-Agent: RPGMakerLuna-AgentTransport/1"])
+	_preflight_started_msec=Time.get_ticks_msec()
+	_last_preflight={"status":"running","ok":false,"latency_msec":0,"http_status":0,"message":"正在进行真实 HTTP 预检","checked_at":int(Time.get_unix_time_from_system())}
+	preflight_updated.emit(_last_preflight.duplicate(true))
+	var error:=_preflight_request.request(str(_config.endpoint),headers,HTTPClient.METHOD_POST,JSON.stringify(_preflight_body()))
+	if error!=OK:
+		_complete_preflight(false,0,"无法启动供应商预检请求")
+		return {"ok":false,"started":false,"errors":["Could not start provider preflight request."]}
+	return {"ok":true,"started":true,"errors":[],"preflight":_last_preflight.duplicate(true)}
+
+func preflight_status()->Dictionary:
+	return _last_preflight.duplicate(true)
+
+func metrics()->Dictionary:
+	var samples:=_latency_samples.duplicate()
+	samples.sort()
+	var total:=int(_metric_counts.completed)+int(_metric_counts.rejected)+int(_metric_counts.failed)+int(_metric_counts.cancelled)
+	var sum:=0
+	for sample in samples: sum+=sample
+	var p95:int=samples[mini(samples.size()-1,ceili(float(samples.size())*.95)-1)] if not samples.is_empty() else 0
+	return {"schema_version":"agent-transport-metrics/1","counts":_metric_counts.duplicate(true),"terminal_jobs":total,
+		"success_rate":float(_metric_counts.completed)/float(total) if total>0 else 0.0,
+		"average_latency_msec":roundi(float(sum)/float(samples.size())) if not samples.is_empty() else 0,
+		"p95_latency_msec":p95,"active_jobs":_active_job_count(),"preflight":_last_preflight.duplicate(true)}
+
+func evaluate_cases(value:Variant)->Dictionary:
+	if not value is Array or value.is_empty() or value.size()>32:
+		return {"ok":false,"errors":["Evaluation suite must contain 1 to 32 cases."],"cases":[]}
+	var reports:Array[Dictionary]=[]
+	var passed:=0
+	for index in range(value.size()):
+		var entry=value[index]
+		if not entry is Dictionary:
+			reports.append({"index":index,"passed":false,"errors":["Evaluation case must be an object."]})
+			continue
+		var task=entry.get("task",{})
+		var result=entry.get("result",{})
+		var task_errors:Array[String]=_bridge().validate_agent_task(task) if _bridge()!=null else ["WorkbenchBridge is unavailable."]
+		var review:Dictionary=_bridge().review_agent_result(task,result) if task_errors.is_empty() else {"ok":false,"errors":task_errors}
+		var expected_ok:=bool(entry.get("expected_ok",true))
+		var case_passed:=bool(review.get("ok",false))==expected_ok
+		if case_passed: passed+=1
+		reports.append({"index":index,"name":str(entry.get("name","case-%d" % index)),"passed":case_passed,
+			"expected_ok":expected_ok,"review_ok":bool(review.get("ok",false)),"errors":review.get("errors",[]).duplicate()})
+	return {"ok":passed==value.size(),"errors":[],"passed":passed,"total":value.size(),"pass_rate":float(passed)/float(value.size()),"cases":reports}
 
 func run_ready_stage(run_id:String)->Dictionary:
 	var caps:=capabilities()
@@ -285,6 +371,7 @@ func _start_job(job:Dictionary)->void:
 	job.attempts=int(job.attempts)+1
 	job.updated_at=int(Time.get_unix_time_from_system())
 	job.errors=[]
+	job.started_msec=Time.get_ticks_msec()
 	job_updated.emit(str(job.job_id),"running")
 	if _test_responder.is_valid():
 		call_deferred("_complete_test_job",str(job.job_id))
@@ -366,6 +453,7 @@ func _handle_response(job:Dictionary,response_code:int,body:String,transport_ok:
 
 func _retry_or_finish(job:Dictionary,error_message:String,retryable:bool)->void:
 	if retryable and int(job.attempts)<=int(_config.max_retries):
+		_metric_counts.retried=int(_metric_counts.retried)+1
 		job.status="retry_wait"
 		job.errors=[error_message]
 		job.updated_at=int(Time.get_unix_time_from_system())
@@ -381,6 +469,10 @@ func _finish_job(job:Dictionary,status:String,errors:Array)->void:
 	job.errors=errors.duplicate()
 	job.updated_at=int(Time.get_unix_time_from_system())
 	job.next_attempt_msec=0
+	job.latency_msec=maxi(0,Time.get_ticks_msec()-int(job.get("started_msec",Time.get_ticks_msec())))
+	_metric_counts[status]=int(_metric_counts.get(status,0))+1
+	_latency_samples.append(int(job.latency_msec))
+	if _latency_samples.size()>128: _latency_samples.pop_front()
 	_active_request_ids.erase(str(job.request_id))
 	job_updated.emit(str(job.job_id),status)
 	if not _has_active_run_job(str(job.run_id)):
@@ -392,6 +484,37 @@ func _provider_body(bundle:Dictionary)->Dictionary:
 		"messages":[{"role":"system","content":"你是受限 RPG 子 Agent。禁止工具调用、代码执行和资源路径；只返回严格 agent-result/1 JSON。"},
 			{"role":"user","content":str(bundle.get("prompt",""))}]}
 
+func _preflight_body()->Dictionary:
+	return {"model":str(_config.model),"temperature":0,"response_format":{"type":"json_object"},
+		"messages":[{"role":"system","content":"Return one strict JSON object and no Markdown."},
+			{"role":"user","content":"Provider preflight. Return exactly {\"ok\":true,\"service\":\"rpg-agent\"}."}]}
+
+func _on_preflight_completed(result:int,response_code:int,_headers:PackedStringArray,body:PackedByteArray)->void:
+	if result!=HTTPRequest.RESULT_SUCCESS:
+		_complete_preflight(false,response_code,"供应商预检未收到完整响应")
+		return
+	if response_code<200 or response_code>=300:
+		_complete_preflight(false,response_code,"供应商预检返回 HTTP %d" % response_code)
+		return
+	var envelope_parse:=_parse_json(body.get_string_from_utf8())
+	var content=""
+	if envelope_parse.ok and envelope_parse.value is Dictionary:
+		var choices=envelope_parse.value.get("choices",[])
+		if choices is Array and not choices.is_empty() and choices[0] is Dictionary:
+			var message=choices[0].get("message",{})
+			if message is Dictionary and message.get("content") is String: content=str(message.content)
+	var parsed:=_parse_json(content.strip_edges())
+	var accepted:bool=parsed.ok and parsed.value is Dictionary and parsed.value.get("ok")==true
+	_complete_preflight(accepted,response_code,"预检通过：鉴权、模型与严格 JSON 响应可用" if accepted else "预检响应不符合严格 JSON 探针合同")
+
+func _complete_preflight(ok:bool,http_status:int,message:String)->void:
+	_last_preflight={"status":"passed" if ok else "failed","ok":ok,
+		"latency_msec":maxi(0,Time.get_ticks_msec()-_preflight_started_msec),"http_status":http_status,
+		"message":message,"checked_at":int(Time.get_unix_time_from_system())}
+	if _preflight_request!=null and is_instance_valid(_preflight_request): _preflight_request.queue_free()
+	_preflight_request=null
+	preflight_updated.emit(_last_preflight.duplicate(true))
+
 func _parse_json(text:String)->Dictionary:
 	var parser:=JSON.new()
 	var error:=parser.parse(text)
@@ -401,11 +524,11 @@ func _public_job(job:Dictionary)->Dictionary:
 	if job.is_empty(): return {}
 	return {"job_id":str(job.job_id),"run_id":str(job.run_id),"request_id":str(job.request_id),
 		"agent_role":str(job.agent_role),"status":str(job.status),"attempts":int(job.attempts),
-		"created_at":int(job.created_at),"updated_at":int(job.updated_at),"errors":job.errors.duplicate()}
+		"created_at":int(job.created_at),"updated_at":int(job.updated_at),"latency_msec":int(job.get("latency_msec",0)),"errors":job.errors.duplicate()}
 
 func _save_config()->String:
 	var file:=ConfigFile.new()
-	for key in ["schema_version","provider","endpoint","model","timeout_seconds","max_retries","max_concurrency"]:
+	for key in ["schema_version","provider","profile_id","endpoint","model","timeout_seconds","max_retries","max_concurrency"]:
 		file.set_value("transport",key,_config[key])
 	var error:=file.save(config_path)
 	return "Could not save agent transport config." if error!=OK else ""
