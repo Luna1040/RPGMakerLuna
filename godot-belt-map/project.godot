@@ -6,6 +6,7 @@ run/main_scene="res://stage.tscn"
 ContentRegistry="*res://systems/content/content_registry.gd"
 ContentDraftService="*res://systems/content/content_draft_service.gd"
 CampaignImportService="*res://systems/content/campaign_import_service.gd"
+CampaignSessionService="*res://systems/content/campaign_session_service.gd"
 WorkbenchBridge="*res://systems/workbench_bridge.gd"
 GameSession="*res://systems/session_bridge.gd"
 [display]

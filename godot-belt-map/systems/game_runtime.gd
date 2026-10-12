@@ -42,11 +42,14 @@ var autosave_armed := false
 var last_autosave_error := ""
 var content_registry = null
 var workbench_bridge = null
+var campaign_session = null
 
 func setup(map_stage) -> void:
 	stage=map_stage
 	content_registry=stage.get_node_or_null("/root/ContentRegistry")
 	workbench_bridge=stage.get_node_or_null("/root/WorkbenchBridge")
+	campaign_session=stage.get_node_or_null("/root/CampaignSessionService")
+	configure_save_store()
 	if content_registry != null: stage.knight.content_registry_override=content_registry
 	if workbench_bridge != null: workbench_bridge.bind_runtime(self)
 	zone=str(stage.contract.get("zone_id","town"))
@@ -242,7 +245,7 @@ func safe_to_save() -> bool:
 
 func snapshot() -> Dictionary:
 	worlds[zone]=stage.loot.snapshot_world()
-	return {"schema":1,"zone":zone,"worlds":worlds.duplicate(true),"player":{"foot":[stage.foot.x,stage.foot.y],"height":stage.height_z,"health":stage.knight.health,"mana":stage.knight.mana,"facing":stage.knight.facing},"equipment":{"owned":stage.knight.equipment.owned.duplicate(),"equipped":stage.knight.equipment.equipped.duplicate()},"materials":stage.loot.materials.duplicate(),"progression":progression.snapshot(),"talents":talents.snapshot(),"adventure":adventure.snapshot(),"run":run_state.duplicate(true),"companion":{"recruited":companion_recruited,"mode":companion_mode,"state":encounters.companion_snapshot()},"content":content_registry.export_runtime_state() if content_registry != null else {},"play_seconds":play_seconds,"run_counter":run_counter,"slot":current_slot,"autosave_armed":autosave_armed}
+	return {"schema":1,"zone":zone,"worlds":worlds.duplicate(true),"player":{"foot":[stage.foot.x,stage.foot.y],"height":stage.height_z,"health":stage.knight.health,"mana":stage.knight.mana,"facing":stage.knight.facing},"equipment":{"owned":stage.knight.equipment.owned.duplicate(),"equipped":stage.knight.equipment.equipped.duplicate()},"materials":stage.loot.materials.duplicate(),"progression":progression.snapshot(),"talents":talents.snapshot(),"adventure":adventure.snapshot(),"run":run_state.duplicate(true),"companion":{"recruited":companion_recruited,"mode":companion_mode,"state":encounters.companion_snapshot()},"content":content_registry.export_runtime_state() if content_registry != null else {},"content_context":content_registry.content_context() if content_registry != null else {},"play_seconds":play_seconds,"run_counter":run_counter,"slot":current_slot,"autosave_armed":autosave_armed}
 
 func whole(value, low: int, high: int) -> bool:
 	return (value is int or value is float) and is_finite(float(value)) and floorf(float(value))==float(value) and float(value)>=low and float(value)<=high
@@ -284,6 +287,12 @@ func validate_snapshot(data: Dictionary) -> bool:
 	if data.has("content"):
 		var registry=_content_registry()
 		if registry==null or not data.content is Dictionary or not registry.validate_runtime_state(data.content).is_empty(): return false
+	var context_registry=_content_registry()
+	if context_registry!=null:
+		if data.has("content_context"):
+			if not context_registry.matches_content_context(data.content_context): return false
+		elif not context_registry.matches_content_context(null,true):
+			return false
 	if data.companion.get("mode","") not in ["follow","guard","passive"]: return false
 	if data.companion.has("state"):
 		if not data.companion.state is Dictionary or data.companion.state.is_empty() or not encounters.validate_companion(data.companion.state): return false
@@ -465,7 +474,15 @@ func step(delta: float) -> void:
 func _content_registry():
 	if content_registry != null:
 		return content_registry
-	return get_node_or_null("/root/ContentRegistry")
+	return get_node_or_null("/root/ContentRegistry") if is_inside_tree() else null
+
+func configure_save_store() -> void:
+	var directory := "user://rpg_saves"
+	if campaign_session == null and is_inside_tree():
+		campaign_session=get_node_or_null("/root/CampaignSessionService")
+	if campaign_session != null:
+		directory=str(campaign_session.active_save_directory())
+	saves=SaveStore.new(directory)
 
 func open_npc(npc: Dictionary) -> void:
 	panel.npc_id=str(npc.id)

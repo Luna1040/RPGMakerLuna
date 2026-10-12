@@ -169,11 +169,33 @@ user://projects/<project_id>/campaigns/<campaign_id>/
 
 安装先在同级临时目录写入两个文件，执行落盘回读、Schema、校验和、严格字段、任务图、NPC 资产登记与交叉引用检查，全部通过后才整体原子重命名。现有相同战役包返回幂等成功；现有不同或损坏目录不会被覆盖。
 
-导入和安装均返回 `activates_runtime:false` 与 `requires_new_session:true`。它们不会调用 `ContentRegistry` 的加载/修改接口，也不会访问 `user://rpg_saves`。未来启动器只能在新会话中读取战役包，并把存档定向到：
+导入和安装均返回 `activates_runtime:false` 与 `requires_new_session:true`。它们不会调用 `ContentRegistry` 的加载/修改接口，也不会访问 `user://rpg_saves`。新会话启动器只会读取已安装战役包，并把存档定向到：
 
 ```text
 user://projects/<project_id>/campaigns/<campaign_id>/saves
 ```
+
+## 新会话战役启动
+
+工作台不能把生成内容热切换进当前游戏场景。标准入口是：
+
+```text
+WorkbenchBridge.preview_campaign_launch(project_id, campaign_id)
+→ 展示战役名称、内容哈希、独立存档目录和“将结束当前会话”提示
+→ 用户确认
+→ WorkbenchBridge.start_campaign_session(project_id, campaign_id, launch_token)
+→ 清除场景间临时数据、待应用 Runtime Patch 与旧 GameRuntime 引用
+→ campaign_bootstrap.tscn 先替换旧 gameplay scene
+→ 再次校验 manifest.json、content.json、身份和两个校验和
+→ ContentRegistry 原子切换完整内容目录
+→ stage.tscn 创建新的 GameRuntime，并绑定战役专属 SaveStore
+```
+
+`preview_campaign_launch()` 不修改注册表或存档路径。`launch_token` 同时绑定项目、战役、manifest hash 与 content hash；预览后包内容变化时，排队或提交都会失败。正式内容切换只允许在 `campaign_bootstrap.tscn` 中提交，因此旧场景节点不会观察到一半官方、一半自定义的目录。启动失败会恢复官方内容与 `user://rpg_saves`，不会自动加载或覆盖任何槽位。
+
+每份新快照都写入 `content_context`，其中包含 official/campaign 类型、项目 ID、战役 ID、内容哈希与 manifest 哈希。读取时必须与当前 `ContentRegistry` 完全一致；旧版没有该字段的存档只允许在官方内容上下文迁移，不能进入自定义战役。返回官方战役使用 `WorkbenchBridge.start_official_session()`，同样经过 bootstrap 新会话边界。
+
+工作台 UI 只应使用 `preview_campaign_launch()` 与 `start_campaign_session()`。`queue_campaign_launch()` / `commit_pending_launch()` 是启动服务和 bootstrap 之间的内部事务接口，不能作为当前场景的“刷新内容”按钮。
 
 ## 运行时 Patch
 

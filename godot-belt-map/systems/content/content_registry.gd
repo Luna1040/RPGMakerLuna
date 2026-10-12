@@ -12,6 +12,8 @@ const BASE_EQUIPMENT_PATH := "res://content/base/equipment.json"
 const BASE_NPCS_PATH := "res://content/base/town_npcs.json"
 const ADVENTURE_PATH := "res://systems/adventure/adventure_data.json"
 const STATE_SCHEMA := "runtime-content-state/1"
+const OFFICIAL_PROJECT_ID := "project.rpgmakerluna.courtyard"
+const OFFICIAL_CAMPAIGN_ID := "campaign.official.courtyard"
 
 var loaded := false
 var revision := 0
@@ -31,6 +33,7 @@ var _dialogues: Dictionary = {}
 var _adventure: Dictionary = {}
 var _applied_patch_ids: Array[String] = []
 var _history: Array[Dictionary] = []
+var _content_context: Dictionary = {}
 
 func _ready() -> void:
 	if not load_base_content():
@@ -77,6 +80,8 @@ func load_base_content(path := BASE_SKILLS_PATH) -> bool:
 	base_hash = JSON.stringify(skills_value, "", true, true).sha256_text()
 	catalog_hash = JSON.stringify({"skills":skills_value, "equipment":equipment_value,
 		"npcs":npcs_value, "adventure":adventure_value}, "", true, true).sha256_text()
+	_content_context = {"kind":"official", "project_id":OFFICIAL_PROJECT_ID,
+		"campaign_id":OFFICIAL_CAMPAIGN_ID, "content_hash":catalog_hash, "manifest_hash":""}
 	revision = 0
 	_applied_patch_ids.clear()
 	_history.clear()
@@ -84,6 +89,64 @@ func load_base_content(path := BASE_SKILLS_PATH) -> bool:
 	loaded = true
 	content_loaded.emit(bundle_id, base_hash)
 	return true
+
+func activate_campaign_content(content: Variant, manifest: Variant) -> bool:
+	## This method is only called by CampaignSessionService after the old gameplay
+	## scene has been replaced by the bootstrap scene.
+	var errors: Array[String] = []
+	if not content is Dictionary or not manifest is Dictionary:
+		return _reject("campaign-load", ["Campaign content and manifest must be objects."])
+	var import_service = get_node_or_null("/root/CampaignImportService")
+	if import_service == null:
+		return _reject("campaign-load", ["CampaignImportService is unavailable."])
+	errors.append_array(import_service.validate_campaign_content(content))
+	errors.append_array(import_service.validate_campaign_manifest(manifest))
+	if content.get("project_id") != manifest.get("project_id") or content.get("campaign_id") != manifest.get("campaign_id"):
+		errors.append("Campaign content identity does not match its manifest.")
+	if content.get("content_hash") != manifest.get("content_hash"):
+		errors.append("Campaign content checksum does not match its manifest.")
+	if not errors.is_empty():
+		return _reject("campaign-load", errors)
+	var next_skills: Dictionary = content.skills.duplicate(true)
+	var next_equipment: Dictionary = content.equipment.duplicate(true)
+	var next_npcs: Dictionary = content.npcs.duplicate(true)
+	var next_adventure: Dictionary = content.adventure.duplicate(true)
+	var next_quests := {}
+	for quest: Dictionary in next_adventure.quests:
+		next_quests[str(quest.id)] = quest.duplicate(true)
+	_base_skills = next_skills.duplicate(true)
+	_skills = next_skills
+	_equipment = next_equipment
+	_npcs = next_npcs
+	_quests = next_quests
+	_dialogues = next_adventure.npcs.duplicate(true)
+	_adventure = next_adventure
+	bundle_id = str(manifest.campaign_id)
+	bundle_ids = {"skills":bundle_id + ".skills", "equipment":bundle_id + ".equipment",
+		"npcs":bundle_id + ".npcs", "adventure":bundle_id + ".adventure"}
+	base_hash = JSON.stringify({"campaign_id":bundle_id, "skills":next_skills}, "", true, true).sha256_text()
+	catalog_hash = str(content.content_hash)
+	_content_context = {"kind":"campaign", "project_id":str(manifest.project_id),
+		"campaign_id":str(manifest.campaign_id), "content_hash":str(content.content_hash),
+		"manifest_hash":str(manifest.manifest_hash)}
+	revision = 0
+	_applied_patch_ids.clear()
+	_history.clear()
+	last_errors.clear()
+	loaded = true
+	content_loaded.emit(bundle_id, base_hash)
+	return true
+
+func content_context() -> Dictionary:
+	return _content_context.duplicate(true)
+
+func is_official_context() -> bool:
+	return _content_context.get("kind") == "official"
+
+func matches_content_context(value: Variant, allow_legacy_official := false) -> bool:
+	if not value is Dictionary:
+		return allow_legacy_official and is_official_context()
+	return value == _content_context
 
 func get_skill(skill_id: String) -> Dictionary:
 	return _skills.get(skill_id, {}).duplicate(true)

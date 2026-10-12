@@ -26,6 +26,7 @@
 | `systems/content/` | 技能/装备/NPC/任务/对话稳定 ID、Schema 校验、原子 Patch、覆盖状态与撤销 | `get_definition`, `registered_ids`, `apply_runtime_patch`, `export_runtime_state` |
 | `systems/content/content_draft_service.gd` | Agent 任务/NPC/对话草稿的全目录校验、差异预览与不可变原子发布；不热激活当前战役 | `validate_draft`, `preview_draft`, `publish_draft` |
 | `systems/content/campaign_import_service.gd` | 已发布制品的重新物化、独立战役预览、双文件原子安装与篡改复检；不激活当前会话 | `preview_import`, `install_campaign`, `inspect_campaign` |
+| `systems/content/campaign_session_service.gd` | 结束旧场景后在 bootstrap 中激活已安装战役、失败回滚、内容上下文与独立存档目录切换 | `preview_campaign_launch`, `start_campaign_session`, `start_official_session` |
 | `systems/workbench_bridge.gd` | 创作工作台能力查询、Main→子 Agent 合同审查、安全点排队与 Patch 结果 | `capabilities`, `inspect_target`, `validate_agent_task`, `review_agent_result`, `submit_patch` |
 | `systems/world_registry.gd` | 地点 ID 到地图合同的映射 | `ZONES`, `load_zone` |
 | `systems/core/save_store.gd` | 三槽、版本、校验和、临时文件、备份与坏档保护 | `save_slot`, `load_slot`, `list_slots`, `protect_slot` |
@@ -56,7 +57,9 @@ F2 保留实体碰撞显示，F4 增加敌人受击体；开发截图报告包�
 
 桌面三槽位于 Godot `user://rpg_saves/slot_1.json` 等；设置位于 `user://rpg_settings.cfg`。网页使用同一格式，存储于该站点的浏览器数据。清理站点数据、隐私模式或浏览器存储限制可能影响保留，不能当云存档。
 
-保存角色生命/法力/朝向、装备拥有及槽位、材料、经验、天赋、任务事件去重记录、声望/路线/标记、药剂、队友模式与独立状态、试炼种子/波次/祝福，以及每个地点独立的已破坏木箱、已开宝箱和未拾取掉落。Node、Texture、Callable 不进入存档。
+保存角色生命/法力/朝向、装备拥有及槽位、材料、经验、天赋、任务事件去重记录、声望/路线/标记、药剂、队友模式与独立状态、试炼种子/波次/祝福，以及每个地点独立的已破坏木箱、已开宝箱和未拾取掉落。Node、Texture、Callable 不进入存档。新快照还保存不可伪造为当前目录的 `content_context`；项目、战役、内容哈希或 manifest 哈希任一不匹配都拒绝读取。没有该字段的旧档只在官方内容下兼容。
+
+导入战役的槽位不使用 `user://rpg_saves`，而位于 `user://projects/<project_id>/campaigns/<campaign_id>/saves`。切换战役只创建新会话，不自动读取槽位，也不会把官方存档复制到自定义战役。
 
 `companion.state` 保存瑟琳的 HP/MP、倒下、护盾、技能冷却和动作状态。资源不得越界，布尔字段不能用字符串替代，内外两层的招募开关与命令必须一致。加载先完成校验再修改任何角色；重复读取不会回血、回蓝或复活。上一版没有 `state` 字段的旧档按满状态迁移，仍保留原来的招募与命令；新档显式写入空 `state:{}` 会被拒绝。该字段由 `companion_snapshot()` 生成，不要由 UI 拼装。
 
@@ -78,10 +81,11 @@ RNG 的 64 位 `state` 若需要持久化，转成字符串再写 JSON；Godot J
 - **Agent / 工作台修改**：Main Agent 先读取 `WorkbenchBridge.capabilities()` 和目标定义，使用 `agent-task/1` 派发子任务，再用 `review_agent_result` 审查 `agent-result/1`。审查不会自动执行；只有 Main Agent 选中的 `runtime-patch/1` 才能进入 `submit_patch`。当前雷光支持安全修改消耗、冷却、伤害、纵深宽度、弹射数和弹射半径；不接受生成脚本或资源路径。具体合同见 `systems/content/README.md`。
 - **Agent 生成任务/NPC/对话**：结构变更使用 `content-draft/1`；Main Agent 先审查，再调用 `preview_content_draft` 检查完整候选目录和差异，最后用完全相同的草稿与令牌调用 `publish_content_draft`。发布只生成带校验和的不可变 JSON 制品，不会热激活当前战役或改写现有存档；新战役导入器必须再次校验。
 - **导入生成战役**：使用 `campaign-import-request/1` 选择 `new_campaign` 或 `explicit_project_copy`，先预览、再安装。安装结果固定在 `user://projects/<project_id>/campaigns/<campaign_id>`，使用独立 `saves` 子目录，并声明 `new_session_only`；保留战役 ID、既有不同内容和损坏目录都不会被覆盖。
+- **启动生成战役**：先调用 `preview_campaign_launch` 取得绑定包哈希的令牌并向玩家确认结束当前会话，再调用 `start_campaign_session`。服务先让旧 gameplay scene 退出，随后只在 `campaign_bootstrap.tscn` 中复检并提交内容切换，最后创建使用独立 SaveStore 的新 `stage.tscn`。不要直接调用注册表加载函数，也不要在当前场景加入“热刷新剧情”入口。
 
 ## 验证
 
-2026-10-11 底层框架发行版曾完成 21 项检查（20 组测试与 1 项资源导入预检）；网页版验证过存档写入、整页刷新后读档、城镇与试炼切换、敌人生成、战斗暂停及撤退回城。本轮新增图鉴/队友集成测试 64 项通过，包含独立资源往返、倒下保存、坏数据原子拒绝、休整扣费、旧档迁移、UI 暂停及已导入的待机预览时钟/末帧停顿/缺帧保护；同时复验 runtime、剧情集成、存档验证及 Esc/L 输入。最终角色版已再次通过全部 25 项回归、351 帧无损原稿比对、21 动作原生渲染与 4 个双朝向发弹检查。详见根目录 NPC_ROSTER_INTEGRATION.md。
+2026-10-11 底层框架发行版曾完成 21 项检查（20 组测试与 1 项资源导入预检）；网页版验证过存档写入、整页刷新后读档、城镇与试炼切换、敌人生成、战斗暂停及撤退回城。本轮新增图鉴/队友集成测试 64 项通过，包含独立资源往返、倒下保存、坏数据原子拒绝、休整扣费、旧档迁移、UI 暂停及已导入的待机预览时钟/末帧停顿/缺帧保护；同时复验 runtime、剧情集成、存档验证及 Esc/L 输入。最终角色版已完成 29 项 Godot 回归（含资源导入预检）、351 帧无损原稿比对、21 动作原生渲染与 4 个双朝向发弹检查；新会话战役测试覆盖包篡改回滚、官方/自定义内容切换、真实 stage 消费、独立 SaveStore 与跨上下文坏档拒绝。详见根目录 NPC_ROSTER_INTEGRATION.md。
 
 安装 Python 3 后可运行跨平台测试工具（Godot 路径换成自己的）：
 
@@ -89,7 +93,7 @@ RNG 的 64 位 `state` 若需要持久化，转成字符串再写 JSON；Godot J
 python tests/run_tests.py --godot /path/to/godot --suite all
 ```
 
-macOS 默认应用路径可用 `/Applications/Godot.app/Contents/MacOS/Godot`，Windows 用 Godot console exe。测试脚本也支持 `GODOT_BIN` 环境变量，日志在 `test-results/`，不会进入网页包。核心、内容草稿发布、独立战役导入、任务、遭遇、存档事务与真实场景的集成测试分开运行，旧庭院回归使用隔离模式避免读取玩家进度。仅测试脚本需要 `-- --foundations` 强制开启新框架；正常 F5 自动开启。
+macOS 默认应用路径可用 `/Applications/Godot.app/Contents/MacOS/Godot`，Windows 用 Godot console exe。测试脚本也支持 `GODOT_BIN` 环境变量，日志在 `test-results/`，不会进入网页包。核心、内容草稿发布、独立战役导入、新会话战役启动、任务、遭遇、存档事务与真实场景的集成测试分开运行，旧庭院回归使用隔离模式避免读取玩家进度。仅测试脚本需要 `-- --foundations` 强制开启新框架；正常 F5 自动开启。
 
 新增素材发布门槛（需要 Pillow）：
 

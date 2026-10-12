@@ -20,6 +20,15 @@ var pending: Array[Dictionary] = []
 
 func bind_runtime(value) -> void:
 	runtime = value
+	if value is Node:
+		var bound = value
+		value.tree_exiting.connect(func():
+			if runtime == bound:
+				runtime = null
+		, CONNECT_ONE_SHOT)
+
+func unbind_runtime() -> void:
+	runtime = null
 
 func capabilities() -> Dictionary:
 	var registry = _registry()
@@ -43,6 +52,9 @@ func capabilities() -> Dictionary:
 		"draft_target_types": ["quest", "dialogue", "npc"],
 		"published_content_activation": "new_campaign_import",
 		"campaign_activation_policies": ["new_campaign", "explicit_project_copy"],
+		"campaign_session_activation": "scene_bootstrap_new_session_only",
+		"content_context": registry.content_context() if registry != null else {},
+		"active_save_directory": _campaign_session().active_save_directory() if _campaign_session() != null else "user://rpg_saves",
 		"safe_to_apply": safe_to_apply(),
 		"pending_count": pending.size(),
 		"allows_generated_code": false
@@ -189,6 +201,24 @@ func inspect_campaign(project_id: String, campaign_id: String) -> Dictionary:
 		return {"ok":false, "errors":["CampaignImportService is unavailable."], "manifest":{}}
 	return service.inspect_campaign(project_id, campaign_id)
 
+func preview_campaign_launch(project_id: String, campaign_id: String) -> Dictionary:
+	var service = _campaign_session()
+	if service == null:
+		return {"ok":false, "errors":["CampaignSessionService is unavailable."], "campaign_id":campaign_id}
+	return service.preview_campaign_launch(project_id, campaign_id)
+
+func start_campaign_session(project_id: String, campaign_id: String, launch_token: String) -> Dictionary:
+	var service = _campaign_session()
+	if service == null:
+		return {"ok":false, "errors":["CampaignSessionService is unavailable."], "campaign_id":campaign_id}
+	return service.start_campaign_session(project_id, campaign_id, launch_token)
+
+func start_official_session() -> Dictionary:
+	var service = _campaign_session()
+	if service == null:
+		return {"ok":false, "errors":["CampaignSessionService is unavailable."]}
+	return service.start_official_session()
+
 func submit_patch(value: Variant) -> Dictionary:
 	var registry = _registry()
 	if registry == null or not registry.loaded:
@@ -259,6 +289,9 @@ func _draft_service():
 
 func _campaign_service():
 	return get_node_or_null("/root/CampaignImportService")
+
+func _campaign_session():
+	return get_node_or_null("/root/CampaignSessionService")
 
 func _whole(value: Variant) -> bool:
 	return (value is int or value is float) and is_finite(float(value)) and floorf(float(value)) == float(value)
