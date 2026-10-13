@@ -98,7 +98,7 @@ func setup(map_stage) -> void:
 	var guidance=preload("dungeon_guidance.gd").new()
 	stage.add_child(guidance)
 	guidance.setup(self)
-	if run_state.get("rooms",false): stage.minimap.hide()
+	if zone=="ruins" and run_state.get("rooms",false): stage.minimap.hide()
 	var backdrop=stage.get_node_or_null("CourtyardBackdrop")
 	if backdrop!=null: backdrop.modulate=Color(str(stage.contract.get("backdrop_tint","ffffff")))
 	if Registry.is_dungeon(zone):

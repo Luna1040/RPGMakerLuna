@@ -160,6 +160,7 @@ func run() -> void:
 	check(runtime.return_town(),"Retreat route is available")
 	await settle()
 	check(runtime.zone=="city","Retreat must return to the originating city")
+	check(stage.minimap.visible,"Returning from room dungeon restores town minimap")
 	check(runtime.adventure.claim_quest("city_tower").ok,"Boss quest rewards can be claimed on return")
 	check(runtime.use_portal(runtime.portals.links[0]),"City west road returns to courtyard")
 	await settle()
