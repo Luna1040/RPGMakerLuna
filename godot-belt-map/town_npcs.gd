@@ -1,5 +1,8 @@
 extends RefCounted
 ## Original town residents. The map owns input and dialogue presentation.
+const Validator = preload("res://systems/content/content_validator.gd")
+const RosterAnimation = preload("res://systems/encounters/roster_animation.gd")
+const CATALOG_PATH := "res://content/base/town_npcs.json"
 const INTERACTION_RADIUS := 1.4
 var residents: Array[Dictionary] = []
 var elapsed := 0.0
@@ -7,23 +10,48 @@ var stage: Node2D
 
 func setup(map_stage: Node2D) -> void:
 	stage = map_stage
-	if stage.contract.get("zone_id", "town")=="city":
-		_add_resident("mira","米拉 · 药剂师",Vector2(6,5.1),"res://assets/npcs/mira.png",Vector2(510,1520),1500,Rect2(240,20,560,650),["欢迎来到晨钟城，出发前来补充药剂吧。"])
-		_add_resident("oren","奥伦 · 卫队长",Vector2(18.5,5.5),"res://assets/npcs/oren.png",Vector2(510,1520),1500,Rect2(240,10,560,650),["古塔的钟声已经失控，我们需要你的援手。"])
-		return
-	_add_resident("innkeeper", "艾琳 · 旅店主人", Vector2(5.2, 4.1), "res://assets/npcs/innkeeper.png", Vector2(520, 1500), 1458.0, Rect2(300, 40, 410, 455), [
-		"欢迎来到苍石庭院。我是艾琳，旅店就在身后。先在这里熟悉一下身手吧。",
-		"旧木箱已经没人用了，打碎后留下的杂物可以收进背包。别对着镇民挥剑就好。",
-		"庭院东边住着铁匠雷恩。如果找到了新装备，可以去和他聊聊。"
-	])
-	_add_resident("smith", "雷恩 · 铁匠", Vector2(18.5, 6.4), "res://assets/npcs/smith.png", Vector2(520, 1510), 1500.0, Rect2(300, 5, 410, 450), [
-		"我是雷恩。剑刃要锋利，握剑的手也要稳。欢迎来我的小作坊。",
-		"庭院的宝箱里留了些武器与装备，靠近后交互就能打开。拿到手，记得检查背包。",
-		"木箱能踩，也能打碎。喷泉池沿和中间的石柱都是实体，池水里不能落脚。"
-	])
+	var definitions := _definitions()
+	var ids: Array = definitions.keys()
+	ids.sort()
+	var zone_id := str(stage.contract.get("zone_id", "town"))
+	var city_ids := ["mira", "oren"]
+	for id in ids:
+		if zone_id == "city" and id not in city_ids: continue
+		if zone_id == "town" and id in city_ids: continue
+		_add_resident(definitions[id])
 
-func _add_resident(id: String, display_name: String, world_position: Vector2, path: String, pivot: Vector2, drawn_height: float, portrait_region: Rect2, lines: Array) -> void:
-	var texture: Texture2D = load(path)
+func _definitions() -> Dictionary:
+	var registry = stage.get_node_or_null("/root/ContentRegistry")
+	if registry != null and registry.loaded:
+		return registry.definitions("npc")
+	var parsed = JSON.parse_string(FileAccess.get_file_as_string(CATALOG_PATH))
+	var errors := Validator.validate_content_bundle(parsed)
+	if not errors.is_empty():
+		push_error("Town NPC catalog: " + "; ".join(errors))
+		return {}
+	var result := {}
+	for entry: Dictionary in parsed.entries:
+		result[str(entry.id)] = entry.duplicate(true)
+	return result
+
+func _add_resident(definition: Dictionary) -> void:
+	var id := str(definition.id)
+	var display_name := str(definition.display_name)
+	var world_position := Vector2(float(definition.position_m[0]), float(definition.position_m[1]))
+	var visual_definition: Dictionary = definition.visual
+	var asset_registry = stage.get_node_or_null("/root/NpcAssetRegistry")
+	var asset_profile: Dictionary = asset_registry.resolve_visual(visual_definition) if asset_registry != null else {}
+	var base_path := str(asset_profile.get("base_path", ""))
+	var idle_path := str(asset_profile.get("manifest_path", ""))
+	if asset_profile.is_empty() or base_path.is_empty() or idle_path.is_empty():
+		push_error("Town NPC uses an unregistered asset id: " + id)
+		return
+	var pivot := Vector2(float(visual_definition.pivot_px[0]), float(visual_definition.pivot_px[1]))
+	var drawn_height := float(visual_definition.drawn_height_px)
+	var region: Array = visual_definition.portrait_region_px
+	var portrait_region := Rect2(float(region[0]), float(region[1]), float(region[2]), float(region[3]))
+	var lines: Array = definition.ambient_lines.duplicate()
+	var texture: Texture2D = load(base_path)
 	var root := Node2D.new()
 	root.name = "TownNPC_" + id
 	root.position = stage.project(world_position)
@@ -49,9 +77,21 @@ func _add_resident(id: String, display_name: String, world_position: Vector2, pa
 	visual.add_child(sprite)
 	var idle_frames: Array[Texture2D] = []
 	var idle_data: Dictionary = {}
-	var idle_path := "res://assets/npcs/" + id + "-idle.json"
+	var roster_animation = null
 	var blend := Sprite2D.new()
-	if FileAccess.file_exists(idle_path):
+	visual.add_child(blend)
+	if asset_profile.renderer == "roster_actions":
+		roster_animation = RosterAnimation.new()
+		roster_animation.configure(str(asset_profile.roster_id))
+		var sampled: Dictionary = roster_animation.sample(str(asset_profile.ambient_action), 0.0, true)
+		if sampled.is_empty():
+			push_error("Town NPC asset profile has no playable ambient action: " + id)
+			root.queue_free()
+			return
+		sprite.texture = sampled.texture
+		sprite.scale = Vector2.ONE * float(sampled.scale)
+		sprite.position = -Vector2(sampled.pivot) * float(sampled.scale)
+	elif FileAccess.file_exists(idle_path):
 		idle_data = JSON.parse_string(FileAccess.get_file_as_string(idle_path))
 		for frame: Dictionary in idle_data.frames:
 			idle_frames.append(load("res://assets/npcs/" + str(frame.file)))
@@ -63,7 +103,6 @@ func _add_resident(id: String, display_name: String, world_position: Vector2, pa
 		blend.scale = sprite.scale
 		blend.position = sprite.position
 		blend.modulate.a = 0.0
-		visual.add_child(blend)
 	var label := Label.new()
 	label.position = Vector2(-120, -292)
 	label.size = Vector2(240, 27)
@@ -75,17 +114,29 @@ func _add_resident(id: String, display_name: String, world_position: Vector2, pa
 	label.add_theme_constant_override("shadow_offset_y", 2)
 	label.text = display_name
 	root.add_child(label)
-	var portrait := AtlasTexture.new()
-	portrait.atlas = texture
-	portrait.region = portrait_region
-	residents.append({"id": id, "name": display_name, "position": world_position, "portrait": portrait, "lines": lines, "root": root, "visual": visual, "label": label, "sprite":sprite, "blend":blend, "idle_frames":idle_frames, "idle_data":idle_data})
+	var portrait: Texture2D
+	if asset_profile.renderer == "roster_actions":
+		portrait = texture
+	else:
+		var atlas := AtlasTexture.new()
+		atlas.atlas = texture
+		atlas.region = portrait_region
+		portrait = atlas
+	residents.append({"id": id, "name": display_name, "position": world_position, "portrait": portrait, "lines": lines, "root": root, "visual": visual, "label": label, "sprite":sprite, "blend":blend, "idle_frames":idle_frames, "idle_data":idle_data,
+		"renderer":str(asset_profile.renderer), "animation":roster_animation, "ambient_action":str(asset_profile.ambient_action), "asset_profile_id":str(asset_profile.profile_id)})
 
 func step(delta: float, player_foot: Vector2, player_height: float) -> void:
 	elapsed += delta
 	var candidate := nearest(player_foot, player_height)
 	for i in range(residents.size()):
 		var resident: Dictionary = residents[i]
-		if not resident.idle_frames.is_empty():
+		if resident.animation != null:
+			var sampled: Dictionary = resident.animation.sample(str(resident.ambient_action), elapsed * 1000.0 + i * 310.0, true)
+			if not sampled.is_empty():
+				resident.sprite.texture = sampled.texture
+				resident.sprite.scale = Vector2.ONE * float(sampled.scale)
+				resident.sprite.position = -Vector2(sampled.pivot) * float(sampled.scale)
+		elif not resident.idle_frames.is_empty():
 			var duration: float = resident.idle_frames.size() * float(resident.idle_data.frame_ms) / 1000.0
 			# Play the actual occupational gesture, pause, then dissolve back to its start.
 			# Each NPC starts at a different phase; collision and foot root never move.

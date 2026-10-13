@@ -177,6 +177,7 @@ func test_statuses() -> void:
 
 func test_loot() -> void:
 	var loot := LootTable.new()
+	var equipment_catalog: Dictionary = Gear.new().CATALOG
 	var left := RandomNumberGenerator.new()
 	var right := RandomNumberGenerator.new()
 	left.seed = 102410
@@ -188,7 +189,7 @@ func test_loot() -> void:
 			for entry: Dictionary in rolled:
 				verify(entry.amount > 0, "Loot quantity is not positive")
 				if entry.kind == "equipment":
-					verify(Gear.CATALOG.has(entry.id), "Loot equipment ID not in game catalog")
+					verify(equipment_catalog.has(entry.id), "Loot equipment ID not in game catalog")
 	var state_before := left.state
 	verify(loot.roll("unknown", left).is_empty() and left.state == state_before, "Invalid loot table consumes RNG")
 	verify(loot.roll("enemy", null).is_empty(), "Null RNG accepted")

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:rpgmakerluna:schema:agent-task",
+  "title": "Main Agent to Child Agent Task",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "request_id", "project_id", "content_revision", "agent_role", "objective", "allowed_targets", "constraints", "context_refs"],
+  "properties": {
+    "schema_version": {"const": "agent-task/1"},
+    "request_id": {"type": "string", "pattern": "^request\\.[a-z0-9_.-]+$", "maxLength": 128},
+    "project_id": {"type": "string", "pattern": "^project\\.[a-z0-9_.-]+$", "maxLength": 128},
+    "content_revision": {"type": "integer", "minimum": 0},
+    "agent_role": {"enum": ["narrative", "world", "npc", "systems", "validator"]},
+    "objective": {"type": "string", "minLength": 1, "maxLength": 1000},
+    "allowed_targets": {"type": "array", "maxItems": 64, "uniqueItems": true, "items": {"$ref": "#/$defs/targetRef"}},
+    "constraints": {"type": "object", "additionalProperties": false, "required": ["max_proposals", "allow_new_ids", "allow_generated_code"], "properties": {
+      "max_proposals": {"type": "integer", "minimum": 0, "maximum": 32},
+      "allow_new_ids": {"type": "boolean"}, "allow_generated_code": {"const": false}
+    }},
+    "context_refs": {"type": "array", "maxItems": 128, "uniqueItems": true, "items": {"$ref": "#/$defs/targetRef"}}
+  },
+  "$defs": {"targetRef": {"type": "object", "additionalProperties": false, "required": ["target_type", "target_id"], "properties": {
+    "target_type": {"enum": ["skill", "equipment", "npc", "quest", "dialogue"]},
+    "target_id": {"type": "string", "minLength": 3, "maxLength": 128}
+  }}}
+}

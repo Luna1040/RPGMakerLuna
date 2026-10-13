@@ -9,6 +9,7 @@ __pycache__/
 !.env.example
 .tools/
 .publish/
+.team-comfy-private/
 .venv/
 venv/
 *.safetensors

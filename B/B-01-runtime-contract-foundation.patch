@@ -1,0 +1,994 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Codex <codex@example.invalid>
+Date: Mon, 12 Oct 2026 15:24:23 +0800
+Subject: [PATCH] Add validated RPG runtime contract foundation
+
+
+diff --git a/godot-belt-map/characters/first_knight/knight.gd b/godot-belt-map/characters/first_knight/knight.gd
+index ab53b4f..eca0753 100644
+--- a/godot-belt-map/characters/first_knight/knight.gd
++++ b/godot-belt-map/characters/first_knight/knight.gd
+@@ -15,6 +15,17 @@ signal equipment_changed
+ var facing := 1
+ var health := 100.0
+ var mana := 100.0
++const LIGHTNING_SKILL_ID := "skill.knight.lightning"
++const LIGHTNING_FALLBACK := {
++	"id": LIGHTNING_SKILL_ID,
++	"display_name": "雷光",
++	"description": "向前释放雷光，对同一深度带内命中的目标造成魔法伤害。",
++	"action_profile_id": "action.knight.cast",
++	"resource_cost": {"type":"mp", "amount":25.0},
++	"cooldown_seconds": 2.4,
++	"combat": {"base_damage":42.0, "depth_radius":0.65, "tags":["magic", "lightning", "projectile"]},
++	"presentation": {"vfx_id":"vfx.knight.lightning_projectile", "sfx_id":"sfx.knight.lightning_cast"}
++}
+ const SKILLS := {
+  "crescent": {"name":"月弧斩", "description":"前方宽弧斩击", "cost":18.0, "cooldown":4.0, "depth_radius":0.95},
+  "rising": {"name":"破晓升龙", "description":"上挑并击飞前方目标", "cost":24.0, "cooldown":6.0, "depth_radius":0.70},
+@@ -49,6 +60,8 @@ var magic_bonus := 0.0
+ var defense := 0.0
+ var mana_regen := 7.0
+ var equipment_speed_bonus := 0.0
++## Tests and editor tools may inject the registry without entering the scene tree.
++var content_registry_override: Node = null
+ ## The map owns height/gravity. These values select an independent visual pose.
+ var airborne := false
+ var air_vertical_speed := 0.0
+@@ -91,8 +104,24 @@ func get_effective_stats() -> Dictionary:
+ func get_attack_damage(action: String) -> float:
+ 	return float(clips[action].get("damage", 20)) + attack_bonus
+ 
++func get_lightning_skill() -> Dictionary:
++	var registry := content_registry_override
++	if registry == null:
++		registry = get_node_or_null("/root/ContentRegistry")
++	if registry != null:
++		var definition: Dictionary = registry.get_skill(LIGHTNING_SKILL_ID)
++		if not definition.is_empty():
++			return definition
++	return LIGHTNING_FALLBACK.duplicate(true)
++
++func get_spell_mana_cost() -> float:
++	return float(get_lightning_skill().get("resource_cost", {}).get("amount", 25.0))
++
++func get_spell_cooldown() -> float:
++	return float(get_lightning_skill().get("cooldown_seconds", 2.4))
++
+ func get_spell_damage() -> float:
+-	return 42.0 + magic_bonus
++	return float(get_lightning_skill().get("combat", {}).get("base_damage", 42.0)) + magic_bonus
+ 
+ func get_attack_reach(action: String) -> float:
+ 	return (float(clips[action].get("range", 180)) + melee_reach_margin) * visual_scale / 0.62
+@@ -150,8 +179,8 @@ func change_action(next: String) -> void:
+ 	action_frame = 0
+ 	special_phase = 0
+ 	if next == "cast":
+-		mana -= 25.0
+-		cast_cooldown = 2.4
++		mana -= get_spell_mana_cost()
++		cast_cooldown = get_spell_cooldown()
+ 		stats_changed.emit(health, mana)
+ 	action_changed.emit(state)
+ 
+@@ -168,7 +197,7 @@ func request_attack() -> void:
+ 	inactivity = 0.0
+ 
+ func request_cast() -> void:
+-	if defeated or mana < 25.0 or cast_cooldown > 0.0:
++	if defeated or mana < get_spell_mana_cost() or cast_cooldown > 0.0:
+ 		return
+ 	if is_locomotion():
+ 		change_action("cast")
+@@ -270,7 +299,16 @@ func _physics_process(delta: float) -> void:
+ 		elif state == "cast":
+ 			var release: Array = clip.get("release_offset",[165,-330])
+ 			var offset := Vector2(float(release[0])*facing,float(release[1]))*visual_scale*float(clip.get("scale",1.0))
+-			spell_requested.emit({"origin":global_position + offset,"facing":facing,"damage":get_spell_damage()})
++			var spell := get_lightning_skill()
++			spell_requested.emit({
++				"origin":global_position + offset,
++				"facing":facing,
++				"damage":get_spell_damage(),
++				"skill_id":str(spell.get("id", LIGHTNING_SKILL_ID)),
++				"depth_radius":float(spell.get("combat", {}).get("depth_radius", 0.65)),
++				"vfx_id":str(spell.get("presentation", {}).get("vfx_id", "")),
++				"sfx_id":str(spell.get("presentation", {}).get("sfx_id", ""))
++			})
+ 	var duration := float(clip["duration_ms"]) / 1000.0
+ 	if elapsed >= duration:
+ 		if defeated:
+@@ -280,7 +318,7 @@ func _physics_process(delta: float) -> void:
+ 		elif state.begins_with("attack") and combo_buffered:
+ 			combo_buffered = false
+ 			change_action("attack2" if state == "attack1" else ("attack3" if state == "attack2" else "attack1"))
+-		elif state.begins_with("attack") and cast_buffered and mana >= 25.0 and cast_cooldown <= 0:
++		elif state.begins_with("attack") and cast_buffered and mana >= get_spell_mana_cost() and cast_cooldown <= 0:
+ 			cast_buffered = false
+ 			change_action("cast")
+ 		else:
+diff --git a/godot-belt-map/content/base/skills.json b/godot-belt-map/content/base/skills.json
+new file mode 100644
+index 0000000..d7ac9d7
+--- /dev/null
++++ b/godot-belt-map/content/base/skills.json
+@@ -0,0 +1,28 @@
++{
++  "schema_version": "rpg-content-bundle/1",
++  "bundle_id": "base.knight.skills",
++  "content_type": "skills",
++  "entries": [
++    {
++      "id": "skill.knight.lightning",
++      "kind": "skill",
++      "display_name": "雷光",
++      "description": "向前释放雷光，对同一深度带内命中的目标造成魔法伤害。",
++      "action_profile_id": "action.knight.cast",
++      "resource_cost": {
++        "type": "mp",
++        "amount": 25.0
++      },
++      "cooldown_seconds": 2.4,
++      "combat": {
++        "base_damage": 42.0,
++        "depth_radius": 0.65,
++        "tags": ["magic", "lightning", "projectile"]
++      },
++      "presentation": {
++        "vfx_id": "vfx.knight.lightning_projectile",
++        "sfx_id": "sfx.knight.lightning_cast"
++      }
++    }
++  ]
++}
+diff --git a/godot-belt-map/content/schemas/content-bundle.schema.json b/godot-belt-map/content/schemas/content-bundle.schema.json
+new file mode 100644
+index 0000000..c13a74a
+--- /dev/null
++++ b/godot-belt-map/content/schemas/content-bundle.schema.json
+@@ -0,0 +1,63 @@
++{
++  "$schema": "https://json-schema.org/draft/2020-12/schema",
++  "$id": "urn:rpgmakerluna:schema:content-bundle",
++  "title": "RPG Content Bundle",
++  "type": "object",
++  "additionalProperties": false,
++  "required": ["schema_version", "bundle_id", "content_type", "entries"],
++  "properties": {
++    "schema_version": {"const": "rpg-content-bundle/1"},
++    "bundle_id": {"type": "string", "minLength": 1, "maxLength": 128},
++    "content_type": {"const": "skills"},
++    "entries": {
++      "type": "array",
++      "minItems": 1,
++      "maxItems": 512,
++      "items": {"$ref": "#/$defs/skill"}
++    }
++  },
++  "$defs": {
++    "registeredId": {"type": "string", "pattern": "^[a-z][a-z0-9_.-]{2,127}$"},
++    "skill": {
++      "type": "object",
++      "additionalProperties": false,
++      "required": ["id", "kind", "display_name", "description", "action_profile_id", "resource_cost", "cooldown_seconds", "combat", "presentation"],
++      "properties": {
++        "id": {"type": "string", "pattern": "^skill\\.[a-z0-9_.-]+$"},
++        "kind": {"const": "skill"},
++        "display_name": {"type": "string", "minLength": 1, "maxLength": 64},
++        "description": {"type": "string", "minLength": 1, "maxLength": 240},
++        "action_profile_id": {"type": "string", "pattern": "^action\\.[a-z0-9_.-]+$"},
++        "resource_cost": {
++          "type": "object",
++          "additionalProperties": false,
++          "required": ["type", "amount"],
++          "properties": {
++            "type": {"enum": ["mp", "stamina", "none"]},
++            "amount": {"type": "number", "minimum": 0, "maximum": 999}
++          }
++        },
++        "cooldown_seconds": {"type": "number", "minimum": 0, "maximum": 600},
++        "combat": {
++          "type": "object",
++          "additionalProperties": false,
++          "required": ["base_damage", "depth_radius", "tags"],
++          "properties": {
++            "base_damage": {"type": "number", "minimum": 0, "maximum": 100000},
++            "depth_radius": {"type": "number", "minimum": 0, "maximum": 20},
++            "tags": {"type": "array", "maxItems": 32, "items": {"type": "string", "minLength": 1, "maxLength": 64}, "uniqueItems": true}
++          }
++        },
++        "presentation": {
++          "type": "object",
++          "additionalProperties": false,
++          "required": ["vfx_id", "sfx_id"],
++          "properties": {
++            "vfx_id": {"$ref": "#/$defs/registeredId"},
++            "sfx_id": {"$ref": "#/$defs/registeredId"}
++          }
++        }
++      }
++    }
++  }
++}
+diff --git a/godot-belt-map/content/schemas/runtime-patch.schema.json b/godot-belt-map/content/schemas/runtime-patch.schema.json
+new file mode 100644
+index 0000000..4206123
+--- /dev/null
++++ b/godot-belt-map/content/schemas/runtime-patch.schema.json
+@@ -0,0 +1,37 @@
++{
++  "$schema": "https://json-schema.org/draft/2020-12/schema",
++  "$id": "urn:rpgmakerluna:schema:runtime-patch",
++  "title": "Validated Runtime Patch",
++  "type": "object",
++  "additionalProperties": false,
++  "required": ["schema_version", "patch_id", "base_state_version", "operations"],
++  "properties": {
++    "schema_version": {"const": "runtime-patch/1"},
++    "patch_id": {"type": "string", "minLength": 1, "maxLength": 128},
++    "base_state_version": {"type": "integer", "minimum": 0},
++    "operations": {
++      "type": "array",
++      "minItems": 1,
++      "maxItems": 64,
++      "items": {
++        "type": "object",
++        "additionalProperties": false,
++        "required": ["op", "target_type", "target_id", "path", "value"],
++        "properties": {
++          "op": {"const": "replace"},
++          "target_type": {"const": "skill"},
++          "target_id": {"type": "string", "pattern": "^skill\\.[a-z0-9_.-]+$"},
++          "path": {
++            "enum": [
++              "/resource_cost/amount",
++              "/cooldown_seconds",
++              "/combat/base_damage",
++              "/combat/depth_radius"
++            ]
++          },
++          "value": {"type": "number", "minimum": 0, "maximum": 100000}
++        }
++      }
++    }
++  }
++}
+diff --git a/godot-belt-map/content_foundation_test.gd b/godot-belt-map/content_foundation_test.gd
+new file mode 100644
+index 0000000..df7fd36
+--- /dev/null
++++ b/godot-belt-map/content_foundation_test.gd
+@@ -0,0 +1,68 @@
++extends SceneTree
++## B-01 contract test. This deliberately avoids loading art assets so it can run
++## even before Git LFS has hydrated the repository checkout.
++
++const ContentValidator = preload("res://core/validation/content_validator.gd")
++const Knight = preload("res://characters/first_knight/knight.gd")
++
++var failures: Array[String] = []
++
++func check(condition: bool, message: String) -> void:
++	if not condition:
++		failures.append(message)
++
++func _initialize() -> void:
++	call_deferred("run")
++
++func run() -> void:
++	var registry := root.get_node_or_null("ContentRegistry")
++	var game_state := root.get_node_or_null("GameState")
++	var save_service := root.get_node_or_null("SaveService")
++	check(registry != null and registry.loaded, "ContentRegistry did not load base content")
++	check(game_state != null, "GameState autoload is missing")
++	check(save_service != null, "SaveService autoload is missing")
++	if registry != null:
++		var lightning: Dictionary = registry.get_skill("skill.knight.lightning")
++		check(lightning.get("display_name") == "雷光", "Lightning display name is not data-driven")
++		check(is_equal_approx(float(lightning.get("resource_cost", {}).get("amount", -1)), 25.0), "Lightning MP cost changed")
++		check(is_equal_approx(float(lightning.get("cooldown_seconds", -1)), 2.4), "Lightning cooldown changed")
++		check(is_equal_approx(float(lightning.get("combat", {}).get("base_damage", -1)), 42.0), "Lightning base damage changed")
++		var knight := Knight.new()
++		knight.content_registry_override = registry
++		check(is_equal_approx(knight.get_spell_mana_cost(), 25.0), "Knight does not consume registry MP cost")
++		check(is_equal_approx(knight.get_spell_cooldown(), 2.4), "Knight does not consume registry cooldown")
++		check(is_equal_approx(knight.get_spell_damage(), 42.0), "Knight does not consume registry damage")
++		knight.free()
++
++	var valid_patch := {
++		"schema_version": "runtime-patch/1",
++		"patch_id": "test.lightning.balance",
++		"base_state_version": 0,
++		"operations": [{
++			"op": "replace",
++			"target_type": "skill",
++			"target_id": "skill.knight.lightning",
++			"path": "/combat/base_damage",
++			"value": 43.0
++		}]
++	}
++	check(ContentValidator.validate_runtime_patch(valid_patch).is_empty(), "Valid runtime patch was rejected")
++	var unsafe_patch: Dictionary = valid_patch.duplicate(true)
++	unsafe_patch["operations"][0]["path"] = "/script"
++	check(not ContentValidator.validate_runtime_patch(unsafe_patch).is_empty(), "Unsafe script patch was accepted")
++
++	if game_state != null and save_service != null:
++		var original: Dictionary = game_state.export_snapshot()
++		check(game_state.set_section_value("flags", "b01_test", true, "contract_test"), "GameState update failed")
++		check(save_service.save_slot("b01_contract_test"), "SaveService failed: " + save_service.last_error)
++		check(save_service.save_slot("b01_contract_test"), "SaveService failed to replace an existing slot: " + save_service.last_error)
++		game_state.set_section_value("flags", "b01_test", false, "contract_test_mutation")
++		check(save_service.load_slot("b01_contract_test"), "SaveService load failed: " + save_service.last_error)
++		check(game_state.flags.get("b01_test") == true, "Loaded state did not restore the saved value")
++		game_state.restore_snapshot(original)
++		DirAccess.remove_absolute("user://saves/b01_contract_test.json")
++
++	for message in failures:
++		push_error(message)
++	print("CONTENT_FOUNDATION_TEST " + ("PASS" if failures.is_empty() else "FAIL"))
++	quit(0 if failures.is_empty() else 1)
+diff --git a/godot-belt-map/content_foundation_test.gd.uid b/godot-belt-map/content_foundation_test.gd.uid
+new file mode 100644
+index 0000000..ca9c467
+--- /dev/null
++++ b/godot-belt-map/content_foundation_test.gd.uid
+@@ -0,0 +1 @@
++uid://nn17pqoislmy
+diff --git a/godot-belt-map/core/content/content_registry.gd b/godot-belt-map/core/content/content_registry.gd
+new file mode 100644
+index 0000000..9613b4c
+--- /dev/null
++++ b/godot-belt-map/core/content/content_registry.gd
+@@ -0,0 +1,82 @@
++extends Node
++## Read-only registry for validated, data-driven RPG definitions.
++
++signal content_reloaded(source_path: String, revision: int)
++signal content_rejected(source_path: String, errors: Array[String])
++
++const ContentValidator = preload("res://core/validation/content_validator.gd")
++const BASE_SKILLS_PATH := "res://content/base/skills.json"
++
++var revision := 0
++var loaded := false
++var last_errors: Array[String] = []
++var _content: Dictionary = {}
++
++func _ready() -> void:
++	if not reload_base_content():
++		push_error("ContentRegistry rejected base content: " + "; ".join(last_errors))
++
++func reload_base_content(path := BASE_SKILLS_PATH) -> bool:
++	last_errors.clear()
++	if not FileAccess.file_exists(path):
++		return _reject(path, ["Content bundle file does not exist."])
++	var parser := JSON.new()
++	var parse_error := parser.parse(FileAccess.get_file_as_string(path))
++	if parse_error != OK:
++		return _reject(path, ["Invalid JSON at line %d: %s" % [parser.get_error_line(), parser.get_error_message()]])
++	var errors := ContentValidator.validate_content_bundle(parser.data)
++	if not errors.is_empty():
++		return _reject(path, errors)
++	var bundle: Dictionary = parser.data
++	var content_type := str(bundle["content_type"])
++	var next_entries := {}
++	for entry in bundle["entries"]:
++		var definition: Dictionary = entry.duplicate(true)
++		definition["source_bundle_id"] = str(bundle["bundle_id"])
++		next_entries[str(definition["id"])] = definition
++	_content[content_type] = next_entries
++	revision += 1
++	loaded = true
++	content_reloaded.emit(path, revision)
++	return true
++
++func has_entry(content_type: String, content_id: String) -> bool:
++	return _content.has(content_type) and _content[content_type].has(content_id)
++
++func get_entry(content_type: String, content_id: String) -> Dictionary:
++	if not has_entry(content_type, content_id):
++		return {}
++	return _content[content_type][content_id].duplicate(true)
++
++func get_skill(skill_id: String) -> Dictionary:
++	return get_entry("skills", skill_id)
++
++func registered_ids(content_type: String) -> Array[String]:
++	var result: Array[String] = []
++	if _content.has(content_type):
++		for content_id in _content[content_type]:
++			result.append(str(content_id))
++	result.sort()
++	return result
++
++func snapshot() -> Dictionary:
++	return {
++		"schema_version": ContentValidator.CONTENT_BUNDLE_SCHEMA,
++		"revision": revision,
++		"content": _content.duplicate(true)
++	}
++
++func validate_runtime_patch(patch: Variant) -> Array[String]:
++	var errors := ContentValidator.validate_runtime_patch(patch)
++	if patch is Dictionary:
++		for operation in patch.get("operations", []):
++			if operation is Dictionary and operation.get("target_type") == "skill":
++				var target_id := str(operation.get("target_id", ""))
++				if not target_id.is_empty() and not has_entry("skills", target_id):
++					errors.append("Unknown patch target: " + target_id)
++	return errors
++
++func _reject(path: String, errors: Array[String]) -> bool:
++	last_errors.assign(errors)
++	content_rejected.emit(path, last_errors)
++	return false
+diff --git a/godot-belt-map/core/content/content_registry.gd.uid b/godot-belt-map/core/content/content_registry.gd.uid
+new file mode 100644
+index 0000000..78d88f3
+--- /dev/null
++++ b/godot-belt-map/core/content/content_registry.gd.uid
+@@ -0,0 +1 @@
++uid://bx1te844euhbw
+diff --git a/godot-belt-map/core/save/save_service.gd b/godot-belt-map/core/save/save_service.gd
+new file mode 100644
+index 0000000..dcf727d
+--- /dev/null
++++ b/godot-belt-map/core/save/save_service.gd
+@@ -0,0 +1,118 @@
++extends Node
++## Versioned JSON saves with write-then-validate-then-rename semantics.
++
++signal save_completed(slot_id: String, path: String)
++signal load_completed(slot_id: String, state_version: int)
++signal persistence_error(operation: String, message: String)
++
++const SAVE_FORMAT := "rpg-save/1"
++const SAVE_DIRECTORY := "user://saves"
++
++var last_error := ""
++
++func has_slot(slot_id: String) -> bool:
++	return _valid_slot_id(slot_id) and FileAccess.file_exists(_slot_path(slot_id))
++
++func save_slot(slot_id := "autosave") -> bool:
++	last_error = ""
++	if not _valid_slot_id(slot_id):
++		return _fail("save", "Invalid save slot id.")
++	var game_state := get_node_or_null("/root/GameState")
++	if game_state == null:
++		return _fail("save", "GameState autoload is unavailable.")
++	var snapshot: Dictionary = game_state.export_snapshot()
++	var state_errors: Array[String] = game_state.validate_snapshot(snapshot)
++	if not state_errors.is_empty():
++		return _fail("save", "Game state validation failed: " + "; ".join(state_errors))
++	if not _ensure_save_directory():
++		return false
++	var envelope := {
++		"format": SAVE_FORMAT,
++		"saved_at_unix": int(Time.get_unix_time_from_system()),
++		"state": snapshot
++	}
++	var path := _slot_path(slot_id)
++	if not _write_json_atomic(path, envelope):
++		return false
++	save_completed.emit(slot_id, path)
++	return true
++
++func read_slot(slot_id := "autosave") -> Dictionary:
++	last_error = ""
++	if not _valid_slot_id(slot_id):
++		_fail("load", "Invalid save slot id.")
++		return {}
++	var path := _slot_path(slot_id)
++	if not FileAccess.file_exists(path):
++		_fail("load", "Save slot does not exist.")
++		return {}
++	var parser := JSON.new()
++	if parser.parse(FileAccess.get_file_as_string(path)) != OK:
++		_fail("load", "Save JSON is invalid: " + parser.get_error_message())
++		return {}
++	if not parser.data is Dictionary or parser.data.get("format") != SAVE_FORMAT or not parser.data.get("state") is Dictionary:
++		_fail("load", "Save envelope is invalid or unsupported.")
++		return {}
++	return parser.data.duplicate(true)
++
++func load_slot(slot_id := "autosave") -> bool:
++	var envelope := read_slot(slot_id)
++	if envelope.is_empty():
++		return false
++	var game_state := get_node_or_null("/root/GameState")
++	if game_state == null:
++		return _fail("load", "GameState autoload is unavailable.")
++	if not game_state.restore_snapshot(envelope["state"]):
++		return _fail("load", "Saved game state failed validation.")
++	load_completed.emit(slot_id, game_state.state_version)
++	return true
++
++func _write_json_atomic(path: String, data: Dictionary) -> bool:
++	var temporary_path := path + ".tmp"
++	var backup_path := path + ".bak"
++	var file := FileAccess.open(temporary_path, FileAccess.WRITE)
++	if file == null:
++		return _fail("save", "Unable to open temporary save file.")
++	file.store_string(JSON.stringify(data, "\t"))
++	file.flush()
++	var write_error := file.get_error()
++	file.close()
++	if write_error != OK:
++		return _fail("save", "Unable to flush temporary save file.")
++	var verifier := JSON.new()
++	if verifier.parse(FileAccess.get_file_as_string(temporary_path)) != OK or not verifier.data is Dictionary:
++		return _fail("save", "Temporary save failed read-back validation.")
++	if FileAccess.file_exists(backup_path):
++		DirAccess.remove_absolute(backup_path)
++	var had_previous := FileAccess.file_exists(path)
++	if had_previous and DirAccess.rename_absolute(path, backup_path) != OK:
++		return _fail("save", "Unable to preserve the previous save slot.")
++	if DirAccess.rename_absolute(temporary_path, path) != OK:
++		if had_previous:
++			DirAccess.rename_absolute(backup_path, path)
++		return _fail("save", "Unable to replace the save slot atomically.")
++	if had_previous:
++		DirAccess.remove_absolute(backup_path)
++	return true
++
++func _ensure_save_directory() -> bool:
++	var user_directory := DirAccess.open("user://")
++	if user_directory == null:
++		return _fail("save", "Unable to access user storage.")
++	if not user_directory.dir_exists("saves") and user_directory.make_dir("saves") != OK:
++		return _fail("save", "Unable to create the save directory.")
++	return true
++
++func _valid_slot_id(slot_id: String) -> bool:
++	var expression := RegEx.new()
++	if expression.compile("^[A-Za-z0-9_-]{1,40}$") != OK:
++		return false
++	return expression.search(slot_id) != null
++
++func _slot_path(slot_id: String) -> String:
++	return SAVE_DIRECTORY + "/" + slot_id + ".json"
++
++func _fail(operation: String, message: String) -> bool:
++	last_error = message
++	persistence_error.emit(operation, message)
++	return false
+diff --git a/godot-belt-map/core/save/save_service.gd.uid b/godot-belt-map/core/save/save_service.gd.uid
+new file mode 100644
+index 0000000..130ca73
+--- /dev/null
++++ b/godot-belt-map/core/save/save_service.gd.uid
+@@ -0,0 +1 @@
++uid://d0dc0j35x3xbm
+diff --git a/godot-belt-map/core/state/game_state.gd b/godot-belt-map/core/state/game_state.gd
+new file mode 100644
+index 0000000..0c7342f
+--- /dev/null
++++ b/godot-belt-map/core/state/game_state.gd
+@@ -0,0 +1,128 @@
++extends Node
++## Authoritative serializable state. Runtime scenes can be migrated into this
++## store incrementally without changing current gameplay behavior.
++
++signal state_changed(state_version: int, reason: String)
++signal state_restored(state_version: int)
++
++const SCHEMA_VERSION := "game-state/1"
++
++var state_version := 0
++var campaign_id := "campaign.courtyard"
++var active_scene_id := "scene.courtyard"
++var player: Dictionary = {}
++var quests: Dictionary = {}
++var npcs: Dictionary = {}
++var world: Dictionary = {}
++var flags: Dictionary = {}
++
++func _ready() -> void:
++	reset()
++
++func reset(next_campaign_id := "campaign.courtyard") -> void:
++	state_version = 0
++	campaign_id = next_campaign_id
++	active_scene_id = "scene.courtyard"
++	player = {}
++	quests = {}
++	npcs = {}
++	world = {}
++	flags = {}
++
++func set_section_value(section: String, key: String, value: Variant, reason := "runtime_update") -> bool:
++	var target: Variant = _section(section)
++	if target == null or key.is_empty() or not _is_json_safe(value):
++		return false
++	target[key] = value
++	state_version += 1
++	state_changed.emit(state_version, reason)
++	return true
++
++func erase_section_value(section: String, key: String, reason := "runtime_update") -> bool:
++	var target: Variant = _section(section)
++	if target == null or not target.has(key):
++		return false
++	target.erase(key)
++	state_version += 1
++	state_changed.emit(state_version, reason)
++	return true
++
++func export_snapshot() -> Dictionary:
++	return {
++		"schema_version": SCHEMA_VERSION,
++		"state_version": state_version,
++		"campaign_id": campaign_id,
++		"active_scene_id": active_scene_id,
++		"player": player.duplicate(true),
++		"quests": quests.duplicate(true),
++		"npcs": npcs.duplicate(true),
++		"world": world.duplicate(true),
++		"flags": flags.duplicate(true)
++	}
++
++func validate_snapshot(value: Variant) -> Array[String]:
++	var errors: Array[String] = []
++	if not value is Dictionary:
++		errors.append("Game state must be an object.")
++		return errors
++	var snapshot: Dictionary = value
++	if snapshot.get("schema_version") != SCHEMA_VERSION:
++		errors.append("Unsupported game-state schema_version.")
++	var snapshot_version = snapshot.get("state_version")
++	if not (snapshot_version is int or snapshot_version is float) or not is_equal_approx(float(snapshot_version), roundf(float(snapshot_version))) or int(snapshot_version) < 0:
++		errors.append("state_version must be a non-negative integer.")
++	for key in ["campaign_id", "active_scene_id"]:
++		if not snapshot.get(key) is String or str(snapshot.get(key)).is_empty():
++			errors.append(key + " must be a non-empty string.")
++	for key in ["player", "quests", "npcs", "world", "flags"]:
++		if not snapshot.get(key) is Dictionary:
++			errors.append(key + " must be an object.")
++		elif not _is_json_safe(snapshot.get(key)):
++			errors.append(key + " contains a value that cannot be serialized safely.")
++	return errors
++
++func restore_snapshot(value: Variant) -> bool:
++	var errors := validate_snapshot(value)
++	if not errors.is_empty():
++		push_error("GameState rejected snapshot: " + "; ".join(errors))
++		return false
++	var snapshot: Dictionary = value
++	state_version = int(snapshot["state_version"])
++	campaign_id = str(snapshot["campaign_id"])
++	active_scene_id = str(snapshot["active_scene_id"])
++	player = snapshot["player"].duplicate(true)
++	quests = snapshot["quests"].duplicate(true)
++	npcs = snapshot["npcs"].duplicate(true)
++	world = snapshot["world"].duplicate(true)
++	flags = snapshot["flags"].duplicate(true)
++	state_restored.emit(state_version)
++	return true
++
++func _section(section: String) -> Variant:
++	match section:
++		"player": return player
++		"quests": return quests
++		"npcs": return npcs
++		"world": return world
++		"flags": return flags
++	return null
++
++func _is_json_safe(value: Variant, depth := 0) -> bool:
++	if depth > 16:
++		return false
++	match typeof(value):
++		TYPE_NIL, TYPE_BOOL, TYPE_INT, TYPE_STRING:
++			return true
++		TYPE_FLOAT:
++			return not is_nan(float(value)) and not is_inf(float(value))
++		TYPE_ARRAY:
++			for item in value:
++				if not _is_json_safe(item, depth + 1):
++					return false
++			return true
++		TYPE_DICTIONARY:
++			for key in value:
++				if not key is String or not _is_json_safe(value[key], depth + 1):
++					return false
++			return true
++	return false
+diff --git a/godot-belt-map/core/state/game_state.gd.uid b/godot-belt-map/core/state/game_state.gd.uid
+new file mode 100644
+index 0000000..0c8ad5d
+--- /dev/null
++++ b/godot-belt-map/core/state/game_state.gd.uid
+@@ -0,0 +1 @@
++uid://by851r8m4fmcm
+diff --git a/godot-belt-map/core/validation/content_validator.gd b/godot-belt-map/core/validation/content_validator.gd
+new file mode 100644
+index 0000000..a1058d7
+--- /dev/null
++++ b/godot-belt-map/core/validation/content_validator.gd
+@@ -0,0 +1,172 @@
++extends RefCounted
++## Runtime validation for data generated by tools or AI agents.
++##
++## Godot never executes generated scripts from this boundary. Only registered
++## content types and an explicit patch-path allowlist are accepted.
++
++const CONTENT_BUNDLE_SCHEMA := "rpg-content-bundle/1"
++const RUNTIME_PATCH_SCHEMA := "runtime-patch/1"
++const SUPPORTED_CONTENT_TYPES := ["skills"]
++const PATCHABLE_SKILL_PATHS := {
++	"/resource_cost/amount": {"min": 0.0, "max": 999.0},
++	"/cooldown_seconds": {"min": 0.0, "max": 600.0},
++	"/combat/base_damage": {"min": 0.0, "max": 100000.0},
++	"/combat/depth_radius": {"min": 0.0, "max": 20.0}
++}
++
++static func validate_content_bundle(value: Variant) -> Array[String]:
++	var errors: Array[String] = []
++	if not value is Dictionary:
++		errors.append("Content bundle must be a JSON object.")
++		return errors
++	var bundle: Dictionary = value
++	_require_string(bundle, "schema_version", errors)
++	_require_string(bundle, "bundle_id", errors)
++	_require_string(bundle, "content_type", errors)
++	if bundle.get("schema_version") != CONTENT_BUNDLE_SCHEMA:
++		errors.append("Unsupported content bundle schema_version.")
++	var content_type := str(bundle.get("content_type", ""))
++	if not content_type in SUPPORTED_CONTENT_TYPES:
++		errors.append("Unsupported content_type: " + content_type)
++	var entries = bundle.get("entries")
++	if not entries is Array:
++		errors.append("entries must be an array.")
++		return errors
++	if entries.is_empty():
++		errors.append("entries must contain at least one item.")
++	if entries.size() > 512:
++		errors.append("entries exceeds the 512 item limit.")
++	var seen_ids := {}
++	for index in range(entries.size()):
++		var entry = entries[index]
++		if content_type == "skills":
++			errors.append_array(validate_skill(entry, "entries[%d]" % index))
++		if entry is Dictionary:
++			var entry_id := str(entry.get("id", ""))
++			if not entry_id.is_empty() and seen_ids.has(entry_id):
++				errors.append("Duplicate content id: " + entry_id)
++			seen_ids[entry_id] = true
++	return errors
++
++static func validate_skill(value: Variant, location := "skill") -> Array[String]:
++	var errors: Array[String] = []
++	if not value is Dictionary:
++		errors.append(location + " must be an object.")
++		return errors
++	var skill: Dictionary = value
++	_require_string(skill, "id", errors, location)
++	_require_string(skill, "kind", errors, location)
++	_require_string(skill, "display_name", errors, location)
++	_require_string(skill, "description", errors, location)
++	_require_string(skill, "action_profile_id", errors, location)
++	var skill_id := str(skill.get("id", ""))
++	if not _valid_registered_id(skill_id, "skill"):
++		errors.append(location + ".id must be a canonical skill id.")
++	if skill.get("kind") != "skill":
++		errors.append(location + ".kind must equal 'skill'.")
++	if str(skill.get("display_name", "")).length() > 64:
++		errors.append(location + ".display_name exceeds 64 characters.")
++	if str(skill.get("description", "")).length() > 240:
++		errors.append(location + ".description exceeds 240 characters.")
++	if not _valid_registered_id(str(skill.get("action_profile_id", "")), "action"):
++		errors.append(location + ".action_profile_id must be a canonical action id.")
++
++	var resource_cost = skill.get("resource_cost")
++	if not resource_cost is Dictionary:
++		errors.append(location + ".resource_cost must be an object.")
++	else:
++		var cost: Dictionary = resource_cost
++		if not cost.get("type") in ["mp", "stamina", "none"]:
++			errors.append(location + ".resource_cost.type is not supported.")
++		_validate_number(cost.get("amount"), 0.0, 999.0, location + ".resource_cost.amount", errors)
++	_validate_number(skill.get("cooldown_seconds"), 0.0, 600.0, location + ".cooldown_seconds", errors)
++
++	var combat = skill.get("combat")
++	if not combat is Dictionary:
++		errors.append(location + ".combat must be an object.")
++	else:
++		var combat_data: Dictionary = combat
++		_validate_number(combat_data.get("base_damage"), 0.0, 100000.0, location + ".combat.base_damage", errors)
++		_validate_number(combat_data.get("depth_radius"), 0.0, 20.0, location + ".combat.depth_radius", errors)
++		var tags = combat_data.get("tags")
++		if not tags is Array:
++			errors.append(location + ".combat.tags must be an array.")
++		elif tags.size() > 32:
++			errors.append(location + ".combat.tags exceeds 32 items.")
++		else:
++			for tag in tags:
++				if not tag is String or str(tag).is_empty():
++					errors.append(location + ".combat.tags contains an invalid tag.")
++
++	var presentation = skill.get("presentation")
++	if not presentation is Dictionary:
++		errors.append(location + ".presentation must be an object.")
++	else:
++		var presentation_data: Dictionary = presentation
++		if not _valid_registered_id(str(presentation_data.get("vfx_id", "")), "vfx"):
++			errors.append(location + ".presentation.vfx_id must be a canonical VFX id.")
++		if not _valid_registered_id(str(presentation_data.get("sfx_id", "")), "sfx"):
++			errors.append(location + ".presentation.sfx_id must be a canonical SFX id.")
++	return errors
++
++static func validate_runtime_patch(value: Variant) -> Array[String]:
++	var errors: Array[String] = []
++	if not value is Dictionary:
++		errors.append("Runtime patch must be a JSON object.")
++		return errors
++	var patch: Dictionary = value
++	if patch.get("schema_version") != RUNTIME_PATCH_SCHEMA:
++		errors.append("Unsupported runtime patch schema_version.")
++	_require_string(patch, "patch_id", errors)
++	_validate_integer(patch.get("base_state_version"), 0, 2147483647, "base_state_version", errors)
++	var operations = patch.get("operations")
++	if not operations is Array:
++		errors.append("operations must be an array.")
++		return errors
++	if operations.is_empty() or operations.size() > 64:
++		errors.append("operations must contain between 1 and 64 items.")
++	for index in range(operations.size()):
++		var location := "operations[%d]" % index
++		var operation = operations[index]
++		if not operation is Dictionary:
++			errors.append(location + " must be an object.")
++			continue
++		var op: Dictionary = operation
++		if op.get("op") != "replace":
++			errors.append(location + ".op must equal 'replace'.")
++		if op.get("target_type") != "skill":
++			errors.append(location + ".target_type must equal 'skill'.")
++		if not op.get("target_id") is String or not _valid_registered_id(str(op.get("target_id")), "skill"):
++			errors.append(location + ".target_id must be a skill id.")
++		var path := str(op.get("path", ""))
++		if not PATCHABLE_SKILL_PATHS.has(path):
++			errors.append(location + ".path is not patchable: " + path)
++			continue
++		var limits: Dictionary = PATCHABLE_SKILL_PATHS[path]
++		_validate_number(op.get("value"), float(limits["min"]), float(limits["max"]), location + ".value", errors)
++	return errors
++
++static func _require_string(value: Dictionary, key: String, errors: Array[String], prefix := "") -> void:
++	var location := key if prefix.is_empty() else prefix + "." + key
++	if not value.get(key) is String or str(value.get(key)).strip_edges().is_empty():
++		errors.append(location + " must be a non-empty string.")
++
++static func _validate_number(value: Variant, minimum: float, maximum: float, location: String, errors: Array[String]) -> void:
++	if not (value is int or value is float):
++		errors.append(location + " must be a number.")
++		return
++	var number := float(value)
++	if is_nan(number) or is_inf(number) or number < minimum or number > maximum:
++		errors.append("%s must be between %s and %s." % [location, minimum, maximum])
++
++static func _validate_integer(value: Variant, minimum: int, maximum: int, location: String, errors: Array[String]) -> void:
++	if not (value is int or value is float) or not is_equal_approx(float(value), roundf(float(value))) or int(value) < minimum or int(value) > maximum:
++		errors.append("%s must be an integer between %d and %d." % [location, minimum, maximum])
++
++static func _valid_registered_id(value: String, id_namespace: String) -> bool:
++	if value.length() > 128:
++		return false
++	var expression := RegEx.new()
++	if expression.compile("^" + id_namespace + "\\.[a-z0-9][a-z0-9_.-]+$") != OK:
++		return false
++	return expression.search(value) != null
+diff --git a/godot-belt-map/core/validation/content_validator.gd.uid b/godot-belt-map/core/validation/content_validator.gd.uid
+new file mode 100644
+index 0000000..8c1bc91
+--- /dev/null
++++ b/godot-belt-map/core/validation/content_validator.gd.uid
+@@ -0,0 +1 @@
++uid://brqs5rlk11mn
+diff --git a/godot-belt-map/docs/runtime-contract-foundation.md b/godot-belt-map/docs/runtime-contract-foundation.md
+new file mode 100644
+index 0000000..558ab3f
+--- /dev/null
++++ b/godot-belt-map/docs/runtime-contract-foundation.md
+@@ -0,0 +1,45 @@
++# 运行时契约基础
++
++本目录中的第一阶段改造只建立数据边界，不重写现有 `stage.gd` 的移动、碰撞、连招和投射物时序。
++
++## 已接入
++
++- `ContentRegistry`：启动时读取并验证 `content/base/skills.json`，按稳定 ID 提供只读副本。
++- `GameState`：提供可序列化、带 `state_version` 的权威状态容器。
++- `SaveService`：保存前验证，采用“临时文件 → 回读验证 → 备份旧档 → 替换”的流程。
++- `ContentValidator`：拒绝未知内容类型、非法 ID、越界数值和非白名单运行时补丁路径。
++- `skill.knight.lightning`：作为首个数据驱动样板，保持 25 MP、2.4 秒冷却、42 基础伤害不变。
++
++AI 或外部工作台只能提交 JSON 数据。当前允许的运行时技能字段只有：
++
++- `/resource_cost/amount`
++- `/cooldown_seconds`
++- `/combat/base_damage`
++- `/combat/depth_radius`
++
++脚本、场景路径、资源路径、着色器和任意对象不能通过该边界注入。
++
++## Godot 验证
++
++在仓库已由 Git LFS 完整拉取后，使用 Godot 4.7.2 打开 `godot-belt-map/project.godot`。
++
++无美术依赖的契约测试：
++
++```bash
++Godot --headless --path godot-belt-map -s content_foundation_test.gd
++```
++
++预期输出：
++
++```text
++CONTENT_FOUNDATION_TEST PASS
++```
++
++测试覆盖内容注册、雷光数值兼容、补丁白名单、状态版本、重复覆盖存档和存档恢复。
++
++## 后续接入顺序
++
++1. 将玩家位置、生命、法力、装备和场景物件状态逐步写入 `GameState`。
++2. 迁移世界掉落、宝箱和 NPC 对话状态，完成跨场景存档。
++3. 增加 `WorkbenchBridge`，只接收通过 `runtime-patch.schema.json` 和注册 ID 校验的消息。
++4. 接入任务、好感度与对话运行时，不允许工作台直接执行生成脚本。
+diff --git a/godot-belt-map/project.godot b/godot-belt-map/project.godot
+index 132b635..1fc1f4d 100644
+--- a/godot-belt-map/project.godot
++++ b/godot-belt-map/project.godot
+@@ -2,6 +2,10 @@ config_version=5
+ [application]
+ config/name="Knight - 2.5D Courtyard"
+ run/main_scene="res://stage.tscn"
++[autoload]
++ContentRegistry="*res://core/content/content_registry.gd"
++GameState="*res://core/state/game_state.gd"
++SaveService="*res://core/save/save_service.gd"
+ [display]
+ window/size/viewport_width=1280
+ window/size/viewport_height=800
+diff --git a/godot-belt-map/skill_bar.gd b/godot-belt-map/skill_bar.gd
+index 85a8f84..66e7d06 100644
+--- a/godot-belt-map/skill_bar.gd
++++ b/godot-belt-map/skill_bar.gd
+@@ -25,8 +25,15 @@ func setup(knight) -> void:
+ 
+ func entry_at(index: int) -> Dictionary:
+ 	var entry: Dictionary = ENTRIES[index].duplicate()
+-	if is_instance_valid(actor) and entry.id != "spell":
+-		entry.merge(actor.SKILLS.get(entry.id, {}), true)
++	if is_instance_valid(actor):
++		if entry.id == "spell":
++			var definition: Dictionary = actor.get_lightning_skill()
++			entry["name"] = str(definition.get("display_name", entry.name))
++			entry["description"] = str(definition.get("description", ""))
++			entry["cost"] = actor.get_spell_mana_cost()
++			entry["cooldown"] = actor.get_spell_cooldown()
++		else:
++			entry.merge(actor.SKILLS.get(entry.id, {}), true)
+ 	return entry
+ 
+ func _process(_delta: float) -> void:
+diff --git a/godot-belt-map/stage.gd b/godot-belt-map/stage.gd
+index 3f2a480..9b6b7c7 100644
+--- a/godot-belt-map/stage.gd
++++ b/godot-belt-map/stage.gd
+@@ -460,7 +460,8 @@ func _physics_process(delta: float) -> void:
+ 		if not near.is_empty():
+ 			hint = "E 交谈 · " + str(near.name)
+ 	interface.set_prompt(hint)
+-	hud.text="苍石庭院  /  姬骑士 · 战斗演示\n双击方向 奔跑   空格 跳跃   J 攻击/冲刺斩/下劈   1–3 技能   K 雷光   E 交互   I 背包   R 复位\n高度 %.2fm  ·  %s  ·  %s" % [height_z,("奔跑" if is_running else "箱顶 "+platform if not platform.is_empty() else "地面" if grounded else "空中"),notice]
++	var spell_name := str(knight.get_lightning_skill().get("display_name", "雷光"))
++	hud.text="苍石庭院  /  姬骑士 · 战斗演示\n双击方向 奔跑   空格 跳跃   J 攻击/冲刺斩/下劈   1–3 技能   K %s   E 交互   I 背包   R 复位\n高度 %.2fm  ·  %s  ·  %s" % [spell_name,height_z,("奔跑" if is_running else "箱顶 "+platform if not platform.is_empty() else "地面" if grounded else "空中"),notice]
+ 	queue_redraw()
+ 	minimap.queue_redraw()
+ 	capture_time+=delta
+-- 
+2.39.5 (Apple Git-154)
+

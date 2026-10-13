@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:rpgmakerluna:schema:world-blueprint",
+  "title": "Declarative RPG World Blueprint",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "blueprint_id", "project_id", "genre", "lore_summary", "initial_zone_id", "regions", "zones"],
+  "properties": {
+    "schema_version": {"const": "world-blueprint/1"},
+    "blueprint_id": {"type": "string", "pattern": "^blueprint\\.[a-z0-9][a-z0-9_.-]+$", "maxLength": 128},
+    "project_id": {"type": "string", "pattern": "^project\\.[a-z0-9][a-z0-9_.-]+$", "maxLength": 128},
+    "genre": {"type": "string", "minLength": 1, "maxLength": 64},
+    "lore_summary": {"type": "string", "minLength": 1, "maxLength": 2000},
+    "initial_zone_id": {"type": "string", "pattern": "^zone\\.[a-z0-9][a-z0-9_.-]+$"},
+    "regions": {"type": "array", "minItems": 1, "maxItems": 8},
+    "zones": {"type": "array", "minItems": 1, "maxItems": 8}
+  }
+}

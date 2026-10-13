@@ -26,8 +26,15 @@ func setup(knight) -> void:
 
 func entry_at(index: int) -> Dictionary:
 	var entry: Dictionary = ENTRIES[index].duplicate()
-	if is_instance_valid(actor) and entry.id != "spell":
-		entry.merge(actor.SKILLS.get(entry.id, {}), true)
+	if is_instance_valid(actor):
+		if entry.id == "spell":
+			var definition: Dictionary = actor.get_lightning_skill()
+			entry.name = str(definition.get("display_name", entry.name))
+			entry.description = str(definition.get("description", ""))
+			entry.cost = actor.get_spell_mana_cost()
+			entry.cooldown = actor.get_spell_cooldown()
+		else:
+			entry.merge(actor.SKILLS.get(entry.id, {}), true)
 	if key_names.has(entry.id): entry.key=key_names[entry.id]
 	return entry
 

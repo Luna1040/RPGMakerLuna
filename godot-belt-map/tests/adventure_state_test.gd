@@ -214,24 +214,25 @@ func _test_restore() -> void:
 
 func _test_catalog() -> void:
 	var state = fixture()
+	var equipment_catalog: Dictionary = Equipment.new().CATALOG
 	var data: Dictionary = state.catalog.duplicate(true)
 	data.quests[0].requires = {"quest": {"id": "courtyard_menace", "status": ["claimed"]}}
 	data.quests[1].requires = {"quest": {"id": "courtyard_provisions", "status": ["claimed"]}}
-	check(not Validator.validate(data, Equipment.CATALOG).is_empty(), "prerequisite cycle accepted")
+	check(not Validator.validate(data, equipment_catalog).is_empty(), "prerequisite cycle accepted")
 	data = state.catalog.duplicate(true)
 	data.graph_edges.append({"from": "nonexistent", "to": "courtyard_provisions"})
-	check(not Validator.validate(data, Equipment.CATALOG).is_empty(), "unknown graph reference accepted")
+	check(not Validator.validate(data, equipment_catalog).is_empty(), "unknown graph reference accepted")
 	data = state.catalog.duplicate(true)
 	data.shop[0].cost["旧铜币"] = -8
-	check(not Validator.validate(data, Equipment.CATALOG).is_empty(), "negative catalog cost accepted")
+	check(not Validator.validate(data, equipment_catalog).is_empty(), "negative catalog cost accepted")
 	data = state.catalog.duplicate(true)
 	data.npcs.smith.choices[0].when = {"surprise": true}
-	check(not Validator.validate(data, Equipment.CATALOG).is_empty(), "unknown condition treated as true")
+	check(not Validator.validate(data, equipment_catalog).is_empty(), "unknown condition treated as true")
 	data = state.catalog.duplicate(true)
 	data.quests[0].route_rewards = []
 	data.npcs.smith.choices[0].effects = {"flags": []}
 	data.quests[0].position = "not-a-position"
-	check(not Validator.validate(data, Equipment.CATALOG).is_empty(), "malformed nested catalog accepted")
+	check(not Validator.validate(data, equipment_catalog).is_empty(), "malformed nested catalog accepted")
 	data = state.catalog.duplicate(true)
 	data.routes.supply_resolution = "wrong-type"
-	check(not Validator.validate(data, Equipment.CATALOG).is_empty(), "malformed route catalog accepted")
+	check(not Validator.validate(data, equipment_catalog).is_empty(), "malformed route catalog accepted")

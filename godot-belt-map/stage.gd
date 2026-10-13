@@ -71,6 +71,9 @@ func _ready() -> void:
 			if not target.is_empty(): contract=target
 			if bridge.target_zone=="ruins" and bridge.pending.get("run",{}).get("rooms",false):
 				preload("systems/dungeon_rooms.gd").configure(contract,bridge.pending.run)
+		elif preload("systems/world_registry.gd").initial_zone_id()!="town":
+			var generated:Dictionary=preload("systems/world_registry.gd").load_zone(preload("systems/world_registry.gd").initial_zone_id())
+			if not generated.is_empty(): contract=generated
 	volumes=contract.volumes
 	var b: Dictionary=contract.bounds
 	bounds=Rect2(b.x,b.depth,b.width,b.depth_size)
@@ -523,9 +526,13 @@ func _physics_process(delta: float) -> void:
 		var before_x: float = p.node.position.x / ppm
 		p.node.position.x += p.facing*680*delta
 		p.life-=delta
+		# Preserve the authored environment-hit forgiveness. Skill depth radius
+		# governs actors only; shrinking crate collision changed the shipped feel.
 		var impact: bool = loot.hit_projectile(before_x, p.node.position.x / ppm, p.depth, p.height, p.damage)
 		if not impact and runtime!=null:
-			impact=runtime.encounters.hit_projectile(before_x,p.node.position.x/ppm,p.depth,p.height,p.damage)
+			var outcome: Dictionary=runtime.encounters.hit_skill_projectile(before_x,p.node.position.x/ppm,p.depth,p.height,p.damage,p.depth_radius,p.chain_count,p.chain_radius_m)
+			impact=bool(outcome.consumed)
+			if not outcome.segments.is_empty(): _show_lightning_chains(outcome.segments)
 		if not impact:
 			impact=practice.projectile(before_x,p.node.position.x/ppm,p.depth,p.height,p.damage)
 		if impact or p.life<=0:
@@ -545,7 +552,7 @@ func _physics_process(delta: float) -> void:
 	interface.set_prompt(hint)
 	hud.text="苍石庭院  /  姬骑士 · 战斗演示\n双击方向 奔跑   空格 跳跃   J 攻击/冲刺斩/下劈   1–3 技能   K 雷光   E 交互   I 背包   R 复位\n高度 %.2fm  ·  %s  ·  %s" % [height_z,("奔跑" if is_running else "箱顶 "+platform if not platform.is_empty() else "地面" if grounded else "空中"),notice]
 	if runtime!=null:
-		hud.text="%s  /  姬骑士\n方向键移动/双击奔跑   %s 跳跃   %s 上挑   %s 攻击   %s 交互   %s 背包   %s 地图   %s 手册   Esc 暂停\n%s" % [runtime.Registry.title(runtime.zone),runtime.controls.key_name("jump"),runtime.controls.key_name("skill2"),runtime.controls.key_name("attack"),runtime.controls.key_name("interact"),runtime.controls.key_name("inventory"),runtime.controls.key_name("map"),runtime.controls.key_name("journal"),notice]
+		hud.text="%s  /  姬骑士\n方向键移动/双击奔跑   %s 跳跃   %s 上挑   %s 攻击   %s 交互   %s 背包   %s 地图   %s 手册   Esc 暂停\n%s" % [runtime.current_zone_name(),runtime.controls.key_name("jump"),runtime.controls.key_name("skill2"),runtime.controls.key_name("attack"),runtime.controls.key_name("interact"),runtime.controls.key_name("inventory"),runtime.controls.key_name("map"),runtime.controls.key_name("journal"),notice]
 	queue_redraw()
 	minimap.queue_redraw()
 	capture_time+=delta
@@ -583,8 +590,28 @@ func on_spell(event: Dictionary) -> void:
 	mat.blend_mode=CanvasItemMaterial.BLEND_MODE_ADD
 	sprite.material=mat
 	add_child(sprite)
-	projectiles.append({"node":sprite,"facing":event.facing,"life":2.5,"depth":foot.y,"height":(project(foot).y-sprite.position.y)/ppm,"damage":event.damage})
+	projectiles.append({"node":sprite,"facing":event.facing,"life":2.5,"depth":foot.y,
+		"height":(project(foot).y-sprite.position.y)/ppm,"damage":event.damage,
+		"skill_id":str(event.get("skill_id", "skill.knight.lightning")),
+		"depth_radius":float(event.get("depth_radius", 0.65)),
+		"chain_count":int(event.get("chain_count", 1)),
+		"chain_radius_m":float(event.get("chain_radius_m", 0.0))})
 	notice="施法事件 %d · 独立加法特效" % spells
+
+func _show_lightning_chains(segments: Array) -> void:
+	for segment in segments:
+		if not segment is Dictionary or not segment.get("from") is Array or not segment.get("to") is Array:
+			continue
+		var line := Line2D.new()
+		line.points = PackedVector2Array([project(Vector2(segment.from[0], segment.from[1]), 0.8),
+			project(Vector2(segment.to[0], segment.to[1]), 0.8)])
+		line.width = 7.0
+		line.default_color = Color(0.55, 0.82, 1.0, 0.92)
+		line.z_index = 8
+		add_child(line)
+		var tween := create_tween()
+		tween.tween_property(line, "modulate:a", 0.0, 0.18)
+		tween.tween_callback(line.queue_free)
 
 func _draw() -> void:
 	if volumes==null:

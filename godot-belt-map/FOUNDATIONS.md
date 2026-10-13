@@ -1,6 +1,6 @@
 # 庭院 RPG 底层与接入约定
 
-2026-10-11。当前入口仍是 `project.godot` → `stage.tscn`。新增框架已经接到实际游戏；历史 `godot-*` 演示没有迁移。本轮另已接入独立队友资源与角色图鉴；五角色立绘与 21 个整帧动作已完成逐动作验收并接入，合计 351 张透明动作帧。
+2026-10-12。当前入口仍是 `project.godot` → `stage.tscn`。新增框架已经接到实际游戏；历史 `godot-*` 演示没有迁移。系统现已覆盖 Main Agent 分工、远程传输、断点续作、世界蓝图编译、生成战役运行时和可信 NPC 资产选择。五角色立绘与 21 个整帧动作已完成逐动作验收并接入，合计 351 张透明动作帧。
 
 ## 可玩的流程
 
@@ -23,7 +23,17 @@
 | `stage.gd` | 现有地面坐标、碰撞、输入分发、渲染与明确的模拟步进 | `project`, `_physics_process`, `on_attack`, `on_spell` |
 | `systems/game_runtime.gd` | 组合系统、角色快照、旅行、检查点、三轮试炼、祝福、任务事件 | `setup`, `snapshot`, `validate_snapshot`, `restore`, `travel`, `save_game`, `load_game` |
 | `systems/session_bridge.gd` | 两个场景实例之间传递纯数据；不充当永久存档 | `pending`, `target_zone`, `take` |
-| `systems/world_registry.gd` | 地点 ID 到地图合同的映射 | `ZONES`, `load_zone` |
+| `systems/content/` | 技能/装备/NPC/任务/对话稳定 ID、Schema 校验、原子 Patch、覆盖状态与撤销 | `get_definition`, `registered_ids`, `apply_runtime_patch`, `export_runtime_state` |
+| `systems/content/content_draft_service.gd` | Agent 任务/NPC/对话草稿的全目录校验、差异预览与不可变原子发布；不热激活当前战役 | `validate_draft`, `preview_draft`, `publish_draft` |
+| `systems/content/campaign_import_service.gd` | 已发布制品的重新物化、独立战役预览、双文件原子安装与篡改复检；不激活当前会话 | `preview_import`, `install_campaign`, `inspect_campaign` |
+| `systems/content/campaign_session_service.gd` | 安全列出已安装战役/槽位摘要；结束旧场景后在 bootstrap 中激活战役、失败回滚并切换独立存档目录 | `list_campaigns`, `preview_campaign_launch`, `start_campaign_session`, `start_official_session` |
+| `systems/agent/authoring_orchestrator.gd` | 可信 Main Agent 状态机：拆分 World/Narrative/NPC/Systems，等待 Validator，合并已审查草稿并控制预览/发布 | `create_run`, `dispatch_ready_tasks`, `submit_agent_result`, `preview_run`, `publish_run` |
+| `systems/agent/agent_transport_service.gd` | 可替换的 OpenAI-compatible HTTP 传输；会话/环境密钥、并发、超时、有界重试、取消和严格 JSON 回收 | `configure`, `run_ready_stage`, `list_jobs`, `cancel_job`, `capabilities` |
+| `systems/agent/authoring_persistence_service.gd` | Main Agent Run 与未完成传输队列的原子校验点、备份恢复和安全重建；不持久化密钥、请求头、Prompt 或预览令牌 | `flush_now`, `restore_now`, `status`, `clear_persisted_state` |
+| `systems/content/world_blueprint_service.gd` | 严格 `world-blueprint/1` 的区域图、地图、初始城镇、碰撞与出口可达性校验，并编译为预置 2.5D map contract | `validate_shape`, `compile_blueprint`, `validate_world_bundle` |
+| `systems/content/npc_asset_registry.gd` | 发布审核后的 NPC profile、肖像、动作 manifest 与质量证明配对；只向 Agent 暴露资产 ID，不暴露路径 | `validate_catalog`, `validate_visual`, `resolve_visual`, `public_profiles` |
+| `systems/workbench_bridge.gd` | 创作工作台能力查询、Main→子 Agent 合同审查、安全点排队与 Patch 结果 | `capabilities`, `inspect_target`, `validate_agent_task`, `review_agent_result`, `submit_patch` |
+| `systems/world_registry.gd` | 官方地点与当前已激活世界包的地点 ID 到地图合同映射 | `register_world_bundle`, `active_zone_ids`, `load_zone` |
 | `systems/core/save_store.gd` | 三槽、版本、校验和、临时文件、备份与坏档保护 | `save_slot`, `load_slot`, `list_slots`, `protect_slot` |
 | `systems/core/progression.gd` | 经验曲线、50 级上限、每级技能点和固有属性成长 | `add_xp`, `bonuses`, `snapshot`, `restore` |
 | `systems/core/talent_tree.gd` | 六天赋、三分支、前置与点数消费 | `can_spend`, `spend`, `refund`, `bonuses` |
@@ -52,7 +62,9 @@ F2 保留实体碰撞显示，F4 增加敌人受击体；开发截图报告包�
 
 桌面三槽位于 Godot `user://rpg_saves/slot_1.json` 等；设置位于 `user://rpg_settings.cfg`。网页使用同一格式，存储于该站点的浏览器数据。清理站点数据、隐私模式或浏览器存储限制可能影响保留，不能当云存档。
 
-保存角色生命/法力/朝向、装备拥有及槽位、材料、经验、天赋、任务事件去重记录、声望/路线/标记、药剂、队友模式与独立状态、试炼种子/波次/祝福，以及每个地点独立的已破坏木箱、已开宝箱和未拾取掉落。Node、Texture、Callable 不进入存档。
+保存角色生命/法力/朝向、装备拥有及槽位、材料、经验、天赋、任务事件去重记录、声望/路线/标记、药剂、队友模式与独立状态、试炼种子/波次/祝福，以及每个地点独立的已破坏木箱、已开宝箱和未拾取掉落。Node、Texture、Callable 不进入存档。新快照还保存不可伪造为当前目录的 `content_context`；项目、战役、内容哈希或 manifest 哈希任一不匹配都拒绝读取。没有该字段的旧档只在官方内容下兼容。
+
+导入战役的槽位不使用 `user://rpg_saves`，而位于 `user://projects/<project_id>/campaigns/<campaign_id>/saves`。切换战役只创建新会话，不自动读取槽位，也不会把官方存档复制到自定义战役。
 
 `companion.state` 保存瑟琳的 HP/MP、倒下、护盾、技能冷却和动作状态。资源不得越界，布尔字段不能用字符串替代，内外两层的招募开关与命令必须一致。加载先完成校验再修改任何角色；重复读取不会回血、回蓝或复活。上一版没有 `state` 字段的旧档按满状态迁移，仍保留原来的招募与命令；新档显式写入空 `state:{}` 会被拒绝。该字段由 `companion_snapshot()` 生成，不要由 UI 拼装。
 
@@ -64,16 +76,27 @@ RNG 的 64 位 `state` 若需要持久化，转成字符串再写 JSON；Godot J
 
 ## 扩写内容
 
-- **任务 / 剧情**：编辑 `systems/adventure/adventure_data.json`，使用稳定 ID，`all`/`any`/`excludes` 条件和 `graph_edges`。已经发布的任务 ID 不要改名；新增分支后运行目录引用/循环检查和三路线测试。所有效果通过服务方法结算，UI 不直接加声望或发奖励。
+- **任务 / 剧情**：编辑 `systems/adventure/adventure_data.json`，使用稳定 ID，`all`/`any`/`excludes` 条件和 `graph_edges`。该文件由 `ContentRegistry` 与冒险服务双重校验；已经发布的任务 ID 不要改名。新增分支后运行引用/循环检查和三路线测试。所有效果通过服务方法结算，UI 不直接加声望或发奖励。
 - **新地点**：在 `world_registry.gd` 注册 ID 与合同 JSON。合同沿用 `map-contract.json`；`town_npcs:false` 可关闭城镇 NPC/木桩，`chests` 提供每个地点自己的宝箱。位置、碰撞、掉落保存使用地点 ID 隔离。当前背景与镜头仍按 3072 像素宽的庭院规格，新尺寸需要同时更新镜头及背景逻辑。
 - **新敌人**：扩展 `encounters.gd` 的 DEFINITIONS/roster，并提供 `assets/roster/<id>/portrait.png` 与 `animation.json`。当前 `melee → scout`、`ranged → caster`，另有 `elite`、`boss` 和队友 `serin`。保留脚底坐标、明确出手时刻、唯一死亡事件和伤害查询。不要在动画/UI 内直接奖励。素材工作流与 manifest 约定见仓库根目录 `CHARACTER_PIPELINE.md`、`NPC_ROSTER_INTEGRATION.md`。
-- **新装备**：扩展 `characters/first_knight/equipment.gd` 的 CATALOG。当前库存是一种装备 ID 一份，不支持同名随机词缀实例；要引入随机词缀，先升级存档模型为实例 ID，再接装备 UI。
+- **新装备**：扩展 `content/base/equipment.json`，不要改动已经进入存档的装备 ID。当前库存是一种装备 ID 一份，不支持同名随机词缀实例；要引入随机词缀，先升级存档模型为实例 ID，再接装备 UI。
 - **新成长**：天赋属性统一叠加到真实伤害与容量；刷新从装备、等级、天赋、本轮祝福重新求和，禁止对现有数值反复累加。
 - **新输入**：在 `game_settings.gd` 注册动作并由 stage 分发。UI、技能栏读取当前键位，禁止修改一个键后保留旧键的隐藏攻击行为。
+- **NPC 定义**：城镇站位、名称、环境对话与登记资产 ID 位于 `content/base/town_npcs.json`。JSON 不得出现 `res://` 路径；新资产必须先进入 `town_npcs.gd` 的 allowlist，再引用 `asset.*` ID。
+- **Agent / 工作台修改**：Main Agent 先读取 `WorkbenchBridge.capabilities()` 和目标定义，使用 `agent-task/1` 派发子任务，再用 `review_agent_result` 审查 `agent-result/1`。审查不会自动执行；只有 Main Agent 选中的 `runtime-patch/1` 才能进入 `submit_patch`。当前雷光支持安全修改消耗、冷却、伤害、纵深宽度、弹射数和弹射半径；不接受生成脚本或资源路径。具体合同见 `systems/content/README.md`。
+- **Agent 生成任务/NPC/对话**：结构变更使用 `content-draft/1`；Main Agent 先审查，再调用 `preview_content_draft` 检查完整候选目录和差异，最后用完全相同的草稿与令牌调用 `publish_content_draft`。发布只生成带校验和的不可变 JSON 制品，不会热激活当前战役或改写现有存档；新战役导入器必须再次校验。
+- **导入生成战役**：使用 `campaign-import-request/1` 选择 `new_campaign` 或 `explicit_project_copy`，先预览、再安装。安装结果固定在 `user://projects/<project_id>/campaigns/<campaign_id>`，使用独立 `saves` 子目录，并声明 `new_session_only`；保留战役 ID、既有不同内容和损坏目录都不会被覆盖。
+- **启动生成战役**：先调用 `preview_campaign_launch` 取得绑定包哈希的令牌并向玩家确认结束当前会话，再调用 `start_campaign_session`。服务先让旧 gameplay scene 退出，随后只在 `campaign_bootstrap.tscn` 中复检并提交内容切换，最后创建使用独立 SaveStore 的新 `stage.tscn`。不要直接调用注册表加载函数，也不要在当前场景加入“热刷新剧情”入口。
+- **战役管理界面**：Esc 菜单的“战役”页只调用 `WorkbenchBridge.list_campaigns`。页面显示官方/自定义战役、来源草稿、三槽摘要和损坏包错误；选择后先预览，再要求二次确认结束当前会话。网页端应复用相同接口与确认语义，不能自行拼接 `user://` 路径。
+- **AI 创作控制台**：Esc 菜单的“创作”页以 `authoring-run-request/1` 创建 Run。Main Agent 根据所选世界、地图、城镇、NPC、任务、好感、道具、装备与商店模块拆出子任务；外部模型只领取严格 `agent-task/1` JSON 并回填单个 `agent-result/1`。所有业务结果完成后才会开放 Validator；Validator 通过后才合并草稿。用户仍需明确点击预览并二次确认发布。控制台既保留人工 JSON 通道，也可通过受控的 OpenAI-compatible Transport 自动执行当前就绪阶段；供应商 Profile 和凭据由用户显式配置。
+- **Agent Transport**：在“创作”页配置 OpenAI-compatible chat-completions endpoint 与模型。远程端点必须为 HTTPS；仅 localhost 可使用 HTTP；URL 不接受查询参数或凭据。API Key 使用 `RPG_AGENT_API_KEY` 环境变量或当前 Godot 进程内存，不进入 `agent_transport.cfg`、任务元数据或日志。点击“运行当前就绪 Agent 阶段”只运行当前依赖已满足的阶段；业务子 Agent 完成后仍需玩家再次明确启动 Validator。失败按配置执行最多三次指数退避重试，任务可以取消，迟到结果不能复活已取消 Run。
+- **Agent 断点续作**：正常游戏中每次 Run/任务/传输状态变化会写入 `user://authoring_state.json`，保留最后一个有效 `.bak`。恢复不会信任落盘 review、draft 或 task bundle，而是根据请求重建任务并让每份 Agent result 重新经过 Workbench 审查；中断的 running/retry job 一律回到 queued，补充本次会话凭据后才继续。旧预览令牌不会恢复。
+- **供应商验收**：Transport 提供自定义、OpenAI 官方 Chat Completions 固定端点和本机兼容服务三种 Profile。用户可明确发起一次最小真实模型调用，检查 HTTPS/localhost、鉴权、模型与严格 JSON 回包；调用可能产生供应商费用，因此不会在启动时自动执行。控制台只保留无敏感信息的最近预检结论，并展示完成/拒绝/失败/取消/重试计数、成功率、平均延迟和最近 128 个任务的 P95。离线评测使用真实 `agent-task/1` / `agent-result/1` 审查器验证正常结果与越权样本。
+- **世界蓝图编译**：World Agent 用 `world_blueprint` deliverable 返回最多 8 张可达地图。蓝图只包含世界观、区域/地图图、边界、出生点、出口和预登记 `asset.world.*` 地标，不接受 `res://`、脚本或任意文件路径。Godot 编译器把资产 ID 映射到已有 `inn/tree/crate/fountain` 渲染组件，生成带 SHA-256 的 `world-bundle/1` 和现有 side-facing-belt map contract；出生点被实体阻挡、越界布局、未知资产与不可达地图会被拒绝。
 
 ## 验证
 
-2026-10-11 底层框架发行版曾完成 21 项检查（20 组测试与 1 项资源导入预检）；网页版验证过存档写入、整页刷新后读档、城镇与试炼切换、敌人生成、战斗暂停及撤退回城。本轮新增图鉴/队友集成测试 64 项通过，包含独立资源往返、倒下保存、坏数据原子拒绝、休整扣费、旧档迁移、UI 暂停及已导入的待机预览时钟/末帧停顿/缺帧保护；同时复验 runtime、剧情集成、存档验证及 Esc/L 输入。最终角色版已再次通过全部 25 项回归、351 帧无损原稿比对、21 动作原生渲染与 4 个双朝向发弹检查。详见根目录 NPC_ROSTER_INTEGRATION.md。
+2026-10-12 B-14 全量发行验收完成 37/37（1 项资源导入预检 + 36 项 Godot core/gameplay 测试）；合并 2026-10-13 地图道路与逐句对话后，当前基线为 38/38（1 项导入 + 37 项测试）。覆盖 Main/子 Agent 合同、供应商传输、断点恢复、世界蓝图、生成战役从创作到真实 stage、NPC 资产注册、存档隔离、战斗、任务、图鉴、队友与旧试玩回归。Web 发行门禁 15/15 通过，另有门禁自身单元测试 3/3；验证了导出策略、制品签名/大小/SHA-256、凭据隔离、HTTP 提供、PCK 首启以及浏览器 1280×720 Canvas 首屏无新增错误。浏览器验收同时发现并修复了 PCK 内 PNG 被重映射后 `FileAccess` 误判不存在的问题，资产门禁现改用 `ResourceLoader`。可重复步骤见 `RELEASE_CHECKLIST.md`。
 
 安装 Python 3 后可运行跨平台测试工具（Godot 路径换成自己的）：
 
@@ -81,7 +104,9 @@ RNG 的 64 位 `state` 若需要持久化，转成字符串再写 JSON；Godot J
 python tests/run_tests.py --godot /path/to/godot --suite all
 ```
 
-macOS 默认应用路径可用 `/Applications/Godot.app/Contents/MacOS/Godot`，Windows 用 Godot console exe。测试脚本也支持 `GODOT_BIN` 环境变量，日志在 `test-results/`，不会进入网页包。核心、任务、遭遇、存档事务与真实场景的集成测试分开运行，旧庭院回归使用隔离模式避免读取玩家进度。仅测试脚本需要 `-- --foundations` 强制开启新框架；正常 F5 自动开启。
+macOS 默认应用路径可用 `/Applications/Godot.app/Contents/MacOS/Godot`，Windows 用 Godot console exe。测试脚本也支持 `GODOT_BIN` 环境变量，日志在 `test-results/`，不会进入网页包。核心、内容草稿发布、独立战役导入、新会话战役启动、战役管理 UI、Agent 创作编排、Agent Transport、任务、遭遇、存档事务与真实场景的集成测试分开运行，旧庭院回归使用隔离模式避免读取玩家进度。仅测试脚本需要 `-- --foundations` 强制开启新框架；正常 F5 自动开启。
+
+Web 导出后应再运行 `tests/release_acceptance.py`，同时提供静态服务器 URL 和 Godot 路径，验证发布包本身而不是只验证编辑器工程；完整命令见 `RELEASE_CHECKLIST.md`。
 
 新增素材发布门槛（需要 Pillow）：
 
@@ -98,9 +123,9 @@ godot --path . --script res://tests/roster_capture.gd -- --foundations --page=se
 
 ## 当前边界
 
-这是一套单机可演示框架。瑟琳已具备独立生命、法力、职业技能、受击、倒下、寻路及保存；她的装备和升级仍未独立实现。四类敌人及瑟琳的五套独立美术已经有加载和整帧动画接口，但本轮生成结果必须通过完整验收后才算素材交付。没有新生成的死亡动作：敌人暂使用受击末帧淡出，瑟琳保留灰暗倒下标记等待复苏。
+这是一套单机可演示框架。瑟琳已具备独立生命、法力、职业技能、受击、倒下、寻路及保存；她的装备和升级仍未独立实现。四类敌人及瑟琳的五套独立美术已经通过现有发布证明接入可信注册表；没有新生成的死亡动作，敌人暂使用受击末帧淡出，瑟琳保留灰暗倒下标记等待复苏。
 
-古塔场景复用庭院背景，不代表新地图美术完成。武器外观仍烘焙在角色帧里，换装只改变属性。联机权威服务器、账号与云同步、完整随机词缀、多人组队、正式剧情演出和移动触控尚未实现。现有通用服务为后续增加这些系统保留接入点。Windows / Web 本机验证不等于 macOS 实机验收。
+晨钟城、古塔内景与米拉/奥伦使用本轮原创素材；武器外观仍烘焙在角色帧里，换装只改变属性。创作控制台已经实现可信任务状态机、人工 JSON 通道、OpenAI-compatible HTTP 适配器、本地断点续作、供应商 Profile、真实预检与离线合同评测，但仓库没有预置模型或密钥，也尚未完成任何真实付费供应商的账号验收；B-10 只以本机真实 HTTP 回环服务验收网络链路。World Agent 蓝图现可编译为受限的可执行 2.5D 地图合同并进入真实战役，但只能组合白名单地标、边界、出口和已登记角色资产，不能生成任意 Godot 场景源码；自动生成并审核新美术仍未接入。联机权威服务器、账号与云同步、完整随机词缀、多人组队、正式剧情演出和移动触控尚未实现。B-14 已验证本机 macOS Godot 与 Web 浏览器发行包，不等于 Windows、移动端或线上 CDN 验收。
 
 
 ## 2026-10-13 地图道路与逐句对话
@@ -111,5 +136,5 @@ godot --path . --script res://tests/roster_capture.gd -- --foundations --page=se
 - 靠近发光门按交互键 E；门边和小地图均有标记。战斗中出口封锁，可 Esc 撤退；传送不会自动反复触发。
 - `world_registry.gd` 声明安全区/副本、名称和波数；地图 contract 的 portals 声明 id、target、位置、arrival、可选 quest。`world_portals.gd` 绘制与交互，runtime 负责场景切换和存档状态。
 - `story_dialogue.gd` 是双立绘对话：NPC/主角轮流高亮，空格先显示全句再推进，按住不连跳。话题 → 对话 → 确认后才由 Adventure 修改任务/物品/分支；Esc 不自动确认。选择列表可滚动。
-- 新城和林道复用已有庭院地面、树木、建筑重新布置，并非已完成的新城专属美术；晨钟城暂未配置新的 NPC 剧情。死亡/换装外观仍按前文约定。
-- 回归新增 journey_test.gd，覆盖真实场景往返、门禁、空格/长按/退出、任务确认和回城交付；全套现为 26 项。
+- 旧林道仍使用庭院地面和树木重新布置；晨钟城、古塔背景与 NPC 立绘使用新原创图片。新 NPC 是完整站姿，尚未新增职业逐帧待机。死亡/换装外观仍按前文约定。
+- 回归新增 `journey_test.gd`，覆盖真实场景往返、门禁、空格/长按/退出、任务确认和回城交付；总数以 `tests/run_tests.py --suite all` 最终输出为准。

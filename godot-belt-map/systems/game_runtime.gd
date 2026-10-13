@@ -41,10 +41,19 @@ var loaded_message := ""
 var run_counter := 0
 var autosave_armed := false
 var last_autosave_error := ""
+var content_registry = null
+var workbench_bridge = null
+var campaign_session = null
 var wave_countdown := -1.0
 
 func setup(map_stage) -> void:
 	stage=map_stage
+	content_registry=stage.get_node_or_null("/root/ContentRegistry")
+	workbench_bridge=stage.get_node_or_null("/root/WorkbenchBridge")
+	campaign_session=stage.get_node_or_null("/root/CampaignSessionService")
+	configure_save_store()
+	if content_registry != null: stage.knight.content_registry_override=content_registry
+	if workbench_bridge != null: workbench_bridge.bind_runtime(self)
 	zone=str(stage.contract.get("zone_id","town"))
 	add_child(audio)
 	add_child(encounters)
@@ -108,7 +117,28 @@ func setup(map_stage) -> void:
 		else: panel.open("adventure")
 	if bridge!=null and not bridge.busy: bridge.announce(str(stage.contract.name))
 	events.publish("zone_entered",{"id":zone})
-	say("找雷恩接取试炼；西门是旧林道，东门是古塔，东南关口通往晨钟城。" if zone=="town" else "晨钟城 · 西门返回庭院，东门通往古塔。" if zone=="city" else Registry.title(zone)+" · 清敌后从传送门返回城镇。")
+	var generated_world: bool = content_registry != null and not content_registry.world_bundle().is_empty()
+	if generated_world:
+		say("L 冒险手册 · Esc 暂停 / 存档 · 4/5 药水。当前区域：" + current_zone_name() + "。")
+	else:
+		say("找雷恩接取试炼；西门是旧林道，东门是古塔，东南关口通往晨钟城。" if zone=="town" else "晨钟城 · 西门返回庭院，东门通往古塔。" if zone=="city" else current_zone_name()+" · 清敌后从传送门返回城镇。")
+
+func is_home_zone() -> bool:
+	return Registry.is_safe(zone) or zone == Registry.initial_zone_id()
+
+func current_zone_name() -> String:
+	return str(Registry.load_zone(zone).get("name", zone))
+
+func available_travel() -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	var contract: Dictionary = Registry.load_zone(zone)
+	for exit_value in contract.get("exits", []):
+		if not exit_value is Dictionary: continue
+		var target := str(exit_value.get("to_zone_id", ""))
+		if target.is_empty() or not Registry.has_zone(target): continue
+		result.append({"zone_id":target, "name":str(Registry.load_zone(target).get("name", target)),
+			"exit_id":str(exit_value.get("exit_id", ""))})
+	return result
 
 func say(text: String) -> void:
 	stage.notice=text
@@ -182,7 +212,7 @@ func _wave_cleared(wave: int) -> void:
 	if persistence_enabled and autosave_armed: save_game(current_slot,true)
 
 func start_trial(seed_value: int = 0, destination: String = "ruins") -> bool:
-	if not Registry.is_safe(zone) or stage.knight.defeated: return false
+	if not is_home_zone() or stage.knight.defeated or not Registry.has_zone(destination): return false
 	run_counter+=1
 	var seed_number:=seed_value if seed_value>0 else int(Time.get_unix_time_from_system())+run_counter*7919
 	if not Registry.is_dungeon(destination): return false
@@ -219,15 +249,16 @@ func choose_boon(id: String) -> bool:
 
 func return_town() -> bool:
 	if not Registry.is_dungeon(zone): return false
+	var home:=str(run_state.get("return_zone", Registry.initial_zone_id()))
 	encounters.clear()
 	run_state.phase="none"
 	run_state.boons=[]
 	run_state.offers=[]
 	stage.knight.reset_character()
-	return travel(str(run_state.get("return_zone","town")))
+	return travel(home)
 
 func prepare_transfer(target: String) -> Dictionary:
-	if not Registry.ZONES.has(target): return {}
+	if not Registry.has_zone(target): return {}
 	var data:=snapshot()
 	data.zone=target
 	var map_data:=Registry.load_zone(target)
@@ -238,7 +269,7 @@ func prepare_transfer(target: String) -> Dictionary:
 	return data
 
 func travel(target: String, arrival: Array = []) -> bool:
-	if transitioning or not Registry.ZONES.has(target): return false
+	if transitioning or not Registry.has_zone(target): return false
 	var bridge=stage.get_node_or_null("/root/GameSession")
 	if bridge==null or get_tree().current_scene != stage:
 		say("场景路由只在正式游戏主场景运行")
@@ -289,13 +320,13 @@ func safe_to_save() -> bool:
 
 func snapshot() -> Dictionary:
 	worlds[zone]=stage.loot.snapshot_world()
-	return {"schema":1,"zone":zone,"worlds":worlds.duplicate(true),"player":{"foot":[stage.foot.x,stage.foot.y],"height":stage.height_z,"health":stage.knight.health,"mana":stage.knight.mana,"facing":stage.knight.facing},"equipment":{"owned":stage.knight.equipment.owned.duplicate(),"equipped":stage.knight.equipment.equipped.duplicate()},"materials":stage.loot.materials.duplicate(),"progression":progression.snapshot(),"talents":talents.snapshot(),"adventure":adventure.snapshot(),"run":run_state.duplicate(true),"companion":{"recruited":companion_recruited,"mode":companion_mode,"state":encounters.companion_snapshot()},"play_seconds":play_seconds,"run_counter":run_counter,"slot":current_slot,"autosave_armed":autosave_armed}
+	return {"schema":1,"zone":zone,"worlds":worlds.duplicate(true),"player":{"foot":[stage.foot.x,stage.foot.y],"height":stage.height_z,"health":stage.knight.health,"mana":stage.knight.mana,"facing":stage.knight.facing},"equipment":{"owned":stage.knight.equipment.owned.duplicate(),"equipped":stage.knight.equipment.equipped.duplicate()},"materials":stage.loot.materials.duplicate(),"progression":progression.snapshot(),"talents":talents.snapshot(),"adventure":adventure.snapshot(),"run":run_state.duplicate(true),"companion":{"recruited":companion_recruited,"mode":companion_mode,"state":encounters.companion_snapshot()},"content":content_registry.export_runtime_state() if content_registry != null else {},"content_context":content_registry.content_context() if content_registry != null else {},"play_seconds":play_seconds,"run_counter":run_counter,"slot":current_slot,"autosave_armed":autosave_armed}
 
 func whole(value, low: int, high: int) -> bool:
 	return (value is int or value is float) and is_finite(float(value)) and floorf(float(value))==float(value) and float(value)>=low and float(value)<=high
 
 func validate_snapshot(data: Dictionary) -> bool:
-	if not whole(data.get("schema"),1,1) or not data.get("zone") is String or not Registry.ZONES.has(data.zone): return false
+	if not whole(data.get("schema"),1,1) or not data.get("zone") is String or not Registry.has_zone(data.zone): return false
 	for field in ["worlds","player","equipment","materials","progression","adventure","run","companion"]:
 		if not data.get(field) is Dictionary: return false
 	var p: Dictionary=data.player
@@ -331,13 +362,22 @@ func validate_snapshot(data: Dictionary) -> bool:
 	var played=data.get("play_seconds",0)
 	if not (played is int or played is float) or not is_finite(float(played)) or float(played)<0 or float(played)>1e10: return false
 	if not data.companion.get("recruited") is bool or not data.get("autosave_armed",false) is bool: return false
+	if data.has("content"):
+		var registry=_content_registry()
+		if registry==null or not data.content is Dictionary or not registry.validate_runtime_state(data.content).is_empty(): return false
+	var context_registry=_content_registry()
+	if context_registry!=null:
+		if data.has("content_context"):
+			if not context_registry.matches_content_context(data.content_context): return false
+		elif not context_registry.matches_content_context(null,true):
+			return false
 	if data.companion.get("mode","") not in ["follow","guard","passive"]: return false
 	if data.companion.has("state"):
 		if not data.companion.state is Dictionary or data.companion.state.is_empty() or not encounters.validate_companion(data.companion.state): return false
 		if data.companion.state.get("enabled",false)!=data.companion.recruited: return false
 		if data.companion.state.get("mode","follow")!=data.companion.mode: return false
 	for id in data.worlds:
-		if not Registry.ZONES.has(id) or not data.worlds[id] is Dictionary: return false
+		if not Registry.has_zone(id) or not data.worlds[id] is Dictionary: return false
 		var world: Dictionary=data.worlds[id]
 		for key in ["broken","opened","drops"]:
 			if not world.get(key) is Array or world[key].size()>500: return false
@@ -364,6 +404,10 @@ func validate_snapshot(data: Dictionary) -> bool:
 func restore(data: Dictionary) -> bool:
 	if not validate_snapshot(data): return false
 	# Validation completes before changing any current gameplay state.
+	var registry=_content_registry()
+	if registry!=null:
+		var content_state: Dictionary=data.get("content",registry.empty_runtime_state())
+		if not registry.restore_runtime_state(content_state): return false
 	encounters.clear()
 	progression.restore(data.progression)
 	talents.restore(data.get("talents",TalentTree.new().snapshot()))
@@ -419,7 +463,7 @@ func restore(data: Dictionary) -> bool:
 	return true
 
 func rest_party() -> bool:
-	if not Registry.is_safe(zone) or stage.knight.defeated: return false
+	if not is_home_zone() or stage.knight.defeated: return false
 	var actor=stage.knight
 	var ally:Dictionary=encounters.companion_status()
 	var hero_needs_rest:bool=actor.health<actor.max_health or actor.mana<actor.max_mana
@@ -499,6 +543,7 @@ func step(delta: float) -> void:
 		say("挑战失败。可保留已拾取的战利品回城，或读取上个检查点。")
 		return
 	encounters.step(delta)
+	if workbench_bridge != null: workbench_bridge.process_pending()
 	if Registry.is_dungeon(zone) and run_state.phase in ["boon","ready"] and int(run_state.wave)>0:
 		if wave_countdown < 0: wave_countdown=5.0
 		wave_countdown=maxf(0,wave_countdown-delta)
@@ -510,6 +555,19 @@ func step(delta: float) -> void:
 	if autosave_elapsed>=45 and persistence_enabled and autosave_armed and safe_to_save():
 		autosave_elapsed=0
 		if not save_game(current_slot,true): autosave_armed=false
+
+func _content_registry():
+	if content_registry != null:
+		return content_registry
+	return get_node_or_null("/root/ContentRegistry") if is_inside_tree() else null
+
+func configure_save_store() -> void:
+	var directory := "user://rpg_saves"
+	if campaign_session == null and is_inside_tree():
+		campaign_session=get_node_or_null("/root/CampaignSessionService")
+	if campaign_session != null:
+		directory=str(campaign_session.active_save_directory())
+	saves=SaveStore.new(directory)
 
 func open_npc(npc: Dictionary) -> void:
 	panel.npc_id=str(npc.id)

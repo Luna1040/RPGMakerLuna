@@ -15,6 +15,16 @@ signal equipment_changed
 var facing := 1
 var health := 100.0
 var mana := 100.0
+const LIGHTNING_SKILL_ID := "skill.knight.lightning"
+const LIGHTNING_FALLBACK := {
+	"id": LIGHTNING_SKILL_ID, "display_name": "雷光",
+	"description": "向前释放雷光，命中后可在邻近目标之间弹射。",
+	"action_profile_id": "action.knight.cast",
+	"resource_cost": {"type":"mp", "amount":25.0}, "cooldown_seconds":2.4,
+	"combat": {"base_damage":42.0, "depth_radius":0.65, "chain_count":1, "chain_radius_m":3.2,
+		"tags":["magic", "lightning", "projectile"]},
+	"presentation": {"vfx_id":"vfx.knight.lightning_projectile", "sfx_id":"sfx.knight.lightning_cast"}
+}
 const SKILLS := {
  "crescent": {"name":"月弧斩", "description":"前方宽弧斩击", "cost":18.0, "cooldown":4.0, "depth_radius":0.95},
  "rising": {"name":"破晓升龙", "description":"上挑并击飞前方目标", "cost":24.0, "cooldown":6.0, "depth_radius":0.70},
@@ -51,6 +61,8 @@ var mana_regen := 7.0
 var equipment_speed_bonus := 0.0
 var progression_bonuses: Dictionary = {}
 var run_bonuses: Dictionary = {}
+## Tests and editor tools can inject a registry without adding the actor to a tree.
+var content_registry_override: Node = null
 ## The map owns height/gravity. These values select an independent visual pose.
 var airborne := false
 var air_vertical_speed := 0.0
@@ -96,8 +108,24 @@ func get_effective_stats() -> Dictionary:
 func get_attack_damage(action: String) -> float:
 	return float(clips[action].get("damage", 20)) + attack_bonus
 
+func get_lightning_skill() -> Dictionary:
+	var registry := content_registry_override
+	if registry == null:
+		registry = get_node_or_null("/root/ContentRegistry")
+	if registry != null:
+		var definition: Dictionary = registry.get_skill(LIGHTNING_SKILL_ID)
+		if not definition.is_empty():
+			return definition
+	return LIGHTNING_FALLBACK.duplicate(true)
+
+func get_spell_mana_cost() -> float:
+	return float(get_lightning_skill().get("resource_cost", {}).get("amount", 25.0))
+
+func get_spell_cooldown() -> float:
+	return float(get_lightning_skill().get("cooldown_seconds", 2.4))
+
 func get_spell_damage() -> float:
-	return 42.0 + magic_bonus
+	return float(get_lightning_skill().get("combat", {}).get("base_damage", 42.0)) + magic_bonus
 
 func get_attack_reach(action: String) -> float:
 	return (float(clips[action].get("range", 180)) + melee_reach_margin) * visual_scale / 0.62
@@ -155,8 +183,8 @@ func change_action(next: String) -> void:
 	action_frame = 0
 	special_phase = 0
 	if next == "cast":
-		mana -= 25.0
-		cast_cooldown = 2.4
+		mana -= get_spell_mana_cost()
+		cast_cooldown = get_spell_cooldown()
 		stats_changed.emit(health, mana)
 	action_changed.emit(state)
 
@@ -173,7 +201,7 @@ func request_attack() -> void:
 	inactivity = 0.0
 
 func request_cast() -> void:
-	if defeated or mana < 25.0 or cast_cooldown > 0.0:
+	if defeated or mana < get_spell_mana_cost() or cast_cooldown > 0.0:
 		return
 	if is_locomotion():
 		change_action("cast")
@@ -275,7 +303,15 @@ func _physics_process(delta: float) -> void:
 		elif state == "cast":
 			var release: Array = clip.get("release_offset",[165,-330])
 			var offset := Vector2(float(release[0])*facing,float(release[1]))*visual_scale*float(clip.get("scale",1.0))
-			spell_requested.emit({"origin":global_position + offset,"facing":facing,"damage":get_spell_damage()})
+			var definition := get_lightning_skill()
+			var combat: Dictionary = definition.get("combat", {})
+			spell_requested.emit({"origin":global_position + offset, "facing":facing, "damage":get_spell_damage(),
+				"skill_id":str(definition.get("id", LIGHTNING_SKILL_ID)),
+				"depth_radius":float(combat.get("depth_radius", 0.65)),
+				"chain_count":int(combat.get("chain_count", 1)),
+				"chain_radius_m":float(combat.get("chain_radius_m", 0.0)),
+				"vfx_id":str(definition.get("presentation", {}).get("vfx_id", "")),
+				"sfx_id":str(definition.get("presentation", {}).get("sfx_id", ""))})
 	var duration := float(clip["duration_ms"]) / 1000.0
 	if elapsed >= duration:
 		if defeated:
@@ -285,7 +321,7 @@ func _physics_process(delta: float) -> void:
 		elif state.begins_with("attack") and combo_buffered:
 			combo_buffered = false
 			change_action("attack2" if state == "attack1" else ("attack3" if state == "attack2" else "attack1"))
-		elif state.begins_with("attack") and cast_buffered and mana >= 25.0 and cast_cooldown <= 0:
+		elif state.begins_with("attack") and cast_buffered and mana >= get_spell_mana_cost() and cast_cooldown <= 0:
 			cast_buffered = false
 			change_action("cast")
 		else:

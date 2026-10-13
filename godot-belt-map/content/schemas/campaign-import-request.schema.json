@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:rpgmakerluna:schema:campaign-import-request",
+  "title": "Isolated Campaign Import Request",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "request_id", "project_id", "draft_id", "campaign_id", "display_name", "activation_policy"],
+  "properties": {
+    "schema_version": {"const": "campaign-import-request/1"},
+    "request_id": {"type": "string", "pattern": "^request\\.[a-z0-9][a-z0-9_.-]+$", "maxLength": 128},
+    "project_id": {"type": "string", "pattern": "^project\\.[a-z0-9][a-z0-9_.-]+$", "maxLength": 128},
+    "draft_id": {"type": "string", "pattern": "^draft\\.[a-z0-9][a-z0-9_.-]+$", "maxLength": 128},
+    "campaign_id": {"type": "string", "pattern": "^campaign\\.[a-z0-9][a-z0-9_.-]+$", "maxLength": 128},
+    "display_name": {"type": "string", "minLength": 1, "maxLength": 96},
+    "activation_policy": {"enum": ["new_campaign", "explicit_project_copy"]}
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:rpgmakerluna:schema:campaign-manifest",
+  "title": "Immutable Isolated Campaign Manifest",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "project_id", "campaign_id", "display_name", "activation_policy", "source_artifact", "content_file", "content_hash", "save_namespace", "runtime_activation", "manifest_hash"],
+  "properties": {
+    "schema_version": {"const": "campaign-manifest/1"},
+    "project_id": {"type": "string", "pattern": "^project\\.[a-z0-9][a-z0-9_.-]+$", "maxLength": 128},
+    "campaign_id": {"type": "string", "pattern": "^campaign\\.[a-z0-9][a-z0-9_.-]+$", "maxLength": 128},
+    "display_name": {"type": "string", "minLength": 1, "maxLength": 96},
+    "activation_policy": {"enum": ["new_campaign", "explicit_project_copy"]},
+    "source_artifact": {
+      "type": "object", "additionalProperties": false,
+      "required": ["draft_id", "artifact_hash", "source_catalog_hash", "source_content_revision", "candidate_content_hash"],
+      "properties": {
+        "draft_id": {"type": "string", "pattern": "^draft\\.[a-z0-9][a-z0-9_.-]+$", "maxLength": 128},
+        "artifact_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "source_catalog_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "source_content_revision": {"type": "integer", "minimum": 0},
+        "candidate_content_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "content_file": {"const": "content.json"},
+    "content_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "save_namespace": {"const": "saves"},
+    "runtime_activation": {"const": "new_session_only"},
+    "manifest_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

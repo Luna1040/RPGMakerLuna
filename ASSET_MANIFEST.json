@@ -36844,7 +36844,7 @@
     {
       "path": "releases/knight-web/game.html",
       "bytes": 5486,
-      "sha256": "4b6fce70027853367ace82a945877b65ef784527502cc01d4002f40ed5816275"
+      "sha256": "9d54c6a1aba50e6803daef5867e54f0bf0433a9063130fa40c04597fab082793"
     },
     {
       "path": "releases/knight-web/game.icon.png",
@@ -36858,8 +36858,8 @@
     },
     {
       "path": "releases/knight-web/game.pck",
-      "bytes": 108278380,
-      "sha256": "d0c4eada4ba8f7d899b55d520cff46103e83a4d64937821542ed8f59185f5281"
+      "bytes": 108505656,
+      "sha256": "b7a3cfc158a4b062bf8bc02bb6bc8a9e805514ca211d768fff2f6975b2b13fd9"
     },
     {
       "path": "releases/knight-web/game.png",
@@ -62717,14 +62717,24 @@
       "sha256": "7e5e50c24e68518c8a825d1e2f30a14a1dfea5cfd37b1ba48fce104a20edfcf9"
     },
     {
+      "path": "godot-belt-map/assets/npcs/mira-idle.json",
+      "bytes": 227,
+      "sha256": "c8d2ef00786add4a5526d46257a234c3c319fc538b70b9ae62f29d6583736f21"
+    },
+    {
+      "path": "godot-belt-map/assets/npcs/oren-idle.json",
+      "bytes": 227,
+      "sha256": "c1f7af395fd984bbe4f1327ace1bd141660ffbbef4042921b89e8dda42b68b3a"
+    },
+    {
       "path": "releases/晨钟城-原创城镇与古塔演示-20261013.sha256.txt",
-      "bytes": 118,
-      "sha256": "4190d6ca1d3fa77c0bde676977a904561caa9300749399cb144ad85c13dcd206"
+      "bytes": 117,
+      "sha256": "32d8b91ceaa53a251a286dca061ec2f137f88bdf4c8ccb26f778c7ba7e4b2bf5"
     },
     {
       "path": "releases/晨钟城-原创城镇与古塔演示-20261013.zip",
-      "bytes": 117832141,
-      "sha256": "54eecc061e98c4ecb73e99c51455c716cd18dbd99d7e6ad365dfd680e24345b3"
+      "bytes": 117995677,
+      "sha256": "4e7fc487c300d11798803c3d4a06c769c0671b29a8cc8cfa2a4bdf23460d4fe8"
     },
     {
       "path": "运行游戏.cmd",

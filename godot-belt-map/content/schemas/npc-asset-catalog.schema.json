@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:rpgmakerluna:schema:npc-asset-catalog",
+  "title": "Trusted NPC Asset Catalog",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "catalog_id", "release_attestation_path", "entries"],
+  "properties": {
+    "schema_version": {"const": "npc-asset-catalog/1"},
+    "catalog_id": {"type": "string", "pattern": "^npc-assets\\.[a-z0-9_.-]+$", "maxLength": 128},
+    "release_attestation_path": {"const":"res://assets/roster/release-attestation.json"},
+    "entries": {"type": "array", "minItems": 1, "maxItems": 64, "items": {"type": "object", "additionalProperties": false,
+      "required": ["profile_id", "base_asset_id", "action_manifest_asset_id", "renderer", "base_path", "manifest_path", "roster_id", "default_action", "actions", "release_status", "quality_report_path"],
+      "properties": {
+        "profile_id": {"type":"string", "pattern":"^profile\\.npc\\.[a-z0-9_.-]+$"},
+        "base_asset_id": {"type":"string", "pattern":"^asset\\.npc\\.[a-z0-9_.-]+$"},
+        "action_manifest_asset_id": {"type":"string", "pattern":"^asset\\.npc\\.[a-z0-9_.-]+$"},
+        "renderer": {"enum":["legacy_idle", "roster_actions"]},
+        "base_path": {"type":"string", "pattern":"^res://assets/(npcs|roster)/[a-z0-9_./-]+\\.png$"},
+        "manifest_path": {"type":"string", "pattern":"^res://assets/(npcs|roster)/[a-z0-9_./-]+\\.json$"},
+        "roster_id": {"type":"string", "maxLength":64},
+        "default_action": {"type":"string", "minLength":1, "maxLength":32},
+        "actions": {"type":"array", "minItems":1, "maxItems":16, "uniqueItems":true, "items":{"type":"string", "pattern":"^[a-z][a-z0-9_]*$"}},
+        "release_status": {"const":"approved"},
+        "quality_report_path": {"type":"string", "maxLength":256}
+      }
+    }}
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:rpgmakerluna:schema:runtime-patch",
+  "title": "Validated Runtime Patch",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "patch_id", "base_content_revision", "operations"],
+  "properties": {
+    "schema_version": {"const": "runtime-patch/1"},
+    "patch_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "base_content_revision": {"type": "integer", "minimum": 0},
+    "operations": {
+      "type": "array", "minItems": 1, "maxItems": 64,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["op", "target_type", "target_id", "path", "value"],
+        "properties": {
+          "op": {"const": "replace"},
+          "target_type": {"const": "skill"},
+          "target_id": {"type": "string", "pattern": "^skill\\.[a-z0-9_.-]+$"},
+          "path": {"enum": ["/resource_cost/amount", "/cooldown_seconds", "/combat/base_damage", "/combat/depth_radius", "/combat/chain_count", "/combat/chain_radius_m"]},
+          "value": {"type": "number"}
+        }
+      }
+    }
+  }
+}

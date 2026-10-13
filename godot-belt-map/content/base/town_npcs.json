@@ -1,0 +1,83 @@
+{
+  "schema_version": "rpg-content-bundle/1",
+  "bundle_id": "base.courtyard.town-npcs",
+  "content_type": "npcs",
+  "entries": [
+    {
+      "id": "innkeeper",
+      "kind": "npc",
+      "display_name": "艾琳 · 旅店主人",
+      "position_m": [5.2, 4.1],
+      "visual": {
+        "profile_id": "profile.npc.innkeeper",
+        "base_asset_id": "asset.npc.innkeeper.base",
+        "idle_manifest_asset_id": "asset.npc.innkeeper.idle_manifest",
+        "ambient_action": "idle",
+        "pivot_px": [520.0, 1500.0],
+        "drawn_height_px": 1458.0,
+        "portrait_region_px": [300.0, 40.0, 410.0, 455.0]
+      },
+      "ambient_lines": [
+        "欢迎来到苍石庭院。我是艾琳，旅店就在身后。先在这里熟悉一下身手吧。",
+        "旧木箱已经没人用了，打碎后留下的杂物可以收进背包。别对着镇民挥剑就好。",
+        "庭院东边住着铁匠雷恩。如果找到了新装备，可以去和他聊聊。"
+      ]
+    },
+    {
+      "id": "smith",
+      "kind": "npc",
+      "display_name": "雷恩 · 铁匠",
+      "position_m": [18.5, 6.4],
+      "visual": {
+        "profile_id": "profile.npc.smith",
+        "base_asset_id": "asset.npc.smith.base",
+        "idle_manifest_asset_id": "asset.npc.smith.idle_manifest",
+        "ambient_action": "idle",
+        "pivot_px": [520.0, 1510.0],
+        "drawn_height_px": 1500.0,
+        "portrait_region_px": [300.0, 5.0, 410.0, 450.0]
+      },
+      "ambient_lines": [
+        "我是雷恩。剑刃要锋利，握剑的手也要稳。欢迎来我的小作坊。",
+        "庭院的宝箱里留了些武器与装备，靠近后交互就能打开。拿到手，记得检查背包。",
+        "木箱能踩，也能打碎。喷泉池沿和中间的石柱都是实体，池水里不能落脚。"
+      ]
+    },
+    {
+      "id": "mira",
+      "kind": "npc",
+      "display_name": "米拉 · 药剂师",
+      "position_m": [6.0, 5.1],
+      "visual": {
+        "profile_id": "profile.npc.mira",
+        "base_asset_id": "asset.npc.mira.base",
+        "idle_manifest_asset_id": "asset.npc.mira.idle_manifest",
+        "ambient_action": "idle",
+        "pivot_px": [510.0, 1520.0],
+        "drawn_height_px": 1500.0,
+        "portrait_region_px": [240.0, 20.0, 560.0, 650.0]
+      },
+      "ambient_lines": [
+        "欢迎来到晨钟城，出发前来补充药剂吧。"
+      ]
+    },
+    {
+      "id": "oren",
+      "kind": "npc",
+      "display_name": "奥伦 · 卫队长",
+      "position_m": [18.5, 5.5],
+      "visual": {
+        "profile_id": "profile.npc.oren",
+        "base_asset_id": "asset.npc.oren.base",
+        "idle_manifest_asset_id": "asset.npc.oren.idle_manifest",
+        "ambient_action": "idle",
+        "pivot_px": [510.0, 1520.0],
+        "drawn_height_px": 1500.0,
+        "portrait_region_px": [240.0, 10.0, 560.0, 650.0]
+      },
+      "ambient_lines": [
+        "古塔的钟声已经失控，我们需要你的援手。"
+      ]
+    }
+  ]
+}

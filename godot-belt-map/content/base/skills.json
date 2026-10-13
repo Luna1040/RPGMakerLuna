@@ -1,0 +1,27 @@
+{
+  "schema_version": "rpg-content-bundle/1",
+  "bundle_id": "base.knight.skills",
+  "content_type": "skills",
+  "entries": [
+    {
+      "id": "skill.knight.lightning",
+      "kind": "skill",
+      "display_name": "雷光",
+      "description": "向前释放雷光，命中后可在邻近目标之间弹射。",
+      "action_profile_id": "action.knight.cast",
+      "resource_cost": {"type": "mp", "amount": 25.0},
+      "cooldown_seconds": 2.4,
+      "combat": {
+        "base_damage": 42.0,
+        "depth_radius": 0.65,
+        "chain_count": 1,
+        "chain_radius_m": 3.2,
+        "tags": ["magic", "lightning", "projectile"]
+      },
+      "presentation": {
+        "vfx_id": "vfx.knight.lightning_projectile",
+        "sfx_id": "sfx.knight.lightning_cast"
+      }
+    }
+  ]
+}

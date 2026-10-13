@@ -8,9 +8,20 @@
 - `releases/knight-web/`：网页试玩成品，入口 `index.html`；通过 HTTP/HTTPS 静态服务器运行。
 - `releases/晨钟城-原创城镇与古塔演示-20261013.zip`：最新网页试玩包，可上传静态托管；底层框架版及 20261009 包保留为历史版。
 - [`godot-belt-map/FOUNDATIONS.md`](godot-belt-map/FOUNDATIONS.md)：底层架构、接口、存档边界、剧情扩写和测试方法。
+- [`godot-belt-map/README.md`](godot-belt-map/README.md)：团队克隆、Godot 导入、分支协作与完整验收说明。
 - `CHARACTER_PIPELINE.md`：角色素材生产流程。
 - [`NPC_ROSTER_INTEGRATION.md`](NPC_ROSTER_INTEGRATION.md)：五角色动作、队友机制、资源格式和验收方法。
 - `godot-belt-map/使用与对接说明.txt`：最新操作、机制、测试与集成记录。
+
+## 团队游戏制作工具
+
+- [`releases/game-production-skill.zip`](releases/game-production-skill.zip)：可公开分享的 Codex Skill 安装包，包含安装说明、角色与地图生产流程、Godot 制作经验、团队 API 客户端、帧处理工具和 H3 API 工作流，不包含模型、游戏素材、服务器地址或连接密钥。
+- [`shareable-skills/game-production/`](shareable-skills/game-production/)：公开包的可维护源码。维护者修改后运行 `python3 package-game-skill.py`，重新生成 ZIP 和 SHA-256 校验文件；脚本同时在本机私有目录生成仅限私发的连接包。
+- `.team-comfy-private/`：维护者本地的私有连接配置目录，已加入 `.gitignore`，不得提交。服务器 auth token、STCP secretKey、visitor 配置和连接程序只能私发给可信成员。
+
+安装时解压公开包，把其中的 `game-production` 文件夹复制到 `~/.codex/skills/` 或 `%USERPROFILE%\.codex\skills\`，重新打开会话后调用 `$game-production`。团队成员另行取得私有连接包并启动 visitor 后，客户端默认访问成员自己电脑的 `http://127.0.0.1:19316`；主机维护 API 为 `http://127.0.0.1:9316`，两者都不应绑定公网地址。
+
+该服务采用可信团队共享队列，没有分用户任务隔离、配额或单独撤销能力。不要取消其他成员的任务；异地成员首次使用必须先运行 `python scripts/comfy_client.py check --workflow assets/h3-reference-api.json`。当前验收覆盖 Skill 格式、4 项帧工具测试和既有远程回路记录，不代表已经在每位成员电脑上执行过完整 H3 视频生成。
 
 ## Windows / macOS 正确开始
 
@@ -27,11 +38,14 @@
 git lfs install
 git clone https://github.com/Luna1040/RPGMakerLuna.git
 cd RPGMakerLuna
+git switch b/content-patch-foundation
 git lfs pull
 git lfs fsck
 ```
 
-等待素材下载结束、`git lfs fsck` 校验通过，再启动工程。仓库包含大量历史图片和视频，首次下载可能较久。不要用 GitHub 的「Download ZIP」代替以上步骤，以免拿到 LFS 指针而缺少真实素材。
+`b/content-patch-foundation` 是当前成员 B 成果所在分支；合并后可使用默认分支。等待素材下载结束、`git lfs fsck` 校验通过，再启动工程。仓库包含大量历史图片和视频，首次下载可能较久。不要用 GitHub 的「Download ZIP」代替以上步骤，以免拿到 LFS 指针而缺少真实素材。
+
+开发者还应运行 `python3 godot-belt-map/tools/verify_checkout.py`（Windows 可用 `py -3`），确认工程文件齐全且不存在未还原的 LFS 指针。
 
 ### Windows：启动游戏
 
@@ -53,7 +67,7 @@ macOS 使用同一份 GDScript 和素材，不使用 Windows 的 `.cmd` 启动�
 /Applications/Godot.app/Contents/MacOS/Godot --editor --path godot-belt-map
 ```
 
-当前已在 Windows 验证，**尚未在 Mac 实机验证**。本节针对现成游戏工程；仓库里的 AI 素材生产脚本包含 Windows 路径及 NVIDIA/CUDA 环境依赖，不能据此认为整套生图环境也能直接在 Mac 运行。
+当前已在 Windows 验证，并在 macOS 15.7.4 Apple Silicon、Godot 4.7.2 上完成全新克隆、首次资源导入与自动化回归。本节针对现成游戏工程；仓库里的 AI 素材生产脚本包含 Windows 路径及 NVIDIA/CUDA 环境依赖，不能据此认为整套生图环境也能直接在 Mac 运行。
 
 导入步骤也可参考 [Godot 官方项目管理器说明](https://docs.godotengine.org/en/stable/tutorials/editor/project_manager.html)。
 
@@ -73,7 +87,7 @@ macOS（终端）：
 python3 -m http.server 8793 --bind 127.0.0.1 --directory releases/knight-web
 ```
 
-保持终端打开，在浏览器访问 [本机试玩](http://127.0.0.1:8793/)，点击开始后再操作。结束时在终端按 `Ctrl+C`。这两个命令只供本机访问；对外分发可将 `releases/苍石庭院-角色与队友试玩-20261011.zip` 解压上传静态托管服务。**不要直接双击 HTML，以 `file://` 打开不能正常加载游戏。**
+保持终端打开，在浏览器访问 [本机试玩](http://127.0.0.1:8793/)，点击开始后再操作。结束时在终端按 `Ctrl+C`。这两个命令只供本机访问；对外分发可将 `releases/晨钟城-原创城镇与古塔演示-20261013.zip` 解压上传静态托管服务。**不要直接双击 HTML，以 `file://` 打开不能正常加载游戏。**
 
 ### 基本操作
 
@@ -152,7 +166,7 @@ Esc 关闭菜单在按钮获得键盘焦点后仍有效；网页外层重新点�
 
 存档仅在城镇或清场后的安全检查点写入。新启动不会自动覆盖已有角色槽；继续游戏请在 Esc → 存档中读取。网页存档保留在当前浏览器的站点数据，不是云存档。
 
-**当前边界**：敌人死亡使用受击末帧淡出，瑟琳倒下使用灰暗受击末帧，尚无单独死亡动画。瑟琳暂不提供个人装备栏或独立升级；古塔复用庭院美术。换装尚不改变角色外观；未实现联机、账号云同步或手机触控。Windows 已验证，macOS 仍需实机验收。
+**当前边界**：敌人死亡使用受击末帧淡出，瑟琳倒下使用灰暗受击末帧，尚无单独死亡动画。瑟琳暂不提供个人装备栏或独立升级；古塔复用庭院美术。换装尚不改变角色外观；未实现联机、账号云同步或手机触控。Windows 已验证；macOS 已完成干净克隆、首次导入和自动化回归。
 
 开发者在 `godot-belt-map` 目录运行：
 
@@ -160,13 +174,13 @@ Esc 关闭菜单在按钮获得键盘焦点后仍有效；网页外层重新点�
 python tests/run_tests.py --godot /absolute/path/to/godot --suite all
 ```
 
-完整回归含 24 组测试与 1 次资源导入检查；工具会同时检查退出码、错误日志和 PASS 标记，避免把 Godot 退出码 0 误当作成功。角色素材还需通过原稿逐像素与动作记录一致性检查，详见 [角色交接](NPC_ROSTER_INTEGRATION.md) 和 [底层说明](godot-belt-map/FOUNDATIONS.md)。
+完整回归含 37 项 Godot core/gameplay 测试与 1 次资源导入检查；当前正常结果为 `PASS: 38 passed, 0 failed.`。工具会同时检查退出码、错误日志和 PASS 标记，避免把 Godot 退出码 0 误当作成功。角色素材还需通过原稿逐像素与动作记录一致性检查，详见 [角色交接](NPC_ROSTER_INTEGRATION.md) 和 [底层说明](godot-belt-map/FOUNDATIONS.md)。
 
 ### 新手路线与对话
 
 找东边铁匠雷恩按 E，空格逐句阅读，选择「接受：雷恩的试炼」并确认。庭院西侧蓝色门进入旧林道，清敌后出口返回，找雷恩交付。庭院东南关口随之解锁，通往晨钟城；晨钟城西门可返回庭院。两城东侧门通往古塔，副本首轮自动开始，战斗中出口封锁，Esc 可撤退。任务状态、队友资源和出发城镇随过图保留。
 
-对话两侧立绘按说话者明暗切换；空格先补全当前句、再进入下一句，按住不连跳，Esc 不会确认任务。新区域复用现有地图素材布置，晨钟城的新 NPC 与专属美术尚待扩写。新增路线回归后完整测试为 26 项。
+对话两侧立绘按说话者明暗切换；空格先补全当前句、再进入下一句，按住不连跳，Esc 不会确认任务。晨钟城、古塔内景与米拉/奥伦立绘均已接入本轮原创素材。
 
 
 ### 晨钟城演示流程（2026-10-13）
