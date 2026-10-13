@@ -268,7 +268,7 @@ func render_network() -> void:
 	words("点击节点查看完整说明。亮金：已完成  ·  青色：进行中 / 可用  ·  灰色：未解锁  ·  红色：互斥锁定",Color("a2bed0"),16)
 
 func render_trade() -> void:
-	if runtime.zone!="town":
+	if not runtime.Registry.is_safe(runtime.zone):
 		words("商店与锻造只在城镇开放。")
 		return
 	words("铜币 %d · 木料 %d · 碎布 %d · 秘银碎屑 %d" % [runtime.stage.loot.materials["旧铜币"],runtime.stage.loot.materials["木料"],runtime.stage.loot.materials["碎布"],runtime.stage.loot.materials["秘银碎屑"]],Color("f7d78e"),21)

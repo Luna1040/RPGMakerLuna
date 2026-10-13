@@ -104,6 +104,18 @@ func run() -> void:
 	await settle()
 	check(runtime.zone=="city" and runtime.validate_snapshot(runtime.snapshot()),"New city must be a valid persistent zone")
 	check(stage.townsfolk.residents.size()==2 and stage.townsfolk.residents[0].id=="mira","City has original NPCs")
+	runtime.open_npc(stage.townsfolk.residents[0])
+	runtime.choose_dialogue("mira_shop")
+	check(runtime.panel.tab=="trade","Mira opens city shop")
+	var buttons=runtime.panel.body.find_children("*","Button",true,false)
+	check(not buttons.is_empty(),"City shop renders purchasable goods, not town-only error")
+	var coins_before:int=stage.loot.materials["旧铜币"]
+	for button in buttons:
+		if not button.disabled:
+			button.pressed.emit()
+			break
+	check(stage.loot.materials["旧铜币"]<coins_before,"Actual city shop button completes purchase")
+	runtime.panel.close()
 	check(runtime.adventure.accept_quest("city_tower"),"City tower quest accepts")
 	runtime.demo_companion(0)
 	check(runtime.companion_recruited and runtime.encounters.companion_enabled,"F10 joins a real combat companion")

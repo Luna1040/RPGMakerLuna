@@ -36844,7 +36844,7 @@
     {
       "path": "releases/knight-web/game.html",
       "bytes": 5486,
-      "sha256": "53fc18f00ebc6c0e89696ad6c78418eef22d17a707af1e1b3756bc5c9bd912dc"
+      "sha256": "afd600797c9488447c6815167b89078522a8b277c89c795c0b4fa5c113215892"
     },
     {
       "path": "releases/knight-web/game.icon.png",
@@ -36858,8 +36858,8 @@
     },
     {
       "path": "releases/knight-web/game.pck",
-      "bytes": 108278108,
-      "sha256": "f490bb89b8be2a05c97d7c4d987854a188ec718e5cd26689fbaece9ad775f7e2"
+      "bytes": 108278140,
+      "sha256": "3ae0275962fd076ee06a26cf3250452df26653154d4477344822a19810fb04a8"
     },
     {
       "path": "releases/knight-web/game.png",
@@ -37153,8 +37153,8 @@
     },
     {
       "path": "godot-belt-map/systems/session_panel.gd",
-      "bytes": 17715,
-      "sha256": "d7b6ec3f64dc1c6fb91aa8f6c64da0ac4bc300dd3a4788d5e3da97e74af1596e"
+      "bytes": 17737,
+      "sha256": "8f73fda0f21034bc50c59a7978db1865891625c2951bb42e7064c073bfc9ad47"
     },
     {
       "path": "godot-belt-map/systems/session_panel.gd.uid",
@@ -62534,7 +62534,7 @@
     {
       "path": "character-generation-research/h3-runtime/npc-roster-v1/journey-release-validation.json",
       "bytes": 298,
-      "sha256": "852eaf878223a186b4b2ac2d7bca1747f60709750370e9a2adcf1f49cecb22ec"
+      "sha256": "f9c28304267ae6e47f3ba3cb6207898d799fa7bd00f24add30b9f3d86cbb3c17"
     },
     {
       "path": "godot-belt-map/captures/.gdignore",
@@ -62593,8 +62593,8 @@
     },
     {
       "path": "godot-belt-map/tests/journey_test.gd",
-      "bytes": 8218,
-      "sha256": "d7795795cd8e3fe340f90c857ea93d1b6f6b83b9f326a566ad08ca8073b486c6"
+      "bytes": 8798,
+      "sha256": "6351cfd7f4c45bb72cd670d5e013b3c919c67413d7ac59d1cd34856ec9372c64"
     },
     {
       "path": "godot-belt-map/tests/journey_test.gd.uid",
@@ -62719,12 +62719,12 @@
     {
       "path": "releases/晨钟城-原创城镇与古塔演示-20261013.sha256.txt",
       "bytes": 118,
-      "sha256": "367238f495c4816b0325d6105af95f1731a66949e77a4bd393ca4ed0d924f44e"
+      "sha256": "da968e9a4a24a92e178cd148b7bb54dcbfb26f3c56b67686a97e830c169a861f"
     },
     {
       "path": "releases/晨钟城-原创城镇与古塔演示-20261013.zip",
-      "bytes": 117831826,
-      "sha256": "975a612cde34f4286968e56c9a0a9878d971581d371b5171c6a7c9a403b82095"
+      "bytes": 117831879,
+      "sha256": "8c5616d1655d28599c73c01c8c974bbe028d36e0821e1387bbd2ffedc841e4c2"
     },
     {
       "path": "运行游戏.cmd",

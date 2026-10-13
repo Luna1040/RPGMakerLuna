@@ -2,7 +2,7 @@
   "release_ready": true,
   "checked_frames": 351,
   "regression_checks": 26,
-  "regression_started_at": "2026-10-13T06:44:40.361188+00:00",
+  "regression_started_at": "2026-10-13T06:51:51.867415+00:00",
   "zip": "晨钟城-原创城镇与古塔演示-20261013.zip",
-  "zip_sha256": "975a612cde34f4286968e56c9a0a9878d971581d371b5171c6a7c9a403b82095"
+  "zip_sha256": "8c5616d1655d28599c73c01c8c974bbe028d36e0821e1387bbd2ffedc841e4c2"
 }
