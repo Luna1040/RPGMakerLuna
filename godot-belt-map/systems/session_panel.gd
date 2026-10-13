@@ -1,6 +1,8 @@
 extends CanvasLayer
 ## All menus share one modal gate, so paused combat never leaks through buttons.
 var runtime
+var menu_root: PanelContainer
+var dialogue_view
 var overlay:=Control.new()
 var body:=VBoxContainer.new()
 var scroll:=ScrollContainer.new()
@@ -58,6 +60,7 @@ func setup(service) -> void:
 	overlay.add_child(dim)
 	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var panel:=PanelContainer.new()
+	menu_root=panel
 	panel.position=Vector2(100,66)
 	panel.size=Vector2(1080,678)
 	var style:=StyleBoxFlat.new()
@@ -99,6 +102,9 @@ func setup(service) -> void:
 	message.add_theme_color_override("font_color",Color("a9d9dc"))
 	layout.add_child(HSeparator.new())
 	layout.add_child(message)
+	dialogue_view=preload("story_dialogue.gd").new()
+	overlay.add_child(dialogue_view)
+	dialogue_view.setup(self)
 	overlay.hide()
 	var agent_transport=get_node_or_null("/root/AgentTransportService")
 	if agent_transport!=null:
@@ -122,6 +128,8 @@ func open(id: String) -> void:
 	runtime.stage.sprint.reset()
 	runtime.stage.knight.set_movement_axis(0)
 	overlay.show()
+	menu_root.visible=id!="dialogue"
+	dialogue_view.visible=id=="dialogue"
 	refresh()
 
 func close() -> void:
@@ -140,6 +148,11 @@ func button(parent: Node, text: String, action: Callable, enabled: bool = true) 
 	b.custom_minimum_size.y=38
 	b.add_theme_font_size_override("font_size",18)
 	b.disabled=not enabled
+	var focus_style:=StyleBoxFlat.new()
+	focus_style.bg_color=Color("665333")
+	focus_style.border_color=Color("f5cf7e")
+	focus_style.set_border_width_all(2)
+	b.add_theme_stylebox_override("focus",focus_style)
 	b.pressed.connect(action)
 	parent.add_child(b)
 	return b
@@ -177,9 +190,18 @@ func refresh() -> void:
 		"settings": render_settings()
 		"dialogue": render_dialogue()
 	update_status()
+	if tab=="trade": call_deferred("focus_trade")
+
+func focus_trade() -> void:
+	if not is_open() or tab!="trade": return
+	for control in body.find_children("*","Button",true,false):
+		if not control.disabled:
+			control.grab_focus()
+			return
 
 func update_status() -> void:
-	status.text="Lv.%d  经验 %d/%d   铜币 %d   %s  ·  %s" % [runtime.progression.level,runtime.progression.xp,runtime.progression.xp_to_next(),runtime.stage.loot.materials.get("旧铜币",0),runtime.current_zone_name(), "城镇休整" if runtime.is_home_zone() else "探索中"]
+	var activity := "城镇休整" if runtime.is_home_zone() else "第 %d / %d 轮" % [runtime.run_state.wave,runtime.Registry.waves(runtime.zone)] if runtime.Registry.is_dungeon(runtime.zone) else "探索中"
+	status.text="Lv.%d  经验 %d/%d   铜币 %d   %s  ·  %s" % [runtime.progression.level,runtime.progression.xp,runtime.progression.xp_to_next(),runtime.stage.loot.materials.get("旧铜币",0),runtime.current_zone_name(),activity]
 
 func _process(delta: float) -> void:
 	summary_clock+=delta
@@ -200,19 +222,24 @@ func render_adventure() -> void:
 			for route: Dictionary in routes:
 				var target: String = str(route.zone_id)
 				button(body, "前往 · " + str(route.name), func(): runtime.travel(target))
+		if runtime.is_home_zone():
+			button(body, "城镇休息 · 10 铜币", rest)
 	elif runtime.is_home_zone():
-		words("先靠近艾琳或雷恩按 %s 交谈。不同选择会汇入同一场危机，支线可以交叉推进。" % runtime.controls.key_name("interact"))
+		words("西门：旧林道；东门：古塔；东南关口：晨钟城。靠近发光门按 %s 进入；完成雷恩的试炼并交付可开放城镇道路。" % runtime.controls.key_name("interact"))
 		var actions:=row()
-		button(actions,"进入古塔试炼",func(): runtime.start_trial())
+		button(actions,"调试入口 · 古塔试炼",func(): runtime.start_trial())
 		button(actions,"旅店休息 · 10 铜币",rest)
 	else:
 		var phase:String=runtime.run_state.phase
-		words({"ready":"休整完毕即可开始下一轮。","combat":"战斗已暂停；返回游戏继续应战。","boon":"本轮清场。选择一个祝福，为下一轮做好准备。","victory":"古塔已平定！回城后向委托人交付任务。","defeat":"挑战失败。回城重新整备，或读取上个检查点。"}.get(phase,"可返回庭院"),Color("f7d78e"),21)
+		words({"ready":"休整后自动开始下一轮，也可立即开始。","combat":"战斗已暂停；返回游戏继续应战。","boon":"本轮清场。选择一个祝福，为下一轮做好准备。","victory":"古塔已平定！回城后向委托人交付任务。","defeat":"挑战失败。回城重新整备，或读取上个检查点。"}.get(phase,"可返回庭院"),Color("f7d78e"),21)
 		if phase=="boon":
 			for id in runtime.run_state.offers:
 				var boon:String=id
-				button(body,runtime.BOONS[id].name+" · "+runtime.BOONS[id].text,func(): runtime.choose_boon(boon); refresh())
-		if phase=="ready": button(body,"开始第 %d 轮" % (runtime.run_state.wave+1),func(): runtime.start_wave())
+				button(body,runtime.BOONS[id].name+" · "+runtime.BOONS[id].text,func(): runtime.choose_boon(boon); close())
+		if phase=="ready":
+			if runtime.run_state.get("rooms",false) and int(runtime.run_state.wave)>0:
+				button(body,"返回房间 · 从发光的门继续前进",close)
+			else: button(body,"开始第 %d 轮" % (runtime.run_state.wave+1),func(): runtime.start_wave())
 		if not runtime.run_state.boons.is_empty():
 			var titles: Array[String]=[]
 			for id in runtime.run_state.boons: titles.append(runtime.BOONS[id].name)
@@ -804,17 +831,4 @@ func capture_key(event: InputEventKey) -> bool:
 	return true
 
 func render_dialogue() -> void:
-	var data:Dictionary=runtime.adventure.dialogue_for(npc_id)
-	if npc_portrait is Texture2D:
-		var portrait:=TextureRect.new()
-		portrait.texture=npc_portrait
-		portrait.custom_minimum_size=Vector2(180,140)
-		portrait.expand_mode=TextureRect.EXPAND_IGNORE_SIZE
-		portrait.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		body.add_child(portrait)
-	words(str(data.get("name",npc_id)),Color("f7d78e"),24)
-	words(str(data.get("text","")))
-	for choice in data.get("choices",[]):
-		var id:String=choice.id
-		var enabled:=bool(choice.get("enabled",true))
-		button(body,str(choice.get("label",id))+(" · "+str(choice.get("reason","")) if not enabled else ""),func(): runtime.choose_dialogue(id),enabled)
+	dialogue_view.begin()

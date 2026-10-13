@@ -33,6 +33,8 @@ func set_up(gear: RefCounted, world_loot: Node, levels: RefCounted) -> void:
 		push_error("Adventure catalog: " + "; ".join(validation_errors))
 		catalog = {}
 		return
+	for npc: String in catalog.npcs:
+		if not reputation.has(npc): reputation[npc]=0
 	for id: String in catalog.flags:
 		if not flags.has(id):
 			flags[id] = false

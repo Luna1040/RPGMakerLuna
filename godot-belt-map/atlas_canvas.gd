@@ -58,7 +58,7 @@ func _draw() -> void:
 	style.set_corner_radius_all(8)
 	draw_style_box(style,Rect2(Vector2.ZERO,size))
 	if compact:
-		text_at("苍石庭院",Vector2(12,22),Color("e9d79f"),16)
+		text_at(stage.runtime.Registry.title(stage.runtime.zone) if stage.runtime!=null else "苍石庭院",Vector2(12,22),Color("e9d79f"),16)
 		text_at("M · 地图",Vector2(size.x-80,22),Color("a9c4b7"),13)
 		area=Rect2(12,32,size.x-24,size.y-47)
 	else:
@@ -67,30 +67,42 @@ func _draw() -> void:
 		var fit := Vector2(area.size.x,area.size.x/aspect)
 		if fit.y>area.size.y: fit=Vector2(area.size.y*aspect,area.size.y)
 		area=Rect2((size-fit)/2,fit)
+
 	if world_view:
 		draw_world()
 	else:
 		draw_local()
+	if not world_view and stage.runtime!=null and stage.runtime.portals!=null:
+		for link in stage.runtime.portals.links:
+			var at:=map_point(Vector2(link.x,link.depth))
+			draw_circle(at,4 if compact else 7,Color("dfa55d") if stage.runtime.portals.locked(link) else Color("68e5ff"))
+			if not compact: text_at(str(link.label),at+Vector2(-70,-12),Color("b6efff"),15)
+
 	# Inset neatline and north pointer.
 	draw_rect(area,Color("899c86"),false,1)
 	text_at("N ↑",Vector2(size.x-53,size.y-5),Color("a7baab"),11 if compact else 14)
+
+func local_branch_roads() -> Array:
+	# These approaches belong to the courtyard buildings, not every map.
+	return [4.0,20.8] if stage.contract.get("zone_id", "town") == "town" else []
 
 func draw_local() -> void:
 	draw_rect(area,Color("667a5c"))
 	# Fine muted terrain blocks, all keyed to the same courtyard ground coordinates.
 	for y in 18:
 		for x in 48:
-			var c := Color("657c60").lightened((sin(x*19.0+y*13.0)+1)*.035)
+			var c := Color("b6b09b" if stage.contract.get("zone_id","")=="city" else "657c60").lightened((sin(x*19.0+y*13.0)+1)*.035)
 			draw_rect(Rect2(area.position+Vector2(x/48.0,y/18.0)*area.size,area.size/Vector2(48,18)+Vector2.ONE),c)
-	var road_y := map_point(Vector2(0,5.4)).y
-	draw_line(Vector2(area.position.x,road_y),Vector2(area.end.x,road_y),Color("a6a282"),area.size.y*.27)
-	draw_line(Vector2(area.position.x,road_y),Vector2(area.end.x,road_y),Color("bbb28c"),area.size.y*.19)
-	if not compact:
-		for i in 54:
-			var x := area.position.x+i*area.size.x/54
-			draw_line(Vector2(x,road_y-area.size.y*.08),Vector2(x,road_y+area.size.y*.08),Color(0.3,0.3,0.23,.12),1)
-	for x in [4.0,20.8]:
-		draw_line(map_point(Vector2(x,1.2)),map_point(Vector2(x,5.4)),Color("aaa583"),area.size.x*.033)
+	if not stage.contract.has("background"):
+		var road_y := map_point(Vector2(0,5.4)).y
+		draw_line(Vector2(area.position.x,road_y),Vector2(area.end.x,road_y),Color("a6a282"),area.size.y*.27)
+		draw_line(Vector2(area.position.x,road_y),Vector2(area.end.x,road_y),Color("bbb28c"),area.size.y*.19)
+		if not compact:
+			for i in 54:
+				var x := area.position.x+i*area.size.x/54
+				draw_line(Vector2(x,road_y-area.size.y*.08),Vector2(x,road_y+area.size.y*.08),Color(0.3,0.3,0.23,.12),1)
+		for x in local_branch_roads():
+			draw_line(map_point(Vector2(x,1.2)),map_point(Vector2(x,5.4)),Color("aaa583"),area.size.x*.033)
 	for v: Dictionary in stage.volumes:
 		var origin := map_point(Vector2(v.x,v.depth))
 		var extent: Vector2 = Vector2(v.width,v.depth_size)/stage.bounds.size*area.size

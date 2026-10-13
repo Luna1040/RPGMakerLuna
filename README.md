@@ -1,12 +1,12 @@
 # RPGMakerLuna
 
-原创像素/插画风 RPG 原型、角色制作实验及素材档案。2026-10-11 更新五名原创角色、整帧动作与独立队友战斗。
+原创像素/插画风 RPG 原型、角色制作实验及素材档案。2026-10-13 更新原创晨钟城、NPC 米拉/奥伦、黑幕区域转场、全键盘对话与古塔三房间 Boss 演示；保留五名原创角色和独立队友战斗。
 
 ## 当前主工程
 
 - `godot-belt-map/`：当前 Godot 4.7.2 主工程，包含庭院、古塔试炼、网状叙事、角色成长、存档与开发检查台。
 - `releases/knight-web/`：网页试玩成品，入口 `index.html`；通过 HTTP/HTTPS 静态服务器运行。
-- `releases/苍石庭院-角色与队友试玩-20261011.zip`：最新网页试玩包，可上传静态托管；底层框架版及 20261009 包保留为历史版。
+- `releases/晨钟城-原创城镇与古塔演示-20261013.zip`：最新网页试玩包，可上传静态托管；底层框架版及 20261009 包保留为历史版。
 - [`godot-belt-map/FOUNDATIONS.md`](godot-belt-map/FOUNDATIONS.md)：底层架构、接口、存档边界、剧情扩写和测试方法。
 - [`godot-belt-map/README.md`](godot-belt-map/README.md)：团队克隆、Godot 导入、分支协作与完整验收说明。
 - `CHARACTER_PIPELINE.md`：角色素材生产流程。
@@ -16,7 +16,7 @@
 ## 团队游戏制作工具
 
 - [`releases/game-production-skill.zip`](releases/game-production-skill.zip)：可公开分享的 Codex Skill 安装包，包含安装说明、角色与地图生产流程、Godot 制作经验、团队 API 客户端、帧处理工具和 H3 API 工作流，不包含模型、游戏素材、服务器地址或连接密钥。
-- [`game-production-skill/`](game-production-skill/)：公开包的可维护源码。修改后运行 `python3 package-game-skill.py`，重新生成 ZIP 和 SHA-256 校验文件。
+- [`shareable-skills/game-production/`](shareable-skills/game-production/)：公开包的可维护源码。维护者修改后运行 `python3 package-game-skill.py`，重新生成 ZIP 和 SHA-256 校验文件；脚本同时在本机私有目录生成仅限私发的连接包。
 - `.team-comfy-private/`：维护者本地的私有连接配置目录，已加入 `.gitignore`，不得提交。服务器 auth token、STCP secretKey、visitor 配置和连接程序只能私发给可信成员。
 
 安装时解压公开包，把其中的 `game-production` 文件夹复制到 `~/.codex/skills/` 或 `%USERPROFILE%\.codex\skills\`，重新打开会话后调用 `$game-production`。团队成员另行取得私有连接包并启动 visitor 后，客户端默认访问成员自己电脑的 `http://127.0.0.1:19316`；主机维护 API 为 `http://127.0.0.1:9316`，两者都不应绑定公网地址。
@@ -87,22 +87,22 @@ macOS（终端）：
 python3 -m http.server 8793 --bind 127.0.0.1 --directory releases/knight-web
 ```
 
-保持终端打开，在浏览器访问 [本机试玩](http://127.0.0.1:8793/)，点击开始后再操作。结束时在终端按 `Ctrl+C`。这两个命令只供本机访问；对外分发可将 `releases/苍石庭院-角色与队友试玩-20261011.zip` 解压上传静态托管服务。**不要直接双击 HTML，以 `file://` 打开不能正常加载游戏。**
+保持终端打开，在浏览器访问 [本机试玩](http://127.0.0.1:8793/)，点击开始后再操作。结束时在终端按 `Ctrl+C`。这两个命令只供本机访问；对外分发可将 `releases/晨钟城-原创城镇与古塔演示-20261013.zip` 解压上传静态托管服务。**不要直接双击 HTML，以 `file://` 打开不能正常加载游戏。**
 
 ### 基本操作
 
 | 按键 | 功能 |
 | --- | --- |
-| WASD / 方向键 | 移动；同方向 0.5 秒内双击并保持按住可奔跑 |
-| 空格 | 跳跃 |
-| J | 普通连击；奔跑时冲刺攻击；空中下劈 |
-| K / 1 / 2 / 3 | 施法 / 三个主动技能 |
+| 方向键 | 移动；同方向 0.5 秒内双击并保持按住可奔跑 |
+| C | 跳跃 |
+| X | 普通连击；奔跑时冲刺攻击；空中下劈 |
+| Z / Q / W / R | 上挑 / 月弧斩 / 幻影三连 / 雷光 |
 | E | 交谈、开箱、拾取 |
-| Q | 拾取并穿戴附近装备，或穿戴待装备物 |
+| F | 拾取并穿戴附近装备，或穿戴待装备物 |
 | I / M | 背包和属性 / 大地图 |
 | L / Esc | 冒险手册 / 暂停、存档、设置；再次按下关闭 |
 | 4 / 5 | 生命药水 / 法力药水 |
-| R | 城镇位置复位，生命与法力保持不变 |
+| F9 | 城镇位置复位，生命与法力保持不变 |
 
 开发检查台快捷键见下方「导出与开发」，仅桌面工程提供；Mac 的功能键必要时配合 Fn 使用。
 
@@ -174,4 +174,28 @@ Esc 关闭菜单在按钮获得键盘焦点后仍有效；网页外层重新点�
 python tests/run_tests.py --godot /absolute/path/to/godot --suite all
 ```
 
-完整回归含 36 组自动化测试与 1 次资源导入检查；正常结果为 `PASS: 37 passed, 0 failed.`。工具会同时检查退出码、错误日志和 PASS 标记，避免把 Godot 退出码 0 误当作成功。角色素材还需通过原稿逐像素与动作记录一致性检查，详见 [角色交接](NPC_ROSTER_INTEGRATION.md) 和 [底层说明](godot-belt-map/FOUNDATIONS.md)。
+完整回归含 37 项 Godot core/gameplay 测试与 1 次资源导入检查；当前正常结果为 `PASS: 38 passed, 0 failed.`。工具会同时检查退出码、错误日志和 PASS 标记，避免把 Godot 退出码 0 误当作成功。角色素材还需通过原稿逐像素与动作记录一致性检查，详见 [角色交接](NPC_ROSTER_INTEGRATION.md) 和 [底层说明](godot-belt-map/FOUNDATIONS.md)。
+
+### 新手路线与对话
+
+找东边铁匠雷恩按 E，空格逐句阅读，选择「接受：雷恩的试炼」并确认。庭院西侧蓝色门进入旧林道，清敌后出口返回，找雷恩交付。庭院东南关口随之解锁，通往晨钟城；晨钟城西门可返回庭院。两城东侧门通往古塔，副本首轮自动开始，战斗中出口封锁，Esc 可撤退。任务状态、队友资源和出发城镇随过图保留。
+
+对话两侧立绘按说话者明暗切换；空格先补全当前句、再进入下一句，按住不连跳，Esc 不会确认任务。晨钟城、古塔内景与米拉/奥伦立绘均已接入本轮原创素材。
+
+
+### 晨钟城演示流程（2026-10-13）
+
+晨钟城、古塔内景和 NPC 米拉、奥伦使用本次新生成的原创图片，生成提示保存在 `godot-belt-map/assets/dawn-city/generation-prompts.json`。
+
+从庭院完成雷恩的试炼后进入晨钟城，向奥伦接取「止息古塔钟声」，可到米拉处购买补给。对话按空格逐句推进，方向键选择金色高亮事项，空格确认。古塔分封印前厅、守卫回廊、陨星王座三个相连房间；清场后通过发光的门前进，最后挑战 Boss，回城向奥伦交付。
+
+地图切换有黑幕淡入淡出，进入区域后屏幕中央显示名称。右上角显示古塔房间格子，B 为关底。6 / F10 直接加入/移除瑟琳；7 / F11 循环跟随、守卫、被动；8 / F12 复苏并恢复队友血蓝。这些是演示快捷操作，不消耗任务道具。
+
+新 NPC 当前使用完整原创站姿与立绘；未新增视频生成的职业逐帧待机。房间目前采用三格线性路线，后续可扩展分支及回溯。
+
+## 可分享的游戏制作 Skill
+
+- [安装与分享说明](shareable-skills/分享说明.md)：角色、美术动作、地图、机制、网状任务与发布流程。
+- [Skill 入口](shareable-skills/game-production/SKILL.md) · [可分享压缩包](releases/game-production-skill.zip)。
+- [团队 ComfyUI 接入](shareable-skills/game-production/references/team-api.md)：可信小团队通过 frp STCP 共用生成实例。连接密钥和私有连接包不在仓库中。
+- 根目录团队服务启动与配置脚本针对维护者现有 Windows 环境；其他机器按接入文档配置路径。它们不影响普通游戏运行。

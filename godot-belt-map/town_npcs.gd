@@ -13,7 +13,11 @@ func setup(map_stage: Node2D) -> void:
 	var definitions := _definitions()
 	var ids: Array = definitions.keys()
 	ids.sort()
+	var zone_id := str(stage.contract.get("zone_id", "town"))
+	var city_ids := ["mira", "oren"]
 	for id in ids:
+		if zone_id == "city" and id not in city_ids: continue
+		if zone_id == "town" and id in city_ids: continue
 		_add_resident(definitions[id])
 
 func _definitions() -> Dictionary:

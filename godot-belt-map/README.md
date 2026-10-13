@@ -114,7 +114,7 @@ py -3 godot-belt-map/tests/run_tests.py `
   --suite all
 ```
 
-当前测试基线为一次资源导入检查加 **36 项自动化测试**，正常结果是 `PASS: 37 passed, 0 failed.`。测试报告写入被忽略的 `godot-belt-map/test-results/`。
+当前测试基线为一次资源导入检查加 **37 项自动化测试**，正常结果是 `PASS: 38 passed, 0 failed.`。测试报告写入被忽略的 `godot-belt-map/test-results/`。
 
 ## 常见问题
 

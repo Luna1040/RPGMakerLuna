@@ -1,5 +1,5 @@
 {
-  "snapshot_date": "2026-10-11",
+  "snapshot_date": "2026-10-13",
   "files": [
     {
       "path": "CHARACTER_PIPELINE.md",
@@ -22553,8 +22553,8 @@
     },
     {
       "path": "godot-belt-map/atlas_canvas.gd",
-      "bytes": 8343,
-      "sha256": "a85b8961ef64e6c8af85e882bb3c56a4452375c3d6ab92fbfd6ab446dbc0700b"
+      "bytes": 9272,
+      "sha256": "59f5cdd9e04cfc52d86ed5fd29a5c8e0ddf1b4029fc8a38c5cb9ad6f319a4318"
     },
     {
       "path": "godot-belt-map/atlas_canvas.gd.uid",
@@ -22758,8 +22758,8 @@
     },
     {
       "path": "godot-belt-map/map-contract.json",
-      "bytes": 3743,
-      "sha256": "e1b364b8d0e6639a38fbd4146216ec0a1544584553e1f68ab650679517f0e92d"
+      "bytes": 4400,
+      "sha256": "a57d8ab81f64ff7818af831985d84c24b2750590981568d31d8deab1f91dc207"
     },
     {
       "path": "godot-belt-map/map_interface.gd",
@@ -22818,8 +22818,8 @@
     },
     {
       "path": "godot-belt-map/stage.gd",
-      "bytes": 28463,
-      "sha256": "eb107c117c8421f30c436d8bcbee4b75681e394d1cf682adf8698a2024c17d55"
+      "bytes": 30698,
+      "sha256": "60e81d8bdfb9a3db297352b6c319fcba5821864f4ccbab85bf588f55babffbdc"
     },
     {
       "path": "godot-belt-map/stage.gd.uid",
@@ -22853,8 +22853,8 @@
     },
     {
       "path": "godot-belt-map/town_npcs.gd",
-      "bytes": 5430,
-      "sha256": "4ad1f586199eb01df3586f84b15360a4bf4be0bd83130bdb754e8e54faeaef3e"
+      "bytes": 5996,
+      "sha256": "b3287c89122ece7a6dc49f8ebeb536b87dda4b78626ed18f3f25d9fd88d1d8bd"
     },
     {
       "path": "godot-belt-map/town_npcs.gd.uid",
@@ -22883,8 +22883,8 @@
     },
     {
       "path": "godot-belt-map/使用与对接说明.txt",
-      "bytes": 16291,
-      "sha256": "db7dd26b3d9be2824e5e7c4c70e778f3b1c2677a2a5aeffcde3715bdd4518b32"
+      "bytes": 17380,
+      "sha256": "db31e35b3684fbaf0f8c896f6d9698a8421d31ccc801cd29f30343d170b95c1e"
     },
     {
       "path": "godot-belt-map/assets/backdrop.png",
@@ -22998,8 +22998,8 @@
     },
     {
       "path": "godot-belt-map/assets/fonts/NotoSansSC-subset.ttf",
-      "bytes": 289536,
-      "sha256": "812b395e29f99518655475c847ae533401c1936b088187f7547ccacbb938659b"
+      "bytes": 299088,
+      "sha256": "b9dec6f813446f6d3cc6dd318f7f85f5773096a2563684f9e8d48b60c22eeeb9"
     },
     {
       "path": "godot-belt-map/assets/fonts/NotoSansSC-subset.ttf.import",
@@ -36844,7 +36844,7 @@
     {
       "path": "releases/knight-web/game.html",
       "bytes": 5486,
-      "sha256": "1f7dc05098a6429d81584bdd6709a3d52374670b9036902354c57916e6264975"
+      "sha256": "9d54c6a1aba50e6803daef5867e54f0bf0433a9063130fa40c04597fab082793"
     },
     {
       "path": "releases/knight-web/game.icon.png",
@@ -36858,8 +36858,8 @@
     },
     {
       "path": "releases/knight-web/game.pck",
-      "bytes": 100871784,
-      "sha256": "122faf12a5dc97da307011cc3676f93c9c0e4beabc462bb7a3182b053e9372f3"
+      "bytes": 108505656,
+      "sha256": "b7a3cfc158a4b062bf8bc02bb6bc8a9e805514ca211d768fff2f6975b2b13fd9"
     },
     {
       "path": "releases/knight-web/game.png",
@@ -36878,8 +36878,8 @@
     },
     {
       "path": "releases/knight-web/index.html",
-      "bytes": 4720,
-      "sha256": "f5598fabca45e707039330305284e842f9c88c7c93b1a351ba7a5948049e6a58"
+      "bytes": 5001,
+      "sha256": "1becacf1680fd124241cc7f239023fbcfd9f5c05d936b5413b2c6205ac9886fa"
     },
     {
       "path": "releases/knight-web/试玩说明.txt",
@@ -36933,8 +36933,8 @@
     },
     {
       "path": "godot-belt-map/FOUNDATIONS.md",
-      "bytes": 13318,
-      "sha256": "8ae235f5a0a2ce0fbf3f29f6a3b826a33e14f1fbb6bae0ac015dc3cafa15052f"
+      "bytes": 14736,
+      "sha256": "3cdf370c5be6da11d82157bfc6cf05625c1f093e0cab47362a76dfd7c2e8b499"
     },
     {
       "path": "godot-belt-map/captures/foundation-adventure.png",
@@ -36983,13 +36983,13 @@
     },
     {
       "path": "godot-belt-map/systems/adventure/adventure_data.json",
-      "bytes": 14162,
-      "sha256": "46b5492f42092ef531d91e6c495131890e63d091bbe0d008fdcfd971b4c388db"
+      "bytes": 26444,
+      "sha256": "164d1318450aeec6297e115a25107ae1688559062cd84b51f236b73cb476155d"
     },
     {
       "path": "godot-belt-map/systems/adventure/adventure_state.gd",
-      "bytes": 23201,
-      "sha256": "045ba8687b33f92ddbb78b53225feb09a2b1d11f35401b7183ddb70c3e8d8e52"
+      "bytes": 23806,
+      "sha256": "31227a461277e6042e322293e6407ecb76f747a047bc17e9e80954dde2e092c0"
     },
     {
       "path": "godot-belt-map/systems/adventure/adventure_state.gd.uid",
@@ -37053,8 +37053,8 @@
     },
     {
       "path": "godot-belt-map/systems/data/ruins.json",
-      "bytes": 2107,
-      "sha256": "3225fc20829310ad68fd7535056b141793baa7e697fefd3a4edefaaf09a7907f"
+      "bytes": 1610,
+      "sha256": "e8a3ce2fb8fa1b5152a36da2f8b3d07e61389d16a1538e3f251c58391db5ebd7"
     },
     {
       "path": "godot-belt-map/systems/encounters/README.md",
@@ -37063,8 +37063,8 @@
     },
     {
       "path": "godot-belt-map/systems/encounters/encounters.gd",
-      "bytes": 48902,
-      "sha256": "af081822699a7f6a9235ca1147884662cb2b88ba9f5eab75cec87ed837592263"
+      "bytes": 50991,
+      "sha256": "a7957cb093ad081c711552598af14f489142b0c3731b69f3c12464060dae67eb"
     },
     {
       "path": "godot-belt-map/systems/encounters/encounters.gd.uid",
@@ -37113,8 +37113,8 @@
     },
     {
       "path": "godot-belt-map/systems/game_runtime.gd",
-      "bytes": 22791,
-      "sha256": "e08af52cad80bd512601fc89c776f0b81a92687b542d75dffaf5e23927438c2b"
+      "bytes": 27784,
+      "sha256": "daca49b6b199d633a0fafcc8356c4d01efaac537c7347cc86c817a22d440f418"
     },
     {
       "path": "godot-belt-map/systems/game_runtime.gd.uid",
@@ -37123,8 +37123,8 @@
     },
     {
       "path": "godot-belt-map/systems/game_settings.gd",
-      "bytes": 3666,
-      "sha256": "8c2346e25b6d290772d3782c3a672c844b941cffe3dee6b8e5bcbbde3674d932"
+      "bytes": 3946,
+      "sha256": "224a4205e4e9b7204c2c1fa3d27af86937ff981016ffb4261960c5b305c0c991"
     },
     {
       "path": "godot-belt-map/systems/game_settings.gd.uid",
@@ -37143,8 +37143,8 @@
     },
     {
       "path": "godot-belt-map/systems/session_bridge.gd",
-      "bytes": 235,
-      "sha256": "65d8146d4f3d776f79ee96e7a7229ec345d587f8b6d7af0639d9d26480cde7a0"
+      "bytes": 2747,
+      "sha256": "17dc76dbf5c4617476a899c1d8027609a05bf76d656fb5f579c99d954a4ef079"
     },
     {
       "path": "godot-belt-map/systems/session_bridge.gd.uid",
@@ -37153,8 +37153,8 @@
     },
     {
       "path": "godot-belt-map/systems/session_panel.gd",
-      "bytes": 17002,
-      "sha256": "4945003f8d829e991d2e8af45b54944abb086a676a42fcd167c5748963862eac"
+      "bytes": 17737,
+      "sha256": "8f73fda0f21034bc50c59a7978db1865891625c2951bb42e7064c073bfc9ad47"
     },
     {
       "path": "godot-belt-map/systems/session_panel.gd.uid",
@@ -37163,8 +37163,8 @@
     },
     {
       "path": "godot-belt-map/systems/world_registry.gd",
-      "bytes": 475,
-      "sha256": "328617c62f50acfb48756326ae1241e745918ec9fe4333421daf3466b1e1bffe"
+      "bytes": 928,
+      "sha256": "5f71250bf9861757b86c27d1f7077fe054139700c8fd7e1961299de917d91c6e"
     },
     {
       "path": "godot-belt-map/systems/world_registry.gd.uid",
@@ -37173,8 +37173,8 @@
     },
     {
       "path": "godot-belt-map/tests/adventure_integration_test.gd",
-      "bytes": 8406,
-      "sha256": "ee9e1fcca201cb7ebce5a29f30442a533fb5b8c9217a794bd3220e1b74f6df40"
+      "bytes": 8730,
+      "sha256": "6a549cb6c52d8bf078d0977b198febb574cc3e0a671af52599dfc8c3ae6f8b84"
     },
     {
       "path": "godot-belt-map/tests/adventure_integration_test.gd.uid",
@@ -37183,8 +37183,8 @@
     },
     {
       "path": "godot-belt-map/tests/adventure_state_test.gd",
-      "bytes": 14563,
-      "sha256": "11bd93bcffd54a292227fb0bd18932d12cffde42e4bf7da05cfa13dfdc5a0fd9"
+      "bytes": 14801,
+      "sha256": "6ee80b66d5692d327022b4b831673a44cb2d7437071a7348cb7ca4a60fdde486"
     },
     {
       "path": "godot-belt-map/tests/adventure_state_test.gd.uid",
@@ -37223,8 +37223,8 @@
     },
     {
       "path": "godot-belt-map/tests/encounters_integration_test.gd",
-      "bytes": 8454,
-      "sha256": "e1d92a3b4e31bc47218f4997e69749119d2158ea038d78574f8711710a00a2e7"
+      "bytes": 11336,
+      "sha256": "f03c3ee46e392926079f5b740c589e7dec61fe59d2ae35b9d7631fbbeda03799"
     },
     {
       "path": "godot-belt-map/tests/encounters_integration_test.gd.uid",
@@ -37253,13 +37253,13 @@
     },
     {
       "path": "godot-belt-map/tests/run_tests.py",
-      "bytes": 12611,
-      "sha256": "be95bef95ea311bcb07cdc2614262186817e0c827acbbd4374317597b90ac603"
+      "bytes": 12945,
+      "sha256": "d25694ecfa790f7d2306a4789afe20bb8c41bcc5ed34253ca1400b62c6ad5b2c"
     },
     {
       "path": "godot-belt-map/tests/runtime_foundations_test.gd",
-      "bytes": 6367,
-      "sha256": "812238528ff5fe22b42c55a4240fb8c18b67b3f9fd1f39757f16a43e8fde70ca"
+      "bytes": 6484,
+      "sha256": "b87390a20bce88324eedf76ed935bf1cae6467e55ec2b271e100ded78c1324c5"
     },
     {
       "path": "godot-belt-map/tests/runtime_foundations_test.gd.uid",
@@ -37283,8 +37283,8 @@
     },
     {
       "path": "godot-belt-map/tests/menu_input_test.gd",
-      "bytes": 1389,
-      "sha256": "d9c0bcf1c29e8fbb1740b0bbf76ca8980c676835419f13763ef2b6dc89fdf8d8"
+      "bytes": 3916,
+      "sha256": "ecbc73687c1fadf47a28fd9ed8b93dab076c0727cbbf290fa7c87ff15a6ae812"
     },
     {
       "path": "godot-belt-map/tests/menu_input_test.gd.uid",
@@ -62525,6 +62525,221 @@
       "path": "releases/苍石庭院-角色与队友试玩-20261011.zip",
       "bytes": 110459355,
       "sha256": "ff882495e697cba3d0a82aa5821b3ca58117e3ac02bd77e1cdd05e55c57c268f"
+    },
+    {
+      "path": "character-generation-research/h3-runtime/npc-roster-v1/journey-regression-final.json",
+      "bytes": 22816,
+      "sha256": "df73fa0799b0d129080823776809510493444e8f4078313aecbd81e88d1db306"
+    },
+    {
+      "path": "character-generation-research/h3-runtime/npc-roster-v1/journey-release-validation.json",
+      "bytes": 298,
+      "sha256": "678fcd0d239d8163499eec3288f0e1239c7136a2297a96429951e885ee34eda6"
+    },
+    {
+      "path": "godot-belt-map/captures/.gdignore",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "godot-belt-map/captures/journey/dialogue-hero.png",
+      "bytes": 844635,
+      "sha256": "4d7173a5649085b8b535fc5c7dd14fd691ca7e38dadfa135c9850c88f676f936"
+    },
+    {
+      "path": "godot-belt-map/captures/journey/next-city.png",
+      "bytes": 1283776,
+      "sha256": "8d8b322ce24b29ab57f2b2447919d3f3e82b763b592ec68fdcf092f5de170907"
+    },
+    {
+      "path": "godot-belt-map/captures/journey/west-portal.png",
+      "bytes": 1487822,
+      "sha256": "1db164b154dbbd6ed838902d4490adc0bc468748c940228e33a343e8fbb7d708"
+    },
+    {
+      "path": "godot-belt-map/captures/roster-web-final.png.import",
+      "bytes": 754,
+      "sha256": "09d568c64d6458bc4cfd66ef2f638fa1459f5335576b035140ed8d2ab35a6568"
+    },
+    {
+      "path": "godot-belt-map/systems/data/city.json",
+      "bytes": 1636,
+      "sha256": "55b5cbc7b3873fddf48a2c1f1208cb1aba187bb735f23eef9becc3f72d822954"
+    },
+    {
+      "path": "godot-belt-map/systems/data/forest.json",
+      "bytes": 2804,
+      "sha256": "e556c42af8908132114b5ec02895c688c325de02a0d2a2c5afd3c98439d43c74"
+    },
+    {
+      "path": "godot-belt-map/systems/story_dialogue.gd",
+      "bytes": 8820,
+      "sha256": "35e431fb229ace69703894aadd4f304707750bcb54fdbfeebdd95c7d4f7c6b1d"
+    },
+    {
+      "path": "godot-belt-map/systems/story_dialogue.gd.uid",
+      "bytes": 20,
+      "sha256": "d82df32609731dca82803d2eab25a63b054403d72734ed9c7afe30e840b0422c"
+    },
+    {
+      "path": "godot-belt-map/systems/world_portals.gd",
+      "bytes": 2934,
+      "sha256": "972df4e4e0656026754fc67ca0eaca1a9a4040aefb2d6e895ccf63076891c00a"
+    },
+    {
+      "path": "godot-belt-map/systems/world_portals.gd.uid",
+      "bytes": 19,
+      "sha256": "1ff48ac3ad75f6d91e385477a39f19464d35d98aefc11411d9a731bd2e5dc896"
+    },
+    {
+      "path": "godot-belt-map/tests/journey_test.gd",
+      "bytes": 8881,
+      "sha256": "fd20951e51c7d337469009be1ce8cd3bbd46db5c97efb0e3729124444ffffac5"
+    },
+    {
+      "path": "godot-belt-map/tests/journey_test.gd.uid",
+      "bytes": 20,
+      "sha256": "795a75710c22015ab829d82e78f31e62f1e70f9314f61c4d64df2307a1884fbb"
+    },
+    {
+      "path": "releases/苍石庭院-道路与剧情试玩-20261013.sha256.txt",
+      "bytes": 115,
+      "sha256": "26aa12693fdf00d699b009ef9a9a093c6635dfdec3b189674432cf5e45c0ccf4"
+    },
+    {
+      "path": "releases/苍石庭院-道路与剧情试玩-20261013.zip",
+      "bytes": 110479159,
+      "sha256": "46fe6d3ff8c4d98acbc9e690e0cf3ead4a2708b5620d0ba3d57c6ce87921fd04"
+    },
+    {
+      "path": "godot-belt-map/systems/dungeon_guidance.gd",
+      "bytes": 2508,
+      "sha256": "169105dd43f784eef830057c8a83a350ba3be048abda485cbfd488e95ad1cb51"
+    },
+    {
+      "path": "godot-belt-map/systems/dungeon_guidance.gd.uid",
+      "bytes": 19,
+      "sha256": "cae12fa3cc9df387214458e830b1587029b3aa8781c20ed65f327c2e78b13039"
+    },
+    {
+      "path": "godot-belt-map/assets/dawn-city/city.png",
+      "bytes": 3084941,
+      "sha256": "61ebe8de0fa310787183726ef5e9bfa9c5678aece3b2c0384c2cb29abec9ea23"
+    },
+    {
+      "path": "godot-belt-map/assets/dawn-city/city.png.import",
+      "bytes": 933,
+      "sha256": "1bba939e524db72219b34b18aebe075d03fa768508607232658cc04947ffa3f3"
+    },
+    {
+      "path": "godot-belt-map/assets/dawn-city/generation-prompts.json",
+      "bytes": 4712,
+      "sha256": "d858fa31d39334da75e728fffa49785a4400cbdae9dfe7b73d840177477d81cc"
+    },
+    {
+      "path": "godot-belt-map/assets/dawn-city/tower.png",
+      "bytes": 3088309,
+      "sha256": "6a1c4bb48c87974d5cb1926911e308eda2c55f00cf0c5a29a8eb26ce7e72eb94"
+    },
+    {
+      "path": "godot-belt-map/assets/dawn-city/tower.png.import",
+      "bytes": 936,
+      "sha256": "3bedaab6a94002ccb501d10f3fa625ad1c60157d104b11372fb31453b3a99c31"
+    },
+    {
+      "path": "godot-belt-map/assets/npcs/mira.png",
+      "bytes": 2061256,
+      "sha256": "70f757ac1c1fa6c0d158725158b8830d5802754cdfdf199728ea2e8f4a7fb1ba"
+    },
+    {
+      "path": "godot-belt-map/assets/npcs/mira.png.import",
+      "bytes": 928,
+      "sha256": "7ba7d2536574351aa1906f29aa4101a12bbd9660ea6d5afa0963fc7f4d92c462"
+    },
+    {
+      "path": "godot-belt-map/assets/npcs/oren.png",
+      "bytes": 2228225,
+      "sha256": "8795106647e9deca22b79af2eb4cef916cd0400c5e01df49595c24bd1d07be29"
+    },
+    {
+      "path": "godot-belt-map/assets/npcs/oren.png.import",
+      "bytes": 927,
+      "sha256": "8d0eeb4a4ccf8f031b06f8c1f46ea999260ac3f275692016ce5555f55d86ae35"
+    },
+    {
+      "path": "godot-belt-map/captures/demo-city/city-east.png",
+      "bytes": 1669927,
+      "sha256": "b23a46382982b5bbd7c22c581c60540b8a60d79a64f66334f0150c41a95b5c97"
+    },
+    {
+      "path": "godot-belt-map/captures/demo-city/city-west.png",
+      "bytes": 1783475,
+      "sha256": "ff220d531df77942208d32a9da7a698c5203faa0495df3ede2dd9a2963239726"
+    },
+    {
+      "path": "godot-belt-map/captures/demo-city/keyboard-dialogue.png",
+      "bytes": 982106,
+      "sha256": "e36e48d0fd9adf3f99434b01eb17a9b2b7357159cd8db068c97f8838a5a0f956"
+    },
+    {
+      "path": "godot-belt-map/captures/demo-city/tower-room.png",
+      "bytes": 1670567,
+      "sha256": "3f697a503036c5bf0e3a16267b1ffc1f099737b86b5a302d13ca3a5c9fb5d183"
+    },
+    {
+      "path": "godot-belt-map/systems/dungeon_rooms.gd",
+      "bytes": 778,
+      "sha256": "c8e26817dd971d7c256575ced5ac45932cd654a1578ac6429d15f575da5b2286"
+    },
+    {
+      "path": "godot-belt-map/systems/dungeon_rooms.gd.uid",
+      "bytes": 20,
+      "sha256": "e990388a4610bc3fbc2c77f71fe68ff26f4afcbbb529214b6c1c0059e59fd9e5"
+    },
+    {
+      "path": "godot-belt-map/systems/room_grid.gd",
+      "bytes": 1227,
+      "sha256": "5cfadfecc99cf605d7025f23621ca4ccb67fd3832afcdfcc8f71a890a2c71d6e"
+    },
+    {
+      "path": "godot-belt-map/systems/room_grid.gd.uid",
+      "bytes": 20,
+      "sha256": "07ca8b7536e52badb9c487e9324fa6b47b3df9c5851d0126ae811162b210855a"
+    },
+    {
+      "path": "godot-belt-map/tests/demo_visual_review.gd",
+      "bytes": 1372,
+      "sha256": "2b660284b3d8ce867231a39fcda78f0157795f00b9ae4d335abf7aa8c6bb96fb"
+    },
+    {
+      "path": "godot-belt-map/tests/demo_visual_review.gd.uid",
+      "bytes": 19,
+      "sha256": "7e5e50c24e68518c8a825d1e2f30a14a1dfea5cfd37b1ba48fce104a20edfcf9"
+    },
+    {
+      "path": "godot-belt-map/assets/npcs/mira-idle.json",
+      "bytes": 227,
+      "sha256": "c8d2ef00786add4a5526d46257a234c3c319fc538b70b9ae62f29d6583736f21"
+    },
+    {
+      "path": "godot-belt-map/assets/npcs/oren-idle.json",
+      "bytes": 227,
+      "sha256": "c1f7af395fd984bbe4f1327ace1bd141660ffbbef4042921b89e8dda42b68b3a"
+    },
+    {
+      "path": "releases/晨钟城-原创城镇与古塔演示-20261013.sha256.txt",
+      "bytes": 117,
+      "sha256": "32d8b91ceaa53a251a286dca061ec2f137f88bdf4c8ccb26f778c7ba7e4b2bf5"
+    },
+    {
+      "path": "releases/晨钟城-原创城镇与古塔演示-20261013.zip",
+      "bytes": 117995677,
+      "sha256": "4e7fc487c300d11798803c3d4a06c769c0671b29a8cc8cfa2a4bdf23460d4fe8"
+    },
+    {
+      "path": "运行游戏.cmd",
+      "bytes": 115,
+      "sha256": "9752ea750d23903703fc3332b0ae308935b1103d9b706f62eb6a61c8c9510647"
     }
   ]
 }

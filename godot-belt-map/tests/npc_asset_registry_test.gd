@@ -18,11 +18,11 @@ func run() -> void:
 		finish()
 		return
 	var profiles: Array[Dictionary] = assets.public_profiles()
-	check(profiles.size() == 7, "release catalog did not expose seven distinct NPC profiles")
+	check(profiles.size() == 9, "release catalog did not expose nine distinct NPC profiles")
 	check(profiles.all(func(row): return row.release_status == "approved" and not row.actions.is_empty()), "public profile omitted release/action evidence")
 	check(profiles.any(func(row): return row.profile_id == "profile.npc.serin" and row.actions.has("cast")), "multi-action Serin profile is unavailable")
 	check("res://" not in JSON.stringify(profiles), "public/Agent-facing profiles leaked resource paths")
-	check(bridge.capabilities().get("npc_asset_profiles", []).size() == 7, "workbench capabilities omitted NPC asset profiles")
+	check(bridge.capabilities().get("npc_asset_profiles", []).size() == 9, "workbench capabilities omitted NPC asset profiles")
 
 	var visual := {"profile_id":"profile.npc.caster", "base_asset_id":"asset.npc.caster.portrait",
 		"idle_manifest_asset_id":"asset.npc.caster.actions", "ambient_action":"stand",

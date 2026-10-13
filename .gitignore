@@ -20,3 +20,6 @@ venv/
 *.exe
 *.dll
 test-results/
+
+# Private team ComfyUI tunnel credentials and connection kits
+.team-comfy-private/

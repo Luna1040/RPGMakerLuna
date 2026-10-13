@@ -51,6 +51,7 @@ def script(name: str, path: str, marker: str, suite: str = "gameplay", *, founda
 
 
 TESTS = (
+    script("journey", "tests/journey_test.gd", "JOURNEY_TEST PASS", foundations=True),
     script("roster_atlas", "tests/roster_atlas_test.gd", "ROSTER_ATLAS_TEST PASS", "core"),
     script("roster_animation", "tests/roster_animation_test.gd", "ROSTER_ANIMATION_TEST PASS", "core"),
     script("core_foundations", "tests/core_foundations_test.gd", "CORE_FOUNDATIONS_TEST PASS", "core"),

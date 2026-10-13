@@ -1,0 +1,10 @@
+{
+  "frames": [
+    {"file": "mira.png", "source_frame": 0},
+    {"file": "mira.png", "source_frame": 1}
+  ],
+  "frame_ms": 600,
+  "pivot": [510.0, 1520.0],
+  "scale": 0.176,
+  "source": "Dawn Bell City original NPC artwork"
+}

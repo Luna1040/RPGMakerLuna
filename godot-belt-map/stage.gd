@@ -69,6 +69,8 @@ func _ready() -> void:
 		if bridge!=null and not bridge.pending.is_empty():
 			var target:Dictionary=preload("systems/world_registry.gd").load_zone(bridge.target_zone)
 			if not target.is_empty(): contract=target
+			if bridge.target_zone=="ruins" and bridge.pending.get("run",{}).get("rooms",false):
+				preload("systems/dungeon_rooms.gd").configure(contract,bridge.pending.run)
 		elif preload("systems/world_registry.gd").initial_zone_id()!="town":
 			var generated:Dictionary=preload("systems/world_registry.gd").load_zone(preload("systems/world_registry.gd").initial_zone_id())
 			if not generated.is_empty(): contract=generated
@@ -77,7 +79,17 @@ func _ready() -> void:
 	bounds=Rect2(b.x,b.depth,b.width,b.depth_size)
 	foot=Vector2(contract.spawn.x,contract.spawn.depth)
 	last_safe=foot
-	CourtyardBackdrop.new().setup(self)
+	if contract.has("background"):
+		var backdrop:=Sprite2D.new()
+		backdrop.texture=load(str(contract.background))
+		backdrop.centered=false
+		backdrop.scale=Vector2.ONE*(3072.0/backdrop.texture.get_width())
+		# Match the new image's pavement horizon to the walkable belt.
+		backdrop.position=Vector2(0,-50)
+		backdrop.z_index=-20
+		add_child(backdrop)
+	else:
+		CourtyardBackdrop.new().setup(self)
 	sorting.y_sort_enabled=true
 	sorting.z_index=1
 	add_child(sorting)
@@ -114,7 +126,7 @@ func _ready() -> void:
 	combat_fx.z_index=5
 	add_child(combat_fx)
 	practice=PracticeTargets.new()
-	if contract.get("town_npcs",true): practice.setup(self)
+	if contract.get("town_npcs",true) and contract.get("zone_id","town")!="city": practice.setup(self)
 	camera.position=Vector2(clampf(foot.x*ppm,640,2432),400)
 	add_child(camera)
 	var layer := CanvasLayer.new()
@@ -313,8 +325,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		use_skill({KEY_1:"crescent",KEY_2:"rising",KEY_3:"trinity"}[event.keycode])
 	elif event.keycode==KEY_F2:
 		debug_collision=not debug_collision
-	elif event.keycode==KEY_R:
-		if runtime!=null and runtime.zone=="ruins":
+	elif event.keycode==KEY_F9:
+		if runtime!=null and runtime.Registry.is_dungeon(runtime.zone):
 			runtime.say("试炼中使用冒险菜单撤退或读档。")
 			return
 		foot=Vector2(contract.spawn.x,contract.spawn.depth)
@@ -337,6 +349,16 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			loot.quick_equip(foot,height_z)
 
 func _input(event: InputEvent) -> void:
+	var bridge=get_node_or_null("/root/GameSession")
+	if bridge!=null and bridge.busy:
+		get_viewport().set_input_as_handled()
+		return
+	if runtime!=null and event is InputEventKey and runtime.panel.is_open() and runtime.panel.tab=="dialogue":
+		var physical:int=event.physical_keycode if event.physical_keycode!=0 else event.keycode
+		if physical in [KEY_SPACE,KEY_ENTER,KEY_UP,KEY_DOWN,KEY_LEFT,KEY_RIGHT]:
+			if event.pressed and not event.echo: runtime.panel.dialogue_view.keyboard(physical)
+			get_viewport().set_input_as_handled()
+			return
 	if runtime!=null and event is InputEventKey and runtime.panel.capture_action!="":
 		runtime.panel.capture_key(event)
 		get_viewport().set_input_as_handled()
@@ -390,6 +412,7 @@ func use_spell() -> void:
 func interact() -> void:
 	if not grounded or not knight.is_locomotion():
 		return
+	if runtime!=null and runtime.portals!=null and runtime.portals.interact(): return
 	if loot.interact(foot, height_z):
 		return
 	var npc: Dictionary = townsfolk.nearest(foot, height_z)
@@ -400,6 +423,8 @@ func interact() -> void:
 		else: interface.begin_conversation(npc)
 
 func _physics_process(delta: float) -> void:
+	var bridge=get_node_or_null("/root/GameSession")
+	if bridge!=null and bridge.busy: return
 	if not is_instance_valid(knight):
 		return
 	# Death is a state transition and must settle even if Esc opened this frame.
@@ -516,7 +541,8 @@ func _physics_process(delta: float) -> void:
 	townsfolk.step(delta, foot, height_z)
 	practice.step(delta)
 	if runtime!=null: runtime.step(delta)
-	var hint: String = loot.prompt(foot, height_z)
+	var hint: String = runtime.portals.prompt() if runtime!=null and runtime.portals!=null else ""
+	if hint.is_empty(): hint=loot.prompt(foot,height_z)
 	if hint.is_empty():
 		var near: Dictionary = townsfolk.nearest(foot, height_z)
 		if not near.is_empty():
@@ -526,7 +552,7 @@ func _physics_process(delta: float) -> void:
 	interface.set_prompt(hint)
 	hud.text="苍石庭院  /  姬骑士 · 战斗演示\n双击方向 奔跑   空格 跳跃   J 攻击/冲刺斩/下劈   1–3 技能   K 雷光   E 交互   I 背包   R 复位\n高度 %.2fm  ·  %s  ·  %s" % [height_z,("奔跑" if is_running else "箱顶 "+platform if not platform.is_empty() else "地面" if grounded else "空中"),notice]
 	if runtime!=null:
-		hud.text="%s  /  姬骑士\n双击方向 奔跑   %s 攻击   %s 交互   %s 背包   %s 地图   %s 手册   Esc 暂停\n%s" % [runtime.current_zone_name(),runtime.controls.key_name("attack"),runtime.controls.key_name("interact"),runtime.controls.key_name("inventory"),runtime.controls.key_name("map"),runtime.controls.key_name("journal"),notice]
+		hud.text="%s  /  姬骑士\n方向键移动/双击奔跑   %s 跳跃   %s 上挑   %s 攻击   %s 交互   %s 背包   %s 地图   %s 手册   Esc 暂停\n%s" % [runtime.current_zone_name(),runtime.controls.key_name("jump"),runtime.controls.key_name("skill2"),runtime.controls.key_name("attack"),runtime.controls.key_name("interact"),runtime.controls.key_name("inventory"),runtime.controls.key_name("map"),runtime.controls.key_name("journal"),notice]
 	queue_redraw()
 	minimap.queue_redraw()
 	capture_time+=delta
