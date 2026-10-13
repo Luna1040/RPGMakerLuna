@@ -236,11 +236,13 @@ func _combat_bounds() -> Rect2:
 func _step_enemy(enemy: Dictionary, dt: float) -> void:
 	var stats: Dictionary = DEFINITIONS[enemy.kind]
 	var target_id := _choose_enemy_target(enemy)
+	enemy.target_id = target_id
 	var target: Vector2 = companion_foot if target_id == "serin" else stage.foot
 	var target_height: float = 0.0 if target_id == "serin" else stage.height_z
 	var offset: Vector2 = target - enemy.foot
 	var distance := offset.length()
-	if not _combat_bounds().has_point(target) or enemy.foot.distance_to(enemy.home) > 7.5:
+	var dedicated_dungeon: bool = "contract" in stage and stage.contract.get("zone_id", "town") in ["ruins", "forest"]
+	if not _combat_bounds().has_point(target) or (not dedicated_dungeon and enemy.foot.distance_to(enemy.home) > 7.5):
 		if enemy.state != "return":
 			enemy.state = "return"
 			enemy.attack_active = false
@@ -276,7 +278,8 @@ func _step_enemy(enemy: Dictionary, dt: float) -> void:
 			enemy.state = "recover"
 			enemy.timer = 0.38 if enemy.kind != "boss" else 0.7
 		return
-	enemy.facing = 1.0 if offset.x >= 0.0 else -1.0
+	if absf(offset.x) > 0.12:
+		enemy.facing = signf(offset.x)
 	var can_attack := distance < float(stats.range) + 0.35 and absf(offset.y) < 2.0
 	if enemy.kind != "ranged":
 		# Reuse the actual strike/target geometry. A larger centre-distance
@@ -298,7 +301,10 @@ func _step_enemy(enemy: Dictionary, dt: float) -> void:
 		enemy.attack_variant = "ranged" if enemy.kind == "ranged" else ("slam" if enemy.kind == "boss" and int(enemy.attacks)%2 == 0 else "melee")
 		enemy.attacks += 1
 	elif not can_attack:
-		var desired := target - Vector2(enemy.facing * (3.0 if enemy.kind == "ranged" else 0.8),0)
+		var stand_off := 3.0 if enemy.kind == "ranged" else 0.8
+		# When the player crosses our X axis, align depth first instead of
+		# chasing alternating left/right offsets through the player.
+		var desired := Vector2(enemy.foot.x,target.y) if absf(offset.x) <= stand_off else target - Vector2(enemy.facing * stand_off,0)
 		_move_enemy(enemy,desired,dt,float(stats.speed))
 
 func _resolve_attack(enemy: Dictionary) -> void:
@@ -781,14 +787,14 @@ func _move_enemy(enemy: Dictionary, destination: Vector2, dt: float, speed: floa
 		enemy.path_timer = 0.7
 	var separation := Vector2.ZERO
 	for other: Dictionary in enemies:
-		if other.id == enemy.id or other.state == "dead":
+		if enemy.state == "return" or other.id == enemy.id or other.state == "dead":
 			continue
 		var away: Vector2 = enemy.foot-other.foot
 		if away.length() < 0.55 and away.length() > 0.01:
 			separation += away.normalized() * 0.5
 	direction = (direction+separation).limit_length(1.0)
-	enemy.foot = Physics.step_position(stage.volumes,stage.bounds,enemy.foot,direction*speed*dt,0.0,true)
-	if absf(direction.x) > 0.02:
+	enemy.foot = Physics.step_position(stage.volumes,stage.bounds,enemy.foot,direction*minf(speed*dt,enemy.foot.distance_to(destination)),0.0,true)
+	if enemy.state == "return" and absf(direction.x) > 0.12:
 		enemy.facing = signf(direction.x)
 
 func _steering(from: Vector2, destination: Vector2, path: Array, rebuild: bool) -> Vector2:

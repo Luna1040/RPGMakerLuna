@@ -82,6 +82,10 @@ func _draw() -> void:
 	draw_rect(area,Color("899c86"),false,1)
 	text_at("N ↑",Vector2(size.x-53,size.y-5),Color("a7baab"),11 if compact else 14)
 
+func local_branch_roads() -> Array:
+	# These approaches belong to the courtyard buildings, not every map.
+	return [4.0,20.8] if stage.contract.get("zone_id", "town") == "town" else []
+
 func draw_local() -> void:
 	draw_rect(area,Color("667a5c"))
 	# Fine muted terrain blocks, all keyed to the same courtyard ground coordinates.
@@ -96,7 +100,7 @@ func draw_local() -> void:
 		for i in 54:
 			var x := area.position.x+i*area.size.x/54
 			draw_line(Vector2(x,road_y-area.size.y*.08),Vector2(x,road_y+area.size.y*.08),Color(0.3,0.3,0.23,.12),1)
-	for x in [4.0,20.8]:
+	for x in local_branch_roads():
 		draw_line(map_point(Vector2(x,1.2)),map_point(Vector2(x,5.4)),Color("aaa583"),area.size.x*.033)
 	for v: Dictionary in stage.volumes:
 		var origin := map_point(Vector2(v.x,v.depth))

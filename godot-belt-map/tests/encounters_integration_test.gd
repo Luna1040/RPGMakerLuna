@@ -107,6 +107,38 @@ func run() -> void:
 		var before_hp: float = stage.knight.health
 		advance(4.0)
 		check(mobile.attacks > 0 and stage.knight.health < before_hp, zone_name+": enemy must approach and damage player")
+	stage.contract.zone_id = "forest"
+	var atlas = preload("res://atlas_canvas.gd").new()
+	atlas.stage = stage
+	check(atlas.local_branch_roads().is_empty(), "forest minimap must not draw courtyard branch roads")
+	atlas.free()
+	for kind in ["melee", "ranged", "elite", "boss"]:
+		for side in [-1,1]:
+			fresh_battle()
+			encounters.clear()
+			var pursuer: Dictionary = encounters._spawn(kind,Vector2(16,4))
+			encounters.active = true
+			# Cross almost directly behind the enemy, on a different depth lane.
+			stage.foot = Vector2(16+side*0.05,7)
+			pursuer.facing = -side
+			pursuer.state = "chase"
+			var turns := 0
+			var previous_facing: float = pursuer.facing
+			for tick in 360:
+				advance(1.0/60.0)
+				if pursuer.facing != previous_facing: turns += 1
+				previous_facing = pursuer.facing
+			check(turns <= 2, kind+": crossing depth lanes must not flicker left/right")
+			check(pursuer.attacks > 0, kind+": crossing behind must not prevent subsequent attacks")
+	fresh_battle()
+	encounters.clear()
+	var roaming: Dictionary = encounters._spawn("melee",Vector2(19,7))
+	roaming.home = Vector2(8,7)
+	roaming.state = "chase"
+	encounters.active = true
+	stage.foot = Vector2(20,7)
+	advance(1.2)
+	check(roaming.attacks > 0, "dungeon pursuit must not reset at the obsolete 7.5m courtyard leash")
 	stage.contract.zone_id = "ruins"
 	var enemy: Dictionary = fresh_battle()
 	stage.context_attack()
