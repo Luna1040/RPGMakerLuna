@@ -255,7 +255,7 @@ func _step_enemy(enemy: Dictionary, dt: float) -> void:
 		return
 	if enemy.state == "idle":
 		enemy.timer -= dt
-		if distance < 6.4 and enemy.timer <= 0.0 and _combat_bounds().has_point(target):
+		if (dedicated_dungeon or distance < 6.4) and enemy.timer <= 0.0 and _combat_bounds().has_point(target):
 			enemy.state = "chase"
 		return
 	if enemy.state == "recover":

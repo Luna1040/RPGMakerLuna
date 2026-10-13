@@ -41,6 +41,7 @@ var loaded_message := ""
 var run_counter := 0
 var autosave_armed := false
 var last_autosave_error := ""
+var wave_countdown := -1.0
 
 func setup(map_stage) -> void:
 	stage=map_stage
@@ -94,6 +95,9 @@ func setup(map_stage) -> void:
 	portals=preload("world_portals.gd").new()
 	stage.add_child(portals)
 	portals.setup(self)
+	var guidance=preload("dungeon_guidance.gd").new()
+	stage.add_child(guidance)
+	guidance.setup(self)
 	var backdrop=stage.get_node_or_null("CourtyardBackdrop")
 	if backdrop!=null: backdrop.modulate=Color(str(stage.contract.get("backdrop_tint","ffffff")))
 	if Registry.is_dungeon(zone):
@@ -155,6 +159,7 @@ func _enemy_defeated(data: Dictionary) -> void:
 			stage.loot.spawn_drop(id,int(drop.get("count",1)),drop_foot+Vector2(-.3,.2),false)
 
 func _wave_cleared(wave: int) -> void:
+	wave_countdown=5.0
 	events.publish("wave_cleared",{"id":str(run_state.seed)+":"+str(wave),"wave":wave})
 	if wave>=Registry.waves(zone):
 		run_state.phase="victory"
@@ -170,7 +175,7 @@ func _wave_cleared(wave: int) -> void:
 			var index:=rng.randi_range(0,pool.size()-1)
 			offers.append(pool.pop_at(index))
 		run_state.offers=offers
-		say("本轮已清场。L 选择一项祝福，再开始下一轮。")
+		say("本轮清场！5 秒后自动获得祝福并开始下一轮；可先拾取战利品。")
 	# Do not interrupt picking up loot with an automatically opened modal.
 	if persistence_enabled and autosave_armed: save_game(current_slot,true)
 
@@ -190,6 +195,7 @@ func start_wave() -> bool:
 	if not encounters.begin_wave(next,int(run_state.seed)+next): return false
 	run_state.wave=next
 	run_state.phase="combat"
+	wave_countdown=-1.0
 	panel.close()
 	say("第 %d / %d 轮 · 留意敌人的红色攻击预警" % [next,Registry.waves(zone)])
 	return true
@@ -199,6 +205,7 @@ func choose_boon(id: String) -> bool:
 	run_state.boons.append(id)
 	run_state.offers=[]
 	run_state.phase="ready"
+	wave_countdown=3.0
 	refresh_bonuses()
 	stage.knight.health=minf(stage.knight.max_health,stage.knight.health+20)
 	stage.knight.mana=minf(stage.knight.max_mana,stage.knight.mana+25)
@@ -476,6 +483,13 @@ func step(delta: float) -> void:
 		say("挑战失败。可保留已拾取的战利品回城，或读取上个检查点。")
 		return
 	encounters.step(delta)
+	if Registry.is_dungeon(zone) and run_state.phase in ["boon","ready"] and int(run_state.wave)>0:
+		if wave_countdown < 0: wave_countdown=5.0
+		wave_countdown=maxf(0,wave_countdown-delta)
+		if wave_countdown <= 0:
+			if run_state.phase=="boon" and not run_state.offers.is_empty():
+				choose_boon(str(run_state.offers[0]))
+			if run_state.phase=="ready": start_wave()
 	autosave_elapsed+=delta
 	if autosave_elapsed>=45 and persistence_enabled and autosave_armed and safe_to_save():
 		autosave_elapsed=0

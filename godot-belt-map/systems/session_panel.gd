@@ -176,11 +176,11 @@ func render_adventure() -> void:
 		button(actions,"旅店休息 · 10 铜币",rest)
 	else:
 		var phase:String=runtime.run_state.phase
-		words({"ready":"休整完毕即可开始下一轮。","combat":"战斗已暂停；返回游戏继续应战。","boon":"本轮清场。选择一个祝福，为下一轮做好准备。","victory":"古塔已平定！回城后向委托人交付任务。","defeat":"挑战失败。回城重新整备，或读取上个检查点。"}.get(phase,"可返回庭院"),Color("f7d78e"),21)
+		words({"ready":"休整后自动开始下一轮，也可立即开始。","combat":"战斗已暂停；返回游戏继续应战。","boon":"本轮清场。选择一个祝福，为下一轮做好准备。","victory":"古塔已平定！回城后向委托人交付任务。","defeat":"挑战失败。回城重新整备，或读取上个检查点。"}.get(phase,"可返回庭院"),Color("f7d78e"),21)
 		if phase=="boon":
 			for id in runtime.run_state.offers:
 				var boon:String=id
-				button(body,runtime.BOONS[id].name+" · "+runtime.BOONS[id].text,func(): runtime.choose_boon(boon); refresh())
+				button(body,runtime.BOONS[id].name+" · "+runtime.BOONS[id].text,func(): runtime.choose_boon(boon); close())
 		if phase=="ready": button(body,"开始第 %d 轮" % (runtime.run_state.wave+1),func(): runtime.start_wave())
 		if not runtime.run_state.boons.is_empty():
 			var titles: Array[String]=[]

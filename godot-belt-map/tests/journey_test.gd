@@ -106,6 +106,27 @@ func run() -> void:
 	await settle()
 	check(runtime.zone=="ruins" and runtime.encounters.active,"Tower entry from city starts combat")
 	check(runtime.run_state.get("return_zone","")=="city","Dungeon remembers originating city")
+	stage.foot=Vector2(23,7.5)
+	var pursuer: Dictionary=runtime.encounters.enemies[0]
+	var initial_foot: Vector2=pursuer.foot
+	for tick in 120: runtime.encounters.step(1.0/60.0)
+	check(pursuer.state!="idle" and pursuer.foot.distance_to(initial_foot)>0.2,"Tower enemies must pursue even beyond old 6.4m radius")
+	for wave in range(1,4):
+		for victim in runtime.encounters.enemies.duplicate():
+			runtime.encounters.hit(victim.foot,0,{"damage":9999,"range":180,"shape":"radial","action":"attack1"})
+		if wave<3:
+			check(runtime.run_state.phase=="boon" and not runtime.panel.is_open(),"Clear wave gives nonmodal loot countdown")
+			var clock:float=runtime.wave_countdown
+			runtime.panel.open("adventure")
+			stage._physics_process(1.0)
+			check(runtime.wave_countdown==clock,"Pause must freeze intermission countdown")
+			runtime.panel.close()
+			for tick in 320: runtime.step(1.0/60.0)
+			check(runtime.encounters.active and runtime.run_state.wave==wave+1,"Next wave must begin without any key or menu")
+		else:
+			check(runtime.run_state.phase=="victory","Third wave ends the dungeon")
+			for tick in 320: runtime.step(1.0/60.0)
+			check(not runtime.encounters.active,"Victory never spawns an extra wave")
 	check(runtime.return_town(),"Retreat route is available")
 	await settle()
 	check(runtime.zone=="city","Retreat must return to the originating city")
