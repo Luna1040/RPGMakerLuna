@@ -13,6 +13,16 @@
 - [`NPC_ROSTER_INTEGRATION.md`](NPC_ROSTER_INTEGRATION.md)：五角色动作、队友机制、资源格式和验收方法。
 - `godot-belt-map/使用与对接说明.txt`：最新操作、机制、测试与集成记录。
 
+## 团队游戏制作工具
+
+- [`releases/game-production-skill.zip`](releases/game-production-skill.zip)：可公开分享的 Codex Skill 安装包，包含安装说明、角色与地图生产流程、Godot 制作经验、团队 API 客户端、帧处理工具和 H3 API 工作流，不包含模型、游戏素材、服务器地址或连接密钥。
+- [`game-production-skill/`](game-production-skill/)：公开包的可维护源码。修改后运行 `python3 package-game-skill.py`，重新生成 ZIP 和 SHA-256 校验文件。
+- `.team-comfy-private/`：维护者本地的私有连接配置目录，已加入 `.gitignore`，不得提交。服务器 auth token、STCP secretKey、visitor 配置和连接程序只能私发给可信成员。
+
+安装时解压公开包，把其中的 `game-production` 文件夹复制到 `~/.codex/skills/` 或 `%USERPROFILE%\.codex\skills\`，重新打开会话后调用 `$game-production`。团队成员另行取得私有连接包并启动 visitor 后，客户端默认访问成员自己电脑的 `http://127.0.0.1:19316`；主机维护 API 为 `http://127.0.0.1:9316`，两者都不应绑定公网地址。
+
+该服务采用可信团队共享队列，没有分用户任务隔离、配额或单独撤销能力。不要取消其他成员的任务；异地成员首次使用必须先运行 `python scripts/comfy_client.py check --workflow assets/h3-reference-api.json`。当前验收覆盖 Skill 格式、4 项帧工具测试和既有远程回路记录，不代表已经在每位成员电脑上执行过完整 H3 视频生成。
+
 ## Windows / macOS 正确开始
 
 当前应打开 **`godot-belt-map/project.godot`**。仓库里其他 `godot-*` 文件夹是历史实验，不是本次庭院试玩入口。
