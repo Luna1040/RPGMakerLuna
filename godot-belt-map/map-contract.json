@@ -151,5 +151,41 @@
     "Inn is not an enterable interior.",
     "Enemy sprites are code-drawn prototypes; companion is an invulnerable support echo."
   ],
-  "zone_id": "town"
+  "zone_id": "town",
+  "portals": [
+    {
+      "id": "town_west",
+      "label": "旧林道 · 新手副本",
+      "x": 1.6,
+      "depth": 7.4,
+      "target": "forest",
+      "arrival": [
+        21.2,
+        7.4
+      ]
+    },
+    {
+      "id": "town_east",
+      "label": "古塔 · 三轮试炼",
+      "x": 23.7,
+      "depth": 4.0,
+      "target": "ruins",
+      "arrival": [
+        3.2,
+        7.6
+      ]
+    },
+    {
+      "id": "town_city",
+      "label": "晨钟城 · 东南关口",
+      "x": 23.7,
+      "depth": 8.0,
+      "target": "city",
+      "arrival": [
+        3.2,
+        7.4
+      ],
+      "quest": "courtyard_menace"
+    }
+  ]
 }

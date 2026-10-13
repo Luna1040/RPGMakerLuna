@@ -20,7 +20,7 @@ func find_button(node: Node, text: String) -> Button:
 	return null
 
 func click(text: String) -> void:
-	var button := find_button(stage.runtime.panel.body, text)
+	var button := find_button(stage.runtime.panel.overlay, text)
 	check(button != null, "NPC/menu button missing: " + text)
 	if button != null:
 		check(not button.disabled, "NPC/menu button disabled: " + text)
@@ -28,7 +28,9 @@ func click(text: String) -> void:
 			button.pressed.emit()
 
 func click_choice(id: String) -> void:
-	# Stable content IDs survive copy edits; still exercise the actual rendered button.
+	var view=stage.runtime.panel.dialogue_view
+	while not view.at_choices: view.advance()
+	# Exercise topic, paced dialogue, then explicit confirmation.
 	var dialogue:Dictionary=stage.runtime.adventure.dialogue_for(stage.runtime.panel.npc_id)
 	for choice:Dictionary in dialogue.get("choices",[]):
 		if choice.id==id:
@@ -36,6 +38,8 @@ func click_choice(id: String) -> void:
 			var label:String=str(choice.label)
 			if not bool(choice.get("enabled",true)): label+=" · "+str(choice.get("reason",""))
 			click(label)
+			while not view.at_choices: view.advance()
+			click("确认 · "+str(choice.label))
 			return
 	check(false,"Current NPC has no visible dialogue choice: "+id)
 

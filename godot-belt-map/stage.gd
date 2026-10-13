@@ -311,7 +311,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	elif event.keycode==KEY_F2:
 		debug_collision=not debug_collision
 	elif event.keycode==KEY_R:
-		if runtime!=null and runtime.zone=="ruins":
+		if runtime!=null and runtime.Registry.is_dungeon(runtime.zone):
 			runtime.say("试炼中使用冒险菜单撤退或读档。")
 			return
 		foot=Vector2(contract.spawn.x,contract.spawn.depth)
@@ -334,6 +334,12 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			loot.quick_equip(foot,height_z)
 
 func _input(event: InputEvent) -> void:
+	if runtime!=null and event is InputEventKey and runtime.panel.is_open() and runtime.panel.tab=="dialogue":
+		var physical:int=event.physical_keycode if event.physical_keycode!=0 else event.keycode
+		if physical==KEY_SPACE:
+			if event.pressed and not event.echo: runtime.panel.dialogue_view.advance()
+			get_viewport().set_input_as_handled()
+			return
 	if runtime!=null and event is InputEventKey and runtime.panel.capture_action!="":
 		runtime.panel.capture_key(event)
 		get_viewport().set_input_as_handled()
@@ -387,6 +393,7 @@ func use_spell() -> void:
 func interact() -> void:
 	if not grounded or not knight.is_locomotion():
 		return
+	if runtime!=null and runtime.portals!=null and runtime.portals.interact(): return
 	if loot.interact(foot, height_z):
 		return
 	var npc: Dictionary = townsfolk.nearest(foot, height_z)
@@ -509,7 +516,8 @@ func _physics_process(delta: float) -> void:
 	townsfolk.step(delta, foot, height_z)
 	practice.step(delta)
 	if runtime!=null: runtime.step(delta)
-	var hint: String = loot.prompt(foot, height_z)
+	var hint: String = runtime.portals.prompt() if runtime!=null and runtime.portals!=null else ""
+	if hint.is_empty(): hint=loot.prompt(foot,height_z)
 	if hint.is_empty():
 		var near: Dictionary = townsfolk.nearest(foot, height_z)
 		if not near.is_empty():
@@ -519,7 +527,7 @@ func _physics_process(delta: float) -> void:
 	interface.set_prompt(hint)
 	hud.text="苍石庭院  /  姬骑士 · 战斗演示\n双击方向 奔跑   空格 跳跃   J 攻击/冲刺斩/下劈   1–3 技能   K 雷光   E 交互   I 背包   R 复位\n高度 %.2fm  ·  %s  ·  %s" % [height_z,("奔跑" if is_running else "箱顶 "+platform if not platform.is_empty() else "地面" if grounded else "空中"),notice]
 	if runtime!=null:
-		hud.text="%s  /  姬骑士\n双击方向 奔跑   %s 攻击   %s 交互   %s 背包   %s 地图   %s 手册   Esc 暂停\n%s" % ["苍石庭院" if runtime.zone=="town" else "古塔试炼场",runtime.controls.key_name("attack"),runtime.controls.key_name("interact"),runtime.controls.key_name("inventory"),runtime.controls.key_name("map"),runtime.controls.key_name("journal"),notice]
+		hud.text="%s  /  姬骑士\n双击方向 奔跑   %s 攻击   %s 交互   %s 背包   %s 地图   %s 手册   Esc 暂停\n%s" % [runtime.Registry.title(runtime.zone),runtime.controls.key_name("attack"),runtime.controls.key_name("interact"),runtime.controls.key_name("inventory"),runtime.controls.key_name("map"),runtime.controls.key_name("journal"),notice]
 	queue_redraw()
 	minimap.queue_redraw()
 	capture_time+=delta

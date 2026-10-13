@@ -1,0 +1,109 @@
+{
+  "version": 1,
+  "projection": "side-facing-belt",
+  "worldLocationId": "location-4",
+  "worldMapId": "map-4",
+  "biome": "grassland",
+  "biomeNote": "Grassland courtyard projection test associated with the existing ruins location; does not replace desert map-2.",
+  "name": "晨钟城 · 南市街",
+  "units": "meters",
+  "projectionParameters": {
+    "pixelsPerMeter": 120,
+    "depthPixelsPerMeter": 45,
+    "originY": 410
+  },
+  "bounds": {
+    "x": 0.7,
+    "depth": 0.5,
+    "width": 24.2,
+    "depth_size": 8.7
+  },
+  "spawn": {
+    "x": 3.2,
+    "depth": 7.4,
+    "z": 0
+  },
+  "volumes": [
+    {
+      "id": "city-house-0",
+      "kind": "building",
+      "x": 4,
+      "depth": 0.7,
+      "width": 3.7,
+      "depth_size": 0.85,
+      "base_z": 0,
+      "height": 4.5,
+      "solid": true,
+      "standable": false,
+      "asset": "inn",
+      "visualHeight": 7.5
+    },
+    {
+      "id": "city-house-1",
+      "kind": "building",
+      "x": 11,
+      "depth": 0.7,
+      "width": 3.7,
+      "depth_size": 0.85,
+      "base_z": 0,
+      "height": 4.5,
+      "solid": true,
+      "standable": false,
+      "asset": "inn",
+      "visualHeight": 7.5
+    },
+    {
+      "id": "city-house-2",
+      "kind": "building",
+      "x": 18,
+      "depth": 0.7,
+      "width": 3.7,
+      "depth_size": 0.85,
+      "base_z": 0,
+      "height": 4.5,
+      "solid": true,
+      "standable": false,
+      "asset": "inn",
+      "visualHeight": 7.5
+    }
+  ],
+  "aiRequirements": [
+    "Do not reuse overhead roof assets as frontal facades",
+    "Separate far background, floor, architecture, props and shadows",
+    "Annotate foot pivot and real trunk/base footprint; never use full alpha silhouette as ground collision",
+    "Keep screen depth separate from jump height",
+    "Use logical foot depth for occlusion",
+    "Preserve walking paths and valid landing surfaces"
+  ],
+  "limitations": [
+    "复用庭院美术的战斗测试场景；敌人为程序绘制的原型外观。"
+  ],
+  "zone_id": "city",
+  "town_npcs": false,
+  "chests": [],
+  "backdrop_tint": "eed7ad",
+  "portals": [
+    {
+      "id": "city_west",
+      "label": "苍石庭院",
+      "x": 1.6,
+      "depth": 7.4,
+      "target": "town",
+      "arrival": [
+        22.1,
+        8.0
+      ]
+    },
+    {
+      "id": "city_east",
+      "label": "古塔试炼",
+      "x": 23.7,
+      "depth": 7.4,
+      "target": "ruins",
+      "arrival": [
+        3.2,
+        7.6
+      ]
+    }
+  ]
+}

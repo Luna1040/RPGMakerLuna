@@ -1,6 +1,8 @@
 extends CanvasLayer
 ## All menus share one modal gate, so paused combat never leaks through buttons.
 var runtime
+var menu_root: PanelContainer
+var dialogue_view
 var overlay:=Control.new()
 var body:=VBoxContainer.new()
 var scroll:=ScrollContainer.new()
@@ -40,6 +42,7 @@ func setup(service) -> void:
 	overlay.add_child(dim)
 	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var panel:=PanelContainer.new()
+	menu_root=panel
 	panel.position=Vector2(100,66)
 	panel.size=Vector2(1080,678)
 	var style:=StyleBoxFlat.new()
@@ -81,6 +84,9 @@ func setup(service) -> void:
 	message.add_theme_color_override("font_color",Color("a9d9dc"))
 	layout.add_child(HSeparator.new())
 	layout.add_child(message)
+	dialogue_view=preload("story_dialogue.gd").new()
+	overlay.add_child(dialogue_view)
+	dialogue_view.setup(self)
 	overlay.hide()
 	update_status()
 
@@ -96,6 +102,8 @@ func open(id: String) -> void:
 	runtime.stage.sprint.reset()
 	runtime.stage.knight.set_movement_axis(0)
 	overlay.show()
+	menu_root.visible=id!="dialogue"
+	dialogue_view.visible=id=="dialogue"
 	refresh()
 
 func close() -> void:
@@ -150,7 +158,7 @@ func refresh() -> void:
 	update_status()
 
 func update_status() -> void:
-	status.text="Lv.%d  经验 %d/%d   铜币 %d   %s  ·  %s" % [runtime.progression.level,runtime.progression.xp,runtime.progression.xp_to_next(),runtime.stage.loot.materials.get("旧铜币",0),"苍石庭院" if runtime.zone=="town" else "古塔试炼场", "城镇休整" if runtime.zone=="town" else "第 %d / 3 轮" % runtime.run_state.wave]
+	status.text="Lv.%d  经验 %d/%d   铜币 %d   %s  ·  %s" % [runtime.progression.level,runtime.progression.xp,runtime.progression.xp_to_next(),runtime.stage.loot.materials.get("旧铜币",0),runtime.Registry.title(runtime.zone), "城镇休整" if runtime.Registry.is_safe(runtime.zone) else "第 %d / %d 轮" % [runtime.run_state.wave,runtime.Registry.waves(runtime.zone)]]
 
 func _process(delta: float) -> void:
 	summary_clock+=delta
@@ -161,10 +169,10 @@ func _process(delta: float) -> void:
 func render_adventure() -> void:
 	words("姬骑士 · 等级 %d / 经验 %d / 技能点 %d" % [runtime.progression.level,runtime.progression.xp,runtime.progression.skill_points],Color("f7d78e"),24)
 	words("城镇接取委托、调查失踪物资；进入古塔完成三轮试炼。轮间选择祝福，装备、经验与人物关系随旅程保留。")
-	if runtime.zone=="town":
-		words("先靠近艾琳或雷恩按 %s 交谈。不同选择会汇入同一场危机，支线可以交叉推进。" % runtime.controls.key_name("interact"))
+	if runtime.Registry.is_safe(runtime.zone):
+		words("西门：旧林道；东门：古塔；东南关口：晨钟城。靠近发光门按 %s 进入；完成雷恩的试炼并交付可开放城镇道路。" % runtime.controls.key_name("interact"))
 		var actions:=row()
-		button(actions,"进入古塔试炼",func(): runtime.start_trial())
+		button(actions,"调试入口 · 古塔试炼",func(): runtime.start_trial())
 		button(actions,"旅店休息 · 10 铜币",rest)
 	else:
 		var phase:String=runtime.run_state.phase
@@ -203,7 +211,7 @@ func render_adventure() -> void:
 		var talent:String=id
 		var info:Dictionary=runtime.talents.CATALOG[id]
 		button(body,"%s %d/3 · %s" % [info.name,runtime.talents.rank(id),info.description],func(): runtime.talents.spend(talent,runtime.progression); refresh(),runtime.talents.can_spend(id,runtime.progression))
-	button(body,"重置天赋（测试版免费，城镇可用）",func(): runtime.talents.refund(runtime.progression); refresh(),runtime.zone=="town" and runtime.talents.spent_points()>0)
+	button(body,"重置天赋（测试版免费，城镇可用）",func(): runtime.talents.refund(runtime.progression); refresh(),runtime.Registry.is_safe(runtime.zone) and runtime.talents.spent_points()>0)
 
 func rest() -> void:
 	runtime.rest_party()
@@ -230,7 +238,7 @@ func render_journal() -> void:
 				else: words(str(objective))
 		if quest.get("can_claim",false):
 			var id:String=quest.id
-			button(body,"领取奖励" if runtime.zone=="town" else "回城后交付",func(): var result:Dictionary=runtime.adventure.claim_quest(id); runtime.say(str(result.get("message",""))); refresh(),runtime.zone=="town")
+			button(body,"领取奖励" if runtime.Registry.is_safe(runtime.zone) else "回城后交付",func(): var result:Dictionary=runtime.adventure.claim_quest(id); runtime.say(str(result.get("message",""))); refresh(),runtime.Registry.is_safe(runtime.zone))
 		body.add_child(HSeparator.new())
 	words("任务可同时推进。未接取的任务请先与镇民交谈；分支承诺会保留在存档里。",Color("91a9bd"))
 
@@ -338,17 +346,4 @@ func capture_key(event: InputEventKey) -> bool:
 	return true
 
 func render_dialogue() -> void:
-	var data:Dictionary=runtime.adventure.dialogue_for(npc_id)
-	if npc_portrait is Texture2D:
-		var portrait:=TextureRect.new()
-		portrait.texture=npc_portrait
-		portrait.custom_minimum_size=Vector2(180,140)
-		portrait.expand_mode=TextureRect.EXPAND_IGNORE_SIZE
-		portrait.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		body.add_child(portrait)
-	words(str(data.get("name",npc_id)),Color("f7d78e"),24)
-	words(str(data.get("text","")))
-	for choice in data.get("choices",[]):
-		var id:String=choice.id
-		var enabled:=bool(choice.get("enabled",true))
-		button(body,str(choice.get("label",id))+(" · "+str(choice.get("reason","")) if not enabled else ""),func(): runtime.choose_dialogue(id),enabled)
+	dialogue_view.begin()

@@ -1,0 +1,130 @@
+{
+  "version": 1,
+  "projection": "side-facing-belt",
+  "worldLocationId": "location-4",
+  "worldMapId": "map-4",
+  "biome": "grassland",
+  "biomeNote": "Grassland courtyard projection test associated with the existing ruins location; does not replace desert map-2.",
+  "name": "旧林道 · 灰誓哨站",
+  "units": "meters",
+  "projectionParameters": {
+    "pixelsPerMeter": 120,
+    "depthPixelsPerMeter": 45,
+    "originY": 410
+  },
+  "bounds": {
+    "x": 0.7,
+    "depth": 0.5,
+    "width": 24.2,
+    "depth_size": 8.7
+  },
+  "spawn": {
+    "x": 21.2,
+    "depth": 7.4,
+    "z": 0
+  },
+  "volumes": [
+    {
+      "id": "grove-0",
+      "kind": "tree",
+      "x": 4,
+      "depth": 1.3,
+      "width": 0.7,
+      "depth_size": 0.8,
+      "base_z": 0,
+      "height": 5.2,
+      "solid": true,
+      "standable": false,
+      "asset": "tree",
+      "visualHeight": 5
+    },
+    {
+      "id": "grove-1",
+      "kind": "tree",
+      "x": 9,
+      "depth": 1.3,
+      "width": 0.7,
+      "depth_size": 0.8,
+      "base_z": 0,
+      "height": 5.2,
+      "solid": true,
+      "standable": false,
+      "asset": "tree",
+      "visualHeight": 5
+    },
+    {
+      "id": "grove-2",
+      "kind": "tree",
+      "x": 15,
+      "depth": 1.3,
+      "width": 0.7,
+      "depth_size": 0.8,
+      "base_z": 0,
+      "height": 5.2,
+      "solid": true,
+      "standable": false,
+      "asset": "tree",
+      "visualHeight": 5
+    },
+    {
+      "id": "grove-3",
+      "kind": "tree",
+      "x": 20,
+      "depth": 1.3,
+      "width": 0.7,
+      "depth_size": 0.8,
+      "base_z": 0,
+      "height": 5.2,
+      "solid": true,
+      "standable": false,
+      "asset": "tree",
+      "visualHeight": 5
+    }
+  ],
+  "aiRequirements": [
+    "Do not reuse overhead roof assets as frontal facades",
+    "Separate far background, floor, architecture, props and shadows",
+    "Annotate foot pivot and real trunk/base footprint; never use full alpha silhouette as ground collision",
+    "Keep screen depth separate from jump height",
+    "Use logical foot depth for occlusion",
+    "Preserve walking paths and valid landing surfaces"
+  ],
+  "limitations": [
+    "复用庭院美术的战斗测试场景；敌人为程序绘制的原型外观。"
+  ],
+  "zone_id": "forest",
+  "town_npcs": false,
+  "chests": [],
+  "backdrop_tint": "92bca7",
+  "portals": [
+    {
+      "id": "forest_exit",
+      "label": "苍石庭院",
+      "x": 23.7,
+      "depth": 7.4,
+      "target": "return",
+      "arrival": [
+        3.0,
+        7.4
+      ]
+    }
+  ],
+  "encounter_points": [
+    [
+      18,
+      4
+    ],
+    [
+      17,
+      7
+    ],
+    [
+      16,
+      6
+    ],
+    [
+      15,
+      4
+    ]
+  ]
+}

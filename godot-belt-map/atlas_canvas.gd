@@ -58,7 +58,7 @@ func _draw() -> void:
 	style.set_corner_radius_all(8)
 	draw_style_box(style,Rect2(Vector2.ZERO,size))
 	if compact:
-		text_at("苍石庭院",Vector2(12,22),Color("e9d79f"),16)
+		text_at(stage.runtime.Registry.title(stage.runtime.zone) if stage.runtime!=null else "苍石庭院",Vector2(12,22),Color("e9d79f"),16)
 		text_at("M · 地图",Vector2(size.x-80,22),Color("a9c4b7"),13)
 		area=Rect2(12,32,size.x-24,size.y-47)
 	else:
@@ -67,10 +67,17 @@ func _draw() -> void:
 		var fit := Vector2(area.size.x,area.size.x/aspect)
 		if fit.y>area.size.y: fit=Vector2(area.size.y*aspect,area.size.y)
 		area=Rect2((size-fit)/2,fit)
+
 	if world_view:
 		draw_world()
 	else:
 		draw_local()
+	if not world_view and stage.runtime!=null and stage.runtime.portals!=null:
+		for link in stage.runtime.portals.links:
+			var at:=map_point(Vector2(link.x,link.depth))
+			draw_circle(at,4 if compact else 7,Color("dfa55d") if stage.runtime.portals.locked(link) else Color("68e5ff"))
+			if not compact: text_at(str(link.label),at+Vector2(-70,-12),Color("b6efff"),15)
+
 	# Inset neatline and north pointer.
 	draw_rect(area,Color("899c86"),false,1)
 	text_at("N ↑",Vector2(size.x-53,size.y-5),Color("a7baab"),11 if compact else 14)

@@ -24,6 +24,7 @@ var events = EventBus.new()
 var talents = TalentTree.new()
 var audio = preload("game_audio.gd").new()
 var panel
+var portals
 var party_hud
 var zone := "town"
 var worlds: Dictionary = {}
@@ -90,12 +91,18 @@ func setup(map_stage) -> void:
 	party_hud=preload("party_hud.gd").new()
 	stage.add_child(party_hud)
 	party_hud.setup(self)
-	if zone=="ruins":
-		var backdrop=stage.get_node_or_null("CourtyardBackdrop")
-		if backdrop != null: backdrop.modulate=Color(.65,.77,.95)
-		panel.open("adventure")
+	portals=preload("world_portals.gd").new()
+	stage.add_child(portals)
+	portals.setup(self)
+	var backdrop=stage.get_node_or_null("CourtyardBackdrop")
+	if backdrop!=null: backdrop.modulate=Color(str(stage.contract.get("backdrop_tint","ffffff")))
+	if Registry.is_dungeon(zone):
+		if bridge!=null and bridge.portal_entry:
+			bridge.portal_entry=false
+			call_deferred("start_wave")
+		else: panel.open("adventure")
 	events.publish("zone_entered",{"id":zone})
-	say("L 冒险手册 · Esc 暂停 / 存档 · 4/5 药水。先找艾琳或雷恩聊聊。" if zone=="town" else "古塔试炼场 · 在冒险手册选择开始本轮")
+	say("找雷恩接取试炼；西门是旧林道，东门是古塔，东南关口通往晨钟城。" if zone=="town" else "晨钟城 · 西门返回庭院，东门通往古塔。" if zone=="city" else Registry.title(zone)+" · 清敌后从传送门返回城镇。")
 
 func say(text: String) -> void:
 	stage.notice=text
@@ -113,7 +120,7 @@ func refresh_bonuses() -> void:
 	for id in talent_bonus:
 		stage.knight.progression_bonuses[id]=float(stage.knight.progression_bonuses.get(id,0))+float(talent_bonus[id])
 	var bonus: Dictionary={}
-	if zone=="ruins":
+	if Registry.is_dungeon(zone):
 		for id in run_state.get("boons",[]):
 			if BOONS.has(id):
 				for stat in BOONS[id].stats:
@@ -149,7 +156,7 @@ func _enemy_defeated(data: Dictionary) -> void:
 
 func _wave_cleared(wave: int) -> void:
 	events.publish("wave_cleared",{"id":str(run_state.seed)+":"+str(wave),"wave":wave})
-	if wave>=3:
+	if wave>=Registry.waves(zone):
 		run_state.phase="victory"
 		run_state.offers=[]
 		say("试炼完成！拾取战利品后回城，向委托人领取奖励。")
@@ -167,23 +174,24 @@ func _wave_cleared(wave: int) -> void:
 	# Do not interrupt picking up loot with an automatically opened modal.
 	if persistence_enabled and autosave_armed: save_game(current_slot,true)
 
-func start_trial(seed_value: int = 0) -> bool:
-	if zone!="town" or stage.knight.defeated: return false
+func start_trial(seed_value: int = 0, destination: String = "ruins") -> bool:
+	if not Registry.is_safe(zone) or stage.knight.defeated: return false
 	run_counter+=1
 	var seed_number:=seed_value if seed_value>0 else int(Time.get_unix_time_from_system())+run_counter*7919
-	run_state={"phase":"ready","wave":0,"seed":seed_number,"boons":[],"offers":[]}
-	worlds.erase("ruins")
-	return travel("ruins")
+	if not Registry.is_dungeon(destination): return false
+	run_state={"phase":"ready","wave":0,"seed":seed_number,"boons":[],"offers":[],"return_zone":zone}
+	worlds.erase(destination)
+	return travel(destination)
 
 func start_wave() -> bool:
-	if zone!="ruins" or run_state.phase!="ready" or encounters.active: return false
+	if not Registry.is_dungeon(zone) or run_state.phase!="ready" or encounters.active: return false
 	var next:=int(run_state.wave)+1
-	if next<1 or next>3: return false
+	if next<1 or next>Registry.waves(zone): return false
 	if not encounters.begin_wave(next,int(run_state.seed)+next): return false
 	run_state.wave=next
 	run_state.phase="combat"
 	panel.close()
-	say("第 %d / 3 轮 · 留意敌人的红色攻击预警" % next)
+	say("第 %d / %d 轮 · 留意敌人的红色攻击预警" % [next,Registry.waves(zone)])
 	return true
 
 func choose_boon(id: String) -> bool:
@@ -200,13 +208,13 @@ func choose_boon(id: String) -> bool:
 	return true
 
 func return_town() -> bool:
-	if zone!="ruins": return false
+	if not Registry.is_dungeon(zone): return false
 	encounters.clear()
 	run_state.phase="none"
 	run_state.boons=[]
 	run_state.offers=[]
 	stage.knight.reset_character()
-	return travel("town")
+	return travel(str(run_state.get("return_zone","town")))
 
 func prepare_transfer(target: String) -> Dictionary:
 	if not Registry.ZONES.has(target): return {}
@@ -215,11 +223,11 @@ func prepare_transfer(target: String) -> Dictionary:
 	var map_data:=Registry.load_zone(target)
 	data.player.foot=[map_data.spawn.x,map_data.spawn.depth]
 	data.player.height=0.0
-	data.player.health=stage.knight.max_health if target=="town" else stage.knight.health
-	data.player.mana=stage.knight.max_mana if target=="town" else stage.knight.mana
+	data.player.health=stage.knight.max_health if Registry.is_safe(target) else stage.knight.health
+	data.player.mana=stage.knight.max_mana if Registry.is_safe(target) else stage.knight.mana
 	return data
 
-func travel(target: String) -> bool:
+func travel(target: String, arrival: Array = []) -> bool:
 	if transitioning or not Registry.ZONES.has(target): return false
 	var bridge=stage.get_node_or_null("/root/GameSession")
 	if bridge==null or get_tree().current_scene != stage:
@@ -227,9 +235,33 @@ func travel(target: String) -> bool:
 		return false
 	bridge.pending=prepare_transfer(target)
 	bridge.target_zone=target
+	if arrival.size()==2: bridge.pending.player.foot=arrival.duplicate()
 	transitioning=true
 	get_tree().call_deferred("change_scene_to_file","res://stage.tscn")
 	return true
+
+func use_portal(link: Dictionary) -> bool:
+	if transitioning or encounters.active or stage.knight.defeated or not stage.grounded: return false
+	if link not in stage.contract.get("portals",[]): return false
+	if link.has("quest") and adventure._status(str(link.quest))!="claimed": return false
+	var destination:=str(link.target)
+	if destination=="return":
+		destination=str(run_state.get("return_zone","town"))
+		encounters.clear()
+		run_state.phase="none"
+		run_state.boons=[]
+		run_state.offers=[]
+	elif Registry.is_dungeon(destination):
+		if not Registry.is_safe(zone): return false
+		run_counter+=1
+		run_state={"phase":"ready","wave":0,"seed":int(Time.get_unix_time_from_system())+run_counter*7919,"boons":[],"offers":[],"return_zone":zone}
+		worlds.erase(destination)
+	var arrival:Array=link.get("arrival",[])
+	if destination=="city" and zone=="ruins": arrival=[21.8,7.4]
+	var moved:=travel(destination,arrival)
+	if moved:
+		stage.get_node("/root/GameSession").portal_entry=Registry.is_dungeon(destination)
+	return moved
 
 func safe_to_save() -> bool:
 	return not transitioning and not stage.knight.defeated and not encounters.active and stage.grounded and stage.knight.is_locomotion() and stage.projectiles.is_empty()
@@ -264,6 +296,7 @@ func validate_snapshot(data: Dictionary) -> bool:
 		var value=data.materials[id]
 		if not stage.loot.materials.has(id) or not whole(value,0,999999): return false
 	var trial: Dictionary=data.run
+	if not trial.get("return_zone","town") is String or not Registry.is_safe(str(trial.get("return_zone","town"))): return false
 	if trial.get("phase","") not in ["none","ready","boon","victory","combat","defeat"]: return false
 	if not trial.get("boons") is Array or not trial.get("offers") is Array or trial.boons.size()>3 or trial.offers.size()>3: return false
 	for id in trial.boons+trial.offers:
@@ -363,7 +396,7 @@ func restore(data: Dictionary) -> bool:
 	return true
 
 func rest_party() -> bool:
-	if zone!="town" or stage.knight.defeated: return false
+	if not Registry.is_safe(zone) or stage.knight.defeated: return false
 	var actor=stage.knight
 	var ally:Dictionary=encounters.companion_status()
 	var hero_needs_rest:bool=actor.health<actor.max_health or actor.mana<actor.max_mana
@@ -456,7 +489,9 @@ func open_npc(npc: Dictionary) -> void:
 func choose_dialogue(choice: String) -> void:
 	var result: Dictionary=adventure.choose(panel.npc_id,choice)
 	say(str(result.get("message","")))
-	if not result.get("ok",false): return
+	if not result.get("ok",false):
+		panel.dialogue_view.result(str(result.get("message","操作未完成")))
+		return
 	match str(result.get("action","")):
 		"shop", "craft": panel.open("trade")
 		"journal": panel.open("journal")
@@ -465,8 +500,8 @@ func choose_dialogue(choice: String) -> void:
 			companion_recruited=true
 			encounters.set_companion_enabled(true)
 			encounters.set_companion(companion_mode)
-			panel.refresh()
-		_: panel.refresh()
+			panel.dialogue_view.result(str(result.get("message","已完成")))
+		_: panel.dialogue_view.result(str(result.get("message","已完成")))
 
 func use_potion(id: String) -> bool:
 	if stage.knight.defeated: return false
