@@ -98,6 +98,7 @@ func setup(map_stage) -> void:
 	var guidance=preload("dungeon_guidance.gd").new()
 	stage.add_child(guidance)
 	guidance.setup(self)
+	if run_state.get("rooms",false): stage.minimap.hide()
 	var backdrop=stage.get_node_or_null("CourtyardBackdrop")
 	if backdrop!=null: backdrop.modulate=Color(str(stage.contract.get("backdrop_tint","ffffff")))
 	if Registry.is_dungeon(zone):
@@ -105,6 +106,7 @@ func setup(map_stage) -> void:
 			bridge.portal_entry=false
 			call_deferred("start_wave")
 		else: panel.open("adventure")
+	if bridge!=null and not bridge.busy: bridge.announce(str(stage.contract.name))
 	events.publish("zone_entered",{"id":zone})
 	say("找雷恩接取试炼；西门是旧林道，东门是古塔，东南关口通往晨钟城。" if zone=="town" else "晨钟城 · 西门返回庭院，东门通往古塔。" if zone=="city" else Registry.title(zone)+" · 清敌后从传送门返回城镇。")
 
@@ -175,7 +177,7 @@ func _wave_cleared(wave: int) -> void:
 			var index:=rng.randi_range(0,pool.size()-1)
 			offers.append(pool.pop_at(index))
 		run_state.offers=offers
-		say("本轮清场！5 秒后自动获得祝福并开始下一轮；可先拾取战利品。")
+		say("房间已清理！拾取战利品，前往发光的门按 E 进入下一间。" if run_state.get("rooms",false) else "本轮清场！5 秒后自动获得祝福并开始下一轮；可先拾取战利品。")
 	# Do not interrupt picking up loot with an automatically opened modal.
 	if persistence_enabled and autosave_armed: save_game(current_slot,true)
 
@@ -190,6 +192,7 @@ func start_trial(seed_value: int = 0, destination: String = "ruins") -> bool:
 
 func start_wave() -> bool:
 	if not Registry.is_dungeon(zone) or run_state.phase!="ready" or encounters.active: return false
+	if run_state.get("rooms",false) and int(run_state.wave)!=int(run_state.get("room",0)): return false
 	var next:=int(run_state.wave)+1
 	if next<1 or next>Registry.waves(zone): return false
 	if not encounters.begin_wave(next,int(run_state.seed)+next): return false
@@ -244,7 +247,7 @@ func travel(target: String, arrival: Array = []) -> bool:
 	bridge.target_zone=target
 	if arrival.size()==2: bridge.pending.player.foot=arrival.duplicate()
 	transitioning=true
-	get_tree().call_deferred("change_scene_to_file","res://stage.tscn")
+	bridge.call_deferred("change_map")
 	return true
 
 func use_portal(link: Dictionary) -> bool:
@@ -252,6 +255,14 @@ func use_portal(link: Dictionary) -> bool:
 	if link not in stage.contract.get("portals",[]): return false
 	if link.has("quest") and adventure._status(str(link.quest))!="claimed": return false
 	var destination:=str(link.target)
+	if destination=="room":
+		if not run_state.get("rooms",false) or run_state.phase not in ["boon","ready"]: return false
+		if int(link.get("room",-1))!=int(run_state.get("room",0))+1: return false
+		if run_state.phase=="boon": choose_boon(str(run_state.offers[0]))
+		run_state.room=int(link.room)
+		var moved_room:=travel(zone,[3.2,7.6])
+		if moved_room: stage.get_node("/root/GameSession").portal_entry=true
+		return moved_room
 	if destination=="return":
 		destination=str(run_state.get("return_zone","town"))
 		encounters.clear()
@@ -262,6 +273,9 @@ func use_portal(link: Dictionary) -> bool:
 		if not Registry.is_safe(zone): return false
 		run_counter+=1
 		run_state={"phase":"ready","wave":0,"seed":int(Time.get_unix_time_from_system())+run_counter*7919,"boons":[],"offers":[],"return_zone":zone}
+		if destination=="ruins":
+			run_state.rooms=true
+			run_state.room=0
 		worlds.erase(destination)
 	var arrival:Array=link.get("arrival",[])
 	if destination=="city" and zone=="ruins": arrival=[21.8,7.4]
@@ -304,6 +318,8 @@ func validate_snapshot(data: Dictionary) -> bool:
 		if not stage.loot.materials.has(id) or not whole(value,0,999999): return false
 	var trial: Dictionary=data.run
 	if not trial.get("return_zone","town") is String or not Registry.is_safe(str(trial.get("return_zone","town"))): return false
+	if trial.has("rooms"):
+		if not trial.rooms is bool or not whole(trial.get("room",0),0,2): return false
 	if trial.get("phase","") not in ["none","ready","boon","victory","combat","defeat"]: return false
 	if not trial.get("boons") is Array or not trial.get("offers") is Array or trial.boons.size()>3 or trial.offers.size()>3: return false
 	for id in trial.boons+trial.offers:
@@ -462,7 +478,7 @@ func load_game(slot: int) -> bool:
 		bridge.pending=data
 		bridge.target_zone=data.zone
 		transitioning=true
-		get_tree().call_deferred("change_scene_to_file","res://stage.tscn")
+		bridge.call_deferred("change_map")
 	else:
 		restore(data)
 		panel.close()
@@ -489,7 +505,7 @@ func step(delta: float) -> void:
 		if wave_countdown <= 0:
 			if run_state.phase=="boon" and not run_state.offers.is_empty():
 				choose_boon(str(run_state.offers[0]))
-			if run_state.phase=="ready": start_wave()
+			if run_state.phase=="ready" and not run_state.get("rooms",false): start_wave()
 	autosave_elapsed+=delta
 	if autosave_elapsed>=45 and persistence_enabled and autosave_armed and safe_to_save():
 		autosave_elapsed=0
@@ -524,9 +540,28 @@ func use_potion(id: String) -> bool:
 	if result.get("ok",false): audio.play("loot")
 	return bool(result.get("ok",false))
 
+func demo_companion(command: int) -> void:
+	if command==0:
+		companion_recruited=not companion_recruited
+		encounters.set_companion_enabled(companion_recruited)
+		if companion_recruited:
+			encounters.rest_companion()
+			encounters.set_companion(companion_mode)
+		say("演示：瑟琳已加入队伍" if companion_recruited else "演示：瑟琳已离队")
+	elif command==1:
+		var modes: Array=["follow","guard","passive"]
+		companion_mode=modes[(modes.find(companion_mode)+1)%modes.size()]
+		encounters.set_companion(companion_mode)
+	else:
+		encounters.rest_companion()
+		say("演示：队友已复苏并恢复生命与法力")
+
 func handle_key(event: InputEventKey) -> bool:
 	if panel.capture_action!="": return panel.capture_key(event)
 	var code:=controls.canonical(event)
+	if code in [KEY_6,KEY_7,KEY_8,KEY_F10,KEY_F11,KEY_F12] and not stage.interface.is_modal():
+		demo_companion([KEY_6,KEY_7,KEY_8,KEY_F10,KEY_F11,KEY_F12].find(code)%3)
+		return true
 	if code==KEY_ESCAPE:
 		if stage.interface.is_modal(): stage.interface.close_panels()
 		else: panel.open("adventure")

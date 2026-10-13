@@ -32,13 +32,11 @@
     "Use logical foot depth for occlusion",
     "Preserve walking paths and valid landing surfaces"
   ],
-  "limitations": [
-    "复用庭院美术的战斗测试场景；敌人为程序绘制的原型外观。"
-  ],
+  "limitations": [],
   "zone_id": "ruins",
   "town_npcs": false,
   "chests": [],
-  "backdrop_tint": "9baecf",
+  "backdrop_tint": "ffffff",
   "portals": [
     {
       "id": "ruins_exit",
@@ -69,5 +67,6 @@
       6.5,
       8
     ]
-  ]
+  ],
+  "background": "res://assets/dawn-city/tower.png"
 }

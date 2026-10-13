@@ -325,6 +325,35 @@
           "innkeeper": 1
         }
       }
+    },
+    {
+      "id": "city_tower",
+      "title": "止息古塔钟声",
+      "description": "从晨钟城东门进入古塔，依次穿过前厅、守卫廊与王座间，击败陨星执政官后回城找奥伦交付。",
+      "npc": "oren",
+      "position": [
+        3,
+        3
+      ],
+      "requires": {},
+      "objectives": [
+        {
+          "id": "boss",
+          "kind": "event",
+          "event": "boss_killed",
+          "target": 1,
+          "label": "击败古塔首领"
+        }
+      ],
+      "rewards": {
+        "xp": 120,
+        "materials": {
+          "旧铜币": 100
+        },
+        "consumables": {
+          "healing_potion": 3
+        }
+      }
     }
   ],
   "shop": [
@@ -842,6 +871,64 @@
           "action": "journal"
         }
       ]
+    },
+    "mira": {
+      "name": "米拉 · 药剂师",
+      "greeting": "欢迎来到晨钟城。我是米拉。东边的古塔有三重封锁，带足药剂，最好与战牧一同出发。",
+      "variants": [],
+      "choices": [
+        {
+          "id": "mira_shop",
+          "label": "补充药剂与装备",
+          "action": "shop"
+        },
+        {
+          "id": "mira_journal",
+          "label": "查看当前委托",
+          "action": "journal"
+        }
+      ]
+    },
+    "oren": {
+      "name": "奥伦 · 卫队长",
+      "greeting": "古塔中的陨星执政官封锁了通道。逐间清理守卫，穿过发光的门，最后击败王座间的首领。",
+      "variants": [],
+      "choices": [
+        {
+          "id": "tower_accept",
+          "label": "接受：止息古塔钟声",
+          "action": "accept",
+          "quest": "city_tower",
+          "when": {
+            "quest": {
+              "id": "city_tower",
+              "status": [
+                "available"
+              ]
+            }
+          }
+        },
+        {
+          "id": "tower_claim",
+          "label": "交付：止息古塔钟声",
+          "action": "claim",
+          "quest": "city_tower",
+          "when": {
+            "quest": {
+              "id": "city_tower",
+              "status": [
+                "active",
+                "ready"
+              ]
+            }
+          }
+        },
+        {
+          "id": "oren_journal",
+          "label": "查看任务进度",
+          "action": "journal"
+        }
+      ]
     }
   },
   "graph_edges": [
@@ -909,6 +996,12 @@
       "from": "courtyard_menace",
       "to": "companion_oath",
       "label": "雷恩的认可",
+      "kind": "optional"
+    },
+    {
+      "from": "courtyard_menace",
+      "to": "city_tower",
+      "label": "晨钟城的后续委托",
       "kind": "optional"
     }
   ]

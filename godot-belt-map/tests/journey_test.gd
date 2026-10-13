@@ -19,6 +19,8 @@ func adopt() -> void:
 
 func settle() -> void:
 	for i in 6: await process_frame
+	var bridge=root.get_node("GameSession")
+	while bridge.busy: await process_frame
 	adopt()
 
 func key(code:int, echo:bool=false) -> void:
@@ -101,6 +103,17 @@ func run() -> void:
 	check(runtime.use_portal(runtime.portals.links[2]),"Unlocked gate travels to city")
 	await settle()
 	check(runtime.zone=="city" and runtime.validate_snapshot(runtime.snapshot()),"New city must be a valid persistent zone")
+	check(stage.townsfolk.residents.size()==2 and stage.townsfolk.residents[0].id=="mira","City has original NPCs")
+	check(runtime.adventure.accept_quest("city_tower"),"City tower quest accepts")
+	runtime.demo_companion(0)
+	check(runtime.companion_recruited and runtime.encounters.companion_enabled,"F10 joins a real combat companion")
+	runtime.demo_companion(1)
+	check(runtime.companion_mode=="guard","F11 changes orders")
+	runtime.encounters.companion_hp=1
+	runtime.demo_companion(2)
+	check(runtime.encounters.companion_hp==runtime.encounters.COMPANION_MAX_HP,"F12 heals ally")
+	runtime.demo_companion(0)
+	check(not runtime.encounters.companion_enabled,"F10 removes companion")
 	await capture("next-city")
 	check(runtime.use_portal(runtime.portals.links[1]),"City east gate enters ancient tower")
 	await settle()
@@ -122,14 +135,20 @@ func run() -> void:
 			check(runtime.wave_countdown==clock,"Pause must freeze intermission countdown")
 			runtime.panel.close()
 			for tick in 320: runtime.step(1.0/60.0)
-			check(runtime.encounters.active and runtime.run_state.wave==wave+1,"Next wave must begin without any key or menu")
+			check(not runtime.encounters.active and runtime.run_state.phase=="ready","Room waits at an open door, no invisible menu required")
+			check(not runtime.start_wave(),"Cannot spawn next room monsters into the previous room")
+			check(runtime.use_portal(runtime.portals.links[1]),"Unlocked door enters next grid room")
+			await settle()
+			check(runtime.encounters.active and runtime.run_state.wave==wave+1 and runtime.run_state.room==wave,"Door changes room and starts its encounter")
 		else:
 			check(runtime.run_state.phase=="victory","Third wave ends the dungeon")
 			for tick in 320: runtime.step(1.0/60.0)
 			check(not runtime.encounters.active,"Victory never spawns an extra wave")
+	check(runtime.adventure._status("city_tower")=="ready","Defeating final room boss completes city quest")
 	check(runtime.return_town(),"Retreat route is available")
 	await settle()
 	check(runtime.zone=="city","Retreat must return to the originating city")
+	check(runtime.adventure.claim_quest("city_tower").ok,"Boss quest rewards can be claimed on return")
 	check(runtime.use_portal(runtime.portals.links[0]),"City west road returns to courtyard")
 	await settle()
 	check(runtime.zone=="town" and runtime.adventure._status("courtyard_menace")=="claimed","Round trip preserves quest receipt")

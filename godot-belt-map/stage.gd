@@ -69,12 +69,24 @@ func _ready() -> void:
 		if bridge!=null and not bridge.pending.is_empty():
 			var target:Dictionary=preload("systems/world_registry.gd").load_zone(bridge.target_zone)
 			if not target.is_empty(): contract=target
+			if bridge.target_zone=="ruins" and bridge.pending.get("run",{}).get("rooms",false):
+				preload("systems/dungeon_rooms.gd").configure(contract,bridge.pending.run)
 	volumes=contract.volumes
 	var b: Dictionary=contract.bounds
 	bounds=Rect2(b.x,b.depth,b.width,b.depth_size)
 	foot=Vector2(contract.spawn.x,contract.spawn.depth)
 	last_safe=foot
-	CourtyardBackdrop.new().setup(self)
+	if contract.has("background"):
+		var backdrop:=Sprite2D.new()
+		backdrop.texture=load(str(contract.background))
+		backdrop.centered=false
+		backdrop.scale=Vector2.ONE*(3072.0/backdrop.texture.get_width())
+		# Match the new image's pavement horizon to the walkable belt.
+		backdrop.position=Vector2(0,-50)
+		backdrop.z_index=-20
+		add_child(backdrop)
+	else:
+		CourtyardBackdrop.new().setup(self)
 	sorting.y_sort_enabled=true
 	sorting.z_index=1
 	add_child(sorting)
@@ -111,7 +123,7 @@ func _ready() -> void:
 	combat_fx.z_index=5
 	add_child(combat_fx)
 	practice=PracticeTargets.new()
-	if contract.get("town_npcs",true): practice.setup(self)
+	if contract.get("town_npcs",true) and contract.get("zone_id","town")!="city": practice.setup(self)
 	camera.position=Vector2(clampf(foot.x*ppm,640,2432),400)
 	add_child(camera)
 	var layer := CanvasLayer.new()
@@ -334,10 +346,14 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			loot.quick_equip(foot,height_z)
 
 func _input(event: InputEvent) -> void:
+	var bridge=get_node_or_null("/root/GameSession")
+	if bridge!=null and bridge.busy:
+		get_viewport().set_input_as_handled()
+		return
 	if runtime!=null and event is InputEventKey and runtime.panel.is_open() and runtime.panel.tab=="dialogue":
 		var physical:int=event.physical_keycode if event.physical_keycode!=0 else event.keycode
-		if physical==KEY_SPACE:
-			if event.pressed and not event.echo: runtime.panel.dialogue_view.advance()
+		if physical in [KEY_SPACE,KEY_ENTER,KEY_UP,KEY_DOWN,KEY_LEFT,KEY_RIGHT]:
+			if event.pressed and not event.echo: runtime.panel.dialogue_view.keyboard(physical)
 			get_viewport().set_input_as_handled()
 			return
 	if runtime!=null and event is InputEventKey and runtime.panel.capture_action!="":
@@ -404,6 +420,8 @@ func interact() -> void:
 		else: interface.begin_conversation(npc)
 
 func _physics_process(delta: float) -> void:
+	var bridge=get_node_or_null("/root/GameSession")
+	if bridge!=null and bridge.busy: return
 	if not is_instance_valid(knight):
 		return
 	# Death is a state transition and must settle even if Esc opened this frame.

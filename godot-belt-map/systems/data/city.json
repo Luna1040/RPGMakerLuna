@@ -5,7 +5,7 @@
   "worldMapId": "map-4",
   "biome": "grassland",
   "biomeNote": "Grassland courtyard projection test associated with the existing ruins location; does not replace desert map-2.",
-  "name": "晨钟城 · 南市街",
+  "name": "晨钟城 · 钟鸣广场",
   "units": "meters",
   "projectionParameters": {
     "pixelsPerMeter": 120,
@@ -14,59 +14,16 @@
   },
   "bounds": {
     "x": 0.7,
-    "depth": 0.5,
+    "depth": 4.0,
     "width": 24.2,
-    "depth_size": 8.7
+    "depth_size": 5.2
   },
   "spawn": {
     "x": 3.2,
     "depth": 7.4,
     "z": 0
   },
-  "volumes": [
-    {
-      "id": "city-house-0",
-      "kind": "building",
-      "x": 4,
-      "depth": 0.7,
-      "width": 3.7,
-      "depth_size": 0.85,
-      "base_z": 0,
-      "height": 4.5,
-      "solid": true,
-      "standable": false,
-      "asset": "inn",
-      "visualHeight": 7.5
-    },
-    {
-      "id": "city-house-1",
-      "kind": "building",
-      "x": 11,
-      "depth": 0.7,
-      "width": 3.7,
-      "depth_size": 0.85,
-      "base_z": 0,
-      "height": 4.5,
-      "solid": true,
-      "standable": false,
-      "asset": "inn",
-      "visualHeight": 7.5
-    },
-    {
-      "id": "city-house-2",
-      "kind": "building",
-      "x": 18,
-      "depth": 0.7,
-      "width": 3.7,
-      "depth_size": 0.85,
-      "base_z": 0,
-      "height": 4.5,
-      "solid": true,
-      "standable": false,
-      "asset": "inn",
-      "visualHeight": 7.5
-    }
-  ],
+  "volumes": [],
   "aiRequirements": [
     "Do not reuse overhead roof assets as frontal facades",
     "Separate far background, floor, architecture, props and shadows",
@@ -75,13 +32,11 @@
     "Use logical foot depth for occlusion",
     "Preserve walking paths and valid landing surfaces"
   ],
-  "limitations": [
-    "复用庭院美术的战斗测试场景；敌人为程序绘制的原型外观。"
-  ],
+  "limitations": [],
   "zone_id": "city",
-  "town_npcs": false,
+  "town_npcs": true,
   "chests": [],
-  "backdrop_tint": "eed7ad",
+  "backdrop_tint": "ffffff",
   "portals": [
     {
       "id": "city_west",
@@ -105,5 +60,6 @@
         7.6
       ]
     }
-  ]
+  ],
+  "background": "res://assets/dawn-city/city.png"
 }

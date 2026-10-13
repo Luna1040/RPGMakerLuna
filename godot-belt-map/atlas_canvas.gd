@@ -91,17 +91,18 @@ func draw_local() -> void:
 	# Fine muted terrain blocks, all keyed to the same courtyard ground coordinates.
 	for y in 18:
 		for x in 48:
-			var c := Color("657c60").lightened((sin(x*19.0+y*13.0)+1)*.035)
+			var c := Color("b6b09b" if stage.contract.get("zone_id","")=="city" else "657c60").lightened((sin(x*19.0+y*13.0)+1)*.035)
 			draw_rect(Rect2(area.position+Vector2(x/48.0,y/18.0)*area.size,area.size/Vector2(48,18)+Vector2.ONE),c)
-	var road_y := map_point(Vector2(0,5.4)).y
-	draw_line(Vector2(area.position.x,road_y),Vector2(area.end.x,road_y),Color("a6a282"),area.size.y*.27)
-	draw_line(Vector2(area.position.x,road_y),Vector2(area.end.x,road_y),Color("bbb28c"),area.size.y*.19)
-	if not compact:
-		for i in 54:
-			var x := area.position.x+i*area.size.x/54
-			draw_line(Vector2(x,road_y-area.size.y*.08),Vector2(x,road_y+area.size.y*.08),Color(0.3,0.3,0.23,.12),1)
-	for x in local_branch_roads():
-		draw_line(map_point(Vector2(x,1.2)),map_point(Vector2(x,5.4)),Color("aaa583"),area.size.x*.033)
+	if not stage.contract.has("background"):
+		var road_y := map_point(Vector2(0,5.4)).y
+		draw_line(Vector2(area.position.x,road_y),Vector2(area.end.x,road_y),Color("a6a282"),area.size.y*.27)
+		draw_line(Vector2(area.position.x,road_y),Vector2(area.end.x,road_y),Color("bbb28c"),area.size.y*.19)
+		if not compact:
+			for i in 54:
+				var x := area.position.x+i*area.size.x/54
+				draw_line(Vector2(x,road_y-area.size.y*.08),Vector2(x,road_y+area.size.y*.08),Color(0.3,0.3,0.23,.12),1)
+		for x in local_branch_roads():
+			draw_line(map_point(Vector2(x,1.2)),map_point(Vector2(x,5.4)),Color("aaa583"),area.size.x*.033)
 	for v: Dictionary in stage.volumes:
 		var origin := map_point(Vector2(v.x,v.depth))
 		var extent: Vector2 = Vector2(v.width,v.depth_size)/stage.bounds.size*area.size

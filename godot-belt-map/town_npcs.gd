@@ -7,6 +7,10 @@ var stage: Node2D
 
 func setup(map_stage: Node2D) -> void:
 	stage = map_stage
+	if stage.contract.get("zone_id", "town")=="city":
+		_add_resident("mira","米拉 · 药剂师",Vector2(6,5.1),"res://assets/npcs/mira.png",Vector2(510,1520),1500,Rect2(240,20,560,650),["欢迎来到晨钟城，出发前来补充药剂吧。"])
+		_add_resident("oren","奥伦 · 卫队长",Vector2(18.5,5.5),"res://assets/npcs/oren.png",Vector2(510,1520),1500,Rect2(240,10,560,650),["古塔的钟声已经失控，我们需要你的援手。"])
+		return
 	_add_resident("innkeeper", "艾琳 · 旅店主人", Vector2(5.2, 4.1), "res://assets/npcs/innkeeper.png", Vector2(520, 1500), 1458.0, Rect2(300, 40, 410, 455), [
 		"欢迎来到苍石庭院。我是艾琳，旅店就在身后。先在这里熟悉一下身手吧。",
 		"旧木箱已经没人用了，打碎后留下的杂物可以收进背包。别对着镇民挥剑就好。",

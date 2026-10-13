@@ -15,6 +15,7 @@ var reveal:=0.0
 var pending_choice:=""
 var at_choices:=false
 var npc_name:=""
+var selected_choice:=0
 
 func setup(owner_panel) -> void:
 	panel=owner_panel
@@ -54,8 +55,8 @@ func setup(owner_panel) -> void:
 	next.text="空格 · 继续"
 	next.pressed.connect(advance)
 	add_child(next)
-	choice_scroll.position=Vector2(460,190)
-	choice_scroll.size=Vector2(730,345)
+	choice_scroll.position=Vector2(430,190)
+	choice_scroll.size=Vector2(410,345)
 	choice_scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED
 	choices.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 	choices.add_theme_constant_override("separation",7)
@@ -85,6 +86,8 @@ func begin() -> void:
 		guide="晨钟城的道路已经开放。庭院东南关口和晨钟城西门相连；两座城镇的东门都能进入古塔，撤退时会回到出发的城镇。"
 	elif panel.npc_id=="smith":
 		guide="先接下我的试炼，从庭院西门的蓝色传送门进入旧林道。清理三名敌人后从出口回来找我交付，我就给你晨钟城的通行凭证。"
+	if panel.runtime.zone=="city":
+		guide="在米拉处补给，向奥伦接下古塔委托。东门进入古塔，清理当前房间后穿过亮起的门，王座间有首领。胜利后回到奥伦这里领取奖励。"
 	play([
 		{"who":"npc","text":str(data.text)},
 		{"who":"hero","text":"我想先熟悉这里的道路。有什么需要我做的？"},
@@ -116,7 +119,9 @@ func _process(delta: float) -> void:
 	speech.visible_characters=mini(int(reveal),speech.text.length())
 
 func advance() -> void:
-	if at_choices: return
+	if at_choices:
+		activate_choice()
+		return
 	if speech.visible_characters>=0 and speech.visible_characters<speech.text.length():
 		reveal=speech.text.length()
 		speech.visible_characters=-1
@@ -128,8 +133,8 @@ func advance() -> void:
 func show_choices() -> void:
 	at_choices=true
 	speech.visible_characters=-1
-	speech.text="选择下方事项。任务与分支只有确认后才会生效。"
-	counter.text="滚轮浏览选项 · Esc 结束交谈"
+	speech.text="选择一项事项。任务与分支只有确认后才会生效。"
+	counter.text="↑ ↓ 选择 · 空格确认 · Esc 结束交谈"
 	next.hide()
 	left.modulate=Color(.55,.58,.65)
 	right.modulate=Color.WHITE
@@ -142,6 +147,7 @@ func show_choices() -> void:
 		var id:=pending_choice
 		panel.button(choices,"确认 · "+choice_label(id),func(): panel.runtime.choose_dialogue(id))
 		panel.button(choices,"返回话题",func(): pending_choice=""; show_choices())
+		prepare_choices()
 		return
 	var data:Dictionary=panel.runtime.adventure.dialogue_for(panel.npc_id)
 	for choice in data.get("choices",[]):
@@ -150,8 +156,9 @@ func show_choices() -> void:
 		if not choice.get("enabled",true): title+=" · "+str(choice.get("reason",""))
 		var button:Button=panel.button(choices,title,func(): select_topic(id),bool(choice.get("enabled",true)))
 		button.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-		button.custom_minimum_size.x=650
+		button.custom_minimum_size.x=380
 	panel.button(choices,"没别的事了 · 结束交谈",panel.close)
+	prepare_choices()
 
 func choice_label(id: String) -> String:
 	for choice in panel.runtime.adventure.catalog.npcs[panel.npc_id].choices:
@@ -173,3 +180,47 @@ func result(text: String) -> void:
 	pending_choice=""
 	play([{"who":"npc","text":text}])
 
+
+func prepare_choices() -> void:
+	selected_choice=0
+	for i in choices.get_child_count():
+		var button: Button=choices.get_child(i)
+		button.focus_mode=Control.FOCUS_NONE
+		button.mouse_entered.connect(func(): select_choice(i))
+	select_choice(0)
+
+func select_choice(index_value: int) -> void:
+	var count:=choices.get_child_count()
+	if count==0: return
+	selected_choice=posmod(index_value,count)
+	for attempt in count:
+		if not choices.get_child(selected_choice).disabled: break
+		selected_choice=(selected_choice+1)%count
+	for i in count:
+		var button: Button=choices.get_child(i)
+		var style:=StyleBoxFlat.new()
+		style.bg_color=Color("665333") if i==selected_choice else Color("162735")
+		style.border_color=Color("f5cf7e") if i==selected_choice else Color("3c5260")
+		style.set_border_width_all(2 if i==selected_choice else 1)
+		style.content_margin_left=16
+		style.content_margin_right=16
+		style.content_margin_top=8
+		style.content_margin_bottom=8
+		button.add_theme_stylebox_override("normal",style)
+		button.add_theme_stylebox_override("hover",style)
+	choice_scroll.ensure_control_visible(choices.get_child(selected_choice))
+
+func activate_choice() -> void:
+	if not at_choices or choices.get_child_count()==0: return
+	var button:Button=choices.get_child(selected_choice)
+	if not button.disabled: button.pressed.emit()
+
+func keyboard(code: int) -> void:
+	if code in [KEY_SPACE,KEY_ENTER]: advance()
+	elif at_choices:
+		var direction: int=-1 if code in [KEY_UP,KEY_LEFT] else 1
+		var candidate:=selected_choice
+		for attempt in choices.get_child_count():
+			candidate=posmod(candidate+direction,choices.get_child_count())
+			if not choices.get_child(candidate).disabled: break
+		select_choice(candidate)

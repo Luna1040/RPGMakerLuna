@@ -121,6 +121,11 @@ func button(parent: Node, text: String, action: Callable, enabled: bool = true) 
 	b.custom_minimum_size.y=38
 	b.add_theme_font_size_override("font_size",18)
 	b.disabled=not enabled
+	var focus_style:=StyleBoxFlat.new()
+	focus_style.bg_color=Color("665333")
+	focus_style.border_color=Color("f5cf7e")
+	focus_style.set_border_width_all(2)
+	b.add_theme_stylebox_override("focus",focus_style)
 	b.pressed.connect(action)
 	parent.add_child(b)
 	return b
@@ -156,6 +161,14 @@ func refresh() -> void:
 		"settings": render_settings()
 		"dialogue": render_dialogue()
 	update_status()
+	if tab=="trade": call_deferred("focus_trade")
+
+func focus_trade() -> void:
+	if not is_open() or tab!="trade": return
+	for control in body.find_children("*","Button",true,false):
+		if not control.disabled:
+			control.grab_focus()
+			return
 
 func update_status() -> void:
 	status.text="Lv.%d  经验 %d/%d   铜币 %d   %s  ·  %s" % [runtime.progression.level,runtime.progression.xp,runtime.progression.xp_to_next(),runtime.stage.loot.materials.get("旧铜币",0),runtime.Registry.title(runtime.zone), "城镇休整" if runtime.Registry.is_safe(runtime.zone) else "第 %d / %d 轮" % [runtime.run_state.wave,runtime.Registry.waves(runtime.zone)]]
@@ -181,7 +194,10 @@ func render_adventure() -> void:
 			for id in runtime.run_state.offers:
 				var boon:String=id
 				button(body,runtime.BOONS[id].name+" · "+runtime.BOONS[id].text,func(): runtime.choose_boon(boon); close())
-		if phase=="ready": button(body,"开始第 %d 轮" % (runtime.run_state.wave+1),func(): runtime.start_wave())
+		if phase=="ready":
+			if runtime.run_state.get("rooms",false) and int(runtime.run_state.wave)>0:
+				button(body,"返回房间 · 从发光的门继续前进",close)
+			else: button(body,"开始第 %d 轮" % (runtime.run_state.wave+1),func(): runtime.start_wave())
 		if not runtime.run_state.boons.is_empty():
 			var titles: Array[String]=[]
 			for id in runtime.run_state.boons: titles.append(runtime.BOONS[id].name)
