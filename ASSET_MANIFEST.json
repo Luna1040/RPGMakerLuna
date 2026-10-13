@@ -62943,8 +62943,8 @@
     },
     {
       "path": "运行游戏-AI开发版.ps1",
-      "bytes": 1531,
-      "sha256": "6c703e9a19efbef8460f98def226ab2b50da1f0b79ba78aa09dada6c235a9420"
+      "bytes": 2271,
+      "sha256": "f49d0df38c2247fd3236550ea7965f3aa77e93ca18165746e3f7bf284343bf18"
     },
     {
       "path": "启动团队生图服务.cmd",
@@ -63000,6 +63000,21 @@
       "path": "godot-ai-workbench/workflows/flux2-pixel-image.json",
       "bytes": 15310,
       "sha256": "102426e3a7ab18e917d72bd681d3225a4f6b3ff6218e48d6d9cf69ccb3291777"
+    },
+    {
+      "path": "README.md",
+      "bytes": 18969,
+      "sha256": "885dc9e8a58489f8b15896de9f0739cc2536421dfc097e01f13e0a6c9eea36c8"
+    },
+    {
+      "path": "godot-ai-workbench/resolve-runtime.ps1",
+      "bytes": 1854,
+      "sha256": "cb95bd7896fa35d167a223cbeb2ec2889018766df1852298ff1d86e1b0da9d49"
+    },
+    {
+      "path": "godot-ai-workbench/launcher-paths-test.ps1",
+      "bytes": 1759,
+      "sha256": "0b205f23a78659b36ba9c809eef5f75828e0edb1063c302c805f1ed3ff2ef829"
     }
   ]
 }

@@ -1,11 +1,11 @@
-﻿param([switch]$HomePage)
+﻿param([switch]$HomePage,[switch]$CheckOnly)
 $ErrorActionPreference='Stop'
 $root=$PSScriptRoot
 . (Join-Path $root 'godot-ai-workbench/resolve-codex.ps1')
-$node=Join-Path $root '.tools/node-v22.17.0-win-x64/node.exe'
+. (Join-Path $root 'godot-ai-workbench/resolve-runtime.ps1')
 $server=Join-Path $root 'godot-ai-workbench/bridge/game-server.mjs'
 $connection=Join-Path $root '.game-assistant/connection.json'
-if(Test-Path -LiteralPath $connection) {
+if(!$CheckOnly -and (Test-Path -LiteralPath $connection)) {
     $config=Get-Content -LiteralPath $connection -Raw | ConvertFrom-Json
     $running=$false
     try {
@@ -20,7 +20,18 @@ if(Test-Path -LiteralPath $connection) {
     }
 }
 $private=Join-Path $root '.game-assistant'
+$runtime=Resolve-GameRuntimes -Root $root
+$node=$runtime.Node
+$env:GODOT_BIN=$runtime.Godot
 $env:CODEX_BIN=Resolve-CodexExecutable
+$nodeVersion=(& $node --version | Out-String).Trim()
+if($LASTEXITCODE -ne 0 -or $nodeVersion -notmatch '^v(\d+)' -or [int]$Matches[1] -lt 20){throw 'Node.js 20+ is required; this project is tested with Node.js 22.x.'}
+$godotVersion=(& $env:GODOT_BIN --version | Out-String).Trim()
+if($LASTEXITCODE -ne 0 -or $godotVersion -notmatch '^4\.'){throw 'Godot 4 is required; this project is tested with Godot 4.7.2.'}
+Write-Host "Node: $node ($nodeVersion)"
+Write-Host "Godot: $env:GODOT_BIN ($godotVersion)"
+Write-Host "Codex: $env:CODEX_BIN"
+if($CheckOnly){Write-Host 'Launcher dependencies OK.'; exit 0}
 New-Item -ItemType Directory -Force $private | Out-Null
 $serverArguments='"'+$server+'"'
 if($HomePage){$serverArguments+=' --home'}
