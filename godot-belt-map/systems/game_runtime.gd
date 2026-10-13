@@ -218,8 +218,9 @@ func start_trial(seed_value: int = 0, destination: String = "ruins") -> bool:
 	if not Registry.is_dungeon(destination): return false
 	run_state={"phase":"ready","wave":0,"seed":seed_number,"boons":[],"offers":[],"return_zone":zone}
 	if destination=="forest":
-		run_state.rooms=true
-		run_state.room=0
+		if Registry.is_dungeon(destination):
+			run_state.rooms=true
+			run_state.room=0
 	worlds.erase(destination)
 	return travel(destination)
 
@@ -233,7 +234,7 @@ func start_wave() -> bool:
 	run_state.phase="combat"
 	wave_countdown=-1.0
 	panel.close()
-	say("第 %d / %d 轮 · 留意敌人的红色攻击预警" % [next,Registry.waves(zone)])
+	say("第 %d / %d %s · 留意敌人的红色攻击预警" % [next,Registry.waves(zone),"间" if run_state.get("rooms",false) else "轮"])
 	return true
 
 func choose_boon(id: String) -> bool:
@@ -309,9 +310,8 @@ func use_portal(link: Dictionary) -> bool:
 		if not Registry.is_safe(zone): return false
 		run_counter+=1
 		run_state={"phase":"ready","wave":0,"seed":int(Time.get_unix_time_from_system())+run_counter*7919,"boons":[],"offers":[],"return_zone":zone}
-		if Registry.is_dungeon(destination):
-			run_state.rooms=true
-			run_state.room=0
+		run_state.rooms=true
+		run_state.room=0
 		worlds.erase(destination)
 	var arrival:Array=link.get("arrival",[])
 	if Registry.is_dungeon(destination) and run_state.get("rooms",false): arrival=[3.2,7.6]
@@ -613,9 +613,13 @@ func demo_companion(command: int) -> void:
 			encounters.set_companion(companion_mode)
 		say("演示：瑟琳已加入队伍" if companion_recruited else "演示：瑟琳已离队")
 	elif command==1:
+		if not companion_recruited:
+			demo_companion(0)
+			return
 		var modes: Array=["follow","guard","passive"]
 		companion_mode=modes[(modes.find(companion_mode)+1)%modes.size()]
 		encounters.set_companion(companion_mode)
+		say("队友指令："+{"follow":"跟随","guard":"驻守","passive":"停战"}[companion_mode])
 	else:
 		encounters.rest_companion()
 		say("演示：队友已复苏并恢复生命与法力")

@@ -87,7 +87,9 @@ async function task(body){
    const png=Buffer.from(body.screenshot,'base64');if(!png.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])))throw Error('Invalid PNG');
    const file=path.join(folder,'scene.png');await writeFile(file,png);input.push({type:'localImage',path:file});
   }
-  const r=await rpc('turn/start',{threadId:state.threadId,input});state.turnId=r.turn.id;
+  // ComfyUI is an HTTP service even on localhost. Keep workspace file isolation,
+  // but allow the requested generation clients to reach it.
+  const r=await rpc('turn/start',{threadId:state.threadId,input,sandboxPolicy:{type:'workspaceWrite',writableRoots:[root],networkAccess:true}});state.turnId=r.turn.id;
  }catch(e){fail(e);throw e;}
 }
 async function restartGame(validate=false){

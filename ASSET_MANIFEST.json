@@ -37113,8 +37113,8 @@
     },
     {
       "path": "godot-belt-map/systems/game_runtime.gd",
-      "bytes": 28098,
-      "sha256": "3545b41b415abe850626e0bc3e5fd5f32dc85602cfcd49c34d6f074265172928"
+      "bytes": 30565,
+      "sha256": "86d899bb2485f2210803e3eabbd399223b99ef3a811269fb6c80391c9f0820e0"
     },
     {
       "path": "godot-belt-map/systems/game_runtime.gd.uid",
@@ -37283,8 +37283,8 @@
     },
     {
       "path": "godot-belt-map/tests/menu_input_test.gd",
-      "bytes": 3916,
-      "sha256": "ecbc73687c1fadf47a28fd9ed8b93dab076c0727cbbf290fa7c87ff15a6ae812"
+      "bytes": 4787,
+      "sha256": "957bbcda8eb2780f25c1d824789b981abe143f58e149f467d1d8fc8dca85d83e"
     },
     {
       "path": "godot-belt-map/tests/menu_input_test.gd.uid",
@@ -62613,8 +62613,8 @@
     },
     {
       "path": "godot-belt-map/systems/dungeon_guidance.gd",
-      "bytes": 2524,
-      "sha256": "bb67214c3762e7307e89ba5effb021ad8d315322e078c8000fb85a2da3d5d283"
+      "bytes": 3160,
+      "sha256": "3e31f7dd325b88802cef4ed31533a91b5da1ab0591902449534b3705e4502287"
     },
     {
       "path": "godot-belt-map/systems/dungeon_guidance.gd.uid",
@@ -62883,8 +62883,8 @@
     },
     {
       "path": "godot-ai-workbench/ART_PIPELINE.md",
-      "bytes": 4332,
-      "sha256": "a7a9c4ed32d60ad0f91a5f33ea56d5e3f1d680ff09fa56d5cb507b2cb55cd8d8"
+      "bytes": 6728,
+      "sha256": "c816834bf1c34a0960eb8bdb36b0fe7905eda8fba02c7adc27b3ff5d8ddbdd24"
     },
     {
       "path": "godot-ai-workbench/resolve-codex.ps1",
@@ -62898,18 +62898,18 @@
     },
     {
       "path": "godot-ai-workbench/游戏内助手说明.md",
-      "bytes": 2934,
-      "sha256": "8abff9dbfbc70dd8935ebbb53e6b419c4d76683f68a93553e8c61017b317bbeb"
+      "bytes": 4004,
+      "sha256": "1e134a32f96813d08b06a43d9ef8ae2e63b7944388185829561bc9bffd4ecdfc"
     },
     {
       "path": "godot-ai-workbench/bridge/art-pipeline.mjs",
-      "bytes": 1105,
-      "sha256": "8692ca1c1eb68410d05ad2d5e75eb7904db7a014bfc85fac1e5f167e4b199878"
+      "bytes": 1387,
+      "sha256": "9f729d9424331259cf68a9849b94845ed483527d98c94831e4541351bbae55c7"
     },
     {
       "path": "godot-ai-workbench/bridge/art-pipeline.test.mjs",
-      "bytes": 951,
-      "sha256": "b510bc2047532bbefbdc4ba18ce1d88bd54cc90996db06fdacb53c54f4c46094"
+      "bytes": 964,
+      "sha256": "cd34e18cdc89db6925fb2b76c813f8814e393735a2041219f1fb0f154e7f2bc4"
     },
     {
       "path": "godot-ai-workbench/bridge/catalog-store.mjs",
@@ -62923,8 +62923,8 @@
     },
     {
       "path": "godot-ai-workbench/bridge/game-server.mjs",
-      "bytes": 13216,
-      "sha256": "3e6952b156c665e9db2efaf39368286055569a9515f93c0ab30ab72a91658531"
+      "bytes": 13437,
+      "sha256": "960322984c528a11be8c988b1f55f9d65ca5860ebfae1e8407ca8692b41df593"
     },
     {
       "path": ".editorconfig",
@@ -62950,6 +62950,56 @@
       "path": "启动团队生图服务.cmd",
       "bytes": 143,
       "sha256": "ccfdd612a433fbed7cf56af3f3eac2f24e963503d64bb0e35c44eb1eba4256d5"
+    },
+    {
+      "path": "godot-ai-workbench/art_cli.py",
+      "bytes": 5099,
+      "sha256": "7d026f2882658470ea13aa6fffe274dc84ef08a512190e9a003237c463df08eb"
+    },
+    {
+      "path": "godot-ai-workbench/repair_pixel_workflow.py",
+      "bytes": 3697,
+      "sha256": "17ed7650d685b8039680b98903f6c593a4a2ff6725aa1ec71b3824b8304cdb8d"
+    },
+    {
+      "path": "godot-ai-workbench/start-comfy-terminal.ps1",
+      "bytes": 1560,
+      "sha256": "de8e77cbe71321492ff2c7133a10d9db904f293312d655c11e81d04f7483f0d6"
+    },
+    {
+      "path": "shareable-skills/game-production/SKILL.md",
+      "bytes": 3900,
+      "sha256": "1d213fc5443a8a9d7ee526179c8e99f0463cc154169ee1e80480b8af602d1974"
+    },
+    {
+      "path": "shareable-skills/game-production/scripts/image_client.py",
+      "bytes": 4083,
+      "sha256": "698bb8c05ea7fbb8d25c37350b96a9701bbd0023140f3a3c22e21795ed099c57"
+    },
+    {
+      "path": "shareable-skills/game-production/scripts/comfy_client.py",
+      "bytes": 6808,
+      "sha256": "6193f8c6c345d2bab4f03bd073145bcd7dbe8cbafb0f5031348fa49b8feaecd7"
+    },
+    {
+      "path": "shareable-skills/game-production/scripts/matte_frames.py",
+      "bytes": 2240,
+      "sha256": "3bf34174fd08cddf42b9991286d6a7e95cd871d32b6369fa3cbd0df68061c40b"
+    },
+    {
+      "path": "启动团队生图服务.ps1",
+      "bytes": 1433,
+      "sha256": "7cb0e6e40acdafa944cf2cbd14f79e5e366aa4f9652f5b1f608fbd1fb081b706"
+    },
+    {
+      "path": "团队生图服务说明.md",
+      "bytes": 2265,
+      "sha256": "0c2c82df0d7af6ffa1c6a215f86ad2d201656263ff23fd87048be0c5e0a53ee4"
+    },
+    {
+      "path": "godot-ai-workbench/workflows/flux2-pixel-image.json",
+      "bytes": 15310,
+      "sha256": "102426e3a7ab18e917d72bd681d3225a4f6b3ff6218e48d6d9cf69ccb3291777"
     }
   ]
 }

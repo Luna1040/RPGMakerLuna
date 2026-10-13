@@ -12,9 +12,14 @@ def main():
     p.add_argument('--source', type=Path, required=True)
     p.add_argument('--out', type=Path, required=True)
     args = p.parse_args()
+    files = sorted(args.source.glob('*.png'))
+    if not files:
+        p.error('Source contains no PNG frames; refusing an empty successful export')
+    if not args.model.is_file():
+        p.error('BiRefNet model does not exist')
     args.out.mkdir(parents=True, exist_ok=False)
     session = ort.InferenceSession(str(args.model), providers=['CPUExecutionProvider'])
-    for file in sorted(args.source.glob('*.png')):
+    for file in files:
         im = Image.open(file).convert('RGB')
         rgb = np.asarray(im).astype(np.float32) / 255
         small = np.asarray(im.resize((1024, 1024), Image.Resampling.BILINEAR)).astype(np.float32) / 255

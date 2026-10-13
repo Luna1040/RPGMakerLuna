@@ -3,6 +3,8 @@ var runtime
 var label := Label.new()
 var shortcuts:=Label.new()
 var room_grid: Control
+var party_buttons:=HBoxContainer.new()
+var summon_button:=Button.new()
 
 func setup(service) -> void:
 	runtime=service
@@ -21,9 +23,21 @@ func setup(service) -> void:
 	shortcuts.add_theme_font_size_override("font_size",14)
 	shortcuts.add_theme_color_override("font_outline_color",Color.BLACK)
 	shortcuts.add_theme_constant_override("outline_size",5)
-	shortcuts.text="演示快捷键  6 加入/移除瑟琳 · 7 切换指令 · 8 队友复苏"
+	shortcuts.text="队友  6 加入/离队 · 7 召唤/切换指令 · 8 复苏"
 	shortcuts.mouse_filter=Control.MOUSE_FILTER_IGNORE
 	add_child(shortcuts)
+	party_buttons.position=Vector2(28,620)
+	add_child(party_buttons)
+	summon_button.text="召唤队友 [6]"
+	summon_button.focus_mode=Control.FOCUS_NONE
+	summon_button.pressed.connect(func(): runtime.demo_companion(0))
+	party_buttons.add_child(summon_button)
+	for item in [["召唤/指令 [7]",1],["复苏 [8]",2]]:
+		var button:=Button.new()
+		button.text=item[0]
+		button.focus_mode=Control.FOCUS_NONE
+		button.pressed.connect(runtime.demo_companion.bind(item[1]))
+		party_buttons.add_child(button)
 	room_grid=preload("room_grid.gd").new()
 	room_grid.runtime=runtime
 	add_child(room_grid)
@@ -52,3 +66,5 @@ func _process(_delta: float) -> void:
 	label.visible=runtime.Registry.is_dungeon(runtime.zone) and not runtime.stage.interface.is_modal()
 	label.text=message() if label.visible else ""
 	shortcuts.visible=not runtime.stage.interface.is_modal()
+	party_buttons.visible=shortcuts.visible
+	summon_button.text="队友离队 [6]" if runtime.companion_recruited else "召唤队友 [6]"

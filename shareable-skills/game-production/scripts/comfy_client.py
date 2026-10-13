@@ -3,6 +3,7 @@ import argparse
 import copy
 import json
 import os
+import secrets
 from pathlib import Path
 import time
 import urllib.request
@@ -96,7 +97,7 @@ def main():
     submit.add_argument('--workflow', type=Path, required=True)
     submit.add_argument('--reference', type=Path, required=True)
     submit.add_argument('--prompt-file', type=Path, required=True)
-    submit.add_argument('--seed', type=int, default=731420)
+    submit.add_argument('--seed', type=int, help='Fixed seed for reproduction; omitted means a fresh random seed')
     submit.add_argument('--out', type=Path, required=True)
     resume = sub.add_parser('wait')
     resume.add_argument('--out', type=Path, required=True)
@@ -125,7 +126,7 @@ def main():
         graph = copy.deepcopy(json.loads(args.workflow.read_text(encoding='utf-8')))
         graph['1']['inputs']['image'] = upload(args.url, args.reference)
         graph['6']['inputs']['prompt'] = args.prompt_file.read_text(encoding='utf-8')
-        graph['8']['inputs']['noise_seed'] = args.seed
+        graph['8']['inputs']['noise_seed'] = args.seed if args.seed is not None else secrets.randbits(53)
         job_id = 'team/' + uuid.uuid4().hex
         graph['14']['inputs']['filename_prefix'] = job_id + '/video'
         graph['15']['inputs']['filename_prefix'] = job_id + '/frames'
