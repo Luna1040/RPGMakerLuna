@@ -83,6 +83,31 @@ func run() -> void:
 		check(stage.bounds.has_point(enemy.foot) and not stage.Physics.blocked(stage.volumes,enemy.foot,0),"spawn must be walkable within map")
 		check(absf(stage.project(enemy.foot).x-stage.camera.position.x) <= 640,"spawn must fit arrival horizontal camera")
 	check(not stage.interface.is_modal() and runtime.run_state.phase == "combat","wave start should close menu and begin combat")
+	# Exercise actor events in BOTH new dungeon regions, not just the old east arena.
+	for zone_name in ["ruins", "forest"]:
+		stage.contract.zone_id = zone_name
+		for action in ["attack", "crescent", "rising", "trinity", "magic"]:
+			var target: Dictionary = fresh_battle()
+			stage.foot = Vector2(5,7) if zone_name == "ruins" else Vector2(16,7)
+			target.foot = stage.foot + Vector2(1,0)
+			target.home = target.foot
+			if action == "attack": stage.context_attack()
+			elif action == "magic": stage.use_spell()
+			else: stage.use_skill(action)
+			advance(0.4 if action == "rising" else 1.1)
+			check(target.hp < target.max_hp, zone_name+": real "+action+" must damage enemy")
+			if action == "rising": check(target.reaction.airborne(), zone_name+": uppercut launches")
+			if action == "magic": check(target.reaction.shock_left > 0, zone_name+": spell shocks")
+		var mobile: Dictionary = fresh_battle()
+		stage.foot = Vector2(5,7) if zone_name == "ruins" else Vector2(16,7)
+		mobile.foot = stage.foot + Vector2(2.5,0)
+		mobile.home = mobile.foot
+		mobile.state = "idle"
+		mobile.timer = 0
+		var before_hp: float = stage.knight.health
+		advance(4.0)
+		check(mobile.attacks > 0 and stage.knight.health < before_hp, zone_name+": enemy must approach and damage player")
+	stage.contract.zone_id = "ruins"
 	var enemy: Dictionary = fresh_battle()
 	stage.context_attack()
 	advance(0.6)
@@ -130,9 +155,9 @@ func run() -> void:
 	check(enemy.clock > clock and stage.knight.elapsed != elapsed,"closing modal must resume combat")
 	enemy = fresh_battle()
 	enemy.state = "chase"
-	stage.foot = Vector2(15,4)
-	advance(3.0)
-	check(enemy.state in ["idle","return"],"enemy should leash back when hero leaves arena")
+	stage.foot = Vector2(-2,4)
+	for tick in 180: encounters._step_enemy(enemy,1.0/60.0)
+	check(enemy.state in ["idle","return"],"enemy should leash back when hero leaves dungeon bounds")
 	check(enemy.foot.x > 18.5,"leashed enemy must not chase into town half")
 	fresh_battle()
 	for wave in range(1,4):

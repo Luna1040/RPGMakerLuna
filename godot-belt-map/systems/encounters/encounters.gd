@@ -226,6 +226,13 @@ func _step_fixed(dt: float) -> void:
 	_step_companion_projectiles(dt)
 	_check_cleared()
 
+func _combat_bounds() -> Rect2:
+	# Dedicated dungeon maps use their own playable area. The old courtyard
+	# arena remains only for the legacy mixed town/combat prototype.
+	if "contract" in stage and stage.contract.get("zone_id", "town") in ["ruins", "forest"]:
+		return stage.bounds
+	return ARENA.grow(1.2)
+
 func _step_enemy(enemy: Dictionary, dt: float) -> void:
 	var stats: Dictionary = DEFINITIONS[enemy.kind]
 	var target_id := _choose_enemy_target(enemy)
@@ -233,7 +240,7 @@ func _step_enemy(enemy: Dictionary, dt: float) -> void:
 	var target_height: float = 0.0 if target_id == "serin" else stage.height_z
 	var offset: Vector2 = target - enemy.foot
 	var distance := offset.length()
-	if not ARENA.grow(1.2).has_point(target) or enemy.foot.distance_to(enemy.home) > 7.5:
+	if not _combat_bounds().has_point(target) or enemy.foot.distance_to(enemy.home) > 7.5:
 		if enemy.state != "return":
 			enemy.state = "return"
 			enemy.attack_active = false
@@ -246,7 +253,7 @@ func _step_enemy(enemy: Dictionary, dt: float) -> void:
 		return
 	if enemy.state == "idle":
 		enemy.timer -= dt
-		if distance < 6.4 and enemy.timer <= 0.0 and ARENA.grow(1.2).has_point(target):
+		if distance < 6.4 and enemy.timer <= 0.0 and _combat_bounds().has_point(target):
 			enemy.state = "chase"
 		return
 	if enemy.state == "recover":
@@ -319,9 +326,9 @@ func _resolve_attack(enemy: Dictionary) -> void:
 			damage_companion(float(stats.damage),enemy.foot)
 
 func _choose_enemy_target(enemy: Dictionary) -> String:
-	if not companion_enabled or companion_dead or not ARENA.grow(1.2).has_point(companion_foot):
+	if not companion_enabled or companion_dead or not _combat_bounds().has_point(companion_foot):
 		return "player"
-	if not ARENA.grow(1.2).has_point(stage.foot):
+	if not _combat_bounds().has_point(stage.foot):
 		return "serin"
 	var hero_distance: float = enemy.foot.distance_to(stage.foot)
 	var ally_distance: float = enemy.foot.distance_to(companion_foot)
