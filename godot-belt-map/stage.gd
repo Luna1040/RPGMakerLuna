@@ -69,7 +69,7 @@ func _ready() -> void:
 		if bridge!=null and not bridge.pending.is_empty():
 			var target:Dictionary=preload("systems/world_registry.gd").load_zone(bridge.target_zone)
 			if not target.is_empty(): contract=target
-			if bridge.target_zone=="ruins" and bridge.pending.get("run",{}).get("rooms",false):
+			if bridge.target_zone in ["ruins","forest"] and bridge.pending.get("run",{}).get("rooms",false):
 				preload("systems/dungeon_rooms.gd").configure(contract,bridge.pending.run)
 		elif preload("systems/world_registry.gd").initial_zone_id()!="town":
 			var generated:Dictionary=preload("systems/world_registry.gd").load_zone(preload("systems/world_registry.gd").initial_zone_id())

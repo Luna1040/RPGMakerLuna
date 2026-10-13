@@ -11,7 +11,7 @@ static func title(id: String) -> String:
 	return str(ZONES.get(id,{}).get("name",id))
 
 static func waves(id: String) -> int:
-	return 1 if id=="forest" else 3
+	return 3
 
 static func load_zone(id: String) -> Dictionary:
 	var registry: Node = _content_registry()

@@ -1,0 +1,18 @@
+[
+  {
+    "id": "knight",
+    "title": "晨钟城 · 姬骑士",
+    "description": "横版动作 RPG · 城镇 / 古塔 / 队友",
+    "directory": "godot-belt-map",
+    "status": "ready",
+    "cover": "godot-belt-map/assets/dawn-city/city.png"
+  },
+  {
+    "id": "game-1791881399844",
+    "title": "星光采集",
+    "description": "方向键移动 · 收集 10 颗星星 · R 重新开始",
+    "directory": "created-games/game-1791881399844",
+    "status": "ready",
+    "cover": "created-games/game-1791881399844/cover.png"
+  }
+]

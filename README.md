@@ -199,3 +199,9 @@ python tests/run_tests.py --godot /absolute/path/to/godot --suite all
 - [Skill 入口](shareable-skills/game-production/SKILL.md) · [可分享压缩包](releases/game-production-skill.zip)。
 - [团队 ComfyUI 接入](shareable-skills/game-production/references/team-api.md)：可信小团队通过 frp STCP 共用生成实例。连接密钥和私有连接包不在仓库中。
 - 根目录团队服务启动与配置脚本针对维护者现有 Windows 环境；其他机器按接入文档配置路径。它们不影响普通游戏运行。
+
+## 本机 AI 创作入口（2026-10-13）
+
+Windows 开发机双击 运行游戏.bat 或 运行游戏.cmd 进入创作首页，可新建、继续创作或打开已有游戏。F1 打开游戏内助手。启动器自动寻找 Codex 桌面版自带的 codex.exe，也支持 CODEX_BIN；不依赖桌面应用给 PATH 注入命令。
+
+AI 创作另需已登录的 Codex、Node.js 和本机 Godot；本机工具、模型、会话和凭据不随仓库分发。普通 Windows/macOS 玩家仍可用下文方式直接打开 Godot 主工程。流程见 [助手说明](godot-ai-workbench/游戏内助手说明.md) 和 [美术生产合同](godot-ai-workbench/ART_PIPELINE.md)。Flux 生图默认 9315、H3 视频默认 9316，切帧、抠图和打包通过附带 game-production 工具完成；服务或权限不足会报告，不能保证任意生成结果无需验收。

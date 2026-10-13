@@ -37,7 +37,7 @@ func message() -> String:
 			var remaining:=0
 			for enemy in runtime.encounters.enemies:
 				if enemy.state!="dead": remaining+=1
-			return "%s · 第 %d / %d 轮\n消灭敌人：剩余 %d" % [str(runtime.stage.contract.name),run.wave,runtime.Registry.waves(runtime.zone),remaining]
+			return "%s · 第 %d / %d 间\n消灭敌人：剩余 %d · 清场开门" % [str(runtime.stage.contract.name),run.wave,runtime.Registry.waves(runtime.zone),remaining]
 		"boon", "ready":
 			if int(run.wave)>0:
 				var reward: String = ""

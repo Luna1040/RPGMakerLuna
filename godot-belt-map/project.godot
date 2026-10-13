@@ -14,6 +14,7 @@ AuthoringOrchestrator="*res://systems/agent/authoring_orchestrator.gd"
 AgentTransportService="*res://systems/agent/agent_transport_service.gd"
 AuthoringPersistenceService="*res://systems/agent/authoring_persistence_service.gd"
 GameSession="*res://systems/session_bridge.gd"
+GameAssistant="*res://systems/game_assistant.gd"
 [display]
 window/size/viewport_width=1280
 window/size/viewport_height=800

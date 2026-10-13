@@ -89,11 +89,28 @@ func run() -> void:
 	check(runtime.zone=="forest" and runtime.encounters.active,"Portal dungeon starts wave automatically")
 	check(not runtime.panel.is_open(),"Portal arrival must not ask players to find another menu")
 	check(not runtime.use_portal(runtime.portals.links[0]),"Active battle seals exit")
-	var enemies:Array=runtime.encounters.enemies.duplicate()
-	for enemy in enemies:
-		runtime.encounters.hit(enemy.foot,0,{"damage":9999,"range":500,"shape":"radial","depth_radius":10.0})
-	runtime.encounters.step(.01)
-	check(runtime.run_state.phase=="victory","Forest ends after its single beginner wave")
+	for room in 3:
+		check(runtime.run_state.get("rooms",false) and runtime.run_state.room==room,"Forest uses distinct rooms")
+		check(runtime.encounters.enemies.size()==[7,9,6][room],"Forest room has a full enemy pack")
+		check(not stage.minimap.visible,"Room grid replaces regional minimap")
+		check(runtime.validate_snapshot(runtime.snapshot()),"Room state is valid for saves")
+		for enemy in runtime.encounters.enemies:
+			check(stage.bounds.has_point(enemy.foot) and not stage.Physics.blocked(stage.volumes,enemy.foot,0),"Forest spawn is walkable")
+		check(runtime.encounters.restore(runtime.encounters.snapshot()),"Dense enemy pack survives snapshot round trip")
+		if room==2:
+			check(runtime.encounters.enemies[0].kind=="boss","Final forest room contains a boss")
+		else:
+			check(not runtime.use_portal(runtime.portals.links[1]),"Combat locks forward door")
+		for enemy in runtime.encounters.enemies.duplicate():
+			runtime.encounters.hit(enemy.foot,0,{"damage":9999,"range":500,"shape":"radial","depth_radius":10.0})
+		runtime.encounters.step(.01)
+		if room<2:
+			for tick in 360: runtime.step(1.0/60.0)
+			check(not runtime.encounters.active and not runtime.start_wave(),"Clear room waits for door instead of respawning")
+			check(runtime.use_portal(runtime.portals.links[1]),"Cleared forest door advances")
+			await settle()
+			check(runtime.encounters.active and runtime.run_state.wave==room+2,"New room automatically starts its pack")
+	check(runtime.run_state.phase=="victory","Forest ends after three rooms and boss")
 	check(runtime.adventure._status("courtyard_menace")=="ready","Real forest kills complete the accepted quest")
 	check(runtime.use_portal(runtime.portals.links[0]),"Cleared forest permits return")
 	await settle()

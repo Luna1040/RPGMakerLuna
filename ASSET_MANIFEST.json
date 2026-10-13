@@ -22793,8 +22793,8 @@
     },
     {
       "path": "godot-belt-map/project.godot",
-      "bytes": 459,
-      "sha256": "dce6f37787576ee400de0df6393720c32b6b7b65e34d1510999baf15cbae9e5f"
+      "bytes": 508,
+      "sha256": "a7c60c38b8c501d94d2a8e968740d2ff264735fd1c6cd8551e292348c97d1701"
     },
     {
       "path": "godot-belt-map/skill_bar.gd",
@@ -22818,8 +22818,8 @@
     },
     {
       "path": "godot-belt-map/stage.gd",
-      "bytes": 30698,
-      "sha256": "60e81d8bdfb9a3db297352b6c319fcba5821864f4ccbab85bf588f55babffbdc"
+      "bytes": 30711,
+      "sha256": "ab8e82f7fcb24b2a23f7b027185deadc6b0c1adc66443a79f2888ab000449719"
     },
     {
       "path": "godot-belt-map/stage.gd.uid",
@@ -22998,8 +22998,8 @@
     },
     {
       "path": "godot-belt-map/assets/fonts/NotoSansSC-subset.ttf",
-      "bytes": 299088,
-      "sha256": "b9dec6f813446f6d3cc6dd318f7f85f5773096a2563684f9e8d48b60c22eeeb9"
+      "bytes": 300040,
+      "sha256": "ec16536ce070d947f613fdfa8c2c5f2692ee6bd16ac8e7ffbdeb78e715a2b130"
     },
     {
       "path": "godot-belt-map/assets/fonts/NotoSansSC-subset.ttf.import",
@@ -37063,8 +37063,8 @@
     },
     {
       "path": "godot-belt-map/systems/encounters/encounters.gd",
-      "bytes": 50991,
-      "sha256": "a7957cb093ad081c711552598af14f489142b0c3731b69f3c12464060dae67eb"
+      "bytes": 51118,
+      "sha256": "3b0ec1d282e9daedea02c2fb78394c954b66c0ee0f2a68f5aec80b9140804ba8"
     },
     {
       "path": "godot-belt-map/systems/encounters/encounters.gd.uid",
@@ -37113,8 +37113,8 @@
     },
     {
       "path": "godot-belt-map/systems/game_runtime.gd",
-      "bytes": 27784,
-      "sha256": "daca49b6b199d633a0fafcc8356c4d01efaac537c7347cc86c817a22d440f418"
+      "bytes": 28098,
+      "sha256": "3545b41b415abe850626e0bc3e5fd5f32dc85602cfcd49c34d6f074265172928"
     },
     {
       "path": "godot-belt-map/systems/game_runtime.gd.uid",
@@ -37163,8 +37163,8 @@
     },
     {
       "path": "godot-belt-map/systems/world_registry.gd",
-      "bytes": 928,
-      "sha256": "5f71250bf9861757b86c27d1f7077fe054139700c8fd7e1961299de917d91c6e"
+      "bytes": 905,
+      "sha256": "f4848e72eb32a216ac2ace4044cafc2aad33ddc2c90d44609ecbfbc7ba9e0141"
     },
     {
       "path": "godot-belt-map/systems/world_registry.gd.uid",
@@ -62593,8 +62593,8 @@
     },
     {
       "path": "godot-belt-map/tests/journey_test.gd",
-      "bytes": 8881,
-      "sha256": "fd20951e51c7d337469009be1ce8cd3bbd46db5c97efb0e3729124444ffffac5"
+      "bytes": 10125,
+      "sha256": "d587ff91e1120db3ea084787f76510c2e2002869561a2a572628150b191e58f5"
     },
     {
       "path": "godot-belt-map/tests/journey_test.gd.uid",
@@ -62613,8 +62613,8 @@
     },
     {
       "path": "godot-belt-map/systems/dungeon_guidance.gd",
-      "bytes": 2508,
-      "sha256": "169105dd43f784eef830057c8a83a350ba3be048abda485cbfd488e95ad1cb51"
+      "bytes": 2524,
+      "sha256": "bb67214c3762e7307e89ba5effb021ad8d315322e078c8000fb85a2da3d5d283"
     },
     {
       "path": "godot-belt-map/systems/dungeon_guidance.gd.uid",
@@ -62688,8 +62688,8 @@
     },
     {
       "path": "godot-belt-map/systems/dungeon_rooms.gd",
-      "bytes": 778,
-      "sha256": "c8e26817dd971d7c256575ced5ac45932cd654a1578ac6429d15f575da5b2286"
+      "bytes": 1443,
+      "sha256": "1ce707efceab20ed9c811fa6a7a532b7e66fb4706222c6585d9c392722fb158d"
     },
     {
       "path": "godot-belt-map/systems/dungeon_rooms.gd.uid",
@@ -62698,8 +62698,8 @@
     },
     {
       "path": "godot-belt-map/systems/room_grid.gd",
-      "bytes": 1227,
-      "sha256": "5cfadfecc99cf605d7025f23621ca4ccb67fd3832afcdfcc8f71a890a2c71d6e"
+      "bytes": 1278,
+      "sha256": "f6716730e11bebe6583116f7d87cc8789e72f7dc1d20c186b2079e8f4ac26af3"
     },
     {
       "path": "godot-belt-map/systems/room_grid.gd.uid",
@@ -62738,8 +62738,218 @@
     },
     {
       "path": "运行游戏.cmd",
-      "bytes": 115,
-      "sha256": "9752ea750d23903703fc3332b0ae308935b1103d9b706f62eb6a61c8c9510647"
+      "bytes": 169,
+      "sha256": "dce01865f346929e19caab3acf8c0b564da5ceea8a94f5a7fd8e9cf0cba1260b"
+    },
+    {
+      "path": "godot-belt-map/systems/game_assistant.gd",
+      "bytes": 5349,
+      "sha256": "58c27c1e63851464bda9d0d9b841bba85207aaf3b5e5b98b50ecec30c2388d08"
+    },
+    {
+      "path": "godot-belt-map/systems/game_assistant.gd.uid",
+      "bytes": 20,
+      "sha256": "1a000199360e682cd12179f75d9d4f1b45907ee91af08d13f04736b9965a7ec2"
+    },
+    {
+      "path": "godot-belt-map/tests/game_assistant_test.gd",
+      "bytes": 1768,
+      "sha256": "a1e075bda2143c5d28e81cf52a95e17f013e116acfdcda05782d323e4d5b94c2"
+    },
+    {
+      "path": "godot-belt-map/tests/game_assistant_test.gd.uid",
+      "bytes": 20,
+      "sha256": "76d800086b943211ea1dc5c0ae7c118a2c72c4b584ea424ed59269c4cdcb5e56"
+    },
+    {
+      "path": "godot-creator-home/.gitignore",
+      "bytes": 9,
+      "sha256": "7a86efd9a3426b8ce1e6d5fb19dbf79acd3d59eb5b2e8f020e4912be6b1e9580"
+    },
+    {
+      "path": "godot-creator-home/font.ttf",
+      "bytes": 10589448,
+      "sha256": "1bf7b678f68cc59a1b19179c6e95cf7b26f161ebca09da9ea2910916764a16b5"
+    },
+    {
+      "path": "godot-creator-home/font.ttf.import",
+      "bytes": 737,
+      "sha256": "c5599f6eea44de77d95a42083471cdb69b64d19884bb8315b7067d133d950edc"
+    },
+    {
+      "path": "godot-creator-home/home.gd",
+      "bytes": 10854,
+      "sha256": "17f2612f695b7ba9529e4a1f8f1b5f3ae3e180417b9c358eec0c3fa023b723a1"
+    },
+    {
+      "path": "godot-creator-home/home.gd.uid",
+      "bytes": 20,
+      "sha256": "c14a010054f2d04943ad022efaaef16c75883ba489c26434f5f93db59554d422"
+    },
+    {
+      "path": "godot-creator-home/home.tscn",
+      "bytes": 256,
+      "sha256": "0dcff3f5934127c0dc58088ecb0c29539c813d5470f6a8495dfd671c0bf5fd27"
+    },
+    {
+      "path": "godot-creator-home/project.godot",
+      "bytes": 380,
+      "sha256": "36587cbd279977311a37a565d7822141ba84d680412db2ad3637e262301171e5"
+    },
+    {
+      "path": "godot-creator-home/README.md",
+      "bytes": 1912,
+      "sha256": "6694d097741274fa373617af013445e2eff61e78bd8362a7c323db63ed3e54c3"
+    },
+    {
+      "path": "godot-creator-home/resume_test.gd",
+      "bytes": 1410,
+      "sha256": "2079c008b13046e331cfcabeeedae79d3edf7cb6f8c8bf6d0987e660298ac686"
+    },
+    {
+      "path": "godot-creator-home/review.gd",
+      "bytes": 505,
+      "sha256": "2c5f7faeb4720a6bcb9247f577ccd5e77db506b5ae31de6783242bef4df244d6"
+    },
+    {
+      "path": "godot-creator-home/review.gd.uid",
+      "bytes": 20,
+      "sha256": "55c283a79c920c2212028e16e4179a2b8f90f23d4bf7b902f57f8958d6337fb2"
+    },
+    {
+      "path": "created-games/.gitignore",
+      "bytes": 9,
+      "sha256": "7a86efd9a3426b8ce1e6d5fb19dbf79acd3d59eb5b2e8f020e4912be6b1e9580"
+    },
+    {
+      "path": "created-games/catalog.json",
+      "bytes": 534,
+      "sha256": "e3ef371f5fc1c0040cc4ceb149d5004811cfb447ed27b68101fa85f0b322830f"
+    },
+    {
+      "path": "created-games/game-1791881399844/cover.png",
+      "bytes": 41558,
+      "sha256": "b5b563318087b0cc605bb9e6216bd53eafc86a60c96f07961246c3a871d4af64"
+    },
+    {
+      "path": "created-games/game-1791881399844/font.ttf",
+      "bytes": 10589448,
+      "sha256": "1bf7b678f68cc59a1b19179c6e95cf7b26f161ebca09da9ea2910916764a16b5"
+    },
+    {
+      "path": "created-games/game-1791881399844/font.ttf.import",
+      "bytes": 736,
+      "sha256": "dfc26fffe55b6316c696365a7193874943c86e4581ba7f7d91bdd102bfd0ee51"
+    },
+    {
+      "path": "created-games/game-1791881399844/game_assistant.gd",
+      "bytes": 5349,
+      "sha256": "58c27c1e63851464bda9d0d9b841bba85207aaf3b5e5b98b50ecec30c2388d08"
+    },
+    {
+      "path": "created-games/game-1791881399844/game_assistant.gd.uid",
+      "bytes": 20,
+      "sha256": "281e5f5c468a972e17ea7627e7d87df29856e58c4a2a161a1039c8a9ec933ed0"
+    },
+    {
+      "path": "created-games/game-1791881399844/main.gd",
+      "bytes": 4769,
+      "sha256": "a742936ed6c3190d477edc2527edeeb51c6bf2bd407af477f4ab30032d90a0db"
+    },
+    {
+      "path": "created-games/game-1791881399844/main.gd.uid",
+      "bytes": 20,
+      "sha256": "4b2ab24ee67cdf0f0c06d81616641175cfdde8de7489f18c0718606c2e8c6dc8"
+    },
+    {
+      "path": "created-games/game-1791881399844/main.tscn",
+      "bytes": 149,
+      "sha256": "ceee2023b1c0a5770ab02e6235c4dbcef70adac000dc08e39a863129ae9b99e3"
+    },
+    {
+      "path": "created-games/game-1791881399844/project.godot",
+      "bytes": 350,
+      "sha256": "d0dcfaa5fd9c040e2a90e2e37ccc0e957755b7640a9e4f3701adad4c666141d6"
+    },
+    {
+      "path": "created-games/game-1791881399844/verify.gd",
+      "bytes": 1466,
+      "sha256": "67ac157ccc31919acae0cffd46cba51a19fd7cbe0e05ae3c73559687300b6b20"
+    },
+    {
+      "path": "created-games/game-1791881399844/verify.gd.uid",
+      "bytes": 20,
+      "sha256": "733f26977f580bd4aefc03db3efd3c5b21d6a5be0f839faf6ec4e14991f3be38"
+    },
+    {
+      "path": "godot-ai-workbench/ART_PIPELINE.md",
+      "bytes": 4332,
+      "sha256": "a7a9c4ed32d60ad0f91a5f33ea56d5e3f1d680ff09fa56d5cb507b2cb55cd8d8"
+    },
+    {
+      "path": "godot-ai-workbench/resolve-codex.ps1",
+      "bytes": 1091,
+      "sha256": "265894796cf9e4277bfe6d7f3b36f54f91132da89a5abf5d702610b3c0720e44"
+    },
+    {
+      "path": "godot-ai-workbench/start_image_service.py",
+      "bytes": 1498,
+      "sha256": "017e5aa8a07eb69eb97aa12dc5baa26328bae35167be62820e00b6d8f3fed32f"
+    },
+    {
+      "path": "godot-ai-workbench/游戏内助手说明.md",
+      "bytes": 2934,
+      "sha256": "8abff9dbfbc70dd8935ebbb53e6b419c4d76683f68a93553e8c61017b317bbeb"
+    },
+    {
+      "path": "godot-ai-workbench/bridge/art-pipeline.mjs",
+      "bytes": 1105,
+      "sha256": "8692ca1c1eb68410d05ad2d5e75eb7904db7a014bfc85fac1e5f167e4b199878"
+    },
+    {
+      "path": "godot-ai-workbench/bridge/art-pipeline.test.mjs",
+      "bytes": 951,
+      "sha256": "b510bc2047532bbefbdc4ba18ce1d88bd54cc90996db06fdacb53c54f4c46094"
+    },
+    {
+      "path": "godot-ai-workbench/bridge/catalog-store.mjs",
+      "bytes": 908,
+      "sha256": "7610b7062ddb538bacc1ac1fb54c0c3c3f98b41f1936f0ba6c055555c8c3e29d"
+    },
+    {
+      "path": "godot-ai-workbench/bridge/catalog-store.test.mjs",
+      "bytes": 1385,
+      "sha256": "4ef8f62ec50e74ed50faf5ebcd8c21d03865faec8aa381a8fbf5f67ad0671d73"
+    },
+    {
+      "path": "godot-ai-workbench/bridge/game-server.mjs",
+      "bytes": 13216,
+      "sha256": "3e6952b156c665e9db2efaf39368286055569a9515f93c0ab30ab72a91658531"
+    },
+    {
+      "path": ".editorconfig",
+      "bytes": 96,
+      "sha256": "3ebac2b55ab7f4766ad4b40a7a865556fd1c5ef1106942d63daee56ffa3c5c18"
+    },
+    {
+      "path": "运行游戏.bat",
+      "bytes": 169,
+      "sha256": "dce01865f346929e19caab3acf8c0b564da5ceea8a94f5a7fd8e9cf0cba1260b"
+    },
+    {
+      "path": "运行游戏-AI开发版.cmd",
+      "bytes": 143,
+      "sha256": "dd4d9044d36473c28032ebe988832b321ba38609fd469fb89b192be55acef83e"
+    },
+    {
+      "path": "运行游戏-AI开发版.ps1",
+      "bytes": 1531,
+      "sha256": "6c703e9a19efbef8460f98def226ab2b50da1f0b79ba78aa09dada6c235a9420"
+    },
+    {
+      "path": "启动团队生图服务.cmd",
+      "bytes": 143,
+      "sha256": "ccfdd612a433fbed7cf56af3f3eac2f24e963503d64bb0e35c44eb1eba4256d5"
     }
   ]
 }

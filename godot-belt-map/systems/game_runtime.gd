@@ -107,7 +107,7 @@ func setup(map_stage) -> void:
 	var guidance=preload("dungeon_guidance.gd").new()
 	stage.add_child(guidance)
 	guidance.setup(self)
-	if zone=="ruins" and run_state.get("rooms",false): stage.minimap.hide()
+	if Registry.is_dungeon(zone) and run_state.get("rooms",false): stage.minimap.hide()
 	var backdrop=stage.get_node_or_null("CourtyardBackdrop")
 	if backdrop!=null: backdrop.modulate=Color(str(stage.contract.get("backdrop_tint","ffffff")))
 	if Registry.is_dungeon(zone):
@@ -217,6 +217,9 @@ func start_trial(seed_value: int = 0, destination: String = "ruins") -> bool:
 	var seed_number:=seed_value if seed_value>0 else int(Time.get_unix_time_from_system())+run_counter*7919
 	if not Registry.is_dungeon(destination): return false
 	run_state={"phase":"ready","wave":0,"seed":seed_number,"boons":[],"offers":[],"return_zone":zone}
+	if destination=="forest":
+		run_state.rooms=true
+		run_state.room=0
 	worlds.erase(destination)
 	return travel(destination)
 
@@ -262,6 +265,8 @@ func prepare_transfer(target: String) -> Dictionary:
 	var data:=snapshot()
 	data.zone=target
 	var map_data:=Registry.load_zone(target)
+	if Registry.is_dungeon(target) and run_state.get("rooms",false):
+		preload("dungeon_rooms.gd").configure(map_data,run_state)
 	data.player.foot=[map_data.spawn.x,map_data.spawn.depth]
 	data.player.height=0.0
 	data.player.health=stage.knight.max_health if Registry.is_safe(target) else stage.knight.health
@@ -304,11 +309,12 @@ func use_portal(link: Dictionary) -> bool:
 		if not Registry.is_safe(zone): return false
 		run_counter+=1
 		run_state={"phase":"ready","wave":0,"seed":int(Time.get_unix_time_from_system())+run_counter*7919,"boons":[],"offers":[],"return_zone":zone}
-		if destination=="ruins":
+		if Registry.is_dungeon(destination):
 			run_state.rooms=true
 			run_state.room=0
 		worlds.erase(destination)
 	var arrival:Array=link.get("arrival",[])
+	if Registry.is_dungeon(destination) and run_state.get("rooms",false): arrival=[3.2,7.6]
 	if destination=="city" and zone=="ruins": arrival=[21.8,7.4]
 	var moved:=travel(destination,arrival)
 	if moved:

@@ -16,3 +16,5 @@
 *.ogg filter=lfs diff=lfs merge=lfs -text
 *.blend filter=lfs diff=lfs merge=lfs -text
 *.otf filter=lfs diff=lfs merge=lfs -text
+*.cmd text eol=crlf
+*.bat text eol=crlf

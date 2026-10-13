@@ -112,12 +112,14 @@ func begin_wave(number: int, seed_value: int = 1) -> bool:
 	active = true
 	cleared = false
 	var roster: Array = {1:["melee","melee","ranged"],2:["elite","melee","ranged","melee"],3:["boss","ranged","melee"]}[wave]
+	if "contract" in stage and stage.contract.has("encounter_roster"):
+		roster=stage.contract.encounter_roster
 	var points := [Vector2(22.0,4.2),Vector2(23.3,7.9),Vector2(23.2,3.0),Vector2(21.6,8.0)]
 	if "contract" in stage and stage.contract.has("encounter_points"):
 		points=[]
 		for point in stage.contract.encounter_points: points.append(Vector2(point[0],point[1]))
 	for i in roster.size():
-		var p: Vector2 = points[i] + Vector2(rng.randf_range(-0.15,0.15),rng.randf_range(-0.15,0.15))
+		var p: Vector2 = points[i % points.size()] + Vector2(rng.randf_range(-0.15,0.15),rng.randf_range(-0.15,0.15))
 		_spawn(str(roster[i]),_free_point(p))
 	notice.emit("东庭试炼 · 第 %d / 3 波，红圈出现后闪避或跳跃。" % wave)
 	queue_redraw()
