@@ -88,9 +88,9 @@ func run() -> void:
 	check(stage.foot==foot and stage.knight.health==health and stage.knight.mana==mana,"World moves or resources advance behind modal")
 	runtime.panel.close()
 	var original_key:int=runtime.controls.keys.attack
-	check(runtime.controls.rebind("attack",KEY_F),"Valid key rebinding failed")
-	check(not runtime.controls.rebind("spell",KEY_F),"Duplicate key accepted")
-	var key:=InputEventKey.new(); key.keycode=KEY_F; key.pressed=true
+	check(runtime.controls.rebind("attack",KEY_V),"Valid key rebinding failed")
+	check(not runtime.controls.rebind("spell",KEY_V),"Duplicate key accepted")
+	var key:=InputEventKey.new(); key.keycode=KEY_V; key.pressed=true
 	check(runtime.controls.canonical(key)==KEY_J,"Remap did not map new key")
 	key.keycode=KEY_J
 	check(runtime.controls.canonical(key)==0,"Original unassigned attack still active")

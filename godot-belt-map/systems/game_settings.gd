@@ -1,6 +1,7 @@
 extends RefCounted
 signal changed
-const DEFAULTS := {"left":KEY_A,"right":KEY_D,"up":KEY_W,"down":KEY_S,"jump":KEY_SPACE,"attack":KEY_J,"spell":KEY_K,"interact":KEY_E,"inventory":KEY_I,"map":KEY_M,"equip":KEY_Q,"skill1":KEY_1,"skill2":KEY_2,"skill3":KEY_3,"potion":KEY_4,"ether":KEY_5,"journal":KEY_L}
+const ACTION_CODES := {"left":KEY_A,"right":KEY_D,"up":KEY_W,"down":KEY_S,"jump":KEY_SPACE,"attack":KEY_J,"spell":KEY_K,"interact":KEY_E,"inventory":KEY_I,"map":KEY_M,"equip":KEY_Q,"skill1":KEY_1,"skill2":KEY_2,"skill3":KEY_3,"potion":KEY_4,"ether":KEY_5,"journal":KEY_L}
+const DEFAULTS := {"left":KEY_LEFT,"right":KEY_RIGHT,"up":KEY_UP,"down":KEY_DOWN,"jump":KEY_C,"attack":KEY_X,"spell":KEY_R,"interact":KEY_E,"inventory":KEY_I,"map":KEY_M,"equip":KEY_F,"skill1":KEY_Q,"skill2":KEY_Z,"skill3":KEY_W,"potion":KEY_4,"ether":KEY_5,"journal":KEY_L}
 const TITLES := {"left":"向左","right":"向右","up":"向上","down":"向下","jump":"跳跃","attack":"攻击","spell":"施法","interact":"交互","inventory":"背包","map":"地图","equip":"拾取装备","skill1":"技能一","skill2":"技能二","skill3":"技能三","potion":"生命药水","ether":"法力药水","journal":"冒险手册"}
 const PATH := "user://rpg_settings.cfg"
 var keys: Dictionary = DEFAULTS.duplicate()
@@ -25,7 +26,7 @@ func load_settings(path: String = PATH) -> void:
 			break
 		candidate[action] = code
 		used.append(code)
-	keys = DEFAULTS.duplicate() if candidate.size() != DEFAULTS.size() else candidate
+	keys = DEFAULTS.duplicate() if candidate.size() != DEFAULTS.size() or candidate == ACTION_CODES else candidate
 	apply()
 
 func save_settings(path: String = PATH) -> bool:
@@ -47,11 +48,11 @@ func apply() -> void:
 	changed.emit()
 
 func allowed_key(code: int) -> bool:
-	return code == KEY_SPACE or (code >= KEY_A and code <= KEY_Z and code != KEY_R) or (code >= KEY_0 and code <= KEY_9)
+	return code in [KEY_SPACE,KEY_LEFT,KEY_RIGHT,KEY_UP,KEY_DOWN] or (code >= KEY_A and code <= KEY_Z) or (code >= KEY_0 and code <= KEY_9)
 
 func rebind(action: String, code: int) -> bool:
 	if not DEFAULTS.has(action) or not allowed_key(code):
-		error = "请选择字母、数字或空格；R 和功能键保留"
+		error = "请选择方向键、字母、数字或空格；功能键保留"
 		return false
 	for other in keys:
 		if other != action and keys[other] == code:
@@ -66,14 +67,14 @@ func canonical(event: InputEventKey) -> int:
 	var code := int(event.physical_keycode if event.physical_keycode != 0 else event.keycode)
 	for action in keys:
 		if code == int(keys[action]):
-			return int(DEFAULTS[action])
+			return int(ACTION_CODES[action])
 	# Unassigned original keys must not retain their old action after remapping.
-	if code in DEFAULTS.values():
+	if code in DEFAULTS.values() or code in ACTION_CODES.values():
 		return 0
 	return code
 
 func movement() -> Vector2:
-	return Vector2(float(Input.is_physical_key_pressed(keys.right) or Input.is_physical_key_pressed(KEY_RIGHT))-float(Input.is_physical_key_pressed(keys.left) or Input.is_physical_key_pressed(KEY_LEFT)),float(Input.is_physical_key_pressed(keys.down) or Input.is_physical_key_pressed(KEY_DOWN))-float(Input.is_physical_key_pressed(keys.up) or Input.is_physical_key_pressed(KEY_UP))).limit_length(1)
+	return Vector2(float(Input.is_physical_key_pressed(keys.right))-float(Input.is_physical_key_pressed(keys.left)),float(Input.is_physical_key_pressed(keys.down))-float(Input.is_physical_key_pressed(keys.up))).limit_length(1)
 
 func key_name(action: String) -> String:
 	return OS.get_keycode_string(keys.get(action,0))

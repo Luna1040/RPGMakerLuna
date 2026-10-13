@@ -22818,8 +22818,8 @@
     },
     {
       "path": "godot-belt-map/stage.gd",
-      "bytes": 29726,
-      "sha256": "09da15449d0dd43bd14a0411524fc46a475c4f3bfe8f0b9c46fb0478c4363904"
+      "bytes": 29830,
+      "sha256": "abc12affd2535d0656f9d629eb2fba351bad2b5f80d3e59ccdb4d2344865c517"
     },
     {
       "path": "godot-belt-map/stage.gd.uid",
@@ -22883,8 +22883,8 @@
     },
     {
       "path": "godot-belt-map/使用与对接说明.txt",
-      "bytes": 16669,
-      "sha256": "df731ef2399bcba06f4818fd2d24f5a14230297124fd04ff113cc1f8760f3507"
+      "bytes": 17027,
+      "sha256": "2b6711db8a066fb6d79c706bf95ac9795828ce60b02e33b5f4ade906cdb9eaad"
     },
     {
       "path": "godot-belt-map/assets/backdrop.png",
@@ -36844,7 +36844,7 @@
     {
       "path": "releases/knight-web/game.html",
       "bytes": 5486,
-      "sha256": "d49506ef81f46350c84f5a77598caa209791a5e3a56a84e3cd1d3460e69aadca"
+      "sha256": "36b628e8c31fe387037938a26b6ca2783d43e6f0c9c19629a2303be2f29b2b47"
     },
     {
       "path": "releases/knight-web/game.icon.png",
@@ -36858,8 +36858,8 @@
     },
     {
       "path": "releases/knight-web/game.pck",
-      "bytes": 100908672,
-      "sha256": "1a5b75c8ffea373c3e5d541b16df8d2a7ac73033b6ae116a4dc0aecb2c377997"
+      "bytes": 100908912,
+      "sha256": "9de3bfe5d53b552633bec4a159c51e91c8e1a024888a6f964154f08b3ec86f41"
     },
     {
       "path": "releases/knight-web/game.png",
@@ -36878,8 +36878,8 @@
     },
     {
       "path": "releases/knight-web/index.html",
-      "bytes": 4804,
-      "sha256": "e18f566cf681b0ac03a1635d5dedeba11c267ce0d8abc2e1b40c1c4e9dcfc3c0"
+      "bytes": 4839,
+      "sha256": "3ff7eea83bd97aca4deed2f35a22861c4bc8fde3a58ae5fddff62638c160ce2e"
     },
     {
       "path": "releases/knight-web/试玩说明.txt",
@@ -37123,8 +37123,8 @@
     },
     {
       "path": "godot-belt-map/systems/game_settings.gd",
-      "bytes": 3666,
-      "sha256": "8c2346e25b6d290772d3782c3a672c844b941cffe3dee6b8e5bcbbde3674d932"
+      "bytes": 3946,
+      "sha256": "224a4205e4e9b7204c2c1fa3d27af86937ff981016ffb4261960c5b305c0c991"
     },
     {
       "path": "godot-belt-map/systems/game_settings.gd.uid",
@@ -37258,8 +37258,8 @@
     },
     {
       "path": "godot-belt-map/tests/runtime_foundations_test.gd",
-      "bytes": 6367,
-      "sha256": "812238528ff5fe22b42c55a4240fb8c18b67b3f9fd1f39757f16a43e8fde70ca"
+      "bytes": 6484,
+      "sha256": "b87390a20bce88324eedf76ed935bf1cae6467e55ec2b271e100ded78c1324c5"
     },
     {
       "path": "godot-belt-map/tests/runtime_foundations_test.gd.uid",
@@ -37283,8 +37283,8 @@
     },
     {
       "path": "godot-belt-map/tests/menu_input_test.gd",
-      "bytes": 1389,
-      "sha256": "d9c0bcf1c29e8fbb1740b0bbf76ca8980c676835419f13763ef2b6dc89fdf8d8"
+      "bytes": 2612,
+      "sha256": "f242f254d7c099bfc3317b9a9c84811f07e5fb4b49d4192e2d99eeb2eeed04c1"
     },
     {
       "path": "godot-belt-map/tests/menu_input_test.gd.uid",
@@ -62534,7 +62534,7 @@
     {
       "path": "character-generation-research/h3-runtime/npc-roster-v1/journey-release-validation.json",
       "bytes": 295,
-      "sha256": "2baf0b8fa8aef0d24e16a9e3420161c00a2ea44f465a9bb99a2d68f1a2ca9d16"
+      "sha256": "489d73918d8f79f82f3910dc42b700c9c8c5b49e283823cd0bf3ff27a3893be6"
     },
     {
       "path": "godot-belt-map/captures/.gdignore",
@@ -62604,12 +62604,12 @@
     {
       "path": "releases/苍石庭院-道路与剧情试玩-20261013.sha256.txt",
       "bytes": 115,
-      "sha256": "cb2e92226221c525941d224805aa671be0d4ad818800623905b041b3dca7e118"
+      "sha256": "26aa12693fdf00d699b009ef9a9a093c6635dfdec3b189674432cf5e45c0ccf4"
     },
     {
       "path": "releases/苍石庭院-道路与剧情试玩-20261013.zip",
-      "bytes": 110478938,
-      "sha256": "3706e28d67859810644fd859fc8f347cc26c4659a273674d4c6c9501b76f6083"
+      "bytes": 110479159,
+      "sha256": "46fe6d3ff8c4d98acbc9e690e0cf3ead4a2708b5620d0ba3d57c6ce87921fd04"
     },
     {
       "path": "godot-belt-map/systems/dungeon_guidance.gd",
