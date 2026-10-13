@@ -1,0 +1,11 @@
+{
+  "canvas": [768, 768],
+  "pivot": [384, 648],
+  "scale": 0.4,
+  "review_status": "candidate",
+  "frames": [
+    {"file": "00000.png", "source_frame": 0, "duration_ms": 80},
+    {"file": "00001.png", "source_frame": 1, "duration_ms": 80}
+  ],
+  "event_ms": 90
+}

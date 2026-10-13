@@ -1,0 +1,4 @@
+interface:
+  display_name: "游戏制作工作流"
+  short_description: "从原创角色动作、地图与战斗机制到 Godot 验证发布及团队生图协作"
+  default_prompt: "使用 $game-production 为我的游戏制作一个可玩的角色与关卡，并保存可复现的生成流程。"

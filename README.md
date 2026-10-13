@@ -178,3 +178,10 @@ python tests/run_tests.py --godot /absolute/path/to/godot --suite all
 地图切换有黑幕淡入淡出，进入区域后屏幕中央显示名称。右上角显示古塔房间格子，B 为关底。6 / F10 直接加入/移除瑟琳；7 / F11 循环跟随、守卫、被动；8 / F12 复苏并恢复队友血蓝。这些是演示快捷操作，不消耗任务道具。
 
 新 NPC 当前使用完整原创站姿与立绘；未新增视频生成的职业逐帧待机。房间目前采用三格线性路线，后续可扩展分支及回溯。
+
+## 可分享的游戏制作 Skill
+
+- [安装与分享说明](shareable-skills/分享说明.md)：角色、美术动作、地图、机制、网状任务与发布流程。
+- [Skill 入口](shareable-skills/game-production/SKILL.md) · [可分享压缩包](releases/game-production-skill.zip)。
+- [团队 ComfyUI 接入](shareable-skills/game-production/references/team-api.md)：可信小团队通过 frp STCP 共用生成实例。连接密钥和私有连接包不在仓库中。
+- 根目录团队服务启动与配置脚本针对维护者现有 Windows 环境；其他机器按接入文档配置路径。它们不影响普通游戏运行。
