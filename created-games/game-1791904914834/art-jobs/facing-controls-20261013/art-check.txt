@@ -1,0 +1,32 @@
+﻿{
+  "image": {
+    "ok": false,
+    "url": "http://127.0.0.1:9315",
+    "error": "<urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>"
+  },
+  "video": {
+    "ok": false,
+    "url": "http://127.0.0.1:9316",
+    "error": "<urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>"
+  },
+  "av": {
+    "ok": false,
+    "error": "No module named 'av'"
+  },
+  "PIL": {
+    "ok": false,
+    "error": "No module named 'PIL'"
+  },
+  "numpy": {
+    "ok": false,
+    "error": "No module named 'numpy'"
+  },
+  "onnxruntime": {
+    "ok": false,
+    "error": "No module named 'onnxruntime'"
+  },
+  "matte_model": {
+    "ok": false,
+    "path": "Z:\\app\\RPGMakerLuna\\character-generation-research\\h3-runtime\\matte-v2\\birefnet-lite.onnx"
+  }
+}

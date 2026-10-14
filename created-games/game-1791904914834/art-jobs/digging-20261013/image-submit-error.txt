@@ -1,0 +1,79 @@
+﻿python.exe : Traceback (most recent call last):
+所在位置 行:2 字符: 1
++ & 'C:\Python315\python.exe' 'Z:\app\RPGMakerLuna\godot-ai-workbench\a ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "C:\Python315\Lib\urllib\request.py", line 1335, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python315\Lib\http\client.py", line 1398, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python315\Lib\http\client.py", line 1444, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python315\Lib\http\client.py", line 1393, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python315\Lib\http\client.py", line 1153, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "C:\Python315\Lib\http\client.py", line 1097, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "C:\Python315\Lib\http\client.py", line 1063, in connect
+    self.sock = self._create_connection(
+                ~~~~~~~~~~~~~~~~~~~~~~~^
+        (self.host,self.port), self.timeout, self.source_address)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python315\Lib\socket.py", line 883, in create_connection
+    raise exceptions[0]
+  File "C:\Python315\Lib\socket.py", line 868, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+ConnectionRefusedError: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "Z:\app\RPGMakerLuna\godot-ai-workbench\art_cli.py", line 112, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "Z:\app\RPGMakerLuna\godot-ai-workbench\art_cli.py", line 107, in main
+    runpy.run_path(str(target), run_name='__main__')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 292, in run_path
+  File "<frozen runpy>", line 97, in _run_module_code
+  File "<frozen runpy>", line 87, in _run_code
+  File "Z:\app\RPGMakerLuna\shareable-skills\game-production\scripts\image_client.py", line 73, in <module>
+    main()
+    ~~~~^^
+  File "Z:\app\RPGMakerLuna\shareable-skills\game-production\scripts\image_client.py", line 59, in main
+    api(args.url, '/system_stats')
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "Z:\app\RPGMakerLuna\shareable-skills\game-production\scripts\comfy_client.py", line 23, in api
+    return json.loads(request(base, route, data))
+                      ~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "Z:\app\RPGMakerLuna\shareable-skills\game-production\scripts\comfy_client.py", line 18, in request
+    with urllib.request.urlopen(req, timeout=120) as response:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Python315\Lib\urllib\request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python315\Lib\urllib\request.py", line 489, in open
+    response = self._open(req, data)
+  File "C:\Python315\Lib\urllib\request.py", line 506, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "C:\Python315\Lib\urllib\request.py", line 466, in _call_chain
+    result = func(*args)
+  File "C:\Python315\Lib\urllib\request.py", line 1364, in http_open
+    return self.do_open(http.client.HTTPConnection, req)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python315\Lib\urllib\request.py", line 1338, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>

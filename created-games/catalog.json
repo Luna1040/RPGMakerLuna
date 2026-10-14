@@ -14,5 +14,17 @@
     "directory": "created-games/game-1791881399844",
     "status": "ready",
     "cover": "created-games/game-1791881399844/cover.png"
+  },
+  {
+    "id": "game-1791904914834",
+    "title": "地心探险",
+    "description": "地心探险",
+    "brief": "地心探险",
+    "last_prompt": "怎么存档全是乱码？尝试解决，如果实在解决不了  就用英文好了",
+    "directory": "created-games/game-1791904914834",
+    "status": "ready",
+    "cover": "",
+    "progress": "开始：agentMessage",
+    "last_reply": "已修复，保留中文，无需改成英文。原因是上次写入时中文被替换成了问号；已恢复存档菜单、按钮和提示文字，已有存档数据未改动。\n\n**61 项检查通过**，包括中文编码、字体覆盖和存档功能。日志：`art-jobs/save-text-encoding-20261014/checks.log`。\n\n实际窗口显示待桥接器重启后确认。本次未生成新美术。"
   }
 ]

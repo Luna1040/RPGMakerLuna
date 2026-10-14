@@ -1,0 +1,11 @@
+{
+  "status": "blocked",
+  "configured_python": "C:/Users/ROOT/Downloads/Flux2_klein_v1.0_普通版/Flux2_klein/python_embeded/python.exe",
+  "check_python": "C:/Python315/python.exe",
+  "issues": ["Configured Python missing", "Image and video services refused connection", "av, PIL, numpy, onnxruntime unavailable", "Matte model missing"],
+  "service_attempt": "Visible PowerShell terminal opened with start-comfy-terminal.ps1 -Service Image; configured Python missing prevents service start",
+  "generated_assets": [],
+  "integrated_assets": [],
+  "visuals": "Temporary code-drawn geometric placeholders",
+  "review": "Interactive visual review deferred to launcher; no game launched"
+}
