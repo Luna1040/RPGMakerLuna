@@ -23,6 +23,12 @@ function Resolve-GameRuntimes {
     }
     $node=Resolve-GameExecutable -Label 'Node.js (tested with 22.x)' -Override $env:NODE_BIN -Variable 'NODE_BIN' -Names @('node.exe') -Candidates $nodeCandidates
     $godotCandidates=@((Join-Path $Root '.tools/godot/Godot*_win64.exe'),(Join-Path $Root 'tools/godot/Godot*_win64.exe'),(Join-Path $Root 'Godot*_win64.exe'))
+    # Publishing checkouts share the developer workspace's portable engine.
+    $parent=Split-Path -Parent $Root
+    if((Split-Path -Leaf $parent) -eq '.publish'){
+        $workspace=Split-Path -Parent $parent
+        $godotCandidates+=Join-Path $workspace '.tools/godot/Godot*_win64.exe'
+    }
     $godot=Resolve-GameExecutable -Label 'Godot 4 (tested with 4.7.2)' -Override $env:GODOT_BIN -Variable 'GODOT_BIN' -Names @('godot.exe','godot4.exe') -Candidates $godotCandidates
     return @{Node=$node;Godot=$godot}
 }

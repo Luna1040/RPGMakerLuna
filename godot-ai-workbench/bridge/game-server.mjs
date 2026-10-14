@@ -96,14 +96,16 @@ async function restartGame(validate=false){
  if(restarting)throw Error('Restart in progress');
  restarting=true;
  try{
-  if(validate){
+  if(validate || !homeMode){
    state.status='validating';event('检查 Godot 导入…');
-   await new Promise((resolve,reject)=>{
+   for(let attempt=0;attempt<2;attempt++){
+    try{await new Promise((resolve,reject)=>{
     const p=spawn(godot,['--headless','--editor','--path',project,'--quit'],{windowsHide:true});let output='';
     const timer=setTimeout(()=>{p.kill();reject(Error('Godot import timeout'));},120000);
     p.stdout.on('data',b=>output+=b);p.stderr.on('data',b=>output+=b);p.on('error',reject);
     p.on('close',code=>{clearTimeout(timer);writeFile(path.join(data,'import.log'),output).catch(()=>{});code===0&&!/^\s*(SCRIPT ERROR|ERROR|FATAL):/m.test(output)?resolve():reject(Error('导入失败，保留当前游戏；查看 .game-assistant/import.log'));});
-   });
+   });break;}catch(error){if(attempt===1)throw error;}
+   }
    const entry=games.find(g=>g.id===selected);if(entry){entry.status='ready';await saveGames();}
    if(homeMode){state.status='ready';state.revision++;event('游戏创建完成，点击下方卡片开始试玩。');return;}
   }

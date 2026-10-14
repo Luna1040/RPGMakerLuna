@@ -62923,8 +62923,8 @@
     },
     {
       "path": "godot-ai-workbench/bridge/game-server.mjs",
-      "bytes": 13437,
-      "sha256": "960322984c528a11be8c988b1f55f9d65ca5860ebfae1e8407ca8692b41df593"
+      "bytes": 13551,
+      "sha256": "61743d3ca009d1334df0eef2bc3c75fae86127597435109e8a672146e815422a"
     },
     {
       "path": ".editorconfig",
@@ -62938,8 +62938,8 @@
     },
     {
       "path": "运行游戏-AI开发版.cmd",
-      "bytes": 143,
-      "sha256": "dd4d9044d36473c28032ebe988832b321ba38609fd469fb89b192be55acef83e"
+      "bytes": 153,
+      "sha256": "a56977159cda87860132fac4215ba5bbe802881d856a44bea5129e52b8b86437"
     },
     {
       "path": "运行游戏-AI开发版.ps1",
@@ -63008,8 +63008,8 @@
     },
     {
       "path": "godot-ai-workbench/resolve-runtime.ps1",
-      "bytes": 1854,
-      "sha256": "cb95bd7896fa35d167a223cbeb2ec2889018766df1852298ff1d86e1b0da9d49"
+      "bytes": 2149,
+      "sha256": "ea71326cbb4ab1ea0e385274d9e61a3297dee18e4b68ada605d3b5acbec03e32"
     },
     {
       "path": "godot-ai-workbench/launcher-paths-test.ps1",
