@@ -1,0 +1,1 @@
+Unstable rock warning effect for a two dimensional mining game: compact fractured stone with a few fine dust particles, clearly readable at 40 pixels, no text, no scenery, solid black background. Preserve the game's clean geometric stone style. Reference for a one-second trembling warning before the stone falls.

@@ -10,6 +10,21 @@ const CUT_LIMIT := 150
 const LAYER_HEIGHT := 100
 const AIR_HEIGHT := 5
 const BLACK_BASE := 6
+const PLAYER_FALL_INTERVAL := 0.105
+const ROCK_FALL_INTERVAL := PLAYER_FALL_INTERVAL * 2.0
+const FATIGUE_MAX := 999
+var fatigue := 0
+var crystals: Dictionary = {}
+var crystal_level := 0
+var crystal_offsets: Dictionary = {}
+var falling_rocks: Dictionary = {}
+var resistance_left := 0.0
+var pressure_cells: Array[Vector2i] = []
+var resume_state := "playing"
+var burst_time := 0.0
+var unstable: Dictionary = {}
+var warning_delay_enabled := true
+var mouse_target := Vector2i(-1, -1)
 var rows: Dictionary = {}
 var generated_to := 0
 var retained_from := 0
@@ -70,6 +85,18 @@ func reset(fixed_seed: int = -1) -> void:
 	camera_row = 0
 	depth = 0
 	cuts = 0
+	fatigue = 0
+	crystals.clear()
+	crystal_level = 0
+	crystal_offsets.clear()
+	falling_rocks.clear()
+	resistance_left = 0
+	pressure_cells.clear()
+	resume_state = "playing"
+	burst_time = 0
+	unstable.clear()
+	warning_delay_enabled = true
+	mouse_target = Vector2i(-1, -1)
 	broken = 0
 	score = 0
 	best_chain = 0
@@ -98,6 +125,7 @@ func reset(fixed_seed: int = -1) -> void:
 	rows[0].resize(WIDTH)
 	rows[0].fill(-1)
 	ensure_rows(105)
+	ensure_crystals(1)
 	queue_redraw()
 
 func ensure_rows(until_row: int) -> void:
@@ -125,6 +153,115 @@ func stone(cell: Vector2i) -> int:
 	if not rows.has(cell.y): return -2
 	return rows[cell.y][cell.x]
 
+func ensure_crystals(for_level: int) -> void:
+	if crystal_level == for_level: return
+	crystals.clear()
+	crystal_level = for_level
+	crystal_offsets.clear()
+	var item_rng := RandomNumberGenerator.new()
+	item_rng.seed = seed_value + for_level * 7919
+	var count := item_rng.randi_range(1, 2)
+	while crystals.size() < count:
+		var cell := Vector2i(item_rng.randi_range(0, WIDTH - 1), (for_level - 1) * LAYER_HEIGHT + item_rng.randi_range(10, 94))
+		crystals[cell] = true
+
+func collect_crystal() -> void:
+	if not crystals.has(player): return
+	crystals.erase(player)
+	crystal_offsets.erase(player)
+	var previous := fatigue
+	fatigue = maxi(0, fatigue - 50)
+	toast = "水晶已吸收 · 疲劳降低 %d" % (previous - fatigue)
+	toast_time = 3
+
+func register_cut() -> bool:
+	cuts += 1
+	fatigue = mini(FATIGUE_MAX, fatigue + 1)
+	if fatigue >= FATIGUE_MAX:
+		state = "lost"
+		hit_pending = false
+		attack_time = 0
+		save_game()
+		return false
+	return true
+
+func settle_crystals() -> bool:
+	collect_crystal()
+	var changed := false
+	var ordered := crystals.keys()
+	ordered.sort_custom(func(a: Vector2i, b: Vector2i) -> bool: return a.y > b.y)
+	for cell in ordered:
+		if not crystals.has(cell) or stone(cell) != -1 or cell.y >= level * LAYER_HEIGHT: continue
+		var below: Vector2i = cell + Vector2i.DOWN
+		if stone(below) != -1 or crystals.has(below): continue
+		crystals.erase(cell)
+		crystal_offsets.erase(cell)
+		crystals[below] = true
+		crystal_offsets[below] = -TILE
+		changed = true
+		if below == player: collect_crystal()
+	return changed
+
+func with_enclosed_black(group: Array[Vector2i]) -> Array[Vector2i]:
+	if group.is_empty(): return group
+	var wall: Dictionary = {}
+	var low := group[0]
+	var high := group[0]
+	var has_color := false
+	for cell in group:
+		wall[cell] = true
+		low = Vector2i(mini(low.x, cell.x), mini(low.y, cell.y))
+		high = Vector2i(maxi(high.x, cell.x), maxi(high.y, cell.y))
+		if stone(cell) >= 0 and stone(cell) < BLACK_BASE: has_color = true
+	if not has_color: return group
+	low -= Vector2i.ONE
+	high += Vector2i.ONE
+	var pending: Array[Vector2i] = [low]
+	var outside := {low: true}
+	var index := 0
+	while index < pending.size():
+		var cell := pending[index]
+		index += 1
+		for direction in [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP, Vector2i.DOWN]:
+			var next: Vector2i = cell + direction
+			if next.x < low.x or next.x > high.x or next.y < low.y or next.y > high.y or wall.has(next) or outside.has(next): continue
+			outside[next] = true
+			pending.append(next)
+	var result := group.duplicate()
+	for y in range(low.y + 1, high.y):
+		for x in range(low.x + 1, high.x):
+			var cell := Vector2i(x, y)
+			if stone(cell) >= BLACK_BASE and not outside.has(cell) and not wall.has(cell): result.append(cell)
+	return result
+
+func begin_pressure() -> bool:
+	var head := player + Vector2i.UP
+	if stone(head) < 0 or state != "playing": return false
+	var pending: Array[Vector2i] = [head]
+	var members := {head: true}
+	var index := 0
+	while index < pending.size():
+		var cell := pending[index]
+		index += 1
+		for direction in [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP, Vector2i.DOWN]:
+			var next: Vector2i = cell + direction
+			if next.y >= player.y or next.y < (level - 1) * LAYER_HEIGHT or members.has(next) or stone(next) < 0: continue
+			members[next] = true
+			pending.append(next)
+	for cell in pending:
+		var below := cell + Vector2i.DOWN
+		if not members.has(below) and below != player and stone(below) != -1: return false
+	pressure_cells = pending
+	resistance_left = 2.0
+	state = "resisting"
+	attack_time = 0
+	hit_pending = false
+	visual_player = Vector2(player)
+	for cell in pending: rock_offsets.erase(cell)
+	toast_time = 0
+	mouse_target = Vector2i(-1, -1)
+	return true
+
 func cluster(start: Vector2i) -> Array[Vector2i]:
 	var result: Array[Vector2i] = []
 	var color_id := stone(start)
@@ -148,8 +285,12 @@ func cluster(start: Vector2i) -> Array[Vector2i]:
 
 func begin_attack() -> void:
 	if state == "cleared":
+		if not register_cut(): return
 		level += 1
-		cuts += 1
+		unstable.clear()
+		falling_rocks.clear()
+		rock_offsets.clear()
+		mouse_target = Vector2i(-1, -1)
 		level_start_cuts = cuts
 		state = "playing"
 		camera_row = (level - 1) * LAYER_HEIGHT
@@ -160,6 +301,7 @@ func begin_attack() -> void:
 		facing = Vector2i.DOWN
 		attack_direction = facing
 		ensure_rows(level * LAYER_HEIGHT + AIR_HEIGHT)
+		ensure_crystals(level)
 		gravity_dirty = true
 		toast = "进入第 %d 层 · 先下落 5 米，再穿过 95 排岩石" % level
 		toast_time = 4
@@ -170,6 +312,7 @@ func begin_attack() -> void:
 		toast = "面前没有石块。用方向键转向或移动。"
 		toast_time = 2
 		return
+	if not register_cut(): return
 	attack_target = target
 	attack_direction = facing
 	attack_time = 0.34
@@ -178,7 +321,6 @@ func begin_attack() -> void:
 func resolve_hit() -> void:
 	var id := stone(attack_target)
 	if id >= BLACK_BASE:
-		cuts += 1
 		last_chain = 0
 		if id > BLACK_BASE:
 			rows[attack_target.y][attack_target.x] = id - 1
@@ -192,18 +334,19 @@ func resolve_hit() -> void:
 	var group := cluster(attack_target)
 	if group.is_empty(): return
 	var color_id := stone(attack_target)
-	cuts += 1
 	break_cells(group, false)
 	toast = "%s连锁 × %d  ·  +%d 分" % [NAMES[color_id], last_chain, last_chain * 10 + maxi(0, last_chain - 1) * 5]
 	toast_time = 2.4
 
 func break_cells(group: Array[Vector2i], from_collision: bool) -> void:
+	group = with_enclosed_black(group)
 	for cell in group:
 		var id := stone(cell)
 		if id < 0: continue
 		var tint: Color = COLORS[id] if id < BLACK_BASE else Color("555555")
 		rows[cell.y][cell.x] = -1
 		rock_offsets.erase(cell)
+		unstable.erase(cell)
 		if shards.size() < 160:
 			shards.append({"pos": Vector2(cell) * TILE + Vector2.ONE * TILE / 2, "velocity": Vector2(rng.randf_range(-80, 80), rng.randf_range(-120, 10)), "life": 0.6, "color": tint})
 	broken += group.size()
@@ -231,6 +374,9 @@ func settle_rocks() -> bool:
 			for member in group: visited[member] = true
 			groups.append(group)
 	var changed := false
+	var previous_falling := falling_rocks.duplicate()
+	falling_rocks.clear()
+	var pressure_candidate := false
 	var moved_this_tick: Dictionary = {}
 	for original in groups:
 		var first: Vector2i = original[0]
@@ -251,10 +397,24 @@ func settle_rocks() -> bool:
 			if cell.y >= bottom or below == player or stone(below) != -1:
 				supported = true
 				break
-		if supported: continue
+		if supported:
+			for cell in group: unstable.erase(cell)
+			var was_falling := false
+			for cell in group:
+				if previous_falling.has(cell): was_falling = true
+			if was_falling and group.has(player + Vector2i.UP): pressure_candidate = true
+			continue
+		var ready := true
+		for cell in group:
+			if not unstable.has(cell): unstable[cell] = 1.0
+			if float(unstable[cell]) > 0: ready = false
+		if warning_delay_enabled and not ready:
+			changed = true
+			continue
 		for cell in group:
 			rows[cell.y][cell.x] = -1
 			rock_offsets.erase(cell)
+			unstable.erase(cell)
 		var moved: Dictionary = {}
 		for cell in group:
 			var next: Vector2i = cell + Vector2i.DOWN
@@ -262,25 +422,32 @@ func settle_rocks() -> bool:
 			rock_offsets[next] = -TILE
 			moved[next] = true
 			moved_this_tick[next] = true
+			falling_rocks[next] = true
+			unstable[next] = 0.0
 		changed = true
 		var impact := false
 		for cell in moved:
-			var below: Vector2i = cell + Vector2i.DOWN
-			if not moved.has(below) and stone(below) == id:
-				impact = true
-				break
+			for direction in [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP, Vector2i.DOWN]:
+				var neighbor: Vector2i = cell + direction
+				if not moved.has(neighbor) and stone(neighbor) == id:
+					impact = true
+					break
+			if impact: break
 		if impact and id < BLACK_BASE:
 			var impact_group := cluster(first + Vector2i.DOWN)
 			break_cells(impact_group, true)
 			toast = "同色落石碰撞！连锁破碎 ×%d" % impact_group.size()
 			toast_time = 3
+		elif moved.has(player + Vector2i.UP): pressure_candidate = true
+	if pressure_candidate and begin_pressure(): return true
 	return changed
 
 func step_down() -> bool:
-	if state == "cleared": return false
+	if state != "playing": return false
 	ensure_rows(maxi(player.y + 64, level * LAYER_HEIGHT + AIR_HEIGHT))
 	if stone(player + Vector2i.DOWN) != -1: return false
 	player.y += 1
+	collect_crystal()
 	gravity_dirty = true
 	depth = maxi(depth, player.y)
 	if int(depth / 100) > milestone:
@@ -306,18 +473,49 @@ func move_horizontal(direction: int) -> void:
 	if stone(next) == -1:
 		player = next
 		gravity_dirty = true
+	elif stone(next) >= 0:
+		var above := player + Vector2i.UP
+		var landing := next + Vector2i.UP
+		if stone(player + Vector2i.DOWN) >= 0 and landing.y >= (level - 1) * LAYER_HEIGHT and stone(above) == -1 and stone(landing) == -1:
+			player = landing
+			fall_time = 0
+			gravity_dirty = true
+	collect_crystal()
 
 func face_front() -> void:
 	if state == "playing" and attack_time <= 0:
 		facing = Vector2i.DOWN
 
+func face_up() -> void:
+	if state == "playing" and attack_time <= 0: facing = Vector2i.UP
+
 func click_stone(position_in_game: Vector2) -> void:
-	if state != "playing": return
+	if state != "playing" or attack_time > 0: return
 	if not Rect2(ORIGIN, Vector2(WIDTH * TILE, VIEW_ROWS * TILE)).has_point(position_in_game): return
 	var local := (position_in_game - ORIGIN) / TILE + Vector2(0, camera_row)
 	var clicked := Vector2i(floori(local.x), floori(local.y))
-	if clicked == player + facing and stone(clicked) >= 0:
+	if (clicked - player).abs().x + (clicked - player).abs().y == 1 and stone(clicked) >= 0:
+		facing = clicked - player
 		begin_attack()
+		mouse_target = Vector2i(-1, -1)
+	elif clicked.x != player.x:
+		mouse_target = clicked
+		mouse_step()
+
+func mouse_step() -> void:
+	if mouse_target.x < 0 or state != "playing" or attack_time > 0 or move_time > 0: return
+	var difference := mouse_target - player
+	if absi(difference.x) + absi(difference.y) == 1 and stone(mouse_target) >= 0:
+		facing = difference
+		begin_attack()
+		mouse_target = Vector2i(-1, -1)
+		return
+	if difference.x == 0:
+		mouse_target = Vector2i(-1, -1)
+		return
+	var before := player
+	move_horizontal(signi(difference.x))
+	if player == before: mouse_target = Vector2i(-1, -1)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
@@ -327,8 +525,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif Rect2(990, 704, 210, 30).has_point(event.position): open_menu()
 		elif state == "briefing": state = "playing"
 		elif state == "playing": click_stone(event.position)
+		elif state == "cleared" and Rect2(ORIGIN, Vector2(WIDTH * TILE, VIEW_ROWS * TILE)).has_point(event.position): begin_attack()
 		return
 	if not event is InputEventKey or not event.pressed or event.echo: return
+	if event.keycode in [KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN, KEY_SPACE]: mouse_target = Vector2i(-1, -1)
 	if state == "menu":
 		if event.keycode == KEY_ESCAPE and active_slot >= 0: load_game(active_slot)
 		return
@@ -343,15 +543,33 @@ func _unhandled_input(event: InputEvent) -> void:
 				challenge = false
 				state = "playing"
 		KEY_ESCAPE:
-			if state == "playing": state = "paused"
-			elif state == "paused": state = "playing"
+			if state == "playing" or state == "resisting":
+				resume_state = state
+				state = "paused"
+			elif state == "paused": state = resume_state
 		KEY_SPACE: begin_attack()
-		KEY_UP, KEY_DOWN: face_front()
+		KEY_UP: face_up()
+		KEY_DOWN: face_front()
 		KEY_LEFT: move_horizontal(-1)
 		KEY_RIGHT: move_horizontal(1)
 
 func simulate(delta: float) -> void:
+	if state == "resisting":
+		elapsed += delta
+		resistance_left = maxf(0, resistance_left - delta)
+		if resistance_left <= 0:
+			break_cells(pressure_cells, false)
+			pressure_cells.clear()
+			fatigue = mini(FATIGUE_MAX, fatigue + 20)
+			burst_time = 0.7
+			state = "lost" if fatigue >= FATIGUE_MAX else "playing"
+			gravity_dirty = true
+			save_game()
+			toast_time = 0
+		return
 	if state != "playing": return
+	for cell in unstable.keys(): unstable[cell] = maxf(0, float(unstable[cell]) - delta)
+	burst_time = maxf(0, burst_time - delta)
 	elapsed += delta
 	toast_time = maxf(0, toast_time - delta)
 	move_time = maxf(0, move_time - delta)
@@ -362,21 +580,25 @@ func simulate(delta: float) -> void:
 			hit_pending = false
 			resolve_hit()
 	fall_time += delta
-	if fall_time >= 0.105:
-		fall_time = 0
+	if fall_time >= PLAYER_FALL_INTERVAL:
+		fall_time = fmod(fall_time, PLAYER_FALL_INTERVAL)
 		step_down()
 	gravity_time += delta
-	if gravity_enabled and gravity_dirty and gravity_time >= 0.105 and not hit_pending and state == "playing":
-		gravity_time = 0
+	if gravity_enabled and (gravity_dirty or not crystals.is_empty()) and gravity_time >= ROCK_FALL_INTERVAL and not hit_pending and state == "playing":
+		gravity_time = fmod(gravity_time, ROCK_FALL_INTERVAL)
 		gravity_dirty = settle_rocks()
+		if state == "playing": settle_crystals()
 	# Last cut may win after a long fall; only judge failure when landed.
 	if challenge and cuts - level_start_cuts >= CUT_LIMIT and state == "playing" and not hit_pending and attack_time == 0 and stone(player + Vector2i.DOWN) >= 0:
 		state = "lost"
 	visual_player = visual_player.lerp(Vector2(player), minf(1, delta * 18))
 	camera_row = lerpf(camera_row, clampf(visual_player.y - 4, (level - 1) * LAYER_HEIGHT, level * LAYER_HEIGHT - VIEW_ROWS + 1), minf(1, delta * 8))
 	for cell in rock_offsets.keys():
-		rock_offsets[cell] = move_toward(rock_offsets[cell], 0, delta * TILE / 0.105)
+		rock_offsets[cell] = move_toward(rock_offsets[cell], 0, delta * TILE / ROCK_FALL_INTERVAL)
 		if rock_offsets[cell] == 0: rock_offsets.erase(cell)
+	for cell in crystal_offsets.keys():
+		crystal_offsets[cell] = move_toward(crystal_offsets[cell], 0, delta * TILE / ROCK_FALL_INTERVAL)
+		if crystal_offsets[cell] == 0: crystal_offsets.erase(cell)
 	for i in range(shards.size() - 1, -1, -1):
 		shards[i].life -= delta
 		shards[i].velocity.y += delta * 280
@@ -388,9 +610,12 @@ func _process(delta: float) -> void:
 		if move_time <= 0:
 			if Input.is_physical_key_pressed(KEY_LEFT): move_horizontal(-1)
 			elif Input.is_physical_key_pressed(KEY_RIGHT): move_horizontal(1)
-		if Input.is_physical_key_pressed(KEY_DOWN) or Input.is_physical_key_pressed(KEY_UP): face_front()
+			else: mouse_step()
+		if Input.is_physical_key_pressed(KEY_UP): face_up()
+		elif Input.is_physical_key_pressed(KEY_DOWN): face_front()
 		if Input.is_physical_key_pressed(KEY_SPACE): begin_attack()
 		simulate(minf(delta, 0.05))
+	elif state == "resisting": simulate(minf(delta, 0.05))
 	queue_redraw()
 
 func text_at(text: String, at: Vector2, size: int = 20, color: Color = Color("e0e9ef")) -> void:
@@ -404,7 +629,7 @@ func draw_explorer(at: Vector2) -> void:
 	var shown_direction := attack_direction if attack_time > 0 else facing
 	draw_set_transform(at + Vector2(0, 6), 0, Vector2(-0.75 if shown_direction == Vector2i.LEFT else 0.75, 0.75))
 	var swing := attack_time > 0
-	var bend := sin((1 - attack_time / 0.34) * PI) * 3 if swing else 0.0
+	var bend := 5.0 + sin(elapsed * 35) if resistance_left > 0 else (sin((1 - attack_time / 0.34) * PI) * 3 if swing else 0.0)
 	var body := Vector2(0, bend)
 	draw_line(body + Vector2(-6, 6), body + Vector2(-7, 17), Color("a6b7c3"), 6)
 	draw_line(body + Vector2(5, 6), body + Vector2(8, 17), Color("a6b7c3"), 6)
@@ -418,8 +643,13 @@ func draw_explorer(at: Vector2) -> void:
 		draw_circle(body + Vector2(-3, -18), 1, Color("182a35"))
 		draw_circle(body + Vector2(3, -18), 1, Color("182a35"))
 	var hand := body + Vector2(10, -4)
+	if resistance_left > 0:
+		for side in [-1, 1]:
+			draw_line(body + Vector2(side * 7, -5), Vector2(side * 12, -27), Color("f2c797"), 5)
+			draw_line(Vector2(side * 12, -27), Vector2(side * 5, -34), Color("f2c797"), 5)
 	var angle := -0.9
 	if swing: angle = lerpf(-2.1, 1.3 if shown_direction == Vector2i.DOWN else 0.0, clampf((0.34 - attack_time) / 0.14, 0, 1))
+	if shown_direction == Vector2i.UP: angle = -PI / 2 if not swing else lerpf(-0.4, -2.0, clampf((0.34 - attack_time) / 0.14, 0, 1))
 	var tip := hand + Vector2.from_angle(angle) * 29
 	draw_line(body + Vector2(5, -6), hand, Color("f2c797"), 5)
 	draw_line(hand - Vector2.from_angle(angle) * 4, hand + Vector2.from_angle(angle) * 4, Color("d9ab64"), 5)
@@ -443,6 +673,7 @@ func _draw() -> void:
 			var id := stone(cell)
 			if id < 0: continue
 			var p := screen_pos(Vector2(cell)) + Vector2(0, rock_offsets.get(cell, 0.0))
+			p += warning_offset(cell)
 			if p.y < ORIGIN.y or p.y + TILE > ORIGIN.y + VIEW_ROWS * TILE: continue
 			if id >= BLACK_BASE:
 				draw_rect(Rect2(p + Vector2(2, 2), Vector2(36, 36)), Color.BLACK)
@@ -459,6 +690,13 @@ func _draw() -> void:
 			if id % 3 == 2: draw_line(p + Vector2(8, 12), p + Vector2(19, 12), tint.lightened(0.4), 2)
 			if cell in highlighted: draw_rect(Rect2(p + Vector2(2, 2), Vector2(36, 36)), Color(1, 1, 1, 0.45), false, 1)
 			if cell == target: draw_rect(Rect2(p + Vector2(2, 2), Vector2(36, 36)), Color("ffe2a0"), false, 3)
+	# Temporary collectible marker; generated crystal artwork is currently blocked.
+	for cell in crystals:
+		var center := screen_pos(Vector2(cell)) + Vector2.ONE * TILE / 2 + Vector2(0, crystal_offsets.get(cell, 0.0))
+		if center.y < ORIGIN.y + 16 or center.y > ORIGIN.y + VIEW_ROWS * TILE - 16: continue
+		draw_circle(center, 16, Color("173947"))
+		draw_colored_polygon(PackedVector2Array([center + Vector2(0, -14), center + Vector2(10, 0), center + Vector2(0, 14), center + Vector2(-10, 0)]), Color("70f5ed"))
+		draw_line(center + Vector2(0, -10), center + Vector2(-5, 0), Color.WHITE, 2)
 	for shard in shards:
 		var p: Vector2 = ORIGIN + shard.pos - Vector2(0, camera_row * TILE)
 		if p.y < ORIGIN.y + 5 or p.y > ORIGIN.y + VIEW_ROWS * TILE - 5: continue
@@ -468,6 +706,13 @@ func _draw() -> void:
 	var at := screen_pos(visual_player) + Vector2.ONE * TILE / 2
 	if shake > 0: at.x += sin(elapsed * 100) * shake
 	draw_explorer(at)
+	if resistance_left > 0:
+		for cell in pressure_cells:
+			var p := screen_pos(Vector2(cell))
+			if p.y >= ORIGIN.y and p.y + TILE <= ORIGIN.y + VIEW_ROWS * TILE:
+				draw_rect(Rect2(p + Vector2(3, 3), Vector2(34, 34)), Color(1, 0.45, 0.25, 0.5 + sin(elapsed * 20) * 0.2), false, 3)
+		for side in [-1, 1]: draw_line(at + Vector2(side * 23, -38), at + Vector2(side * 16, -20), Color("ffb37e"), 3)
+	if burst_time > 0: draw_arc(at, (0.7 - burst_time) * 100 + 20, PI, TAU, 24, Color(1, 0.8, 0.4, burst_time / 0.7), 3)
 	draw_rect(Rect2(ORIGIN.x, 110, WIDTH * TILE, 28), Color("0c1420"))
 	draw_rect(Rect2(ORIGIN.x, 738, WIDTH * TILE, 62), Color("0c1420"))
 	text_at("↓ %d 米" % depth, Vector2(50, 775), 23, Color("e9ad63"))
@@ -477,16 +722,17 @@ func _draw() -> void:
 	text_at("%d" % depth, Vector2(790, 253), 54)
 	text_at("米 · 本层 %d / 100米" % (depth - (level - 1) * 100), Vector2(790, 282), 18, Color("96adbf"))
 	text_at("得分  %d" % score, Vector2(790, 328), 23)
+	text_at("疲劳 %d / 999" % fatigue, Vector2(990, 328), 20, Color("ef7e8f") if fatigue >= 900 else Color("6ad1c3"))
 	text_at("连锁  ×%d     最佳  ×%d" % [last_chain, best_chain], Vector2(790, 371), 21, Color("e9ad63"))
 	text_at("碎岩 %d · 本层挥刀 %d%s" % [broken, cuts - level_start_cuts, " /150" if challenge else ""], Vector2(790, 408), 19)
-	var guide := ["面向：%s" % ("左边 ←" if facing == Vector2i.LEFT else ("右边 →" if facing == Vector2i.RIGHT else "正前方 ↓")), "← → 移动转向；↑ ↓ 面向前方", "空格 / 点击金框石块 · 砍", "每层：5米空区 + 95排石头", "通关后再按空格挥刀进入下一层", "黑石数字 = 剩余刀数；独立下落", "同色整体无支撑时会下落", "彩石撞到同色石头一起破碎", "长按空格连砍；Esc 暂停", "S 手动存档 · M / R 存档菜单"]
+	var guide := ["↑ 向上砍；↓ 向下砍；← → 转向", "鼠标点击空地移动、邻近石块砍击", "空格砍击；一格高石块可翻上", "每刀疲劳 +1；达到999结束", "水晶无支撑会落；接触疲劳 -50", "彩石下落遇同色立即一起破碎", "同色石群包围的黑石一起炸碎", "岩石失去支撑：先摇晃1秒再落", "通关后空格或点击矿区进入下一层", "S 存档 · M / R 菜单 · Esc 暂停"]
 	for i in range(guide.size()): text_at(guide[i], Vector2(790, 456 + i * 25), 18, Color("a9becd"))
 	draw_rect(Rect2(790, 704, 180, 30), Color("285060"))
 	text_at("手动存档 [S]", Vector2(805, 726), 18)
 	draw_rect(Rect2(990, 704, 210, 30), Color("285060"))
 	text_at("存档菜单 [M]", Vector2(1005, 726), 18)
 	if state == "menu": draw_save_menu()
-	elif state != "playing": draw_overlay()
+	elif state != "playing" and state != "resisting": draw_overlay()
 
 func draw_overlay() -> void:
 	draw_rect(Rect2(0, 0, 1280, 800), Color(0.02, 0.04, 0.08, 0.87))
@@ -500,8 +746,8 @@ func draw_overlay() -> void:
 		title = "第 %d 层通关 · 穿过95排岩石" % level
 		lines = ["深度 %d 米 · 本层 %d 刀 · %d 分" % [depth, cuts - level_start_cuts, score], "再按一次空格挥刀，进入第 %d 层" % (level + 1), "下一层先落5米；R 可重新开始"]
 	elif state == "lost":
-		title = "挑战结束 · 刀数用尽"
-		lines = ["本次深入 %d 米，得分 %d" % [depth, score], "尝试寻找更大的同色连锁，节省挥刀次数。", "按 R 重来；开始前按 C 可切换无限模式"]
+		title = "探索结束 · 疲劳达到999" if fatigue >= FATIGUE_MAX else "挑战结束 · 刀数用尽"
+		lines = ["本次深入 %d 米，得分 %d · 疲劳 %d" % [depth, score, fatigue], "寻找水晶可降低50点疲劳，利用同色连锁节省挥刀。", "按 M / R 返回存档菜单，选择空槽开始新游戏"]
 	text_at(title, Vector2(290, 290), 33, Color("6ad1c3"))
 	for i in range(lines.size()): text_at(lines[i], Vector2(290, 356 + i * 48), 21)
 
@@ -527,7 +773,16 @@ func new_game(slot: int) -> bool:
 func save_game() -> bool:
 	if active_slot < 0 or state == "menu": return false
 	last_played = Time.get_datetime_string_from_system(false, true)
-	var data := {"version": 1, "started_at": started_at, "last_played": last_played, "rows": {}, "rng_state": str(rng.state)}
+	var data := {"version": 1, "started_at": started_at, "last_played": last_played, "rows": {}, "rng_state": str(rng.state), "fatigue": fatigue, "crystals": [], "crystal_level": crystal_level, "gravity_time": gravity_time}
+	for cell in crystals: data.crystals.append([cell.x, cell.y])
+	data["resistance_left"] = resistance_left
+	data["pressure_cells"] = []
+	for cell in pressure_cells: data.pressure_cells.append([cell.x, cell.y])
+	data["resume_state"] = resume_state
+	data["falling_rocks"] = []
+	data["unstable"] = []
+	for cell in unstable: data.unstable.append([cell.x, cell.y, unstable[cell]])
+	for cell in falling_rocks: data.falling_rocks.append([cell.x, cell.y])
 	for field in ["seed_value", "generated_to", "retained_from", "state", "challenge", "depth", "cuts", "broken", "score", "best_chain", "last_chain", "elapsed", "level", "level_start_cuts", "milestone", "attack_time", "hit_pending", "fall_time", "gravity_dirty", "collision_broken"]:
 		data[field] = get(field)
 	for field in ["player", "facing", "attack_target", "attack_direction"]:
@@ -565,15 +820,39 @@ func load_game(slot: int) -> bool:
 	rows.clear()
 	for y in data.rows: rows[int(y)] = PackedInt32Array(data.rows[y])
 	rng.state = int(data.rng_state)
+	fatigue = clampi(int(data.get("fatigue", 0)), 0, FATIGUE_MAX)
+	gravity_time = float(data.get("gravity_time", 0.0))
+	resistance_left = float(data.get("resistance_left", 0.0))
+	pressure_cells.clear()
+	for cell in data.get("pressure_cells", []): pressure_cells.append(Vector2i(int(cell[0]), int(cell[1])))
+	resume_state = data.get("resume_state", "playing")
+	falling_rocks.clear()
+	unstable.clear()
+	for item in data.get("unstable", []): unstable[Vector2i(int(item[0]), int(item[1]))] = float(item[2])
+	for cell in data.get("falling_rocks", []): falling_rocks[Vector2i(int(cell[0]), int(cell[1]))] = true
+	if not data.has("fatigue") and hit_pending: cuts += 1
+	crystals.clear()
+	crystal_level = int(data.get("crystal_level", 0))
+	if data.has("crystals"):
+		for cell in data.crystals: crystals[Vector2i(int(cell[0]), int(cell[1]))] = true
+	else:
+		ensure_crystals(level)
 	active_slot = slot
 	started_at = data.started_at
 	last_played = data.last_played
 	visual_player = Vector2(player)
 	camera_row = clampf(player.y - 4, (level - 1) * LAYER_HEIGHT, level * LAYER_HEIGHT - VIEW_ROWS + 1)
-	if state == "paused" or state == "briefing": state = "playing"
+	if state == "paused": state = resume_state
+	elif state == "briefing": state = "playing"
+	if fatigue >= FATIGUE_MAX: state = "lost"
 	deleting_slot = -1
 	save_game()
 	return true
+
+func warning_offset(cell: Vector2i) -> Vector2:
+	if not unstable.has(cell) or float(unstable[cell]) <= 0: return Vector2.ZERO
+	var intensity := 1.0 + (1.0 - float(unstable[cell])) * 2.0
+	return Vector2(sin(elapsed * 33.0) * intensity, sin(elapsed * 21.0) * 0.8)
 
 func delete_game(slot: int) -> bool:
 	var error := DirAccess.remove_absolute(slot_path(slot))

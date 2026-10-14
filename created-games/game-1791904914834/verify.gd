@@ -31,6 +31,7 @@ func fixture(game: Node) -> void:
 	game.visual_player = Vector2(game.player)
 	for y in range(1, 106): game.rows[y].fill(-1)
 	game.gravity_dirty = false
+	game.warning_delay_enabled = false # Isolate existing mechanics from the new pre-fall timer.
 
 func cut(game: Node) -> void:
 	key(game, KEY_SPACE)
@@ -163,6 +164,7 @@ func _initialize() -> void:
 	game.gravity_enabled = false
 	game.rows[7][8] = 6
 	game.rows[6][7] = 1
+	game.rows[5][7] = 1 # A two-high wall cannot be climbed.
 	game.rows[6][9] = 2
 	key(game, KEY_LEFT)
 	check(game.facing == Vector2i.LEFT and not game.hit_pending and game.player.x == 8, "left arrow turns at wall without attacking")
@@ -177,8 +179,7 @@ func _initialize() -> void:
 	check(not game.hit_pending, "obsolete keys do not attack")
 	game.camera_row = 2.5
 	click(game, Vector2(1100, 450))
-	click(game, game.screen_pos(Vector2(9, 6)) + Vector2.ONE * 20)
-	check(not game.hit_pending, "click sidebar or non-facing stone does not attack")
+	check(not game.hit_pending, "click sidebar does not attack")
 	click(game, game.screen_pos(Vector2(8, 7)) + Vector2.ONE * 20)
 	check(game.hit_pending and game.attack_target == Vector2i(8, 7), "fractional camera click correctly targets facing adjacent obstacle")
 	var before: float = game.elapsed
@@ -220,7 +221,7 @@ func _initialize() -> void:
 	key(game, KEY_SPACE)
 	for tick in range(7): game.simulate(0.11)
 	check(game.level == 2 and game.player.y == 105, "real cleared world transitions and lands five meters into level two")
-	game.save_dir = "res://art-jobs/save-check-20261014/test-saves"
+	game.save_dir = "res://art-jobs/mouse-warning-20261014/test-saves"
 	for slot in range(game.SAVE_LIMIT):
 		if FileAccess.file_exists(game.slot_path(slot)): game.delete_game(slot)
 	check(game.new_game(0), "new game creates a durable local slot")
@@ -240,7 +241,7 @@ func _initialize() -> void:
 	check(game.started_at == start and not game.last_played.is_empty(), "save records original start and last-played timestamps")
 	game.gravity_enabled = false
 	game.simulate(0.1)
-	check(game.stone(Vector2i(8, 6)) == 8 and game.cuts == 28, "restored pending hit resolves exactly once")
+	check(game.stone(Vector2i(8, 6)) == 8 and game.cuts == 27, "restored pending hit resolves once without counting saved slash twice")
 	game.player.y = 99
 	game.rows[100][8] = -1
 	game.step_down()
@@ -257,6 +258,302 @@ func _initialize() -> void:
 	game.menu_click(Vector2(1040, 200))
 	check(not FileAccess.file_exists(game.slot_path(0)) and game.new_game(0), "confirmed delete frees slot for new game")
 	for slot in range(game.SAVE_LIMIT): game.delete_game(slot)
+	game.active_slot = -1
+	fixture(game)
+	game.player = Vector2i(8, 10)
+	game.rows[11][8] = 6
+	game.rows[10][9] = 0
+	key(game, KEY_RIGHT)
+	check(game.player == Vector2i(9, 9) and game.facing == Vector2i.RIGHT and game.fatigue == 0, "right movement climbs one-high obstacle without a cut or fatigue")
+	fixture(game)
+	game.player = Vector2i(8, 10)
+	game.rows[11][8] = 6
+	game.rows[10][7] = 6
+	key(game, KEY_LEFT)
+	check(game.player == Vector2i(7, 9), "left movement can climb black single-height obstacle")
+	fixture(game)
+	game.player = Vector2i(8, 10)
+	game.rows[11][8] = 6
+	game.rows[10][9] = 0
+	game.rows[9][8] = 1
+	key(game, KEY_RIGHT)
+	check(game.player == Vector2i(8, 10), "overhead obstruction prevents climbing through ceiling")
+	fixture(game)
+	game.rows[10][3] = 0
+	game.rows[11][4] = 0
+	for y in range(12, 101): game.rows[y][4] = 6
+	game.settle_rocks()
+	check(game.stone(Vector2i(3, 11)) == -1 and game.stone(Vector2i(4, 11)) == -1 and game.collision_broken == 2, "falling color touching same color on its side destroys both immediately")
+	fixture(game)
+	game.rows[10][3] = 9
+	game.gravity_dirty = true
+	game.simulate(game.PLAYER_FALL_INTERVAL)
+	check(game.player.y == 6 and game.stone(Vector2i(3, 10)) == 9, "first interval moves player but not rock")
+	game.simulate(game.PLAYER_FALL_INTERVAL)
+	check(game.player.y == 7 and game.stone(Vector2i(3, 11)) == 9, "two player intervals move rock exactly one cell")
+	fixture(game)
+	game.gravity_enabled = false
+	game.rows[6][8] = 9
+	game.begin_attack()
+	check(game.fatigue == 1 and game.cuts == 1, "starting a real slash adds exactly one fatigue")
+	game.begin_attack()
+	check(game.fatigue == 1, "repeat input during slash cannot add fatigue")
+	game.simulate(0.35)
+	check(game.fatigue == 1 and game.cuts == 1, "hit resolution does not count fatigue or cut twice")
+	fixture(game)
+	game.begin_attack()
+	check(game.fatigue == 0, "invalid empty-target slash costs no fatigue")
+	fixture(game)
+	game.rows[6][8] = 9
+	game.fatigue = 998
+	game.begin_attack()
+	var ended_position: Vector2i = game.player
+	game.simulate(1)
+	key(game, KEY_RIGHT)
+	check(game.fatigue == 999 and game.state == "lost" and game.player == ended_position and not game.hit_pending, "999 fatigue ends game immediately and freezes further movement")
+	fixture(game)
+	game.crystals.clear()
+	game.crystals[Vector2i(8, 6)] = true
+	game.fatigue = 80
+	game.step_down()
+	check(game.fatigue == 30 and game.crystals.is_empty(), "falling onto crystal consumes it and removes fifty fatigue")
+	game.collect_crystal()
+	check(game.fatigue == 30, "consumed crystal cannot heal twice")
+	fixture(game)
+	game.crystals.clear()
+	game.crystals[Vector2i(9, 5)] = true
+	game.fatigue = 20
+	key(game, KEY_RIGHT)
+	check(game.fatigue == 0 and game.crystals.is_empty(), "horizontal pickup clamps fatigue at zero")
+	fixture(game)
+	game.player = Vector2i(8, 10)
+	game.rows[11][8] = 6
+	game.rows[10][9] = 0
+	game.crystals.clear()
+	game.crystals[Vector2i(9, 9)] = true
+	game.fatigue = 70
+	key(game, KEY_RIGHT)
+	check(game.fatigue == 20 and game.crystals.is_empty(), "climbing onto crystal also consumes recovery")
+	game.reset(42)
+	var crystal_counts_ok := true
+	for stage in range(1, 201):
+		game.ensure_crystals(stage)
+		if game.crystals.size() < 1 or game.crystals.size() > 2: crystal_counts_ok = false
+		for cell in game.crystals:
+			if cell.y <= (stage - 1) * 100 + 5 or cell.y >= stage * 100: crystal_counts_ok = false
+	check(crystal_counts_ok, "each of 200 layers generates one or two unique crystals inside its own rocky section")
+	game.new_game(0)
+	game.fatigue = 123
+	game.crystals.clear()
+	game.crystals[Vector2i(8, 20)] = true
+	game.gravity_time = 0.15
+	game.save_game()
+	game.reset(10)
+	game.load_game(0)
+	check(game.fatigue == 123 and game.crystals.has(Vector2i(8, 20)) and is_equal_approx(game.gravity_time, 0.15), "save restores fatigue, remaining crystals and slowed gravity timer")
+	game.crystals.clear()
+	game.save_game()
+	game.load_game(0)
+	game.ensure_crystals(1)
+	check(game.crystals.is_empty(), "loading a depleted layer never respawns consumed crystals")
+	var legacy: Dictionary = game.read_slot(0)
+	for field in ["fatigue", "crystals", "crystal_level", "gravity_time"]: legacy.erase(field)
+	var legacy_file := FileAccess.open(game.slot_path(0), FileAccess.WRITE)
+	legacy_file.store_string(JSON.stringify(legacy))
+	legacy_file.close()
+	check(game.load_game(0) and game.fatigue == 0 and game.crystals.size() >= 1, "older saves migrate with zero fatigue and current-layer crystals")
+	game.state = "cleared"
+	game.fatigue = 50
+	game.begin_attack()
+	check(game.level == 2 and game.fatigue == 51 and game.crystal_level == 2 and game.crystals.size() >= 1, "transition slash costs fatigue and generates next-layer supplies")
+	game.fatigue = 999
+	game.state = "lost"
+	game.save_game()
+	game.load_game(0)
+	check(game.fatigue == 999 and game.state == "lost", "reloading terminal fatigue cannot revive ended game")
+	game.delete_game(0)
+	game.active_slot = -1
+	fixture(game)
+	game.crystals.clear()
+	game.crystals[Vector2i(3, 10)] = true
+	check(game.settle_crystals() and game.crystals.has(Vector2i(3, 11)), "unsupported crystal drops one cell")
+	game.rows[12][3] = 6
+	check(not game.settle_crystals() and game.crystals.has(Vector2i(3, 11)), "supported crystal stops above stone")
+	game.rows[12][3] = -1
+	game.settle_crystals()
+	check(game.crystals.has(Vector2i(3, 12)), "crystal resumes falling after support is removed")
+	game.crystals.clear()
+	game.crystals[Vector2i(8, 4)] = true
+	game.fatigue = 80
+	game.settle_crystals()
+	check(game.crystals.is_empty() and game.fatigue == 30, "falling crystal touching player is consumed automatically")
+	game.crystals[Vector2i(3, 100)] = true
+	game.settle_crystals()
+	check(game.crystals.has(Vector2i(3, 100)), "crystals cannot fall into another layer")
+	fixture(game)
+	for y in range(10, 13):
+		for x in range(2, 5): game.rows[y][x] = 0
+	game.rows[11][3] = 14
+	game.rows[11][6] = 9
+	var ring: Array[Vector2i] = game.cluster(Vector2i(2, 10))
+	game.break_cells(ring, false)
+	check(game.stone(Vector2i(3, 11)) == -1 and game.broken == 9, "closed same-color ring simultaneously explodes enclosed strength-nine black stone")
+	check(game.stone(Vector2i(6, 11)) == 9, "external black stone is not damaged by enclosed explosion")
+	fixture(game)
+	for y in range(10, 13):
+		for x in range(2, 5): game.rows[y][x] = 0
+	game.rows[11][3] = 14
+	game.rows[10][3] = -1
+	game.break_cells(game.cluster(Vector2i(2, 10)), false)
+	check(game.stone(Vector2i(3, 11)) == 14, "open ring does not count as enclosing black stone")
+	fixture(game)
+	game.gravity_enabled = false
+	game.player = Vector2i(8, 10)
+	game.rows[11][8] = 6
+	game.rows[9][8] = 0
+	key(game, KEY_UP)
+	key(game, KEY_SPACE)
+	check(game.facing == Vector2i.UP and game.attack_target == Vector2i(8, 9), "up arrow and Space target exactly one overhead cell")
+	game.simulate(0.35)
+	check(game.stone(Vector2i(8, 9)) == -1 and game.fatigue == 1, "overhead slash breaks target and adds one fatigue")
+	game.rows[9][8] = 6
+	game.camera_row = 5
+	click(game, game.screen_pos(Vector2(8, 9)) + Vector2.ONE * 20)
+	check(game.hit_pending and game.attack_direction == Vector2i.UP, "mouse click supports facing overhead target")
+	fixture(game)
+	game.player = Vector2i(8, 12)
+	for y in range(13, 101): game.rows[y][8] = 6
+	game.rows[10][8] = 0
+	game.settle_rocks()
+	check(game.state == "resisting" and game.resistance_left == 2.0 and game.stone(Vector2i(8, 11)) == 0, "falling rock with player as sole support starts full two-second resistance")
+	key(game, KEY_RIGHT)
+	key(game, KEY_SPACE)
+	game.simulate(1.9)
+	check(game.player == Vector2i(8, 12) and game.stone(Vector2i(8, 11)) == 0 and game.fatigue == 0, "resistance locks movement and attacks and does not break rock early")
+	game.simulate(0.11)
+	check(game.state == "playing" and game.stone(Vector2i(8, 11)) == -1 and game.fatigue == 20 and game.burst_time > 0 and not game.shards.is_empty(), "two seconds complete with rock burst and exactly twenty fatigue")
+	game.simulate(0.1)
+	check(game.fatigue == 20, "completed resistance cannot apply fatigue twice")
+	fixture(game)
+	game.player = Vector2i(8, 12)
+	game.rows[10][8] = 0
+	game.rows[10][9] = 0
+	for y in range(12, 101): game.rows[y][9] = 6
+	game.settle_rocks()
+	check(game.state == "playing" and game.resistance_left == 0 and game.stone(Vector2i(8, 11)) == 0, "other bottom support prevents player-pressure event")
+	fixture(game)
+	game.player = Vector2i(8, 12)
+	game.rows[11][8] = 9
+	game.settle_rocks()
+	check(game.state == "playing", "static rock above head does not count as a falling impact")
+	fixture(game)
+	game.player = Vector2i(8, 12)
+	for y in range(13, 101): game.rows[y][8] = 6
+	game.rows[10][8] = 14
+	game.rows[9][8] = 9
+	game.settle_rocks()
+	check(game.state == "resisting" and game.pressure_cells.size() == 2, "complete stacked black-rock descent is captured before resistance starts")
+	game.simulate(2.01)
+	check(game.stone(Vector2i(8, 11)) == -1 and game.stone(Vector2i(8, 10)) == -1 and game.fatigue == 20, "all rocks in overhead stack burst together with one fatigue penalty")
+	fixture(game)
+	game.player = Vector2i(8, 12)
+	for y in range(13, 101): game.rows[y][8] = 6
+	game.rows[10][8] = 14
+	game.fatigue = 990
+	game.settle_rocks()
+	key(game, KEY_ESCAPE)
+	game.simulate(1)
+	check(game.state == "paused" and game.resistance_left == 2, "pause freezes pressure countdown")
+	key(game, KEY_ESCAPE)
+	game.simulate(2.01)
+	check(game.state == "lost" and game.fatigue == 999 and game.stone(Vector2i(8, 11)) == -1, "pressure burst destroys black rock and can end game at fatigue limit")
+	game.new_game(0)
+	game.player = Vector2i(8, 12)
+	game.warning_delay_enabled = false
+	for y in range(1, 106): game.rows[y].fill(-1)
+	for y in range(13, 101): game.rows[y][8] = 6
+	game.rows[10][8] = 0
+	game.settle_rocks()
+	game.simulate(0.7)
+	game.save_game()
+	game.open_menu()
+	game.load_game(0)
+	check(game.state == "resisting" and is_equal_approx(game.resistance_left, 1.3) and game.pressure_cells.has(Vector2i(8, 11)), "save resumes remaining resistance time and overhead rock group")
+	game.simulate(1.31)
+	check(game.fatigue == 20 and game.state == "playing", "restored pressure event completes exactly once")
+	game.delete_game(0)
+	game.active_slot = -1
+	fixture(game)
+	game.rows[6][8] = 6
+	game.rows[5][9] = 9
+	game.facing = Vector2i.DOWN
+	click(game, game.screen_pos(Vector2(9, 5)) + Vector2.ONE * 20)
+	check(game.hit_pending and game.facing == Vector2i.RIGHT and game.attack_target == Vector2i(9, 5), "mouse independently turns and attacks adjacent side stone")
+	fixture(game)
+	game.rows[6][8] = 6
+	game.rows[6][9] = 6
+	game.rows[6][10] = 6
+	click(game, game.screen_pos(Vector2(10, 5)) + Vector2.ONE * 20)
+	check(game.player.x == 9 and game.mouse_target.x == 10 and game.fatigue == 0, "click empty ground begins horizontal movement without fatigue")
+	game.simulate(0.15)
+	game.mouse_step()
+	check(game.player.x == 10, "mouse movement continues toward selected destination")
+	key(game, KEY_LEFT)
+	check(game.mouse_target.x == -1, "keyboard movement cancels queued mouse movement")
+	fixture(game)
+	game.rows[6][8] = 6
+	game.rows[5][9] = 0
+	click(game, game.screen_pos(Vector2(9, 4)) + Vector2.ONE * 20)
+	check(game.player == Vector2i(9, 4), "clicking clear tile above a one-high obstacle climbs it")
+	game.state = "cleared"
+	click(game, Vector2(200, 300))
+	check(game.level == 2 and game.state == "playing", "mouse can deliberately enter next layer from cleared screen")
+	fixture(game)
+	game.warning_delay_enabled = true
+	game.gravity_enabled = false
+	game.rows[10][3] = 9
+	game.settle_rocks()
+	check(game.stone(Vector2i(3, 10)) == 9 and game.unstable.get(Vector2i(3, 10), 0) == 1.0, "unsupported black rock starts one-second warning in original cell")
+	game.simulate(0.99)
+	game.settle_rocks()
+	check(game.stone(Vector2i(3, 10)) == 9 and game.warning_offset(Vector2i(3, 10)) != Vector2.ZERO, "rock remains in place and visibly wobbles before full second")
+	key(game, KEY_ESCAPE)
+	var remaining: float = game.unstable[Vector2i(3, 10)]
+	game.simulate(3)
+	check(is_equal_approx(game.unstable[Vector2i(3, 10)], remaining), "pause freezes unstable-rock warning timer")
+	key(game, KEY_ESCAPE)
+	game.simulate(0.02)
+	game.settle_rocks()
+	check(game.stone(Vector2i(3, 11)) == 9 and game.warning_offset(Vector2i(3, 11)) == Vector2.ZERO, "one full second releases rock and stops warning wobble")
+	game.settle_rocks()
+	check(game.stone(Vector2i(3, 12)) == 9, "continuous fall does not restart one-second delay at every cell")
+	fixture(game)
+	game.warning_delay_enabled = true
+	game.rows[10][3] = 0
+	game.rows[10][4] = 0
+	game.settle_rocks()
+	check(game.unstable.has(Vector2i(3, 10)) and game.unstable.has(Vector2i(4, 10)), "whole unsupported color component warns together")
+	game.rows[11][3] = 6
+	game.rows[12][3] = 6
+	game.rows[13][3] = 6
+	for y in range(14, 101): game.rows[y][3] = 6
+	game.settle_rocks()
+	check(not game.unstable.has(Vector2i(3, 10)) and not game.unstable.has(Vector2i(4, 10)), "restored support cancels warning for entire component")
+	check(not source.contains("抵抗落石 %.1f") and not source.contains("落石压顶！") and not source.contains("顶开落石！"), "pressure effect contains no countdown or event-description text")
+	game.new_game(0)
+	for y in range(1, 106): game.rows[y].fill(-1)
+	game.rows[10][3] = 9
+	game.gravity_enabled = false
+	game.settle_rocks()
+	game.simulate(0.4)
+	game.save_game()
+	game.load_game(0)
+	check(is_equal_approx(game.unstable.get(Vector2i(3, 10), 0), 0.6) and game.mouse_target.x == -1, "save restores remaining warning and never resumes stale mouse movement")
+	game.gravity_enabled = false
+	game.simulate(0.61)
+	game.settle_rocks()
+	check(game.stone(Vector2i(3, 11)) == 9, "restored warning expires normally before rock falls")
+	game.delete_game(0)
 	game.free()
 	print("VERIFICATION PASS: %d checks" % passes if failures == 0 else "VERIFICATION FAILED: %d" % failures)
 	quit(0 if failures == 0 else 1)
