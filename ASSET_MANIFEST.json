@@ -1,5 +1,5 @@
 {
-  "snapshot_date": "2026-10-15",
+  "snapshot_date": "2026-10-16",
   "files": [
     {
       "path": "CHARACTER_PIPELINE.md",
@@ -63003,8 +63003,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 1230,
-      "sha256": "67675d0fc2fe37dd455c174f401691f70b3b040e367744876b23c531b3dfafb9"
+      "bytes": 14799,
+      "sha256": "16fa4dc19ec5b54a8a9fef89cf94e5a482e05220d0505b4f587fd33e42ede37f"
     },
     {
       "path": "godot-ai-workbench/resolve-runtime.ps1",
@@ -65640,6 +65640,31 @@
       "path": "setup-team-comfy.py",
       "bytes": 1774,
       "sha256": "76c576a6f1b0dd9344b3d62298776197d841efbed7ffa3a2c15bb3b091237e76"
+    },
+    {
+      "path": "created-games/velvet-mahogany/assets/dealer/deal.ogv",
+      "bytes": 2512179,
+      "sha256": "c47d74fa170278a096070d0c647e67b0ecdfc579dff1f1899e9b6b1d10569f97"
+    },
+    {
+      "path": "created-games/velvet-mahogany/assets/dealer/idle.ogv",
+      "bytes": 2341169,
+      "sha256": "4b0d818c24969a1700da93c5d4d07cace334a6700b83bf64e30130d467de0b6f"
+    },
+    {
+      "path": "created-games/velvet-mahogany/assets/dealer/payout.ogv",
+      "bytes": 1577259,
+      "sha256": "39e8f153fa50a606061dcff5d68951a1a00c0022d125cb22815c433afe15a7b2"
+    },
+    {
+      "path": ".gitattributes",
+      "bytes": 865,
+      "sha256": "b4eac074d6777f3b77ab6bf8c79a4d426e8835998a12ecdc3ed10b4766d9d169"
+    },
+    {
+      "path": "docs/showcase/mahogany-six-seat.png",
+      "bytes": 831355,
+      "sha256": "8e0b1640325738d4136c27ad74d9e8c84bd4313d2008c80abd27a264bf1c44fa"
     }
   ]
 }
