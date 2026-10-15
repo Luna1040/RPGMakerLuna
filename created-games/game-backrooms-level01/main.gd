@@ -41,13 +41,14 @@ const MAP: Array[String] = [
 const DARK := Color("343528")
 const YELLOW_WALL := Color("aaa36b")
 const CARPET := Color("55513b")
-const EXIT_CELL := Vector2i(29, 29)
-const ANOMALY_CELLS := {"A": Vector2i(5, 23), "B": Vector2i(15, 19), "C": Vector2i(26, 9)}
+const DEMO_MAP_SIZE := 21
+const EXIT_CELL := Vector2i(17, 17)
+const ANOMALY_CELLS := {"A": Vector2i(5, 5), "B": Vector2i(11, 7), "C": Vector2i(15, 9)}
 const ANOMALY_NAMES := {"A": "墙纸后鼓起的墙面", "B": "没有尽头的门框", "C": "走进墙里的湿脚印"}
 const ANOMALY_CODES := {"A": "4", "B": "1", "C": "9"}
-const WATER_CELLS := [Vector2i(3, 15), Vector2i(22, 13)]
-const NOTE_CELLS := [Vector2i(14, 5), Vector2i(7, 27)]
-const WATER_VALVE_CELLS := [Vector2i(5, 15), Vector2i(23, 13), Vector2i(20, 25)]
+const WATER_CELLS := [Vector2i(3, 5), Vector2i(7, 7)]
+const NOTE_CELLS := [Vector2i(9, 3), Vector2i(14, 5)]
+const WATER_VALVE_CELLS := [Vector2i(11, 5), Vector2i(7, 3), Vector2i(15, 11)]
 const DIRECTIONS: Array[Vector2i] = [Vector2i.RIGHT, Vector2i.LEFT, Vector2i.UP, Vector2i.DOWN]
 const STALKER_SCENE: PackedScene = preload("res://assets/creatures/the_stalker/Run.fbx")
 const MOUSE_BASE_SENSITIVITY := 0.0023
@@ -119,6 +120,8 @@ var keypad_active := false
 var keypad_buffer := ""
 var valve_progress := 0
 var pool_gate_open := false
+var water_route_markers: Array[MeshInstance3D] = []
+var water_route_marker_refresh := 0.0
 var mouse_sensitivity_multiplier := 0.55
 var sensitivity_value_label: Label
 var flicker_lights: Array[OmniLight3D] = []
@@ -287,11 +290,16 @@ func _procedural_texture(kind: String, base: Color) -> Texture2D:
 
 func _prepare_map() -> Array[String]:
 	var cells: Array = []
-	for row in MAP:
+	for z in range(DEMO_MAP_SIZE - 1):
+		var row := MAP[z]
 		var row_cells: Array[String] = []
-		for x in range(row.length()):
+		for x in range(DEMO_MAP_SIZE - 1):
 			row_cells.append(row.substr(x, 1))
+		row_cells.append("#")
 		cells.append(row_cells)
+	cells.append([])
+	for _x in range(DEMO_MAP_SIZE):
+		cells[DEMO_MAP_SIZE - 1].append("#")
 	# A rare Manila room: warm paper walls, a single entrance, documents, and a chair.
 	for z in range(3, 8):
 		for x in range(13, 18):
@@ -300,29 +308,25 @@ func _prepare_map() -> Array[String]:
 	cells[7][15] = "."
 	cells[5][15] = "M"
 	cells[5][14] = "N"
-	# Pillar variation with a clear ring of sight lines and an open exit to the maze.
-	for z in range(3, 9):
-		for x in range(20, 27):
-			var boundary := x == 20 or x == 26 or z == 3 or z == 8
-			cells[z][x] = "#" if boundary else "."
-	cells[8][23] = "."
-	cells[5][23] = "R"
-	# Two floor holes replace the floor slab; sprint-jumps clear a full three-meter tile.
+	# A single jumpable hole breaks up the compact showcase loop.
 	cells[15][9] = "H"
-	cells[21][25] = "H"
-	# Break up the maze into a few broad, unnervingly empty office bays.
+	# Open a couple of short cross-corridors to cut out dead-end backtracking.
 	for x in range(5, 12):
 		cells[10][x] = "."
-	for x in range(18, 25):
-		cells[17][x] = "."
-	for x in range(7, 14):
-		cells[24][x] = "."
 	for z in range(11, 15):
 		cells[z][9] = "."
-	# Keep the hazards and clue rooms deliberate after opening sightlines.
+	# Keep the hazard and clue rooms deliberate after opening sightlines.
 	cells[15][9] = "H"
 	cells[5][15] = "M"
 	cells[5][14] = "N"
+	# Put the first film pack on the spawn corridor so the core action starts quickly.
+	cells[5][7] = "."
+	cells[2][1] = "P"
+	# The main route markers sit along the compact playable loop.
+	for anomaly_id in ANOMALY_CELLS:
+		var cell: Vector2i = ANOMALY_CELLS[anomaly_id]
+		cells[cell.y][cell.x] = anomaly_id
+	cells[EXIT_CELL.y][EXIT_CELL.x] = "E"
 	var result: Array[String] = []
 	for row in cells:
 		result.append("".join(PackedStringArray(row)))
@@ -415,9 +419,12 @@ func _build_level() -> void:
 	_add_anomaly("B", _cell_world(ANOMALY_CELLS["B"]))
 	_add_anomaly("C", _cell_world(ANOMALY_CELLS["C"]))
 	_add_exit(_cell_world(EXIT_CELL))
+	_add_pickup(_cell_world(_find_cell("S")) + Vector3(0, 0.25, 0.55), "almond_water", "杏仁水", Color("80c6ad"))
 	_add_spawn_notice_board()
 	_add_escape_routes()
+	_build_water_route_markers()
 	_build_ambient_audio()
+	_update_water_sound_guidance()
 
 	var world_environment := get_world_3d().environment
 	if world_environment != null:
@@ -858,13 +865,29 @@ func _add_wall_baseboards(cell: Vector2i, center: Vector3) -> void:
 
 
 func _add_fluorescent(center: Vector3, warm: bool = false) -> void:
-	_add_box("Fluorescent fixture housing", Vector3(1.7, 0.12, 0.72), center + Vector3(0, WALL_HEIGHT - 0.29, 0), mat_trim, false)
-	_add_box("Fluorescent diffuser", Vector3(1.42, 0.035, 0.44), center + Vector3(0, WALL_HEIGHT - 0.215, 0), mat_light, false)
+	var fixture := MeshInstance3D.new()
+	fixture.name = "Ceiling-mounted vintage fluorescent texture"
+	var fixture_plane := PlaneMesh.new()
+	fixture_plane.size = Vector2(0.64, 1.38)
+	fixture.mesh = fixture_plane
+	fixture.rotation.x = PI * 0.5
+	fixture.position = center + Vector3(0, WALL_HEIGHT - 0.045, 0)
+	var fixture_material := StandardMaterial3D.new()
+	fixture_material.albedo_texture = load("res://assets/textures/ceiling_fluorescent_troffer.png") as Texture2D
+	fixture_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	fixture_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	fixture_material.cull_mode = BaseMaterial3D.CULL_DISABLED
+	fixture_material.emission_enabled = true
+	fixture_material.emission_texture = fixture_material.albedo_texture
+	fixture_material.emission_energy_multiplier = 0.28
+	fixture.material_override = fixture_material
+	fixture.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	add_child(fixture)
 	var light := OmniLight3D.new()
-	light.position = center + Vector3(0, WALL_HEIGHT - 0.34, 0)
+	light.position = center + Vector3(0, WALL_HEIGHT - 0.16, 0)
 	light.light_color = Color("efd59a") if warm else Color("d8dda9")
-	light.light_energy = 0.4 if warm else 0.52
-	light.omni_range = 6.4
+	light.light_energy = 0.36 if warm else 0.46
+	light.omni_range = 7.8
 	light.omni_attenuation = 1.8
 	flicker_lights.append(light)
 	add_child(light)
@@ -1666,7 +1689,19 @@ func _add_water_valve(index: int, at: Vector3) -> void:
 	beacon.shadow_enabled = false
 	beacon.position.y = 1.6
 	valve.add_child(beacon)
+	var flow := AudioStreamPlayer3D.new()
+	flow.name = "Directional water flow"
+	flow.stream = load("res://audio/sfx_pipe_flow.wav") as AudioStreamWAV
+	(flow.stream as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
+	flow.max_distance = 90.0
+	flow.unit_size = 15.0
+	flow.attenuation_model = AudioStreamPlayer3D.ATTENUATION_INVERSE_DISTANCE
+	flow.volume_db = -22.0
+	flow.set_meta("flow_valve_index", index)
+	flow.add_to_group("water_flow_sources")
+	valve.add_child(flow)
 	add_child(valve)
+	flow.play()
 
 
 func _add_pool_gate(at: Vector3) -> void:
@@ -1723,9 +1758,84 @@ func _add_pool_gate(at: Vector3) -> void:
 	label.outline_modulate = Color("103334")
 	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	gate.add_child(label)
+	var gate_flow := AudioStreamPlayer3D.new()
+	gate_flow.name = "Water sound leading into Level 37"
+	gate_flow.stream = load("res://audio/sfx_pipe_flow.wav") as AudioStreamWAV
+	(gate_flow.stream as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
+	gate_flow.max_distance = 60.0
+	gate_flow.unit_size = 14.0
+	gate_flow.volume_db = -24.0
+	gate_flow.add_to_group("water_gate_flow")
+	gate.add_child(gate_flow)
 	gate.visible = false
 	add_child(gate)
+	gate_flow.play()
 	set_meta("pool_gate", gate)
+
+
+func _update_water_sound_guidance() -> void:
+	var expected_order: Array[int] = [1, 0, 2]
+	var target_index := expected_order[valve_progress] if valve_progress < expected_order.size() else -1
+	for flow in get_tree().get_nodes_in_group("water_flow_sources"):
+		var valve_index := int(flow.get_meta("flow_valve_index", -1))
+		flow.volume_db = -6.0 if valve_index == target_index else -27.0
+	for flow in get_tree().get_nodes_in_group("water_gate_flow"):
+		flow.volume_db = -5.0 if pool_gate_open else -30.0
+
+
+func _build_water_route_markers() -> void:
+	var material := _material(Color("52fff0"), 0.0, 0.22)
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.emission_enabled = true
+	material.emission = Color("22ddca")
+	material.emission_energy_multiplier = 2.4
+	var arrow_mesh := ImmediateMesh.new()
+	arrow_mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES, material)
+	# A broad floor arrow points along the shortest path to the next objective.
+	arrow_mesh.surface_add_vertex(Vector3(-0.055, 0, 0.18))
+	arrow_mesh.surface_add_vertex(Vector3(0.055, 0, 0.18))
+	arrow_mesh.surface_add_vertex(Vector3(0.055, 0, -0.12))
+	arrow_mesh.surface_add_vertex(Vector3(-0.055, 0, 0.18))
+	arrow_mesh.surface_add_vertex(Vector3(0.055, 0, -0.12))
+	arrow_mesh.surface_add_vertex(Vector3(-0.055, 0, -0.12))
+	arrow_mesh.surface_add_vertex(Vector3(-0.19, 0, -0.10))
+	arrow_mesh.surface_add_vertex(Vector3(0, 0, -0.34))
+	arrow_mesh.surface_add_vertex(Vector3(0.19, 0, -0.10))
+	arrow_mesh.surface_end()
+	for index in range(32):
+		var marker := MeshInstance3D.new()
+		marker.name = "Flow route arrow %02d" % index
+		marker.mesh = arrow_mesh
+		marker.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		marker.visible = false
+		add_child(marker)
+		water_route_markers.append(marker)
+
+
+func _update_water_route_markers() -> void:
+	if player == null or water_route_markers.is_empty():
+		return
+	var target: Vector2i = WATER_VALVE_CELLS[[1, 0, 2][valve_progress]] if valve_progress < 3 else _world_cell(_cell_world(ANOMALY_CELLS["C"]) + Vector3(-1.3, 0, -0.7))
+	var current := _world_cell(player.global_position)
+	var path: Array[Vector2i] = []
+	for _step in range(DEMO_MAP_SIZE * 2):
+		if current == target:
+			break
+		var next := _next_path_cell(current, target)
+		if next == current:
+			break
+		path.append(next)
+		current = next
+	for index in range(water_route_markers.size()):
+		var marker := water_route_markers[index]
+		if not game_started or index >= path.size() or index + 1 >= path.size():
+			marker.visible = false
+			continue
+		var cell := path[index]
+		var direction := path[index + 1] - cell
+		marker.global_position = _cell_world(cell) + Vector3(0, 0.025, 0)
+		marker.rotation.y = atan2(-float(direction.x), -float(direction.y))
+		marker.visible = not paused and not game_over and not won
 
 
 func _build_player() -> void:
@@ -1927,7 +2037,7 @@ func _build_entity() -> void:
 	enemy.name = "Unconfirmed hallway shadow"
 	enemy.collision_layer = 2
 	enemy.collision_mask = 1
-	enemy.position = _cell_world(Vector2i(8, 1)) + Vector3(0, 0.15, 0)
+	enemy.position = _cell_world(Vector2i(1, 3)) + Vector3(0, 0.15, 0)
 	enemy_target = enemy.position
 	var shape_node := CollisionShape3D.new()
 	var capsule := CapsuleShape3D.new()
@@ -2163,14 +2273,16 @@ func _start_game() -> void:
 	title_overlay.visible = false
 	paused = false
 	game_started = true
-	# A brief, distant sighting confirms the creature is part of the level before
-	# the camera mechanic wakes it for the real chase.
-	intro_reveal_left = 5.0
+	# The first seconds immediately show the creature and teach its counterplay.
+	intro_reveal_left = 0.0
+	entity_awake = true
+	monster_tutorial_shown = true
+	monster_grace_left = 8.0
 	enemy.visible = true
 	enemy.look_at(Vector3(player.global_position.x, enemy.global_position.y, player.global_position.z), Vector3.UP)
-	player.rotation.y = -PI * 0.5
+	player.rotation.y = PI
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	_show_notice("左侧任务栏会持续指路。追踪者怕被盯住：无遮挡地看着它时，它会完全停下；拍中它会将它随机传送。", 7.5)
+	_show_notice("向前捡相纸；杏仁水会自动拾取。前方走廊有追踪者：盯住它可冻结，拍中可传送。Shift 冲刺，跟蓝箭头和流水声找路。", 7.0)
 
 
 func _resume_game() -> void:
@@ -2198,6 +2310,10 @@ func _process(delta: float) -> void:
 		if heartbeat_player != null:
 			heartbeat_player.stop()
 		return
+	water_route_marker_refresh -= delta
+	if water_route_marker_refresh <= 0.0:
+		water_route_marker_refresh = 0.35
+		_update_water_route_markers()
 	if keypad_active:
 		return
 	if game_over or won:
@@ -2491,11 +2607,13 @@ func _interact() -> void:
 					if gate is Area3D:
 						gate.monitorable = true
 				_show_notice("三段水流接通。湿脚印旁，一道蓝色门框亮了起来。", 5.0)
+			_update_water_sound_guidance()
 		else:
 			_play_sfx("error")
 			valve_progress = 0
 			for valve in get_tree().get_nodes_in_group("pool_valves"):
 				valve.rotation.y = 0.0
+			_update_water_sound_guidance()
 			_show_notice("顺序错误，三只阀门已复位。从刻痕 1 开始，依次操作刻痕 1 → 2 → 3。", 4.0)
 	elif kind == "pool_gate":
 		if pool_gate_open:
@@ -2515,6 +2633,7 @@ func _interact() -> void:
 		_show_notice("这里的空间不对劲。用相机记录它的变化。", 2.4)
 	else:
 		_show_notice("它表面沾着潮湿的灰。", 1.8)
+	_update_hud()
 
 
 func _toggle_inventory() -> void:
@@ -2823,13 +2942,13 @@ func _update_hud() -> void:
 		if pool_gate_open:
 			guide_label.text = "【逃生路线】三只阀门已接通：回到湿脚印异常旁，穿过亮起的蓝色门框。"
 		elif evidence.size() >= 3:
-			guide_label.text = "【主线出口已开】前往地图右下方的裂墙，看到‘出口已显现’标牌后按 E。\n【其他出口】旧电梯与水门线索见 Manila Room 桌上的维修档案。"
+			guide_label.text = "【主线出口已开】跟随裂墙方向前进，到‘出口已显现’标牌处按 E。\n【其他出口】旧电梯与水门线索见 Manila Room 桌上的维修档案。"
 		elif archive_read:
-			guide_label.text = "【主线】拍摄三处异常（%d / 3），再去右下方裂墙。\n【旧电梯】异常编号按顺序输入 4 → 1 → 9。　【水门】依次操作刻痕 1 → 2 → 3 的阀门。" % evidence.size()
+			guide_label.text = "【主线】拍摄三处异常（%d / 3），跟随指引前往裂墙。\n【旧电梯】异常编号按顺序输入 4 → 1 → 9。　【水门】依次操作刻痕 1 → 2 → 3 的阀门。" % evidence.size()
 		elif note_count > 0:
-			guide_label.text = "【主线】拍摄三处异常（%d / 3），再去右下方裂墙。\n【支线线索】去暖色灯光下的 Manila Room 找维修档案；异常用左键拍摄。" % evidence.size()
+			guide_label.text = "【主线】拍摄三处异常（%d / 3），跟随指引前往裂墙。\n【支线线索】去暖色灯光下的 Manila Room 找维修档案；异常用左键拍摄。" % evidence.size()
 		else:
-			guide_label.text = "【主线】用左键拍摄三处异常（%d / 3），之后前往地图右下方的裂墙按 E。\n【其他出口】沿暖色灯光找 Manila Room，桌上的维修档案会告诉你另外两条路线。" % evidence.size()
+			guide_label.text = "【主线】用左键拍摄三处异常（%d / 3），之后跟随指引前往裂墙。\n【其他出口】沿暖色灯光找 Manila Room，桌上的维修档案会告诉你另外两条路线。" % evidence.size()
 		guide_label.text += "\n" + _water_route_hint()
 
 
@@ -2841,7 +2960,7 @@ func _water_route_hint() -> String:
 	var valve_index := expected_order[valve_progress]
 	var notch := int([2, 1, 3][valve_index])
 	var valve_at := _cell_world(WATER_VALVE_CELLS[valve_index])
-	return "【水门】按刻痕 1 → 2 → 3 找阀门。下一个：刻痕 %d，在%s；靠近后按 E。" % [notch, _relative_direction_hint(valve_at)]
+	return "【水门】听流水声，并看青色灯光。下一只：刻痕 %d，在%s；靠近后按 E。" % [notch, _relative_direction_hint(valve_at)]
 
 
 func _relative_direction_hint(target: Vector3) -> String:

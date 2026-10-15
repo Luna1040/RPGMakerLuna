@@ -1,7 +1,7 @@
 extends Node3D
 
 const PLAYER_SPEED := 4.7
-const CELL_H := 3.2
+const CELL_H := 5.2
 
 var player: CharacterBody3D
 var camera: Camera3D
@@ -17,7 +17,7 @@ var look_x := 0.0
 
 var tile_mat: StandardMaterial3D
 var grout_mat: StandardMaterial3D
-var water_mat: StandardMaterial3D
+var water_mat: ShaderMaterial
 var brass_mat: StandardMaterial3D
 var dark_mat: StandardMaterial3D
 
@@ -49,19 +49,43 @@ func _build_materials() -> void:
 	grout_mat = StandardMaterial3D.new()
 	grout_mat.albedo_color = Color("318b91")
 	grout_mat.roughness = 0.32
-	water_mat = StandardMaterial3D.new()
-	water_mat.albedo_color = Color(0.19, 0.66, 0.7, 0.48)
-	water_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	water_mat.roughness = 0.12
-	water_mat.metallic = 0.18
-	water_mat.cull_mode = BaseMaterial3D.CULL_DISABLED
+	water_mat = ShaderMaterial.new()
+	var water_shader := Shader.new()
+	water_shader.code = """
+shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_disabled;
+uniform sampler2D screen_reflection : hint_screen_texture, filter_linear_mipmap;
+varying vec3 world_position;
+void vertex() {
+	world_position = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
+}
+void fragment() {
+	float t = TIME;
+	vec2 uv = world_position.xz * 0.38;
+	float wave_a = sin(uv.x * 1.7 + t * 0.48 + sin(uv.y * 0.8));
+	float wave_b = cos(uv.y * 1.35 - t * 0.36 + sin(uv.x * 0.55));
+	float caustic = pow(max(0.0, sin(uv.x * 2.7 + uv.y * 1.9 + t * 0.7) * cos(uv.y * 2.1 - t * 0.42)), 8.0);
+	vec2 distortion = vec2(wave_a, wave_b) * 0.006;
+	vec3 reflected = textureLod(screen_reflection, clamp(SCREEN_UV + distortion, vec2(0.002), vec2(0.998)), 1.0).rgb;
+	vec3 deep = vec3(0.025, 0.16, 0.19);
+	vec3 shallow = vec3(0.20, 0.62, 0.60);
+	ALBEDO = mix(deep, shallow, 0.42 + wave_a * 0.09 + caustic * 0.22);
+	EMISSION = reflected * 0.42 + vec3(0.015, 0.12, 0.13) + vec3(0.10, 0.38, 0.36) * caustic;
+	METALLIC = 0.22;
+	ROUGHNESS = 0.13 + abs(wave_b) * 0.05;
+	SPECULAR = 0.9;
+	ALPHA = 0.82;
+}
+"""
+	water_mat.shader = water_shader
 	brass_mat = StandardMaterial3D.new()
 	brass_mat.albedo_color = Color("b89a57")
 	brass_mat.metallic = 0.68
 	brass_mat.roughness = 0.3
 	dark_mat = StandardMaterial3D.new()
-	dark_mat.albedo_color = Color("111d20")
-	dark_mat.roughness = 0.84
+	dark_mat.albedo_color = Color("10272a")
+	dark_mat.metallic = 0.68
+	dark_mat.roughness = 0.16
 
 
 func _build_environment() -> void:
@@ -70,18 +94,19 @@ func _build_environment() -> void:
 	env.background_mode = Environment.BG_SKY
 	var sky := Sky.new()
 	var sky_mat := ProceduralSkyMaterial.new()
-	sky_mat.sky_top_color = Color("16343b")
-	sky_mat.sky_horizon_color = Color("699c9d")
-	sky_mat.ground_bottom_color = Color("17292c")
-	sky_mat.ground_horizon_color = Color("477579")
+	sky_mat.sky_top_color = Color("102c34")
+	sky_mat.sky_horizon_color = Color("83c5c5")
+	sky_mat.ground_bottom_color = Color("0c171b")
+	sky_mat.ground_horizon_color = Color("55979c")
 	sky.sky_material = sky_mat
 	env.sky = sky
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	env.ambient_light_color = Color("78b8bd")
-	env.ambient_light_energy = 0.7
+	env.ambient_light_color = Color("93d2d1")
+	env.ambient_light_energy = 0.82
 	env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
 	env.glow_enabled = true
-	env.glow_intensity = 0.28
+	env.glow_intensity = 0.5
+	env.glow_bloom = 0.08
 	world.environment = env
 	add_child(world)
 	var sun := DirectionalLight3D.new()
@@ -113,7 +138,7 @@ func _build_layout() -> void:
 	_room(Vector2(51, -9), 5, 8, ["north", "south"], false)
 	_room(Vector2(51, 3), 18, 18, ["north", "east"], true)
 	_room(Vector2(65, 3), 10, 5, ["west", "east"], false)
-	_room(Vector2(77, 3), 18, 20, ["west"], true)
+	_room(Vector2(77, 3), 18, 20, ["west", "east"], true)
 	_add_column(Vector3(-5.8, 0, -5.8), 3.15)
 	_add_column(Vector3(5.8, 0, -5.8), 3.15)
 	_add_column(Vector3(-5.8, 0, 5.8), 3.15)
@@ -129,6 +154,7 @@ func _build_layout() -> void:
 	_add_exit(Vector3(85.7, 0, 3))
 	_add_dark_window(Vector3(51, 2.0, 3), 7)
 	_add_lights()
+	_add_vista_mirror()
 
 
 func _room(center: Vector2, width: float, depth: float, openings: Array, pool: bool) -> void:
@@ -137,6 +163,8 @@ func _room(center: Vector2, width: float, depth: float, openings: Array, pool: b
 	_add_box("Glossy turquoise tiles", Vector3(width - 0.08, 0.08, depth - 0.08), Vector3(center.x, 0.025, center.y), tile_mat, false)
 	_add_grout_lines(center, width, depth)
 	_add_roof(center, width, depth)
+	if pool:
+		_add_vault_ribs(center, width, depth)
 	# Water is represented as a separate optical surface so it never catches the player.
 	if pool:
 		var water := MeshInstance3D.new()
@@ -162,6 +190,7 @@ func _wall_side(center: Vector2, width: float, side: String, opening: bool) -> v
 		for sign in [-1.0, 1.0]:
 			_add_box("Tiled wall", Vector3(span, CELL_H, 0.36), Vector3(center.x + sign * (door_width * 0.5 + span * 0.5), CELL_H * 0.5, z), tile_mat, true)
 		_add_box("Door lintel", Vector3(door_width, 0.48, 0.36), Vector3(center.x, CELL_H - 0.24, z), tile_mat, true)
+		_add_arch_frame(Vector3(center.x, 0, z), true)
 	else:
 		_add_box("Tiled wall", Vector3(_room_width_at(center), CELL_H, 0.36), Vector3(center.x, CELL_H * 0.5, z), tile_mat, true)
 
@@ -176,6 +205,7 @@ func _wall_front_back(center: Vector2, depth: float, side: String, opening: bool
 		for sign in [-1.0, 1.0]:
 			_add_box("Tiled wall", Vector3(0.36, CELL_H, span), Vector3(x, CELL_H * 0.5, center.y + sign * (door_width * 0.5 + span * 0.5)), tile_mat, true)
 		_add_box("Door lintel", Vector3(0.36, 0.48, door_width), Vector3(x, CELL_H - 0.24, center.y), tile_mat, true)
+		_add_arch_frame(Vector3(x, 0, center.y), false)
 	else:
 		_add_box("Tiled wall", Vector3(0.36, CELL_H, room_depth), Vector3(x, CELL_H * 0.5, center.y), tile_mat, true)
 
@@ -204,6 +234,47 @@ func _add_grout_lines(center: Vector2, width: float, depth: float) -> void:
 
 func _add_roof(center: Vector2, width: float, depth: float) -> void:
 	_add_box("Ceiling", Vector3(width, 0.36, depth), Vector3(center.x, CELL_H + 0.2, center.y), dark_mat, true)
+
+
+func _add_arch_frame(center: Vector3, along_x: bool) -> void:
+	var glow := StandardMaterial3D.new()
+	glow.albedo_color = Color("53d6d0")
+	glow.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	glow.emission_enabled = true
+	glow.emission = Color("39f5e7")
+	glow.emission_energy_multiplier = 1.8
+	if along_x:
+		for side in [-1.0, 1.0]:
+			_add_box("Brass arch jamb", Vector3(0.22, 4.72, 0.42), center + Vector3(side * 1.64, 2.34, 0), brass_mat, false)
+			_add_box("Aqua arch light", Vector3(0.055, 4.28, 0.43), center + Vector3(side * 1.48, 2.34, -0.02), glow, false)
+		_add_box("Brass arch crown", Vector3(3.48, 0.22, 0.42), center + Vector3(0, 4.69, 0), brass_mat, false)
+		_add_box("Aqua crown light", Vector3(3.03, 0.055, 0.43), center + Vector3(0, 4.52, -0.02), glow, false)
+	else:
+		for side in [-1.0, 1.0]:
+			_add_box("Brass arch jamb", Vector3(0.42, 4.72, 0.22), center + Vector3(0, 2.34, side * 1.64), brass_mat, false)
+			_add_box("Aqua arch light", Vector3(0.43, 4.28, 0.055), center + Vector3(0, 2.34, side * 1.48), glow, false)
+		_add_box("Brass arch crown", Vector3(0.42, 0.22, 3.48), center + Vector3(0, 4.69, 0), brass_mat, false)
+		_add_box("Aqua crown light", Vector3(0.43, 0.055, 3.03), center + Vector3(-0.02, 4.52, 0), glow, false)
+
+
+func _add_vault_ribs(center: Vector2, width: float, depth: float) -> void:
+	if width < 14.0 or depth < 14.0:
+		return
+	var rib_base := CELL_H - 1.0
+	var segments := 14
+	for rib_index in range(maxi(2, int(depth / 4.2))):
+		var z := center.y - depth * 0.5 + 2.2 + rib_index * 4.2
+		var previous := Vector2(-width * 0.46, rib_base + 0.10)
+		for segment in range(1, segments + 1):
+			var t := float(segment) / float(segments)
+			var x := lerpf(-width * 0.46, width * 0.46, t)
+			var y := rib_base + 0.10 + sin(t * PI) * 0.82
+			var next := Vector2(x, y)
+			var span := next - previous
+			var at := Vector3(center.x + (previous.x + next.x) * 0.5, (previous.y + next.y) * 0.5, z)
+			var rib := _add_box("Repeated brass vault rib", Vector3(span.length() + 0.025, 0.11, 0.14), at, brass_mat, false) as MeshInstance3D
+			rib.rotation.z = atan2(span.y, span.x)
+			previous = next
 
 
 func _add_column(at: Vector3, height: float) -> void:
@@ -255,6 +326,17 @@ func _add_valve(title: String, at: Vector3, index: int) -> void:
 	lamp.omni_range = 2.2
 	lamp.position = Vector3(0.42, 0.55, -0.35)
 	root.add_child(lamp)
+	var flow := AudioStreamPlayer3D.new()
+	flow.name = "Directional return flow"
+	flow.stream = load("res://audio/sfx_pipe_flow.wav") as AudioStreamWAV
+	(flow.stream as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
+	flow.volume_db = -25.0
+	flow.max_distance = 90.0
+	flow.unit_size = 15.0
+	flow.set_meta("pool_valve_index", index)
+	flow.add_to_group("pool_flow_sources")
+	root.add_child(flow)
+	flow.play()
 	var tag := Label3D.new()
 	tag.text = title
 	tag.font_size = 28
@@ -276,6 +358,17 @@ func _add_exit(at: Vector3) -> void:
 	sign.modulate = Color("e7ffff")
 	sign.position = at + Vector3(0, 2.35, -0.31)
 	add_child(sign)
+	var pump_flow := AudioStreamPlayer3D.new()
+	pump_flow.name = "Pump room water exit cue"
+	pump_flow.stream = load("res://audio/sfx_pipe_flow.wav") as AudioStreamWAV
+	(pump_flow.stream as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
+	pump_flow.volume_db = -30.0
+	pump_flow.max_distance = 70.0
+	pump_flow.unit_size = 14.0
+	pump_flow.add_to_group("pool_exit_flow")
+	pump_flow.position = at + Vector3(0, 1.2, 0)
+	add_child(pump_flow)
+	pump_flow.play()
 
 
 func _add_dark_window(center: Vector3, count: int) -> void:
@@ -284,16 +377,85 @@ func _add_dark_window(center: Vector3, count: int) -> void:
 		var rim := _add_box("Window trim", Vector3(1.08, 1.53, 0.1), pane.position + Vector3(0, 0, -0.08), brass_mat, false)
 
 
+func _add_vista_mirror() -> void:
+	var mirror := StandardMaterial3D.new()
+	mirror.albedo_color = Color("284749")
+	mirror.metallic = 0.92
+	mirror.roughness = 0.06
+	var panel := _add_box("False horizon mirror", Vector3(5.8, 3.45, 0.12), Vector3(77, 2.65, -6.9), mirror, false)
+	panel.name = "Reflective false horizon"
+	_add_box("Mirror brass surround", Vector3(6.15, 3.75, 0.16), Vector3(77, 2.65, -6.98), brass_mat, false)
+	_add_box("Mirror cyan edge", Vector3(5.85, 0.055, 0.18), Vector3(77, 4.48, -6.85), _make_glow_material(Color("72fff0"), 2.5), false)
+	var probe := ReflectionProbe.new()
+	probe.name = "Infinity hall reflection probe"
+	probe.position = Vector3(23, 2.5, -23)
+	probe.size = Vector3(18, CELL_H, 14)
+	probe.box_projection = true
+	probe.interior = true
+	probe.update_mode = ReflectionProbe.UPDATE_ALWAYS
+	add_child(probe)
+
+
+func _make_glow_material(color: Color, energy: float) -> StandardMaterial3D:
+	var material := StandardMaterial3D.new()
+	material.albedo_color = color
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.emission_enabled = true
+	material.emission = color
+	material.emission_energy_multiplier = energy
+	return material
+
+
 func _add_lights() -> void:
-	for at in [Vector3(0,2.9,0),Vector3(23,2.9,0),Vector3(23,2.9,-23),Vector3(51,2.9,-23),Vector3(51,2.9,3),Vector3(77,2.9,3)]:
-		var fixture := _add_box("Diffused pool light", Vector3(2.5, 0.09, 0.72), at, tile_mat, false)
-		var light := OmniLight3D.new()
-		light.light_color = Color("9ef6f0")
-		light.light_energy = 2.0
-		light.omni_range = 11.0
-		light.position = at + Vector3(0, -0.18, 0)
-		light.shadow_enabled = true
-		add_child(light)
+	var lit := StandardMaterial3D.new()
+	lit.albedo_color = Color("b8fffa")
+	lit.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	lit.emission_enabled = true
+	lit.emission = Color("83fff4")
+	lit.emission_energy_multiplier = 3.2
+	for source in [Vector3(0,0,0),Vector3(23,0,0),Vector3(23,0,-23),Vector3(51,0,-23),Vector3(51,0,3),Vector3(77,0,3)]:
+		var at := Vector3(source.x, CELL_H - 0.25, source.z)
+		_add_box("Recessed dark light well", Vector3(3.65, 0.14, 1.55), at, dark_mat, false)
+		_add_box("Opal aqua ceiling panel", Vector3(3.10, 0.035, 1.12), at + Vector3(0, -0.09, 0), lit, false)
+		for edge_z in [-0.67, 0.67]:
+			_add_box("Brushed brass luminaire rail", Vector3(3.45, 0.055, 0.045), at + Vector3(0, -0.065, edge_z), brass_mat, false)
+		for edge_x in [-1.73, 1.73]:
+			_add_box("Brushed brass luminaire cap", Vector3(0.05, 0.055, 1.35), at + Vector3(edge_x, -0.065, 0), brass_mat, false)
+		for z in [-0.26, 0.0, 0.26]:
+			_add_box("Long opal light tube", Vector3(2.7, 0.025, 0.055), at + Vector3(0, -0.115, z), lit, false)
+		var lamp := SpotLight3D.new()
+		lamp.name = "Aqua ceiling wash"
+		lamp.light_color = Color("a3fff8")
+		lamp.light_energy = 3.0
+		lamp.spot_range = 15.0
+		lamp.spot_angle = 68.0
+		lamp.shadow_enabled = true
+		lamp.position = at + Vector3(0, -0.2, 0)
+		add_child(lamp)
+		var reflection_fill := OmniLight3D.new()
+		reflection_fill.light_color = Color("35cbc9")
+		reflection_fill.light_energy = 0.7
+		reflection_fill.omni_range = 8.0
+		reflection_fill.shadow_enabled = false
+		reflection_fill.position = Vector3(source.x, 2.3, source.z)
+		add_child(reflection_fill)
+	var reflection := ReflectionProbe.new()
+	reflection.name = "Live reflection capture for water hall"
+	reflection.position = Vector3(23, 2.6, -23)
+	reflection.size = Vector3(19, CELL_H, 15)
+	reflection.box_projection = true
+	reflection.interior = true
+	reflection.update_mode = ReflectionProbe.UPDATE_ALWAYS
+	add_child(reflection)
+	_update_water_audio_guide()
+
+
+func _update_water_audio_guide() -> void:
+	var next_valve := valves_on.size() if valves_on.size() < 3 else -1
+	for source in get_tree().get_nodes_in_group("pool_flow_sources"):
+		source.volume_db = -7.0 if int(source.get_meta("pool_valve_index")) == next_valve else -26.0
+	for source in get_tree().get_nodes_in_group("pool_exit_flow"):
+		source.volume_db = -5.0 if valves_on.size() == 3 else -30.0
 
 
 func _build_player() -> void:
@@ -346,16 +508,18 @@ func _build_ui() -> void:
 	cross.add_theme_color_override("font_color", Color("efffff"))
 	layer.add_child(cross)
 	toast = Label.new()
-	toast.position = Vector2(260, 600)
-	toast.custom_minimum_size = Vector2(760, 90)
+	toast.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
+	toast.position = Vector2(-470, -128)
+	toast.custom_minimum_size = Vector2(940, 84)
 	toast.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	toast.add_theme_font_size_override("font_size", 21)
 	toast.add_theme_color_override("font_color", Color("e5ffff"))
 	toast.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	layer.add_child(toast)
 	var controls := Label.new()
-	controls.text = "WASD 移动  ·  鼠标观察  ·  E 调查 / 转阀  ·  Space 跳跃  ·  Esc 暂停"
-	controls.position = Vector2(24, 748)
+	controls.text = "WASD 移动  ·  Shift 冲刺  ·  鼠标观察  ·  E 调查 / 转阀  ·  Space 跳跃  ·  Esc 暂停"
+	controls.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT)
+	controls.position = Vector2(24, -34)
 	controls.add_theme_font_size_override("font_size", 14)
 	controls.add_theme_color_override("font_color", Color("b3cdca"))
 	layer.add_child(controls)
@@ -466,6 +630,7 @@ func _interact() -> void:
 			_notice("水锤震了一下。维护牌提示按 01 → 02 → 03 的顺序开阀。", 2.8)
 			return
 		valves_on[index] = true
+		_update_water_audio_guide()
 		var wheel := nearby_target.get_meta("wheel") as MeshInstance3D
 		wheel.rotation.z += PI * 0.55
 		var label := nearby_target.get_child(4) as Label3D
