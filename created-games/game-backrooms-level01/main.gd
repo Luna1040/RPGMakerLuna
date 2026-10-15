@@ -47,7 +47,7 @@ const ANOMALY_NAMES := {"A": "墙纸后鼓起的墙面", "B": "没有尽头的�
 const ANOMALY_CODES := {"A": "4", "B": "1", "C": "9"}
 const WATER_CELLS := [Vector2i(3, 15), Vector2i(22, 13)]
 const NOTE_CELLS := [Vector2i(14, 5), Vector2i(7, 27)]
-const WATER_VALVE_CELLS := [Vector2i(5, 15), Vector2i(23, 13), Vector2i(25, 9)]
+const WATER_VALVE_CELLS := [Vector2i(5, 15), Vector2i(23, 13), Vector2i(20, 25)]
 const DIRECTIONS: Array[Vector2i] = [Vector2i.RIGHT, Vector2i.LEFT, Vector2i.UP, Vector2i.DOWN]
 const STALKER_SCENE: PackedScene = preload("res://assets/creatures/the_stalker/Run.fbx")
 const MOUSE_BASE_SENSITIVITY := 0.0023
@@ -1341,15 +1341,18 @@ func _add_anomaly(id: String, at: Vector3) -> void:
 		prop.add_child(room_number)
 	else:
 		# Wet footprints stop at the wall; no second copy of the roaming apparition.
-		var footprint_material := _material(Color("39392d"), 0.0, 0.24)
-		for step in range(5):
+		var footprint_material := _material(Color("4a9991"), 0.0, 0.24)
+		footprint_material.emission_enabled = true
+		footprint_material.emission = Color("185d59")
+		footprint_material.emission_energy_multiplier = 0.5
+		for step in range(7):
 			var footprint := MeshInstance3D.new()
 			var print_mesh := SphereMesh.new()
-			print_mesh.radius = 0.10
-			print_mesh.height = 0.035
+			print_mesh.radius = 0.14
+			print_mesh.height = 0.045
 			footprint.mesh = print_mesh
-			footprint.scale = Vector3(0.75, 0.42, 1.55)
-			footprint.position = Vector3(-0.14 if step % 2 == 0 else 0.14, 0.025, 0.72 - step * 0.29)
+			footprint.scale = Vector3(0.85, 0.42, 1.3)
+			footprint.position = Vector3(-0.20 if step % 2 == 0 else 0.20, 0.035, 0.78 - step * 0.26)
 			footprint.material_override = footprint_material
 			prop.add_child(footprint)
 
@@ -1609,12 +1612,22 @@ func _add_water_valve(index: int, at: Vector3) -> void:
 	hub.material_override = mat_steel
 	valve.add_child(hub)
 	var label := Label3D.new()
-	label.text = "刻痕 %d" % int(valve.get_meta("notches"))
-	label.font_size = 20
-	label.pixel_size = 0.004
-	label.position = Vector3(0, 1.05, 0)
-	label.modulate = Color("d7cda6")
+	label.text = "水阀\n刻痕 %d" % int(valve.get_meta("notches"))
+	label.font_size = 34
+	label.pixel_size = 0.006
+	label.position = Vector3(0, 1.68, 0)
+	label.modulate = Color("b8fff2")
+	label.outline_size = 9
+	label.outline_modulate = Color("10292a")
+	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	valve.add_child(label)
+	var beacon := OmniLight3D.new()
+	beacon.light_color = Color("58e7d3")
+	beacon.light_energy = 1.15
+	beacon.omni_range = 4.8
+	beacon.shadow_enabled = false
+	beacon.position.y = 1.6
+	valve.add_child(beacon)
 	add_child(valve)
 
 
@@ -1632,7 +1645,10 @@ func _add_pool_gate(at: Vector3) -> void:
 	shape.shape = sphere
 	shape.position.y = 1.0
 	gate.add_child(shape)
-	var frame_material := _material(Color("777a71"), 0.32, 0.5)
+	var frame_material := _material(Color("318e8b"), 0.28, 0.42)
+	frame_material.emission_enabled = true
+	frame_material.emission = Color("12605d")
+	frame_material.emission_energy_multiplier = 0.8
 	for offset in [-0.72, 0.72]:
 		var post := MeshInstance3D.new()
 		var post_mesh := BoxMesh.new()
@@ -1655,16 +1671,19 @@ func _add_pool_gate(at: Vector3) -> void:
 	portal.position = Vector3(0, 1.0, -0.06)
 	var portal_material := _material(Color("496f6d"), 0.05, 0.24)
 	portal_material.emission_enabled = true
-	portal_material.emission = Color("315c5a")
-	portal_material.emission_energy_multiplier = 0.55
+	portal_material.emission = Color("20aaa0")
+	portal_material.emission_energy_multiplier = 1.4
 	portal.material_override = portal_material
 	gate.add_child(portal)
 	var label := Label3D.new()
-	label.text = "LOWER LEVEL"
-	label.font_size = 14
-	label.pixel_size = 0.003
+	label.text = "LEVEL 37\n按 E 进入"
+	label.font_size = 27
+	label.pixel_size = 0.004
 	label.position = Vector3(0, 2.42, 0)
-	label.modulate = Color("a7c8bd")
+	label.modulate = Color("aafff1")
+	label.outline_size = 8
+	label.outline_modulate = Color("103334")
+	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	gate.add_child(label)
 	gate.visible = false
 	add_child(gate)
@@ -1952,7 +1971,7 @@ func _build_interface() -> void:
 	layer.add_child(fear_bar)
 	guide_label = Label.new()
 	guide_label.position = Vector2(26, 140)
-	guide_label.custom_minimum_size = Vector2(590, 88)
+	guide_label.custom_minimum_size = Vector2(590, 150)
 	guide_label.add_theme_font_size_override("font_size", 14)
 	guide_label.add_theme_color_override("font_color", Color("d4cda9"))
 	guide_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -2732,6 +2751,46 @@ func _update_hud() -> void:
 			guide_label.text = "【主线】拍摄三处异常（%d / 3），再去右下方裂墙。\n【支线线索】去暖色灯光下的 Manila Room 找维修档案；异常用左键拍摄。" % evidence.size()
 		else:
 			guide_label.text = "【主线】用左键拍摄三处异常（%d / 3），之后前往地图右下方的裂墙按 E。\n【其他出口】沿暖色灯光找 Manila Room，桌上的维修档案会告诉你另外两条路线。" % evidence.size()
+		guide_label.text += "\n" + _water_route_hint()
+
+
+func _water_route_hint() -> String:
+	if valve_progress >= 3:
+		var gate_at := _cell_world(ANOMALY_CELLS["C"]) + Vector3(-1.3, 0, -0.7)
+		return "【水门】三只阀门已接通：湿脚印和蓝色门框在%s，靠近门框按 E 进入 Level 37。" % _relative_direction_hint(gate_at)
+	var expected_order: Array[int] = [1, 0, 2]
+	var valve_index := expected_order[valve_progress]
+	var notch := int([2, 1, 3][valve_index])
+	var valve_at := _cell_world(WATER_VALVE_CELLS[valve_index])
+	return "【水门】按刻痕 1 → 2 → 3 找阀门。下一个：刻痕 %d，在%s；靠近后按 E。" % [notch, _relative_direction_hint(valve_at)]
+
+
+func _relative_direction_hint(target: Vector3) -> String:
+	var offset := target - player.global_position
+	offset.y = 0.0
+	var distance := roundi(offset.length())
+	if distance <= 1:
+		return "就在旁边"
+	var direction := offset.normalized()
+	var forward := -camera.global_basis.z
+	forward.y = 0.0
+	forward = forward.normalized()
+	var right := camera.global_basis.x
+	right.y = 0.0
+	right = right.normalized()
+	var angle := atan2(right.dot(direction), forward.dot(direction))
+	var bearing := "前方"
+	if angle > 2.35 or angle < -2.35:
+		bearing = "身后"
+	elif angle > 0.78:
+		bearing = "右前方"
+	elif angle > 0.25:
+		bearing = "右侧"
+	elif angle < -0.78:
+		bearing = "左前方"
+	elif angle < -0.25:
+		bearing = "左侧"
+	return "%s约 %d 米" % [bearing, distance]
 
 
 func _cell_world(cell: Vector2i) -> Vector3:
