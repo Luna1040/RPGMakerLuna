@@ -1,0 +1,54 @@
+{
+  "integrated": [
+    {
+      "asset": "assets\\client-skills\\skill_12.png",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\interface\\SKILL\\12.d2s",
+      "sha256": "464a8c3e0757f3ec613271fa80f3dfd82a51167597a5b38037d63ea8af284e71",
+      "processing": "client texture decoded to PNG"
+    },
+    {
+      "asset": "assets\\client-skills\\skill_20.png",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\interface\\SKILL\\20.d2s",
+      "sha256": "2f650156e33e5174b43826d9e350a0503a19973286072d66b1588b26cc414c7a",
+      "processing": "client texture decoded to PNG"
+    },
+    {
+      "asset": "assets\\client-skills\\skill_26.png",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\interface\\SKILL\\26.d2s",
+      "sha256": "57d139f835c9133a4ac41bf1177a561c4febb6fe6a3c0356bcec3cc791ecc4bd",
+      "processing": "client texture decoded to PNG"
+    },
+    {
+      "asset": "assets\\client-skills\\dust_gray.png",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\EFFECT\\dust3.dxt",
+      "sha256": "d54536dc578cef436d455501a8e66a1532ddf532c2ba04e2a444f3d471b1b8b5",
+      "processing": "client texture decoded; grayscale alpha conversion"
+    },
+    {
+      "asset": "assets\\client-skills\\wind.png",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\EFFECT\\kyung_wind1_grey.dxt",
+      "sha256": "0fb658087d27b357362a4d9a18eb8b64c49ed78a5982238fb30d2987c0261536",
+      "processing": "client texture decoded to PNG"
+    },
+    {
+      "asset": "assets\\client-skills\\cloud_wind.png",
+      "source": "",
+      "sha256": "862560b0b0c2cb4f021bc7c1437cf61000e915f5e664c066727feca04b7687fc",
+      "processing": "client texture decoded to PNG"
+    },
+    {
+      "asset": "assets\\client-skills\\alightgrass.png",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\NCSData\\101\\alightgrass.d2s",
+      "sha256": "829b2989968e7baa8b41c24b640d7cff06ece2d76b9f0cff40f819c69591eab6",
+      "processing": "client texture decoded to PNG"
+    },
+    {
+      "asset": "assets\\client-skills\\alightgrass02.png",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\NCSData\\101\\alightgrass02.d2s",
+      "sha256": "3c9d5249a4dde2c9bb4a3a843fb9f52299acdc177a4a375c9be2d9cc15da4e65",
+      "processing": "client texture decoded to PNG"
+    }
+  ],
+  "candidate_index": "art-jobs/skills-13/sources.json",
+  "generation": "No AI generation; local client reuse"
+}
