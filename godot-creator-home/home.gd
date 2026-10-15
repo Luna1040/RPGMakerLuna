@@ -115,7 +115,7 @@ func _ready() -> void:
 	label_at("每个世界独立保存 · 点击进入试玩",Vector2(205,531),15,Color("94a1b9"))
 	var scroll:=ScrollContainer.new()
 	scroll.position=Vector2(48,568)
-	scroll.size=Vector2(1184,215)
+	scroll.size=Vector2(1184,225)
 	scroll.vertical_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED
 	add_child(scroll)
 	cards=HBoxContainer.new()
@@ -200,7 +200,7 @@ func receive_games(_result: int, code: int, _h: PackedStringArray, body: PackedB
 
 func add_card(game: Dictionary) -> void:
 	var card:=PanelContainer.new()
-	card.custom_minimum_size=Vector2(350,195)
+	card.custom_minimum_size=Vector2(350,225)
 	var style:=StyleBoxFlat.new()
 	style.bg_color=Color("152238")
 	style.set_corner_radius_all(10)
@@ -223,11 +223,11 @@ func add_card(game: Dictionary) -> void:
 			picture.texture=ImageTexture.create_from_image(image)
 			picture.expand_mode=TextureRect.EXPAND_IGNORE_SIZE
 			picture.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_COVERED
-			picture.custom_minimum_size=Vector2(320,64)
+			picture.custom_minimum_size=Vector2(320,96)
 			column.add_child(picture)
 	else:
 		var placeholder:=PanelContainer.new()
-		placeholder.custom_minimum_size=Vector2(320,64)
+		placeholder.custom_minimum_size=Vector2(320,96)
 		column.add_child(placeholder)
 		var caption:=Label.new()
 		var stage_text:="预览待生成" if game.status=="ready" else ("制作中" if game.status=="creating" else "待继续创作")

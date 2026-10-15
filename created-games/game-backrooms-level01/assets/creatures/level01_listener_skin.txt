@@ -1,0 +1,6 @@
+The Listener — generated skin material
+
+Generator: team Flux 2 Klein 9B FP8 instance through the private frp tunnel.
+Prompt and full ComfyUI workflow: ../../art-jobs/level01-listener-skin-v2/
+Output: 1024x1024 PNG, generated 2026-10-14.
+Use: repeating albedo texture on the original in-game 3D mesh. This file is a material, not a creature sprite or model.

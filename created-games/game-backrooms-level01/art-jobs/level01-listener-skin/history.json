@@ -1,0 +1,242 @@
+{
+  "prompt": [
+    11,
+    "9e8ae0cf-56e7-4f5d-8a4a-26cb5b67d47a",
+    {
+      "1": {
+        "class_type": "UNETLoader",
+        "inputs": {
+          "unet_name": "flux-2-klein-9b-fp8.safetensors",
+          "weight_dtype": "default"
+        }
+      },
+      "2": {
+        "class_type": "CLIPLoader",
+        "inputs": {
+          "clip_name": "qwen3_4b_fp8_scaled.safetensors",
+          "type": "flux2",
+          "device": "default"
+        }
+      },
+      "3": {
+        "class_type": "VAELoader",
+        "inputs": {
+          "vae_name": "flux2-vae.safetensors"
+        }
+      },
+      "4": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "text": "Seamless repeating square albedo texture for a disturbing original humanoid creature in a retro PS2 survival horror game. Close-up material study only, no body parts, no objects, no lighting direction, flat diffuse texture, perfectly tileable on all four edges. Pallid damp gray-beige hide with muted nicotine-yellow undertones, irregular charcoal bruising, fine branching dark capillaries, subtle pores and fibrous wrinkles, occasional old cracked keratin patches. Restrained low saturation, matte roughness, detailed but readable at game distance, vintage 2000s game texture resolution, evenly lit neutral scan. A physically plausible game material, not a photograph of a person, no blood, no gore, no text, no border, no vignette.",
+          "clip": [
+            "2",
+            0
+          ]
+        }
+      },
+      "5": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "text": "person, creature, silhouette, face, eyes, mouth, anatomy, props, room, dramatic lighting, cast shadow, specular shine, glossy plastic, text, watermark, frame, border, gradients, seams, asymmetrical edge mismatch, blood, gore",
+          "clip": [
+            "2",
+            0
+          ]
+        }
+      },
+      "6": {
+        "class_type": "EmptyFlux2LatentImage",
+        "inputs": {
+          "width": 1024,
+          "height": 1024,
+          "batch_size": 1
+        }
+      },
+      "7": {
+        "class_type": "KSampler",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ],
+          "seed": 10401472,
+          "steps": 24,
+          "cfg": 1.0,
+          "sampler_name": "euler",
+          "scheduler": "beta",
+          "positive": [
+            "4",
+            0
+          ],
+          "negative": [
+            "5",
+            0
+          ],
+          "latent_image": [
+            "6",
+            0
+          ],
+          "denoise": 1.0
+        }
+      },
+      "8": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "7",
+            0
+          ],
+          "vae": [
+            "3",
+            0
+          ]
+        }
+      },
+      "9": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "8",
+            0
+          ],
+          "filename_prefix": "team/backrooms/level01-listener/skin-v1"
+        }
+      }
+    },
+    {
+      "client_id": "team/backrooms-level01-listener-skin-cff2f42b6d454511bd7be6e7664d4f52",
+      "create_time": 1791972593180
+    },
+    [
+      "9"
+    ]
+  ],
+  "outputs": {},
+  "status": {
+    "status_str": "error",
+    "completed": false,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "9e8ae0cf-56e7-4f5d-8a4a-26cb5b67d47a",
+          "timestamp": 1791972593184
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [
+            "1",
+            "3"
+          ],
+          "prompt_id": "9e8ae0cf-56e7-4f5d-8a4a-26cb5b67d47a",
+          "timestamp": 1791972593184
+        }
+      ],
+      [
+        "execution_error",
+        {
+          "prompt_id": "9e8ae0cf-56e7-4f5d-8a4a-26cb5b67d47a",
+          "node_id": "7",
+          "node_type": "KSampler",
+          "executed": [
+            "2",
+            "5",
+            "6",
+            "4"
+          ],
+          "exception_message": "mat1 and mat2 shapes cannot be multiplied (512x7680 and 12288x4096)\n\n\nTIPS: If you have any \"Load CLIP\" or \"*CLIP Loader\" nodes in your workflow connected to this sampler node make sure the correct file(s) and type is selected.",
+          "exception_type": "RuntimeError",
+          "traceback": [
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\execution.py\", line 548, in execute\n    output_data, output_ui, has_subgraph, has_pending_tasks = await get_output_data(prompt_id, unique_id, obj, input_data_all, execution_block_cb=execution_block_cb, pre_execute_cb=pre_execute_cb, v3_data=v3_data)\n                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\execution.py\", line 353, in get_output_data\n    return_values = await _async_map_node_over_list(prompt_id, unique_id, obj, input_data_all, obj.FUNCTION, allow_interrupt=True, execution_block_cb=execution_block_cb, pre_execute_cb=pre_execute_cb, v3_data=v3_data)\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\execution.py\", line 327, in _async_map_node_over_list\n    await process_inputs(input_dict, i)\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\execution.py\", line 315, in process_inputs\n    result = f(**inputs)\n             ^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\nodes.py\", line 1633, in sample\n    return common_ksampler(model, seed, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise=denoise)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\nodes.py\", line 1597, in common_ksampler\n    samples = comfy.sample.sample(model, noise, steps, cfg, sampler_name, scheduler, positive, negative, latent_image,\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\comfy\\sample.py\", line 82, in sample\n    samples = sampler.sample(noise, positive, negative, cfg=cfg, latent_image=latent_image, start_step=start_step, last_step=last_step, force_full_denoise=force_full_denoise, denoise_mask=noise_mask, sigmas=sigmas, callback=callback, disable_pbar=disable_pbar, seed=seed)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\comfy\\samplers.py\", line 1463, in sample\n    return sample(self.model, noise, positive, negative, cfg, self.device, sampler, sigmas, self.model_options, latent_image=latent_image, denoise_mask=denoise_mask, callback=callback, disable_pbar=disable_pbar, seed=seed)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\comfy\\samplers.py\", line 1353, in sample\n    return cfg_guider.sample(noise, latent_image, sampler, sigmas, denoise_mask, callback, disable_pbar, seed)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\comfy\\samplers.py\", line 1335, in sample\n    output = executor.execute(noise, latent_image, sampler, sigmas, denoise_mask, callback, disable_pbar, seed, latent_shapes=latent_shapes)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\comfy\\patcher_extension.py\", line 113, in execute\n    return self.original(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\comfy\\samplers.py\", line 1262, in outer_sample\n    output = self.inner_sample(noise, latent_image, device, sampler, sigmas, denoise_mask, callback, disable_pbar, seed, latent_shapes=latent_shapes)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\comfy\\samplers.py\", line 1237, in inner_sample\n    samples = executor.execute(self, sigmas, extra_args, callback, noise, latent_image, denoise_mask, disable_pbar)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\comfy\\patcher_extension.py\", line 113, in execute\n    return self.original(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\comfy\\samplers.py\", line 1005, in sample\n    samples = self.sampler_function(model_k, noise, sigmas, extra_args=extra_args, callback=k_callback, disable=disable_pbar, **self.extra_options)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Downloads\\Flux2_klein_v1.0_普通版\\Flux2_klein\\python_embeded\\Lib\\site-packages\\torch\\utils\\_contextlib.py\", line 120, in decorate_context\n    return func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\comfy\\k_diffusion\\sampling.py\", line 205, in sample_euler\n    denoised = model(x, sigma_hat * s_in, **extra_args)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\comfy\\samplers.py\", line 640, in __call__\n    out = self.inner_model(x, sigma, model_options=model_options, seed=seed)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\comfy\\samplers.py\", line 1208, in __call__\n    return self.outer_predict_noise(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\comfy\\samplers.py\", line 1215, in outer_predict_noise\n    ).execute(x, timestep, model_options, seed)\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\comfy\\patcher_extension.py\", line 113, in execute\n    return self.original(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\comfy\\samplers.py\", line 1218, in predict_noise\n    return sampling_function(self.inner_model, x, timestep, self.conds.get(\"negative\", None), self.conds.get(\"positive\", None), self.cfg, model_options=model_options, seed=seed)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\comfy\\samplers.py\", line 620, in sampling_function\n    out = calc_cond_batch(model, conds, x, timestep, model_options)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\comfy\\samplers.py\", line 211, in calc_cond_batch\n    return _calc_cond_batch_outer(model, conds, x_in, timestep, model_options)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\comfy\\samplers.py\", line 219, in _calc_cond_batch_outer\n    return executor.execute(model, conds, x_in, timestep, model_options)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\comfy\\patcher_extension.py\", line 113, in execute\n    return self.original(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\comfy\\samplers.py\", line 335, in _calc_cond_batch\n    output = model.apply_model(input_x, timestep_, **c).chunk(batch_chunks)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\comfy\\model_base.py\", line 210, in apply_model\n    return comfy.patcher_extension.WrapperExecutor.new_class_executor(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\comfy\\patcher_extension.py\", line 113, in execute\n    return self.original(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\comfy\\model_base.py\", line 254, in _apply_model\n    model_output = self.diffusion_model(xc, t, context=context, control=control, transformer_options=transformer_options, **extra_conds)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Downloads\\Flux2_klein_v1.0_普通版\\Flux2_klein\\python_embeded\\Lib\\site-packages\\torch\\nn\\modules\\module.py\", line 1775, in _wrapped_call_impl\n    return self._call_impl(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Downloads\\Flux2_klein_v1.0_普通版\\Flux2_klein\\python_embeded\\Lib\\site-packages\\torch\\nn\\modules\\module.py\", line 1786, in _call_impl\n    return forward_call(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\comfy\\ldm\\flux\\model.py\", line 345, in forward\n    return comfy.patcher_extension.WrapperExecutor.new_class_executor(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\comfy\\patcher_extension.py\", line 113, in execute\n    return self.original(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\comfy\\ldm\\flux\\model.py\", line 406, in _forward\n    out = self.forward_orig(img, img_ids, context, txt_ids, timestep, y, guidance, control, timestep_zero_index=timestep_zero_index, transformer_options=transformer_options, attn_mask=kwargs.get(\"attention_mask\", None))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\comfy\\ldm\\flux\\model.py\", line 182, in forward_orig\n    txt = self.txt_in(txt)\n          ^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Downloads\\Flux2_klein_v1.0_普通版\\Flux2_klein\\python_embeded\\Lib\\site-packages\\torch\\nn\\modules\\module.py\", line 1775, in _wrapped_call_impl\n    return self._call_impl(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Downloads\\Flux2_klein_v1.0_普通版\\Flux2_klein\\python_embeded\\Lib\\site-packages\\torch\\nn\\modules\\module.py\", line 1786, in _call_impl\n    return forward_call(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\comfy\\ops.py\", line 593, in forward\n    return self.forward_comfy_cast_weights(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n",
+            "  File \"C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\comfy\\ops.py\", line 588, in forward_comfy_cast_weights\n    return torch.nn.functional.linear(input, weight, bias)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"
+          ],
+          "current_inputs": {
+            "model": [
+              "<comfy.model_patcher.ModelPatcherDynamic object at 0x000001F8C0E46D50>"
+            ],
+            "seed": [
+              10401472
+            ],
+            "steps": [
+              24
+            ],
+            "cfg": [
+              1.0
+            ],
+            "sampler_name": [
+              "euler"
+            ],
+            "scheduler": [
+              "beta"
+            ],
+            "positive": [
+              "[[tensor([[[-7.8818e+02,  6.2190e+00, -2.5139e+01,  ...,  1.6139e+00,\n           5.1966e+00,  1.7551e+00],\n         [ 3.4354e+01,  2.4494e+00, -4.6169e+00,  ..., -1.3282e-01,\n          -6.8994e-01,  1.0743e+00],\n         [ 2.7645e+01,  3.2915e+00, -2.0138e+00,  ...,  9.7115e-01,\n          -8.6402e-01,  1.7444e+00],\n         ...,\n         [ 1.9257e+01,  8.3943e-01, -1.1308e+00,  ..., -1.8571e+00,\n           3.0948e+00,  8.9566e-01],\n         [ 1.8980e+01,  4.8927e-01, -4.8112e-01,  ...,  1.9579e+00,\n          -9.1695e-01,  5.2726e-01],\n         [ 1.7834e+01,  3.3131e-01, -1.1983e-01,  ..., -4.2254e-01,\n          -5.2488e-01,  9.0514e-01]]]), {'pooled_output': None, 'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\n         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\n         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\n         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\n         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\n         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\n         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0]])}]]"
+            ],
+            "negative": [
+              "[[tensor([[[-7.8818e+02,  6.2190e+00, -2.5139e+01,  ...,  1.6139e+00,\n           5.1966e+00,  1.7551e+00],\n         [ 3.4354e+01,  2.4494e+00, -4.6169e+00,  ..., -1.3282e-01,\n          -6.8994e-01,  1.0743e+00],\n         [ 2.7645e+01,  3.2915e+00, -2.0138e+00,  ...,  9.7115e-01,\n          -8.6402e-01,  1.7444e+00],\n         ...,\n         [ 1.8892e+01,  7.5966e-01, -1.3938e+00,  ...,  4.6996e-01,\n           1.0477e+00,  4.8217e-01],\n         [ 1.5878e+01,  1.1361e+00, -1.0947e+00,  ..., -1.0386e+00,\n           3.1928e-01,  2.4532e+00],\n         [ 1.3261e+01,  1.0630e+00, -1.2070e+00,  ..., -6.1749e-01,\n           1.5334e+00,  1.7682e+00]]]), {'pooled_output': None, 'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\n         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\n         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n         0, 0, 0, 0, 0, 0, 0, 0]])}]]"
+            ],
+            "latent_image": [
+              "{'samples': tensor([[[[0., 0., 0.,  ..., 0., 0., 0.],\n          [0., 0., 0.,  ..., 0., 0., 0.],\n          [0., 0., 0.,  ..., 0., 0., 0.],\n          ...,\n          [0., 0., 0.,  ..., 0., 0., 0.],\n          [0., 0., 0.,  ..., 0., 0., 0.],\n          [0., 0., 0.,  ..., 0., 0., 0.]],\n\n         [[0., 0., 0.,  ..., 0., 0., 0.],\n          [0., 0., 0.,  ..., 0., 0., 0.],\n          [0., 0., 0.,  ..., 0., 0., 0.],\n          ...,\n          [0., 0., 0.,  ..., 0., 0., 0.],\n          [0., 0., 0.,  ..., 0., 0., 0.],\n          [0., 0., 0.,  ..., 0., 0., 0.]],\n\n         [[0., 0., 0.,  ..., 0., 0., 0.],\n          [0., 0., 0.,  ..., 0., 0., 0.],\n          [0., 0., 0.,  ..., 0., 0., 0.],\n          ...,\n          [0., 0., 0.,  ..., 0., 0., 0.],\n          [0., 0., 0.,  ..., 0., 0., 0.],\n          [0., 0., 0.,  ..., 0., 0., 0.]],\n\n         ...,\n\n         [[0., 0., 0.,  ..., 0., 0., 0.],\n          [0., 0., 0.,  ..., 0., 0., 0.],\n          [0., 0., 0.,  ..., 0., 0., 0.],\n          ...,\n          [0., 0., 0.,  ..., 0., 0., 0.],\n          [0., 0., 0.,  ..., 0., 0., 0.],\n          [0., 0., 0.,  ..., 0., 0., 0.]],\n\n         [[0., 0., 0.,  ..., 0., 0., 0.],\n          [0., 0., 0.,  ..., 0., 0., 0.],\n          [0., 0., 0.,  ..., 0., 0., 0.],\n          ...,\n          [0., 0., 0.,  ..., 0., 0., 0.],\n          [0., 0., 0.,  ..., 0., 0., 0.],\n          [0., 0., 0.,  ..., 0., 0., 0.]],\n\n         [[0., 0., 0.,  ..., 0., 0., 0.],\n          [0., 0., 0.,  ..., 0., 0., 0.],\n          [0., 0., 0.,  ..., 0., 0., 0.],\n          ...,\n          [0., 0., 0.,  ..., 0., 0., 0.],\n          [0., 0., 0.,  ..., 0., 0., 0.],\n          [0., 0., 0.,  ..., 0., 0., 0.]]]])}"
+            ],
+            "denoise": [
+              1.0
+            ]
+          },
+          "current_outputs": [
+            "2",
+            "8",
+            "9",
+            "3",
+            "4",
+            "7",
+            "5",
+            "6",
+            "1"
+          ],
+          "timestamp": 1791972595347
+        }
+      ]
+    ]
+  },
+  "meta": {}
+}
