@@ -1,0 +1,54 @@
+本次仅处理 game-1791962707510，不修改助手基础设施，不启动本地 ComfyUI、不下载模型、不重启可玩游戏、不提交推送。
+使用 C:/Python315/python.exe 与 http://127.0.0.1:19315；已读取 game-production、美术、团队和验证文档以及当前材质。
+art_cli check 的图片和视频服务节点检查通过；av/PIL/numpy/onnxruntime、matte 模型缺失与本次静态图片无关。
+
+真实 Flux 产物（已逐张查看）
+assets/textures/stone.png：1024×1024 石板；接入三维地面。
+assets/textures/roof.png：1024×1024 青绿瓦片；接入大殿、客栈与庭墙顶。
+assets/textures/wall.png：1024×1024 浅色木石建筑中的石墙/灰泥表面；接入墙体和基座。
+assets/textures/wood.png：1024×1024 木板/木纹；接入门、木柱、窗格和树干。
+assets/references/hero-design.png：1536×1024 原创成年主角正侧背参考；未替换现有三维角色模型。
+assets/references/street-design.png：1536×1024 街区建筑设计参考；未用作墙面或地面贴图，也不算三维模型。
+
+作业目录 art-jobs/textures-04
+stone-01：prompt_id 9a1d8aa8-4536-41dc-a356-0ca0ef539edb；seed 1791965215。
+roof-01：prompt_id eac14b27-e64c-4a58-9694-648356a00374；seed 1791965216。
+wall-01：prompt_id 9433385d-65fc-4467-af1d-e438f3a3181c；seed 1791965217。
+wood-01：prompt_id 6da1ee40-e06d-4322-bd70-c47eee3008bf；seed 1791965218。
+hero-reference-01：prompt_id 35e94575-62ff-41fa-9827-1cb5a83060b0；seed 1791965219。
+street-reference-01：prompt_id 7d1674ad-7441-4a4b-95b8-3054e5c4634a；seed 1791965220。
+GPU 作业串行，均使用 art_cli image submit。各目录保存 workflow、submission、job、outputs、output-index、review，提示词在作业根目录。
+五个作业的 art_cli wait 正常完成并保存完整 history。
+屋瓦服务接受提交后原历史丢失：已按 ID/client_id 查队列与历史，队列不含本作业；通过唯一 SaveImage 前缀取回实际 PNG并逐图审查。未重复提交、未取消队友任务。
+roof-01/history.json 保存服务实际返回的空响应，recovery-status.json 与 recovery-check.json 记录断点；没有伪造成功 history。原执行历史完整性检查未通过。
+recover_art_output.py 仅使用标准库恢复已提交作业的唯一 PNG，验证尺寸、保留历史响应，不具备提交或取消功能。
+
+材质处理
+texture_materials.gd 加载原始 PNG 并生成 mipmap；世界空间三向材质适用于现有未展 UV 的简化网格。
+各部件按 material_kind 绑定，地面 1、瓦面 19、墙体 10、木构 36；门窗图案由三维部件决定，纹理中没有整座建筑。
+原图严格四边无缝检查未通过；材质通过周期交叉混合处理重复边界，接缝附近可能有轻微软化。原始 PNG 保持不变。
+近景和正侧背截图已经检查；首轮光照过曝，已降低环境光/日光以恢复贴图细节。
+
+截图验收（真实 Godot OpenGL 离屏 SubViewport）
+art-jobs/textures-04/scene-0.png：正面街区。
+art-jobs/textures-04/scene-1.png：侧面，屋顶和侧墙。
+art-jobs/textures-04/scene-2.png：背向视角。
+art-jobs/textures-04/ground-close.png：地面贴图近景与平铺接缝。
+同目录 *-tiled-raw.png 为原图 2×2 接触表，记录未经材质修正的重复边界。
+render_texture_qa.gd 是非交互离屏渲染工具，不读取实际玩家存档，未创建可玩会话或自行重启游戏。
+桥接器统一检查、导入与重启后，用户当前存档的现场画面由实际试玩确认。
+
+测试结果
+test-3d.log：PASS，879 物理帧，点击寻路、绕障、NPC对话、自动攻击、360°镜头、碰撞、斜坡台阶、轻功落地、旧任务保留、三维存读档。
+test-town.log：PASS，六槽上限、UTC−8、UTF-8 中文、备份恢复、拒绝覆盖。
+test-combat.log：PASS，原战斗、胜负和重来回归。
+test-materials.log：PASS，四个 1024 PNG 的 Godot 解码、真实材质绑定、mipmap、两个独立参考图。
+test-entry.log：PASS，正式三维入口和名册。
+渲染日志包含环境问题：系统根证书读取失败、受限环境中 OpenGL shader cache 写入失败；材质渲染与截图均实际完成，无 shader 编译错误。
+
+仍属占位
+assets/3d/hero.tscn、master.tscn、practice.tscn、hall.tscn、inn.tscn 及树木/台阶网格仍是简化原生三维模型。
+本次只更新材质、部件材质标记和光照，没有把设计参考图冒充建模成果。
+主角参考的前侧视图武器出鞘状态不同，后续建模应统一；街区参考有微量牌匾类字纹理，仅作设计参考。
+完整人物建模、精细建筑、骨骼动画、视频、alpha 抠图不在本次范围。
+完整状态、SHA256、尺寸和作业记录见 art-jobs/textures-04/production-report.json。

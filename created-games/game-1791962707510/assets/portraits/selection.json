@@ -1,0 +1,28 @@
+{
+  "classes": [
+    [
+      0,
+      45,
+      374,
+      430
+    ],
+    [
+      379,
+      45,
+      353,
+      430
+    ],
+    [
+      739,
+      45,
+      388,
+      430
+    ]
+  ],
+  "class_order": [
+    "刀客",
+    "剑客",
+    "枪客"
+  ],
+  "usage": "Static UI illustrations only; atlas rectangles preserve original generated sheet without cutting animation frames"
+}

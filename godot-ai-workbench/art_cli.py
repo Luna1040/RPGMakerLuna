@@ -12,6 +12,12 @@ import runpy
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
+# Machine-local settings are ignored by Git; explicit environment takes priority.
+_local_art_config = ROOT / '.game-assistant/art-config.json'
+if _local_art_config.is_file():
+    for _key, _value in json.loads(_local_art_config.read_text(encoding='utf-8-sig')).items():
+        if _key in ('GAME_IMAGE_COMFY_URL', 'GAME_VIDEO_COMFY_URL', 'GAME_ART_PYTHON', 'GAME_MATTE_MODEL'):
+            os.environ.setdefault(_key, str(_value))
 SKILL = ROOT / 'shareable-skills/game-production'
 RUNTIME = ROOT / 'character-generation-research/h3-runtime'
 # Embedded Python ignores PYTHONPATH: expose the existing local dependencies.

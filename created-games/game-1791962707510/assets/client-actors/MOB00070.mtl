@@ -1,0 +1,6 @@
+newmtl MOB00070
+Kd 1 1 1
+Ka 1 1 1
+d 1
+illum 1
+map_Kd MOB00070.png

@@ -1,0 +1,150 @@
+{
+  "status": "native_assets_converted_integrated_and_reviewed",
+  "models": [
+    {
+      "stem": "CMK00010",
+      "bones": 68,
+      "bone_source": "BoneMK.bon",
+      "source_sha256": "e58093d181cc45f076ca9b45db210cdbca14f0c4bad700f71330968788c9c541",
+      "asset": "res://assets/client-wild/CMK00010.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\CMK00010.skin",
+      "bone_sha256": "435a79dd506efab2b3735f39fe80db25db32ec3740327b815c9629b7048c376e",
+      "asset_sha256": "af24797d3dc074bcb8c4c102166cca2a7caae89ec8da6e86d7fbccdc2dac0aa4"
+    },
+    {
+      "stem": "HMK00010",
+      "bones": 68,
+      "bone_source": "BoneMK.bon",
+      "source_sha256": "ed0fef94a1c1b30762573e8307318942f63534025734780817e3079206cf057f",
+      "asset": "res://assets/client-wild/HMK00010.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\HMK00010.skin",
+      "bone_sha256": "435a79dd506efab2b3735f39fe80db25db32ec3740327b815c9629b7048c376e",
+      "asset_sha256": "9ca1ad6026211e7836bfa150f3271eedc1eb80c43b915b31d9f991dfd2f5341f"
+    },
+    {
+      "stem": "FMK00010",
+      "bones": 68,
+      "bone_source": "BoneMK.bon",
+      "source_sha256": "53d07fb51a1efb436e2bd8839a2065e32c7a797c163713176c69811fd8b4c3a8",
+      "asset": "res://assets/client-wild/FMK00010.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\FMK00010.skin",
+      "bone_sha256": "435a79dd506efab2b3735f39fe80db25db32ec3740327b815c9629b7048c376e",
+      "asset_sha256": "bedc4401fcfdee2b2f58376ed98796c4d2e0f242b60e235c981939b1319c8ab1"
+    },
+    {
+      "stem": "MMK00010",
+      "bones": 68,
+      "bone_source": "BoneMK.bon",
+      "source_sha256": "e10a6875ea8a14ffff84ab141e4fca4eda8bcc9f1d1d6eec2eafcd0e8a8df182",
+      "asset": "res://assets/client-wild/MMK00010.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\MMK00010.skin",
+      "bone_sha256": "435a79dd506efab2b3735f39fe80db25db32ec3740327b815c9629b7048c376e",
+      "asset_sha256": "f966c9e70b966fb0a75476c15bb03afd5f54325638e7c35e669b0eb8ac4a5031"
+    },
+    {
+      "stem": "LMK00010",
+      "bones": 68,
+      "bone_source": "BoneMK.bon",
+      "source_sha256": "f0d992b66aa91d1ee1d9043c26a117ab94fe9f808a0fa5b28d09ab80df867d59",
+      "asset": "res://assets/client-wild/LMK00010.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\LMK00010.skin",
+      "bone_sha256": "435a79dd506efab2b3735f39fe80db25db32ec3740327b815c9629b7048c376e",
+      "asset_sha256": "acacc6b314f91285055efa95c3f0f379640efe0e0372594032825fb4ec27a8e6"
+    },
+    {
+      "stem": "MOB10001",
+      "bones": 31,
+      "bone_source": "BoneN10001.bon",
+      "source_sha256": "2abf93c915068398b396bf6c8fb913fec5159a7cd66aeacfa542d5a8452883dd",
+      "asset": "res://assets/client-wild/MOB10001.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\MOB10001.skin",
+      "bone_sha256": "c717f3cefad1520d3f961b53c32db4f5bd03a12460171b093d329fc8609ea582",
+      "asset_sha256": "c021209aa4b7fe65561d3e4d639e431c2591f65098e9a2cadb5db91c319f078e"
+    },
+    {
+      "stem": "MOB10007",
+      "bones": 28,
+      "bone_source": "BoneN10007.bon",
+      "source_sha256": "863ce69963af4f74ea89f83027664d9329a22f8779723251c0acd878592850ec",
+      "asset": "res://assets/client-wild/MOB10007.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\MOB10007.skin",
+      "bone_sha256": "c336c24944cfa4a1f8f29369ebbd3db4e8ee31453b739dd32285d62095e23a48",
+      "asset_sha256": "0f21f8af18b7c890f27e56f5541be902671552b83dad125a9140e28bbedf5c09"
+    },
+    {
+      "stem": "MOB10015",
+      "bones": 34,
+      "bone_source": "BoneN10015.bon",
+      "source_sha256": "d5abdb4658ea64f808e3b458ac406e585c7d3100267ee3847d2d037deece7f8f",
+      "asset": "res://assets/client-wild/MOB10015.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\MOB10015.skin",
+      "bone_sha256": "6f19fcf0295b48b327803dab9622e504ebdf54c1646f118e5ec26c4fc37343c8",
+      "asset_sha256": "824a441c970948e2dd548889b920021c0eef5a09f8f8292bcbcc786a6ab1a81e"
+    },
+    {
+      "stem": "MOB10013",
+      "bones": 30,
+      "bone_source": "BoneN10013.bon",
+      "source_sha256": "196fda09f144b83abf67221fe477449acdc9aa6c726ba7a552660e1b909dda85",
+      "asset": "res://assets/client-wild/MOB10013.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\MOB10013.skin",
+      "bone_sha256": "871af3f701320038b6c37a5f50debd21fbc08c647bd02a048d482b6a82aa1818",
+      "asset_sha256": "c002372f61feedc8bee1e44c9e5f1b5c64f472b083c2cb4e0e29c3e2e37e5699"
+    },
+    {
+      "stem": "MOB10002",
+      "bones": 32,
+      "bone_source": "BoneN10002.bon",
+      "source_sha256": "ff4ec87518ef440f88792f99cf6e967adee384a283078646f1c7290ba4ca4d8f",
+      "asset": "res://assets/client-wild/MOB10002.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\MOB10002.skin",
+      "bone_sha256": "187824bff726ac49afac65fa60f05d2b1bd8bf5585829a3bf89cdb7f831206ea",
+      "asset_sha256": "ddf6faaa224aa27867eb789f47f6866b578b198b38c889a81357c06c9e109680"
+    },
+    {
+      "stem": "MOB10009",
+      "bones": 33,
+      "bone_source": "BoneN10009.bon",
+      "source_sha256": "b60942307a0b8833f71023bbda2329e3c41448dca754696697656f78f3bd3efb",
+      "asset": "res://assets/client-wild/MOB10009.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\MOB10009.skin",
+      "bone_sha256": "3361258180501aa1f9954db61d7b543bfc429a6395f488d2ef94b507d8448a57",
+      "asset_sha256": "165c91a0bba6207a2475e01058678d9b3eb7bfff5ea26ba4483c35c186d7a5f0"
+    }
+  ],
+  "terrain_textures": [
+    {
+      "asset": "lightgrass.png",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\NCSData\\101\\lightgrass.d2s",
+      "source_sha256": "f87c8cca6a5f9d0ac8c83288f262cee7a65c7f0ffcc39b3fb0cdbe68b77f1a5e"
+    },
+    {
+      "asset": "alightgrass1.png",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\NCSData\\101\\alightgrass1.d2s",
+      "source_sha256": "0528292b98470069f13a75ad4b602506b6964d17f829bc83eaa7a948b82a5016"
+    },
+    {
+      "asset": "soil.png",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\NCSData\\101\\soil.d2s",
+      "source_sha256": "ccb4f0208d3f1b3d5c6097fc1a521b9cefc7bf3b24dfbdbbdc95a60245dfae6c"
+    }
+  ],
+  "roles": {
+    "blade": [
+      "CMK00010",
+      "HMK00010",
+      "FMK00010",
+      "MMK00010",
+      "LMK00010",
+      "WCK001"
+    ],
+    "wild_cat": "MOB10001",
+    "toad": "MOB10007",
+    "fox": "MOB10015",
+    "boar": "MOB10013",
+    "bull": "MOB10002",
+    "wolf": "MOB10009"
+  },
+  "vegetation": "Existing client-xuanbo object_000 and object_001 native meshes and textures reused.",
+  "provenance": "Client files read only; original skin weights and full skeletons converted with material-local bone palettes; weights clamped and normalized. No AI generation."
+}
