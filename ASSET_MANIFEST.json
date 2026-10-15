@@ -63003,8 +63003,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 25237,
-      "sha256": "ac3b993d33b92f5fcf4a85d5931293ccf545f0b69fe7d67a99531ec032872d26"
+      "bytes": 25251,
+      "sha256": "d62b7fbde4f6d47292b17ad0f433f91180e9fb85e7c15d24c09868c0b3c5376c"
     },
     {
       "path": "godot-ai-workbench/resolve-runtime.ps1",
@@ -65668,8 +65668,8 @@
     },
     {
       "path": "docs/platform-notes.md",
-      "bytes": 4557,
-      "sha256": "bb34223269639d127304317b924ce890e47624219b135b9efd0d15a527e02116"
+      "bytes": 3521,
+      "sha256": "18b42cba8c7f03aa707d135912b5ff980ecf961a371035cfe720020f987e6962"
     }
   ]
 }
