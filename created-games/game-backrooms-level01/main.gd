@@ -1077,6 +1077,16 @@ func _add_pickup(center: Vector3, item_id: String, item_name: String, tint: Colo
 	bottle.mesh = _lathe_mesh(bottle_profile, 64)
 	bottle.material_override = glass
 	pickup.add_child(bottle)
+	var pickup_hint := Label3D.new()
+	pickup_hint.text = "杏仁水\n靠近拾取 · Q 饮用"
+	pickup_hint.font_size = 25
+	pickup_hint.pixel_size = 0.005
+	pickup_hint.position = Vector3(0, 0.58, 0)
+	pickup_hint.modulate = Color("c9fff0")
+	pickup_hint.outline_size = 7
+	pickup_hint.outline_modulate = Color("17302a")
+	pickup_hint.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	pickup.add_child(pickup_hint)
 	var liquid_material := _material(Color(tint.r * 0.75, tint.g * 0.88, tint.b * 0.82, 0.88), 0.0, 0.2)
 	liquid_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	liquid_material.emission_enabled = true
@@ -1155,7 +1165,35 @@ func _add_pickup(center: Vector3, item_id: String, item_name: String, tint: Colo
 	droplet.material_override = _material(Color("718e73"), 0.05, 0.3)
 	pickup.add_child(droplet)
 	_add_interaction_area(pickup, 1.0)
+	var proximity := Area3D.new()
+	proximity.name = "Automatic pickup range"
+	proximity.position.y = 0.25
+	proximity.collision_layer = 0
+	proximity.collision_mask = 1
+	var proximity_shape := CollisionShape3D.new()
+	var proximity_sphere := SphereShape3D.new()
+	proximity_sphere.radius = 1.15
+	proximity_shape.shape = proximity_sphere
+	proximity.add_child(proximity_shape)
+	proximity.body_entered.connect(_on_almond_water_body_entered.bind(pickup))
+	pickup.add_child(proximity)
 	add_child(pickup)
+
+
+func _on_almond_water_body_entered(body: Node3D, pickup: Area3D) -> void:
+	if body == player:
+		_collect_almond_water(pickup)
+
+
+func _collect_almond_water(pickup: Node) -> void:
+	if not is_instance_valid(pickup) or pickup.get_meta("collected", false):
+		return
+	pickup.set_meta("collected", true)
+	almond_water += 1
+	_play_sfx("pickup")
+	_show_notice("捡到杏仁水！恐惧时按 Q 饮用。背包数量：%d" % almond_water, 3.0)
+	pickup.queue_free()
+	_update_hud()
 
 
 func _add_note(center: Vector3, seed_value: int) -> void:
@@ -1341,18 +1379,18 @@ func _add_anomaly(id: String, at: Vector3) -> void:
 		prop.add_child(room_number)
 	else:
 		# Wet footprints stop at the wall; no second copy of the roaming apparition.
-		var footprint_material := _material(Color("4a9991"), 0.0, 0.24)
+		var footprint_material := _material(Color("69c9bc"), 0.0, 0.12)
 		footprint_material.emission_enabled = true
-		footprint_material.emission = Color("185d59")
-		footprint_material.emission_energy_multiplier = 0.5
-		for step in range(7):
+		footprint_material.emission = Color("38b9a8")
+		footprint_material.emission_energy_multiplier = 1.8
+		for step in range(9):
 			var footprint := MeshInstance3D.new()
 			var print_mesh := SphereMesh.new()
-			print_mesh.radius = 0.14
-			print_mesh.height = 0.045
+			print_mesh.radius = 0.18
+			print_mesh.height = 0.06
 			footprint.mesh = print_mesh
-			footprint.scale = Vector3(0.85, 0.42, 1.3)
-			footprint.position = Vector3(-0.20 if step % 2 == 0 else 0.20, 0.035, 0.78 - step * 0.26)
+			footprint.scale = Vector3(0.9, 0.5, 1.35)
+			footprint.position = Vector3(-0.23 if step % 2 == 0 else 0.23, 0.045, 1.0 - step * 0.25)
 			footprint.material_override = footprint_material
 			prop.add_child(footprint)
 
@@ -1568,9 +1606,9 @@ func _add_water_valve(index: int, at: Vector3) -> void:
 	valve.add_to_group("pool_valves")
 	var shape := CollisionShape3D.new()
 	var sphere := SphereShape3D.new()
-	sphere.radius = 0.78
+	sphere.radius = 1.1
 	shape.shape = sphere
-	shape.position.y = 0.75
+	shape.position.y = 0.95
 	valve.add_child(shape)
 	var stem := MeshInstance3D.new()
 	var stem_mesh := CylinderMesh.new()
@@ -2116,7 +2154,7 @@ func _show_controls() -> void:
 E 调查/拾取/操作阀门或出口 · 左键拍照闪光
 Tab 背包 · Q 使用杏仁水 · Esc 暂停（可调鼠标灵敏度）
 拍三处异常可开墙缝；查档案找电梯密码；按刻痕顺序开阀门可找水门。
-怪物：第一次拍照后苏醒；无遮挡地看着它会减慢它的脚步，移开视线后它恢复速度；闪光可短暂逼退。
+怪物：第一次拍照后苏醒；无遮挡地看着它会完全停住，移开视线后继续追你；拍中它会把它随机传送到迷宫另一处。
 冲刺和快门会吸引它，靠近时心跳会变响。黑暗区没有灯；地面陷坑可以助跑跳过。"
 	label.custom_minimum_size.y = 220
 
@@ -2132,7 +2170,7 @@ func _start_game() -> void:
 	enemy.look_at(Vector3(player.global_position.x, enemy.global_position.y, player.global_position.z), Vector3.UP)
 	player.rotation.y = -PI * 0.5
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	_show_notice("先看正前方墙上的出口告示牌，靠近后按 E 查看完整线索。追踪者怕被盯住：保持无遮挡视线会让它减速。", 7.5)
+	_show_notice("左侧任务栏会持续指路。追踪者怕被盯住：无遮挡地看着它时，它会完全停下；拍中它会将它随机传送。", 7.5)
 
 
 func _resume_game() -> void:
@@ -2219,7 +2257,7 @@ func _process(delta: float) -> void:
 	if entity_awake and enemy.visible and not monster_tutorial_shown:
 		monster_tutorial_shown = true
 		monster_grace_left = 4.5
-		_show_notice("追踪者应对：保持无遮挡视线能减慢它，但无法完全拦住它；移开视线后它恢复速度。近距离闪光可争取时间。", 6.0)
+		_show_notice("追踪者应对：盯住它，它会完全停下；拍中它，它会随机传送到迷宫另一处。移开视线后它才会继续追。", 6.0)
 	var in_blackout := _is_blackout_cell(_world_cell(player.global_position))
 	if in_blackout:
 		blackout_time += delta
@@ -2401,15 +2439,11 @@ func _interact() -> void:
 	if kind == "pickup":
 		var item_id := str(target.get_meta("item_id", ""))
 		if item_id == "almond_water":
-			almond_water += 1
-			_play_sfx("pickup")
-			_show_notice("捡到一瓶杏仁水。按 Q 饮用。", 2.6)
-		target.queue_free()
-		_update_hud()
+			_collect_almond_water(target)
 	elif kind == "spawn_sign":
 		sign_read = true
 		_play_sfx("paper")
-		_show_notice("Level 0 出口告示：\n主线：左键拍下三处异常，随后前往右下方裂墙按 E。\n旧电梯：去暖色灯光下的 Manila Room 查维修档案，按异常编号顺序输入。\n水门：找到刻 1、刻 2、刻 3 的阀门并依次按 E；接通后回湿脚印旁找蓝门。\n怪物：保持无遮挡视线能使它减速，移开视线它会恢复速度。", 11.0)
+		_show_notice("Level 0 出口告示：\n主线：左键拍下三处异常，随后前往右下方裂墙按 E。\n旧电梯：去暖色灯光下的 Manila Room 查维修档案，按异常编号顺序输入。\n水门：按左侧任务栏的实时方向提示，找到刻 1、刻 2、刻 3 的阀门；全开后沿任务指引回蓝门。\n怪物：被你看见时完全停住；被拍中后随机传送。", 11.0)
 		_update_hud()
 	elif kind == "note":
 		note_count += 1
@@ -2555,7 +2589,7 @@ func _take_photo() -> void:
 		entity_awake = true
 		alert_left = 10.0
 		_stage_stalker_encounter()
-		_show_notice("闪光惊醒了追踪者！保持无遮挡视线能减慢它；移开视线后它恢复速度。近距离闪光可短暂逼退，冲刺和快门声会吸引它。", 7.0)
+		_show_notice("闪光惊醒了追踪者！盯住它可让它完全停下；相机拍中它会随机传送到迷宫另一处。冲刺和快门声会吸引它。", 7.0)
 	else:
 		alert_left = maxf(alert_left, 7.0)
 	var captured := false
@@ -2570,16 +2604,60 @@ func _take_photo() -> void:
 				_open_exit()
 		else:
 			_show_notice("这处异常已经记录过了。", 2.0)
-	if entity_awake and enemy.visible:
-		var to_enemy := enemy.global_position - camera.global_position
-		var facing := -camera.global_basis.z
-		if to_enemy.length() < 10.0 and facing.dot(to_enemy.normalized()) > 0.82 and ray.is_colliding() and ray.get_collider() == enemy:
-			entity_stunned = 3.0
-			enemy.visible = false
-			_show_notice("闪光里只有空走廊。远处的灯灭了三盏。", 3.0)
+	if entity_awake and enemy.visible and _photo_hits_enemy():
+		_teleport_stalker_after_photo()
+		captured = true
+		_show_notice("拍中追踪者！它被随机传送到了迷宫另一处，趁现在拉开距离。", 3.8)
 	elif not captured:
 		_show_notice("相纸已曝光，但没锁定异常。靠近一些，把异常放在画面中央附近再拍。", 2.8)
 	_update_hud()
+
+
+func _photo_hits_enemy() -> bool:
+	if enemy == null or not enemy.visible:
+		return false
+	var target_point := enemy.global_position + Vector3.UP * 1.1
+	var offset := target_point - camera.global_position
+	var distance := offset.length()
+	if distance > 18.0 or distance < 0.1:
+		return false
+	if (-camera.global_basis.z).dot(offset / distance) < 0.82:
+		return false
+	var query := PhysicsRayQueryParameters3D.create(camera.global_position, target_point)
+	query.exclude = [player.get_rid()]
+	query.collision_mask = 2
+	return get_world_3d().direct_space_state.intersect_ray(query).get("collider") == enemy
+
+
+func _teleport_stalker_after_photo() -> void:
+	var player_cell := _world_cell(player.global_position)
+	var current_cell := _world_cell(enemy.global_position)
+	var candidates: Array[Vector2i] = []
+	for z in range(level_map.size()):
+		for x in range(level_map[z].length()):
+			var cell := Vector2i(x, z)
+			if not _is_walkable(cell) or _inside_manila(cell) or cell == current_cell:
+				continue
+			var distance := _cell_world(cell).distance_to(player.global_position)
+			if distance < 18.0 or distance > 70.0:
+				continue
+			if _next_path_cell(cell, player_cell) == cell:
+				continue
+			candidates.append(cell)
+	if candidates.is_empty():
+		_stage_stalker_encounter()
+		return
+	var rng := RandomNumberGenerator.new()
+	rng.randomize()
+	var destination: Vector2i = candidates[rng.randi_range(0, candidates.size() - 1)]
+	enemy.global_position = _cell_world(destination) + Vector3(0, 0.15, 0)
+	enemy_target = enemy.global_position
+	enemy.velocity = Vector3.ZERO
+	enemy.visible = false
+	entity_stunned = 1.35
+	monster_grace_left = 1.35
+	alert_left = 2.0
+	apparition_observed = false
 
 
 func _find_photo_anomaly() -> Area3D:
@@ -2677,6 +2755,9 @@ func _update_entity(delta: float) -> void:
 		seen = ray.is_colliding() and ray.get_collider() == enemy
 		ray.target_position = Vector3(0, 0, -18)
 	apparition_observed = seen
+	if seen:
+		enemy.velocity = Vector3.ZERO
+		return
 	repath_left -= delta
 	if repath_left <= 0:
 		repath_left = 0.65
@@ -2688,8 +2769,6 @@ func _update_entity(delta: float) -> void:
 	var delta_pos := enemy_target - enemy.global_position
 	delta_pos.y = 0
 	var speed := 3.0 if alert_left > 0 else 1.35
-	if seen:
-		speed *= 0.32
 	if delta_pos.length() > 0.12:
 		var direction := delta_pos.normalized()
 		enemy.velocity.x = direction.x * speed
@@ -2740,7 +2819,7 @@ func _update_hud() -> void:
 	hud_subtitle.text = "体力 %d%%　恐惧 %d%%　空格跳跃 · Tab 背包 · E 交互" % [roundi(stamina), roundi(fear)]
 	fear_bar.value = fear
 	if guide_label != null:
-		guide_label.visible = game_started and sign_read and not paused and not won and not game_over
+		guide_label.visible = game_started and not paused and not won and not game_over
 		if pool_gate_open:
 			guide_label.text = "【逃生路线】三只阀门已接通：回到湿脚印异常旁，穿过亮起的蓝色门框。"
 		elif evidence.size() >= 3:
