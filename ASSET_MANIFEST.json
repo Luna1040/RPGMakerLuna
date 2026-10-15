@@ -63003,8 +63003,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 26785,
-      "sha256": "b20cf7f96c1a25091de0db7cd581836dcca7dbdc6ad8cc05206c3861d8b95d44"
+      "bytes": 29925,
+      "sha256": "a14372aedfa762a4160ce7126506045d66dd47db3bac3fa67f7a5241adb9f0c3"
     },
     {
       "path": "godot-ai-workbench/resolve-runtime.ps1",
@@ -65670,6 +65670,31 @@
       "path": "docs/platform-notes.md",
       "bytes": 3521,
       "sha256": "18b42cba8c7f03aa707d135912b5ff980ecf961a371035cfe720020f987e6962"
+    },
+    {
+      "path": "docs/comparison/craft-cloud-postman.png",
+      "bytes": 665707,
+      "sha256": "7cf3afc15cd0691e1b1f3401bb896f52beb130f0eaad67c07e4177a85feef837"
+    },
+    {
+      "path": "docs/comparison/craft-fox-postman.png",
+      "bytes": 154345,
+      "sha256": "3f8efe5900fbaa9d00a2c7a243d07243ff4c563930fefaa19f4a08f0e3eef8e7"
+    },
+    {
+      "path": "docs/comparison/craft-knife.png",
+      "bytes": 242384,
+      "sha256": "9a57ce2817068b890ee35989846accd19e2ea23782531927cb4957a6c49e2276"
+    },
+    {
+      "path": "docs/comparison/toy-battle-royale.jpg",
+      "bytes": 28670,
+      "sha256": "ae807c5d24ebce071cdafb1078137f1d66c5d542a6ef06b15fe2ca606b0cd444"
+    },
+    {
+      "path": "docs/comparison/toy-inkline.jpg",
+      "bytes": 46643,
+      "sha256": "298bd2fbbf1edb7263bc59d8a6a0d73531876ed6199a4e17d2b374bb956becdc"
     }
   ]
 }
