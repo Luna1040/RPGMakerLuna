@@ -107,15 +107,29 @@ func pair(value: Variant) -> bool:
 
 func valid_progress(data: Variant) -> bool:
 	if not data is Dictionary: return false
+	if data.has("town_services"):
+		var service: Variant=data.town_services
+		if not service is Dictionary or service.get("version")!=1:return false
+		var items=preload("res://town_items.gd")
+		if not items.valid_slots(service.get("bag"),40) or not items.valid_slots(service.get("personal"),200) or not service.get("equipped") is Dictionary:return false
+		for kind in service.equipped:
+			var id: String=str(service.equipped[kind])
+			if not items.DATA.has(id) or items.DATA[id].get("equip")!=kind:return false
+	if data.has("advancement"):
+		var advancement: Variant=data.advancement
+		if not advancement is Dictionary:return false
+		for field in ["stage","boar","bones"]:
+			if not number(advancement.get(field)) or advancement[field]!=int(advancement[field]):return false
+		if advancement.stage<0 or advancement.stage>14 or advancement.boar<0 or advancement.boar>1 or advancement.bones<0 or advancement.bones>3:return false
 	if data.has("kungfu"):
 		var skill_data: Variant=data.kungfu
 		if not skill_data is Dictionary or not skill_data.get("learned") is Array or not skill_data.get("slots") is Array: return false
 		if skill_data.slots.size()!=9 or not number(skill_data.get("remaining")) or skill_data.remaining<0 or skill_data.remaining>60: return false
 		if not skill_data.get("active") in ["lightness","cloud_step"]: return false
 		for id in skill_data.learned:
-			if not id in ["attack","lightness","cloud_step","potion"]: return false
+			if not id in ["attack","lightness","cloud_step","potion","blade_10","sword_10","spear_10","mp_small","hp_medium","mp_medium","return_scroll"]: return false
 		for id in skill_data.slots:
-			if not id in ["","attack","lightness","cloud_step","potion"]: return false
+			if not id in ["","attack","lightness","cloud_step","potion","blade_10","sword_10","spear_10","mp_small","hp_medium","mp_medium","return_scroll"]: return false
 	if data.has("world3d") and not valid_3d(data.world3d): return false
 	if data.has("wilderness") and not valid_wilderness(data.wilderness): return false
 	if not pair(data.get("player")) or not pair(data.get("facing")): return false

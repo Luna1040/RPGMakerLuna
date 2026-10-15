@@ -109,7 +109,7 @@ func spawn_wave() -> void:
 func strike(skill: bool) -> void:
 	if skill:
 		if skill_cd > 0 or qi < 30:
-			message = "气功需 30 真气，冷却 4 秒。"
+			message = "气功需 30 内力，冷却 4 秒。"
 			return
 		skill_cd = 4
 		qi -= 30
@@ -144,7 +144,7 @@ func remove_dead() -> void:
 			level += 1
 			hp = max_hp()
 			qi = 100
-			floating(player, "升级！生命与真气恢复", Color("aef7c5"))
+			floating(player, "升级！生命与内力恢复", Color("aef7c5"))
 	if enemies.is_empty() and stage > 0:
 		message = "区域已清！拾取镖银，前往右侧金色出口按 E。"
 
@@ -302,7 +302,7 @@ func _draw() -> void:
 	bar(Vector2(460,40),Vector2(230,14),hp/max_hp(),Color("d66b62"))
 	label_at(Vector2(705,53),"生命 %d/%d" % [hp,max_hp()],16)
 	bar(Vector2(460,66),Vector2(230,10),qi/100,Color("58bdc6"))
-	label_at(Vector2(705,80),"真气 %d    经验 %d/75" % [qi,exp_points],16)
+	label_at(Vector2(705,80),"内力 %d    经验 %d/75" % [qi,exp_points],16)
 	panel(Rect2(1080,25,155,42))
 	label_at(Vector2(1093,53),"继续" if paused else "ESC · 暂停",20)
 	panel(Rect2(35,115,1210,85))
@@ -324,7 +324,7 @@ func _draw() -> void:
 			label_at(Vector2(345,303),"一人，一柄刀，一段江湖路。",25)
 			label_at(Vector2(345,353),"接受镖行委托，闯过山道与竹林，击败赤风寨主。",21)
 			label_at(Vector2(345,398),"近身挥刀积累经验；气功破围；轻功避开红圈。",21)
-			label_at(Vector2(345,443),"三瓶金创药随身携带，升级可恢复生命与真气。",21)
+			label_at(Vector2(345,443),"三瓶金创药随身携带，升级可恢复生命与内力。",21)
 			label_at(Vector2(345,493),"原创简化单机原型 · 非官方网游复刻",18,Color("a6c4bf"))
 		elif paused:
 			label_at(Vector2(345,335),"ESC 或点击右上角继续。",24)

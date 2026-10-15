@@ -84,10 +84,10 @@ func create_source(id: String) -> Button:
  button.focus_mode=Control.FOCUS_NONE
  button.tooltip_text=Definitions.DATA[id].name+" · 拖到左侧技能格"
  button.modulate=Color.WHITE if id in game.learned_skills else Color(0.4,0.4,0.4,1)
- if id=="potion":
+ if id=="potion" or (game.has_method("item_count") and game.Items.DATA.has(id)):
   var stack:=stack_label()
   stack.position=Vector2(46,23)
-  stack.text=str(game.potions)
+  stack.text=str(game.item_count(id)) if game.has_method("item_count") else str(game.potions)
   button.add_child(stack)
  return button
 
@@ -111,7 +111,7 @@ func _process(_dt: float) -> void:
  for i in range(9):
   var id: String=game.skill_slots[i]
   slots[i].icon=Definitions.icon(id)
-  slots[i].get_node("StackCount").text=str(game.potions) if id=="potion" else ""
+  slots[i].get_node("StackCount").text=str(game.item_count(id)) if game.has_method("item_count") and game.Items.DATA.has(id) else (str(game.potions) if id=="potion" else "")
   slots[i].tooltip_text=(Definitions.DATA[id].name if Definitions.DATA.has(id) else "空技能格")+" · 按 %d / 右键清空" % (i+1)
 
 func activate_slot(index: int) -> bool:

@@ -112,7 +112,8 @@ func _process(_dt: float) -> void:
 	if window.visible and game.menu.visible: close()
 
 func _input(event: InputEvent) -> void:
-	if game.menu.visible or game.active_slot==0: return
+	if game.has_node("TownServices") and game.services_ui.window.visible:return
+	if game.menu.visible or game.active_slot==0 or game.hp<=0: return
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.ctrl_pressed or event.alt_pressed: return
 		var index := KEYS.find(event.keycode)
@@ -132,6 +133,7 @@ func close() -> void:
 	game.paused=prior_pause or game.menu.visible
 
 func toggle(index: int) -> void:
+	if game.has_node("TownServices") and game.services_ui.window.visible:game.services_ui.close()
 	if game.active_slot==0 or game.menu.visible: return
 	if current==index:
 		close()
@@ -176,9 +178,16 @@ func rebuild() -> void:
 
 func build_character() -> void:
 	text("%s  ·  %s  ·  等级 %d" % [game.character.get("name","侠客"),game.Saves.display_profession(game.character.get("profession","刀客")),game.level],23)
-	text("生命 %d / %d       真气 %d / 100" % [game.hp,game.max_hp(),game.qi])
+	text("生命 %d / %d       内力 %d / %d" % [game.hp,game.max_hp(),game.qi,game.max_qi() if game.has_method("max_qi") else 100])
 	text("攻击 %d     防御 %d     经验 %d / %d" % [game.attack_power(),game.defense_power(),game.exp_points,game.xp_needed()])
 	text("装备栏",23)
+	if game.has_method("item_count"):
+		for kind in ["weapon","armor"]:
+			var id: String=game.equipped.get(kind,"")
+			text(("武器 · " if kind=="weapon" else "衣服 · ")+(game.Items.DATA[id].name if not id.is_empty() else "入门外观（无额外属性）"),19)
+		text("在背包点击购得的装备可穿戴；增加攻防，外观沿用现有模型。",16)
+		return
+	if game.has_method("rank_title"): text("升职称号 · "+game.rank_title(),18)
 	var grid := GridContainer.new()
 	grid.columns=2
 	content.add_child(grid)
@@ -190,6 +199,28 @@ func build_character() -> void:
 	text("当前攻防来自职业与等级；装备栏暂展示已有外观及空槽。",16)
 
 func build_bag() -> void:
+	if game.has_method("item_count"):
+		game.sync_potions()
+		text("随身行囊 · 40 格 · 点击使用 / 穿戴，消耗品可拖至技能栏",18)
+		var items := GridContainer.new()
+		items.columns=8
+		content.add_child(items)
+		for i in range(40):
+			var entry: Dictionary=game.inventory[i]
+			var id: String=entry.get("id","")
+			var node: Button=skill_ui.create_source(id) if preload("res://kungfu_data.gd").DATA.has(id) else Button.new()
+			node.custom_minimum_size=Vector2(80,42)
+			node.add_theme_constant_override("icon_max_width",30)
+			node.expand_icon=true
+			if not id.is_empty():
+				node.icon=game.Items.icon(id)
+				node.tooltip_text=game.Items.DATA[id].name+" ×"+str(entry.count)+" · 点击使用 / 穿戴"
+				if node.has_node("StackCount"):node.get_node("StackCount").text=str(entry.count)
+				node.pressed.connect(func():game.use_item(id);rebuild())
+			items.add_child(node)
+			bag_slots.append(node)
+		text("人物资产       银两：%d 两" % game.coins,23)
+		return
 	text("随身行囊 · 40 格（8 × 5）",21)
 	var grid := GridContainer.new()
 	grid.columns=8
@@ -227,15 +258,24 @@ func build_quests() -> void:
 		button.pressed.connect(func(): quest_tab=i; rebuild())
 		tabs.add_child(button)
 	var status: int=2 if game.training_rewarded else (1 if game.training_state>0 else 0)
+	var promotion_status: int=-1
+	if game.has_method("promotion_description") and game.level>=10:
+		promotion_status=2 if game.promotion_stage==14 else (1 if game.promotion_stage>=3 else 0)
 	if quest_tab==status:
 		text("初入江湖 · 门主切磋",23)
 		text(["前往泫渤派门主处对话，接受切磋历练。","击败练习刀客，再返回门主处交差。","切磋已完成，奖励已领取。"][status])
 		text("奖励：银两 50 两")
 		if status==1: text("进度："+("已击败刀客 · 待交差" if game.training_state>=2 else "正在切磋"))
-	else: text("此分类暂无任务。")
+	elif quest_tab!=promotion_status: text("此分类暂无任务。")
 	if quest_tab==status and status<2:
 		action("自动寻路 · "+("练习刀客" if status==1 and game.training_state<2 else "泫渤派门主"),guide_quest)
 	text("点击指导后自动走到任务人物旁边。",17)
+	if game.has_method("promotion_description") and game.level>=10:
+		if quest_tab==promotion_status:
+			text("第一次升职 · "+game.rank_title(),22)
+			text(game.promotion_description(),18)
+			if game.promotion_stage<14:
+				action("升职指引 · "+game.promotion_target(),func():close();game.guide_promotion())
 
 func guide_quest() -> void:
 	close()
@@ -258,24 +298,29 @@ func build_skills() -> void:
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation",16)
 	content.add_child(row)
-	for id in ["attack","lightness","cloud_step"]:
-		if (id=="attack") != (skill_category==0): continue
+	var ids: Array=game.available_skills() if game.has_method("available_skills") else ["attack","lightness","cloud_step"]
+	for id in ids:
+		var attacking: bool=id=="attack" or preload("res://kungfu_data.gd").DATA[id].has("role")
+		if attacking != (skill_category==0): continue
 		var info: Dictionary=preload("res://kungfu_data.gd").DATA[id]
 		var card := VBoxContainer.new()
 		card.custom_minimum_size=Vector2(215,190)
 		row.add_child(card)
 		card.add_child(skill_ui.create_source(id))
 		var title := Label.new()
-		title.text="%s · %d 级\n%s" % [info.name,info.level,"攻击性武功" if id=="attack" else "辅助性武功"]
+		title.text="%s · %d 级\n%s" % [info.name,info.level,"攻击性武功" if attacking else "辅助性武功"]
 		card.add_child(title)
 		var learn := Button.new()
 		learn.text="已学会 · 可拖动" if id in game.learned_skills else "修习武功"
 		learn.disabled=id in game.learned_skills or game.level<int(info.level)
+		if info.has("role") and game.promotion_stage!=14:
+			learn.disabled=true
+			learn.text="第一次升职后修习"
 		learn.pressed.connect(func(): game.learn_skill(id); rebuild())
 		card.add_child(learn)
 		if id!="attack":
 			var use := Button.new()
-			use.text="施展 · 两段滑翔" if id=="cloud_step" else "施展 · 持续 60 秒"
+			use.text="施展 · 内力 %d" % int(info.get("cost",0))
 			use.disabled=not id in game.learned_skills
 			use.pressed.connect(func(): close(); game.use_skill(id))
 			card.add_child(use)

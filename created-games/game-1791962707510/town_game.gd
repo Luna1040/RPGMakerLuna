@@ -289,7 +289,7 @@ func interact() -> void:
 			"泫渤派门主":
 				quest_accepted = true
 				message = "门主：欢迎入派！拜访城中诸位后，从右侧城门出城剿匪。"
-			"金香玉": message = "金香玉：客栈歇息，恢复生命与真气。"; hp = max_hp(); qi = 100
+			"金香玉": message = "金香玉：客栈歇息，恢复生命与内力。"; hp = max_hp(); qi = 100
 			"韦大宝":
 				if coins >= 15: coins -= 15; potions += 1; message = "韦大宝：15 镖银购得一瓶金创药。"
 				else: message = "韦大宝：金创药每瓶 15 镖银，出城挣些盘缠吧。"
@@ -405,7 +405,7 @@ func _draw() -> void:
 		bar(Vector2(460,40),Vector2(210,14),hp/max_hp(),Color("d66b62"))
 		bar(Vector2(460,67),Vector2(210,10),qi/100,Color("58bdc6"))
 		label_at(Vector2(680,52),"生命 %d" % hp,16)
-		label_at(Vector2(680,79),"真气 %d" % qi,16)
+		label_at(Vector2(680,79),"内力 %d" % qi,16)
 		panel(Rect2(35,115,780,85))
 		label_at(Vector2(55,147),"初入江湖 · 石板长街",23,Color("f3cf88"))
 		label_at(Vector2(55,180),message,17)

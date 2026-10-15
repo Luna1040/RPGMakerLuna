@@ -137,8 +137,8 @@ func build_world() -> void:
 	for actor in town_actors.values():
 		for caption in actor.get_children():
 			if caption is Label3D:
-				caption.font_size=20
-				caption.pixel_size=0.0045
+				caption.font_size=36
+				caption.pixel_size=0.009
 				caption.text=caption.text.split(" · ")[0]
 	camera.far=220
 	city_ready=true

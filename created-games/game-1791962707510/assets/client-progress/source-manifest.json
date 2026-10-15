@@ -1,0 +1,177 @@
+{
+  "textures": [
+    {
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\interface\\MUGONG\\100101.d2s",
+      "name": "mugong_100101",
+      "asset": "assets\\client-progress\\mugong_100101.png",
+      "sha256": "4f8f36a8915e1a91cf61f184ba88e1f4da578d0e9027491770a864eb4af0f388"
+    },
+    {
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\interface\\MUGONG\\200101.d2s",
+      "name": "mugong_200101",
+      "asset": "assets\\client-progress\\mugong_200101.png",
+      "sha256": "aa06a2e14d7907502bc36e21b89bf47065b17b7d4d6421bd2b18f1813ff339d5"
+    },
+    {
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\interface\\MUGONG\\300101.d2s",
+      "name": "mugong_300101",
+      "asset": "assets\\client-progress\\mugong_300101.png",
+      "sha256": "d571cf9969f9450434416fce9edff34d16203c056aac659edbfe9028dcf1785e"
+    },
+    {
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\interface\\SKILL\\10.d2s",
+      "name": "skill_10",
+      "asset": "assets\\client-progress\\skill_10.png",
+      "sha256": "dc402ad648a93bc7008f5492ec6b95a8128f0d0b2c01793dffe96a9e9ecb05eb"
+    },
+    {
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\interface\\SKILL\\13.d2s",
+      "name": "skill_13",
+      "asset": "assets\\client-progress\\skill_13.png",
+      "sha256": "06dbaad908d9d7637312313863bc45781106e5f3f84150651cb8eb3729cb6ef5"
+    },
+    {
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\interface\\DATA\\main_btn_mail.bmp",
+      "name": "main_btn_mail",
+      "asset": "assets\\client-progress\\main_btn_mail.png",
+      "sha256": "3e51c8b64e2d95c44883a2ea9f90c317dfc7441efbb3f1f76af57be15895cffb"
+    }
+  ],
+  "motions": [
+    {
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Animation\\MCK0101.ani",
+      "sha256": "66af0fe39a98d2674d8a0e3909ff4caa3b045520f32d6332290a6f1a8c674da1",
+      "ticks": 5760,
+      "bones": 67
+    },
+    {
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Animation\\MCK0103.ani",
+      "sha256": "9810e8e01f80ef4ecde8e55b16b91e7a7ed873dd84c52234f31a62a0d54641be",
+      "ticks": 4800,
+      "bones": 67
+    },
+    {
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Animation\\MCK0104.ani",
+      "sha256": "47909c997274b0ba982816b49e26108eec9fcdb834cc5c24d75732e6677623d1",
+      "ticks": 3840,
+      "bones": 57
+    },
+    {
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Animation\\MCS0101.ani",
+      "sha256": "f8340c4226212ade7d5e0cfaf8eeb5e6f2fc0978f0496e8ee20f97d402563730",
+      "ticks": 5760,
+      "bones": 67
+    },
+    {
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Animation\\MCS0103.ani",
+      "sha256": "1881109f206a4611b08c5e297693d7176494be9f11e0d5059b4135bf5540ee7d",
+      "ticks": 4800,
+      "bones": 67
+    },
+    {
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Animation\\MCS0104.ani",
+      "sha256": "254ae9e94996cc150bd66a063cf38fdaee210a8cc74e874193f51f946cab9882",
+      "ticks": 3840,
+      "bones": 67
+    },
+    {
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Animation\\MCB0101.ani",
+      "sha256": "0e64416eeedb4713ce59002fc7b474794a139dde0f30086a7beffb3d62d0d5e5",
+      "ticks": 5760,
+      "bones": 66
+    },
+    {
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Animation\\MCB0103.ani",
+      "sha256": "fe97101f7b6bcc0612eff267f64ee9c2c641bf30e3ce7896a136485020401675",
+      "ticks": 4800,
+      "bones": 66
+    },
+    {
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Animation\\MCB0104.ani",
+      "sha256": "5cac011134825046d9b54e17f0198b90c4414e3e0bbc788e51319d682cd62b99",
+      "ticks": 3840,
+      "bones": 66
+    },
+    {
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Animation\\AMCK0206.ani",
+      "sha256": "6594b495ac13e5d41254ebc783718f3e560ec95697800508f2e1ce44b28d3519",
+      "ticks": 6720,
+      "bones": 67
+    },
+    {
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Animation\\AMCK0300.ani",
+      "sha256": "b40987c7fbb343bd27760b7191ed7018a0a39f2b01022bd600239df77c508002",
+      "ticks": 9600,
+      "bones": 67
+    },
+    {
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Animation\\AMCS0206.ani",
+      "sha256": "61404337f25f5c57b083f4d5876698fc2c89d47cc967a1daefea447554745816",
+      "ticks": 8000,
+      "bones": 67
+    },
+    {
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Animation\\AMCS0300.ani",
+      "sha256": "5304b5fdd45379f979a3ca060f43325abf5844a00b4abd096a3f54a805df4df8",
+      "ticks": 9920,
+      "bones": 67
+    },
+    {
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Animation\\AMCB0206.ani",
+      "sha256": "a9595001c8c2b98243d9c25b7f4628eb9deed107acabc8e6779da70991ae6d79",
+      "ticks": 8960,
+      "bones": 66
+    },
+    {
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Animation\\AMCB0300.ani",
+      "sha256": "b7b78eadf56f5090c45237f72f996a877d378dc4a8c4805f62317fbbbae90d97",
+      "ticks": 9920,
+      "bones": 65
+    }
+  ],
+  "models": [
+    {
+      "stem": "HMK00020",
+      "bones": 68,
+      "bone_source": "BoneMK.bon",
+      "source_sha256": "4b46f520effb03c2931baea5b68b27239159efecc7d18d3cdfda8cddb823f677"
+    },
+    {
+      "stem": "FMK00020",
+      "bones": 68,
+      "bone_source": "BoneMK.bon",
+      "source_sha256": "53d07fb51a1efb436e2bd8839a2065e32c7a797c163713176c69811fd8b4c3a8"
+    }
+  ],
+  "generation": "No AI jobs; local client textures, skin components and ANI tracks reused.",
+  "references": [
+    {
+      "topic": "Blade level ten skill family and source IDs",
+      "url": "https://rexue.dvg.cn/skill_list.php"
+    },
+    {
+      "topic": "Sword level ten skill family and source IDs",
+      "url": "https://rexue.dvg.cn/skill_list.php?class=2"
+    },
+    {
+      "topic": "Spear level ten skill family and source IDs",
+      "url": "https://rexue.dvg.cn/skill_list.php?class=3"
+    },
+    {
+      "topic": "First promotion historical quest route",
+      "url": "https://games.sina.com.cn/o/z/rxjh/2005-05-17/1759228461.shtml"
+    },
+    {
+      "topic": "First promotion detailed steps",
+      "url": "https://forum.gamer.com.tw/G2.php?bsn=8294&lorder=1&parent=1583&sn=27"
+    }
+  ],
+  "motion_assignment": {
+    "idle": "{MCK/MCS/MCB}0101",
+    "walk": "{MCK/MCS/MCB}0103",
+    "run": "{MCK/MCS/MCB}0104",
+    "normal_attack": "A{MCK/MCS/MCB}0206",
+    "profession_skill": "A{MCK/MCS/MCB}0300",
+    "processing": "Incremental axis-angle converted with left multiplication after row/column conversion; reflected Z; scale 0.2; root XZ held in place, vertical motion retained."
+  }
+}

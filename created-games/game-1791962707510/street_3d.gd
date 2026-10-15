@@ -568,7 +568,7 @@ func talk_town_npc(title: String) -> void:
 	click_target=""
 	route.clear()
 	match title:
-		"金香玉": hp=max_hp(); qi=100; message="客栈已经备好热茶，歇息后生命与真气恢复。"
+		"金香玉": hp=max_hp(); qi=100; message="客栈已经备好热茶，歇息后生命与内力恢复。"
 		"韦大宝":
 			if coins>=15: coins-=15; potions+=1; message="十五镖银，金创药收好了！"
 			else: message="金创药每瓶十五镖银，切磋交差后再来逛逛。"

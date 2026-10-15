@@ -1,11 +1,12 @@
 extends Node3D
-## Real client skeletons and vertex weights; runtime poses are procedural, not original ANI clips.
+## Original client skin weights and decoded ANI motion; NPCs remain stationary.
 const DIR := "res://assets/client-actors/"
 var skeletons: Array[Skeleton3D]=[]
 var rest_bases: Dictionary={}
 var npc := false
 var npc_id := -1
 var phase := 0.0
+var animation_prefix := ""
 
 static func make(parent: Node, path: String) -> Dictionary:
  var root=load("res://client_actor_rig.gd").new()
@@ -22,12 +23,14 @@ static func make(parent: Node, path: String) -> Dictionary:
  if root.npc:
   stems.append(["MOB00006","MOB00005","MOB00001","MOB00003","MOB00002","MOB00004"][index])
  else:
-  var profession: String="剑客" if basename in ["class_sword","practice"] else ("枪客" if basename=="class_spear" else "刀客")
+  var profession: String="剑客" if basename=="class_sword" else ("枪客" if basename=="class_spear" else "刀客")
   stems.append({"刀客":"CMK00010","剑客":"CMS00010","枪客":"CMB00010"}[profession])
-  for prefix in ["HM","FM","MM","LM"]: stems.append(prefix+{"刀客":"K","剑客":"S","枪客":"B"}[profession]+"00010")
+  for prefix in ["HM","FM","MM","LM"]:
+   stems.append(prefix+{"刀客":"K","剑客":"S","枪客":"B"}[profession]+("00020" if profession=="刀客" and prefix in ["HM","FM"] else "00010"))
   weapon={"刀客":"WCK001","剑客":"WCH001","枪客":"WCB001"}[profession]
+  root.animation_prefix={"刀客":"MCK","剑客":"MCS","枪客":"MCB"}[profession]
  for stem in stems:
-  var folder := "res://assets/client-wild/" if stem.ends_with("K00010") else DIR
+  var folder := "res://assets/client-wild/" if FileAccess.file_exists("res://assets/client-wild/"+stem+".glb") else DIR
   var model: Node3D=(load(folder+stem+".glb") as PackedScene).instantiate()
   root.add_child(model)
   root.prepare_materials(model)
@@ -60,6 +63,7 @@ static func make(parent: Node, path: String) -> Dictionary:
    root.prepare_materials(mesh)
  root.scale=Vector3.ONE*0.7
  root.set_meta("client_skinned",true)
+ root.set_meta("model_stems",stems)
  if root.npc:
   if not root.npc_id in [0,1,5]:
    for skeleton in root.skeletons:
@@ -93,6 +97,23 @@ func _process(dt: float) -> void:
   attacking=owner_game.slash_remaining>0
   sitting=owner_game.meditating
  if npc: return
+ if not sitting and get_parent() is CharacterBody3D and not animation_prefix.is_empty():
+  var Motion=preload("res://client_motion.gd")
+  var remaining: Variant=owner_game.get("native_attack_remaining")
+  var fraction:=0.0
+  var code: String="0101"
+  if remaining!=null and float(remaining)>0:
+   code="0300" if owner_game.native_attack_skill else "0206"
+   fraction=1.0-float(remaining)/owner_game.native_attack_duration
+  elif moving:
+   code="0104" if owner_game.lightness or owner_game.glide_remaining>0 else "0103"
+   phase+=dt
+   var duration: float=float(Motion.clip(animation_prefix+code).get("ticks",4800))/9600.0
+   fraction=fmod(phase/maxf(0.1,duration),1.0)
+  else:phase=0
+  var attack_prefix: String="A" if remaining!=null and float(remaining)>0 else ""
+  Motion.apply(self,attack_prefix+animation_prefix+code,fraction,clampf(dt*22,0,1))
+  return
  phase=phase+dt*1.4 if moving else 0.0
  for skeleton in skeletons:
   if sitting:

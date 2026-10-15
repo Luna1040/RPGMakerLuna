@@ -59,11 +59,11 @@ static func apply(game: Node) -> void:
    var bounds: AABB=mesh.transform*mesh.get_aabb()
    # South gate (archetype 73) was sealed by recovered wall-end/corner pieces.
    # Remove only the two overlapping pieces, retaining all surrounding walls.
-   if id in [32,33] and bounds.position.z>19 and bounds.position.z<23 and bounds.position.x> -1.2 and bounds.position.x<2.2:
+   if id in [31,32,33,34] and bounds.position.z<24 and bounds.end.z>19 and bounds.position.x<4.0 and bounds.end.x> -2.5:
     mesh.queue_free()
     continue
    if id==73 and bounds.position.z>19 and bounds.position.z<23:
-    game.gate_regions.append(Rect2(-0.65,18.8,3.0,6.2))
+    game.gate_regions.append(Rect2(-2.5,18.0,6.5,9.0))
     # Keep the recovered willow, but clear its canopy away from the reopened exit.
     mesh.position.x+=4.0
    if id==54:
@@ -88,6 +88,8 @@ static func apply(game: Node) -> void:
  for template in holder.get_children():
   if template is MeshInstance3D and template.get_meta("client_archetype",-1)==35:
    var south_gate: MeshInstance3D=template.duplicate()
+   south_gate.scale.x*=2.0
+   south_gate.scale.y*=1.25
    var b: AABB=south_gate.transform*south_gate.get_aabb()
    south_gate.name="SouthGate"
    south_gate.position+=Vector3(0.75-b.get_center().x,-b.position.y,22.0-b.get_center().z)
@@ -98,7 +100,7 @@ static func apply(game: Node) -> void:
   var position: Vector3=positions[title]
   position.y=game.surface_height(Vector2(position.x,position.z))
   game.town_actors[title].position=position
- game.practice.position=Vector3(9,0,4)
+ game.practice.position=Vector3(-18,game.surface_height(Vector2(-18,2.5)),2.5)
  # Client stone pavement stays in use, including its original repeating UV texture.
  for child in game.world.get_children():
   if child is MeshInstance3D and child.name=="GeneratedStonePavement":

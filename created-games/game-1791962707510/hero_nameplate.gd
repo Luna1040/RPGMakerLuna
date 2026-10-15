@@ -16,3 +16,5 @@ func _draw() -> void:
  draw_string(font,Vector2(80-width/2,16),title,HORIZONTAL_ALIGNMENT_LEFT,-1,15,Color("fff1cd"))
  draw_rect(Rect2(36,25,88,6),Color("14292b"))
  draw_rect(Rect2(37,26,86*clampf(game.hp/game.max_hp(),0,1),4),Color("6fce86"))
+ draw_rect(Rect2(36,33,88,5),Color("14292b"))
+ draw_rect(Rect2(37,34,86*clampf(game.qi/game.max_qi(),0,1),3),Color("65b5ec"))

@@ -345,6 +345,7 @@ func toggle_meditation() -> void:
 		message="正在原地打坐 · 持续恢复生命；受击不中断，主动行动结束。"
 
 func _unhandled_input(event: InputEvent) -> void:
+	if hp<=0:return
 	if not paused and not menu.visible and not dialogue.visible and event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode==KEY_C and event.ctrl_pressed:
 			toggle_meditation()
