@@ -195,7 +195,7 @@ func draw_scene():
 			image_fit(art.table,Rect2(t.pos-Vector2(85,110),Vector2(170,145)))
 			for seat_id in range(entity.index,entity.index+2):
 				var guest=tables[seat_id]
-				var plate_pos=t.pos+Vector2(-23 if guest.seat==0 else 23,-63 if guest.seat==0 else -43)
+				var plate_pos=plate_position(guest)
 				if guest.state=="eating": icon(guest.food,Rect2(plate_pos-Vector2(22,15),Vector2(44,30)))
 				if guest.state=="dirty": draw_ellipse_plate(plate_pos)
 				if guest.watered and guest.state in ["waiting","eating"]: icon(3,Rect2(plate_pos+Vector2(-10,-28),Vector2(22,24)))
@@ -211,8 +211,8 @@ func draw_scene():
 			icon(t.food,Rect2(r.position+Vector2(4,2),Vector2(40,32)))
 			bar(Rect2(r.position+Vector2(5,39),Vector2(38,4)),float(t.patience)/float(t.maximum),CORAL if t.patience<18 else Color("4f9c81"))
 		elif t.state=="dirty":
-			var r=order_bubble(i)
-			r.size=Vector2(48,24)
+			var r=cleanup_badge(i)
+			draw_line(Vector2(r.get_center().x,r.end.y),plate_position(t),GOLD,1,true)
 			panel(r,Color("463b32"),GOLD,7)
 			centered("清理",r,12,GOLD)
 		if t.state in ["waiting","dirty"] and can_service_from(player,i):
@@ -404,6 +404,12 @@ func seat_row(i: int) -> Rect2:
 
 func order_bubble(i: int) -> Rect2:
 	return Rect2(seat_position(tables[i])+Vector2(-24,-175),Vector2(48,48))
+
+func plate_position(t: Dictionary) -> Vector2:
+	return t.pos+Vector2(-23 if t.seat==0 else 23,-63 if t.seat==0 else -43)
+
+func cleanup_badge(i: int) -> Rect2:
+	return Rect2(plate_position(tables[i])+Vector2(-22,-36),Vector2(44,24))
 
 func can_service_from(point: Vector2, i: int) -> bool:
 	var anchor=seat_position(tables[i])
@@ -682,10 +688,18 @@ func handle_click(p: Vector2):
 	# Match clicks to the actual guest, not to the whole table rectangle.
 	var picked=-1
 	var best_distance=INF
+	# Visible controls take priority over overlapping guest bodies.
+	for i in range(tables.size()):
+		if tables[i].state=="dirty" and cleanup_badge(i).has_point(p):
+			go("table",i);return
+		if tables[i].state=="waiting" and order_bubble(i).has_point(p):
+			go("table",i);return
 	for i in range(tables.size()):
 		var t=tables[i]
 		if t.state not in ["waiting","dirty","eating"]: continue
-		if order_bubble(i).has_point(p): go("table",i); return
+		if t.state=="dirty":
+			if Rect2(plate_position(t)-Vector2(22,12),Vector2(44,24)).has_point(p): go("table",i);return
+			continue
 		var anchor=seat_position(t)
 		if Rect2(anchor-Vector2(31,130),Vector2(62,146)).has_point(p):
 			var d=p.distance_to(anchor-Vector2(0,70))
@@ -733,10 +747,14 @@ func capture_scene():
 		tray=[0,2]; water=3; remaining=143; earned=126; money=126; served=3; combo=3
 		paused=true; modal=false
 		player=Vector2(650,610)
+		if "--dirty-review" in OS.get_cmdline_user_args():
+			for t in tables: t.state="dirty"
 	await get_tree().process_frame
 	await get_tree().process_frame
 	await RenderingServer.frame_post_draw
-	get_viewport().get_texture().get_image().save_png("res://evidence/v2-prep.png" if "--prep" in OS.get_cmdline_user_args() else "res://evidence/v3-two-seats.png")
+	var capture_path="res://evidence/v2-prep.png" if "--prep" in OS.get_cmdline_user_args() else "res://evidence/v3-two-seats.png"
+	if "--dirty-review" in OS.get_cmdline_user_args(): capture_path="res://evidence/cleanup-badges.png"
+	get_viewport().get_texture().get_image().save_png(capture_path)
 	print("CAPTURE_OK")
 	get_tree().quit()
 
@@ -974,6 +992,16 @@ func seat_test():
 	var key=InputEventKey.new();key.keycode=KEY_E;key.pressed=true
 	_unhandled_input(key)
 	assert(service_kind=="serve" and route.is_empty(),"E uses guest radius")
+	for t in tables: t.state="dirty"
+	for i in range(tables.size()):
+		player=table_access(i);cancel_movement()
+		handle_click(cleanup_badge(i).get_center())
+		assert(service_kind=="clean" and service_id==i,"Cleanup badge targets its own seat")
+		cancel_movement()
+		handle_click(plate_position(tables[i]))
+		assert(service_kind=="clean" and service_id==i,"Dirty plate targets its own seat")
+		cancel_movement()
+	print("PASS: all 8 cleanup badges and dirty plates target their own seat")
 	print("PASS: 4 tables / 8 seats; independent orders, patience, water, serving and cleanup")
 	print("PASS: ",tested_approaches," accessible guest-centered approaches, 8 real paths and E interaction without south-only snapping")
 	get_tree().quit()
