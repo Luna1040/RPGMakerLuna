@@ -63003,8 +63003,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 18410,
-      "sha256": "38a5f4662d23618de652ac97135b52b1aff7e28f3cd9520217ee142f3a5cf1bb"
+      "bytes": 19692,
+      "sha256": "7fa3aab6b26ddb656e64ad1393e147b7263ce1fe63c2e561ade659d75b00e782"
     },
     {
       "path": "godot-ai-workbench/resolve-runtime.ps1",
@@ -65665,6 +65665,11 @@
       "path": "docs/showcase/mahogany-six-seat.png",
       "bytes": 831355,
       "sha256": "8e0b1640325738d4136c27ad74d9e8c84bd4313d2008c80abd27a264bf1c44fa"
+    },
+    {
+      "path": "docs/platform-notes.md",
+      "bytes": 2176,
+      "sha256": "42aadafcdb1dacb9c0f37e4877e32a2d4f161c61f5918ed29100d74ca3fc1bd4"
     }
   ]
 }
