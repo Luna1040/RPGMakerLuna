@@ -63003,8 +63003,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 18494,
-      "sha256": "806c003ef63ea890235456e1e65601e06de4e8dc81c4a8dd5f1944fbe342ed49"
+      "bytes": 18410,
+      "sha256": "38a5f4662d23618de652ac97135b52b1aff7e28f3cd9520217ee142f3a5cf1bb"
     },
     {
       "path": "godot-ai-workbench/resolve-runtime.ps1",
