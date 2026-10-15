@@ -10,6 +10,7 @@ var message:=Label.new()
 var status:=Label.new()
 var heading:=Label.new()
 var tab:="adventure"
+var quest_filter := "current"
 var npc_id:="innkeeper"
 var npc_portrait
 var roster_id:="scout"
@@ -119,6 +120,10 @@ func is_open() -> bool:
 
 func open(id: String) -> void:
 	runtime.stage.interface.close_panels()
+	var transition = runtime.stage.get_node_or_null("/root/GameSession")
+	if transition != null and not transition.busy:
+		if transition.title_tween: transition.title_tween.kill()
+		transition.heading.modulate.a=0
 	tab=id
 	capture_action=""
 	overwrite_slot=0
@@ -179,6 +184,7 @@ func refresh() -> void:
 	scroll.scroll_vertical=0
 	heading.text={"adventure":"苍石手记 · 冒险","journal":"任务与人情","network":"交织的线索","roster":"同行者与古塔敌影","trade":"补给与锻造","saves":"旅途存档","campaigns":"战役管理","authoring":"通用动态 RPG 世界引擎 Prompt","settings":"游戏设置","dialogue":"城镇交谈"}.get(tab,"苍石手记")
 	match tab:
+		"demo": render_demo_travel()
 		"adventure": render_adventure()
 		"journal": render_journal()
 		"network": render_network()
@@ -282,23 +288,56 @@ func render_roster() -> void:
 	roster.setup(runtime,roster_id)
 
 func render_journal() -> void:
-	words("任务记录与当前目标",Color("f7d78e"),23)
+	words("任务日志 · 晨钟远征",Color("f7d78e"),25)
+	var filters := row()
+	for entry in [["current","进行中 / 可交付"],["available","可接任务"],["claimed","已完成"],["all","全部任务"]]:
+		var filter_id: String = entry[0]
+		button(filters,entry[1],func(): quest_filter=filter_id; refresh())
+	var shown := 0
 	for quest in runtime.adventure.quest_rows():
-		var state_name:String={"locked":"未解锁","available":"可接取","active":"进行中","ready":"可交付","claimed":"已完成"}.get(quest.get("status",""),"")
-		words(str(quest.get("title",quest.get("id","")))+"  ·  "+state_name,Color("e6c78b"),21)
-		words(str(quest.get("description","")),Color("a9bccd"),17)
-		var objectives=quest.get("objectives",[])
-		if objectives is String: words(objectives)
-		elif objectives is Array:
-			for objective in objectives:
-				if objective is Dictionary:
-					words("  %s  %s / %s" % [objective.get("text",objective.get("label",objective.get("type","目标"))),objective.get("current",0),objective.get("target",1)])
-				else: words(str(objective))
+		var state_name: String = str(quest.get("status","locked"))
+		if quest_filter == "current" and state_name not in ["active","ready"]: continue
+		if quest_filter in ["available","claimed"] and state_name != quest_filter: continue
+		shown += 1
+		var card := PanelContainer.new()
+		var style := StyleBoxFlat.new()
+		style.bg_color = Color("203343")
+		style.border_color = Color("e3bd70") if state_name == "ready" else Color("486375")
+		style.set_border_width_all(1)
+		style.set_content_margin_all(14)
+		style.set_corner_radius_all(7)
+		card.add_theme_stylebox_override("panel",style)
+		body.add_child(card)
+		var box := VBoxContainer.new()
+		card.add_child(box)
+		var heading_label := Label.new()
+		heading_label.text = str(quest.title)+"  ·  "+{"locked":"前置未完成","available":"可接取","active":"进行中","ready":"可交付","claimed":"已完成"}.get(state_name,state_name)
+		heading_label.add_theme_font_size_override("font_size",22)
+		heading_label.add_theme_color_override("font_color",Color("f3d18c"))
+		box.add_child(heading_label)
+		var desc := Label.new()
+		desc.text = str(quest.description)
+		desc.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		box.add_child(desc)
+		var reward := Label.new()
+		reward.text = "报酬：经验 %d · %s" % [int(quest.rewards.get("xp",0)),format_cost(quest.rewards.get("materials",{}))]
+		reward.add_theme_color_override("font_color",Color("88d6bf"))
+		box.add_child(reward)
+		for objective in quest.get("objectives",[]):
+			var progress := Label.new()
+			progress.text = "%s  %s / %s" % [objective.get("label","目标"),objective.get("current",0),objective.get("target",1)]
+			box.add_child(progress)
 		if quest.get("can_claim",false):
-			var id:String=quest.id
-			button(body,"领取奖励" if runtime.is_home_zone() else "回城后交付",func(): var result:Dictionary=runtime.adventure.claim_quest(id); runtime.say(str(result.get("message",""))); refresh(),runtime.is_home_zone())
-		body.add_child(HSeparator.new())
-	words("任务可同时推进。未接取的任务请先与镇民交谈；分支承诺会保留在存档里。",Color("91a9bd"))
+			var id: String = quest.id
+			button(box,"领取奖励" if runtime.is_home_zone() else "返回城镇交付",func(): var result:Dictionary=runtime.adventure.claim_quest(id); runtime.say(str(result.get("message",""))); refresh(),runtime.is_home_zone())
+		if state_name in ["active","ready"]:
+			var tracked_id: String = quest.id
+			button(box,"正在追踪" if runtime.tracked_quest==tracked_id else "追踪此任务",func(): runtime.tracked_quest=tracked_id; refresh())
+		elif state_name == "available":
+			var hint := Label.new()
+			hint.text = "与城镇委托人交谈接取 · E 交互 / 空格确认"
+			box.add_child(hint)
+	if shown == 0: words("此分类暂无任务。切换到可接任务，与镇民交谈开启冒险。")
 
 func render_network() -> void:
 	words("不同线索、承诺与任务结果相互连接。选择一条解决路线后，其他互斥路线会锁定。",Color("c9d6e3"))
@@ -832,3 +871,20 @@ func capture_key(event: InputEventKey) -> bool:
 
 func render_dialogue() -> void:
 	dialogue_view.begin()
+
+func render_demo_travel() -> void:
+	words("演示快速传送 · F9 开关",Color("f7d78e"),26)
+	words("约 3 分钟路线：庭院展示人物 → 晨钟城 → 霜钟首领 → 圣堂首领 → L 任务日志。",Color("a9d9dc"),19)
+	words("直接跳过赶路与前置关口，恢复主角生命/法力/冷却；副本立即开战。保留任务进度，不补发跳过房间的奖励。",Color("a9bccd"),17)
+	var towns:=row()
+	for entry in [["town","苍石庭院 · 人物 / NPC"],["city","晨钟城 · 广场"]]:
+		var id: String=entry[0]
+		button(towns,entry[1],func(): runtime.demo_travel(id))
+	for entry in [["forest","旧林道"],["ruins","古塔"],["frost","霜钟隘口"],["ember","余烬圣堂"]]:
+		var id: String=entry[0]
+		words(entry[1],Color("e6c78b"),21)
+		var destinations:=row()
+		for index in 3:
+			var room: int=index
+			button(destinations,["入口 · 第 1 间","推进 · 第 2 间","直达首领 · 第 3 间"][index],func(): runtime.demo_travel(id,room))
+	words("战斗中也可 F9 撤离；6 / 7 召唤队友，W 上挑展示霸体和浮空，R 雷光展示感电。",Color("a9d9dc"),17)

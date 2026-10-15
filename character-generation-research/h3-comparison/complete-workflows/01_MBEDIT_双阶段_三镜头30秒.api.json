@@ -1,0 +1,869 @@
+{
+  "1": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "wuxia-opening-reference-v1.png"
+    }
+  },
+  "2": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+      "type": "minimax",
+      "device": "default"
+    }
+  },
+  "3": {
+    "class_type": "UNETLoader",
+    "inputs": {
+      "unet_name": "minimax_h3_ref2va_pruned_fp8_scaled.safetensors",
+      "weight_dtype": "default"
+    }
+  },
+  "4": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+    }
+  },
+  "5": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "strength_model": 0.8,
+      "model": [
+        "3",
+        0
+      ],
+      "lora_name": "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors"
+    }
+  },
+  "6": {
+    "class_type": "ModelAttentionBackend",
+    "inputs": {
+      "attention": "pytorch attention",
+      "model": [
+        "5",
+        0
+      ]
+    }
+  },
+  "7": {
+    "class_type": "MiniMaxH3SigmaShift",
+    "inputs": {
+      "shift_video": 12.0,
+      "shift_audio": 3.0,
+      "model": [
+        "6",
+        0
+      ]
+    }
+  },
+  "8": {
+    "class_type": "MiniMaxH3ReferenceToVideo",
+    "inputs": {
+      "width": 960,
+      "height": 544,
+      "length": 243,
+      "ref_image_size": "match",
+      "clip": [
+        "2",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "prompt": "Chinese wuxia film opening, adult characters, cinematic live action. <Picture 1> defines the heroine's face, hair, ivory and pale-blue hanfu and the ancient pavilion in a bamboo grove. Keep her identity and costume consistent. Animate full body actions with clear intent, weight, foot placement and readable gestures. Real spatial movement, not a still portrait with moving hair. One continuous shot with the camera movement specified below. No internal cuts, captions, logos, modern objects or extra limbs. Silent video.\nSHOT 1 — ARRIVAL, about ten seconds. Begin exactly from the supplied first frame. In the first third the heroine turns her head sharply toward a sound outside the pavilion, turns her shoulders and steps forward. During the middle third she walks purposefully out of the pavilion and down the bamboo path, her sleeves trailing behind her steps. During the final third she slows and stops as she notices someone ahead, lifting her gaze with an alert expression. Camera: a smooth lateral tracking move follows her at medium-full-body distance, revealing the path ahead and settling into an over-the-shoulder composition. Keep the walking readable. End with room ahead of her for an approaching rival.",
+      "ref_images.ref_image_0": [
+        "1",
+        0
+      ]
+    }
+  },
+  "9": {
+    "class_type": "ImageScale",
+    "inputs": {
+      "width": 960,
+      "height": 544,
+      "image": [
+        "1",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "crop": "disabled"
+    }
+  },
+  "10": {
+    "class_type": "MiniMaxH3AddGuide",
+    "inputs": {
+      "frame_idx": 0,
+      "positive": [
+        "8",
+        0
+      ],
+      "latent": [
+        "8",
+        1
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image": [
+        "9",
+        0
+      ]
+    }
+  },
+  "11": {
+    "class_type": "RandomNoise",
+    "inputs": {
+      "noise_seed": 731429
+    }
+  },
+  "12": {
+    "class_type": "KSamplerSelect",
+    "inputs": {
+      "sampler_name": "euler"
+    }
+  },
+  "13": {
+    "class_type": "BasicScheduler",
+    "inputs": {
+      "steps": 8,
+      "denoise": 1.0,
+      "model": [
+        "7",
+        0
+      ],
+      "scheduler": "simple"
+    }
+  },
+  "14": {
+    "class_type": "BasicGuider",
+    "inputs": {
+      "model": [
+        "7",
+        0
+      ],
+      "conditioning": [
+        "10",
+        0
+      ]
+    }
+  },
+  "15": {
+    "class_type": "SamplerCustomAdvanced",
+    "inputs": {
+      "noise": [
+        "11",
+        0
+      ],
+      "guider": [
+        "14",
+        0
+      ],
+      "sampler": [
+        "12",
+        0
+      ],
+      "sigmas": [
+        "13",
+        0
+      ],
+      "latent_image": [
+        "8",
+        1
+      ]
+    }
+  },
+  "16": {
+    "class_type": "LTXVSeparateAVLatent",
+    "inputs": {
+      "av_latent": [
+        "15",
+        0
+      ]
+    }
+  },
+  "17": {
+    "class_type": "MinimaxH3LatentUpscaler3D",
+    "inputs": {
+      "align": 32,
+      "enable_temporal_chunking": true,
+      "force_unload": true,
+      "device": "cuda",
+      "precision": "fp16",
+      "latent": [
+        "16",
+        0
+      ],
+      "model_name": "minimax_h3_latent_upscaler_3d_conv_v1_bf16.safetensors",
+      "mode": "megapixels",
+      "mode.megapixels": 1.0
+    }
+  },
+  "18": {
+    "class_type": "LTXVConcatAVLatent",
+    "inputs": {
+      "video_latent": [
+        "17",
+        0
+      ],
+      "audio_latent": [
+        "16",
+        1
+      ]
+    }
+  },
+  "19": {
+    "class_type": "ManualSigmas",
+    "inputs": {
+      "sigmas": "0.9035, 0.6316, 0.3158, 0.0000"
+    }
+  },
+  "31": {
+    "class_type": "MiniMaxH3AddGuide",
+    "inputs": {
+      "frame_idx": 0,
+      "positive": [
+        "8",
+        0
+      ],
+      "latent": [
+        "18",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image": [
+        "1",
+        0
+      ]
+    }
+  },
+  "32": {
+    "class_type": "BasicGuider",
+    "inputs": {
+      "model": [
+        "7",
+        0
+      ],
+      "conditioning": [
+        "31",
+        0
+      ]
+    }
+  },
+  "20": {
+    "class_type": "SamplerCustomAdvanced",
+    "inputs": {
+      "noise": [
+        "11",
+        0
+      ],
+      "guider": [
+        "32",
+        0
+      ],
+      "sampler": [
+        "12",
+        0
+      ],
+      "sigmas": [
+        "19",
+        0
+      ],
+      "latent_image": [
+        "18",
+        0
+      ]
+    }
+  },
+  "21": {
+    "class_type": "LTXVSeparateAVLatent",
+    "inputs": {
+      "av_latent": [
+        "20",
+        0
+      ]
+    }
+  },
+  "22": {
+    "class_type": "VAEDecodeTiled",
+    "inputs": {
+      "tile_size": 512,
+      "overlap": 64,
+      "temporal_size": 32,
+      "temporal_overlap": 8,
+      "samples": [
+        "21",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    }
+  },
+  "24": {
+    "class_type": "VHS_VideoCombine",
+    "inputs": {
+      "frame_rate": 24.0,
+      "loop_count": 0,
+      "filename_prefix": "h3-comparison/01_MBEDIT_Latent/shot1",
+      "pingpong": false,
+      "save_output": true,
+      "images": [
+        "22",
+        0
+      ],
+      "format": "video/h264-mp4",
+      "pix_fmt": "yuv420p",
+      "crf": 19,
+      "save_metadata": true,
+      "trim_to_audio": false
+    }
+  },
+  "1030": {
+    "class_type": "ImageFromBatch",
+    "inputs": {
+      "image": [
+        "22",
+        0
+      ],
+      "batch_index": -1,
+      "length": 1
+    }
+  },
+  "1008": {
+    "class_type": "MiniMaxH3ReferenceToVideo",
+    "inputs": {
+      "width": 960,
+      "height": 544,
+      "length": 243,
+      "ref_image_size": "match",
+      "clip": [
+        "2",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "prompt": "Chinese wuxia film opening, adult characters, cinematic live action. <Picture 1> defines the heroine's face, hair, ivory and pale-blue hanfu and the ancient pavilion in a bamboo grove. Keep her identity and costume consistent. Animate full body actions with clear intent, weight, foot placement and readable gestures. Real spatial movement, not a still portrait with moving hair. One continuous shot with the camera movement specified below. No internal cuts, captions, logos, modern objects or extra limbs. Silent video.\nSHOT 2 — ENCOUNTER. <Picture 2> is the previous shot's final frame; continue the location and the heroine's position from it. Over about ten seconds: an adult swordsman in dark charcoal hanfu enters the path ahead and stops three paces from the heroine, blocking her way. She takes a decisive step toward him and raises an open hand to challenge him; he reaches for his sword. She lowers her hand and draws a slender straight sword from her waist; he draws his sword in response. Finish with both opponents in clearly separated fighting stances, facing one another. Camera: a slow thirty-degree arc from behind the heroine to a side-on medium-wide two-shot, keeping both people's bodies and swords visible. Show their approach, confrontation and change into fighting stances, not just facial reactions. Exactly two people.",
+      "ref_images.ref_image_0": [
+        "1",
+        0
+      ],
+      "ref_images.ref_image_1": [
+        "1030",
+        0
+      ]
+    }
+  },
+  "1009": {
+    "class_type": "ImageScale",
+    "inputs": {
+      "width": 960,
+      "height": 544,
+      "image": [
+        "1030",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "crop": "disabled"
+    }
+  },
+  "1010": {
+    "class_type": "MiniMaxH3AddGuide",
+    "inputs": {
+      "frame_idx": 0,
+      "positive": [
+        "1008",
+        0
+      ],
+      "latent": [
+        "1008",
+        1
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image": [
+        "1009",
+        0
+      ]
+    }
+  },
+  "1011": {
+    "class_type": "RandomNoise",
+    "inputs": {
+      "noise_seed": 739348
+    }
+  },
+  "1014": {
+    "class_type": "BasicGuider",
+    "inputs": {
+      "model": [
+        "7",
+        0
+      ],
+      "conditioning": [
+        "1010",
+        0
+      ]
+    }
+  },
+  "1015": {
+    "class_type": "SamplerCustomAdvanced",
+    "inputs": {
+      "noise": [
+        "1011",
+        0
+      ],
+      "guider": [
+        "1014",
+        0
+      ],
+      "sampler": [
+        "12",
+        0
+      ],
+      "sigmas": [
+        "13",
+        0
+      ],
+      "latent_image": [
+        "1008",
+        1
+      ]
+    }
+  },
+  "1016": {
+    "class_type": "LTXVSeparateAVLatent",
+    "inputs": {
+      "av_latent": [
+        "1015",
+        0
+      ]
+    }
+  },
+  "1017": {
+    "class_type": "MinimaxH3LatentUpscaler3D",
+    "inputs": {
+      "align": 32,
+      "enable_temporal_chunking": true,
+      "force_unload": true,
+      "device": "cuda",
+      "precision": "fp16",
+      "latent": [
+        "1016",
+        0
+      ],
+      "model_name": "minimax_h3_latent_upscaler_3d_conv_v1_bf16.safetensors",
+      "mode": "megapixels",
+      "mode.megapixels": 1.0
+    }
+  },
+  "1018": {
+    "class_type": "LTXVConcatAVLatent",
+    "inputs": {
+      "video_latent": [
+        "1017",
+        0
+      ],
+      "audio_latent": [
+        "1016",
+        1
+      ]
+    }
+  },
+  "1031": {
+    "class_type": "MiniMaxH3AddGuide",
+    "inputs": {
+      "frame_idx": 0,
+      "positive": [
+        "1008",
+        0
+      ],
+      "latent": [
+        "1018",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image": [
+        "1030",
+        0
+      ]
+    }
+  },
+  "1032": {
+    "class_type": "BasicGuider",
+    "inputs": {
+      "model": [
+        "7",
+        0
+      ],
+      "conditioning": [
+        "1031",
+        0
+      ]
+    }
+  },
+  "1020": {
+    "class_type": "SamplerCustomAdvanced",
+    "inputs": {
+      "noise": [
+        "1011",
+        0
+      ],
+      "guider": [
+        "1032",
+        0
+      ],
+      "sampler": [
+        "12",
+        0
+      ],
+      "sigmas": [
+        "19",
+        0
+      ],
+      "latent_image": [
+        "1018",
+        0
+      ]
+    }
+  },
+  "1021": {
+    "class_type": "LTXVSeparateAVLatent",
+    "inputs": {
+      "av_latent": [
+        "1020",
+        0
+      ]
+    }
+  },
+  "1022": {
+    "class_type": "VAEDecodeTiled",
+    "inputs": {
+      "tile_size": 512,
+      "overlap": 64,
+      "temporal_size": 32,
+      "temporal_overlap": 8,
+      "samples": [
+        "1021",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    }
+  },
+  "1024": {
+    "class_type": "VHS_VideoCombine",
+    "inputs": {
+      "frame_rate": 24.0,
+      "loop_count": 0,
+      "filename_prefix": "h3-comparison/01_MBEDIT_Latent/shot2",
+      "pingpong": false,
+      "save_output": true,
+      "images": [
+        "1022",
+        0
+      ],
+      "format": "video/h264-mp4",
+      "pix_fmt": "yuv420p",
+      "crf": 19,
+      "save_metadata": true,
+      "trim_to_audio": false
+    }
+  },
+  "2030": {
+    "class_type": "ImageFromBatch",
+    "inputs": {
+      "image": [
+        "1022",
+        0
+      ],
+      "batch_index": -1,
+      "length": 1
+    }
+  },
+  "2008": {
+    "class_type": "MiniMaxH3ReferenceToVideo",
+    "inputs": {
+      "width": 960,
+      "height": 544,
+      "length": 243,
+      "ref_image_size": "match",
+      "clip": [
+        "2",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "prompt": "Chinese wuxia film opening, adult characters, cinematic live action. <Picture 1> defines the heroine's face, hair, ivory and pale-blue hanfu and the ancient pavilion in a bamboo grove. Keep her identity and costume consistent. Animate full body actions with clear intent, weight, foot placement and readable gestures. Real spatial movement, not a still portrait with moving hair. One continuous shot with the camera movement specified below. No internal cuts, captions, logos, modern objects or extra limbs. Silent video.\nSHOT 3 — FIRST CLASH. <Picture 2> is the previous shot's final frame. Continue the same heroine and dark-robed adult rival, their swords, positions and bamboo path. A readable short wuxia exchange over about ten seconds: first the rival steps forward and delivers one diagonal sword strike; the heroine steps sideways and raises her blade to parry, the blades visibly meeting once. Then she pivots on her planted foot and makes a single controlled horizontal counterstrike; he steps back and blocks it. Finally they disengage by one step and hold opposing guard stances, leaving a tense ending for a title added later. Camera: a controlled low lateral tracking move during the exchange, then gently pull back to a wider view at the end. Full bodies and blade paths remain visible. Grounded footwork, fast decisive actions separated by short readable pauses; no flying, no spinning camera, no gore. Exactly two people.",
+      "ref_images.ref_image_0": [
+        "1",
+        0
+      ],
+      "ref_images.ref_image_1": [
+        "2030",
+        0
+      ]
+    }
+  },
+  "2009": {
+    "class_type": "ImageScale",
+    "inputs": {
+      "width": 960,
+      "height": 544,
+      "image": [
+        "2030",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "crop": "disabled"
+    }
+  },
+  "2010": {
+    "class_type": "MiniMaxH3AddGuide",
+    "inputs": {
+      "frame_idx": 0,
+      "positive": [
+        "2008",
+        0
+      ],
+      "latent": [
+        "2008",
+        1
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image": [
+        "2009",
+        0
+      ]
+    }
+  },
+  "2011": {
+    "class_type": "RandomNoise",
+    "inputs": {
+      "noise_seed": 747267
+    }
+  },
+  "2014": {
+    "class_type": "BasicGuider",
+    "inputs": {
+      "model": [
+        "7",
+        0
+      ],
+      "conditioning": [
+        "2010",
+        0
+      ]
+    }
+  },
+  "2015": {
+    "class_type": "SamplerCustomAdvanced",
+    "inputs": {
+      "noise": [
+        "2011",
+        0
+      ],
+      "guider": [
+        "2014",
+        0
+      ],
+      "sampler": [
+        "12",
+        0
+      ],
+      "sigmas": [
+        "13",
+        0
+      ],
+      "latent_image": [
+        "2008",
+        1
+      ]
+    }
+  },
+  "2016": {
+    "class_type": "LTXVSeparateAVLatent",
+    "inputs": {
+      "av_latent": [
+        "2015",
+        0
+      ]
+    }
+  },
+  "2017": {
+    "class_type": "MinimaxH3LatentUpscaler3D",
+    "inputs": {
+      "align": 32,
+      "enable_temporal_chunking": true,
+      "force_unload": true,
+      "device": "cuda",
+      "precision": "fp16",
+      "latent": [
+        "2016",
+        0
+      ],
+      "model_name": "minimax_h3_latent_upscaler_3d_conv_v1_bf16.safetensors",
+      "mode": "megapixels",
+      "mode.megapixels": 1.0
+    }
+  },
+  "2018": {
+    "class_type": "LTXVConcatAVLatent",
+    "inputs": {
+      "video_latent": [
+        "2017",
+        0
+      ],
+      "audio_latent": [
+        "2016",
+        1
+      ]
+    }
+  },
+  "2031": {
+    "class_type": "MiniMaxH3AddGuide",
+    "inputs": {
+      "frame_idx": 0,
+      "positive": [
+        "2008",
+        0
+      ],
+      "latent": [
+        "2018",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image": [
+        "2030",
+        0
+      ]
+    }
+  },
+  "2032": {
+    "class_type": "BasicGuider",
+    "inputs": {
+      "model": [
+        "7",
+        0
+      ],
+      "conditioning": [
+        "2031",
+        0
+      ]
+    }
+  },
+  "2020": {
+    "class_type": "SamplerCustomAdvanced",
+    "inputs": {
+      "noise": [
+        "2011",
+        0
+      ],
+      "guider": [
+        "2032",
+        0
+      ],
+      "sampler": [
+        "12",
+        0
+      ],
+      "sigmas": [
+        "19",
+        0
+      ],
+      "latent_image": [
+        "2018",
+        0
+      ]
+    }
+  },
+  "2021": {
+    "class_type": "LTXVSeparateAVLatent",
+    "inputs": {
+      "av_latent": [
+        "2020",
+        0
+      ]
+    }
+  },
+  "2022": {
+    "class_type": "VAEDecodeTiled",
+    "inputs": {
+      "tile_size": 512,
+      "overlap": 64,
+      "temporal_size": 32,
+      "temporal_overlap": 8,
+      "samples": [
+        "2021",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    }
+  },
+  "2024": {
+    "class_type": "VHS_VideoCombine",
+    "inputs": {
+      "frame_rate": 24.0,
+      "loop_count": 0,
+      "filename_prefix": "h3-comparison/01_MBEDIT_Latent/shot3",
+      "pingpong": false,
+      "save_output": true,
+      "images": [
+        "2022",
+        0
+      ],
+      "format": "video/h264-mp4",
+      "pix_fmt": "yuv420p",
+      "crf": 19,
+      "save_metadata": true,
+      "trim_to_audio": false
+    }
+  },
+  "9010": {
+    "class_type": "H3ComparisonConcatFiles",
+    "inputs": {
+      "filename_prefix": "h3-comparison/01_Complete/full_30s",
+      "update_benchmark_inputs": true,
+      "clip1": [
+        "24",
+        0
+      ],
+      "clip2": [
+        "1024",
+        0
+      ],
+      "clip3": [
+        "2024",
+        0
+      ]
+    }
+  }
+}

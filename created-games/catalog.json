@@ -20,12 +20,30 @@
     "title": "地心探险",
     "description": "地心探险",
     "brief": "地心探险",
-    "last_prompt": "鼠标也能控制移动和砍石块；\n抵抗落石的特效不有展示文字描述，有特效就行；\n石头下落之前，停顿一秒再落下，停顿时增加摇摇晃晃的特效，展现出那些石头已经不稳了，马上要落下了。",
+    "last_prompt": "怎么存档全是乱码？尝试解决，如果实在解决不了  就用英文好了",
     "directory": "created-games/game-1791904914834",
     "status": "ready",
     "cover": "",
     "progress": "开始：agentMessage",
-    "last_reply": "已完成：\n\n- 鼠标点击空地移动，点击相邻石块自动转向并砍击；通关后可点击矿区继续。\n- 抵抗落石时只展示动作和爆破效果，已移除倒计时及描述文字。\n- 岩石失去支撑后先摇晃 **1 秒**再下落，连续下落不会重复停顿；暂停和存档保留剩余时间。\n\n**121 项检查通过**。记录：`art-jobs/mouse-warning-20261014/`。\n\n摇晃已用程序效果接入；生图因本机服务不可用而未提交成功，无新图片或视频。实际窗口效果待桥接器启动后验收。"
+    "last_reply": "已修复，保留中文，无需改成英文。原因是上次写入时中文被替换成了问号；已恢复存档菜单、按钮和提示文字，已有存档数据未改动。\n\n**61 项检查通过**，包括中文编码、字体覆盖和存档功能。日志：`art-jobs/save-text-encoding-20261014/checks.log`。\n\n实际窗口显示待桥接器重启后确认。本次未生成新美术。"
+  },
+  {
+    "id": "velvet-mahogany",
+    "title": "绯夜 · 红木会所",
+    "description": "六人德扑 / 斗地主 · 五名 NPC · 动态荷官",
+    "brief": "固定宽景、牌背发牌的成年荷官；红木赌场；NPC德州扑克、斗地主，以及二十一点、百家乐、五张扑克",
+    "directory": "created-games/velvet-mahogany",
+    "status": "ready",
+    "cover": "created-games/velvet-mahogany/assets/salon.png"
+  },
+  {
+    "id": "moontide-bistro",
+    "title": "月汐食堂",
+    "description": "手绘 2.5D 餐厅 · 双人餐桌 / 自动备餐 / 倒水安抚",
+    "directory": "created-games/moontide-bistro",
+    "status": "ready",
+    "cover": "created-games/moontide-bistro/evidence/v3-two-seats.png",
+    "brief": "海边夜间餐厅经营，等距俯视手绘场景，厨房自动备餐，倒水延长客人耐心，食物图标、取餐上菜清桌和经营升级。"
   },
   {
     "id": "game-1791962707510",

@@ -354,6 +354,165 @@
           "healing_potion": 3
         }
       }
+    },
+    {
+      "id": "frost_patrol",
+      "title": "雪线求援",
+      "description": "前往晨钟城北侧的霜钟隘口，击败封锁商路的敌人。",
+      "npc": "smith",
+      "position": [
+        0,
+        5
+      ],
+      "requires": {},
+      "objectives": [
+        {
+          "id": "objective",
+          "kind": "event",
+          "event": "enemy_killed",
+          "zone": "frost",
+          "target": 6,
+          "label": "霜钟隘口：击败敌人"
+        }
+      ],
+      "rewards": {
+        "xp": 90,
+        "materials": {
+          "旧铜币": 65,
+          "秘银碎屑": 3
+        }
+      }
+    },
+    {
+      "id": "ember_patrol",
+      "title": "圣堂余火",
+      "description": "前往晨钟城南侧的余烬圣堂，清理两间被占据的房间。",
+      "npc": "smith",
+      "position": [
+        1,
+        5
+      ],
+      "requires": {},
+      "objectives": [
+        {
+          "id": "objective",
+          "kind": "event",
+          "event": "wave_cleared",
+          "zone": "ember",
+          "target": 2,
+          "label": "余烬圣堂：清理房间"
+        }
+      ],
+      "rewards": {
+        "xp": 90,
+        "materials": {
+          "旧铜币": 65,
+          "秘银碎屑": 3
+        }
+      }
+    },
+    {
+      "id": "frost_captain",
+      "title": "寒铁之证",
+      "description": "在霜钟隘口第三间击败寒铁卫长。",
+      "npc": "smith",
+      "position": [
+        2,
+        5
+      ],
+      "requires": {},
+      "objectives": [
+        {
+          "id": "objective",
+          "kind": "event",
+          "event": "boss_killed",
+          "zone": "frost",
+          "target": 1,
+          "label": "霜钟隘口：击败寒铁卫长"
+        }
+      ],
+      "rewards": {
+        "xp": 160,
+        "materials": {
+          "旧铜币": 65,
+          "秘银碎屑": 3
+        }
+      }
+    },
+    {
+      "id": "ember_judge",
+      "title": "熄灭审判",
+      "description": "在余烬圣堂第三间击败余烬审判者。",
+      "npc": "smith",
+      "position": [
+        0,
+        6
+      ],
+      "requires": {},
+      "objectives": [
+        {
+          "id": "objective",
+          "kind": "event",
+          "event": "boss_killed",
+          "zone": "ember",
+          "target": 1,
+          "label": "余烬圣堂：击败审判者"
+        }
+      ],
+      "rewards": {
+        "xp": 160,
+        "materials": {
+          "旧铜币": 65,
+          "秘银碎屑": 3
+        }
+      }
+    },
+    {
+      "id": "dawn_finale",
+      "title": "晨钟再鸣",
+      "description": "两条支线交付后，重返古塔击败执政官，终结封锁。",
+      "npc": "smith",
+      "position": [
+        1,
+        6
+      ],
+      "requires": {
+        "all": [
+          {
+            "quest": {
+              "id": "frost_captain",
+              "status": [
+                "claimed"
+              ]
+            }
+          },
+          {
+            "quest": {
+              "id": "ember_judge",
+              "status": [
+                "claimed"
+              ]
+            }
+          }
+        ]
+      },
+      "objectives": [
+        {
+          "id": "objective",
+          "kind": "event",
+          "event": "boss_killed",
+          "zone": "ruins",
+          "target": 1,
+          "label": "古塔：击败执政官"
+        }
+      ],
+      "rewards": {
+        "xp": 160,
+        "materials": {
+          "旧铜币": 65,
+          "秘银碎屑": 3
+        }
+      }
     }
   ],
   "shop": [
@@ -869,6 +1028,146 @@
           "id": "journal",
           "label": "查看任务与故事分支",
           "action": "journal"
+        },
+        {
+          "id": "frost_patrol_accept",
+          "label": "接受：雪线求援",
+          "action": "accept",
+          "quest": "frost_patrol",
+          "when": {
+            "quest": {
+              "id": "frost_patrol",
+              "status": [
+                "available"
+              ]
+            }
+          }
+        },
+        {
+          "id": "frost_patrol_claim",
+          "label": "交付：雪线求援",
+          "action": "claim",
+          "quest": "frost_patrol",
+          "when": {
+            "quest": {
+              "id": "frost_patrol",
+              "status": [
+                "ready"
+              ]
+            }
+          }
+        },
+        {
+          "id": "ember_patrol_accept",
+          "label": "接受：圣堂余火",
+          "action": "accept",
+          "quest": "ember_patrol",
+          "when": {
+            "quest": {
+              "id": "ember_patrol",
+              "status": [
+                "available"
+              ]
+            }
+          }
+        },
+        {
+          "id": "ember_patrol_claim",
+          "label": "交付：圣堂余火",
+          "action": "claim",
+          "quest": "ember_patrol",
+          "when": {
+            "quest": {
+              "id": "ember_patrol",
+              "status": [
+                "ready"
+              ]
+            }
+          }
+        },
+        {
+          "id": "frost_captain_accept",
+          "label": "接受：寒铁之证",
+          "action": "accept",
+          "quest": "frost_captain",
+          "when": {
+            "quest": {
+              "id": "frost_captain",
+              "status": [
+                "available"
+              ]
+            }
+          }
+        },
+        {
+          "id": "frost_captain_claim",
+          "label": "交付：寒铁之证",
+          "action": "claim",
+          "quest": "frost_captain",
+          "when": {
+            "quest": {
+              "id": "frost_captain",
+              "status": [
+                "ready"
+              ]
+            }
+          }
+        },
+        {
+          "id": "ember_judge_accept",
+          "label": "接受：熄灭审判",
+          "action": "accept",
+          "quest": "ember_judge",
+          "when": {
+            "quest": {
+              "id": "ember_judge",
+              "status": [
+                "available"
+              ]
+            }
+          }
+        },
+        {
+          "id": "ember_judge_claim",
+          "label": "交付：熄灭审判",
+          "action": "claim",
+          "quest": "ember_judge",
+          "when": {
+            "quest": {
+              "id": "ember_judge",
+              "status": [
+                "ready"
+              ]
+            }
+          }
+        },
+        {
+          "id": "dawn_finale_accept",
+          "label": "接受：晨钟再鸣",
+          "action": "accept",
+          "quest": "dawn_finale",
+          "when": {
+            "quest": {
+              "id": "dawn_finale",
+              "status": [
+                "available"
+              ]
+            }
+          }
+        },
+        {
+          "id": "dawn_finale_claim",
+          "label": "交付：晨钟再鸣",
+          "action": "claim",
+          "quest": "dawn_finale",
+          "when": {
+            "quest": {
+              "id": "dawn_finale",
+              "status": [
+                "ready"
+              ]
+            }
+          }
         }
       ]
     },
@@ -1003,6 +1302,14 @@
       "to": "city_tower",
       "label": "晨钟城的后续委托",
       "kind": "optional"
+    },
+    {
+      "from": "frost_captain",
+      "to": "dawn_finale"
+    },
+    {
+      "from": "ember_judge",
+      "to": "dawn_finale"
     }
   ]
 }

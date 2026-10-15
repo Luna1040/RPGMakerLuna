@@ -50,7 +50,7 @@ func _draw() -> void:
 	if not selected.is_empty():
 		var scale_factor := float(selected.scale)
 		var tint := Color(1.0,0.95,0.93,death_alpha) if float(data.get("flash",0.0)) > 0.07 else Color(1,1,1,death_alpha)
-		draw_set_transform(Vector2(0,-lift),0.0,Vector2(float(data.get("facing",1.0))*scale_factor,scale_factor))
+		draw_set_transform(Vector2(0,-lift),(-0.18 * float(data.get("facing",1.0)) if lift > 1.0 else 0.0),Vector2(float(data.get("facing",1.0))*scale_factor,scale_factor))
 		draw_texture(selected.texture,-selected.pivot,tint)
 		draw_set_transform(Vector2.ZERO)
 	if dead:
@@ -58,11 +58,10 @@ func _draw() -> void:
 	var bar_y := animation.standing_top()-12.0-lift
 	draw_rect(Rect2(-39,bar_y,78,7),Color("192735"))
 	draw_rect(Rect2(-38,bar_y+1,76*clampf(float(data.hp)/float(data.max_hp),0,1),5),Color("e8907d"))
-	var label := str(animation.manifest.get("name",data.get("label","敌人")))
+	var label := str(data.get("label",animation.manifest.get("name","敌人")))
 	var width := FONT.get_string_size(label,HORIZONTAL_ALIGNMENT_LEFT,-1,15).x
 	draw_string(FONT,Vector2(-width*0.5,bar_y-8),label,HORIZONTAL_ALIGNMENT_LEFT,-1,15,Color("fff0c8"))
 	if selected.is_empty():
 		draw_string(FONT,Vector2(-35,-100),"素材加载中",HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("c6babc"))
 	if data.has("reaction") and data.reaction.shock_left > 0.0:
 		draw_polyline(PackedVector2Array([Vector2(-32,-lift-130),Vector2(-40,-lift-103),Vector2(-25,-lift-106),Vector2(-36,-lift-79)]),Color("9de8ff"),2)
-

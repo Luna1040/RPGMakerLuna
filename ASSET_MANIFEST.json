@@ -1,5 +1,5 @@
 {
-  "snapshot_date": "2026-10-13",
+  "snapshot_date": "2026-10-15",
   "files": [
     {
       "path": "CHARACTER_PIPELINE.md",
@@ -348,8 +348,8 @@
     },
     {
       "path": "character-generation-research/start_h3.py",
-      "bytes": 758,
-      "sha256": "6d45e81a95c5cf2fa9d1b34433c4c4b49ef89c164ed52d82f9515e06b5676b00"
+      "bytes": 1364,
+      "sha256": "9a7a54921ebebc1549f08050fbf0be1b0635262000ae9a9169852d75ba2157ea"
     },
     {
       "path": "character-generation-research/test_clean_chroma.py",
@@ -1513,8 +1513,8 @@
     },
     {
       "path": "character-generation-research/h3-runtime/models.yaml",
-      "bytes": 228,
-      "sha256": "9c7a1616f83bc82750de24d562f8bcca940a0a0e5a5cee8b8fb2c51977277e10"
+      "bytes": 322,
+      "sha256": "8452dfbd82053107f0a3b1c9649cc776518741503e8f18bcc603ffee34afddc6"
     },
     {
       "path": "character-generation-research/h3-runtime/official-r2v.json",
@@ -22668,8 +22668,8 @@
     },
     {
       "path": "godot-belt-map/developer_tools.gd",
-      "bytes": 6916,
-      "sha256": "e0ffdfd507debafd1b23df6d0659c559df057dad914181216192644bd764be49"
+      "bytes": 7049,
+      "sha256": "a3bc9f3c81d01d6e37d6d8c5f8c1be54a1f4e38ab1212f9b60df8e296f8d523f"
     },
     {
       "path": "godot-belt-map/developer_tools.gd.uid",
@@ -22818,8 +22818,8 @@
     },
     {
       "path": "godot-belt-map/stage.gd",
-      "bytes": 30711,
-      "sha256": "ab8e82f7fcb24b2a23f7b027185deadc6b0c1adc66443a79f2888ab000449719"
+      "bytes": 31672,
+      "sha256": "83fc8a9f5dc58e3b4b82c89eb5b845ec42c3648483bf6454eb366604d47560c4"
     },
     {
       "path": "godot-belt-map/stage.gd.uid",
@@ -22863,8 +22863,8 @@
     },
     {
       "path": "godot-belt-map/world_loot.gd",
-      "bytes": 14281,
-      "sha256": "2186be42aa0416924e82a76c71f41f5203a4617d478dc3871b70f13d3e93f614"
+      "bytes": 14132,
+      "sha256": "8165fa2816443bcc01467d2b7fd18f5428fc6cad2f0a6890680a246fd79a1eba"
     },
     {
       "path": "godot-belt-map/world_loot.gd.uid",
@@ -24723,8 +24723,8 @@
     },
     {
       "path": "godot-belt-map/characters/first_knight/knight.gd",
-      "bytes": 18012,
-      "sha256": "4329dee174c1e0e687776e8e9023bcf4ba21c5455203a898e29f24c504915cc4"
+      "bytes": 19869,
+      "sha256": "a3caa926ed9a9a0f52360383560f67c277bbd869073c05da5f7c2807f7f78589"
     },
     {
       "path": "godot-belt-map/characters/first_knight/knight.gd.uid",
@@ -36983,13 +36983,13 @@
     },
     {
       "path": "godot-belt-map/systems/adventure/adventure_data.json",
-      "bytes": 26444,
-      "sha256": "164d1318450aeec6297e115a25107ae1688559062cd84b51f236b73cb476155d"
+      "bytes": 33789,
+      "sha256": "2cc44fb1c432e38eb28e69b3ce1a0c357f9718d3e982793cd644f7e70d2a7925"
     },
     {
       "path": "godot-belt-map/systems/adventure/adventure_state.gd",
-      "bytes": 23806,
-      "sha256": "31227a461277e6042e322293e6407ecb76f747a047bc17e9e80954dde2e092c0"
+      "bytes": 23709,
+      "sha256": "c5beed59fe256c51596b328bd96f45fcc520de5ee029aaf405f3358785c52816"
     },
     {
       "path": "godot-belt-map/systems/adventure/adventure_state.gd.uid",
@@ -37063,8 +37063,8 @@
     },
     {
       "path": "godot-belt-map/systems/encounters/encounters.gd",
-      "bytes": 51118,
-      "sha256": "3b0ec1d282e9daedea02c2fb78394c954b66c0ee0f2a68f5aec80b9140804ba8"
+      "bytes": 54611,
+      "sha256": "50adf51bbb1983b479502d36bae24abbb7a20e691875f9b226e6d6e19e55afc3"
     },
     {
       "path": "godot-belt-map/systems/encounters/encounters.gd.uid",
@@ -37073,8 +37073,8 @@
     },
     {
       "path": "godot-belt-map/systems/encounters/enemy_art.gd",
-      "bytes": 3348,
-      "sha256": "069d5083534d1ed381642e04a88c467d9c7200272d53733b8c7678f9102751e1"
+      "bytes": 3404,
+      "sha256": "df3862fda9916f938cef5353c43ac3ae0d680a8c82b6e83723c0ead4c885e6d9"
     },
     {
       "path": "godot-belt-map/systems/encounters/enemy_art.gd.uid",
@@ -37113,8 +37113,8 @@
     },
     {
       "path": "godot-belt-map/systems/game_runtime.gd",
-      "bytes": 30565,
-      "sha256": "86d899bb2485f2210803e3eabbd399223b99ef3a811269fb6c80391c9f0820e0"
+      "bytes": 32565,
+      "sha256": "e015aa34645cb7d1d856f26654ecc09c6eabf6cbbcab3b1582d6b33abbf5daf1"
     },
     {
       "path": "godot-belt-map/systems/game_runtime.gd.uid",
@@ -37123,8 +37123,8 @@
     },
     {
       "path": "godot-belt-map/systems/game_settings.gd",
-      "bytes": 3946,
-      "sha256": "224a4205e4e9b7204c2c1fa3d27af86937ff981016ffb4261960c5b305c0c991"
+      "bytes": 4063,
+      "sha256": "9e3450712bb74aa39ed43215b7ab7656bfcef3c56f0fcab80b72130d7821455a"
     },
     {
       "path": "godot-belt-map/systems/game_settings.gd.uid",
@@ -37153,8 +37153,8 @@
     },
     {
       "path": "godot-belt-map/systems/session_panel.gd",
-      "bytes": 17737,
-      "sha256": "8f73fda0f21034bc50c59a7978db1865891625c2951bb42e7064c073bfc9ad47"
+      "bytes": 48307,
+      "sha256": "5d7e2539b8adf92ab3c9dab966132a3e7e34f7ef526a92f8cf4dd6566ecd25b4"
     },
     {
       "path": "godot-belt-map/systems/session_panel.gd.uid",
@@ -37163,8 +37163,8 @@
     },
     {
       "path": "godot-belt-map/systems/world_registry.gd",
-      "bytes": 905,
-      "sha256": "f4848e72eb32a216ac2ace4044cafc2aad33ddc2c90d44609ecbfbc7ba9e0141"
+      "bytes": 2334,
+      "sha256": "234e4ec788cfcb5b6810ddc0d5d3787785ac1a10e9c5b59042f71fe3e3eaf442"
     },
     {
       "path": "godot-belt-map/systems/world_registry.gd.uid",
@@ -37183,8 +37183,8 @@
     },
     {
       "path": "godot-belt-map/tests/adventure_state_test.gd",
-      "bytes": 14801,
-      "sha256": "6ee80b66d5692d327022b4b831673a44cb2d7437071a7348cb7ca4a60fdde486"
+      "bytes": 14654,
+      "sha256": "796693eacbc97ce629442cd38f9e7a1da5e5bdbd41e456a1f94e6a81415811f4"
     },
     {
       "path": "godot-belt-map/tests/adventure_state_test.gd.uid",
@@ -37223,8 +37223,8 @@
     },
     {
       "path": "godot-belt-map/tests/encounters_integration_test.gd",
-      "bytes": 11336,
-      "sha256": "f03c3ee46e392926079f5b740c589e7dec61fe59d2ae35b9d7631fbbeda03799"
+      "bytes": 11370,
+      "sha256": "bf3e713ed18d7173f894fea6ae73a5df31777356a77f8e3026e99a8055d155ff"
     },
     {
       "path": "godot-belt-map/tests/encounters_integration_test.gd.uid",
@@ -37243,8 +37243,8 @@
     },
     {
       "path": "godot-belt-map/tests/encounters_test.gd",
-      "bytes": 21316,
-      "sha256": "1e914e32d2e7476e179b6ad6c60fc3212581b6d2e43793f017f34076f0ed0518"
+      "bytes": 23773,
+      "sha256": "4a7da72000858bcaaee1a9ea9a913d854365d0765ec05cefa1645c585e265985"
     },
     {
       "path": "godot-belt-map/tests/encounters_test.gd.uid",
@@ -37253,8 +37253,8 @@
     },
     {
       "path": "godot-belt-map/tests/run_tests.py",
-      "bytes": 12945,
-      "sha256": "d25694ecfa790f7d2306a4789afe20bb8c41bcc5ed34253ca1400b62c6ad5b2c"
+      "bytes": 14456,
+      "sha256": "aeacefe16a63e6e615dcebfd2e04038d5cf03b896c765a91b1b551177baf3b53"
     },
     {
       "path": "godot-belt-map/tests/runtime_foundations_test.gd",
@@ -37284,7 +37284,7 @@
     {
       "path": "godot-belt-map/tests/menu_input_test.gd",
       "bytes": 4787,
-      "sha256": "957bbcda8eb2780f25c1d824789b981abe143f58e149f467d1d8fc8dca85d83e"
+      "sha256": "4ea3a9f3e1cf704edeec676e39808ab984ca11346c9c4b1f66b0620b401a9e25"
     },
     {
       "path": "godot-belt-map/tests/menu_input_test.gd.uid",
@@ -62563,8 +62563,8 @@
     },
     {
       "path": "godot-belt-map/systems/data/city.json",
-      "bytes": 1636,
-      "sha256": "55b5cbc7b3873fddf48a2c1f1208cb1aba187bb735f23eef9becc3f72d822954"
+      "bytes": 2024,
+      "sha256": "782610ee0d20e77f56215297a80bd36397934872b1a2534e9f6abff5febc18e5"
     },
     {
       "path": "godot-belt-map/systems/data/forest.json",
@@ -62613,8 +62613,8 @@
     },
     {
       "path": "godot-belt-map/systems/dungeon_guidance.gd",
-      "bytes": 3160,
-      "sha256": "3e31f7dd325b88802cef4ed31533a91b5da1ab0591902449534b3705e4502287"
+      "bytes": 3135,
+      "sha256": "7503892f9536396dab7f69b6c7d06bfd293fcad8b866b8017c23b362619736dc"
     },
     {
       "path": "godot-belt-map/systems/dungeon_guidance.gd.uid",
@@ -62688,8 +62688,8 @@
     },
     {
       "path": "godot-belt-map/systems/dungeon_rooms.gd",
-      "bytes": 1443,
-      "sha256": "1ce707efceab20ed9c811fa6a7a532b7e66fb4706222c6585d9c392722fb158d"
+      "bytes": 2116,
+      "sha256": "117b58a766b3c6c73c34c3c7f6b82a2718c9edbf3399ec6bc75631fa071e8531"
     },
     {
       "path": "godot-belt-map/systems/dungeon_rooms.gd.uid",
@@ -62823,8 +62823,8 @@
     },
     {
       "path": "created-games/catalog.json",
-      "bytes": 534,
-      "sha256": "e3ef371f5fc1c0040cc4ceb149d5004811cfb447ed27b68101fa85f0b322830f"
+      "bytes": 4657,
+      "sha256": "0898eedfc19726c817267fc8200807e86bee94a46a07bd757659e2bc364fd7ba"
     },
     {
       "path": "created-games/game-1791881399844/cover.png",
@@ -62843,8 +62843,8 @@
     },
     {
       "path": "created-games/game-1791881399844/game_assistant.gd",
-      "bytes": 5349,
-      "sha256": "58c27c1e63851464bda9d0d9b841bba85207aaf3b5e5b98b50ecec30c2388d08"
+      "bytes": 9298,
+      "sha256": "3a6717da2c6a909dc48971314a07822aa88c1bfb2a1288bd9bfbf451efe41e42"
     },
     {
       "path": "created-games/game-1791881399844/game_assistant.gd.uid",
@@ -62873,8 +62873,8 @@
     },
     {
       "path": "created-games/game-1791881399844/verify.gd",
-      "bytes": 1466,
-      "sha256": "67ac157ccc31919acae0cffd46cba51a19fd7cbe0e05ae3c73559687300b6b20"
+      "bytes": 5080,
+      "sha256": "b5db71e0449c9428edd06dbeed8107f34a061fd72488b03c9b6125ab0f071b19"
     },
     {
       "path": "created-games/game-1791881399844/verify.gd.uid",
@@ -62893,8 +62893,8 @@
     },
     {
       "path": "godot-ai-workbench/start_image_service.py",
-      "bytes": 1498,
-      "sha256": "017e5aa8a07eb69eb97aa12dc5baa26328bae35167be62820e00b6d8f3fed32f"
+      "bytes": 1556,
+      "sha256": "2215b49a58154a56ed9efaf09cb0bbf57607e4308d183cd68e7b3e2a71b4b574"
     },
     {
       "path": "godot-ai-workbench/游戏内助手说明.md",
@@ -62923,8 +62923,8 @@
     },
     {
       "path": "godot-ai-workbench/bridge/game-server.mjs",
-      "bytes": 13551,
-      "sha256": "61743d3ca009d1334df0eef2bc3c75fae86127597435109e8a672146e815422a"
+      "bytes": 13708,
+      "sha256": "f01ac2be31ddf32bff6d0629efd8d5e6d3ce750259e29e61d2778f6bc61a4ce6"
     },
     {
       "path": ".editorconfig",
@@ -62988,13 +62988,13 @@
     },
     {
       "path": "启动团队生图服务.ps1",
-      "bytes": 1433,
-      "sha256": "7cb0e6e40acdafa944cf2cbd14f79e5e366aa4f9652f5b1f608fbd1fb081b706"
+      "bytes": 1148,
+      "sha256": "b27b056671892318503912c887372d25d948c89f13d9cbc0a2dba62fe23868a5"
     },
     {
       "path": "团队生图服务说明.md",
-      "bytes": 2265,
-      "sha256": "0c2c82df0d7af6ffa1c6a215f86ad2d201656263ff23fd87048be0c5e0a53ee4"
+      "bytes": 2964,
+      "sha256": "150a3730fe86b65bf24dee5ad466cd04821c4c37c4a1edfbd2e8396ee96cde33"
     },
     {
       "path": "godot-ai-workbench/workflows/flux2-pixel-image.json",
@@ -63003,8 +63003,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 18969,
-      "sha256": "885dc9e8a58489f8b15896de9f0739cc2536421dfc097e01f13e0a6c9eea36c8"
+      "bytes": 1230,
+      "sha256": "67675d0fc2fe37dd455c174f401691f70b3b040e367744876b23c531b3dfafb9"
     },
     {
       "path": "godot-ai-workbench/resolve-runtime.ps1",
@@ -63015,6 +63015,2631 @@
       "path": "godot-ai-workbench/launcher-paths-test.ps1",
       "bytes": 1759,
       "sha256": "0b205f23a78659b36ba9c809eef5f75828e0edb1063c302c805f1ed3ff2ef829"
+    },
+    {
+      "path": "启动月汐食堂.cmd",
+      "bytes": 207,
+      "sha256": "47fdab9f463d47a8860de26eb9d4b4a44a192087e9dded8869b1681ab17131d9"
+    },
+    {
+      "path": "运行绯夜红木会所.cmd",
+      "bytes": 136,
+      "sha256": "a0df4b3f44e5f38ebfeead9985fd08e7b690af4ff055300268cab576b8bd3b96"
+    },
+    {
+      "path": "运行绯夜红木会所.ps1",
+      "bytes": 247,
+      "sha256": "5f180f839c9b237191cffc5eaadbfe59d647dd658f1dfe8f35cafaf3ca30d82f"
+    },
+    {
+      "path": "character-generation-research/adapt_community_workflows.py",
+      "bytes": 9940,
+      "sha256": "4dfbf3569134c00f5ae85acf7ec2ce71582451d976377c5cc8349c246341c940"
+    },
+    {
+      "path": "character-generation-research/audit_h3_community.py",
+      "bytes": 1143,
+      "sha256": "04cec93b1ca3397a98a18c23500eb9f707d7ecb39b8f764835c6e1c47f6fbf25"
+    },
+    {
+      "path": "character-generation-research/build_guofeng_workflows.py",
+      "bytes": 9795,
+      "sha256": "9e67f70c0a4cce8310baacc6e56dada09715e6b0de4b17150023cd59b19518b8"
+    },
+    {
+      "path": "character-generation-research/build_h3_comparison.py",
+      "bytes": 5000,
+      "sha256": "13cf40f10778cfc7f0441e97ac2e4d7b7137aa588b095e1aca55b4020db66b33"
+    },
+    {
+      "path": "character-generation-research/build_h3_complete_workflows.py",
+      "bytes": 4517,
+      "sha256": "21492ed17de1ecae6ca623d3aae857e5a3d2fe7112c60d475248620f57ff558d"
+    },
+    {
+      "path": "character-generation-research/build_h3_drama.py",
+      "bytes": 10330,
+      "sha256": "d3aca9de48715c519017fafe124269d808d14282b2a105813a5091983cb270f0"
+    },
+    {
+      "path": "character-generation-research/build_h3_opening.py",
+      "bytes": 4086,
+      "sha256": "2b0526489f1b912dcb983a8749ef93b8fd656c6c1d03208539134a291db3c3a1"
+    },
+    {
+      "path": "character-generation-research/check_h3_complete_workflows.py",
+      "bytes": 1480,
+      "sha256": "d2fb8fe308c5c0ae8561a2bbb799f2b00aa23c790610531618b2583b538035af"
+    },
+    {
+      "path": "character-generation-research/check_h3_external_encoding.py",
+      "bytes": 1157,
+      "sha256": "38dd7603846be24cd3df16c0c953b28a102897ad0d9189d5f816fe0ef5442464"
+    },
+    {
+      "path": "character-generation-research/configure_roster_resume.py",
+      "bytes": 7891,
+      "sha256": "a96954656a80754836eaa641a41ca2bd99de584b7ac735006da75f7dd1b00c71"
+    },
+    {
+      "path": "character-generation-research/continue_h3_comparison.py",
+      "bytes": 2231,
+      "sha256": "ee705add90714a64e005ebdeabb29b3519adace0808abd953cd49b312e872b55"
+    },
+    {
+      "path": "character-generation-research/download_h3_opening.py",
+      "bytes": 3407,
+      "sha256": "10441a5ea8c502b7de74ee114d75481036cc84ce5ad4362479c75dd888e8092d"
+    },
+    {
+      "path": "character-generation-research/export_h3_comparison_ui.py",
+      "bytes": 4692,
+      "sha256": "6e0ddd9e00ccdd7e0e9b15ecc8f90d9f8da5bc7ccb72b6f82e2cc0172841a877"
+    },
+    {
+      "path": "character-generation-research/fetch_h3_community.py",
+      "bytes": 2266,
+      "sha256": "53fda3688903efc9d317b4c2653ba540c2146614fd48e8e28d0941f527cb68aa"
+    },
+    {
+      "path": "character-generation-research/inspect_official_debugger.py",
+      "bytes": 3263,
+      "sha256": "64ba967b110cad9b4168ec6437b63757398a9d4db9c0d1c45bacc7eb6d315d2e"
+    },
+    {
+      "path": "character-generation-research/open_h3_comparison.py",
+      "bytes": 1094,
+      "sha256": "c7f95583a4ae87ffd0c365c0dd0b33c857750394818c9cab50889f0ccdc40ef5"
+    },
+    {
+      "path": "character-generation-research/qa_h3_comparison.py",
+      "bytes": 1275,
+      "sha256": "19c03bc87aeddae3231c033c854c00f920fc9f22a265f73d7253a773d5be4d5a"
+    },
+    {
+      "path": "character-generation-research/resume_h3_comparison.py",
+      "bytes": 1867,
+      "sha256": "f653cc9acde6c156fec711d201456609b8620ffcbfbaa6ef5d8b7979d36cb49a"
+    },
+    {
+      "path": "character-generation-research/review_roster_resume.py",
+      "bytes": 1081,
+      "sha256": "d73109ccdd3c823ffb32934edf6337f986b6b3e9fa23a32ac7decac99d46d19b"
+    },
+    {
+      "path": "character-generation-research/run_h3_comparison.py",
+      "bytes": 6048,
+      "sha256": "a36f67e7515d9d6e3f0adba565a268f44c2e4c51772caf2773ea2f4547367c36"
+    },
+    {
+      "path": "character-generation-research/start_h3_comparison.py",
+      "bytes": 1894,
+      "sha256": "968a742233a6456e012a242f6f074ceeaf458ad5876287bbd623ebad2d3a9e4a"
+    },
+    {
+      "path": "character-generation-research/validate_h3_comparison.py",
+      "bytes": 1445,
+      "sha256": "c2d894834d451d045078537655d48f3342c617c00830d17fc1f17d4d15f7b651"
+    },
+    {
+      "path": "character-generation-research/validate_h3_complete_offline.py",
+      "bytes": 1953,
+      "sha256": "f0faabd05c80188a9aaf469340445a2680164e0a4ec3702cf5572d7a315933dd"
+    },
+    {
+      "path": "character-generation-research/guofeng-drama/01_三镜头30秒_演出预览.api.json",
+      "bytes": 13569,
+      "sha256": "780e82a7b3b06c7682bf0fc6049ec4e48b8bd459aa0b4259d1cdb86d55034b92"
+    },
+    {
+      "path": "character-generation-research/guofeng-drama/01_三镜头30秒_演出预览.json",
+      "bytes": 57880,
+      "sha256": "8e5f2e4c06c5dd9e542e9475d87d4315e12719095b47e685e37d9cbc927c9ab0"
+    },
+    {
+      "path": "character-generation-research/guofeng-drama/02_三镜头30秒_精细生成.api.json",
+      "bytes": 13317,
+      "sha256": "195ec0446c798ede08028e38a1b3ffb96aec449af5140718317318ba7aed5f46"
+    },
+    {
+      "path": "character-generation-research/guofeng-drama/02_三镜头30秒_精细生成.json",
+      "bytes": 56807,
+      "sha256": "d225ae9122bb6708639e25d3a40c1eae7b777c6cd62ab55adbed76d14e48c144"
+    },
+    {
+      "path": "character-generation-research/guofeng-drama/preview-full.job.json",
+      "bytes": 85,
+      "sha256": "2f69c2232e501864073adf3657a38aa0cf04f65f180774433fd728151028e0cf"
+    },
+    {
+      "path": "character-generation-research/guofeng-drama/preview-validation.json",
+      "bytes": 1909,
+      "sha256": "cf4a97d082ad857c099e379687123287101963d1e8184813eeb6c909451ff1d7"
+    },
+    {
+      "path": "character-generation-research/guofeng-drama/preview.history.json",
+      "bytes": 19910,
+      "sha256": "4a165242d9fab38fb177a3fff08514dc5e42b9084f236f4127275e7717bbcc29"
+    },
+    {
+      "path": "character-generation-research/guofeng-drama/preview.job.json",
+      "bytes": 312,
+      "sha256": "d1495242bde668d8a213743b8d8f7b8a88ffb64e10c6334470dd0781915afef8"
+    },
+    {
+      "path": "character-generation-research/guofeng-drama/quality-before-restart.job.json",
+      "bytes": 85,
+      "sha256": "0e27046a9e1bc02b7cd7bc8967189e509c175c6d80e0ad3847f2aba17e24d2db"
+    },
+    {
+      "path": "character-generation-research/guofeng-drama/quality.job.json",
+      "bytes": 85,
+      "sha256": "9184efd2172a26b97474fab692702cee39929f0f332ccb932b815044235bd6fd"
+    },
+    {
+      "path": "character-generation-research/guofeng-drama/verify_preview.py",
+      "bytes": 1902,
+      "sha256": "c075caf5194a5d35a4065d4342a57f1bb12e45411272982198ee2ea944c11c63"
+    },
+    {
+      "path": "character-generation-research/guofeng-drama/使用说明.txt",
+      "bytes": 3114,
+      "sha256": "9b2953c9866532101827d47b00d5b4a90309116f54f96b430ef513f6e46d81a6"
+    },
+    {
+      "path": "character-generation-research/guofeng-opening/01_一张图生成古风开场_快速预览.api.history.json",
+      "bytes": 7208,
+      "sha256": "ee7554b74bc60967a0955760b3a5e20c82cdb9e3b8709bff54281e33e5955f64"
+    },
+    {
+      "path": "character-generation-research/guofeng-opening/01_一张图生成古风开场_快速预览.api.job.json",
+      "bytes": 97,
+      "sha256": "39be604043812a713fd3d70c98a2e2ec078d51b693784244918a82aa1f4c913b"
+    },
+    {
+      "path": "character-generation-research/guofeng-opening/01_一张图生成古风开场_快速预览.api.json",
+      "bytes": 4765,
+      "sha256": "92e433dcd3467096520f0ac7ed6d0213f2f882616062dfc4ddb8dca9c8e8dee2"
+    },
+    {
+      "path": "character-generation-research/guofeng-opening/01_一张图生成古风开场_快速预览.json",
+      "bytes": 21526,
+      "sha256": "24943b3a7f77f01c0a7e2e55fa48884efc4d808cfa23d5d09208e6806880b63c"
+    },
+    {
+      "path": "character-generation-research/guofeng-opening/02_一张图生成古风开场_精细成片.api.history.json",
+      "bytes": 6919,
+      "sha256": "08bc84ef08066068ec5e698699e39272f8a0486ed7e61b16e6ebe1be9a7038e1"
+    },
+    {
+      "path": "character-generation-research/guofeng-opening/02_一张图生成古风开场_精细成片.api.job.json",
+      "bytes": 97,
+      "sha256": "12887375eedc72ecdbf04e2219db848088552c4ae740423617cad826fe863c08"
+    },
+    {
+      "path": "character-generation-research/guofeng-opening/02_一张图生成古风开场_精细成片.api.json",
+      "bytes": 4520,
+      "sha256": "e99b2399510d0048fbe721a707fb52233eba1b6ea276cabcd3c440485a1e3df3"
+    },
+    {
+      "path": "character-generation-research/guofeng-opening/02_一张图生成古风开场_精细成片.json",
+      "bytes": 20474,
+      "sha256": "276cef63c8924247ca349e5fc7ff7649c98251350d5f11bbf22119ad8f9378c1"
+    },
+    {
+      "path": "character-generation-research/guofeng-opening/download-endpoint.json",
+      "bytes": 1173,
+      "sha256": "fae88293d6d7c1144aeeb6f111aeda1c8377b2230bd6d73a9498a5d009d75976"
+    },
+    {
+      "path": "character-generation-research/guofeng-opening/verify_openings.py",
+      "bytes": 2739,
+      "sha256": "a46ca9870861ebec6889a2f4eab9f73833101afe0f71ac187be2bbc58a9985d1"
+    },
+    {
+      "path": "character-generation-research/guofeng-opening/使用说明.txt",
+      "bytes": 3549,
+      "sha256": "392a556f024a74b2146cba143c8c674174206b326260a20703062e19afc710cd"
+    },
+    {
+      "path": "character-generation-research/guofeng-video-workflows/01_古风参考图生成.api.json",
+      "bytes": 3444,
+      "sha256": "01c072d23c619947496219b8337f3fa2f0bb1a5d792a9246fe3f553d8286f459"
+    },
+    {
+      "path": "character-generation-research/guofeng-video-workflows/01_古风参考图生成.api.json.history.json",
+      "bytes": 5558,
+      "sha256": "61a95920202e392848bc16d6144d3ea82a42a19395668a59385e5fd87e36d918"
+    },
+    {
+      "path": "character-generation-research/guofeng-video-workflows/01_古风参考图生成.json",
+      "bytes": 16000,
+      "sha256": "f1c3bf44ef207887eb8281454e5a67eca5ac8caef2c35425f5ec6296dc61b498"
+    },
+    {
+      "path": "character-generation-research/guofeng-video-workflows/02_视频动作参考转古风.api.json",
+      "bytes": 4390,
+      "sha256": "d469c65efe779ff2a2df5885177730858a4261c5420bfe7d042737111c60a642"
+    },
+    {
+      "path": "character-generation-research/guofeng-video-workflows/02_视频动作参考转古风.api.json.history.json",
+      "bytes": 7537,
+      "sha256": "711d3238d1abf4c14981b909c88eba91509ab9388f8f08e1637ec07a68a490cd"
+    },
+    {
+      "path": "character-generation-research/guofeng-video-workflows/02_视频动作参考转古风.json",
+      "bytes": 21331,
+      "sha256": "0dad2e7ff438458876186ac278eeb474c1750f00ebfafa70ed3330bdfc1e76c3"
+    },
+    {
+      "path": "character-generation-research/guofeng-video-workflows/03-denoise060.history.json",
+      "bytes": 7212,
+      "sha256": "8fc3ce49907992a1153c302a6a8a10656ea623fd76b807c9db5b62d9914d23b4"
+    },
+    {
+      "path": "character-generation-research/guofeng-video-workflows/03_视频潜空间重绘.api.json",
+      "bytes": 4272,
+      "sha256": "2d3aa796b6bd51e8e52fa15c86899e994c30e6cc4f0dd71f987b6fffef0a73ea"
+    },
+    {
+      "path": "character-generation-research/guofeng-video-workflows/03_视频潜空间重绘.api.json.history.json",
+      "bytes": 7410,
+      "sha256": "20605b09175f78e903a06144bdd3cc16ebf65575e3e764f3d1f1b40fded64e72"
+    },
+    {
+      "path": "character-generation-research/guofeng-video-workflows/03_视频潜空间重绘.json",
+      "bytes": 21856,
+      "sha256": "797f28817131de322b60ceba0f78a69ddf4584036963f43fcc00fdb2c7074315"
+    },
+    {
+      "path": "character-generation-research/guofeng-video-workflows/initial-verification-jobs.json",
+      "bytes": 492,
+      "sha256": "31e07ba121071bd03bd51bc00318523b729ce27a4b5122c061a4a0a43d2b353b"
+    },
+    {
+      "path": "character-generation-research/guofeng-video-workflows/prepare-video.cmd",
+      "bytes": 56,
+      "sha256": "e87ad80884431d266f39bc2970d83c0d9809eda1fc494a0341d003cd7e7302ef"
+    },
+    {
+      "path": "character-generation-research/guofeng-video-workflows/prepare_video.py",
+      "bytes": 884,
+      "sha256": "46d818f97d1291ca733498636865a5c47d75fa9016a5b6b1d810974915624133"
+    },
+    {
+      "path": "character-generation-research/guofeng-video-workflows/verification-jobs.json",
+      "bytes": 163,
+      "sha256": "ef8363f22a0a24d678691f86598e4fed3b8a6ac033a02296c6c6520cf453a871"
+    },
+    {
+      "path": "character-generation-research/guofeng-video-workflows/verify_local.py",
+      "bytes": 2007,
+      "sha256": "d05c6b131a777fa94632e77cf8bb0e0785c5998e11623cd1e2b5b23964eb8974"
+    },
+    {
+      "path": "character-generation-research/guofeng-video-workflows/使用说明.txt",
+      "bytes": 5231,
+      "sha256": "8d2ff12337eeef5dbe76634cd442defbac6623d071e8e24536798e35fa6fb560"
+    },
+    {
+      "path": "character-generation-research/h3-community-workflows/compatibility.json",
+      "bytes": 2977,
+      "sha256": "280674bc5fcf6c0cc99979de1d0e9dfe7297c709019cece3619ac0d8c3d739a6"
+    },
+    {
+      "path": "character-generation-research/h3-community-workflows/provenance.json",
+      "bytes": 3962,
+      "sha256": "4e953e4dd7fc3372c1803f5c2d34da98bbaa36e3aa2e14bd7186f6039958791b"
+    },
+    {
+      "path": "character-generation-research/h3-community-workflows/simply-advanced-metadata.json",
+      "bytes": 26300,
+      "sha256": "ab5c1c794422618db9c46e1ae9b02f33ae8e983987faa514bb6bcf7cac40cf01"
+    },
+    {
+      "path": "character-generation-research/h3-community-workflows/筛选结果与本地状态.txt",
+      "bytes": 3610,
+      "sha256": "21072a722f12a541f46eb1d20fb74a2edd578632595efbc623628fa4077942a5"
+    },
+    {
+      "path": "character-generation-research/h3-community-workflows/MBEDIT/MBEDIT - MH3-r2v_2Pass-LatentUpscaler_v5.json",
+      "bytes": 101857,
+      "sha256": "806d85fe05082e0a1e55bee1581ede253d626ea025aa001bf5cc4edce418098f"
+    },
+    {
+      "path": "character-generation-research/h3-community-workflows/MBEDIT/MBEDIT - MH3-rv2v_PixelSpace-Upscaler-CtxtWndws_v3.json",
+      "bytes": 89565,
+      "sha256": "a772b1373f76cd2c84acfe03f694b4c118abffaa160efa6f089aeb3577c2fbb9"
+    },
+    {
+      "path": "character-generation-research/h3-community-workflows/MBEDIT/MBEDIT - MH3_rv2v_PixelSpace_Upscaler_v18.json",
+      "bytes": 90337,
+      "sha256": "135e82e0a18ba57c8dd56b8e639c256557e633d92cd2ac41991d5e709ba627f1"
+    },
+    {
+      "path": "character-generation-research/h3-community-workflows/MBEDIT/ReadMe.md",
+      "bytes": 19697,
+      "sha256": "b1de2ba2b6d078699c2e1058b04fa44f19799cda9dd3baa7c4ce8cc0d0c3db10"
+    },
+    {
+      "path": "character-generation-research/h3-community-workflows/Seamless-Chain/INSTALL.md",
+      "bytes": 12548,
+      "sha256": "d11b9535854a43d7c3747ecf409c52ccda8e3f02ba6caca1a3b04bd3f5345e9b"
+    },
+    {
+      "path": "character-generation-research/h3-community-workflows/Seamless-Chain/PROMPTING.md",
+      "bytes": 6169,
+      "sha256": "cc28c9bd66e05cec1b3b7f5d2a4e2005ca23bb4db5af95dee6d28a6893828f4f"
+    },
+    {
+      "path": "character-generation-research/h3-community-workflows/Seamless-Chain/README.md",
+      "bytes": 82531,
+      "sha256": "268d60a2e710dbf0874d44193be4d972ca927b6bb7fd6dfab78946a37dd0ac10"
+    },
+    {
+      "path": "character-generation-research/h3-community-workflows/Seamless-Chain/SETTINGS.md",
+      "bytes": 34752,
+      "sha256": "a72ab64f5cfec203abf8b3b8dc9410d023cba52ada075c2a6277a8a19f2b1cd8"
+    },
+    {
+      "path": "character-generation-research/h3-community-workflows/Seamless-Chain/workflows/H3_Keyframes.json",
+      "bytes": 31876,
+      "sha256": "639a14b73f6f28c38888c91ef83310077e9a6bdaf63e394cdb6f0a9dcaceda2c"
+    },
+    {
+      "path": "character-generation-research/h3-community-workflows/Seamless-Chain/workflows/H3_Seamless_Chain_CORE.json",
+      "bytes": 25721,
+      "sha256": "23c166d0e5d47e7e5c09d7aa4d86b619d9ccc64f28082cace263d1768940c075"
+    },
+    {
+      "path": "character-generation-research/h3-community-workflows/Seamless-Chain/workflows/H3_Seamless_Chain_v2.json",
+      "bytes": 85999,
+      "sha256": "57db69c325b8b6802aca0c8ec5b27bdd0230a1ea0df5312a255ec6e4a6400a4d"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/01_MBEDIT_Latent_shot1.api.json",
+      "bytes": 6946,
+      "sha256": "ab3755e8c6c0a12f40383772d182a00f882f9b970399ac032c6cf605c5aa4c86"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/01_MBEDIT_Latent_shot1.done.json",
+      "bytes": 309,
+      "sha256": "e8444b92dd0c87a237969b1da156b05f6022f2afc8179f4e0a23b923de11221b"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/01_MBEDIT_Latent_shot1.encoding-failed.job.json",
+      "bytes": 97,
+      "sha256": "5eb2033cf055cb9012619f07f3573e820733aad2adc843d8757b323ddb15fca9"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/01_MBEDIT_Latent_shot1.guide-shape-failed.job.json",
+      "bytes": 97,
+      "sha256": "98b526ec20013bcabb3413842ec91464d887b489cbaf1a4456737957f28cf17c"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/01_MBEDIT_Latent_shot1.history.json",
+      "bytes": 10117,
+      "sha256": "acea0939cdc1bfe69712224d6e5758772bf5cc9fd4fc32b935ac315031544f9d"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/01_MBEDIT_Latent_shot1.job.json",
+      "bytes": 97,
+      "sha256": "f01d9a136190f57e80467e18df5e11a28f281bf6669fc4b55eea7e943fd32bd1"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/01_MBEDIT_Latent_shot1.json",
+      "bytes": 28650,
+      "sha256": "352adfc961c3d93b9fb7fb549bca143ddaf63828930450febcd49bf0c4424ba0"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/01_MBEDIT_Latent_shot2.api.json",
+      "bytes": 7310,
+      "sha256": "8d68944a0fa3ad464c1b234c9198e7015d3bc38f47e8e5dee6e2469246ee2f5b"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/01_MBEDIT_Latent_shot2.done.json",
+      "bytes": 308,
+      "sha256": "83bdc601dbdd422aceada1d580e97cdbe352fd3ec075214a99e79595818c6de5"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/01_MBEDIT_Latent_shot2.export-crashed.job.json",
+      "bytes": 97,
+      "sha256": "c92eb30d3e2a054b7063d47129d8560a653ad52b97de5099665e8e02c5c59e35"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/01_MBEDIT_Latent_shot2.history.json",
+      "bytes": 10383,
+      "sha256": "ff67df333af9a7263894012b54007587e4345dcc4267211b3352f0baad92aa9c"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/01_MBEDIT_Latent_shot2.job.json",
+      "bytes": 97,
+      "sha256": "10e9776904f2ebf09a076b5ca5654bbfe7edd276db9070fcecc9030e3756f600"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/01_MBEDIT_Latent_shot2.json",
+      "bytes": 29436,
+      "sha256": "56776a513a2ea4549ce068bf3785697c2ce34bd9bcb7e472911fe0bb19a38f41"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/01_MBEDIT_Latent_shot3.api.json",
+      "bytes": 7405,
+      "sha256": "fe8bc6d0f4f41797663fa210a26c454ec759badd9fa507b9721d24d0b47209ca"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/01_MBEDIT_Latent_shot3.done.json",
+      "bytes": 308,
+      "sha256": "468e52c4f79c051badbeea98b4f4942bcc7bbe9f672897c9c92ffdd89e7f3805"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/01_MBEDIT_Latent_shot3.history.json",
+      "bytes": 10672,
+      "sha256": "191999bffa4b401f416f80cf6cc87cc7981c8a992de4f6eabb34336620c0703a"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/01_MBEDIT_Latent_shot3.job.json",
+      "bytes": 97,
+      "sha256": "d1a1f53ef6924c93e2e4856bab27fde74e47b1d48efba45a33d23a1591206419"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/01_MBEDIT_Latent_shot3.json",
+      "bytes": 29626,
+      "sha256": "1d740f3dca3cb708a4131d0a352d43b4d24ca8552a4e8f97e0620a57a0958d20"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/01_MBEDIT_单图10秒_精简版.json",
+      "bytes": 39332,
+      "sha256": "44e864a13bf7c1704f4c3e843e957c425ecb1a3624bcc2fe11e83bb8606af37c"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/02_Post_shot1.api.json",
+      "bytes": 7715,
+      "sha256": "a5639a11f7932d34708ed801dad4b451a4d16ed535b7801ebc26a48c1f2a3467"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/02_Post_shot1.done.json",
+      "bytes": 310,
+      "sha256": "e679dfd82670885a066a3ecafdd6a9069ad6878ca1bbd0a600fa82dc3f36968f"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/02_Post_shot1.history.json",
+      "bytes": 11402,
+      "sha256": "184517ed5a55009d18a6b549255a9adabed94557abf7c048e7efe4c2d9f2b848"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/02_Post_shot1.job.json",
+      "bytes": 97,
+      "sha256": "34f060d7c3a8a6236ef8cc1577431f3c29b8a8ad10a5db09cb803cc7e32718d2"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/02_Post_shot1.json",
+      "bytes": 30596,
+      "sha256": "7a0182fcb21b0a1f4603f707173946584ddf01dbb8b5250ff0d1a6185aadceaf"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/02_Post_shot2.api.json",
+      "bytes": 7805,
+      "sha256": "99c82ea8bb0158be278cf6da7019f58803ff29a74d1f6926a0faaac0c0ada3a1"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/02_Post_shot2.done.json",
+      "bytes": 310,
+      "sha256": "8b234143fa03653fb45f376aec008ebcd52d2d4497cd6f1ae0c570f6fcd6d830"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/02_Post_shot2.history.json",
+      "bytes": 11763,
+      "sha256": "74b68e665b11c49a8b3a062c97528019ca9f949f6c330c45307b48828be44f1e"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/02_Post_shot2.job.json",
+      "bytes": 97,
+      "sha256": "39b1ab93ef85eca3f33b9e2e5e1782c170ddd1dcf825b8dfd3193c49154625a3"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/02_Post_shot2.json",
+      "bytes": 30776,
+      "sha256": "21239438edf97bc00f79a6b3d0efb27f3397f8871c7313762826a4a8573276e4"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/02_Post_shot3.api.json",
+      "bytes": 7954,
+      "sha256": "64ff32983ebac85e3d5c9bf3c948d069738565004bac9fa869b0b45113c784f6"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/02_Post_shot3.done.json",
+      "bytes": 310,
+      "sha256": "f0694c32c999eab6dcfcaaaf558917d527e5617c509aa76968038ab2e9d241f6"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/02_Post_shot3.history.json",
+      "bytes": 11912,
+      "sha256": "0eb99677939f3b21db5b18fe7614f66bd260cd32ebfe2f57d20ebae2149f5c43"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/02_Post_shot3.job.json",
+      "bytes": 97,
+      "sha256": "d5ffaead3da3c3d2145ade1ca268225fd3adcdd8c3fe9ae7277d8241dc88ff72"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/02_Post_shot3.json",
+      "bytes": 31074,
+      "sha256": "d588cde34e4ee55c2a806990a49b7f7583312dc54d1e7ba9b01a21de5231bc98"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/03_Post_shot1.api.json",
+      "bytes": 6644,
+      "sha256": "4bd5449e51a540688697e3e857739ca20f6d7b5f225ccd38ffe47ba60ca6ef01"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/03_Post_shot1.done.json",
+      "bytes": 307,
+      "sha256": "c30dfacafbb7ca5b5fe65fa5104a877856e64818c4ef4b6a77cbb2575e98dbc8"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/03_Post_shot1.history.json",
+      "bytes": 10249,
+      "sha256": "c486417c582fb25014b00fa619c2b780f4bda860650760224a818d86a288832e"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/03_Post_shot1.job.json",
+      "bytes": 97,
+      "sha256": "75e434c80f10590309775e7c1e3e32427be89e602eac76595dad51bdaba7b389"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/03_Post_shot1.json",
+      "bytes": 26626,
+      "sha256": "d1bc9ce56bde7b0cfd1d5369d11f11205742defd22bce458d1ce0a6bd0d18f16"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/03_Post_shot2.api.json",
+      "bytes": 6734,
+      "sha256": "3a5586342da300d27db59d1689fc583220d2ecc5e64426908bd5eccadda0a809"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/03_Post_shot2.done.json",
+      "bytes": 307,
+      "sha256": "07ed56b970689332d8f4721c35abec469ccdcaeadade2e3edfad794d429f65d2"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/03_Post_shot2.history.json",
+      "bytes": 10459,
+      "sha256": "74031648b0cdbe07a2da3ad94e413219b3232c981933d4713ba1cdfec8610e05"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/03_Post_shot2.job.json",
+      "bytes": 97,
+      "sha256": "8a28fe5f98d1102a65bca6e8be52fa1e16bd61ad8bb0ca0b96ffa5ffb3f28c48"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/03_Post_shot2.json",
+      "bytes": 26806,
+      "sha256": "585d240a3c4d4c8f68d6a9cfea53855cc12250cd9f8ad5cb036312bfd3deef64"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/03_Post_shot3.api.json",
+      "bytes": 6883,
+      "sha256": "fdd5c669bfae3bb6541d1701c73263a27a4e00037e533b5bfde1f67fc31e65a3"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/03_Post_shot3.done.json",
+      "bytes": 307,
+      "sha256": "cedc66c563f6eb485c0fb35ff4fcce6b5ff118bb0b4c699cac3cc2510ada39bf"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/03_Post_shot3.history.json",
+      "bytes": 10608,
+      "sha256": "51e508d6e89223fb9e3349d8f93a60e1adb390a6175e80d74016d07f203797e4"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/03_Post_shot3.job.json",
+      "bytes": 97,
+      "sha256": "1ca3215464348942c3163fff6eaf95dcc845ab0c6b8ad9cf5e7c919129dcbcf3"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/03_Post_shot3.json",
+      "bytes": 27104,
+      "sha256": "0a925efd7580e9f7cc9a65b7d48de0e8964025f21934e035b0f7d7bf94b9f7fe"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/04_Keyframes_shot1.api.json",
+      "bytes": 4442,
+      "sha256": "38d88f87d5303de10ae8a9c707f9f5049889bed794d0fb85776b3dd313b9c788"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/04_Keyframes_shot1.done.json",
+      "bytes": 304,
+      "sha256": "b5f9d979df061c2cde0182148ad85390644544b3eb5bded6f45377a6fab44a0f"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/04_Keyframes_shot1.history.json",
+      "bytes": 6914,
+      "sha256": "46abc0fae53ab62fc6daadeab4b137af8c99023cb6dd3d6774c4283f94868508"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/04_Keyframes_shot1.job.json",
+      "bytes": 97,
+      "sha256": "f944c66a79806404b9b7f0871ce328a3be013ebabe98eea61dc189f3735fa6bf"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/04_Keyframes_shot1.json",
+      "bytes": 17189,
+      "sha256": "aff591eca0d480633b33c07e1ac247a15178ee1014d9836c5a64ae04b8c26dfc"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/04_Keyframes_shot2.api.json",
+      "bytes": 4563,
+      "sha256": "13f3b5c91a45b8610ffdf60b8b753c56640678389464df7b7fc109b1226cab6e"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/04_Keyframes_shot2.job.json",
+      "bytes": 97,
+      "sha256": "d920c65bb34640e8fd5e95b5e9af76f52c50891b89edd7abfb97534100d6a842"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/04_Keyframes_shot2.json",
+      "bytes": 17431,
+      "sha256": "8b44db6ecb789769b73f8f72eb8a4df35fe921bf60098a5aa209a30bda21e8fd"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/05_Chain.api.json",
+      "bytes": 6168,
+      "sha256": "695a8285e2b591dacce78fd1c49032a0950d22e5b53435b91952472cddc24f22"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/05_Chain.json",
+      "bytes": 16984,
+      "sha256": "ae6886759f85d9424c3943a72218b3b346bd0416b9d66632457406f6a790d79c"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/06_Chain.api.json",
+      "bytes": 6953,
+      "sha256": "94b0dc6550c85d37d281bc930ac4324c6e27ca12898afe62dcf31b98caf67ab0"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/06_Chain.json",
+      "bytes": 18918,
+      "sha256": "4f733199498abe8bf84241a8fcb4e7558ee54db1bdbd93eab713fdbebd459ca5"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/adaptations.json",
+      "bytes": 676,
+      "sha256": "b11fc2ff76f3764363af7c4521a1a221eb8cacc025c8165076e05e2806baec98"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/comparison-script.json",
+      "bytes": 4035,
+      "sha256": "d3c3710587d7e13cc02d21b94afeb0551f50cca1132becf2f3901b030023a7b8"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/complete-validation.json",
+      "bytes": 880,
+      "sha256": "df2e70636aea32d283fd27cbeb5df12d0ebd788769f5b44d0de17c947e22ba6d"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/cuda13-ready.json",
+      "bytes": 2514,
+      "sha256": "87f1f051452ce1df97abfa56343487075c0603b73cc9e98fda0a459c0953691e"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/generation-state.json",
+      "bytes": 464,
+      "sha256": "4a1666e5580c9a9ec95b89eff09752a288adbca9311328837cd35b50f20ab916"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/h3_multishot_utils.upstream.py",
+      "bytes": 382144,
+      "sha256": "4a6c6155ab7a0855951bf82e8cca41b46f5c3f7c2b9ce4b04a130dc9f2ad9d1a"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/image-provenance.json",
+      "bytes": 238,
+      "sha256": "0b87312155732634cdc68207c58057a0a02bf5cb49d1dde1d2d7ae4cdfae30fd"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/latent-upscaler-model.json",
+      "bytes": 324,
+      "sha256": "cd327b39661154d40210378df4008be1f8ecf5ae1c606c73583ca03a9b35fb31"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/lightx2v-model.json",
+      "bytes": 368,
+      "sha256": "7ee01e83be5d7c499afce35bb8a0483c5c7ed26f0ebab68f0bee7065012ce7b5"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/models.yaml",
+      "bytes": 333,
+      "sha256": "304329816e44469528d86aa3efdfa0f3baf65cbd260a5abff5d1f4d19cdeda35"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/node-schema.json",
+      "bytes": 2432239,
+      "sha256": "1c1290e8f1513093549632fb805e89abe90a47a482139e723e8378a8bb509353"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/render-hold.json",
+      "bytes": 464,
+      "sha256": "4a1666e5580c9a9ec95b89eff09752a288adbca9311328837cd35b50f20ab916"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/restart-system-events.json",
+      "bytes": 8119,
+      "sha256": "6f85072b96e5e8119360a120934c7084a54e47f164ecd420266ade68bbc6e61a"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/validation-results.json",
+      "bytes": 633,
+      "sha256": "cfd92d2abcf792ab5aca97fbbc65bcc076b12ff562729d04db4abdbe8319ff34"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/对比播放.html",
+      "bytes": 5344,
+      "sha256": "685beeabe311228f4223cc8a7f0b951bbc4001977b1a7d544275626d911c97a7"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/对比说明.md",
+      "bytes": 5561,
+      "sha256": "640c38c3a71bc44f25068f4550aa462df8fbb2ccacd6712a8e8f106ae6f94ad4"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/打开ComfyUI六套工作流.cmd",
+      "bytes": 193,
+      "sha256": "3e6878c2e7b3815ca08158c26ff4da40597f5386eb8267f5832681e988129801"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/继续生成剩余对比.cmd",
+      "bytes": 182,
+      "sha256": "ccd184bf53353c6234d8f752e72672c7bebf9b6b255a42ac57b1080ea7356415"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/首帧提示词.txt",
+      "bytes": 2111,
+      "sha256": "599bbd3e2477a2c8a42ce317d698e6a2738ef5cd206ddb3eeed34f571304965c"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/backups/01_before_single_shot_20261012.json",
+      "bytes": 107811,
+      "sha256": "19bfbecbd97bb0add476a654d6dc8eeacbadb5b4d8fc3f73b468ec1e9e3e3951"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/complete-workflows/01_MBEDIT_双阶段_三镜头30秒.api.json",
+      "bytes": 19019,
+      "sha256": "470fbdc8c2111d8df0d99a54a05d440f53b2e32888af3679964133533fc78b1c"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/complete-workflows/01_MBEDIT_双阶段_三镜头30秒.json",
+      "bytes": 74197,
+      "sha256": "7bf4eeb98581a081b5f6cbcd3e04c4b742b47b242befe40e9280620d6cd369ab"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/complete-workflows/02_MBEDIT_分窗重绘_三镜头30秒.api.json",
+      "bytes": 19388,
+      "sha256": "5c74adca5ad084a69dfee16cd7855f00e2552b0983fb965d1a6ee90d7f7c2b37"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/complete-workflows/02_MBEDIT_分窗重绘_三镜头30秒.json",
+      "bytes": 74930,
+      "sha256": "d88805e74293df86692724151704eed1ee28a96797d22d8e2d38e7e883035904"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/complete-workflows/03_MBEDIT_整段重绘_三镜头30秒.api.json",
+      "bytes": 16493,
+      "sha256": "0b89e9ce29773bcb546928fc335889776bba065cf71026c4977c1e8043ae2868"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/complete-workflows/03_MBEDIT_整段重绘_三镜头30秒.json",
+      "bytes": 63456,
+      "sha256": "38f80099de4d6925a0bb57610c608df71805810d2f895f592e5cd8617093c54b"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/complete-workflows/04_H3原生关键帧_三镜头30秒.api.json",
+      "bytes": 12254,
+      "sha256": "f5cfce10c4d6bb6a05b7270b6cecbeb485f3926bfbefad0b493f24e26b4bbc8b"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/complete-workflows/04_H3原生关键帧_三镜头30秒.json",
+      "bytes": 45289,
+      "sha256": "5cf482827e7fc745a19a45da2f2c9aac391330182c406189fd1e5d98cbc5ae25"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/complete-workflows/05_Seamless_CORE_三镜头30秒.api.json",
+      "bytes": 6168,
+      "sha256": "695a8285e2b591dacce78fd1c49032a0950d22e5b53435b91952472cddc24f22"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/complete-workflows/05_Seamless_CORE_三镜头30秒.json",
+      "bytes": 16985,
+      "sha256": "c91f851d9d299bdeaab892e136d7a3f4360f59aa0b4b86ffa2326e7159c2cf39"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/complete-workflows/06_Seamless_ContextPin_三镜头30秒.api.json",
+      "bytes": 6953,
+      "sha256": "94b0dc6550c85d37d281bc930ac4324c6e27ca12898afe62dcf31b98caf67ab0"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/complete-workflows/06_Seamless_ContextPin_三镜头30秒.json",
+      "bytes": 18919,
+      "sha256": "0051ef45f71dbd8c3d0578ab1a8f884bf4b91c52d2559ee141207ad5f34e3429"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/final/01_concat.txt",
+      "bytes": 434,
+      "sha256": "98c0d661a8eb27af4ddaf9da74649a4177d009d08bcfd8e70bf921a1fe4b571a"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/final/01_validation.json",
+      "bytes": 139,
+      "sha256": "89b6e4ecdd170c44b5ea4094cc2c70171973568c1e041e605633620c1d1a8542"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/final/02_concat.txt",
+      "bytes": 436,
+      "sha256": "5922c37ff82b1c9c38d843353c5bb34abc8fc760c1a24cff946d7c56866bc1e8"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/final/02_validation.json",
+      "bytes": 140,
+      "sha256": "64f91d477d9790c4668df2d6f095120c076ef946c1a62174f646cdbddfa6dbda"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/final/03_concat.txt",
+      "bytes": 430,
+      "sha256": "821d95b729d08fe96fd41c1dc938b48179ef93fed0b075e219c3e96341ca36c8"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/final/03_validation.json",
+      "bytes": 139,
+      "sha256": "438f40f8c2dc34ff4bcad0bb3868c8eb629b836822827b39502a749fce52f6ff"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/qa/01_shot1/人工审片记录.md",
+      "bytes": 727,
+      "sha256": "d81057ccd97e1895fa9b523b2b82dcd4a2724f63da09af30b0c5e5bb5dd57996"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/qa/01_shot2/人工审片记录.md",
+      "bytes": 590,
+      "sha256": "9f7337991376acd3485982a3b224f8e43ad4b0d80150b8a3d9c704356f37b724"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/qa/01_shot3/观察记录.md",
+      "bytes": 345,
+      "sha256": "8c86113b3312bc43d1775bc389df2d58b80aaa5bda5632d8d486491ddb80e225"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/qa/02_shot1/观察记录.md",
+      "bytes": 354,
+      "sha256": "5b005046e9be764693264576903504d02c446e896ae7755b498fb2f99829f10b"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/qa/02_shot2/观察记录.md",
+      "bytes": 323,
+      "sha256": "545c5ac088efb5c3aaa5329ac7a5f4ed9608b78a24920ed0dae15b1886616d00"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/qa/02_shot3/观察记录.md",
+      "bytes": 327,
+      "sha256": "e2a947303d29f0f86a4a4577bbe9cf3b8f53c8e2b64dd145297e4757c9122828"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/qa/03_shot1/观察记录.md",
+      "bytes": 381,
+      "sha256": "711c093a1cd0ffdf9fe325b634206338312b23ad40898a84173f3ac84f7b70a8"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/qa/03_shot2/观察记录.md",
+      "bytes": 362,
+      "sha256": "5060b2b1f9261f3cca06b21bbc052ea8a10a0a9f782ec71b6522a304282e0d13"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/qa/03_shot3/观察记录.md",
+      "bytes": 342,
+      "sha256": "ce50c2aa8f5c01b8f819744ff2c0dfaa3062acb248743123b368f315203adc7f"
+    },
+    {
+      "path": "character-generation-research/h3-comparison/qa/04_shot1/观察记录.md",
+      "bytes": 396,
+      "sha256": "4f78a815f7bc850a1716b3240c5e905ff47099940ba02d1b0178fce27b08a70a"
+    },
+    {
+      "path": "character-generation-research/h3-runtime/current-node-schema.json",
+      "bytes": 1385607,
+      "sha256": "4d0f75909698df885e47a6c1529c4de1ff7e656346829007dfbc04db1221c5c9"
+    },
+    {
+      "path": "character-generation-research/pixelmaker/screenshots/.gdignore",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "created-games/moontide-bistro/.gitignore",
+      "bytes": 34,
+      "sha256": "af092ab2a5bdf8e49d13c0d6be41530932d819b67d14ea60d049a4136aa30388"
+    },
+    {
+      "path": "created-games/moontide-bistro/font.ttf",
+      "bytes": 10589448,
+      "sha256": "1bf7b678f68cc59a1b19179c6e95cf7b26f161ebca09da9ea2910916764a16b5"
+    },
+    {
+      "path": "created-games/moontide-bistro/font.ttf.import",
+      "bytes": 736,
+      "sha256": "1fd177f5c16c2fe5b14735c6ab46c18e659e9b406953775847acc232a2cf1d50"
+    },
+    {
+      "path": "created-games/moontide-bistro/game_assistant.gd",
+      "bytes": 5348,
+      "sha256": "fb58ffd52173971a218ab61b928673ee3a0c27634c08624c664818d9ea58da7a"
+    },
+    {
+      "path": "created-games/moontide-bistro/game_assistant.gd.uid",
+      "bytes": 20,
+      "sha256": "7a6963a20dd45b12022ee41d5cd256464a46a21664b0c59bc97396419b8736ef"
+    },
+    {
+      "path": "created-games/moontide-bistro/main.gd",
+      "bytes": 43377,
+      "sha256": "7dfb1106128bb7e3919ed43ceb63de21703f733732b45e6cb3017c2fb46a3245"
+    },
+    {
+      "path": "created-games/moontide-bistro/main.gd.uid",
+      "bytes": 20,
+      "sha256": "5ebf340b8e3e15f823f548418a0c0064a29a19c75e007f9af46116484420164c"
+    },
+    {
+      "path": "created-games/moontide-bistro/main.tscn",
+      "bytes": 161,
+      "sha256": "835af844455751389b1b0ab90c9cd524d9c2255eae7831834a96f97b75988c8d"
+    },
+    {
+      "path": "created-games/moontide-bistro/project.godot",
+      "bytes": 399,
+      "sha256": "18be42d01085d1d33d65ecccf670af1be03dbde63a1aeef484ac551298cc63db"
+    },
+    {
+      "path": "created-games/moontide-bistro/README.txt",
+      "bytes": 3114,
+      "sha256": "3db3937c931d3fe873eaa53b4e4c0b517c6e9882db668a8e675d13868b4145b2"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/.gdignore",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-production-index.json",
+      "bytes": 11445,
+      "sha256": "06c44cf8f5bb464ccb05452915021eb40b95607e7ed6e79c7dfa7a9aba64d3b8"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-walk-padded-selection.json",
+      "bytes": 3199,
+      "sha256": "549bda8fd5b4c52f9bb8cee0366a71dc6b06ef3b98d30b683aaf2cf80d1bed36"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-walk-selection.json",
+      "bytes": 2549,
+      "sha256": "33bac02968daeb09f3561e2d273511fb72f46439b4d00e849c7be9703855c1a8"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-chef/history.json",
+      "bytes": 5095,
+      "sha256": "2feb5cf15f164ddbc8aba0785aa10ca9cb7e7f9fb8b166684b759bfc5005d3fc"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-chef/job.json",
+      "bytes": 97,
+      "sha256": "67a658269caf782ba05cf363d877eba636134b495e112e31d155a83d0bffe55c"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-chef/output-index.json",
+      "bytes": 333,
+      "sha256": "339f9c9e20d73447b50cec03bc054a2f2cec61bb6a28d68f996b597a4cccced1"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-chef/submission.json",
+      "bytes": 155,
+      "sha256": "6c8c2d5c37c8b1ac58d23e1734bd35f11737a01265c613c332543e713963bcda"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-chef/workflow.json",
+      "bytes": 3067,
+      "sha256": "4c70c8f878234e9ea717ec5ad42c58638f00a8d7a12c250fa86c23e6c69e8453"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-food/history.json",
+      "bytes": 5384,
+      "sha256": "00372705029d6777f6e22f94964eca7c800c0be1512076944b311ebbccea92a9"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-food/job.json",
+      "bytes": 97,
+      "sha256": "84d733a59f23cceaa3eb1b430aabdf764b3bec13136d75b893b523c7d479f690"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-food/output-index.json",
+      "bytes": 333,
+      "sha256": "5667808f8420981e6510aecb8769dbaaa6436c2f661892b292eab1a5a50f79af"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-food/submission.json",
+      "bytes": 156,
+      "sha256": "ebf720ff44dd23de5ca61de39401c9eeec9fa7afde00fb87323ab5b1b34a9e1d"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-food/workflow.json",
+      "bytes": 3356,
+      "sha256": "9c42538ae949efa17186d6476723fc4508f0573c58fb4f0c0dbdc58a9a28c27a"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-food-clean/history.json",
+      "bytes": 5120,
+      "sha256": "df0899a9709969c697639b2308025cda63dcc7543ee996e8af69b3d152b66c1b"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-food-clean/job.json",
+      "bytes": 98,
+      "sha256": "3fb09485636910382bf28df71046808dbed6d20dd41dff89d03abfa060daa42f"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-food-clean/output-index.json",
+      "bytes": 333,
+      "sha256": "d99bb1f4cb21329f1a72ebd770296a89a732ca4da217d826250205432294747d"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-food-clean/submission.json",
+      "bytes": 156,
+      "sha256": "c1cea6cce4d9f32935b34c4afbd313956cbe94a7336baf9c4760761d1e33a766"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-food-clean/workflow.json",
+      "bytes": 3071,
+      "sha256": "0e2959b06a726d9a79bf5bd8a194a1b5f21922739e57bcf982020af14b5a49f1"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-guest/history.json",
+      "bytes": 5148,
+      "sha256": "be8e9b385d9f99f0ab8d7d3a1e8d02a791ebf663afb89186915f80c33e2b3a8d"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-guest/job.json",
+      "bytes": 97,
+      "sha256": "55ac4f31989d922620e5e3a4cc0ae1e844602788664df1222a24bbc6b2396d6f"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-guest/output-index.json",
+      "bytes": 333,
+      "sha256": "d33e355294f60d5fa9f612d74de7cf38ef3d826b6fda9cbd76999d0767e23cfe"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-guest/submission.json",
+      "bytes": 155,
+      "sha256": "33fbfce7990c1c6da135d4a677c06467dc6ae99a3457ff8860467e12ac3cea26"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-guest/workflow.json",
+      "bytes": 3120,
+      "sha256": "920fc59ca86ecac7ce106735e04ef06e8e4e39d9d0b70b974c701c427936ce03"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-guest-seated/history.json",
+      "bytes": 5287,
+      "sha256": "c33bef76154e4e5b16024ee7acd5bcc33a0f2e835a695e1a7ca661d10d1d43a7"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-guest-seated/job.json",
+      "bytes": 98,
+      "sha256": "fe912a3f66e358e654bb95692b3ab2f4d295b2d2af49e3e38212e04b80f68679"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-guest-seated/output-index.json",
+      "bytes": 333,
+      "sha256": "a9caa153cef8eb27216e6d96816396211b9ff5217f71f051ac9750795c22f07d"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-guest-seated/submission.json",
+      "bytes": 156,
+      "sha256": "a92b03d8f461c3f4a0aaa10901f067b1838f1a2b7fa7e54881903628a9ecff83"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-guest-seated/workflow.json",
+      "bytes": 3202,
+      "sha256": "9e18d7290f91a99894fe09625309e741fb08a211651b68b4ac8155d4f5975747"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-guest-woman/history.json",
+      "bytes": 5143,
+      "sha256": "b0e354970feb54e29e90745d9d2f626f5db82767712303e9997539e0aefdab08"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-guest-woman/job.json",
+      "bytes": 98,
+      "sha256": "ba22d790eb7495be289d8c61411c69d8d019283ddccd50d209a91c626d0a267e"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-guest-woman/output-index.json",
+      "bytes": 333,
+      "sha256": "9454eb6042f784f959f712d5b22e34b96cc0cfd9a02ce956af940c1bc075c809"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-guest-woman/submission.json",
+      "bytes": 156,
+      "sha256": "adc0790995f0e7e357353a3c579b1ce03e890c0a449190477af6dd7e5129e893"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-guest-woman/workflow.json",
+      "bytes": 3177,
+      "sha256": "3fd7e420cd93435e619d439f2f5966626adc52c7433e460440992b32ece8bf32"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-prompts/chef.txt",
+      "bytes": 818,
+      "sha256": "fbe19e623b313a4c4ce3f98c9af598cf4b1fd67c835b520488e4f3af4b9a5860"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-prompts/food-clean.txt",
+      "bytes": 568,
+      "sha256": "92d5f14ababce35196aa5021ce0ad3db1381dfd7c7b3d8d7a3b9f7e641e52019"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-prompts/food.txt",
+      "bytes": 1107,
+      "sha256": "2517a4438e54f36ffedb21785819af30a5e5574a22d2301eee104a5cb5b434b6"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-prompts/guest-seated.txt",
+      "bytes": 699,
+      "sha256": "b3ef30a3ac275440b55c9254d70557eca82811b3f11abf6c1bc888fa83646411"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-prompts/guest-woman.txt",
+      "bytes": 674,
+      "sha256": "21090b13622efa8d4720994953dbf7e1810e875358b3422f035739c7bd375ecc"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-prompts/guest.txt",
+      "bytes": 871,
+      "sha256": "fb30e45413e2375c9c629be99e97e55aa57c7f6724436801c9788e8a7239ac39"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-prompts/room-isometric.txt",
+      "bytes": 1221,
+      "sha256": "87091bd9b24a619ba02e172716a328347c35f67add4ce710a2f7dc6df73e7635"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-prompts/room-topdown.txt",
+      "bytes": 915,
+      "sha256": "691226bceca0855362fe1dd3bc7a1150956799c72f4539fb9d2f8cf1add1fd41"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-prompts/room.txt",
+      "bytes": 1397,
+      "sha256": "e85f391958f08b6fe9a9e953001bd573a3b9df8035ba490be11604ab399dcab0"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-prompts/server-clean.txt",
+      "bytes": 704,
+      "sha256": "fca1c202f5f1106a2593c6215d924d394d60afcd981a5d3d69a7cb64d13e5ddc"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-prompts/server.txt",
+      "bytes": 1029,
+      "sha256": "5e4452971752e2ee5bf435649598e6b7afe5bd8bcd50fa641441e6311a855678"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-prompts/table.txt",
+      "bytes": 900,
+      "sha256": "10cb5355a0520b9dc88b5ebb9875d903166def76ef03e25dee01b522c9dcf2b8"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-prompts/walk.txt",
+      "bytes": 726,
+      "sha256": "768a05efa764c1c090d1daffd9dc5de26ea34a2a45514be1b647801518156d41"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-prompts/woman-standing.txt",
+      "bytes": 490,
+      "sha256": "00546cfb1c9511b5eb7f5fed3b13654cdf8d3ab969ded2df1e49a4b22b8d82b7"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-room/history.json",
+      "bytes": 5546,
+      "sha256": "847a2edac0aa98f9584543af6eabb7d8628fcee3282d71be732c506829672178"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-room/job.json",
+      "bytes": 97,
+      "sha256": "7c1ba6ce0b4f3d5c1fd83b6ff05fc4d78a75b0db2dca5d371e298fe6f55cea5a"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-room/output-index.json",
+      "bytes": 333,
+      "sha256": "a93004273091140cf3ac1df3f338c892a1ddb27cbf422c697ae317b522361c24"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-room/submission.json",
+      "bytes": 155,
+      "sha256": "b2c30d246a0f35cb76eeeebb256b30e1f05eb0646343a31371ec6a4ec82b72f1"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-room/workflow.json",
+      "bytes": 3637,
+      "sha256": "2357d5e4b77dbae28ba7036260d00895256a3a34b1ab8246b2fc9c0090ec5aa6"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-room-isometric/history.json",
+      "bytes": 5453,
+      "sha256": "dca5db9186fb18697eb8bbc7bf8e4c31cae8dafba3d1a495478fb0b16f57c09e"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-room-isometric/job.json",
+      "bytes": 97,
+      "sha256": "ade9c390ecce4f124ffdd4f1e6a5e116c9baf0a4bd024d0a0e947466a2e751d7"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-room-isometric/output-index.json",
+      "bytes": 333,
+      "sha256": "5c1acbb972f67a0774d35930b53f893ec00d36ca4b4ceeb6471c7d0a18def001"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-room-isometric/submission.json",
+      "bytes": 156,
+      "sha256": "f2f5d74660f570e8ffae8da567e59c4fb3d8a5286c2053f6fc55ea4c51f59fd0"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-room-isometric/workflow.json",
+      "bytes": 3461,
+      "sha256": "4be2deb6f6f786bfad47b2cf30d7c975d6d95565da469862ee0f4ae4629d6b13"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-room-topdown/history.json",
+      "bytes": 5466,
+      "sha256": "32edf34d018b7fbd9899a481bdca2af555b674dd93be89de3f1aa69dedab96d7"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-room-topdown/job.json",
+      "bytes": 97,
+      "sha256": "d7841c8225a537a50c5bcc58af6744c7c0c51ca6ca8884b5d18500edeabe5ef1"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-room-topdown/output-index.json",
+      "bytes": 333,
+      "sha256": "b0a3c4ba0cf7127d21a37d9a106e58b2bfcd4d654fff5946851c80eb0f2572a3"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-room-topdown/submission.json",
+      "bytes": 156,
+      "sha256": "f0c94f4c5e14faf87759a31d54af04d95b85a8199420b5559deea84994fe4a3a"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-room-topdown/workflow.json",
+      "bytes": 3418,
+      "sha256": "046b5afd1dca9c882db64faf6de2e45eacd94492e321ac702529a672e5f787df"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-server/history.json",
+      "bytes": 5270,
+      "sha256": "0d1d90803c619ba8faeac7f07c42258d936ea7491a938c09e0cf9eca1d09cd62"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-server/job.json",
+      "bytes": 97,
+      "sha256": "06e318e83102a85ac52a736c82fd1a9768df1f17d98d202f8e7bf00c7bbd6fac"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-server/output-index.json",
+      "bytes": 333,
+      "sha256": "af702c297561f29f3d12cc5192e106aaacdee957e0e6c9247095bb37c27b7e30"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-server/submission.json",
+      "bytes": 155,
+      "sha256": "693ae851c998d77a7d941efd89f12a170b2954e1bc43414c151983d6677ad480"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-server/workflow.json",
+      "bytes": 3278,
+      "sha256": "fee4c15301c0be61462bc2cbf3bb865a288ea7a7ad3a293e83b3faf49c75fd0b"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-server-clean/history.json",
+      "bytes": 5255,
+      "sha256": "69f07df5197c968e0f1d35871d54103d1c0c53a6d4dea9ce84212b0c7f397563"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-server-clean/job.json",
+      "bytes": 97,
+      "sha256": "a239e2545174058cc9b1cb9060d950740fc0c9adc54bc129ab1e5868ffb5cb0b"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-server-clean/output-index.json",
+      "bytes": 333,
+      "sha256": "69cf9a2056f5ac78e66779ab0569b62852223a18217b149939feb17bab314361"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-server-clean/submission.json",
+      "bytes": 155,
+      "sha256": "4334ccbd8af306ad601b1de50db0fcc8392882970cebc69006b1fced4de8c4ac"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-server-clean/workflow.json",
+      "bytes": 3207,
+      "sha256": "a21dbffc23ddd6ee8436c2ec51ee06fc8aca22c9a663a1aa973b00e2e57618c2"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-server-walk/history.json",
+      "bytes": 41166,
+      "sha256": "8b6d7c6e3d9a86e767030fad3605e0a3fa76fde05d3cb146de5a33b5374d6dba"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-server-walk/job.json",
+      "bytes": 97,
+      "sha256": "bfd2a3282865dd8adaccca71918ad9d14b2689f98f20954efea0439e229dee49"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-server-walk/output-index.json",
+      "bytes": 41593,
+      "sha256": "9b3e2128ff39d09e4763ac5c32d2656fa5ff08c09ffcf2daa5f233571c924665"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-server-walk/submission.json",
+      "bytes": 115,
+      "sha256": "a685a56c9b35737df43bf2f7436a3c24fc5c51664c5dacfe33707a16f57e4f0d"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-server-walk/workflow.json",
+      "bytes": 3605,
+      "sha256": "2f0b0dc590568c3fa2523227647fb2415c78700e46c1d9435215e8364b9da23f"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-table/history.json",
+      "bytes": 5177,
+      "sha256": "f2d3860f3987c2a3e2d3c0a56812cd14b9bc51d5323287e39b694e691420fb08"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-table/job.json",
+      "bytes": 97,
+      "sha256": "93cb5c71440c5732bfec60d9442997ef487be7d50a016638a2436ce9e222e710"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-table/output-index.json",
+      "bytes": 333,
+      "sha256": "4150d75eba707a039d58b1fae5ce102244a2912f4541e637afc3031001ed95ec"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-table/submission.json",
+      "bytes": 155,
+      "sha256": "c24641c4f255925b9477c661744381451274af8093e75b9e410322c24ede69bd"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-table/workflow.json",
+      "bytes": 3149,
+      "sha256": "2f414954d8fc2b12990e225fee5df42452cac1159ab80d97efcbc0dcdc24a664"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-walk-padded/history.json",
+      "bytes": 41268,
+      "sha256": "b0df0c9b893e5542f298a5cac0aa556136a7cd5e415eba4a0ff7be8fdc599287"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-walk-padded/job.json",
+      "bytes": 97,
+      "sha256": "efdc8a273a35461ba7b51f7192d79dc1fdb8ff8c72aead8cbf103fb4d6c9bd8f"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-walk-padded/output-index.json",
+      "bytes": 41593,
+      "sha256": "6abe2144ffb1fa77e189ede4394f9ac684d6ef57d49cefed5c73a858e1818f37"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-walk-padded/submission.json",
+      "bytes": 115,
+      "sha256": "732868908814bfa12beaab9f45316d9506209b5464963f32aa69418d36e73a5e"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-walk-padded/workflow.json",
+      "bytes": 3605,
+      "sha256": "40827e7d02a4334b98a60424de955e63cd27d40816a797533c17cdfeff535dbd"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-woman-standing/history.json",
+      "bytes": 5078,
+      "sha256": "06b567f201fbddee2a1d4668a812853565fe3a9c77ffb74bb118e87ad37ebba7"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-woman-standing/job.json",
+      "bytes": 98,
+      "sha256": "116ce207167cd276d1fff5c4a4896fd8022664d9804e8a00556836c52ce2b3ce"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-woman-standing/output-index.json",
+      "bytes": 333,
+      "sha256": "52e2a1df2895bc96068a1a37de4610ccecc61aab034d582c9b0e02263177df4b"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-woman-standing/submission.json",
+      "bytes": 156,
+      "sha256": "90b63a1261435d2415a8aadc2656db5e983a967143dbc19d17ea709168433444"
+    },
+    {
+      "path": "created-games/moontide-bistro/art-jobs/v2-woman-standing/workflow.json",
+      "bytes": 2993,
+      "sha256": "b8643208c1efc9424de5f5a5979fd739ef0fa94e9c54e0b317df5b5c8f5b4eae"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/chef.png",
+      "bytes": 261137,
+      "sha256": "b4ab9c3fb1a7d829df34522d7e85d787c3afeaba128053855488756cd990883f"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/chef.png.import",
+      "bytes": 925,
+      "sha256": "a6c66d6a2c6e5d75e39920a4f34c736b275877d21128e6d1edc0d6377428bf6d"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/guest.png",
+      "bytes": 314523,
+      "sha256": "9093697734d1e716fd85c3574863e60976e913ba0e7d46f455910487be76ba71"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/guest.png.import",
+      "bytes": 929,
+      "sha256": "7299597c0beeeb41e9563275fb8c58c341ee162c0beb0694000ca55dba62a176"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/maki.png",
+      "bytes": 194636,
+      "sha256": "86954db6e2e26674b7dbef8377136c788b51a8cf1301b95849c2245e7300d078"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/maki.png.import",
+      "bytes": 926,
+      "sha256": "7b8dac834114711956a3121ef96c09df7eae435a7f0d1e509e0ae73ec1614ccc"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/room.png",
+      "bytes": 2558695,
+      "sha256": "7b4c8ede0c41ea474327e01d433405e779d7a2eae8251235b70b884d939f9bce"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/room.png.import",
+      "bytes": 926,
+      "sha256": "51ec808f2a6453ce67f7dd8ec40bce1d7f2b5ba10127e2848400010905b35b29"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/salmon.png",
+      "bytes": 83398,
+      "sha256": "8cc6c8f6d991f47af1196a9a7b698fee83bcc02638227725351e4a398b21f6aa"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/salmon.png.import",
+      "bytes": 932,
+      "sha256": "2a988b20985d5c4a66d1f6ad5d6c7bbc346fdf7bd342f8d337cd73bfc684c9a6"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/seated.png",
+      "bytes": 425309,
+      "sha256": "db201c667b488c6ba30e33463c0d774d5cc1bded3153c9e40867417fe66d2820"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/seated.png.import",
+      "bytes": 932,
+      "sha256": "c5b2e8ea8e6b73d1b25215bc4c95478ed03852c81caab8a7311a7d708808dcbc"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/server.png",
+      "bytes": 240690,
+      "sha256": "485217990e7d96614597bb626431ed10c4db07c59bd876a344f4e1346f5f0ebd"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/server.png.import",
+      "bytes": 932,
+      "sha256": "b092250085e4f3236d0a576945b8c6ccc44b5892838dde2e9f3511b4218826af"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/table.png",
+      "bytes": 494711,
+      "sha256": "0fccdd05c11775329ee44256ed173095b682294d5de232db414ab5c9764ceca6"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/table.png.import",
+      "bytes": 929,
+      "sha256": "f8e95f78398a4ff557ba5cd3d428f3211d1f1ddb666f1eaf05cf3c53736e5136"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/water.png",
+      "bytes": 196241,
+      "sha256": "5a4a7ad77e0fb233035bfc6d61fc3e4b4cc93b1cf0c949efa48a268583d415e9"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/water.png.import",
+      "bytes": 928,
+      "sha256": "d5ac554db5ec836215b6b9bdcedf12b9ca821590a0ea1c9dc6129b83173cee70"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/woman.png",
+      "bytes": 394724,
+      "sha256": "bf0c19eded57b79c89b9cbc92d4fbaf51214625a108e0eb3ceae06bd373ab8b6"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/woman.png.import",
+      "bytes": 928,
+      "sha256": "369877e6d1d582f1baac41857e0cdc8312a3af5fba43dc786a283c23d874da73"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/woman_standing.png",
+      "bytes": 293192,
+      "sha256": "b863a09ab3f22d7f773ad0be71ad0f00978c924dfd9ceec096cceb577a129034"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/woman_standing.png.import",
+      "bytes": 956,
+      "sha256": "ff30ec121ff3357d32b27bf1cb0b665cb8db83687571030bff7d7941bc421625"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/yuzu.png",
+      "bytes": 143981,
+      "sha256": "d5ef9dad8b28942a34477c6c253e37b729288e27d85f0542212458b510cc868e"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/yuzu.png.import",
+      "bytes": 926,
+      "sha256": "29f3b38e928ebeefde64a8e92f755a340f375029adc9ced606527762ed404b00"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0000.png",
+      "bytes": 107587,
+      "sha256": "ddcc7685e72502668d13956c532adb5623ad7161f1abba0a153c28a74e89ecdc"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0000.png.import",
+      "bytes": 931,
+      "sha256": "1509e99b358a9d4ad11aa12a64678ee40cc8e8a4b521313262c3708b865453cb"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0001.png",
+      "bytes": 106538,
+      "sha256": "ac79d88eebf4014ec434e45cc9fb6cd8b93d19bf33cd124072e911949954e102"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0001.png.import",
+      "bytes": 931,
+      "sha256": "c23ea1b028a05cd5be5c998f2fb9b082f4e656945c0c264b647d891ab70e0437"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0002.png",
+      "bytes": 106147,
+      "sha256": "cdb5c2db7c5d3c752c53185bcf5f264a27299088c403d7b93fa5043043284f7a"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0002.png.import",
+      "bytes": 931,
+      "sha256": "20f95f272ddd372a7c6abfe2249790a1435d519355801525d3039524547e2eef"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0003.png",
+      "bytes": 106282,
+      "sha256": "a82be9e0392630ecea06da24900d71d866589940218f6933132261d908dd4456"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0003.png.import",
+      "bytes": 931,
+      "sha256": "4b72600b25023b38e913e91e0fdeda050504b621259c176dd6b6b1001faaa668"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0004.png",
+      "bytes": 100682,
+      "sha256": "3345d2da18c0be546da604c9c2fdadcd1689fc7e5d188f911567a6eb523baaae"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0004.png.import",
+      "bytes": 931,
+      "sha256": "27e2be96e24c0564b62ecb513fbf61769742921f465e9665dd5c2c7b29504eef"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0005.png",
+      "bytes": 105139,
+      "sha256": "8a4f8099bddf34a321e49a1182bb59c8289c1f212308adbaaad348dff7b2fa19"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0005.png.import",
+      "bytes": 931,
+      "sha256": "48326d22a4bc63a24b597d309087f14225df77afcd0aaa3b5751dc5a8652188e"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0006.png",
+      "bytes": 105179,
+      "sha256": "4069c2c81b8cd9c939454fa481959c0a8eb251a1b1f2e885a043cfe435454e5f"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0006.png.import",
+      "bytes": 931,
+      "sha256": "1e57bc2527788c2b7b8f90263ac8f1affa52a2d8079ca959fc74b26e3f82d728"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0007.png",
+      "bytes": 107025,
+      "sha256": "baf832989ced27df4a19bccdd7239dc61b03fbc0a8aae2a4a30134b280f0281a"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0007.png.import",
+      "bytes": 931,
+      "sha256": "9bd5efa2633c55c02757ffd7bd0ad07e9547a061baba583a288137c12f6182fe"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0008.png",
+      "bytes": 111315,
+      "sha256": "a98f87ca4f3d0fd935a6004452ee5cc6a211ac4ab4d08bd19aff182bfad6f8b2"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0008.png.import",
+      "bytes": 931,
+      "sha256": "ff2b7e08415b7eccf350339c6f04a513588fee16dcecab035d83efabcccaf77c"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0009.png",
+      "bytes": 112438,
+      "sha256": "a34b027906ad04afe35573ea676919db19d1575e14df330b91b36fc7c8d122a4"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0009.png.import",
+      "bytes": 931,
+      "sha256": "9dc32edafd465ff3d5e67a58acbfdbd1ecd7580d1080bb45b27023850b8db181"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0010.png",
+      "bytes": 113041,
+      "sha256": "c921234db204c46a3c021a263d85617fa54b3177e76bb8e5189a5cd5e13375ea"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0010.png.import",
+      "bytes": 931,
+      "sha256": "1d8621ad18c021e14b5f730f44375dd4ecd88907de854a0c2a1526949886d190"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0011.png",
+      "bytes": 113425,
+      "sha256": "de776115e3152132bb460c3bf9ae74643227e81c258e55c5d2d8ed0ce0cdf264"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0011.png.import",
+      "bytes": 931,
+      "sha256": "95fc2d5f52a0f064c7d2e8efc7ee7c4f787420c17e07ac098a52a8ce4bdde786"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0012.png",
+      "bytes": 113609,
+      "sha256": "d0f4c39dba059f499775e6782235c2051a06e7be91ba2157f6fc22379ee84c01"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0012.png.import",
+      "bytes": 931,
+      "sha256": "00f03262c2771ed08d5024d60e9913eec884c7a66f109b7b6797e5f1206567d1"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0013.png",
+      "bytes": 112731,
+      "sha256": "512e3e3780cd6b50789f32415911aaa4e3f78fcc904864d68e8a526d804a558f"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0013.png.import",
+      "bytes": 931,
+      "sha256": "993f988ca4cc28d85ebdaf6f71b15beeedfa9fa50b2f33043485ff0251e289db"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0014.png",
+      "bytes": 112260,
+      "sha256": "102be77d3cf57be3c7478165178e97147e28053f845e24cd3ce21b3dc04ec6fe"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0014.png.import",
+      "bytes": 930,
+      "sha256": "f3f3b81ec57ccb7d1ae7dc604d735dd5e55fc68b2ec8c9daf0bed311e0afd39c"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0015.png",
+      "bytes": 112318,
+      "sha256": "2fbe63f1fe9cf14c611fe420d03643c611d822f5d7f57a5e05e62471e0711f39"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0015.png.import",
+      "bytes": 931,
+      "sha256": "ed7056f09639b63bf1e38eb798de5f02bcdb1d022b33269e9c6ed2d5317865cd"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0016.png",
+      "bytes": 112799,
+      "sha256": "594e05fba404f64755ef2c9fb281ae17413dfe9fa43b22b5800047677045732f"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0016.png.import",
+      "bytes": 931,
+      "sha256": "a1a9b0552da9af18ad598ddd234c73a02121f09494e515789ec2b4f109726324"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0017.png",
+      "bytes": 111636,
+      "sha256": "98f37803b6516a54fcc77ee68b3d8679ccd6adfcf30a4e24151e4a075065cf88"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0017.png.import",
+      "bytes": 930,
+      "sha256": "b0762b82fb758a08a2f07e0f5a30bd06263319f542681d853abfeb03c4a03e94"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0018.png",
+      "bytes": 110681,
+      "sha256": "25114e18814c0a483c832582009b520a9c5a9f958f4d071907c4d7c023ac8470"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0018.png.import",
+      "bytes": 930,
+      "sha256": "eb054540d6a2c59a8eac722ef2adca7ec3d78f78e5b818e14c191ffd613608c5"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0019.png",
+      "bytes": 110988,
+      "sha256": "7e525ac346c743df300a0da627b7a3c762fe4633fa36353fa9928d672ec9b694"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0019.png.import",
+      "bytes": 931,
+      "sha256": "5a88e960d9586c5cfad7439e290b5eee175944bbde4335ad1904fe621a97da50"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0020.png",
+      "bytes": 108881,
+      "sha256": "fc6f628cade2c144849748e81d6e9e98511e205d9f64f41d817d7876b98a980b"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0020.png.import",
+      "bytes": 931,
+      "sha256": "8e3378b874d79cae12d4bbf1f41187a17eacd85ef6cb4ba479bc0aa587e6ed1e"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0021.png",
+      "bytes": 103502,
+      "sha256": "2badcf071861452bde1f220a99b68902c9c8c186f680ad9e1563fa64b2a6525a"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0021.png.import",
+      "bytes": 931,
+      "sha256": "df43510fead5b217a92e429bf31186c7ecc7164618a2e7e52003b6e8ab028a27"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0022.png",
+      "bytes": 105450,
+      "sha256": "a51844466bad76f6f7b9d50792b65bfbdf2c7822b35af6e64861bb06edd1b8a4"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0022.png.import",
+      "bytes": 931,
+      "sha256": "6f17023f5e05cb1aff5973b979becb27888c80f54346580c1c62c4967f2be01a"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0023.png",
+      "bytes": 102800,
+      "sha256": "33cb45a03b8bfa7ec5d3952128932bbc58b71ed7a5c9cf6e6e2f1a34ce9d29b3"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0023.png.import",
+      "bytes": 931,
+      "sha256": "0a85652ab7acb0ba86c839fbfb016da5734d086e3d92fed1df4e874bd809da9a"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0024.png",
+      "bytes": 103840,
+      "sha256": "7336f7707eaf4cc6673158db1534bfab2513993d777ea8ea461722ce4004563d"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0024.png.import",
+      "bytes": 931,
+      "sha256": "b94f39e82e4cc8483d92bf88cb407d76906ff09d5675146e05785ab666d2835b"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0025.png",
+      "bytes": 105250,
+      "sha256": "c5e9fddc751e9555def0bc04c1dfcc725b2efbf7b88783a32edd5ef7cd11d61e"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0025.png.import",
+      "bytes": 931,
+      "sha256": "7ab4ad6a5aa4d4fa3cf9064bbcb6bee94be61c9808b4113962d5a9b65d2a62c6"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0026.png",
+      "bytes": 109537,
+      "sha256": "051da963f323269a9a2151a891dc398b74ab53cd5af7ff93cea952ac5a8d0b3e"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0026.png.import",
+      "bytes": 931,
+      "sha256": "1e90a8e7417f5c74f8a49adcf4162cc2f64b98840f15dc58999361143e51797e"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0027.png",
+      "bytes": 110212,
+      "sha256": "2b1ae8348140edda6b55ce428dd1d9bf31dd965ddee214a8b6d6acd0aa0447a0"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0027.png.import",
+      "bytes": 930,
+      "sha256": "37330787fd0126133577b860b17d7d2f2b9d7031935cb51954105f86dddf8145"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0028.png",
+      "bytes": 109661,
+      "sha256": "75a49ea276e92a3e19f3be5c26c852ab80c87fe31b7facefda1fe2c8c29028b1"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0028.png.import",
+      "bytes": 931,
+      "sha256": "9cf90600e7341094516792d806186122cb62de0fc36b43aa14539ac418cca9b0"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0029.png",
+      "bytes": 110320,
+      "sha256": "c39782d0a915a61f6fc1bbdedb6a21a430ff418b920ad558a15b77742dd856fd"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0029.png.import",
+      "bytes": 931,
+      "sha256": "4c3d2d9f9b776d4d070faea6e856098d57bb070f13dc311c4b581bc3d8b36a7a"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0030.png",
+      "bytes": 108417,
+      "sha256": "ebec675104de4f04e0cfe5f6471125555832b657c52543189f5bf0abbdf764dd"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/0030.png.import",
+      "bytes": 931,
+      "sha256": "93e385a9e672d30044ea7c4afa6665a00cf5a0c70bcec50d00f3bf3848b46d2a"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/action.json",
+      "bytes": 3192,
+      "sha256": "a32dfe2c6c29ccc54041d003b1ae213be4e154e1ea23a72644ee936c98e266ee"
+    },
+    {
+      "path": "created-games/moontide-bistro/assets/v2/walk/review.webp.import",
+      "bytes": 751,
+      "sha256": "d51d0c8348277db671fa8071768ca241656189f9e650ce1372dbde90cb9185e7"
+    },
+    {
+      "path": "created-games/moontide-bistro/evidence/.gdignore",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": "created-games/moontide-bistro/evidence/v1-main.gd.txt",
+      "bytes": 24289,
+      "sha256": "255445482c89cb54435b7e89f186b563792d9241ef3294ffe0088d144f15b083"
+    },
+    {
+      "path": "created-games/moontide-bistro/evidence/v2-verification.txt",
+      "bytes": 1261,
+      "sha256": "5d9b31ca3ed819b32264b9586c7e95b7209c58377990db9a092b6a3302c1361f"
+    },
+    {
+      "path": "created-games/moontide-bistro/evidence/v3-two-seats.png",
+      "bytes": 1651463,
+      "sha256": "d52965272e9732912cbeeb0a0cfca1d7b9de9a06312f0cbb5fd2652ebacf2436"
+    },
+    {
+      "path": "created-games/moontide-bistro/evidence/anchor-fix/verification.txt",
+      "bytes": 114,
+      "sha256": "8190e2833e5b01da33341ede3ca533be160183840dafe12970406bab988a1707"
+    },
+    {
+      "path": "created-games/moontide-bistro/tools/add_two_seats.py",
+      "bytes": 7986,
+      "sha256": "9b73aa562f43b337ce47e79cf7cda902ead0fc8bbfa80d47d11ff7df90a40122"
+    },
+    {
+      "path": "created-games/moontide-bistro/tools/assemble_assets.py",
+      "bytes": 1628,
+      "sha256": "c0bb24a47e7c47fce5f21d20b91dd564e7c283fc54c7caa5c00cd76b483243c9"
+    },
+    {
+      "path": "created-games/moontide-bistro/tools/check_anchor.py",
+      "bytes": 1204,
+      "sha256": "b0e75adbdb7b1483b02faea7954c26b95e4962a2438d486e3b7b06af30471e1b"
+    },
+    {
+      "path": "created-games/moontide-bistro/tools/finalize_assets.py",
+      "bytes": 1348,
+      "sha256": "1addaba143ef320d6f6b3ebb4f7cd65678e276513064f52c1c1e3f205c21907b"
+    },
+    {
+      "path": "created-games/moontide-bistro/tools/finalize_padded.py",
+      "bytes": 1438,
+      "sha256": "a8133be2f627bd6f54b8909963384bb19766e2702ec32a91fa0aeecd983f581e"
+    },
+    {
+      "path": "created-games/moontide-bistro/tools/pad_reference.py",
+      "bytes": 521,
+      "sha256": "d202e514095d8f7aa9760b049e8f4d8997d62b3b01e4487d3927c2858c245a3f"
+    },
+    {
+      "path": "created-games/moontide-bistro/tools/prepare_static.py",
+      "bytes": 1158,
+      "sha256": "c57ecc71838378ee66ba06bf3b52295d18695e9128d6df8097f01cb16c748317"
+    },
+    {
+      "path": "created-games/moontide-bistro/tools/refine_assets.py",
+      "bytes": 700,
+      "sha256": "1eee989f160cdcb98a4830cc40d14658c24ef40efdcfc862211a1153f1d9eccc"
+    },
+    {
+      "path": "created-games/moontide-bistro/tools/review_padded_walk.py",
+      "bytes": 734,
+      "sha256": "78dea4ba0cf0a02e96f855cb96fd1077ecc52434e922899b661dcd6b8b57f010"
+    },
+    {
+      "path": "created-games/moontide-bistro/tools/review_runtime.py",
+      "bytes": 790,
+      "sha256": "2456c7b648be2fa520fcef2e4b3d1eca78da9d0616642905c04f20a8835778a7"
+    },
+    {
+      "path": "created-games/moontide-bistro/tools/select_padded.py",
+      "bytes": 1403,
+      "sha256": "54f383ad8be300759037bb09d9b5d1f9e2b54e3d7c787b8290a42ed46f9606a6"
+    },
+    {
+      "path": "created-games/moontide-bistro/tools/select_walk.py",
+      "bytes": 1281,
+      "sha256": "b0a136ef567721d0d6434d4aee86642d6b7b19374d2dd027f3327d2883860ff3"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-prompt.txt",
+      "bytes": 1038,
+      "sha256": "87a7a42170480715c4a26b3550fdd19d5fd01d63246d588cf700e2cbceefa53a"
+    },
+    {
+      "path": "created-games/velvet-mahogany/dealer_motion.gd",
+      "bytes": 2640,
+      "sha256": "6a0021612f81a9b34ca208bbc564a356c8b86f9d481ae7f7b2de583a77da2067"
+    },
+    {
+      "path": "created-games/velvet-mahogany/dealer_motion.gd.uid",
+      "bytes": 20,
+      "sha256": "0c82dd3c3c17c79b207eb9c566621576b9674d3d35df2a9631d7cf96e8909f52"
+    },
+    {
+      "path": "created-games/velvet-mahogany/font.ttf",
+      "bytes": 10589448,
+      "sha256": "1bf7b678f68cc59a1b19179c6e95cf7b26f161ebca09da9ea2910916764a16b5"
+    },
+    {
+      "path": "created-games/velvet-mahogany/font.ttf.import",
+      "bytes": 735,
+      "sha256": "bbc57a32ef57031c67a538944741a63052aa7381da2289537c1fb069d67bfacc"
+    },
+    {
+      "path": "created-games/velvet-mahogany/game_assistant.gd",
+      "bytes": 5349,
+      "sha256": "58c27c1e63851464bda9d0d9b841bba85207aaf3b5e5b98b50ecec30c2388d08"
+    },
+    {
+      "path": "created-games/velvet-mahogany/game_assistant.gd.uid",
+      "bytes": 20,
+      "sha256": "81928e7316039075e5980bb49e375ce96bd794e0a21a8522b8f2a1644216c5d9"
+    },
+    {
+      "path": "created-games/velvet-mahogany/main.gd",
+      "bytes": 15756,
+      "sha256": "712b18d3860b884357729bfdf18e6f592def11e743405f47fe44436c187f5175"
+    },
+    {
+      "path": "created-games/velvet-mahogany/main.gd.uid",
+      "bytes": 20,
+      "sha256": "96c4a4c26fb183c7036ec81a91d2b0618f9cae51cfd0a1eec70b3461450c29b9"
+    },
+    {
+      "path": "created-games/velvet-mahogany/main.tscn",
+      "bytes": 222,
+      "sha256": "0dcf1e361c3a78b68c2d1a2aaf0f85ae84ae9c9e93631a1a8d78e0fbab6fdecd"
+    },
+    {
+      "path": "created-games/velvet-mahogany/multiplayer.gd",
+      "bytes": 16575,
+      "sha256": "66ce48b71ff04676a59e911957459eb6e499469a2d237fd9d331d493f7950733"
+    },
+    {
+      "path": "created-games/velvet-mahogany/multiplayer.gd.uid",
+      "bytes": 20,
+      "sha256": "14ef50589835cd491d0b889ff0cf6d5c0edc2f92b63a69d1ad82bea6f6d5b511"
+    },
+    {
+      "path": "created-games/velvet-mahogany/multiplayer.tscn",
+      "bytes": 226,
+      "sha256": "ebfb69d3e632fd87e9424c943bef4f7b52befd97d00083f18eba8df856ed4c68"
+    },
+    {
+      "path": "created-games/velvet-mahogany/project.godot",
+      "bytes": 428,
+      "sha256": "96339e7723e01f16a063be17a0d4b3b9247bb9a9f9075985401e33fed4146275"
+    },
+    {
+      "path": "created-games/velvet-mahogany/README.md",
+      "bytes": 5474,
+      "sha256": "709b2858b6b55dfab80b16c7b97c9bbb5492ff045aa3d365118bbd648935e536"
+    },
+    {
+      "path": "created-games/velvet-mahogany/review_motion.gd",
+      "bytes": 420,
+      "sha256": "9c78692d5c1ff210d565f7dc8e60224c3a9074df12821f8075d30700d0e40f2c"
+    },
+    {
+      "path": "created-games/velvet-mahogany/review_motion.gd.uid",
+      "bytes": 19,
+      "sha256": "6e0b7f2329014bd5dd6bec210d49fee647979b70cf618b5bd69d4ca13d70591f"
+    },
+    {
+      "path": "created-games/velvet-mahogany/review_npc.gd",
+      "bytes": 560,
+      "sha256": "cba28ccc99b3fa7c5a476a44ff6f99951db944867b2e69140574f0c42deb2d55"
+    },
+    {
+      "path": "created-games/velvet-mahogany/review_npc.gd.uid",
+      "bytes": 19,
+      "sha256": "d4608d02c3d64d61baf5e14aa1b545bd4ec93c6d26ea67c3408759cb327e346c"
+    },
+    {
+      "path": "created-games/velvet-mahogany/rules.gd",
+      "bytes": 1902,
+      "sha256": "90053a57441f043ba014483e3b43e4158d99d9f8684d0709b9bf4ea5a0ae911a"
+    },
+    {
+      "path": "created-games/velvet-mahogany/rules.gd.uid",
+      "bytes": 19,
+      "sha256": "f71e9a54222446a4eab320d16d18a60795df1fb838a14fa4026aa96c9a599540"
+    },
+    {
+      "path": "created-games/velvet-mahogany/test_game.gd",
+      "bytes": 3314,
+      "sha256": "f64c1f2795fdf9f0a49a159e2ec43f813d2ba7e4ddd56895655a4ba6ab013cb1"
+    },
+    {
+      "path": "created-games/velvet-mahogany/test_game.gd.uid",
+      "bytes": 20,
+      "sha256": "0a024c16fbea6a83e1d279427224ad050b21d24ef37aa198faf3d40da7b5de41"
+    },
+    {
+      "path": "created-games/velvet-mahogany/test_idle_loop.gd",
+      "bytes": 564,
+      "sha256": "df8342b905119713e1dba4c3409aebb6fc087af78102e5eafed7a800f9c5bf22"
+    },
+    {
+      "path": "created-games/velvet-mahogany/test_idle_loop.gd.uid",
+      "bytes": 20,
+      "sha256": "464dd63a6b045771a788b7eb573ea751101d9f913dc0a9bfa07572265849009f"
+    },
+    {
+      "path": "created-games/velvet-mahogany/test_motion.gd",
+      "bytes": 2324,
+      "sha256": "c39d5edc424bf976e2d9bda995b37fda206bbaa44cbef3da9dcad6b429830c4a"
+    },
+    {
+      "path": "created-games/velvet-mahogany/test_motion.gd.uid",
+      "bytes": 20,
+      "sha256": "d9e86b4beef5e7b6d90534877c7fb596da8fa1dccb9962af9d6422e5dfab7aba"
+    },
+    {
+      "path": "created-games/velvet-mahogany/test_npc_rules.gd",
+      "bytes": 3617,
+      "sha256": "b98b5b8e3d4081964bcaa7f736cbabe0bc52be1e9d928d514f10be2829aa6047"
+    },
+    {
+      "path": "created-games/velvet-mahogany/test_npc_rules.gd.uid",
+      "bytes": 20,
+      "sha256": "9e124f9585348a333ce59d12e0e0beed36777011e91ef9ab2d0b965f55467f74"
+    },
+    {
+      "path": "created-games/velvet-mahogany/test_npc_ui.gd",
+      "bytes": 3007,
+      "sha256": "9dc97d0933f2e7d478a441986dce396b073b3d11d5ce06f1a4761e410bc85199"
+    },
+    {
+      "path": "created-games/velvet-mahogany/test_npc_ui.gd.uid",
+      "bytes": 19,
+      "sha256": "3b13f5a8de71e47b312f3b45c92aeb471d8b0a59186bb8e5224d0457f6acba9b"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/.gdignore",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/npc-portraits-v2.txt",
+      "bytes": 1845,
+      "sha256": "8281ac1ec1ab08730d0474a95d5421e3868fa0cb604a91466c0ae01d41401cf6"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/deal-backs-v2/add_portraits.py",
+      "bytes": 1038,
+      "sha256": "37f5a4cd55fefc220f467b073abdf28d676090549faf8d442ec7c92b4140b960"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/deal-backs-v2/npc-portrait-prompt.txt",
+      "bytes": 1039,
+      "sha256": "585314a07410843aa301dd54a2581e665cf29024804c7e723898bea2f0ae4d5f"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/deal-backs-v2/prompt-wide.txt",
+      "bytes": 1109,
+      "sha256": "a58144b6b0700190d4a0c96c5e3706566e6c27f5b4685b0e15d8d5dbcdee752d"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/deal-backs-v2/prompt.txt",
+      "bytes": 1185,
+      "sha256": "27eda520c45718d4f7a31d42759ec75d37b56e04443c1e7ddc288a56b90a756e"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/deal-backs-v2/refine_masks.py",
+      "bytes": 1190,
+      "sha256": "9f3481ed4d769f616dc5798a337030603bb97bde683ddb44b541dc94e2af09fe"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/deal-backs-v2/refine_npc.py",
+      "bytes": 1647,
+      "sha256": "56b02b17f75488f65a732df0f226e9cbaf7230741ebeaaf6d343e5d19f4de133"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/deal-backs-v2/repair-audit.json",
+      "bytes": 13768,
+      "sha256": "5e3a63f9b991471a1aedfcf0922e1b8df7859073bcf1485def59064ffa402714"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/deal-backs-v2/repair_video.py",
+      "bytes": 3061,
+      "sha256": "8a41cab4d2fc39ccb3c49c9ecd256a8bd653eac8cf748cd257dd4106a3e13335"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/deal-backs-v2/REVIEW.md",
+      "bytes": 1203,
+      "sha256": "c17d7178c32ba0669595785aac54d2a92cf2d14ae5486d717e93e4b8284ef567"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/deal-backs-v2/template.json",
+      "bytes": 2815,
+      "sha256": "879c23456d2ebd27b4500c19c95eccecce0dd677c0dd0939ec429878e8ad717d"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/deal-backs-v2/job-ready/history.json",
+      "bytes": 41750,
+      "sha256": "d7f600ab88ed2515cb297b45314c321bf896e6def9550facea282e4b616ccec8"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/deal-backs-v2/job-ready/job.json",
+      "bytes": 97,
+      "sha256": "0f7a73397fb72e0d66f64265ed492c72b1835c148fd155ec93b70987e4c323d6"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/deal-backs-v2/job-ready/output-index.json",
+      "bytes": 41718,
+      "sha256": "3222b9e0fa27e35ba2d820a9be98376fd7e2ae106ef5f9e210df338c2e682c6f"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/deal-backs-v2/job-ready/submission.json",
+      "bytes": 115,
+      "sha256": "9d205e6725247f330432d8ecca67b70e80e9e45f664a3dc91fd4c06c4ae9571a"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/deal-backs-v2/job-ready/workflow.json",
+      "bytes": 4064,
+      "sha256": "7b59a14da876e33e9e141f285006c23032710a26bc921594e4f7adb7831f2d16"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/deal-backs-v2/job-wide/history.json",
+      "bytes": 41776,
+      "sha256": "45a0600357ea549eec22da5caf7511ce57cc5437b151c7472f7e697c077c5cb0"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/deal-backs-v2/job-wide/job.json",
+      "bytes": 97,
+      "sha256": "292f189ea1d63d89cd95e3254391bdbca7ca30eeac36e0c73a3320f9f105b5ee"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/deal-backs-v2/job-wide/output-index.json",
+      "bytes": 41718,
+      "sha256": "30bed2c4c56eff94def52f9be8f94886628eb2383879a64ef23c605cb92696a9"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/deal-backs-v2/job-wide/submission.json",
+      "bytes": 115,
+      "sha256": "d338de3215b81fa3de227c416c67e59a03208a5b34d026ce9584e216bef04ab8"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/deal-backs-v2/job-wide/workflow.json",
+      "bytes": 3988,
+      "sha256": "8a2f8bf4720d77205b21114bb46aed180c2f9c1bd71a96b1d6296966e280c7b8"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/dealer-motion-v1/deal.txt",
+      "bytes": 953,
+      "sha256": "6857394231d1a1b8e1c2a234d64bb975e29c02db24829d1aa992d041478d74c7"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/dealer-motion-v1/idle.txt",
+      "bytes": 745,
+      "sha256": "b89972b832a6a6f3e86cd8f6cf6b63a380e7aa20b1afb236350e1265695f8038"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/dealer-motion-v1/integrate.py",
+      "bytes": 2714,
+      "sha256": "9af478cdeb6ef1e1579417a9a7c95c2dda1aadb0f16037792915feb74a18dd28"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/dealer-motion-v1/main-before.gd",
+      "bytes": 13879,
+      "sha256": "1ac8167ff42450b09ea4530f5055feac1eaf272bc33639f26121c3c4a89ee0cf"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/dealer-motion-v1/manifest.json",
+      "bytes": 1329,
+      "sha256": "5ab4f9cf959204d4c6b5d69247b231442dc15664c7b4edb6c99b90879b17807c"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/dealer-motion-v1/payout.txt",
+      "bytes": 896,
+      "sha256": "f06989618e7c354a6cfa90b5358a1d44e92b389d01dd1e37702116e207b9fefe"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/dealer-motion-v1/record_selection.py",
+      "bytes": 947,
+      "sha256": "de55e544f559bfd7830e8f21be67c67955f85ab262635384dbd8adbb2588e75b"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/dealer-motion-v1/REVIEW.md",
+      "bytes": 1125,
+      "sha256": "05fd144b0071c2d20c24995c4ee507fd714aefdd7718187e9ec840290f7c0139"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/dealer-motion-v1/runtime-sha256.json",
+      "bytes": 640,
+      "sha256": "bb640ac40c101eeee92ace485ca775f90b4fc57495e6daf913e0489e8b0365d6"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/dealer-motion-v1/template.json",
+      "bytes": 2815,
+      "sha256": "879c23456d2ebd27b4500c19c95eccecce0dd677c0dd0939ec429878e8ad717d"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/dealer-motion-v1/deal/history.json",
+      "bytes": 41518,
+      "sha256": "656624945638054d2790485b3f4ab591f0c403ea62670a2c001c7cbaac598145"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/dealer-motion-v1/deal/job.json",
+      "bytes": 97,
+      "sha256": "f6693e0944f8303998c981dfff1365f02394db8e74689217f323d342d431ef6d"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/dealer-motion-v1/deal/output-index.json",
+      "bytes": 41718,
+      "sha256": "6b620d108f681ea47864317636c2035a568d0852396de4fc34c3cfb25548e5d2"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/dealer-motion-v1/deal/selection.json",
+      "bytes": 16081,
+      "sha256": "17a836735cd858067c0c85440776a7f07f000c1f5c8d556d2e340d82827954b8"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/dealer-motion-v1/deal/submission.json",
+      "bytes": 114,
+      "sha256": "7683ea2496788ae00eea86f02cf2a16c37e01b5da164f1d80eaffa3a4ad8c686"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/dealer-motion-v1/deal/workflow.json",
+      "bytes": 3832,
+      "sha256": "bc9ce916f8067d6954df09a309659a9f8e67a5ba9ab2b6afcd9b12b81019c4dc"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/dealer-motion-v1/idle/history.json",
+      "bytes": 41412,
+      "sha256": "e9f6ff28bf1678145f2975167b6d5878021ef84b3cc5e48cdc830250335d0519"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/dealer-motion-v1/idle/job.json",
+      "bytes": 97,
+      "sha256": "65476c6f3d710c55f676056dc3845b78fdc79bd82140b11d18b05595cbc79058"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/dealer-motion-v1/idle/output-index.json",
+      "bytes": 41718,
+      "sha256": "597df473385684f2d1e6b706c8187d69ae0899199c3eaec8f37b738abc7c8183"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/dealer-motion-v1/idle/selection.json",
+      "bytes": 17213,
+      "sha256": "868b22ecf8f12345ae0ae8b3c0f6827fa3c77644b50d1191773020fdd47e1397"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/dealer-motion-v1/idle/submission.json",
+      "bytes": 115,
+      "sha256": "48fa5275d8b0d35c596dc3d6f210a1e09a211105a35c6dd91db1ebb9b3785171"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/dealer-motion-v1/idle/workflow.json",
+      "bytes": 3624,
+      "sha256": "d23d0cfc2a0d3cacb399fbe5043327e57525f7fbd56487b99981e1299b29f1fa"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/dealer-motion-v1/payout/history.json",
+      "bytes": 41563,
+      "sha256": "3cb48918b35f3babadab93e501645b4e1a2c75074d4f74d0a0619abf1c78eded"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/dealer-motion-v1/payout/job.json",
+      "bytes": 97,
+      "sha256": "462ab86838bf1dfb2107e7a93c0275582abeac2d62d28d3686c3d0d8a84baf95"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/dealer-motion-v1/payout/output-index.json",
+      "bytes": 41718,
+      "sha256": "a8be898244eb79fe542a16def850e29a45611b4d3b3873eec0d4e07eb7c35327"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/dealer-motion-v1/payout/selection.json",
+      "bytes": 16081,
+      "sha256": "3ff8cf48915558ae0f3c481967eaede89ee342cfde3edf231a812c88d0a6ee80"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/dealer-motion-v1/payout/submission.json",
+      "bytes": 115,
+      "sha256": "38cbf994a0c367d1cbdab1a6a3739707e668f37f17aab9549e0bfeb56c37754b"
+    },
+    {
+      "path": "created-games/velvet-mahogany/art-jobs/dealer-motion-v1/payout/workflow.json",
+      "bytes": 3775,
+      "sha256": "77bb294c11e9f5c20148438f449f464c7b5a9ea3390c26811822f87995ba7e9e"
+    },
+    {
+      "path": "created-games/velvet-mahogany/assets/npc-akai.png",
+      "bytes": 2061315,
+      "sha256": "2800a0f71ed92ac47ace4c6e51a706b9b2e1cffaff93b1888cf79c9e1fef8b3c"
+    },
+    {
+      "path": "created-games/velvet-mahogany/assets/npc-akai.png.import",
+      "bytes": 934,
+      "sha256": "6b14fe45b1e5712550ab965d91746ace06563798c901416db04d947de287e2a5"
+    },
+    {
+      "path": "created-games/velvet-mahogany/assets/npc-laozhou.png",
+      "bytes": 2250334,
+      "sha256": "f0b70ab097358063773917ea4dd2a6b3fd125334e0ed019b52386c388e5eb9d9"
+    },
+    {
+      "path": "created-games/velvet-mahogany/assets/npc-laozhou.png.import",
+      "bytes": 944,
+      "sha256": "033dc6630c52bdddd51c42fbb5e29b010621bb8efd30b152fc532b77364c1d4c"
+    },
+    {
+      "path": "created-games/velvet-mahogany/assets/npc-linwei.png",
+      "bytes": 2086464,
+      "sha256": "fc8599dcaf7838fd17eecad3d1d2f2c288413319919008bc94a61ddaf7f08537"
+    },
+    {
+      "path": "created-games/velvet-mahogany/assets/npc-linwei.png.import",
+      "bytes": 941,
+      "sha256": "c031cd2c4636fe747bb4a22055c84d011e0850cd19ccff5ec105c72f574c2a2c"
+    },
+    {
+      "path": "created-games/velvet-mahogany/assets/npc-portraits.png",
+      "bytes": 2233151,
+      "sha256": "463723c6c63c6ec848ae1054752aa41dcbe20c7438833395cb95b00b62f685aa"
+    },
+    {
+      "path": "created-games/velvet-mahogany/assets/npc-portraits.png.import",
+      "bytes": 950,
+      "sha256": "c6edb4744bb611a869a62e3ba2804136105dc248464d2d0ff24d5f0e1ab990ab"
+    },
+    {
+      "path": "created-games/velvet-mahogany/assets/salon.png",
+      "bytes": 2099452,
+      "sha256": "d7f481bda1441952b9d5550f30c0cf9e3b88f2e86ccf9684986d2d0a29eaca46"
+    },
+    {
+      "path": "created-games/velvet-mahogany/assets/salon.png.import",
+      "bytes": 926,
+      "sha256": "d67c7ee16d4dda0d5313c90057b3d74b401845d0e850738c9e52eb40383619b4"
+    },
+    {
+      "path": "created-games/velvet-mahogany/assets/dealer/deal.ogv.uid",
+      "bytes": 20,
+      "sha256": "af55708a1ced48650596b5fb6e37888a462aebf4bbbb2f6ed90994e5d6ca9f99"
+    },
+    {
+      "path": "created-games/velvet-mahogany/assets/dealer/idle.ogv.uid",
+      "bytes": 19,
+      "sha256": "476cc1ab31e80728a5f3f0514dfb1664c4c658f4e1dd2c1b6aaa5d25bfc73d2a"
+    },
+    {
+      "path": "created-games/velvet-mahogany/assets/dealer/payout.ogv.uid",
+      "bytes": 20,
+      "sha256": "65d28adcae15126cf283b0375a4ee14e4e19557a9f7fc011ef99c3c699d4526a"
+    },
+    {
+      "path": "created-games/velvet-mahogany/evidence/.gdignore",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": "created-games/velvet-mahogany/evidence/runtime/Godot/editor_settings-4.7.tres",
+      "bytes": 17822,
+      "sha256": "563a30fbe1c22297e55aba4b8b08c7fb63b90fe12f077dd0b87d233b9e1fcc4a"
+    },
+    {
+      "path": "created-games/velvet-mahogany/evidence/runtime/Godot/app_userdata/绯夜 · 红木会所/salon-save.json",
+      "bytes": 37,
+      "sha256": "78c54348bbb9d614402aea7e8ebb23dd37f0f138d15f51813cdc6cb0081f910a"
+    },
+    {
+      "path": "created-games/velvet-mahogany/systems/doudizhu.gd",
+      "bytes": 8618,
+      "sha256": "763ab0fc9af4e19946d561336dee27576cbbf0ce68bf8aaca408ed91b73ab90f"
+    },
+    {
+      "path": "created-games/velvet-mahogany/systems/doudizhu.gd.uid",
+      "bytes": 20,
+      "sha256": "b24a311d74ce3db83d83170ba02dc3d07548193751c31211665eefb47950801a"
+    },
+    {
+      "path": "created-games/velvet-mahogany/systems/holdem.gd",
+      "bytes": 8350,
+      "sha256": "5d75064ef364305d97348059c4b58916e7a773f6f4841a7ea7e1289b3c2746f3"
+    },
+    {
+      "path": "created-games/velvet-mahogany/systems/holdem.gd.uid",
+      "bytes": 20,
+      "sha256": "7f2c3e31a34d7457883070bd13fcb7f139b73b56ba6a52b1aee71149dad1df53"
+    },
+    {
+      "path": "godot-belt-map/tests/companion_skill_review.gd.uid",
+      "bytes": 20,
+      "sha256": "1da75eeaf9a4525d57dd99ac895dc3f493a32a32f5b749ae95a7774609caf293"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 544,
+      "sha256": "15d4ed1cfb1772c0b326e48ca17ee0de3cda39c074278b345e817ca17dab3878"
+    },
+    {
+      "path": "godot-ai-workbench/gpu_job_guard.py",
+      "bytes": 5686,
+      "sha256": "d4637d5f7bde99dc36bdb97f149f859df9f5c9503bff379ec1abd5cfc8cc86ac"
+    },
+    {
+      "path": "godot-ai-workbench/start-frpc-terminal.ps1",
+      "bytes": 776,
+      "sha256": "7cc9d57a9b47f805ae902c465ba2d9e7229105ed64200ba0991bd2260e8f63bc"
+    },
+    {
+      "path": "godot-ai-workbench/test_gpu_job_guard.py",
+      "bytes": 2046,
+      "sha256": "3c46173c12d5167d56cde5bc2038d1d423db637a2fb4817865d851b5dcd92e2f"
+    },
+    {
+      "path": "godot-belt-map/DEMO_GUIDE.md",
+      "bytes": 3911,
+      "sha256": "a4a4e53b46a382925c5ac5da49b65f4aa1a3e1d985ed10eacd92bfb2162e4a03"
+    },
+    {
+      "path": "godot-belt-map/assets/knight-demo/ember-workflow.json",
+      "bytes": 3242,
+      "sha256": "46cd653dab6878012816a6e01ec8eb372a5a80d045bffd10d737b804fead2d2a"
+    },
+    {
+      "path": "godot-belt-map/assets/knight-demo/ember.png",
+      "bytes": 1672901,
+      "sha256": "f9e6d60e0e1fd316b6715fcd9a4981e2cf337b139983cb9bad6cc48193dd4999"
+    },
+    {
+      "path": "godot-belt-map/assets/knight-demo/ember.png.import",
+      "bytes": 938,
+      "sha256": "3c04bfaee47717fdcb91e658f6893696f56970af9acd115e90e261e7e1e10789"
+    },
+    {
+      "path": "godot-belt-map/assets/knight-demo/frost-workflow.json",
+      "bytes": 3193,
+      "sha256": "fcd2239869c361bf15c7bba9eb8a55c13593abc183d9375fcd45e6658754f4f8"
+    },
+    {
+      "path": "godot-belt-map/assets/knight-demo/frost.png",
+      "bytes": 1630277,
+      "sha256": "c6e1f958b330e4d4a81f8e46d418a4d8e74b1332a4da1f29aa11bf85dcdc5ea2"
+    },
+    {
+      "path": "godot-belt-map/assets/knight-demo/frost.png.import",
+      "bytes": 938,
+      "sha256": "36fc7c88c6406862b34b64dd303c80f5803a71fc9f9faab559e9579ef1d70d30"
+    },
+    {
+      "path": "godot-belt-map/assets/knight-demo/generation.json",
+      "bytes": 945,
+      "sha256": "5ac9f81699900d1effe98b1297e32c5faea96d94c575275d843f4908dac44713"
+    },
+    {
+      "path": "godot-belt-map/systems/data/ember.json",
+      "bytes": 1213,
+      "sha256": "5c74442f064621e579edf012614fbe24008b2dc3958108466e87faf64a2b5bd5"
+    },
+    {
+      "path": "godot-belt-map/systems/data/frost.json",
+      "bytes": 1213,
+      "sha256": "12bf336cfc00c62fde80628fd9239acb678b58b3a86b704980beaf0363eaeb38"
+    },
+    {
+      "path": "godot-belt-map/systems/demo_environment.gd",
+      "bytes": 1216,
+      "sha256": "d0b14799d7cf7cdd59b601b15709e27dfd88dfeae73a6a6c4b10434ebe0b72de"
+    },
+    {
+      "path": "godot-belt-map/systems/demo_environment.gd.uid",
+      "bytes": 19,
+      "sha256": "6f0283af6fe3df432fee5c016c7e270b11bbd2a8b169dace02150f73a6512f81"
+    },
+    {
+      "path": "godot-belt-map/systems/quest_tracker.gd",
+      "bytes": 2265,
+      "sha256": "1423d99ac06c6c7ace6b0cde6167a1cd63766323aaf5f07826eeec67f1a7edf8"
+    },
+    {
+      "path": "godot-belt-map/systems/quest_tracker.gd.uid",
+      "bytes": 18,
+      "sha256": "9fa8a6236ee096af23010cf37209db74b59f4f36735ab2be405d2e8b252d2d28"
+    },
+    {
+      "path": "godot-belt-map/tests/companion_skill_review.gd",
+      "bytes": 992,
+      "sha256": "7eca2a4cfa596a9e5743f7d6cad0604652a1517608224435013f3b719c028e1a"
+    },
+    {
+      "path": "godot-belt-map/tests/knight_demo_review.gd",
+      "bytes": 1310,
+      "sha256": "78657fa82085bcf350874d068137023d43d2645a3084791e5bcbaa15ac46e2c7"
+    },
+    {
+      "path": "godot-belt-map/tests/knight_demo_review.gd.uid",
+      "bytes": 20,
+      "sha256": "4b3858b654878ccfd36e7e2f71e0b8e32f5d23ddbd5830c1729fa19019b522f0"
+    },
+    {
+      "path": "godot-belt-map/tests/knight_demo_test.gd",
+      "bytes": 7390,
+      "sha256": "a5562e01215fa781b154c01fb587dd073a19ea45aa2bc0589773074944e4281c"
+    },
+    {
+      "path": "godot-belt-map/tests/knight_demo_test.gd.uid",
+      "bytes": 20,
+      "sha256": "016e9d5dba72cc28b484930b1aa685dfbf26942944c139288f210b71fcd6dff3"
+    },
+    {
+      "path": "setup-team-comfy.py",
+      "bytes": 1774,
+      "sha256": "76c576a6f1b0dd9344b3d62298776197d841efbed7ffa3a2c15bb3b091237e76"
     }
   ]
 }

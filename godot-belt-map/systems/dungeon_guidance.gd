@@ -45,7 +45,7 @@ func setup(service) -> void:
 func message() -> String:
 	var run: Dictionary=runtime.run_state
 	if run.get("rooms",false) and run.phase in ["ready","boon"] and int(run.wave)>0:
-		return "房间已清理！拾取战利品\n前往发光的门，按 %s 进入下一间" % runtime.controls.key_name("interact")
+		return "房间已清理！战利品已收集\n前往发光的门，按 %s 进入下一间" % runtime.controls.key_name("interact")
 	match str(run.phase):
 		"combat":
 			var remaining:=0
@@ -58,7 +58,7 @@ func message() -> String:
 				if run.phase=="boon" and not run.offers.is_empty(): reward=" · 获得"+str(runtime.BOONS[run.offers[0]].name)
 				return "本轮清场！拾取战利品%s\n%d 秒后自动开始第 %d 轮" % [reward,ceili(maxf(0,runtime.wave_countdown)),int(run.wave)+1]
 		"victory":
-			return "副本通关！拾取战利品\n前往传送门「返回城镇」，按 %s 离开并交付任务" % runtime.controls.key_name("interact")
+			return "副本通关！战利品已自动收集\n%d 秒后自动返回城镇" % ceili(maxf(0,runtime.wave_countdown))
 	return ""
 
 func _process(_delta: float) -> void:

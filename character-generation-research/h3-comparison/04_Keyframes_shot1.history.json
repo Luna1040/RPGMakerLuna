@@ -1,0 +1,255 @@
+{
+  "prompt": [
+    6,
+    "224add89-3678-4c85-b785-0dd7af470c1b",
+    {
+      "1": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "wuxia-opening-reference-v1.png"
+        }
+      },
+      "2": {
+        "class_type": "H3ModelLoaderAny",
+        "inputs": {
+          "model_name": "minimax_h3_fl2va_pruned_fp8_scaled.safetensors",
+          "activation_reserve_gb": 3.0
+        }
+      },
+      "3": {
+        "class_type": "H3ClipLoaderAny",
+        "inputs": {
+          "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+          "type": "minimax"
+        }
+      },
+      "4": {
+        "class_type": "VAELoader",
+        "inputs": {
+          "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+        }
+      },
+      "5": {
+        "class_type": "ImageScale",
+        "inputs": {
+          "width": 1344,
+          "height": 768,
+          "image": [
+            "1",
+            0
+          ],
+          "upscale_method": "lanczos",
+          "crop": "disabled"
+        }
+      },
+      "6": {
+        "class_type": "H3Keyframes",
+        "inputs": {
+          "prompt": "Chinese wuxia film opening, adult characters, cinematic live action. The first frame defines the heroine's face, hair, ivory and pale-blue hanfu and the ancient pavilion in a bamboo grove. Keep her identity and costume consistent. Animate full body actions with clear intent, weight, foot placement and readable gestures. Real spatial movement, not a still portrait with moving hair. One continuous shot with the camera movement specified below. No internal cuts, captions, logos, modern objects or extra limbs. Silent video.\nSHOT 1 — ARRIVAL, about ten seconds. Begin exactly from the supplied first frame. In the first third the heroine turns her head sharply toward a sound outside the pavilion, turns her shoulders and steps forward. During the middle third she walks purposefully out of the pavilion and down the bamboo path, her sleeves trailing behind her steps. During the final third she slows and stops as she notices someone ahead, lifting her gaze with an alert expression. Camera: a smooth lateral tracking move follows her at medium-full-body distance, revealing the path ahead and settling into an over-the-shoulder composition. Keep the walking readable. End with room ahead of her for an approaching rival.",
+          "width": 1344,
+          "height": 768,
+          "length": 243,
+          "positions": "0%",
+          "clip": [
+            "3",
+            0
+          ],
+          "vae": [
+            "4",
+            0
+          ],
+          "image_1": [
+            "5",
+            0
+          ]
+        }
+      },
+      "16": {
+        "class_type": "ModelAttentionBackend",
+        "inputs": {
+          "attention": "comfy kitchen attention",
+          "model": [
+            "2",
+            0
+          ]
+        }
+      },
+      "7": {
+        "class_type": "BasicGuider",
+        "inputs": {
+          "model": [
+            "16",
+            0
+          ],
+          "conditioning": [
+            "6",
+            0
+          ]
+        }
+      },
+      "8": {
+        "class_type": "RandomNoise",
+        "inputs": {
+          "noise_seed": 731429
+        }
+      },
+      "9": {
+        "class_type": "KSamplerSelect",
+        "inputs": {
+          "sampler_name": "res_multistep"
+        }
+      },
+      "10": {
+        "class_type": "BasicScheduler",
+        "inputs": {
+          "steps": 20,
+          "denoise": 1.0,
+          "model": [
+            "16",
+            0
+          ],
+          "scheduler": "simple"
+        }
+      },
+      "11": {
+        "class_type": "SamplerCustomAdvanced",
+        "inputs": {
+          "noise": [
+            "8",
+            0
+          ],
+          "guider": [
+            "7",
+            0
+          ],
+          "sampler": [
+            "9",
+            0
+          ],
+          "sigmas": [
+            "10",
+            0
+          ],
+          "latent_image": [
+            "6",
+            1
+          ]
+        }
+      },
+      "12": {
+        "class_type": "LTXVSeparateAVLatent",
+        "inputs": {
+          "av_latent": [
+            "11",
+            0
+          ]
+        }
+      },
+      "13": {
+        "class_type": "VAEDecodeTiled",
+        "inputs": {
+          "tile_size": 512,
+          "overlap": 64,
+          "temporal_size": 32,
+          "temporal_overlap": 8,
+          "samples": [
+            "12",
+            0
+          ],
+          "vae": [
+            "4",
+            0
+          ]
+        }
+      },
+      "15": {
+        "class_type": "VHS_VideoCombine",
+        "inputs": {
+          "frame_rate": 24.0,
+          "loop_count": 0,
+          "filename_prefix": "h3-comparison/04_Keyframes/shot1",
+          "pingpong": false,
+          "save_output": true,
+          "images": [
+            "13",
+            0
+          ],
+          "format": "video/h264-mp4",
+          "pix_fmt": "yuv420p",
+          "crf": 19,
+          "save_metadata": true,
+          "trim_to_audio": false
+        }
+      }
+    },
+    {
+      "client_id": "h3-comparison-sequential",
+      "create_time": 1791609391964
+    },
+    [
+      "15"
+    ]
+  ],
+  "outputs": {
+    "15": {
+      "gifs": [
+        {
+          "filename": "shot1_00001.mp4",
+          "subfolder": "h3-comparison\\04_Keyframes",
+          "type": "output",
+          "format": "video/h264-mp4",
+          "frame_rate": 24.0,
+          "workflow": "shot1_00001.png",
+          "fullpath": "C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\output\\h3-comparison\\04_Keyframes\\shot1_00001.mp4",
+          "metadata": {
+            "kind": "video",
+            "width": 1344,
+            "height": 768,
+            "duration": 10.125,
+            "fps": 24.0,
+            "frame_count": 243
+          }
+        }
+      ]
+    }
+  },
+  "status": {
+    "status_str": "success",
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "224add89-3678-4c85-b785-0dd7af470c1b",
+          "timestamp": 1791609391965
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [
+            "1",
+            "4"
+          ],
+          "prompt_id": "224add89-3678-4c85-b785-0dd7af470c1b",
+          "timestamp": 1791609391979
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "224add89-3678-4c85-b785-0dd7af470c1b",
+          "timestamp": 1791610101752
+        }
+      ]
+    ]
+  },
+  "meta": {
+    "15": {
+      "node_id": "15",
+      "display_node": "15",
+      "parent_node": null,
+      "real_node_id": "15"
+    }
+  }
+}

@@ -99,6 +99,8 @@ func record_event(event_type: String, data: Dictionary = {}) -> void:
 		for objective: Dictionary in definition.objectives:
 			if objective.kind != "event" or objective.event != actual:
 				continue
+			if objective.has("zone") and str(objective.zone) != str(data.get("zone","")):
+				continue
 			if data.get("training", false) or data.get("is_dummy", false):
 				continue
 			var count := int(state.counts.get(objective.id, 0))

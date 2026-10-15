@@ -1,0 +1,162 @@
+{
+  "1": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "team-5722c33feb594a04bdf5d45d6db5c485.png"
+    }
+  },
+  "2": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+      "type": "minimax",
+      "device": "default"
+    }
+  },
+  "3": {
+    "class_type": "UNETLoader",
+    "inputs": {
+      "unet_name": "minimax_h3_ref2va_pruned_fp8_scaled.safetensors",
+      "weight_dtype": "default"
+    }
+  },
+  "4": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+    }
+  },
+  "6": {
+    "class_type": "MiniMaxH3ReferenceToVideo",
+    "inputs": {
+      "clip": [
+        "2",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "prompt": "Wide static casino table shot, exact same distant camera and complete oval table composition as <Picture 1>. The adult female dealer occupies only the UPPER CENTER of the image, her head and torso entirely in the upper 55 percent; the LARGE EMPTY RED FELT TABLE occupies the entire LOWER 45 percent. Full width mahogany oval table and brass rim remain visible. Do NOT zoom in on the woman. Preserve her identity, black gown and emerald pendant. She deals two cards professionally FACE DOWN: holds a red-backed deck in her left hand, slides one red-backed card flat across the table with her right hand, then another. Every visible card surface is a RED GEOMETRIC PATTERNED BACK with narrow white border; NO card faces, ranks, numbers or suit marks are ever visible. Cards remain face down, backs up throughout; she never turns or flips them over. Natural shoulders and head movement, then return both hands to the original resting pose and smile. Completely locked camera, NO zoom, NO pan, NO cuts. Keep original wide framing and large empty table foreground throughout. Five second scene, no UI or writing.\n",
+      "width": 1024,
+      "height": 576,
+      "length": 124,
+      "ref_image_size": "match",
+      "ref_images.ref_image_0": [
+        "1",
+        0
+      ]
+    }
+  },
+  "7": {
+    "class_type": "BasicGuider",
+    "inputs": {
+      "model": [
+        "3",
+        0
+      ],
+      "conditioning": [
+        "6",
+        0
+      ]
+    }
+  },
+  "8": {
+    "class_type": "RandomNoise",
+    "inputs": {
+      "noise_seed": 731431
+    }
+  },
+  "9": {
+    "class_type": "KSamplerSelect",
+    "inputs": {
+      "sampler_name": "res_multistep"
+    }
+  },
+  "10": {
+    "class_type": "BasicScheduler",
+    "inputs": {
+      "model": [
+        "3",
+        0
+      ],
+      "scheduler": "normal",
+      "steps": 20,
+      "denoise": 1.0
+    }
+  },
+  "11": {
+    "class_type": "SamplerCustomAdvanced",
+    "inputs": {
+      "noise": [
+        "8",
+        0
+      ],
+      "guider": [
+        "7",
+        0
+      ],
+      "sampler": [
+        "9",
+        0
+      ],
+      "sigmas": [
+        "10",
+        0
+      ],
+      "latent_image": [
+        "6",
+        1
+      ]
+    }
+  },
+  "12": {
+    "class_type": "VAEDecodeTiled",
+    "inputs": {
+      "samples": [
+        "11",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "tile_size": 384,
+      "overlap": 64,
+      "temporal_size": 32,
+      "temporal_overlap": 8
+    }
+  },
+  "13": {
+    "class_type": "CreateVideo",
+    "inputs": {
+      "images": [
+        "12",
+        0
+      ],
+      "fps": 24.0
+    }
+  },
+  "14": {
+    "class_type": "SaveVideo",
+    "inputs": {
+      "video": [
+        "13",
+        0
+      ],
+      "filename_prefix": "team/081ac1b2d77047cdb9417b78ea02d2c4/video",
+      "format": "mp4",
+      "format.codec": "h264"
+    }
+  },
+  "15": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "12",
+        0
+      ],
+      "filename_prefix": "team/081ac1b2d77047cdb9417b78ea02d2c4/frames"
+    }
+  }
+}

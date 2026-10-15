@@ -1,0 +1,72 @@
+{
+  "hf_revision": "0a7c4f2ea1e5354f0ac713543aa7f498c01d4e1c",
+  "github_revision": "71fbd67f32e4d2db5deb6708a7525cb0e28d0530",
+  "files": [
+    {
+      "file": "Seamless-Chain/workflows/H3_Keyframes.json",
+      "url": "https://huggingface.co/joeygambino/MiniMax-H3-Multishot-Workflow/resolve/0a7c4f2ea1e5354f0ac713543aa7f498c01d4e1c/workflows/H3_Keyframes.json",
+      "bytes": 31876,
+      "sha256": "639a14b73f6f28c38888c91ef83310077e9a6bdaf63e394cdb6f0a9dcaceda2c"
+    },
+    {
+      "file": "Seamless-Chain/workflows/H3_Seamless_Chain_v2.json",
+      "url": "https://huggingface.co/joeygambino/MiniMax-H3-Multishot-Workflow/resolve/0a7c4f2ea1e5354f0ac713543aa7f498c01d4e1c/workflows/H3_Seamless_Chain_v2.json",
+      "bytes": 85999,
+      "sha256": "57db69c325b8b6802aca0c8ec5b27bdd0230a1ea0df5312a255ec6e4a6400a4d"
+    },
+    {
+      "file": "Seamless-Chain/workflows/H3_Seamless_Chain_CORE.json",
+      "url": "https://huggingface.co/joeygambino/MiniMax-H3-Multishot-Workflow/resolve/0a7c4f2ea1e5354f0ac713543aa7f498c01d4e1c/workflows/H3_Seamless_Chain_CORE.json",
+      "bytes": 25721,
+      "sha256": "23c166d0e5d47e7e5c09d7aa4d86b619d9ccc64f28082cace263d1768940c075"
+    },
+    {
+      "file": "Seamless-Chain/README.md",
+      "url": "https://huggingface.co/joeygambino/MiniMax-H3-Multishot-Workflow/resolve/0a7c4f2ea1e5354f0ac713543aa7f498c01d4e1c/README.md",
+      "bytes": 82532,
+      "sha256": "39e8763bee9025608860eff382e400684863570cb5c642f658494696c15dde47"
+    },
+    {
+      "file": "Seamless-Chain/SETTINGS.md",
+      "url": "https://huggingface.co/joeygambino/MiniMax-H3-Multishot-Workflow/resolve/0a7c4f2ea1e5354f0ac713543aa7f498c01d4e1c/SETTINGS.md",
+      "bytes": 35347,
+      "sha256": "398206026f8567b601fa6c836884e7408c23c134e1d5b0e63dcc2ef58144c64d"
+    },
+    {
+      "file": "Seamless-Chain/INSTALL.md",
+      "url": "https://huggingface.co/joeygambino/MiniMax-H3-Multishot-Workflow/resolve/0a7c4f2ea1e5354f0ac713543aa7f498c01d4e1c/INSTALL.md",
+      "bytes": 12830,
+      "sha256": "b2ffbabd19a95ab1654b5ed5214a9430afef19aa290e1c32121c210b0700f5d5"
+    },
+    {
+      "file": "MBEDIT/MBEDIT - MH3-r2v_2Pass-LatentUpscaler_v5.json",
+      "url": "https://raw.githubusercontent.com/mdkberry/comfyui_workflows/71fbd67f32e4d2db5deb6708a7525cb0e28d0530/workflows_by_model/Minimax-H3/MBEDIT%20-%20MH3-r2v_2Pass-LatentUpscaler_v5.json",
+      "bytes": 101857,
+      "sha256": "806d85fe05082e0a1e55bee1581ede253d626ea025aa001bf5cc4edce418098f"
+    },
+    {
+      "file": "Seamless-Chain/PROMPTING.md",
+      "url": "https://huggingface.co/joeygambino/MiniMax-H3-Multishot-Workflow/resolve/0a7c4f2ea1e5354f0ac713543aa7f498c01d4e1c/PROMPTING.md",
+      "bytes": 6334,
+      "sha256": "c886124a115e138996e539643bae244d8762c4a3c176844148ce54e0cd6005e8"
+    },
+    {
+      "file": "MBEDIT/ReadMe.md",
+      "url": "https://raw.githubusercontent.com/mdkberry/comfyui_workflows/71fbd67f32e4d2db5deb6708a7525cb0e28d0530/workflows_by_model/Minimax-H3/ReadMe.md",
+      "bytes": 19719,
+      "sha256": "f8a3e6fe8831476bca7d7ceda88a12f535611c43aba556ed98d261cc9994ed8e"
+    },
+    {
+      "file": "MBEDIT/MBEDIT - MH3-rv2v_PixelSpace-Upscaler-CtxtWndws_v3.json",
+      "url": "https://raw.githubusercontent.com/mdkberry/comfyui_workflows/71fbd67f32e4d2db5deb6708a7525cb0e28d0530/workflows_by_model/Minimax-H3/MBEDIT%20-%20MH3-rv2v_PixelSpace-Upscaler-CtxtWndws_v3.json",
+      "bytes": 89565,
+      "sha256": "a772b1373f76cd2c84acfe03f694b4c118abffaa160efa6f089aeb3577c2fbb9"
+    },
+    {
+      "file": "MBEDIT/MBEDIT - MH3_rv2v_PixelSpace_Upscaler_v18.json",
+      "url": "https://raw.githubusercontent.com/mdkberry/comfyui_workflows/71fbd67f32e4d2db5deb6708a7525cb0e28d0530/workflows_by_model/Minimax-H3/MBEDIT%20-%20MH3_rv2v_PixelSpace_Upscaler_v18.json",
+      "bytes": 90337,
+      "sha256": "135e82e0a18ba57c8dd56b8e639c256557e633d92cd2ac41991d5e709ba627f1"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "reference": "reference.png",
+  "format": "full-scene locked-camera H3 video; no alpha matte",
+  "canvas": [
+    1024,
+    576
+  ],
+  "display_canvas": [
+    1280,
+    720
+  ],
+  "fps": 24,
+  "source_length": 124,
+  "workflow": "template.json",
+  "actions": {
+    "deal": {
+      "job": "deal",
+      "seed": 731421,
+      "runtime": "../../assets/dealer/deal.ogv",
+      "release_seconds": 1.65,
+      "event": "enable authoritative card reveal"
+    },
+    "payout": {
+      "job": "payout",
+      "seed": 731422,
+      "runtime": "../../assets/dealer/payout.ogv",
+      "release_seconds": 2.8,
+      "event": "credit settled virtual chips once"
+    },
+    "idle": {
+      "job": "idle",
+      "seed": 731423,
+      "runtime": "../../assets/dealer/idle.ogv",
+      "loop": true
+    }
+  },
+  "processing": "Preserve full original framing; H3 SaveImage PNGs retained in output-index order. Encode full scene as Theora OGV for Godot. Black-background matte is inapplicable to casino scenery and black evening gown.",
+  "review": "Reviewed: all three source contact sheets; actual Godot deal playback sequence and payout release screenshot; 28 mouse/rules checks PASS; 14 motion-event checks PASS; complete idle-loop wrap PASS. Mild AI identity/prop variations remain."
+}

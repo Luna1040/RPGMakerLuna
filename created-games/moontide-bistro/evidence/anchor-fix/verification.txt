@@ -1,0 +1,1 @@
+PASS: 31 rendered walk frames and idle, both directions, food attached. Maximum mirrored pixel MAE 0.0069 / 255.

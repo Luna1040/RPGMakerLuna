@@ -1,0 +1,3 @@
+file 'C:/Users/11043/Desktop/先锋技术调研/character-generation-research/h3-runtime/output/h3-comparison/01_MBEDIT_Latent/shot1_00001_.mp4'
+file 'C:/Users/11043/Desktop/先锋技术调研/character-generation-research/h3-runtime/output/h3-comparison/01_MBEDIT_Latent/shot2_00001.mp4'
+file 'C:/Users/11043/Desktop/先锋技术调研/character-generation-research/h3-runtime/output/h3-comparison/01_MBEDIT_Latent/shot3_00001.mp4'

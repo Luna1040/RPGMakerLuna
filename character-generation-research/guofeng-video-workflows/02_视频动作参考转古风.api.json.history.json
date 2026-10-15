@@ -1,0 +1,329 @@
+{
+  "prompt": [
+    23,
+    "2beec293-1669-416c-81a5-2c082b542e88",
+    {
+      "1": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "guofeng-demo-reference.png"
+        }
+      },
+      "2": {
+        "class_type": "CLIPLoader",
+        "inputs": {
+          "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+          "type": "minimax",
+          "device": "default"
+        }
+      },
+      "3": {
+        "class_type": "UNETLoader",
+        "inputs": {
+          "unet_name": "minimax_h3_ref2va_pruned_fp8_scaled.safetensors",
+          "weight_dtype": "default"
+        }
+      },
+      "4": {
+        "class_type": "VAELoader",
+        "inputs": {
+          "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+        }
+      },
+      "5": {
+        "class_type": "LoraLoaderModelOnly",
+        "inputs": {
+          "model": [
+            "3",
+            0
+          ],
+          "lora_name": "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+          "strength_model": 1.0
+        }
+      },
+      "20": {
+        "class_type": "LoadVideo",
+        "inputs": {
+          "file": "guofeng-demo-source.mp4"
+        }
+      },
+      "21": {
+        "class_type": "GetVideoComponents",
+        "inputs": {
+          "video": [
+            "20",
+            0
+          ]
+        }
+      },
+      "22": {
+        "class_type": "ImageFromBatch",
+        "inputs": {
+          "image": [
+            "21",
+            0
+          ],
+          "batch_index": 0,
+          "length": 124
+        }
+      },
+      "23": {
+        "class_type": "ImageScale",
+        "inputs": {
+          "image": [
+            "22",
+            0
+          ],
+          "upscale_method": "lanczos",
+          "width": 512,
+          "height": 640,
+          "crop": "center"
+        }
+      },
+      "27": {
+        "class_type": "ImageScale",
+        "inputs": {
+          "image": [
+            "23",
+            0
+          ],
+          "upscale_method": "area",
+          "width": 256,
+          "height": 320,
+          "crop": "center"
+        }
+      },
+      "6": {
+        "class_type": "MiniMaxH3ReferenceToVideo",
+        "inputs": {
+          "clip": [
+            "2",
+            0
+          ],
+          "vae": [
+            "4",
+            0
+          ],
+          "prompt": "Recreate the action in <Video 1> with the adult character identity and Chinese historical costume design from <Picture 1>. Preserve the order and timing of the body movements and the camera angle from <Video 1>. Transform the character into an elegant Chinese wuxia swordswoman in flowing ivory and pale blue hanfu, tied long black hair, silk sleeves. Replace the scene with a misty bamboo forest and ancient pavilion. Chinese historical fantasy film, coherent face, hands and clothing throughout the shot, soft cinematic light, no text, no watermark. Silent.",
+          "width": 512,
+          "height": 640,
+          "length": 124,
+          "ref_image_size": "match",
+          "ref_images.ref_image_0": [
+            "1",
+            0
+          ],
+          "ref_videos.ref_video_0": [
+            "27",
+            0
+          ]
+        }
+      },
+      "7": {
+        "class_type": "BasicGuider",
+        "inputs": {
+          "model": [
+            "5",
+            0
+          ],
+          "conditioning": [
+            "6",
+            0
+          ]
+        }
+      },
+      "8": {
+        "class_type": "RandomNoise",
+        "inputs": {
+          "noise_seed": 731429
+        }
+      },
+      "9": {
+        "class_type": "KSamplerSelect",
+        "inputs": {
+          "sampler_name": "res_multistep"
+        }
+      },
+      "10": {
+        "class_type": "BasicScheduler",
+        "inputs": {
+          "model": [
+            "5",
+            0
+          ],
+          "scheduler": "simple",
+          "steps": 4,
+          "denoise": 1.0
+        }
+      },
+      "11": {
+        "class_type": "SamplerCustomAdvanced",
+        "inputs": {
+          "noise": [
+            "8",
+            0
+          ],
+          "guider": [
+            "7",
+            0
+          ],
+          "sampler": [
+            "9",
+            0
+          ],
+          "sigmas": [
+            "10",
+            0
+          ],
+          "latent_image": [
+            "6",
+            1
+          ]
+        }
+      },
+      "12": {
+        "class_type": "VAEDecodeTiled",
+        "inputs": {
+          "samples": [
+            "11",
+            0
+          ],
+          "vae": [
+            "4",
+            0
+          ],
+          "tile_size": 384,
+          "overlap": 64,
+          "temporal_size": 32,
+          "temporal_overlap": 8
+        }
+      },
+      "13": {
+        "class_type": "CreateVideo",
+        "inputs": {
+          "images": [
+            "12",
+            0
+          ],
+          "fps": 24.0
+        }
+      },
+      "14": {
+        "class_type": "SaveVideo",
+        "inputs": {
+          "video": [
+            "13",
+            0
+          ],
+          "filename_prefix": "guofeng/02",
+          "format": "mp4",
+          "format.codec": "h264"
+        }
+      }
+    },
+    {
+      "client_id": "guofeng-local-verification",
+      "create_time": 1791556319493
+    },
+    [
+      "14"
+    ]
+  ],
+  "outputs": {
+    "14": {
+      "images": [
+        {
+          "filename": "02_00001_.mp4",
+          "subfolder": "guofeng",
+          "type": "output",
+          "metadata": {
+            "kind": "video",
+            "width": 512,
+            "height": 640,
+            "duration": 5.166666666666667,
+            "fps": 24.0,
+            "frame_count": 124
+          }
+        }
+      ],
+      "animated": [
+        true
+      ]
+    },
+    "20": {
+      "images": [
+        {
+          "filename": "guofeng-demo-source.mp4",
+          "subfolder": "",
+          "type": "input",
+          "metadata": {
+            "kind": "video",
+            "width": 512,
+            "height": 640,
+            "duration": 5.166666666666667,
+            "fps": 24.0,
+            "frame_count": 124
+          }
+        }
+      ],
+      "animated": [
+        true
+      ]
+    }
+  },
+  "status": {
+    "status_str": "success",
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "2beec293-1669-416c-81a5-2c082b542e88",
+          "timestamp": 1791556319493
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "20",
+            "21",
+            "22",
+            "23",
+            "8",
+            "9",
+            "10"
+          ],
+          "prompt_id": "2beec293-1669-416c-81a5-2c082b542e88",
+          "timestamp": 1791556319497
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "2beec293-1669-416c-81a5-2c082b542e88",
+          "timestamp": 1791556368281
+        }
+      ]
+    ]
+  },
+  "meta": {
+    "14": {
+      "node_id": "14",
+      "display_node": "14",
+      "parent_node": null,
+      "real_node_id": "14"
+    },
+    "20": {
+      "node_id": "20",
+      "display_node": "20",
+      "parent_node": null,
+      "real_node_id": "20"
+    }
+  }
+}

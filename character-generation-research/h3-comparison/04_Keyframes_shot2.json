@@ -1,0 +1,827 @@
+{
+  "id": "827056b4-0c59-4e33-8dd7-3323fbb9c779",
+  "revision": 0,
+  "last_node_id": 16,
+  "last_link_id": 17,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "LoadImage",
+      "pos": [
+        0,
+        0
+      ],
+      "size": [
+        380,
+        330
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            1
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "benchmark_04_last1.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "benchmark_04_last1.png"
+      }
+    },
+    {
+      "id": 2,
+      "type": "H3ModelLoaderAny",
+      "pos": [
+        420,
+        0
+      ],
+      "size": [
+        380,
+        330
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            5
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "H3ModelLoaderAny"
+      },
+      "widgets_values": [
+        "minimax_h3_fl2va_pruned_fp8_scaled.safetensors",
+        3.0
+      ],
+      "widgets_values_named": {
+        "model_name": "minimax_h3_fl2va_pruned_fp8_scaled.safetensors",
+        "activation_reserve_gb": 3.0
+      }
+    },
+    {
+      "id": 3,
+      "type": "H3ClipLoaderAny",
+      "pos": [
+        840,
+        0
+      ],
+      "size": [
+        380,
+        330
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            2
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "H3ClipLoaderAny"
+      },
+      "widgets_values": [
+        "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+        "minimax",
+        "(auto)"
+      ],
+      "widgets_values_named": {
+        "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+        "type": "minimax",
+        "mmproj_name": "(auto)"
+      }
+    },
+    {
+      "id": 4,
+      "type": "VAELoader",
+      "pos": [
+        1260,
+        0
+      ],
+      "size": [
+        380,
+        330
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            3,
+            16
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAELoader"
+      },
+      "widgets_values": [
+        "minimax_h3_video_vae_fp16.safetensors"
+      ],
+      "widgets_values_named": {
+        "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+      }
+    },
+    {
+      "id": 5,
+      "type": "ImageScale",
+      "pos": [
+        1680,
+        0
+      ],
+      "size": [
+        380,
+        330
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            4
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageScale"
+      },
+      "widgets_values": [
+        "lanczos",
+        1344,
+        768,
+        "disabled"
+      ],
+      "widgets_values_named": {
+        "upscale_method": "lanczos",
+        "width": 1344,
+        "height": 768,
+        "crop": "disabled"
+      }
+    },
+    {
+      "id": 6,
+      "type": "H3Keyframes",
+      "pos": [
+        0,
+        530
+      ],
+      "size": [
+        380,
+        330
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 2
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 3
+        },
+        {
+          "name": "image_1",
+          "type": "IMAGE",
+          "link": 4
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            7
+          ]
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "links": [
+            13
+          ]
+        },
+        {
+          "name": "info",
+          "type": "STRING",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "H3Keyframes"
+      },
+      "widgets_values": [
+        "Chinese wuxia film opening, adult characters, cinematic live action. The first frame defines the heroine's face, hair, ivory and pale-blue hanfu and the ancient pavilion in a bamboo grove. Keep her identity and costume consistent. Animate full body actions with clear intent, weight, foot placement and readable gestures. Real spatial movement, not a still portrait with moving hair. One continuous shot with the camera movement specified below. No internal cuts, captions, logos, modern objects or extra limbs. Silent video.\nSHOT 2 — ENCOUNTER. The first frame is the previous shot's final frame; continue the location and the heroine's position from it. Over about ten seconds: an adult swordsman in dark charcoal hanfu enters the path ahead and stops three paces from the heroine, blocking her way. She takes a decisive step toward him and raises an open hand to challenge him; he reaches for his sword. She lowers her hand and draws a slender straight sword from her waist; he draws his sword in response. Finish with both opponents in clearly separated fighting stances, facing one another. Camera: a slow thirty-degree arc from behind the heroine to a side-on medium-wide two-shot, keeping both people's bodies and swords visible. Show their approach, confrontation and change into fighting stances, not just facial reactions. Exactly two people.",
+        1344,
+        768,
+        243,
+        "0%"
+      ],
+      "widgets_values_named": {
+        "prompt": "Chinese wuxia film opening, adult characters, cinematic live action. The first frame defines the heroine's face, hair, ivory and pale-blue hanfu and the ancient pavilion in a bamboo grove. Keep her identity and costume consistent. Animate full body actions with clear intent, weight, foot placement and readable gestures. Real spatial movement, not a still portrait with moving hair. One continuous shot with the camera movement specified below. No internal cuts, captions, logos, modern objects or extra limbs. Silent video.\nSHOT 2 — ENCOUNTER. The first frame is the previous shot's final frame; continue the location and the heroine's position from it. Over about ten seconds: an adult swordsman in dark charcoal hanfu enters the path ahead and stops three paces from the heroine, blocking her way. She takes a decisive step toward him and raises an open hand to challenge him; he reaches for his sword. She lowers her hand and draws a slender straight sword from her waist; he draws his sword in response. Finish with both opponents in clearly separated fighting stances, facing one another. Camera: a slow thirty-degree arc from behind the heroine to a side-on medium-wide two-shot, keeping both people's bodies and swords visible. Show their approach, confrontation and change into fighting stances, not just facial reactions. Exactly two people.",
+        "width": 1344,
+        "height": 768,
+        "length": 243,
+        "positions": "0%"
+      }
+    },
+    {
+      "id": 16,
+      "type": "ModelAttentionBackend",
+      "pos": [
+        420,
+        530
+      ],
+      "size": [
+        380,
+        330
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 5
+        }
+      ],
+      "outputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "links": [
+            6,
+            8
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ModelAttentionBackend"
+      },
+      "widgets_values": [
+        "comfy kitchen attention"
+      ],
+      "widgets_values_named": {
+        "attention": "comfy kitchen attention"
+      }
+    },
+    {
+      "id": 7,
+      "type": "BasicGuider",
+      "pos": [
+        840,
+        530
+      ],
+      "size": [
+        380,
+        330
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 6
+        },
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "GUIDER",
+          "type": "GUIDER",
+          "links": [
+            10
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BasicGuider"
+      },
+      "widgets_values": [],
+      "widgets_values_named": {}
+    },
+    {
+      "id": 8,
+      "type": "RandomNoise",
+      "pos": [
+        1260,
+        530
+      ],
+      "size": [
+        380,
+        330
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "NOISE",
+          "type": "NOISE",
+          "links": [
+            9
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RandomNoise"
+      },
+      "widgets_values": [
+        739348,
+        "fixed"
+      ],
+      "widgets_values_named": {
+        "noise_seed": 739348
+      }
+    },
+    {
+      "id": 9,
+      "type": "KSamplerSelect",
+      "pos": [
+        1680,
+        530
+      ],
+      "size": [
+        380,
+        330
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "SAMPLER",
+          "type": "SAMPLER",
+          "links": [
+            11
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSamplerSelect"
+      },
+      "widgets_values": [
+        "res_multistep"
+      ],
+      "widgets_values_named": {
+        "sampler_name": "res_multistep"
+      }
+    },
+    {
+      "id": 10,
+      "type": "BasicScheduler",
+      "pos": [
+        0,
+        1060
+      ],
+      "size": [
+        380,
+        330
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 8
+        }
+      ],
+      "outputs": [
+        {
+          "name": "SIGMAS",
+          "type": "SIGMAS",
+          "links": [
+            12
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BasicScheduler"
+      },
+      "widgets_values": [
+        "simple",
+        20,
+        1.0
+      ],
+      "widgets_values_named": {
+        "scheduler": "simple",
+        "steps": 20,
+        "denoise": 1.0
+      }
+    },
+    {
+      "id": 11,
+      "type": "SamplerCustomAdvanced",
+      "pos": [
+        420,
+        1060
+      ],
+      "size": [
+        380,
+        330
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "noise",
+          "type": "NOISE",
+          "link": 9
+        },
+        {
+          "name": "guider",
+          "type": "GUIDER",
+          "link": 10
+        },
+        {
+          "name": "sampler",
+          "type": "SAMPLER",
+          "link": 11
+        },
+        {
+          "name": "sigmas",
+          "type": "SIGMAS",
+          "link": 12
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 13
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "LATENT",
+          "links": [
+            14
+          ]
+        },
+        {
+          "name": "denoised_output",
+          "type": "LATENT",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SamplerCustomAdvanced"
+      },
+      "widgets_values": [],
+      "widgets_values_named": {}
+    },
+    {
+      "id": 12,
+      "type": "LTXVSeparateAVLatent",
+      "pos": [
+        840,
+        1060
+      ],
+      "size": [
+        380,
+        330
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "av_latent",
+          "type": "LATENT",
+          "link": 14
+        }
+      ],
+      "outputs": [
+        {
+          "name": "video_latent",
+          "type": "LATENT",
+          "links": [
+            15
+          ]
+        },
+        {
+          "name": "audio_latent",
+          "type": "LATENT",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LTXVSeparateAVLatent"
+      },
+      "widgets_values": [],
+      "widgets_values_named": {}
+    },
+    {
+      "id": 13,
+      "type": "VAEDecodeTiled",
+      "pos": [
+        1260,
+        1060
+      ],
+      "size": [
+        380,
+        330
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 15
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 16
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            17
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecodeTiled"
+      },
+      "widgets_values": [
+        512,
+        64,
+        32,
+        8
+      ],
+      "widgets_values_named": {
+        "tile_size": 512,
+        "overlap": 64,
+        "temporal_size": 32,
+        "temporal_overlap": 8
+      }
+    },
+    {
+      "id": 15,
+      "type": "VHS_VideoCombine",
+      "pos": [
+        1680,
+        1060
+      ],
+      "size": [
+        380,
+        330
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 17
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Filenames",
+          "type": "VHS_FILENAMES",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VHS_VideoCombine"
+      },
+      "widgets_values": {
+        "frame_rate": 24.0,
+        "loop_count": 0,
+        "filename_prefix": "h3-comparison/04_Keyframes/shot2",
+        "pingpong": false,
+        "save_output": true,
+        "format": "video/h264-mp4",
+        "pix_fmt": "yuv420p",
+        "crf": 19,
+        "save_metadata": true,
+        "trim_to_audio": false
+      },
+      "widgets_values_named": {
+        "frame_rate": 24.0,
+        "loop_count": 0,
+        "filename_prefix": "h3-comparison/04_Keyframes/shot2",
+        "pingpong": false,
+        "save_output": true,
+        "format": "video/h264-mp4",
+        "pix_fmt": "yuv420p",
+        "crf": 19,
+        "save_metadata": true,
+        "trim_to_audio": false
+      }
+    }
+  ],
+  "links": [
+    [
+      1,
+      1,
+      0,
+      5,
+      0,
+      "IMAGE"
+    ],
+    [
+      2,
+      3,
+      0,
+      6,
+      0,
+      "CLIP"
+    ],
+    [
+      3,
+      4,
+      0,
+      6,
+      1,
+      "VAE"
+    ],
+    [
+      4,
+      5,
+      0,
+      6,
+      2,
+      "IMAGE"
+    ],
+    [
+      5,
+      2,
+      0,
+      16,
+      0,
+      "MODEL"
+    ],
+    [
+      6,
+      16,
+      0,
+      7,
+      0,
+      "MODEL"
+    ],
+    [
+      7,
+      6,
+      0,
+      7,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      8,
+      16,
+      0,
+      10,
+      0,
+      "MODEL"
+    ],
+    [
+      9,
+      8,
+      0,
+      11,
+      0,
+      "NOISE"
+    ],
+    [
+      10,
+      7,
+      0,
+      11,
+      1,
+      "GUIDER"
+    ],
+    [
+      11,
+      9,
+      0,
+      11,
+      2,
+      "SAMPLER"
+    ],
+    [
+      12,
+      10,
+      0,
+      11,
+      3,
+      "SIGMAS"
+    ],
+    [
+      13,
+      6,
+      1,
+      11,
+      4,
+      "LATENT"
+    ],
+    [
+      14,
+      11,
+      0,
+      12,
+      0,
+      "LATENT"
+    ],
+    [
+      15,
+      12,
+      0,
+      13,
+      0,
+      "LATENT"
+    ],
+    [
+      16,
+      4,
+      0,
+      13,
+      1,
+      "VAE"
+    ],
+    [
+      17,
+      13,
+      0,
+      15,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.45,
+      "offset": [
+        100,
+        100
+      ]
+    }
+  },
+  "version": 0.4
+}

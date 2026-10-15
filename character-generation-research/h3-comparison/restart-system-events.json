@@ -1,0 +1,182 @@
+[
+  {
+    "TimeCreated": "2026-10-10T13:38:32.7597132+08:00",
+    "Id": 18,
+    "ProviderName": "TPM",
+    "Message": "此事件会触发受信任的平台模块(TPM)预配/状态检查运行。"
+  },
+  {
+    "TimeCreated": "2026-10-10T13:38:31.7832989+08:00",
+    "Id": 1001,
+    "ProviderName": "Microsoft-Windows-WER-SystemErrorReporting",
+    "Message": "计算机已经从检测错误后重新启动。检测错误: 0x00000050 (0xfffff8017d66d1cd, 0x0000000000000010, 0xfffff8017d66d1cd, 0x0000000000000002)。已将转储的数据保存在: C:\\WINDOWS\\Minidump\\101026-9125-01.dmp。报告 ID: 4db23c85-c984-4373-a8c9-b009090d58fb。"
+  },
+  {
+    "TimeCreated": "2026-10-10T13:38:30.099448+08:00",
+    "Id": 18,
+    "ProviderName": "Microsoft-Windows-Wininit",
+    "Message": "VBS 密钥隔离已启动，并将保护 VSM 隔离的密钥。"
+  },
+  {
+    "TimeCreated": "2026-10-10T13:38:30.0402721+08:00",
+    "Id": 19,
+    "ProviderName": "Microsoft-Windows-Wininit",
+    "Message": "基于虚拟化的安全性新计时器创建状态\r\n\r\nHRESULT: 操作成功完成。\r\n需要新的闩锁计时器: false\r\n等待系统更新完成的新闩锁计时器: false\r\n现有闩锁计时器存在，但注册表已禁用: false\r\n策略文件存在: false\r\n"
+  },
+  {
+    "TimeCreated": "2026-10-10T13:38:28.6987749+08:00",
+    "Id": 17,
+    "ProviderName": "Microsoft-Windows-Subsys-SMSS",
+    "Message": "已经成功执行平台二进制。"
+  },
+  {
+    "TimeCreated": "2026-10-10T13:38:27.2605812+08:00",
+    "Id": 18,
+    "ProviderName": "BTHUSB",
+    "Message": "Windows 无法在本地适配器上存储蓝牙身份验证代码(链接密钥)。启动时，蓝牙键盘可能无法在系统 BIOS 中工作。"
+  },
+  {
+    "TimeCreated": "2026-10-10T13:38:24.2135211+08:00",
+    "Id": 41,
+    "ProviderName": "Microsoft-Windows-Kernel-Power",
+    "Message": "系统已在未先正常关机的情况下重新启动。如果系统停止响应、发生崩溃或意外断电，则可能会导致此错误。"
+  },
+  {
+    "TimeCreated": "2026-10-10T13:38:30.7452412+08:00",
+    "Id": 6008,
+    "ProviderName": "EventLog",
+    "Message": "上一次系统的 12:59:52 在 ‎2026/‎10/‎10 上的关闭是意外的。"
+  },
+  {
+    "TimeCreated": "2026-10-10T13:38:22.009741+08:00",
+    "Id": 18,
+    "ProviderName": "Microsoft-Windows-Kernel-Boot",
+    "Message": "此系统有 0x1 个引导选项。"
+  },
+  {
+    "TimeCreated": "2026-10-10T10:19:54.7219096+08:00",
+    "Id": 18,
+    "ProviderName": "TPM",
+    "Message": "此事件会触发受信任的平台模块(TPM)预配/状态检查运行。"
+  },
+  {
+    "TimeCreated": "2026-10-10T10:19:53.0402335+08:00",
+    "Id": 1001,
+    "ProviderName": "Microsoft-Windows-WER-SystemErrorReporting",
+    "Message": "计算机已经从检测错误后重新启动。检测错误: 0x00020001 (0x0000000000000011, 0x000007c580c00000, 0x0000000000001005, 0xffffe70000005090)。已将转储的数据保存在: C:\\WINDOWS\\Minidump\\101026-9953-01.dmp。报告 ID: 0f051deb-f696-4dfa-8690-bf31bba08421。"
+  },
+  {
+    "TimeCreated": "2026-10-10T10:19:51.8397779+08:00",
+    "Id": 18,
+    "ProviderName": "Microsoft-Windows-Wininit",
+    "Message": "VBS 密钥隔离已启动，并将保护 VSM 隔离的密钥。"
+  },
+  {
+    "TimeCreated": "2026-10-10T10:19:51.7817988+08:00",
+    "Id": 19,
+    "ProviderName": "Microsoft-Windows-Wininit",
+    "Message": "基于虚拟化的安全性新计时器创建状态\r\n\r\nHRESULT: 操作成功完成。\r\n需要新的闩锁计时器: false\r\n等待系统更新完成的新闩锁计时器: false\r\n现有闩锁计时器存在，但注册表已禁用: false\r\n策略文件存在: false\r\n"
+  },
+  {
+    "TimeCreated": "2026-10-10T10:19:50.4186709+08:00",
+    "Id": 17,
+    "ProviderName": "Microsoft-Windows-Subsys-SMSS",
+    "Message": "已经成功执行平台二进制。"
+  },
+  {
+    "TimeCreated": "2026-10-10T10:19:49.6959016+08:00",
+    "Id": 18,
+    "ProviderName": "BTHUSB",
+    "Message": "Windows 无法在本地适配器上存储蓝牙身份验证代码(链接密钥)。启动时，蓝牙键盘可能无法在系统 BIOS 中工作。"
+  },
+  {
+    "TimeCreated": "2026-10-10T10:19:45.2076525+08:00",
+    "Id": 41,
+    "ProviderName": "Microsoft-Windows-Kernel-Power",
+    "Message": "系统已在未先正常关机的情况下重新启动。如果系统停止响应、发生崩溃或意外断电，则可能会导致此错误。"
+  },
+  {
+    "TimeCreated": "2026-10-10T10:19:52.6383136+08:00",
+    "Id": 6008,
+    "ProviderName": "EventLog",
+    "Message": "上一次系统的 9:52:10 在 ‎2026/‎10/‎10 上的关闭是意外的。"
+  },
+  {
+    "TimeCreated": "2026-10-10T10:19:43.0061781+08:00",
+    "Id": 18,
+    "ProviderName": "Microsoft-Windows-Kernel-Boot",
+    "Message": "此系统有 0x1 个引导选项。"
+  },
+  {
+    "TimeCreated": "2026-10-09T18:09:03.2797273+08:00",
+    "Id": 19,
+    "ProviderName": "Microsoft-Windows-WindowsUpdateClient",
+    "Message": "安装成功: Windows 成功安装了下列更新: 9WZDNCRFJBMP-MICROSOFT.WINDOWSSTORE"
+  },
+  {
+    "TimeCreated": "2026-10-08T13:30:57.2495321+08:00",
+    "Id": 19,
+    "ProviderName": "Microsoft-Windows-WindowsUpdateClient",
+    "Message": "安装成功: Windows 成功安装了下列更新: 9WZDNCRD29V9-MICROSOFT.MICROSOFTOFFICEHUB"
+  },
+  {
+    "TimeCreated": "2026-10-08T12:34:38.8119503+08:00",
+    "Id": 19,
+    "ProviderName": "Microsoft-Windows-WindowsUpdateClient",
+    "Message": "安装成功: Windows 成功安装了下列更新: 9MZ95KL8MR0L-Microsoft.ScreenSketch"
+  },
+  {
+    "TimeCreated": "2026-10-08T10:58:59.7025594+08:00",
+    "Id": 19,
+    "ProviderName": "Microsoft-Windows-WindowsUpdateClient",
+    "Message": "安装成功: Windows 成功安装了下列更新: 9PLM9XGG6VKS-OpenAI.Codex"
+  },
+  {
+    "TimeCreated": "2026-10-08T10:32:12.8606724+08:00",
+    "Id": 18,
+    "ProviderName": "TPM",
+    "Message": "此事件会触发受信任的平台模块(TPM)预配/状态检查运行。"
+  },
+  {
+    "TimeCreated": "2026-10-08T10:32:10.3060637+08:00",
+    "Id": 18,
+    "ProviderName": "Microsoft-Windows-Wininit",
+    "Message": "VBS 密钥隔离已启动，并将保护 VSM 隔离的密钥。"
+  },
+  {
+    "TimeCreated": "2026-10-08T10:32:09.976811+08:00",
+    "Id": 19,
+    "ProviderName": "Microsoft-Windows-Wininit",
+    "Message": "基于虚拟化的安全性新计时器创建状态\r\n\r\nHRESULT: 操作成功完成。\r\n需要新的闩锁计时器: false\r\n等待系统更新完成的新闩锁计时器: false\r\n现有闩锁计时器存在，但注册表已禁用: false\r\n策略文件存在: false\r\n"
+  },
+  {
+    "TimeCreated": "2026-10-08T10:32:08.6953256+08:00",
+    "Id": 17,
+    "ProviderName": "Microsoft-Windows-Subsys-SMSS",
+    "Message": "已经成功执行平台二进制。"
+  },
+  {
+    "TimeCreated": "2026-10-08T10:32:07.9762897+08:00",
+    "Id": 18,
+    "ProviderName": "BTHUSB",
+    "Message": "Windows 无法在本地适配器上存储蓝牙身份验证代码(链接密钥)。启动时，蓝牙键盘可能无法在系统 BIOS 中工作。"
+  },
+  {
+    "TimeCreated": "2026-10-08T10:32:01.0077643+08:00",
+    "Id": 18,
+    "ProviderName": "Microsoft-Windows-Kernel-Boot",
+    "Message": "此系统有 0x1 个引导选项。"
+  },
+  {
+    "TimeCreated": "2026-10-08T10:23:59.6786464+08:00",
+    "Id": 1074,
+    "ProviderName": "User32",
+    "Message": "进程 C:\\WINDOWS\\system32\\winlogon.exe (LUNA4090) 由于以下原因已代表用户 NT AUTHORITY\\SYSTEM 启动计算机 LUNA4090 的 关闭电源: 没有找到这个原因的标题\r\n 原因代码: 0x500ff\r\n 关机类型: 关闭电源\r\n 注释: "
+  },
+  {
+    "TimeCreated": "2026-10-08T09:55:27.8099852+08:00",
+    "Id": 19,
+    "ProviderName": "Microsoft-Windows-WindowsUpdateClient",
+    "Message": "安装成功: Windows 成功安装了下列更新: 2026-09 安全更新(KB5129195) (26200.9457)"
+  }
+]

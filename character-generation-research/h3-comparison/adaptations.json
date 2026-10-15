@@ -1,0 +1,15 @@
+{
+  "01": {
+    "source": "MBEDIT - MH3-r2v_2Pass-LatentUpscaler_v5.json",
+    "preserved": "LoRA 0.8; shifts 12/3; 960x544; euler/simple 8 steps; learned latent upscale 1MP; second pass 0.9035,0.6316,0.3158,0",
+    "changes": [
+      "local FP8 model replaces unavailable INT8 ConvRot",
+      "local FP16 video VAE replaces INT8 VAE",
+      "one shared image replaces five example references",
+      "first-frame guide added for requested image-to-video and shot continuity",
+      "243 frames per shot; shared three-shot script",
+      "tiled video decode and silent MP4 output",
+      "pytorch attention until isolated CUDA13 dependency completes"
+    ]
+  }
+}
