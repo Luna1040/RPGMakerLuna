@@ -63003,8 +63003,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 34886,
-      "sha256": "0424218f28bcdfd42519e1eee317ca46b651918f808c9d881ee76e82b683246b"
+      "bytes": 35316,
+      "sha256": "1c425f989de4f28c6d16b5c51c0e287796e40a3288bfda7cfd69236ac841cfaf"
     },
     {
       "path": "godot-ai-workbench/resolve-runtime.ps1",
@@ -65668,8 +65668,8 @@
     },
     {
       "path": "docs/platform-notes.md",
-      "bytes": 3521,
-      "sha256": "18b42cba8c7f03aa707d135912b5ff980ecf961a371035cfe720020f987e6962"
+      "bytes": 3705,
+      "sha256": "14e4f49800e8b75e887e0ec5570fc3ce4a706af29c42ae9396a7bb0f06a70870"
     },
     {
       "path": "docs/comparison/craft-cloud-postman.png",
