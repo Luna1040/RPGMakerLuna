@@ -113,6 +113,7 @@ func _process(delta: float) -> void:
 		var art: LootArt=drop.node
 		art.bounce=3+sin(time*3+float(drop.serial))*2+maxf(0,1-float(drop.age)/0.6)*18
 		art.queue_redraw()
+	collect_drops(Vector2.ZERO,true,false)
 
 func hit_melee(foot: Vector2, z: float, event: Dictionary) -> int:
 	var hit := 0
@@ -164,7 +165,7 @@ func damage_crate(id: String, damage: float) -> void:
 	spawn_drop("旧铜币",5,foot+Vector2(0.22,0.22),false)
 	spawn_drop("碎布",1,foot+Vector2(0,0.4),false)
 	crate_destroyed.emit(id)
-	notice.emit("木箱已击碎！靠近杂物按 E 拾取")
+	notice.emit("木箱已击碎！掉落物将自动收集")
 
 func spawn_drop(id: String, amount: int, foot: Vector2, is_equipment: bool) -> void:
 	var art := LootArt.new()
@@ -179,20 +180,18 @@ func spawn_drop(id: String, amount: int, foot: Vector2, is_equipment: bool) -> v
 func nearby(foot: Vector2, target: Vector2, radius: float=0.85) -> bool:
 	return absf(foot.y-target.y)<=0.65 and foot.distance_to(target)<=radius
 
-func interact(foot: Vector2, z: float) -> bool:
-	if z>0.2:
-		return false
+func collect_drops(foot: Vector2, automatic: bool = false, force: bool = false) -> bool:
 	var picked: Array[String]=[]
 	for drop: Dictionary in drops.duplicate():
-		if not nearby(foot,drop.foot) or float(drop.age)<0.25:
+		if not force and ((not automatic and not nearby(foot,drop.foot)) or float(drop.age)<(0.6 if automatic else 0.25)):
 			continue
 		if drop.equipment:
 			if equipment.grant(drop.id):
 				queue_equipment(drop.id)
-				picked.append(str(equipment.CATALOG[drop.id].name)+"（I 背包 / Q 装备）")
+				picked.append(str(equipment.CATALOG[drop.id].name)+"（已收入背包）")
 			elif not is_equipped(drop.id):
 				queue_equipment(drop.id)
-				picked.append(str(equipment.CATALOG[drop.id].name)+"（背包已有，Q 穿戴）")
+				picked.append(str(equipment.CATALOG[drop.id].name)+"（背包已有）")
 			else:
 				materials["秘银碎屑"]+=2
 				picked.append("重复装备分解：秘银碎屑 ×2")
@@ -205,6 +204,11 @@ func interact(foot: Vector2, z: float) -> bool:
 	if not picked.is_empty():
 		notice.emit("获得："+"、".join(picked))
 		return true
+	return false
+
+func interact(foot: Vector2, z: float) -> bool:
+	if z>0.2: return false
+	if collect_drops(foot): return true
 	for chest: Dictionary in chests:
 		if not chest.opened and nearby(foot,chest.foot,1.0):
 			chest.opened=true
@@ -213,7 +217,7 @@ func interact(foot: Vector2, z: float) -> bool:
 			chest_opened.emit(str(chest.id))
 			for i in chest.contents.size():
 				spawn_drop(chest.contents[i],1,chest.foot+Vector2((i-0.5)*0.44,0.45),true)
-			notice.emit("宝箱已打开！靠近装备按 Q 直接穿戴，E 拾取附近物品")
+			notice.emit("宝箱已打开！装备将自动收入背包")
 			return true
 	return false
 
@@ -222,10 +226,10 @@ func prompt(foot: Vector2, z: float) -> String:
 		return ""
 	var closest := nearest_equipment(foot)
 	if not closest.is_empty():
-		return "Q 拾取并穿戴 %s · E 拾取附近物品" % equipment.CATALOG[closest.id].name
+		return "自动收集 %s · 背包中可穿戴" % equipment.CATALOG[closest.id].name
 	for drop: Dictionary in drops:
 		if nearby(foot,drop.foot):
-			return "E 拾取附近物品"
+			return "掉落物自动收集中"
 	for chest: Dictionary in chests:
 		if not chest.opened and nearby(foot,chest.foot,1.0):
 			return "E 打开宝箱"

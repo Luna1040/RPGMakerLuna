@@ -1,0 +1,20 @@
+[
+  {
+    "file": "01_古风参考图生成.api.json",
+    "prompt_id": "133c2692-eedc-4987-80e5-3c9642062c74",
+    "number": 20,
+    "node_errors": {}
+  },
+  {
+    "file": "02_视频动作参考转古风.api.json",
+    "prompt_id": "dced02dc-c580-4ba5-8e07-f4db1c6db495",
+    "number": 21,
+    "node_errors": {}
+  },
+  {
+    "file": "03_视频潜空间重绘.api.json",
+    "prompt_id": "0a5a64bd-d8ab-4ac3-9f71-fe69cfb00c9c",
+    "number": 22,
+    "node_errors": {}
+  }
+]

@@ -4,3 +4,5 @@ h3:
   text_encoders: models/text_encoders
   vae: models/vae
   loras: models/loras
+  latent_upscale_models: models/latent_upscale_models
+  custom_nodes: ../h3-community-nodes

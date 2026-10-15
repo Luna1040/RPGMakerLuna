@@ -1,0 +1,466 @@
+{
+  "id": 2947601,
+  "name": "Simply Advanced - MiniMax H3",
+  "description": "<h2 id=\"simply-advanced-minimax-h3-workflow-by-altoiddealer\">Simply Advanced - MiniMax H3 Workflow by altoiddealer</h2><p>This workflow was built from the ground up by myself working daily over the course of 2-3 weeks, aiming to be well structured, expandable, and easy to use without sacrificing any functionality.</p><h3 id=\"new-in-v1.5:\">New in v1.5:</h3><p>Seamless Continuation has been replaced with <strong>Seamless Extension</strong></p><ol><li><p>Slices off X frames from your video input(s) to set Video/Audio guide(s).</p></li><li><p>MiniMax H3 generates Video/Audio which begins and/or ends with those sliced inputs.</p></li><li><p>The workflow stitches the result with the original video input(s) using configurable overlap blending strategies. <strong>Optional:</strong> enter the subgraph to enable saving the raw generation result.</p></li></ol><p><u>Seamless Extension modes:</u></p><ul><li><p><strong>Seamless Continuation</strong> (generate from input video as start point)</p></li><li><p><strong>Seamless Convergence</strong> (generate into input video as end point)</p></li><li><p><strong>Can be used in combination (</strong>Generate between two input videos)</p></li></ul><h2 id=\"main-features:\">Main features:</h2><ul><li><p><strong>Supports up to:</strong> 6 Images, 2 Videos, 3 Audio.</p><ul><li><p><strong><em>ANY</em></strong> can be set as <strong>reference</strong>, <strong>guide</strong>, or <strong>both</strong>. This is much more useful than the average user understands - I have not yet seen this support in any other workflow.</p></li></ul></li><li><p><strong>Latent Upscale and/or 2-Stage Generation</strong></p><ul><li><p>Intuitive settings/LoRA management for each stage.</p></li></ul></li><li><p><strong>1-4 steps LLM Prompt Enhancement</strong></p><ul><li><p><strong>Subgraph contains a dashboard to generate / edit LLM's responses before they pass into the next stage.</strong></p></li><li><p><strong>Includes my personal 4-Step Ref2VA pipeline.</strong></p><ul><li><p><strong>Step 1</strong> <strong>Prompt Enhancement/Expansion</strong>: (Optional Step). Allows the LLM to interpret the user's prompt more verbosely and in relation to the reference materials. Catching/editing discrepancies here will yield much better results in next steps.</p></li><li><p><strong>Step 2: Reference Analysis</strong>: Creates a detailed mapping of the references in relation to the Expanded Prompt. The resulting Reference Map is included as part of the context in the next steps.</p></li><li><p><strong>Step 3: Creative Director:</strong> Considers Expanded Prompt + Reference Analysis to create a Creative Blueprint.</p></li><li><p><strong>Step 4: Prompt Compiler:</strong> Conforms the Reference Map + Creative Blueprint into the H3 prompt structure</p></li></ul></li></ul></li><li><p><strong>Includes my personal 1-Step FL2VA Prompt Enhance</strong></p><ul><li><p>The system prompt begins with base instructions, adding task specific instructions (T2VA / I2VA / FL2VA / L2VA)</p></li><li><p>The mode is detected automatically based on the state of Image 1 / Image 2.</p></li></ul></li><li><p><strong>You, the user, can easily add your own LLM instructions into this system as selectable options. Take a shot at making your own multi-stage pipeline!</strong></p></li><li><p><strong>Seamless video extension option</strong> - <a rel=\"ugc\" href=\"https://civitai.com/models/2881362/minimax-seed-hunter-workflow-latent-upscaler-seamless-video-continuation-speedups-ref-mods\">continuation idea taken from Seed Hunter workflow</a> - later expanded to include convergence/combination usage.</p></li><li><p><strong>Force Audio option</strong> - <a target=\"_blank\" rel=\"ugc\" href=\"https://civitai.com/models/2881362/minimax-seed-hunter-workflow-latent-upscaler-seamless-video-continuation-speedups-ref-mods\">idea taken from Seed Hunter workflow</a></p></li><li><p><strong>Easily expandable framework</strong></p><ul><li><p>Easily add/manage speedups, LoRAs, etc</p></li></ul></li><li><p>Is the poster child for an amazing new node, <a target=\"_blank\" rel=\"ugc\" href=\"https://github.com/yolain/ComfyUI-Easy-Use/pull/1035\">Pass or None</a>. Workflow developers, start using this!!</p></li></ul><p><img src=\"https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/707d6bd3-7ae2-4512-9b56-46a248ed83c1/original=true/707d6bd3-7ae2-4512-9b56-46a248ed83c1.jpeg\" /></p><h3 id=\"comfyui-requirements:\"><u>ComfyUI Requirements:</u></h3><ul><li><p><strong>Be updated.</strong></p></li><li><p><strong>MUST</strong> have <strong>comfyui-frontend</strong> version &lt; <a target=\"_blank\" rel=\"ugc\" href=\"https://github.com/Comfy-Org/ComfyUI_frontend/pull/14475\"><strong>v1.50.5</strong></a> (Fixed broken <strong>Custom Combo</strong> nodes in subgraphs)</p></li></ul><h3 id=\"required-custom-nodes:\"><u>Required Custom Nodes:</u></h3><ul><li><p><a target=\"_blank\" rel=\"ugc\" href=\"https://github.com/yolain/Comfyui-Easy-Use\"><strong>ComfyUI-Easy-Use</strong></a></p></li><li><p><a target=\"_blank\" rel=\"ugc\" href=\"https://github.com/kijai/ComfyUI-KJNodes\"><strong>ComfyUI-KJNodes</strong></a></p></li><li><p><a target=\"_blank\" rel=\"ugc\" href=\"https://github.com/altoiddealer/comfyui_essential-er\"><strong>comfyui_essential-er</strong></a> (My repo). Was optional, now Required for v1.5+ for its <a target=\"_blank\" rel=\"ugc\" href=\"https://github.com/altoiddealer/comfyui_essential-er#merge-image-batches-and-audio-lists\">superior video/audio merging node</a></p></li></ul><h3 id=\"optional-custom-nodes:\"><u>Optional Custom Nodes:</u></h3><ul><li><p><strong>Load Video (Upload)</strong> from <a target=\"_blank\" rel=\"ugc\" href=\"https://github.com/kosinkadink/ComfyUI-VideoHelperSuite\"><strong>ComfyUI-VideoHelperSuite</strong></a> Feel free to replace with another Load Video node.</p></li><li><p><a target=\"_blank\" rel=\"ugc\" href=\"https://github.com/LBH-123-AI/Comfyui_Minimax_h3_latent_Upscaler\"><strong>MiniMax H3 Latent Upscaler</strong></a></p></li><li><p><a target=\"_blank\" rel=\"ugc\" href=\"https://github.com/Luisacaotica/ComfyUI-MiniMaxH3Mod\"><strong>MiniMax H3 RefMods</strong></a></p></li><li><p><strong>Datetime String</strong> from <a target=\"_blank\" rel=\"ugc\" href=\"https://github.com/jamesWalker55/comfyui-various\"><strong>comfyui-various</strong></a> - Useful for naming outputs. <strong>NOT REQUIRED</strong></p></li><li><p><a target=\"_blank\" rel=\"ugc\" href=\"https://github.com/xmarre/ComfyUI-Spectrum-MiniMax-H3\"><strong>ComfyUI-Spectrum-MiniMax-H3</strong></a> - Speedup option. <strong>NOT REQUIRED</strong></p></li></ul><p></p>",
+  "allowNoCredit": false,
+  "allowCommercialUse": [
+    "Image",
+    "RentCivit",
+    "Rent"
+  ],
+  "allowDerivatives": true,
+  "allowDifferentLicense": true,
+  "type": "Workflows",
+  "minor": false,
+  "sfwOnly": false,
+  "poi": false,
+  "nsfw": false,
+  "nsfwLevel": 3,
+  "availability": "Public",
+  "userId": 544805,
+  "hasActivePaidAccess": false,
+  "baseModels": [
+    "MiniMax H3"
+  ],
+  "cosmetic": null,
+  "eventDecoration": null,
+  "supportsGeneration": false,
+  "stats": {
+    "downloadCount": 1258,
+    "thumbsUpCount": 43,
+    "thumbsDownCount": 0,
+    "commentCount": 0,
+    "tippedAmountCount": 0
+  },
+  "creator": {
+    "username": "altoiddealer",
+    "image": null
+  },
+  "tags": [
+    "minimax h3",
+    "base model"
+  ],
+  "modelVersions": [
+    {
+      "id": 3355427,
+      "index": 0,
+      "name": "v1.5.4",
+      "baseModel": "MiniMax H3",
+      "baseModelType": "Standard",
+      "createdAt": "2026-09-24T18:34:11.774Z",
+      "publishedAt": "2026-09-24T18:55:41.293Z",
+      "status": "Published",
+      "flags": 0,
+      "availability": "Public",
+      "nsfwLevel": 3,
+      "description": "<p><strong><u>v1.5.4</u>: </strong>Fixed <strong>force_audio</strong> not actually working.  Fixed optional match image input being disconnected in &lt;Picture 2&gt;.</p><p><strong><u>v1.5.3</u>: </strong>Reverted the chain sampling implementation from 1.5.2. Currently too experimental.</p><p><strong><u>v1.5.2</u>:</strong></p><ul><li><p>D'ya know the expression, \"you have to break a few eggs to make an omelet\"? This fixes an issue where the \"Second Pass\" toggle had an inverted effect <code>Disabled = Yes / Enabled = No</code>. <strong>FIXED</strong></p></li><li><p>Added improved chain sampling logic, so you can optionally return leftover noise from a not fully denoised First Pass.</p></li></ul><p><strong><u>v1.5.1</u>: </strong>Fix error when not using video inputs. Sorry to any who snatched v1.5 right away and experienced this.</p><p><strong><u>v1.5</u>:</strong></p><p><a target=\"_blank\" rel=\"ugc\" href=\"https://github.com/altoiddealer/comfyui_essential-er\"><strong>ComfyUI-essential-er</strong></a> (my repo) is now <strong>required.</strong></p><p><strong>Reason: </strong>Extremely useful video/audio merging node which <strong><u>KJNodes has failed to merge</u></strong> from both <a target=\"_blank\" rel=\"ugc\" href=\"https://github.com/kijai/ComfyUI-KJNodes/pull/699\"><strong>a PR I had opened</strong></a>, as well as another user's <a target=\"_blank\" rel=\"ugc\" href=\"https://github.com/kijai/ComfyUI-KJNodes/pull/691\"><strong>still open PR</strong></a>.</p><p>In terms of this workflow, it turns <a target=\"_blank\" rel=\"ugc\" href=\"https://i.imgur.com/vOTuBqV.png\"><strong>this</strong></a> (v1.4) into <a target=\"_blank\" rel=\"ugc\" href=\"https://i.imgur.com/sne4CXI.png\"><strong>this</strong></a> (v1.5).</p><p><strong><u>New Feature:</u></strong></p><p>\"Seamless Continuation\" has been replaced with \"Seamless Extension\"</p><p><u>Seamless Extension modes:</u></p><ul><li><p><strong>Seamless Continuation</strong> (generate from your video onwards)</p></li><li><p><strong>Seamless Convergence</strong> (generate into your source video)</p></li><li><p><strong>Can be used in combination</strong></p></li></ul>",
+      "covered": false,
+      "coveredNext": false,
+      "stats": {
+        "downloadCount": 394,
+        "thumbsUpCount": 15,
+        "thumbsDownCount": 0
+      },
+      "files": [
+        {
+          "id": 3252451,
+          "sizeKB": 2840.708984375,
+          "name": "simplyAdvancedMinimax_v154.json",
+          "overrideName": null,
+          "type": "Config",
+          "pickleScanResult": "Success",
+          "pickleScanMessage": null,
+          "virusScanResult": "Success",
+          "virusScanMessage": null,
+          "scannedAt": "2026-09-27T22:25:10.706Z",
+          "metadata": {
+            "format": "Other",
+            "isRequired": false
+          },
+          "hashes": {
+            "AutoV1": "9C397DAA",
+            "AutoV2": "2A9223A22B",
+            "SHA256": "2A9223A22BC6C65DB44DED82683ABAE612B33EDAFD7797D348421AAD9DBA7C9D",
+            "CRC32": "3A429ED5",
+            "BLAKE3": "C15DE5A66E2EE8566A0242F7577B180CEA872A055D48B41817F4939107013CE2",
+            "AutoV3": "87B8D083B171",
+            "SHA256_12": "2A9223A22BC6"
+          },
+          "downloadUrl": "https://civitai.com/api/download/models/3355427?fileId=3252451",
+          "primary": true
+        }
+      ],
+      "images": [
+        {
+          "url": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/01f96285-fb56-4baf-bc88-ef83f9841537/original=true/143721863.mp4",
+          "nsfwLevel": 2,
+          "width": 2006,
+          "height": 1478,
+          "hash": "UC71TN~V?FxBacadoft8ofogj[WBf,bcWDRk",
+          "type": "video",
+          "minor": false,
+          "poi": false,
+          "hasMeta": false,
+          "hasPositivePrompt": false,
+          "onSite": false,
+          "remixOfId": null
+        },
+        {
+          "url": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/3aaeedaa-d8b1-403b-b092-39f17e689461/original=true/143721911.mp4",
+          "nsfwLevel": 2,
+          "width": 1248,
+          "height": 832,
+          "hash": "U02rjf~Ur;57?a%2t8NH9ZIqNHaxMws8aJV@",
+          "type": "video",
+          "minor": false,
+          "poi": false,
+          "hasMeta": true,
+          "hasPositivePrompt": true,
+          "onSite": false,
+          "remixOfId": null
+        },
+        {
+          "url": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/1979d5ad-fdb3-4044-bc0a-4b4ffabe9ca9/original=true/143722602.jpeg",
+          "nsfwLevel": 1,
+          "width": 1300,
+          "height": 1479,
+          "hash": "U071l-018~KQV~.8kn#loq0OE4~S~qNho{-7",
+          "type": "image",
+          "minor": false,
+          "poi": false,
+          "hasMeta": false,
+          "hasPositivePrompt": false,
+          "onSite": false,
+          "remixOfId": null
+        },
+        {
+          "url": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/85baeec8-3e0f-49a6-8ca1-bd7956effb7b/original=true/143722047.jpeg",
+          "nsfwLevel": 1,
+          "width": 3157,
+          "height": 1111,
+          "hash": "U35}%KvgnSR7_4xZxbRlJ|gGk8S1O=SbNYWT",
+          "type": "image",
+          "minor": false,
+          "poi": false,
+          "hasMeta": false,
+          "hasPositivePrompt": false,
+          "onSite": false,
+          "remixOfId": null
+        },
+        {
+          "url": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/cee2b3ce-527f-4380-a92c-c39b2e295561/original=true/143722580.jpeg",
+          "nsfwLevel": 1,
+          "width": 4851,
+          "height": 3624,
+          "hash": "U47Kh]~X-:NeRPafV[s:4:ouEMoy%MR*t5xu",
+          "type": "image",
+          "minor": false,
+          "poi": false,
+          "hasMeta": false,
+          "hasPositivePrompt": false,
+          "onSite": false,
+          "remixOfId": null
+        },
+        {
+          "url": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/9ae36513-1a86-4ba1-8819-75ac318a99b1/original=true/143722053.jpeg",
+          "nsfwLevel": 2,
+          "width": 3822,
+          "height": 2312,
+          "hash": "U25E$_.AD$M]_2kVR6sqobxZkDo$%3-pNFIn",
+          "type": "image",
+          "minor": false,
+          "poi": false,
+          "hasMeta": false,
+          "hasPositivePrompt": false,
+          "onSite": false,
+          "remixOfId": null
+        }
+      ],
+      "downloadUrl": "https://civitai.com/api/download/models/3355427"
+    },
+    {
+      "id": 3349562,
+      "index": 1,
+      "name": "v1.4",
+      "baseModel": "MiniMax H3",
+      "baseModelType": "Standard",
+      "createdAt": "2026-09-22T16:25:00.433Z",
+      "publishedAt": "2026-09-22T16:27:03.24Z",
+      "status": "Published",
+      "flags": 0,
+      "availability": "Public",
+      "nsfwLevel": 3,
+      "description": "<p><strong>Apologies for the quick version bump</strong></p><p><strong>Bug Fixes:</strong></p><ul><li><p>Fix error when \"continuation frames\" not set</p></li><li><p>Add fallback for when \"match_reference_size\" is accidentally enabled, but that reference is disabled.</p></li></ul><p><strong>New Features:</strong></p><ul><li><p>Added support for RefMods</p></li></ul>",
+      "covered": false,
+      "coveredNext": false,
+      "stats": {
+        "downloadCount": 230,
+        "thumbsUpCount": 9,
+        "thumbsDownCount": 0
+      },
+      "files": [
+        {
+          "id": 3236679,
+          "sizeKB": 2640.3154296875,
+          "name": "simplyAdvancedMinimax_v14.json",
+          "overrideName": null,
+          "type": "Config",
+          "pickleScanResult": "Success",
+          "pickleScanMessage": null,
+          "virusScanResult": "Success",
+          "virusScanMessage": null,
+          "scannedAt": "2026-09-22T16:26:24.387Z",
+          "metadata": {
+            "format": "Other",
+            "isRequired": false
+          },
+          "hashes": {
+            "AutoV1": "2701396F",
+            "AutoV2": "31979EA700",
+            "SHA256": "31979EA700C3E1297194ECC263E3D0ADCECB34891410F77633B08F7BB4E74B60",
+            "CRC32": "E159D217",
+            "BLAKE3": "A0C26DAE45D9FAC77A7E0FE7262ED774D8C75D42F7CB63678718CA28FDD280D7",
+            "AutoV3": "A2931F6B0822",
+            "SHA256_12": "31979EA700C3"
+          },
+          "downloadUrl": "https://civitai.com/api/download/models/3349562?fileId=3236679",
+          "primary": true
+        }
+      ],
+      "images": [
+        {
+          "url": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/59b16774-2185-4df8-8ddb-2f7b0f1d5d6b/original=true/143523767.jpeg",
+          "nsfwLevel": 1,
+          "width": 3910,
+          "height": 2961,
+          "hash": "U47B1Q~X={IUMwjFaMso0KbWI;t6tQM{t6oz",
+          "type": "image",
+          "minor": false,
+          "poi": false,
+          "hasMeta": false,
+          "hasPositivePrompt": false,
+          "onSite": false,
+          "remixOfId": null
+        },
+        {
+          "url": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/127f4a05-40b9-4b9e-ab11-d53902471fd6/original=true/143523929.jpeg",
+          "nsfwLevel": 1,
+          "width": 1149,
+          "height": 1149,
+          "hash": "U05YB0%M05E7~noe4=Rl~Uf60MkC^%jZ9wW=",
+          "type": "image",
+          "minor": false,
+          "poi": false,
+          "hasMeta": false,
+          "hasPositivePrompt": false,
+          "onSite": false,
+          "remixOfId": null
+        },
+        {
+          "url": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/4fa73edb-f489-4524-a674-1d5cec6eb27a/original=true/143524078.jpeg",
+          "nsfwLevel": 1,
+          "width": 2610,
+          "height": 1957,
+          "hash": "U05Osn@ZDnwj?d%2s;WF00HC%vS]0J57NYxU",
+          "type": "image",
+          "minor": false,
+          "poi": false,
+          "hasMeta": false,
+          "hasPositivePrompt": false,
+          "onSite": false,
+          "remixOfId": null
+        },
+        {
+          "url": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/41b3ae5a-4176-4fa4-ab29-a962221f1351/original=true/143555512.jpeg",
+          "nsfwLevel": 2,
+          "width": 3822,
+          "height": 2312,
+          "hash": "U25E$_.AD$M]_2kVR6sqobxZkDo$%3-pNFIn",
+          "type": "image",
+          "minor": false,
+          "poi": false,
+          "hasMeta": false,
+          "hasPositivePrompt": false,
+          "onSite": false,
+          "remixOfId": null
+        }
+      ],
+      "downloadUrl": "https://civitai.com/api/download/models/3349562"
+    },
+    {
+      "id": 3347028,
+      "index": 2,
+      "name": "v1.3.1",
+      "baseModel": "MiniMax H3",
+      "baseModelType": "Standard",
+      "createdAt": "2026-09-21T20:12:00.723Z",
+      "publishedAt": "2026-09-21T20:26:02.839Z",
+      "status": "Published",
+      "flags": 0,
+      "availability": "Public",
+      "nsfwLevel": 1,
+      "description": "<p><strong>v1.3.1</strong>: Support video continuation when video has no audio.</p><p><strong>v1.3 Bug fixes:</strong></p><ul><li><p>Picture2 \"match\" option had broken connection. Fixed.</p></li><li><p>\"LLM Summary\" error when 0 reference images. Fixed.</p></li></ul><p><strong>v1.3 New Features:</strong></p><ul><li><p>Latent Upscale support</p></li><li><p>2-Stage Generation support</p></li><li><p>Very Intuitive settings management per-stage.</p></li><li><p>Ability to create \"Seamless Extension\" videos <strong>while using Latent Upscale</strong></p><ul><li><p>Results: good, but not quite seamless</p></li><li><p>Disable Latent Upscale / 2nd Pass for \"seamless\"</p></li><li><p>Included option to \"downscale video guide\".</p><ul><li><p>Generates from downscaled video tail</p></li><li><p>Latent upscale &gt; 2nd Pass</p></li><li><p>The upscaled video extension is merged with the original full res video.</p></li></ul></li></ul></li></ul>",
+      "covered": false,
+      "coveredNext": false,
+      "stats": {
+        "downloadCount": 150,
+        "thumbsUpCount": 6,
+        "thumbsDownCount": 0
+      },
+      "files": [
+        {
+          "id": 3234662,
+          "sizeKB": 1291.98046875,
+          "name": "simplyAdvancedMinimax_v131.json",
+          "overrideName": null,
+          "type": "Config",
+          "pickleScanResult": "Success",
+          "pickleScanMessage": null,
+          "virusScanResult": "Success",
+          "virusScanMessage": null,
+          "scannedAt": "2026-09-22T01:02:53.979Z",
+          "metadata": {
+            "format": "Other",
+            "isRequired": false
+          },
+          "hashes": {
+            "AutoV2": "1E78AE4F59",
+            "SHA256": "1E78AE4F59FF64CC4594C7F645202688288DA510F62C8CC388F687219D6EB306",
+            "CRC32": "4605AF17",
+            "BLAKE3": "3CB5DAF5717E956E219993FDDC9A23680BC35E2B00E9F7048A267B1C0065FBD4",
+            "AutoV3": "9E2E611AF74B",
+            "SHA256_12": "1E78AE4F59FF"
+          },
+          "downloadUrl": "https://civitai.com/api/download/models/3347028?fileId=3234662",
+          "primary": true
+        }
+      ],
+      "images": [
+        {
+          "url": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/24072e8e-8895-4317-8c2e-3f30da70c971/original=true/143445476.jpeg",
+          "nsfwLevel": 1,
+          "width": 4721,
+          "height": 3593,
+          "hash": "U47B1R_4-oX9$%njnixb4.tOJBs:XToxbuxu",
+          "type": "image",
+          "minor": false,
+          "poi": false,
+          "hasMeta": false,
+          "hasPositivePrompt": false,
+          "onSite": false,
+          "remixOfId": null
+        },
+        {
+          "url": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/df429575-7f21-44be-aecc-f8270fa48708/original=true/143445484.jpeg",
+          "nsfwLevel": 1,
+          "width": 2221,
+          "height": 1527,
+          "hash": "U271crInM^NL-.aMoItSRjITNG%MyFs*ITxc",
+          "type": "image",
+          "minor": false,
+          "poi": false,
+          "hasMeta": false,
+          "hasPositivePrompt": false,
+          "onSite": false,
+          "remixOfId": null
+        },
+        {
+          "url": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/546ac2ae-8ccb-4e22-8597-54058bc67d49/original=true/143445488.jpeg",
+          "nsfwLevel": 1,
+          "width": 3448,
+          "height": 829,
+          "hash": "U25#*D*~DmV[.AsswPxc55OnxUtSpdRzJ5In",
+          "type": "image",
+          "minor": false,
+          "poi": false,
+          "hasMeta": false,
+          "hasPositivePrompt": false,
+          "onSite": false,
+          "remixOfId": null
+        }
+      ],
+      "downloadUrl": "https://civitai.com/api/download/models/3347028"
+    },
+    {
+      "id": 3337967,
+      "index": 3,
+      "name": "v1.2",
+      "baseModel": "MiniMax H3",
+      "baseModelType": "Standard",
+      "createdAt": "2026-09-18T20:45:34.705Z",
+      "publishedAt": "2026-09-18T20:47:30.84Z",
+      "status": "Published",
+      "flags": 0,
+      "availability": "Public",
+      "nsfwLevel": 1,
+      "description": "<p>v1.1: Fixed bug where it tried setting a guide for video continuation overlaps. This oversight should have been caught before publishing v1.0 - I apologize.</p><p>v1.2: </p><ul><li><p>Fixed a minor bug I introduced when adding the <strong>FL2VA</strong> LLM Instructions. I had tweaked the Regex node to avoid capturing <strong>I2VA</strong> \"00:00\" prompts, but it was then capturing entirely \"[Shot 1] 00:00.000\" from generated <strong>Rev2VA</strong> prompts.  Fixed to now only capture the \" 00:00.000\" portion, leaving \"[Shot 1]\".</p></li><li><p>Added a (hopefully) temporary workaround to avoid error when using Video without audio, with the suggested Load Video node from  <a rel=\"ugc\" href=\"https://github.com/kosinkadink/ComfyUI-VideoHelperSuite\">ComfyUI-VideoHelperSuite.</a>  They have numerous issues reported on this recent bug; there should be a permanent fix coming soon.</p></li></ul>",
+      "covered": false,
+      "coveredNext": false,
+      "stats": {
+        "downloadCount": 484,
+        "thumbsUpCount": 28,
+        "thumbsDownCount": 0
+      },
+      "files": [
+        {
+          "id": 3226297,
+          "sizeKB": 2409.3955078125,
+          "name": "simplyAdvancedMinimax_v12.json",
+          "overrideName": null,
+          "type": "Config",
+          "pickleScanResult": "Success",
+          "pickleScanMessage": null,
+          "virusScanResult": "Success",
+          "virusScanMessage": null,
+          "scannedAt": "2026-09-19T11:42:04.853Z",
+          "metadata": {
+            "format": "Other",
+            "isRequired": false
+          },
+          "hashes": {
+            "AutoV1": "BD460AE1",
+            "AutoV2": "82269FEEB9",
+            "SHA256": "82269FEEB9EFBA22A29B93C87531C26F5187477088C940F6B16C5BED8D1292D7",
+            "CRC32": "66AF352C",
+            "BLAKE3": "16034E66366AB870AC29BCFF0CC493C1466A6686B315B61404906FDA63DF0B8B",
+            "AutoV3": "A61C5C0C3844",
+            "SHA256_12": "82269FEEB9EF"
+          },
+          "downloadUrl": "https://civitai.com/api/download/models/3337967?fileId=3226297",
+          "primary": true
+        }
+      ],
+      "images": [
+        {
+          "url": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/8ea74f5e-1d9e-44fd-821b-fa2f8b4ec426/original=true/143152800.jpeg",
+          "nsfwLevel": 1,
+          "width": 5244,
+          "height": 3810,
+          "hash": "U46*UN_4={NFxanis9s:0eouIqj[NdtQX8xt",
+          "type": "image",
+          "minor": false,
+          "poi": false,
+          "hasMeta": false,
+          "hasPositivePrompt": false,
+          "onSite": false,
+          "remixOfId": null
+        },
+        {
+          "url": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/954f7086-256c-4b8a-90b5-8c47436f2660/original=true/143152808.jpeg",
+          "nsfwLevel": 1,
+          "width": 3822,
+          "height": 2312,
+          "hash": "U25E$_.AD$M]_2kVR6sqobxZkDo$%3-pNFIn",
+          "type": "image",
+          "minor": false,
+          "poi": false,
+          "hasMeta": false,
+          "hasPositivePrompt": false,
+          "onSite": false,
+          "remixOfId": null
+        }
+      ],
+      "downloadUrl": "https://civitai.com/api/download/models/3337967"
+    }
+  ]
+}

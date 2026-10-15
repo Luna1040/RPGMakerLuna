@@ -1,0 +1,74 @@
+{
+  "14": {
+    "path": "C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\output\\guofeng-drama\\preview\\shot1_00001_.mp4",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "width": 512,
+          "height": 672,
+          "r_frame_rate": "24/1",
+          "nb_frames": "243"
+        }
+      ],
+      "format": {
+        "duration": "10.125000"
+      }
+    }
+  },
+  "114": {
+    "path": "C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\output\\guofeng-drama\\preview\\shot2_00001_.mp4",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "width": 512,
+          "height": 672,
+          "r_frame_rate": "24/1",
+          "nb_frames": "243"
+        }
+      ],
+      "format": {
+        "duration": "10.125000"
+      }
+    }
+  },
+  "214": {
+    "path": "C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\output\\guofeng-drama\\preview\\shot3_00001_.mp4",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "width": 512,
+          "height": 672,
+          "r_frame_rate": "24/1",
+          "nb_frames": "243"
+        }
+      ],
+      "format": {
+        "duration": "10.125000"
+      }
+    }
+  },
+  "351": {
+    "path": "C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\output\\guofeng-drama\\preview\\full_30s_00001_.mp4",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "width": 512,
+          "height": 672,
+          "r_frame_rate": "24/1",
+          "nb_frames": "729"
+        }
+      ],
+      "format": {
+        "duration": "30.371000"
+      }
+    }
+  }
+}

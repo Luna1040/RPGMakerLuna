@@ -1,0 +1,9 @@
+{
+  "repo": "Kijai/MiniMax-H3_comfy",
+  "revision": "7167edf89070b17177befb072f540ab368dfb91a",
+  "file": "loras/minimax_h3_ref2v_lightx2v_turbo_4step_v0.1_resized_avg_rank_20_bf16.safetensors",
+  "bytes": 306731560,
+  "sha256": "9ea3bd3a6aac22994153e294cf1ecab0a8766fc0f8d056ace645a01d1a6a4daf",
+  "verified": true,
+  "used_by": "03 MBEDIT PixelSpace Upscaler v18"
+}

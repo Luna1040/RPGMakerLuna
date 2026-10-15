@@ -11,6 +11,8 @@ static func configure(contract: Dictionary, run: Dictionary) -> void:
 	var room:=clampi(int(run.get("room",0)),0,2)
 	var forest:bool=contract.get("zone_id","")=="forest"
 	var names:Array=FOREST_NAMES if forest else NAMES
+	if contract.get("zone_id","") == "frost": names = ["霜钟隘口 · 风雪城门","霜钟隘口 · 断桥哨所","霜钟隘口 · 寒铁卫长"]
+	if contract.get("zone_id","") == "ember": names = ["余烬圣堂 · 烛火长廊","余烬圣堂 · 灰烬祭坛","余烬圣堂 · 余烬审判者"]
 	contract.name=names[room]
 	contract.room=room
 	contract.spawn={"x":3.2,"depth":7.6,"z":0}
@@ -21,4 +23,6 @@ static func configure(contract: Dictionary, run: Dictionary) -> void:
 	if room<2:
 		contract.portals.append({"id":"next_room","label":"下一间 · "+names[room+1],"x":12.5 if forest else (23.5 if room==0 else 20.0),"depth":7.5 if room==0 else 4.5,"target":"room","room":room+1})
 	contract.encounter_roster=PACKS[room].duplicate()
+	if contract.get("zone_id","") == "frost": contract.encounter_roster = [["melee","melee","elite","ranged"],["elite","melee","elite","ranged","ranged"],["boss","elite","ranged"]][room].duplicate()
+	if contract.get("zone_id","") == "ember": contract.encounter_roster = [["ranged","ranged","melee","melee"],["elite","ranged","ranged","melee","melee"],["boss","elite","ranged","ranged"]][room].duplicate()
 	contract.encounter_points=[[7,5],[8.5,7.5],[9.8,4.5],[6.5,6.4],[10.2,8.5],[9,6],[6,8.2],[10.3,5.3],[7.8,8.6]]

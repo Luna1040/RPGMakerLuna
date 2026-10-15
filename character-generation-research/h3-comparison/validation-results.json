@@ -1,0 +1,27 @@
+{
+  "02_Post_shot1": {
+    "prompt_id": "4a52f456-0753-4bc9-b616-2f7fc83a5229",
+    "number": 1,
+    "node_errors": {}
+  },
+  "03_Post_shot1": {
+    "prompt_id": "f8f92313-e280-4302-b01b-93dce66512a0",
+    "number": 2,
+    "node_errors": {}
+  },
+  "04_Keyframes_shot1": {
+    "prompt_id": "693e55d7-d969-4940-ab2e-e94e6ee9f0e8",
+    "number": 3,
+    "node_errors": {}
+  },
+  "05_Chain": {
+    "prompt_id": "3263954a-2a87-4081-95ee-490c74172d38",
+    "number": 4,
+    "node_errors": {}
+  },
+  "06_Chain": {
+    "prompt_id": "d5154e4d-fd3e-4aa4-a19a-be5578ebcf13",
+    "number": 5,
+    "node_errors": {}
+  }
+}

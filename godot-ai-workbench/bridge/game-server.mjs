@@ -121,7 +121,11 @@ const server=createServer(async(req,res)=>{
  if(req.headers.authorization!==`Bearer ${token}`||req.headers.origin){reply(403,{error:'Forbidden'});return;}
  try{
   if(req.method==='GET'&&req.url==='/state'){reply(200,state);return;}
-  if(req.method==='GET'&&req.url==='/games'){reply(200,{games});return;}
+  if(req.method==='GET'&&req.url==='/games'){
+   // Pick up games added by workspace tools while preserving active task state.
+   if(!active&&!restarting)games=await loadGames(catalogFile,games);
+   reply(200,{games});return;
+  }
   if(req.method!=='POST'){reply(404,{});return;}
   let raw='';for await(const chunk of req){raw+=chunk;if(Buffer.byteLength(raw)>8*1024*1024)throw Error('Request too large');}
   const body=JSON.parse(raw||'{}');

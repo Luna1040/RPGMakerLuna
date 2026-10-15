@@ -1,0 +1,361 @@
+{
+  "version": 2,
+  "jobs": [
+    {
+      "job": "art-jobs/v2-chef",
+      "prompt_id": "b03bb4ba-1cd4-41ec-b522-f10c74ffb3e8",
+      "models": [
+        "flux-2-klein-9b-fp8.safetensors",
+        "qwen_3_8b_fp8mixed.safetensors",
+        "flux2-vae.safetensors",
+        "euler"
+      ],
+      "history_present": true
+    },
+    {
+      "job": "art-jobs/v2-food",
+      "prompt_id": "8ceb51a6-bc8d-4827-aefd-772e7d9fe538",
+      "models": [
+        "flux-2-klein-9b-fp8.safetensors",
+        "qwen_3_8b_fp8mixed.safetensors",
+        "flux2-vae.safetensors",
+        "euler"
+      ],
+      "history_present": true
+    },
+    {
+      "job": "art-jobs/v2-food-clean",
+      "prompt_id": "7be83e09-3db9-4355-9cca-5cbbc768c424",
+      "models": [
+        "flux-2-klein-9b-fp8.safetensors",
+        "qwen_3_8b_fp8mixed.safetensors",
+        "flux2-vae.safetensors",
+        "euler"
+      ],
+      "history_present": true
+    },
+    {
+      "job": "art-jobs/v2-guest",
+      "prompt_id": "cabb5c1d-590b-4324-be88-0c2701195fcb",
+      "models": [
+        "flux-2-klein-9b-fp8.safetensors",
+        "qwen_3_8b_fp8mixed.safetensors",
+        "flux2-vae.safetensors",
+        "euler"
+      ],
+      "history_present": true
+    },
+    {
+      "job": "art-jobs/v2-guest-seated",
+      "prompt_id": "8de909cb-76d2-48a8-924a-16af42ade929",
+      "models": [
+        "flux-2-klein-9b-fp8.safetensors",
+        "qwen_3_8b_fp8mixed.safetensors",
+        "flux2-vae.safetensors",
+        "euler"
+      ],
+      "history_present": true
+    },
+    {
+      "job": "art-jobs/v2-guest-woman",
+      "prompt_id": "5e49890a-0357-47af-ae85-4d3f5b6b868c",
+      "models": [
+        "flux-2-klein-9b-fp8.safetensors",
+        "qwen_3_8b_fp8mixed.safetensors",
+        "flux2-vae.safetensors",
+        "euler"
+      ],
+      "history_present": true
+    },
+    {
+      "job": "art-jobs/v2-room",
+      "prompt_id": "dbbd993b-c7a0-4925-900a-7d232fb142ee",
+      "models": [
+        "flux-2-klein-9b-fp8.safetensors",
+        "qwen_3_8b_fp8mixed.safetensors",
+        "flux2-vae.safetensors",
+        "euler"
+      ],
+      "history_present": true
+    },
+    {
+      "job": "art-jobs/v2-room-isometric",
+      "prompt_id": "8aeee80d-7991-49ee-8ea5-1311135c892a",
+      "models": [
+        "flux-2-klein-9b-fp8.safetensors",
+        "qwen_3_8b_fp8mixed.safetensors",
+        "flux2-vae.safetensors",
+        "euler"
+      ],
+      "history_present": true
+    },
+    {
+      "job": "art-jobs/v2-room-topdown",
+      "prompt_id": "00f14dce-1e13-4747-918b-b568b9584678",
+      "models": [
+        "flux-2-klein-9b-fp8.safetensors",
+        "qwen_3_8b_fp8mixed.safetensors",
+        "flux2-vae.safetensors",
+        "euler"
+      ],
+      "history_present": true
+    },
+    {
+      "job": "art-jobs/v2-server",
+      "prompt_id": "4e7cad6a-fb2e-46eb-8f5f-36cf02ed1e1f",
+      "models": [
+        "flux-2-klein-9b-fp8.safetensors",
+        "qwen_3_8b_fp8mixed.safetensors",
+        "flux2-vae.safetensors",
+        "euler"
+      ],
+      "history_present": true
+    },
+    {
+      "job": "art-jobs/v2-server-clean",
+      "prompt_id": "8cfd7a5e-4a48-4189-81fd-d2494179a6b1",
+      "models": [
+        "flux-2-klein-9b-fp8.safetensors",
+        "qwen_3_8b_fp8mixed.safetensors",
+        "flux2-vae.safetensors",
+        "euler"
+      ],
+      "history_present": true
+    },
+    {
+      "job": "art-jobs/v2-server-walk",
+      "prompt_id": "41e2b0b0-c77c-459a-9402-13c931246546",
+      "models": [
+        "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+        "minimax_h3_ref2va_pruned_fp8_scaled.safetensors",
+        "minimax_h3_video_vae_fp16.safetensors",
+        "res_multistep"
+      ],
+      "history_present": true
+    },
+    {
+      "job": "art-jobs/v2-table",
+      "prompt_id": "37eaa5dd-fb16-40f4-ae7b-2a9a3f48b537",
+      "models": [
+        "flux-2-klein-9b-fp8.safetensors",
+        "qwen_3_8b_fp8mixed.safetensors",
+        "flux2-vae.safetensors",
+        "euler"
+      ],
+      "history_present": true
+    },
+    {
+      "job": "art-jobs/v2-walk-padded",
+      "prompt_id": "c708e25e-96ce-4603-ac92-87d368bcefc5",
+      "models": [
+        "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+        "minimax_h3_ref2va_pruned_fp8_scaled.safetensors",
+        "minimax_h3_video_vae_fp16.safetensors",
+        "res_multistep"
+      ],
+      "history_present": true
+    },
+    {
+      "job": "art-jobs/v2-woman-standing",
+      "prompt_id": "a85569f9-5be7-40f8-9e7a-d6da883c7280",
+      "models": [
+        "flux-2-klein-9b-fp8.safetensors",
+        "qwen_3_8b_fp8mixed.safetensors",
+        "flux2-vae.safetensors",
+        "euler"
+      ],
+      "history_present": true
+    }
+  ],
+  "rejected": [
+    "v2-room: eye-level instead of isometric",
+    "v2-room-topdown: unwanted table and weak camera correction",
+    "v2-server-walk: some frames clip shoes at bottom edge"
+  ],
+  "approved_static": [
+    "v2-room-isometric",
+    "v2-server-clean",
+    "v2-table",
+    "v2-chef",
+    "v2-guest",
+    "v2-food-clean",
+    "v2-guest-seated",
+    "v2-guest-woman",
+    "v2-woman-standing"
+  ],
+  "animation_status": "Integrated: v2-walk-padded; source frames 30-60, 31 frames, 1302 ms, 768 square canvas, fixed pivot 384/640, scale .22",
+  "runtime_assets": [
+    {
+      "file": "assets/v2/chef.png",
+      "sha256": "b4ab9c3fb1a7d829df34522d7e85d787c3afeaba128053855488756cd990883f"
+    },
+    {
+      "file": "assets/v2/guest.png",
+      "sha256": "9093697734d1e716fd85c3574863e60976e913ba0e7d46f455910487be76ba71"
+    },
+    {
+      "file": "assets/v2/maki.png",
+      "sha256": "86954db6e2e26674b7dbef8377136c788b51a8cf1301b95849c2245e7300d078"
+    },
+    {
+      "file": "assets/v2/room.png",
+      "sha256": "7b4c8ede0c41ea474327e01d433405e779d7a2eae8251235b70b884d939f9bce"
+    },
+    {
+      "file": "assets/v2/salmon.png",
+      "sha256": "8cc6c8f6d991f47af1196a9a7b698fee83bcc02638227725351e4a398b21f6aa"
+    },
+    {
+      "file": "assets/v2/seated.png",
+      "sha256": "db201c667b488c6ba30e33463c0d774d5cc1bded3153c9e40867417fe66d2820"
+    },
+    {
+      "file": "assets/v2/server.png",
+      "sha256": "485217990e7d96614597bb626431ed10c4db07c59bd876a344f4e1346f5f0ebd"
+    },
+    {
+      "file": "assets/v2/table.png",
+      "sha256": "0fccdd05c11775329ee44256ed173095b682294d5de232db414ab5c9764ceca6"
+    },
+    {
+      "file": "assets/v2/water.png",
+      "sha256": "5a4a7ad77e0fb233035bfc6d61fc3e4b4cc93b1cf0c949efa48a268583d415e9"
+    },
+    {
+      "file": "assets/v2/woman.png",
+      "sha256": "bf0c19eded57b79c89b9cbc92d4fbaf51214625a108e0eb3ceae06bd373ab8b6"
+    },
+    {
+      "file": "assets/v2/woman_standing.png",
+      "sha256": "b863a09ab3f22d7f773ad0be71ad0f00978c924dfd9ceec096cceb577a129034"
+    },
+    {
+      "file": "assets/v2/yuzu.png",
+      "sha256": "d5ef9dad8b28942a34477c6c253e37b729288e27d85f0542212458b510cc868e"
+    },
+    {
+      "file": "assets/v2/walk/0000.png",
+      "sha256": "ddcc7685e72502668d13956c532adb5623ad7161f1abba0a153c28a74e89ecdc"
+    },
+    {
+      "file": "assets/v2/walk/0001.png",
+      "sha256": "ac79d88eebf4014ec434e45cc9fb6cd8b93d19bf33cd124072e911949954e102"
+    },
+    {
+      "file": "assets/v2/walk/0002.png",
+      "sha256": "cdb5c2db7c5d3c752c53185bcf5f264a27299088c403d7b93fa5043043284f7a"
+    },
+    {
+      "file": "assets/v2/walk/0003.png",
+      "sha256": "a82be9e0392630ecea06da24900d71d866589940218f6933132261d908dd4456"
+    },
+    {
+      "file": "assets/v2/walk/0004.png",
+      "sha256": "3345d2da18c0be546da604c9c2fdadcd1689fc7e5d188f911567a6eb523baaae"
+    },
+    {
+      "file": "assets/v2/walk/0005.png",
+      "sha256": "8a4f8099bddf34a321e49a1182bb59c8289c1f212308adbaaad348dff7b2fa19"
+    },
+    {
+      "file": "assets/v2/walk/0006.png",
+      "sha256": "4069c2c81b8cd9c939454fa481959c0a8eb251a1b1f2e885a043cfe435454e5f"
+    },
+    {
+      "file": "assets/v2/walk/0007.png",
+      "sha256": "baf832989ced27df4a19bccdd7239dc61b03fbc0a8aae2a4a30134b280f0281a"
+    },
+    {
+      "file": "assets/v2/walk/0008.png",
+      "sha256": "a98f87ca4f3d0fd935a6004452ee5cc6a211ac4ab4d08bd19aff182bfad6f8b2"
+    },
+    {
+      "file": "assets/v2/walk/0009.png",
+      "sha256": "a34b027906ad04afe35573ea676919db19d1575e14df330b91b36fc7c8d122a4"
+    },
+    {
+      "file": "assets/v2/walk/0010.png",
+      "sha256": "c921234db204c46a3c021a263d85617fa54b3177e76bb8e5189a5cd5e13375ea"
+    },
+    {
+      "file": "assets/v2/walk/0011.png",
+      "sha256": "de776115e3152132bb460c3bf9ae74643227e81c258e55c5d2d8ed0ce0cdf264"
+    },
+    {
+      "file": "assets/v2/walk/0012.png",
+      "sha256": "d0f4c39dba059f499775e6782235c2051a06e7be91ba2157f6fc22379ee84c01"
+    },
+    {
+      "file": "assets/v2/walk/0013.png",
+      "sha256": "512e3e3780cd6b50789f32415911aaa4e3f78fcc904864d68e8a526d804a558f"
+    },
+    {
+      "file": "assets/v2/walk/0014.png",
+      "sha256": "102be77d3cf57be3c7478165178e97147e28053f845e24cd3ce21b3dc04ec6fe"
+    },
+    {
+      "file": "assets/v2/walk/0015.png",
+      "sha256": "2fbe63f1fe9cf14c611fe420d03643c611d822f5d7f57a5e05e62471e0711f39"
+    },
+    {
+      "file": "assets/v2/walk/0016.png",
+      "sha256": "594e05fba404f64755ef2c9fb281ae17413dfe9fa43b22b5800047677045732f"
+    },
+    {
+      "file": "assets/v2/walk/0017.png",
+      "sha256": "98f37803b6516a54fcc77ee68b3d8679ccd6adfcf30a4e24151e4a075065cf88"
+    },
+    {
+      "file": "assets/v2/walk/0018.png",
+      "sha256": "25114e18814c0a483c832582009b520a9c5a9f958f4d071907c4d7c023ac8470"
+    },
+    {
+      "file": "assets/v2/walk/0019.png",
+      "sha256": "7e525ac346c743df300a0da627b7a3c762fe4633fa36353fa9928d672ec9b694"
+    },
+    {
+      "file": "assets/v2/walk/0020.png",
+      "sha256": "fc6f628cade2c144849748e81d6e9e98511e205d9f64f41d817d7876b98a980b"
+    },
+    {
+      "file": "assets/v2/walk/0021.png",
+      "sha256": "2badcf071861452bde1f220a99b68902c9c8c186f680ad9e1563fa64b2a6525a"
+    },
+    {
+      "file": "assets/v2/walk/0022.png",
+      "sha256": "a51844466bad76f6f7b9d50792b65bfbdf2c7822b35af6e64861bb06edd1b8a4"
+    },
+    {
+      "file": "assets/v2/walk/0023.png",
+      "sha256": "33cb45a03b8bfa7ec5d3952128932bbc58b71ed7a5c9cf6e6e2f1a34ce9d29b3"
+    },
+    {
+      "file": "assets/v2/walk/0024.png",
+      "sha256": "7336f7707eaf4cc6673158db1534bfab2513993d777ea8ea461722ce4004563d"
+    },
+    {
+      "file": "assets/v2/walk/0025.png",
+      "sha256": "c5e9fddc751e9555def0bc04c1dfcc725b2efbf7b88783a32edd5ef7cd11d61e"
+    },
+    {
+      "file": "assets/v2/walk/0026.png",
+      "sha256": "051da963f323269a9a2151a891dc398b74ab53cd5af7ff93cea952ac5a8d0b3e"
+    },
+    {
+      "file": "assets/v2/walk/0027.png",
+      "sha256": "2b1ae8348140edda6b55ce428dd1d9bf31dd965ddee214a8b6d6acd0aa0447a0"
+    },
+    {
+      "file": "assets/v2/walk/0028.png",
+      "sha256": "75a49ea276e92a3e19f3be5c26c852ab80c87fe31b7facefda1fe2c8c29028b1"
+    },
+    {
+      "file": "assets/v2/walk/0029.png",
+      "sha256": "c39782d0a915a61f6fc1bbdedb6a21a430ff418b920ad558a15b77742dd856fd"
+    },
+    {
+      "file": "assets/v2/walk/0030.png",
+      "sha256": "ebec675104de4f04e0cfe5f6471125555832b657c52543189f5bf0abbdf764dd"
+    }
+  ]
+}

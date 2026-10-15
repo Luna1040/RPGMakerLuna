@@ -1,0 +1,24 @@
+{
+  "frost": {
+    "canvas": [
+      1536,
+      768
+    ],
+    "model": "flux2 klein 9B fp8",
+    "workflow": "frost-workflow.json",
+    "sha256": "c6e1f958b330e4d4a81f8e46d418a4d8e74b1332a4da1f29aa11bf85dcdc5ea2",
+    "review": "Inspected source and in-game screenshot; no baked-in characters; dynamic particles are separate.",
+    "scope": "One original backdrop per dungeon. Three rooms share its architecture with separate enemy packs and atmosphere."
+  },
+  "ember": {
+    "canvas": [
+      1536,
+      768
+    ],
+    "model": "flux2 klein 9B fp8",
+    "workflow": "ember-workflow.json",
+    "sha256": "f9e6d60e0e1fd316b6715fcd9a4981e2cf337b139983cb9bad6cc48193dd4999",
+    "review": "Inspected source and in-game screenshot; no baked-in characters; dynamic particles are separate.",
+    "scope": "One original backdrop per dungeon. Three rooms share its architecture with separate enemy packs and atmosphere."
+  }
+}

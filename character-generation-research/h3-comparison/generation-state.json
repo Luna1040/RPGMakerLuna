@@ -1,0 +1,15 @@
+{
+  "status": "diagnostic_hold",
+  "reason": "Windows蓝屏0x50后停止批量渲染；系统稳定性诊断中，不自动恢复。",
+  "last_boot": "2026-10-10 13:38:21 +08:00",
+  "stopped_job": "04_Keyframes_shot2",
+  "completed_full_workflows": [
+    1,
+    2,
+    3
+  ],
+  "partial_workflow_04_completed_shots": [
+    1
+  ],
+  "workflow_06_correction": "20 steps restored from author source; previous adapted 14-step setting was not faithful."
+}

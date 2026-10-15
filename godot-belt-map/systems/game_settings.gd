@@ -1,7 +1,7 @@
 extends RefCounted
 signal changed
 const ACTION_CODES := {"left":KEY_A,"right":KEY_D,"up":KEY_W,"down":KEY_S,"jump":KEY_SPACE,"attack":KEY_J,"spell":KEY_K,"interact":KEY_E,"inventory":KEY_I,"map":KEY_M,"equip":KEY_Q,"skill1":KEY_1,"skill2":KEY_2,"skill3":KEY_3,"potion":KEY_4,"ether":KEY_5,"journal":KEY_L}
-const DEFAULTS := {"left":KEY_LEFT,"right":KEY_RIGHT,"up":KEY_UP,"down":KEY_DOWN,"jump":KEY_C,"attack":KEY_X,"spell":KEY_R,"interact":KEY_E,"inventory":KEY_I,"map":KEY_M,"equip":KEY_F,"skill1":KEY_Q,"skill2":KEY_Z,"skill3":KEY_W,"potion":KEY_4,"ether":KEY_5,"journal":KEY_L}
+const DEFAULTS := {"left":KEY_LEFT,"right":KEY_RIGHT,"up":KEY_UP,"down":KEY_DOWN,"jump":KEY_C,"attack":KEY_X,"spell":KEY_R,"interact":KEY_E,"inventory":KEY_I,"map":KEY_M,"equip":KEY_F,"skill1":KEY_Q,"skill2":KEY_W,"skill3":KEY_A,"potion":KEY_4,"ether":KEY_5,"journal":KEY_L}
 const TITLES := {"left":"向左","right":"向右","up":"向上","down":"向下","jump":"跳跃","attack":"攻击","spell":"施法","interact":"交互","inventory":"背包","map":"地图","equip":"拾取装备","skill1":"技能一","skill2":"技能二","skill3":"技能三","potion":"生命药水","ether":"法力药水","journal":"冒险手册"}
 const PATH := "user://rpg_settings.cfg"
 var keys: Dictionary = DEFAULTS.duplicate()
@@ -27,6 +27,10 @@ func load_settings(path: String = PATH) -> void:
 		candidate[action] = code
 		used.append(code)
 	keys = DEFAULTS.duplicate() if candidate.size() != DEFAULTS.size() or candidate == ACTION_CODES else candidate
+	# Migrate only the old default pair; keep deliberate custom bindings.
+	if keys.skill2 == KEY_Z and keys.skill3 == KEY_W and KEY_A not in keys.values():
+		keys.skill2 = KEY_W
+		keys.skill3 = KEY_A
 	apply()
 
 func save_settings(path: String = PATH) -> bool:

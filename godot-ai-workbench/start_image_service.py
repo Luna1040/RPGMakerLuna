@@ -23,4 +23,6 @@ config.write_text('flux:\n  base_path: ' + json.dumps(str(models), ensure_ascii=
 sys.path[:0] = [str(runtime / 'deps'), str(core)]
 os.chdir(core)
 sys.argv = [str(core / 'main.py'), '--listen', '127.0.0.1', '--port', '9315', '--extra-model-paths-config', str(config), '--disable-all-custom-nodes', '--disable-partner-nodes', '--disable-auto-launch', '--lowvram', '--output-directory', str(data / 'image-output')]
-runpy.run_path(str(core / 'main.py'), run_name='__main__')
+sys.path.insert(0, str(root / 'godot-ai-workbench'))
+from gpu_job_guard import run_comfy
+run_comfy(core / 'main.py')

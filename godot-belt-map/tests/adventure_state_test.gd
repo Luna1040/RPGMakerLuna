@@ -139,7 +139,7 @@ func _test_narrative() -> void:
 	check(state.flags.finale_cleared and state.progression.experience == 190, "route-specific XP reward wrong")
 	check("守夜人" in str(state.dialogue_for("innkeeper").text), "NPC dialogue ignored conclusion")
 	var graph: Dictionary = state.narrative_graph()
-	check(graph.nodes.size() == 10 and graph.edges.size() >= 10, "narrative graph missing intersecting routes")
+	check(graph.nodes.size() == state.catalog.quests.size() + 3 and graph.edges.size() >= 10, "narrative graph missing intersecting routes")
 	var selected := 0
 	var excluded := 0
 	for node: Dictionary in graph.nodes:

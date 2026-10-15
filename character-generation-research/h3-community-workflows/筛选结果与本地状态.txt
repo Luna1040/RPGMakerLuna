@@ -1,0 +1,46 @@
+H3 社区工作流筛选（2026-10-10）
+
+已启动的本地高画质任务
+任务 ID：2c1bbf98-21ed-4606-ba3a-e27d335847f2
+内容：女侠出场、与剑客相遇拔剑、双人交手；三段各243帧、24fps。
+配置：约1.05MP、20步、无4步加速LoRA、原图直接作为身份参考、ref_image_size=max。
+输出位置：../h3-runtime/output/guofeng-drama/quality/
+单段名称：shot1、shot2、shot3；拼接成片名称：full_30s。
+完成后，验证程序会在 ../guofeng-drama/quality-validation.json 写入实际视频路径、尺寸、时长。
+任务失败时会保存 quality.history.json 的错误记录，不会把失败误报为成功。
+本次是画质配置验证，尚不能预先称为合格成片。测试原图仍为512×640的女侠图。
+
+优先候选：Mark DK Berry / MBEDIT 两遍生成 + 视频细节重绘
+作者来源：https://github.com/mdkberry/comfyui_workflows/tree/main/workflows_by_model/Minimax-H3
+已下载：
+MBEDIT/MBEDIT - MH3-r2v_2Pass-LatentUpscaler_v5.json
+MBEDIT/MBEDIT - MH3-rv2v_PixelSpace-Upscaler-CtxtWndws_v3.json
+MBEDIT/MBEDIT - MH3_rv2v_PixelSpace_Upscaler_v18.json
+MBEDIT/ReadMe.md
+选择理由：作者专门测试远景脸部、眼睛细节，公开了样片和实际参数；路线包含生成、潜空间神经放大、高分辨率重采样，直接对应目前的清晰度问题。
+原作者流程：约1MP两遍生成，再用上下文窗口版进行约2MP细化，必要时另做局部修复。
+原版JSON检查：v5含64个节点，本地缺15类自定义节点；上下文窗口版含55个节点，本地缺18类自定义节点。
+还需要H3神经潜空间放大权重，原作者部分流程还依赖RTX视频超分、VHS、KJNodes及额外采样节点。
+以上为作者的测试与方法；本机尚未验证，不能承诺双人快速交手也能保留同样的人脸质量。
+当前服务禁用了全部自定义节点。原版不能直接运行；已保留原件和依赖清单，未在正在渲染的服务中加载代码。
+
+长片候选：joeygambino / H3 Seamless Chain v2.7.0
+作者来源：https://huggingface.co/joeygambino/MiniMax-H3-Multishot-Workflow
+已下载 CORE、完整v2、Keyframes 三套JSON与README、SETTINGS、INSTALL、PROMPTING。
+选择理由：专门做多段延续，带人物与场面衔接、声音延续、长片纹理与颜色控制；有16–24GB显卡配置说明。
+CORE仍需要作者自己的ComfyUI-H3-Multishot节点包，并非只靠内置节点即可运行。
+CORE缺5类自定义节点，完整v2缺17类。原版使用GGUF模型；本地目前是FP8模型，需要调整加载器或额外下载。
+该路线主要解决延续与长片组织，不等于解决所有远景脸部细节。
+
+其他候选
+Simply Advanced MiniMax H3：已读取公开版本信息，当前v1.5.4。
+作者介绍：https://www.reddit.com/r/comfyui/comments/1wk9qmg/simply_advanced_minimax_h3_workflow/
+下载页：https://civitai.com/models/2947601/simply-advanced-minimax-h3
+下载接口返回401，需要登录；这里只保留公开元数据，未取得JSON，不计入已下载的6份原版。
+它的多参考分工、导演提示词整理值得比较，但还没有本机画质证据。
+
+本地文件与验证边界
+provenance.json：原始下载URL、固定版本、文件SHA256。
+compatibility.json：按本地实际节点表核对出的缺失节点；不是运行测试结果。
+ComfyUI工作流列表另存到“社区H3原版_依赖待补齐”。
+不以节点数量、点赞数或作者的“最佳”称号证明画质。优先用同一原图、相同动作要求、相近画幅做本地对照。
