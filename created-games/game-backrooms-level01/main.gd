@@ -59,6 +59,7 @@ var camera: Camera3D
 var ray: RayCast3D
 var enemy: CharacterBody3D
 var enemy_mesh: Node3D
+var enemy_animation: AnimationPlayer
 var apparition_parts: Array[GeometryInstance3D] = []
 var apparition_observed := false
 var fall_death := false
@@ -485,9 +486,9 @@ func _build_sound_players() -> void:
 	enemy_voice_player.name = "Stalker breathing and growl"
 	enemy_voice_player.stream = load("res://audio/sfx_stalker_breath.wav") as AudioStream
 	enemy_voice_player.position.y = 1.6
-	enemy_voice_player.volume_db = -10.0
-	enemy_voice_player.unit_size = 5.0
-	enemy_voice_player.max_distance = 24.0
+	enemy_voice_player.volume_db = -2.0
+	enemy_voice_player.unit_size = 10.0
+	enemy_voice_player.max_distance = 32.0
 	enemy.add_child(enemy_voice_player)
 
 
@@ -1795,6 +1796,8 @@ func _build_player() -> void:
 	camera.fov = 78
 	camera.current = true
 	head.add_child(camera)
+	var listener := AudioListener3D.new()
+	camera.add_child(listener)
 	var flashlight := SpotLight3D.new()
 	flashlight.light_color = Color("e6e1c0")
 	flashlight.light_energy = 1.25
@@ -1815,6 +1818,7 @@ func _build_player() -> void:
 	ray.enabled = true
 	camera.add_child(ray)
 	add_child(player)
+	listener.make_current()
 
 
 func _make_apparition() -> Node3D:
@@ -1828,9 +1832,9 @@ func _make_apparition() -> Node3D:
 	for part in imported_figure.find_children("*", "GeometryInstance3D", true, false):
 		if part is GeometryInstance3D:
 			apparition_parts.append(part)
-	var animation_player := imported_figure.find_child("AnimationPlayer", true, false) as AnimationPlayer
-	if animation_player != null and animation_player.has_animation("Run"):
-		animation_player.play("Run")
+	enemy_animation = imported_figure.find_child("AnimationPlayer", true, false) as AnimationPlayer
+	if enemy_animation != null and enemy_animation.has_animation("Run"):
+		enemy_animation.play("Run")
 	return imported_figure
 
 
@@ -2316,11 +2320,11 @@ func _process(delta: float) -> void:
 	var has_enemy_sight := _has_line_of_sight_to_enemy()
 	if entity_awake and not in_manila and enemy.visible and entity_stunned <= 0.0:
 		enemy_voice_left -= delta
-		enemy_voice_player.volume_db = -10.0 if has_enemy_sight else -19.0
-		if enemy_distance < 24.0 and enemy_voice_left <= 0.0:
+		enemy_voice_player.volume_db = -2.0 if has_enemy_sight else -7.0
+		if enemy_distance < 32.0 and enemy_voice_left <= 0.0 and not enemy_voice_player.playing:
 			enemy_voice_player.pitch_scale = randf_range(0.88, 1.04)
 			enemy_voice_player.play()
-			enemy_voice_left = randf_range(7.0, 11.0)
+			enemy_voice_left = randf_range(4.5, 7.0)
 	else:
 		enemy_voice_player.stop()
 	var threat_near := entity_awake and not in_manila and enemy_distance < 14.0 and entity_stunned <= 0.0 and has_enemy_sight
@@ -2332,8 +2336,6 @@ func _process(delta: float) -> void:
 	else:
 		if heartbeat_player != null and heartbeat_player.playing:
 			heartbeat_player.stop()
-		if enemy_step_player != null:
-			enemy_step_player.stop()
 	if entity_awake and not in_manila and enemy.velocity.length() > 0.5 and enemy_distance < 25.0:
 		enemy_step_left -= delta
 		if enemy_step_left <= 0.0 and enemy_step_player != null:
@@ -2341,6 +2343,7 @@ func _process(delta: float) -> void:
 			enemy_step_left = 0.62 if alert_left > 0.0 else 0.95
 	else:
 		enemy_step_left = 0.0
+		enemy_step_player.stop()
 	if in_manila:
 		enemy.visible = false
 	if ambient_player != null:
@@ -2809,19 +2812,22 @@ func _finish_route(destination: String, details: String) -> void:
 	(block.get_child(1) as Label).text = details + "\n\n当前原型包含 Level 0；下一层场景尚未接入。"
 
 
+func _is_stalker_observed() -> bool:
+	if enemy == null or not enemy.visible:
+		return false
+	var target := enemy.global_position + Vector3.UP * 1.1
+	var to_shadow := target - camera.global_position
+	return (-camera.global_basis.z).dot(to_shadow.normalized()) > 0.65 and camera.is_position_in_frustum(target) and _has_line_of_sight_to_enemy()
+
+
 func _update_entity(delta: float) -> void:
 	if entity_stunned > 0:
 		return
-	var to_shadow := enemy.global_position + Vector3.UP * 1.1 - camera.global_position
-	var facing := -camera.global_basis.z
-	var in_view_cone := facing.dot(to_shadow.normalized()) > 0.76
-	var seen := false
-	if in_view_cone:
-		ray.target_position = camera.to_local(enemy.global_position + Vector3.UP * 1.1)
-		ray.force_raycast_update()
-		seen = ray.is_colliding() and ray.get_collider() == enemy
-		ray.target_position = Vector3(0, 0, -18)
+	# Use a wall-only ray that excludes the player, independent of interaction areas.
+	var seen := _is_stalker_observed()
 	apparition_observed = seen
+	if enemy_animation != null:
+		enemy_animation.speed_scale = 0.1 if seen else 1.0
 	repath_left -= delta
 	if repath_left <= 0:
 		repath_left = 0.65
@@ -2833,7 +2839,7 @@ func _update_entity(delta: float) -> void:
 	var delta_pos := enemy_target - enemy.global_position
 	delta_pos.y = 0
 	# Looking at the entity slows it down, but never freezes it completely.
-	var speed := 1.0 if seen else (3.0 if alert_left > 0 else 2.0)
+	var speed := 0.18 if seen else (3.0 if alert_left > 0 else 2.0)
 	if delta_pos.length() > 0.12:
 		var direction := delta_pos.normalized()
 		enemy.velocity.x = direction.x * speed
