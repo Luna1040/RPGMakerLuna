@@ -26,3 +26,9 @@ test-results/
 
 # Local assistant sessions and generated service credentials
 .game-assistant/
+
+# Machine-local game state and downloaded inference dependencies
+.runtime/
+.test-runtime/
+created-games/*/saves/
+character-generation-research/*-deps/

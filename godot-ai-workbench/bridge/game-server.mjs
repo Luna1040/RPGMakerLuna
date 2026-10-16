@@ -8,6 +8,7 @@ import path from 'node:path';
 import {loadGames,catalogWriter} from './catalog-store.mjs';
 import {artInstructions} from './art-pipeline.mjs';
 import {validatePlayableProject,projectFingerprint} from './game-validation.mjs';
+import {assertImplementedProject,assertCleanGodotRun} from './project-validation.mjs';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
 const bridgeVersion=JSON.parse(await readFile(new URL('./bridge-version.json',import.meta.url),'utf8')).version;
@@ -19,11 +20,18 @@ await mkdir(data,{recursive:true});
 let games=[{id:'knight',title:'晨钟城 · 姬骑士',description:'横版动作 RPG · 城镇 / 古塔 / 队友',directory:'godot-belt-map',status:'ready',cover:'godot-belt-map/assets/dawn-city/city.png'}];
 const catalogFile=path.join(root,'created-games/catalog.json');
 games=await loadGames(catalogFile,games);
+for(const entry of games){
+ if(entry.status==='ready'&&entry.directory.startsWith('created-games/')){
+  try{await assertImplementedProject(path.join(root,entry.directory));}
+  catch(e){entry.status='failed';entry.progress=String(e.message);}
+ }
+}
 const writeGames=catalogWriter(catalogFile);
 function saveGames(){return writeGames(games);}
 await saveGames();
 const token=randomBytes(32).toString('hex');
 const state={bridgeVersion,processId:process.pid,startedAt:new Date().toISOString(),status:'starting',text:'',events:[],threadId:null,turnId:null,revision:0,error:null,gameId:selected};
+const state={bridgeVersion:'2026-10-14-repair-1',status:'starting',text:'',events:[],threadId:null,turnId:null,revision:0,error:null,gameId:selected};
 let next=1,game=null,restarting=false,active=false;
 let beforeTaskFingerprint=null;
 const pending=new Map();
@@ -81,6 +89,8 @@ async function thread(){
  const params={cwd:project,sandbox:'workspace-write',approvalPolicy:'never'};
  const r=saved?.bridgeVersion===bridgeVersion?await rpc('thread/resume',{...params,threadId:saved.id}):await rpc('thread/start',params);
  state.threadId=r.thread.id;await writeFile(threadFile,JSON.stringify({id:state.threadId,bridgeVersion}));
+ const r=saved?await rpc('thread/resume',{...params,threadId:saved.id}):await rpc('thread/start',params);
+ state.threadId=r.thread.id;await writeFile(threadFile,JSON.stringify({id:state.threadId}));
 }
 async function task(body){
  if(active||restarting)throw Error('已有任务或重启正在进行');
@@ -111,6 +121,29 @@ async function task(body){
   const r=await rpc('turn/start',{threadId:state.threadId,cwd:project,input,sandboxPolicy:{type:'workspaceWrite',writableRoots:[project],networkAccess:true}});state.turnId=r.turn.id;
  }catch(e){fail(e);throw e;}
 }
+async function checkGodot(target,args,logName){
+ const output=await new Promise((resolve,reject)=>{
+  const p=spawn(godot,['--headless','--path',target,'--log-file',path.join(data,logName+'.engine.log'),...args],{windowsHide:true});
+  let output='';
+  const timer=setTimeout(()=>{p.kill();reject(Error('Godot 检查超时'));},120000);
+  p.stdout.on('data',b=>output+=b);p.stderr.on('data',b=>output+=b);
+  p.on('error',e=>{clearTimeout(timer);reject(e);});
+  p.on('close',async code=>{
+   clearTimeout(timer);
+   try{await writeFile(path.join(data,logName+'.log'),output);assertCleanGodotRun(code,output);resolve(output);}
+   catch(e){reject(e);}
+  });
+ });
+ return output;
+}
+async function importGodot(target,logName){
+ // A stale font import may log errors before the editor rebuilds the cache.
+ // Require a subsequent clean import rather than accepting that first run.
+ for(let attempt=0;attempt<2;attempt++){
+  try{return await checkGodot(target,['--editor','--quit'],logName);}
+  catch(e){if(attempt===1)throw e;}
+ }
+}
 async function restartGame(validate=false){
  if(restarting)throw Error('Restart in progress');
  restarting=true;
@@ -133,7 +166,17 @@ async function restartGame(validate=false){
     const entry=games.find(g=>g.id===selected);if(entry){entry.status='ready';await saveGames();}
    }
    if(homeMode && validate){state.status='ready';state.revision++;event('游戏创建完成，点击下方卡片开始试玩。');await writeFile(path.join(data,'last-result.json'),JSON.stringify(state,null,2));return;}
+  // AI completion only means the turn ended. Validate actual files and startup.
+  if(validate || !homeMode){
+   state.status='validating';event('检查游戏内容与 Godot 导入…');
+   await assertImplementedProject(project);
+   await importGodot(project,'import');
+   await checkGodot(project,['--quit-after','120'],'runtime-check');
+   const entry=games.find(g=>g.id===selected);if(entry){entry.status='ready';await saveGames();}
+   if(homeMode){state.status='ready';state.revision++;event('游戏检查通过，点击下方卡片开始试玩。');return;}
   }
+  // The home page is a separate Godot project and needs its own import cache.
+  if(homeMode){await importGodot(homeProject,'home-import');}
   if(game&&game.exitCode===null){const old=game;await new Promise(resolve=>{old.once('close',resolve);old.kill();});}
   game=spawn(godot,['--path',homeMode?homeProject:project,'--','--ai-dev'],{cwd:root,env:{...process.env,GAME_ASSISTANT_CONNECTION:path.join(data,'connection.json')},windowsHide:false,stdio:['ignore','pipe','pipe']});
   game.on('error',fail);game.stdout.on('data',b=>writeFile(path.join(data,'game.log'),b,{flag:'a'}).catch(()=>{}));game.stderr.on('data',b=>writeFile(path.join(data,'game.log'),b,{flag:'a'}).catch(()=>{}));
@@ -146,7 +189,11 @@ const server=createServer(async(req,res)=>{
  if(req.headers.authorization!==`Bearer ${token}`||req.headers.origin){reply(403,{error:'Forbidden'});return;}
  try{
   if(req.method==='GET'&&req.url==='/state'){reply(200,state);return;}
-  if(req.method==='GET'&&req.url==='/games'){reply(200,{games});return;}
+  if(req.method==='GET'&&req.url==='/games'){
+   // Pick up games added by workspace tools while preserving active task state.
+   if(!active&&!restarting)games=await loadGames(catalogFile,games);
+   reply(200,{games});return;
+  }
   if(req.method!=='POST'){reply(404,{});return;}
   let raw='';for await(const chunk of req){raw+=chunk;if(Buffer.byteLength(raw)>8*1024*1024)throw Error('Request too large');}
   const body=JSON.parse(raw||'{}');

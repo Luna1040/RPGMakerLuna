@@ -69,7 +69,7 @@ func _ready() -> void:
 		if bridge!=null and not bridge.pending.is_empty():
 			var target:Dictionary=preload("systems/world_registry.gd").load_zone(bridge.target_zone)
 			if not target.is_empty(): contract=target
-			if bridge.target_zone in ["ruins","forest"] and bridge.pending.get("run",{}).get("rooms",false):
+			if preload("systems/world_registry.gd").is_dungeon(bridge.target_zone) and bridge.pending.get("run",{}).get("rooms",false):
 				preload("systems/dungeon_rooms.gd").configure(contract,bridge.pending.run)
 		elif preload("systems/world_registry.gd").initial_zone_id()!="town":
 			var generated:Dictionary=preload("systems/world_registry.gd").load_zone(preload("systems/world_registry.gd").initial_zone_id())
@@ -79,7 +79,13 @@ func _ready() -> void:
 	bounds=Rect2(b.x,b.depth,b.width,b.depth_size)
 	foot=Vector2(contract.spawn.x,contract.spawn.depth)
 	last_safe=foot
-	if contract.has("background"):
+	if contract.has("demo_environment"):
+		var scenery := preload("systems/demo_environment.gd").new()
+		scenery.environment_id = str(contract.demo_environment)
+		scenery.room_index = int(contract.get("room",0))
+		scenery.z_index = -20
+		add_child(scenery)
+	elif contract.has("background"):
 		var backdrop:=Sprite2D.new()
 		backdrop.texture=load(str(contract.background))
 		backdrop.centered=false
@@ -366,7 +372,7 @@ func _input(event: InputEvent) -> void:
 	# Modal shortcuts must run before focused Controls consume ui_cancel/navigation.
 	if runtime!=null and event is InputEventKey and event.pressed and not event.echo and capture_mode.is_empty() and not get_tree().paused:
 		var modal_key:int=runtime.controls.canonical(event)
-		if modal_key==KEY_ESCAPE or (modal_key==KEY_L and runtime.panel.is_open()):
+		if modal_key in [KEY_ESCAPE,KEY_F9] or (modal_key==KEY_L and runtime.panel.is_open()):
 			if runtime.handle_key(event):
 				get_viewport().set_input_as_handled()
 				return
@@ -774,4 +780,3 @@ func interaction_test() -> void:
 		push_error(message)
 	print("INTERACTION_TEST ", "PASS" if failures.is_empty() else "FAIL", " · sword, projectile, crates, pickups, chest, actual equipment stats, dialogue, input focus")
 	get_tree().quit(0 if failures.is_empty() else 1)
-

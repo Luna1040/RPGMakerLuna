@@ -1,0 +1,357 @@
+[
+  {
+    "source": "data/mapitemicon/111000.dds",
+    "asset": "assets\\client_loot\\111000.dds",
+    "sha256": "3593dab706c781a0df22e9187bb099144fb1c9cffb3047f368860dc67b986aa2"
+  },
+  {
+    "source": "data/mapitemicon/111010.dds",
+    "asset": "assets\\client_loot\\111010.dds",
+    "sha256": "f18371eea0d0d3342b4ea9e5ec3fccdc3003e6fd32eb571897013f29f4ea7feb"
+  },
+  {
+    "source": "data/mapitemicon/111300.dds",
+    "asset": "assets\\client_loot\\111300.dds",
+    "sha256": "7adf67206dbe39489e62b2fdac1fb4368efd0280e719a8fd88e393d625dac70d"
+  },
+  {
+    "source": "data/mapitemicon/111350.dds",
+    "asset": "assets\\client_loot\\111350.dds",
+    "sha256": "ec8a134406ed934a68b1752535d2b2d1daca7bba82e5a83179d71f761a2ec26a"
+  },
+  {
+    "source": "data/mapitemicon/111400.dds",
+    "asset": "assets\\client_loot\\111400.dds",
+    "sha256": "629052e70654fc8d4eb118792852c091d9a26365ae1293c7bed884aaac0dff85"
+  },
+  {
+    "source": "data/mapitemicon/115000.dds",
+    "asset": "assets\\client_loot\\115000.dds",
+    "sha256": "3989b80876d0cd66541270c1038f8411f2dcad6cf6896be1df23a4d5a5cbab24"
+  },
+  {
+    "source": "data/mapitemicon/115010.dds",
+    "asset": "assets\\client_loot\\115010.dds",
+    "sha256": "2fb1bac33f3939c10224f155d7758c3440e82a218532a0b39fe823fc7fa68133"
+  },
+  {
+    "source": "data/mapitemicon/115300.dds",
+    "asset": "assets\\client_loot\\115300.dds",
+    "sha256": "e25eebb32862f0e1d0241f3e07bf24516220b4f47e4f863ed9f3dcf55fe2acbf"
+  },
+  {
+    "source": "data/mapitemicon/115350.dds",
+    "asset": "assets\\client_loot\\115350.dds",
+    "sha256": "1a808d133e9eb7fc37324373e9f6834c2c977f1fcd9e1a25a1c0e45b9d19ee2d"
+  },
+  {
+    "source": "data/mapitemicon/115400.dds",
+    "asset": "assets\\client_loot\\115400.dds",
+    "sha256": "a8d8a001067991116a966ab3dc6ec54f93af08b4461176888ad688792183edcf"
+  },
+  {
+    "source": "data/mapitemicon/121000.dds",
+    "asset": "assets\\client_loot\\121000.dds",
+    "sha256": "024b9de40469454ca74e2f39ffc7a5ed218b24944aba1714ed7b1191678406f5"
+  },
+  {
+    "source": "data/mapitemicon/121010.dds",
+    "asset": "assets\\client_loot\\121010.dds",
+    "sha256": "a87b1bd72fcc440f9240cba43a8a22e0ebfa85c695f572d81224f3210295f2cb"
+  },
+  {
+    "source": "data/mapitemicon/121300.dds",
+    "asset": "assets\\client_loot\\121300.dds",
+    "sha256": "5e013150277989a0cbcc11966ee7464763e1a05bff2bf1eafc63d8d33cd588ca"
+  },
+  {
+    "source": "data/mapitemicon/121350.dds",
+    "asset": "assets\\client_loot\\121350.dds",
+    "sha256": "bff2c4340b3e4852d090f877d4c74ae7d95ed826b3b82f47949ec277fc700fc9"
+  },
+  {
+    "source": "data/mapitemicon/121400.dds",
+    "asset": "assets\\client_loot\\121400.dds",
+    "sha256": "90c13ead51b4886496e8e620440513f6d5138b18f0a5ceb158c82cc7a2a1a733"
+  },
+  {
+    "source": "data/mapitemicon/125000.dds",
+    "asset": "assets\\client_loot\\125000.dds",
+    "sha256": "591db7c6139b896e9d38f303c86eed9fac43c8590f230c1c20b4d6df576c1b5e"
+  },
+  {
+    "source": "data/mapitemicon/125010.dds",
+    "asset": "assets\\client_loot\\125010.dds",
+    "sha256": "2b825071e441bebf6b242cd7645beb96ca4386d782d14c5b8b7a7bdc45201f70"
+  },
+  {
+    "source": "data/mapitemicon/125300.dds",
+    "asset": "assets\\client_loot\\125300.dds",
+    "sha256": "5d56d7a1e7f6dd2894b1df5ff6e79459eb3c4c3f0d9eddd79f0ffd4c0e1efa3e"
+  },
+  {
+    "source": "data/mapitemicon/125350.dds",
+    "asset": "assets\\client_loot\\125350.dds",
+    "sha256": "7881055e218ca70e97977522a2ed75df62dd49e99c9ebbb5413d119bb606dae3"
+  },
+  {
+    "source": "data/mapitemicon/125400.dds",
+    "asset": "assets\\client_loot\\125400.dds",
+    "sha256": "20de5831276afa99388e74f20881cd843d3a358ddfeb91f8e5cfdf76bbd2c4a4"
+  },
+  {
+    "source": "data/mapitemicon/131000.dds",
+    "asset": "assets\\client_loot\\131000.dds",
+    "sha256": "70276ad7030bc8857ddfa39471794eb7aec2ec7fb38f651d689a569097e13f75"
+  },
+  {
+    "source": "data/mapitemicon/131010.dds",
+    "asset": "assets\\client_loot\\131010.dds",
+    "sha256": "d77f6757d8accba3db2d4a3f0b19ea34805d5b3885dd1674ac5a9bdebea0ee10"
+  },
+  {
+    "source": "data/mapitemicon/131020.dds",
+    "asset": "assets\\client_loot\\131020.dds",
+    "sha256": "1b7c139a429cab6cb995ddf45170dd47f5e00dd08aea79bcfeda1b2c1e79a8ea"
+  },
+  {
+    "source": "data/mapitemicon/135000.dds",
+    "asset": "assets\\client_loot\\135000.dds",
+    "sha256": "f215f2b139ba34c8ffd539045fc1e4ab674ace9058e8e2bacf266500f5db5299"
+  },
+  {
+    "source": "data/mapitemicon/135010.dds",
+    "asset": "assets\\client_loot\\135010.dds",
+    "sha256": "3a35b2c890e78463b4be155a49e6e05b4b52466d7e590c0b79fa193f8d603444"
+  },
+  {
+    "source": "data/mapitemicon/135020.dds",
+    "asset": "assets\\client_loot\\135020.dds",
+    "sha256": "52ee6a930dcf0089bb8e50ef6b67ae969296e84b411dab8929630c7b73ba9325"
+  },
+  {
+    "source": "data/mapitemicon/141000.dds",
+    "asset": "assets\\client_loot\\141000.dds",
+    "sha256": "6afbe9d9acfabfad114ef9d9a98faf86ab8dcb0c7bff38ba89052f201a8369c7"
+  },
+  {
+    "source": "data/mapitemicon/141010.dds",
+    "asset": "assets\\client_loot\\141010.dds",
+    "sha256": "255ee7d9e0b911cf847f2a2ee5a3b5eedc78be17f3d5a3061133cb2f1d156f2f"
+  },
+  {
+    "source": "data/mapitemicon/141300.dds",
+    "asset": "assets\\client_loot\\141300.dds",
+    "sha256": "4eaf54e16aac2849216cace173133d1a7b6b62f24a1315ec410ca19b069ebb06"
+  },
+  {
+    "source": "data/mapitemicon/141350.dds",
+    "asset": "assets\\client_loot\\141350.dds",
+    "sha256": "9e452586156d1c0632d41024a163484809941c7dde97babb609a3585dccba567"
+  },
+  {
+    "source": "data/mapitemicon/141400.dds",
+    "asset": "assets\\client_loot\\141400.dds",
+    "sha256": "751065c0e224b7f2c40862ddd1a2ceeaf713fce99284d2d3b30aa9fa26bd8d52"
+  },
+  {
+    "source": "data/mapitemicon/145000.dds",
+    "asset": "assets\\client_loot\\145000.dds",
+    "sha256": "f8e0a171bacde74e43d8f5430690e0a2953a608522c15b9f5086451a18b9ff24"
+  },
+  {
+    "source": "data/mapitemicon/145010.dds",
+    "asset": "assets\\client_loot\\145010.dds",
+    "sha256": "7e83039dc21904591d2b041e5bf01b7cb05cc58820d55dd3409b159e7ee6d403"
+  },
+  {
+    "source": "data/mapitemicon/145300.dds",
+    "asset": "assets\\client_loot\\145300.dds",
+    "sha256": "1d8eef59e868c0f9352b59732cab554958c49a2f970bb37efcad2df661a6ff4e"
+  },
+  {
+    "source": "data/mapitemicon/145350.dds",
+    "asset": "assets\\client_loot\\145350.dds",
+    "sha256": "f8d4ae333de4e7cc1f8610ec17051c8a4bae5d9b6869038d48095dcbb86fdd7e"
+  },
+  {
+    "source": "data/mapitemicon/145400.dds",
+    "asset": "assets\\client_loot\\145400.dds",
+    "sha256": "9830d2e14a3b98c12a6e5e8895a1d527d651e3ae48549f158c946e55d5040792"
+  },
+  {
+    "source": "data/mapitemicon/161000.dds",
+    "asset": "assets\\client_loot\\161000.dds",
+    "sha256": "030cb865fae0b64dbc3da7cac5e977dda49c42919d7276e8d9c81c6b8530bfd4"
+  },
+  {
+    "source": "data/mapitemicon/161010.dds",
+    "asset": "assets\\client_loot\\161010.dds",
+    "sha256": "3da6af93280a017a4ed14d6930693cd307e8524ebe28433c927564d4c8c3c2a1"
+  },
+  {
+    "source": "data/mapitemicon/161300.dds",
+    "asset": "assets\\client_loot\\161300.dds",
+    "sha256": "497b824e6a6ce20dffac70d8bd53ac54deddb06d2b18053341f029bdf5a013c4"
+  },
+  {
+    "source": "data/mapitemicon/161350.dds",
+    "asset": "assets\\client_loot\\161350.dds",
+    "sha256": "8f60549853a6387b7ffe2713d783e7884bfe98eef4a6a19f5149d00bf79ed198"
+  },
+  {
+    "source": "data/mapitemicon/161400.dds",
+    "asset": "assets\\client_loot\\161400.dds",
+    "sha256": "832de786cd7f116d2a4f326fbddc53c3551be5c03d4b799760f6c58d83d20ad4"
+  },
+  {
+    "source": "data/mapitemicon/165000.dds",
+    "asset": "assets\\client_loot\\165000.dds",
+    "sha256": "f7204dc2c86b1132dd334b0cfa3c80f4b7951ab8968b43e138c23bc32593baa1"
+  },
+  {
+    "source": "data/mapitemicon/165010.dds",
+    "asset": "assets\\client_loot\\165010.dds",
+    "sha256": "2c42cf8ae487e90772f14cf49e34ac27b1251c846d83350e9223eef6efeab8ee"
+  },
+  {
+    "source": "data/mapitemicon/165300.dds",
+    "asset": "assets\\client_loot\\165300.dds",
+    "sha256": "89a9b5f0f8138058b4b35ff50c0265425d79c3de6687fe9bc6bc0865b299d700"
+  },
+  {
+    "source": "data/mapitemicon/165350.dds",
+    "asset": "assets\\client_loot\\165350.dds",
+    "sha256": "3a4bc0963bf1a34fb515f2f1dede3cea03cc3baa3cade983d0e719cd5d5cf4cc"
+  },
+  {
+    "source": "data/mapitemicon/165400.dds",
+    "asset": "assets\\client_loot\\165400.dds",
+    "sha256": "5b2384dfdbef90431fdd351fa9a20ef128de88df90b0c3d5a2f9e162d77c3236"
+  },
+  {
+    "source": "data/mapitemicon/410000.dds",
+    "asset": "assets\\client_loot\\410000.dds",
+    "sha256": "d4251486146e4e639fd2f3229afdf8f55b80e764589e826b28245fbe359f2e72"
+  },
+  {
+    "source": "data/mapitemicon/410010.dds",
+    "asset": "assets\\client_loot\\410010.dds",
+    "sha256": "03c4a0d8975281e8368a69194ddba595f2ec81889a4afcc7c88e041d4150e718"
+  },
+  {
+    "source": "data/mapitemicon/410020.dds",
+    "asset": "assets\\client_loot\\410020.dds",
+    "sha256": "f7087329a79bce03d495293c7e5a20ead476d43133dea09a07b3255130aebafb"
+  },
+  {
+    "source": "data/mapitemicon/410030.dds",
+    "asset": "assets\\client_loot\\410030.dds",
+    "sha256": "ddda46f06ac9a197b9364ae2c28a51767dde5eacaf9cf07a01b9194a9b37b3a4"
+  },
+  {
+    "source": "data/mapitemicon/410040.dds",
+    "asset": "assets\\client_loot\\410040.dds",
+    "sha256": "0a7b46742cb28d520c3dd9a97a44069de13e1e8d530121cab7e608c35072dc7c"
+  },
+  {
+    "source": "data/mapitemicon/410050.dds",
+    "asset": "assets\\client_loot\\410050.dds",
+    "sha256": "18a0c4ffd078857898bf99a32422f988601a1fb5eb879989542710dbc30b9520"
+  },
+  {
+    "source": "data/mapitemicon/410060.dds",
+    "asset": "assets\\client_loot\\410060.dds",
+    "sha256": "63fa71f69698d562118deb2d2595da9ad3717c77bf1451a64e3db42f3f8b0d13"
+  },
+  {
+    "source": "data/mapitemicon/420000.dds",
+    "asset": "assets\\client_loot\\420000.dds",
+    "sha256": "c64653e7b8ec7d69abc5727d2bb47580d892d8a4051cb9b6a718779cabeb5b69"
+  },
+  {
+    "source": "data/mapitemicon/420010.dds",
+    "asset": "assets\\client_loot\\420010.dds",
+    "sha256": "e78e8982e3c302918e5c016ddffadc2ad57293c6b3744fdc1b951a131abd3ddc"
+  },
+  {
+    "source": "data/mapitemicon/420020.dds",
+    "asset": "assets\\client_loot\\420020.dds",
+    "sha256": "7d4cf3593f35affbac96a286d6235841336bc220b94b5bae66b8450e596706c6"
+  },
+  {
+    "source": "data/mapitemicon/420030.dds",
+    "asset": "assets\\client_loot\\420030.dds",
+    "sha256": "8f78682311ac37a8dbab3593efe7cf212aba0e3d79c18c54da089059adf928a4"
+  },
+  {
+    "source": "data/mapitemicon/420040.dds",
+    "asset": "assets\\client_loot\\420040.dds",
+    "sha256": "1f009d9a6cc4b10dcebc3c339419705a5a9bc97c0e4c7a05d823d6058ae90a2f"
+  },
+  {
+    "source": "data/mapitemicon/420050.dds",
+    "asset": "assets\\client_loot\\420050.dds",
+    "sha256": "1aa8ef183ff5816fed7c80ac7b4729ac896844b96cfb9c8fc745a257a43f9a9e"
+  },
+  {
+    "source": "data/mapitemicon/420060.dds",
+    "asset": "assets\\client_loot\\420060.dds",
+    "sha256": "947ba200e8785be4d97737abfcc9b71c9f7b8e9aac6d088cbfc466cafdea5b19"
+  },
+  {
+    "source": "data/mapitemicon/440000.dds",
+    "asset": "assets\\client_loot\\440000.dds",
+    "sha256": "4381cee630c1ed37c78ea786ab6202867ea158d4801b0e7e1c314aecb81fc038"
+  },
+  {
+    "source": "data/mapitemicon/440010.dds",
+    "asset": "assets\\client_loot\\440010.dds",
+    "sha256": "eecba50c57a55719742b81ca607ebcad51c3d2b567c84641fc00c01e532654bf"
+  },
+  {
+    "source": "data/mapitemicon/440020.dds",
+    "asset": "assets\\client_loot\\440020.dds",
+    "sha256": "f585c11e3465c92a1967f1226ba1bd7714fcbeb75e3ee5a7a0331c8f20361fd6"
+  },
+  {
+    "source": "data/mapitemicon/440030.dds",
+    "asset": "assets\\client_loot\\440030.dds",
+    "sha256": "e6de36e73d49581470c6e95bb144c6d6909b28e8748e79cdc944250830409967"
+  },
+  {
+    "source": "data/mapitemicon/440040.dds",
+    "asset": "assets\\client_loot\\440040.dds",
+    "sha256": "a241d5cd540ccbfb56231127d21c09ce97a45c76028b2f040b2054ef885d40ca"
+  },
+  {
+    "source": "data/mapitemicon/440050.dds",
+    "asset": "assets\\client_loot\\440050.dds",
+    "sha256": "e21e2dc0d79bed295dca08ba116503135344440f48e8b0f9cd6f6761fd3502cd"
+  },
+  {
+    "source": "data/mapitemicon/440060.dds",
+    "asset": "assets\\client_loot\\440060.dds",
+    "sha256": "8c7e374e2d94f121df5924948b6dd6abc3f557d03aa69c94a5b5d0ce8a1d6b19"
+  },
+  {
+    "source": "data/mapitemicon/1037160.dds",
+    "asset": "assets\\client_loot\\1037160.dds",
+    "sha256": "626b9baf270c1d17d2098717ac6d218b9d803cad943196cf05ee13899481e599"
+  },
+  {
+    "source": "data/mapitemicon/1037170.dds",
+    "asset": "assets\\client_loot\\1037170.dds",
+    "sha256": "836520959d94b08ceb49f877a7f0aa6f27c0060ed719a1434eac28c4459970f5"
+  },
+  {
+    "source": "data/egg/b1.dds",
+    "asset": "assets\\client_loot\\egg1.dds",
+    "sha256": "2e773f8a698344a175b19218b4401ad56d8e6728e8eb5e145bb14c1cb94fd5c2"
+  },
+  {
+    "source": "data/egg/b2.dds",
+    "asset": "assets\\client_loot\\egg2.dds",
+    "sha256": "d93bfe006bc8fe6b54fec5a6448b4963c19c308ef1993e7699dc1c8c366d4227"
+  }
+]

@@ -1,0 +1,130 @@
+{
+  "1": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "wuxia-opening-reference-v1.png"
+    }
+  },
+  "2": {
+    "class_type": "H3ModelLoaderAny",
+    "inputs": {
+      "model_name": "minimax_h3_ref2va_pruned_fp8_scaled.safetensors",
+      "activation_reserve_gb": 3.0
+    }
+  },
+  "3": {
+    "class_type": "H3ClipLoaderAny",
+    "inputs": {
+      "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+      "type": "minimax"
+    }
+  },
+  "4": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+    }
+  },
+  "5": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+    }
+  },
+  "9": {
+    "class_type": "ModelAttentionBackend",
+    "inputs": {
+      "attention": "comfy kitchen attention",
+      "model": [
+        "2",
+        0
+      ]
+    }
+  },
+  "6": {
+    "class_type": "H3MultishotMemorySampler",
+    "inputs": {
+      "script": "Chinese wuxia film opening, adult characters, cinematic live action. <Picture 1> defines the heroine's face, hair, ivory and pale-blue hanfu and the ancient pavilion in a bamboo grove. Keep her identity and costume consistent. Animate full body actions with clear intent, weight, foot placement and readable gestures. Real spatial movement, not a still portrait with moving hair. One continuous shot with the camera movement specified below. No internal cuts, captions, logos, modern objects or extra limbs. Silent video.\nSHOT 1 — ARRIVAL, about ten seconds. Begin exactly from the supplied first frame. In the first third the heroine turns her head sharply toward a sound outside the pavilion, turns her shoulders and steps forward. During the middle third she walks purposefully out of the pavilion and down the bamboo path, her sleeves trailing behind her steps. During the final third she slows and stops as she notices someone ahead, lifting her gaze with an alert expression. Camera: a smooth lateral tracking move follows her at medium-full-body distance, revealing the path ahead and settling into an over-the-shoulder composition. Keep the walking readable. End with room ahead of her for an approaching rival.\n---\nChinese wuxia film opening, adult characters, cinematic live action. <Picture 1> defines the heroine's face, hair, ivory and pale-blue hanfu and the ancient pavilion in a bamboo grove. Keep her identity and costume consistent. Animate full body actions with clear intent, weight, foot placement and readable gestures. Real spatial movement, not a still portrait with moving hair. One continuous shot with the camera movement specified below. No internal cuts, captions, logos, modern objects or extra limbs. Silent video.\nSHOT 2 — ENCOUNTER. Continue the location and the heroine's position from the context carried from the preceding shot. Over about ten seconds: an adult swordsman in dark charcoal hanfu enters the path ahead and stops three paces from the heroine, blocking her way. She takes a decisive step toward him and raises an open hand to challenge him; he reaches for his sword. She lowers her hand and draws a slender straight sword from her waist; he draws his sword in response. Finish with both opponents in clearly separated fighting stances, facing one another. Camera: a slow thirty-degree arc from behind the heroine to a side-on medium-wide two-shot, keeping both people's bodies and swords visible. Show their approach, confrontation and change into fighting stances, not just facial reactions. Exactly two people.\n---\nChinese wuxia film opening, adult characters, cinematic live action. <Picture 1> defines the heroine's face, hair, ivory and pale-blue hanfu and the ancient pavilion in a bamboo grove. Keep her identity and costume consistent. Animate full body actions with clear intent, weight, foot placement and readable gestures. Real spatial movement, not a still portrait with moving hair. One continuous shot with the camera movement specified below. No internal cuts, captions, logos, modern objects or extra limbs. Silent video.\nSHOT 3 — FIRST CLASH. Continue from the context carried from the preceding shot. Continue the same heroine and dark-robed adult rival, their swords, positions and bamboo path. A readable short wuxia exchange over about ten seconds: first the rival steps forward and delivers one diagonal sword strike; the heroine steps sideways and raises her blade to parry, the blades visibly meeting once. Then she pivots on her planted foot and makes a single controlled horizontal counterstrike; he steps back and blocks it. Finally they disengage by one step and hold opposing guard stances, leaving a tense ending for a title added later. Camera: a controlled low lateral tracking move during the exchange, then gently pull back to a wider view at the end. Full bodies and blade paths remain visible. Grounded footwork, fast decisive actions separated by short readable pauses; no flying, no spinning camera, no gore. Exactly two people.",
+      "shot_count": 3,
+      "width": 1344,
+      "height": 768,
+      "frames_per_shot": 260,
+      "seed": 731429,
+      "steps": 20,
+      "seed_per_shot": true,
+      "memory_frames": 0,
+      "anchor_frames": 1,
+      "sampler_name": "euler",
+      "scheduler": "beta57",
+      "bank_pinned": 1,
+      "chain_gain_control": "flatten",
+      "continuity": "context_pin",
+      "bank_clip_frames": 22,
+      "color_level": "off",
+      "join_anchor_noise": 0,
+      "join_blend": true,
+      "handoff_release": 0,
+      "bank_ref_noise": 0,
+      "end_anchor": false,
+      "join_fx": "off",
+      "audio_lock": false,
+      "handoff_taper": 0,
+      "handoff_depth": "block",
+      "self_anchor_voice": false,
+      "reference_image_size": "match",
+      "preview_first_shot": false,
+      "output_scale": 1,
+      "save_every_shot": true,
+      "upscale_model_name": "(none)",
+      "master_normalize": "luma+contrast",
+      "pin_frames": "22",
+      "pin_noise": 0.05,
+      "pin_renorm": true,
+      "reference_subjects": "",
+      "low_ram_master": false,
+      "model": [
+        "9",
+        0
+      ],
+      "clip": [
+        "3",
+        0
+      ],
+      "video_vae": [
+        "4",
+        0
+      ],
+      "audio_vae": [
+        "5",
+        0
+      ],
+      "start_image": [
+        "1",
+        0
+      ],
+      "reference_images": [
+        "1",
+        0
+      ]
+    }
+  },
+  "8": {
+    "class_type": "VHS_VideoCombine",
+    "inputs": {
+      "frame_rate": 24.0,
+      "loop_count": 0,
+      "filename_prefix": "h3-comparison/06_Chain_Full/full_30s",
+      "pingpong": false,
+      "save_output": true,
+      "images": [
+        "6",
+        0
+      ],
+      "format": "video/h264-mp4",
+      "pix_fmt": "yuv420p",
+      "crf": 19,
+      "save_metadata": true,
+      "trim_to_audio": false
+    }
+  }
+}

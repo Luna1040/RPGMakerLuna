@@ -1,0 +1,83 @@
+{
+  "client_root": "Z:\\Program Files (x86)\\NetDragon\\魔域",
+  "map_id": 1000,
+  "client_name": "雷鸣大陆",
+  "layout": "chamgw26",
+  "texture_extent": [
+    8856,
+    10240
+  ],
+  "files": [
+    {
+      "runtime_file": "assets/client_canosa/10240-1.dds",
+      "client_virtual_path": "data/minimap/1000/10240-1.dds",
+      "source_package": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+      "bytes": 11184952,
+      "sha256": "a2bacfc8be47b71152afec9bce40eb92e3838b14daff26d8aaba58e6e2edfb15"
+    },
+    {
+      "runtime_file": "assets/client_canosa/10240-2.dds",
+      "client_virtual_path": "data/minimap/1000/10240-2.dds",
+      "source_package": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+      "bytes": 11184952,
+      "sha256": "0752d836536662e99f3c037978b2bd9ea6fc271c942a5603c5498ff854300748"
+    },
+    {
+      "runtime_file": "assets/client_canosa/10240-3.dds",
+      "client_virtual_path": "data/minimap/1000/10240-3.dds",
+      "source_package": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+      "bytes": 2719872,
+      "sha256": "d5719dd94594019dc4154b7bce7e9c2e3fdd9a1a719284b8e0cdf888958450a7"
+    },
+    {
+      "runtime_file": "assets/client_canosa/10240-4.dds",
+      "client_virtual_path": "data/minimap/1000/10240-4.dds",
+      "source_package": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+      "bytes": 16777344,
+      "sha256": "15dd4159533ba4aa5f125f55745392929af325267499880b669d31891d436103"
+    },
+    {
+      "runtime_file": "assets/client_canosa/10240-5.dds",
+      "client_virtual_path": "data/minimap/1000/10240-5.dds",
+      "source_package": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+      "bytes": 16777344,
+      "sha256": "4f83caa31c9150c9f7ea137177c43b427f80f4e5d2b4e0e7b79344c16f4fd06b"
+    },
+    {
+      "runtime_file": "assets/client_canosa/10240-6.dds",
+      "client_virtual_path": "data/minimap/1000/10240-6.dds",
+      "source_package": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+      "bytes": 2719872,
+      "sha256": "82b7607fe450430fd3c105a2cbb8beb732f38fa29d0883749870f2407f838826"
+    },
+    {
+      "runtime_file": "assets/client_canosa/10240-7.dds",
+      "client_virtual_path": "data/minimap/1000/10240-7.dds",
+      "source_package": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+      "bytes": 8388736,
+      "sha256": "b71f7d4a7a310e6184c177cbaacf47b027af410707b74c88e5e07d2b1b458652"
+    },
+    {
+      "runtime_file": "assets/client_canosa/10240-8.dds",
+      "client_virtual_path": "data/minimap/1000/10240-8.dds",
+      "source_package": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+      "bytes": 8388736,
+      "sha256": "f8de3b6bf41b701f9dff33ca2adac29e75816a2da2b1eb4f14951829855c0ef9"
+    },
+    {
+      "runtime_file": "assets/client_canosa/10240-9.dds",
+      "client_virtual_path": "data/minimap/1000/10240-9.dds",
+      "source_package": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+      "bytes": 1360000,
+      "sha256": "f5d46e23f5fa83cc3f925e8f477d403bb06cab248a8dc1a3124216a1c880fec8"
+    },
+    {
+      "runtime_file": "assets/client_canosa/4096.jpg",
+      "client_virtual_path": "data/minimap/1000/4096.jpg",
+      "source_package": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+      "bytes": 6955475,
+      "sha256": "63ab39b5377a9bff5838e46cf9c857d33a3e93aa1ae795bc3082b8bcb261c06d"
+    }
+  ],
+  "generation": "none; direct original asset reuse"
+}

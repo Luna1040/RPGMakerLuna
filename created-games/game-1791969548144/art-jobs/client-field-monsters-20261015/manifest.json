@@ -1,0 +1,62 @@
+[
+  {
+    "source": "c3/monster/100/101.c3",
+    "sha256": "7d4de46f73f16dd912f9e7290b722adba5698ae35513706fa6cdb694c30fa941"
+  },
+  {
+    "source": "c3/monster/100/110.c3",
+    "sha256": "ad9abe5f399e55ee127d78c642ac1068c9cc78123a31f28ebdd260050880112f"
+  },
+  {
+    "source": "c3/monster/110/101.c3",
+    "sha256": "a6ea41b229b84f5783da7c092192186d410d31b9103242da8427492de5bd4492"
+  },
+  {
+    "source": "c3/monster/110/100.c3",
+    "sha256": "fffd2c324c6b4c847ec9577d17581b65b8e830be89492a468e76fe15005c2025"
+  },
+  {
+    "source": "c3/monster/100/1.c3",
+    "sha256": "6b5e2f5637866951fcd5f136a17362d41ec7ee6312c872edad4abea2c3e29ff0"
+  },
+  {
+    "source": "c3/monster/110/110.c3",
+    "sha256": "9469d3873bb08bb9c757a7c67697f076d5501cb864b7f9b21b4ea268e5fd15f2"
+  },
+  {
+    "source": "c3/monster/120/110.c3",
+    "sha256": "962a2143e3f1d2679f672496e3057d9be143b0626d1c53e280789b81a7829f8a"
+  },
+  {
+    "source": "c3/monster/120/1.c3",
+    "sha256": "cc4333c199baebad7a22fa1bb17ca8bd1fcb4b3b7c762aa50ba04451e3f77f44"
+  },
+  {
+    "source": "c3/monster/100/100.c3",
+    "sha256": "827bced2e83594f6705b71a0c2e73e57f10526f98942f24e30832fc7a7bc3943"
+  },
+  {
+    "source": "c3/monster/110/1.c3",
+    "sha256": "11c78d6132511b904156c8c6d6469773a75bbcb6c2a427d43b798ce0f3fc2b71"
+  },
+  {
+    "source": "c3/monster/120/100.c3",
+    "sha256": "9197290124c55eda8619c0719712e90b6f95c9789dfee7a9eb9960d730d51478"
+  },
+  {
+    "source": "c3/monster/120/101.c3",
+    "sha256": "4e6307f1dc1b562ce315d65f1d89305a58750e6dd12689da1290ed7e464cdd16"
+  },
+  {
+    "source": "c3/texture/120000000.dds",
+    "sha256": "e02cb013b2915adbbb26d737ebf85788dd0b603b5929c222695ca963eee08b1a"
+  },
+  {
+    "source": "c3/texture/100000000.dds",
+    "sha256": "7e3334efd84f60a3b7928d8613193736435424f57b674ff03023d5ac4050a74c"
+  },
+  {
+    "source": "c3/texture/110000000.dds",
+    "sha256": "3d001c32043ee367e450a3424479612c6a0290e9a0a2ad17ed0958286a698248"
+  }
+]

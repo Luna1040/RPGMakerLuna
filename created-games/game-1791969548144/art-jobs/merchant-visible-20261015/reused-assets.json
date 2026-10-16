@@ -1,0 +1,14 @@
+[
+  {
+    "source": "c3/npc/719/100.c3",
+    "sha256": "bd5f944ac127bd7c1be051a3862c2c2dd6a57ea7814fc6692373a7686304501f"
+  },
+  {
+    "source": "c3/npc/719/1.c3",
+    "sha256": "a3221a6faaecaf0071c0474ce8a490a9ca2928d4247e3b6d56323a872c735112"
+  },
+  {
+    "source": "c3/texture/719000000.dds",
+    "sha256": "f9f33ecd863fb9bc276dd765112980fdac6e0d5da727a9a47ea3a7e5b468f8fe"
+  }
+]

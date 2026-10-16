@@ -1,0 +1,206 @@
+{
+  "prompt": [
+    8,
+    "8aeee80d-7991-49ee-8ea5-1311135c892a",
+    {
+      "1": {
+        "class_type": "UNETLoader",
+        "inputs": {
+          "unet_name": "flux-2-klein-9b-fp8.safetensors",
+          "weight_dtype": "default"
+        }
+      },
+      "2": {
+        "class_type": "CLIPLoader",
+        "inputs": {
+          "clip_name": "qwen_3_8b_fp8mixed.safetensors",
+          "type": "flux2",
+          "device": "default"
+        }
+      },
+      "3": {
+        "class_type": "VAELoader",
+        "inputs": {
+          "vae_name": "flux2-vae.safetensors"
+        }
+      },
+      "4": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "2",
+            0
+          ],
+          "text": "ISOMETRIC GAME MAP. BIRDS EYE VIEW. A high angle orthographic 2.5D top-down cutaway of an entire cozy Japanese sushi restaurant on a moonlit pier. Look steeply DOWN into the restaurant from ABOVE. The floor is a very LARGE DIAMOND, composed of many golden wooden floorboards, surrounded by two short back walls at the upper left and upper right, front two walls removed. A sushi chef counter runs along the upper-left diagonal wall, shelves and a noren curtain above it; water sink and shelves along upper-right diagonal wall. Wide OPEN EMPTY FLOOR in the center and foreground, NO tables, NO chairs, NO people. Small decorative plants tucked in back corners. Teal midnight ocean surrounds the wooden platform, glowing lanterns on the back wall, miniature lighthouse in distant upper background. Beautiful finely hand-painted game environment, cozy indie restaurant simulation art, soft painterly grain, honey gold and deep teal color palette, charming detailed props, crisp readable forms. Entire floor diamond visible with margins, 65 percent of composition is WALKABLE EMPTY FLOOR viewed from above. No text, no HUD, no labels. Not a frontal interior, not eye-level, not realistic photography, not plastic 3D, no roof."
+        }
+      },
+      "5": {
+        "class_type": "ConditioningZeroOut",
+        "inputs": {
+          "conditioning": [
+            "4",
+            0
+          ]
+        }
+      },
+      "6": {
+        "class_type": "EmptyFlux2LatentImage",
+        "inputs": {
+          "width": 1536,
+          "height": 1024,
+          "batch_size": 1
+        }
+      },
+      "7": {
+        "class_type": "RandomNoise",
+        "inputs": {
+          "noise_seed": 1021533
+        }
+      },
+      "8": {
+        "class_type": "KSamplerSelect",
+        "inputs": {
+          "sampler_name": "euler"
+        }
+      },
+      "9": {
+        "class_type": "Flux2Scheduler",
+        "inputs": {
+          "steps": 4,
+          "width": 1536,
+          "height": 1024
+        }
+      },
+      "10": {
+        "class_type": "CFGGuider",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ],
+          "positive": [
+            "4",
+            0
+          ],
+          "negative": [
+            "5",
+            0
+          ],
+          "cfg": 1.0
+        }
+      },
+      "11": {
+        "class_type": "SamplerCustomAdvanced",
+        "inputs": {
+          "noise": [
+            "7",
+            0
+          ],
+          "guider": [
+            "10",
+            0
+          ],
+          "sampler": [
+            "8",
+            0
+          ],
+          "sigmas": [
+            "9",
+            0
+          ],
+          "latent_image": [
+            "6",
+            0
+          ]
+        }
+      },
+      "12": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "11",
+            0
+          ],
+          "vae": [
+            "3",
+            0
+          ]
+        }
+      },
+      "13": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "12",
+            0
+          ],
+          "filename_prefix": "game-art/72444ba9e3d646109cd98b4c39e2548d"
+        }
+      }
+    },
+    {
+      "client_id": "game-image-6adb888a16e4464998f54ba66a55f10f",
+      "create_time": 1792057888682
+    },
+    [
+      "13"
+    ]
+  ],
+  "outputs": {
+    "13": {
+      "images": [
+        {
+          "filename": "72444ba9e3d646109cd98b4c39e2548d_00001_.png",
+          "subfolder": "game-art",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 1536,
+            "height": 1024
+          }
+        }
+      ]
+    }
+  },
+  "status": {
+    "status_str": "success",
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "8aeee80d-7991-49ee-8ea5-1311135c892a",
+          "timestamp": 1792057888688
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [
+            "1",
+            "2",
+            "3",
+            "8"
+          ],
+          "prompt_id": "8aeee80d-7991-49ee-8ea5-1311135c892a",
+          "timestamp": 1792057888690
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "8aeee80d-7991-49ee-8ea5-1311135c892a",
+          "timestamp": 1792057893758
+        }
+      ]
+    ]
+  },
+  "meta": {
+    "13": {
+      "node_id": "13",
+      "display_node": "13",
+      "parent_node": null,
+      "real_node_id": "13"
+    }
+  }
+}

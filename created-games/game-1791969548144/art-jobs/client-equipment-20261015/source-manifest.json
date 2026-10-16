@@ -1,0 +1,646 @@
+{
+  "database_sha256": "520f3c67f574d7212b711665b692ce5158b63dc2c2f2d047c137b5d9f279bfd6",
+  "schema": [
+    [
+      "uID",
+      5
+    ],
+    [
+      "szName",
+      10
+    ],
+    [
+      "ucRequiredProfession",
+      1
+    ],
+    [
+      "ucRequiredWeaponSkill",
+      1
+    ],
+    [
+      "ucRequiredLevel",
+      1
+    ],
+    [
+      "ucRequiredSex",
+      1
+    ],
+    [
+      "usRequiredForce",
+      3
+    ],
+    [
+      "usRequiredSpeed",
+      3
+    ],
+    [
+      "usRequiredHealth",
+      3
+    ],
+    [
+      "usRequiredSoul",
+      3
+    ],
+    [
+      "usMonopoly",
+      3
+    ],
+    [
+      "usWeight",
+      3
+    ],
+    [
+      "uPrice",
+      5
+    ],
+    [
+      "uLuck",
+      4
+    ],
+    [
+      "dwMaxAttack",
+      5
+    ],
+    [
+      "dwMinAttack",
+      5
+    ],
+    [
+      "dwDefense",
+      5
+    ],
+    [
+      "usDexterity",
+      2
+    ],
+    [
+      "usDodge",
+      2
+    ],
+    [
+      "sLife",
+      2
+    ],
+    [
+      "sMana",
+      2
+    ],
+    [
+      "usAmount",
+      3
+    ],
+    [
+      "usAmountLimit",
+      3
+    ],
+    [
+      "ucStatus",
+      1
+    ],
+    [
+      "dwGem1",
+      5
+    ],
+    [
+      "dwGem2",
+      5
+    ],
+    [
+      "ucMagic1",
+      1
+    ],
+    [
+      "ucMagic2",
+      1
+    ],
+    [
+      "ucMagic3",
+      1
+    ],
+    [
+      "dwMagicAttack",
+      5
+    ],
+    [
+      "dwMagicDefence",
+      5
+    ],
+    [
+      "usRange",
+      3
+    ],
+    [
+      "usAttackSpeed",
+      3
+    ],
+    [
+      "nHitarte",
+      4
+    ],
+    [
+      "usTarget",
+      3
+    ],
+    [
+      "uEPrice",
+      5
+    ],
+    [
+      "Official1",
+      3
+    ],
+    [
+      "Official2",
+      3
+    ],
+    [
+      "Official3",
+      3
+    ],
+    [
+      "Official4",
+      3
+    ],
+    [
+      "Official5",
+      3
+    ],
+    [
+      "Official6",
+      3
+    ],
+    [
+      "Official7",
+      3
+    ],
+    [
+      "Official8",
+      3
+    ],
+    [
+      "Official9",
+      3
+    ],
+    [
+      "Official10",
+      3
+    ],
+    [
+      "Official11",
+      3
+    ],
+    [
+      "Official12",
+      3
+    ],
+    [
+      "Official13",
+      3
+    ],
+    [
+      "dwSoulValue",
+      5
+    ],
+    [
+      "nReqGod",
+      4
+    ],
+    [
+      "ucRequiredGodLevel",
+      1
+    ],
+    [
+      "dwCanBeOffer",
+      5
+    ],
+    [
+      "usDemon",
+      3
+    ],
+    [
+      "dwTimePrice",
+      5
+    ],
+    [
+      "dwFlagBit",
+      5
+    ],
+    [
+      "dwGrowthSec",
+      5
+    ],
+    [
+      "dwSacrificePoint",
+      5
+    ],
+    [
+      "ucEquipType",
+      1
+    ],
+    [
+      "ucBagType",
+      1
+    ],
+    [
+      "bCanCompose",
+      4
+    ],
+    [
+      "uCallUpID",
+      5
+    ],
+    [
+      "uMagicType",
+      5
+    ],
+    [
+      "uFragment",
+      5
+    ],
+    [
+      "usModelType",
+      3
+    ],
+    [
+      "unFireType",
+      5
+    ],
+    [
+      "usFirePosition",
+      3
+    ],
+    [
+      "unShape",
+      5
+    ],
+    [
+      "szGetDesc",
+      10
+    ],
+    [
+      "szDesc",
+      10
+    ],
+    [
+      "uStep",
+      5
+    ],
+    [
+      "recovery_time",
+      5
+    ],
+    [
+      "dwFlagBit2",
+      5
+    ]
+  ],
+  "icons": [
+    {
+      "source": "data/itemminicon/111000.dds",
+      "asset": "assets\\client_equipment\\111000.dds",
+      "sha256": "5ecf479d5ad2fe16e25b4ea26e9e817163f8f4986bb92d4f8a61577a9a157d94"
+    },
+    {
+      "source": "data/itemminicon/111010.dds",
+      "asset": "assets\\client_equipment\\111010.dds",
+      "sha256": "819c5ada26d9bb4c921e7afb43cc20c5b126365f5a9c9b9026aecb39ce99496c"
+    },
+    {
+      "source": "data/itemminicon/111300.dds",
+      "asset": "assets\\client_equipment\\111300.dds",
+      "sha256": "2acda38b09064ebf290824ebb4f3b3c8dfe5d434158812110db59cd098f7ac88"
+    },
+    {
+      "source": "data/itemminicon/111350.dds",
+      "asset": "assets\\client_equipment\\111350.dds",
+      "sha256": "5186193dc01112488c5653e5ce615c61c029d6e44750b095359b641eff20b6a0"
+    },
+    {
+      "source": "data/itemminicon/111400.dds",
+      "asset": "assets\\client_equipment\\111400.dds",
+      "sha256": "049faa0e6dfae6083712ccf283f523a2a18e219d71b25b47f49419be0d32bcf3"
+    },
+    {
+      "source": "data/itemminicon/115000.dds",
+      "asset": "assets\\client_equipment\\115000.dds",
+      "sha256": "7fac5d21db4944670ca91ff1ba5b11cd826f5a6d2c6beff0478cd93cef8c1a92"
+    },
+    {
+      "source": "data/itemminicon/115010.dds",
+      "asset": "assets\\client_equipment\\115010.dds",
+      "sha256": "14483d7244acb81f27964334161941276db9a269bd8eda6148c8381c0f69c86d"
+    },
+    {
+      "source": "data/itemminicon/115300.dds",
+      "asset": "assets\\client_equipment\\115300.dds",
+      "sha256": "78670f50848b2f6d3470ffb57f80e2ce87e558a438a6ed195e64e05e9216eff2"
+    },
+    {
+      "source": "data/itemminicon/115350.dds",
+      "asset": "assets\\client_equipment\\115350.dds",
+      "sha256": "b7e2289483fbdb032ed2121f9811ff1455ba9a93c282239b6831fe15f182b95b"
+    },
+    {
+      "source": "data/itemminicon/115400.dds",
+      "asset": "assets\\client_equipment\\115400.dds",
+      "sha256": "b688f4467e44ae05d4faefe04c48c33077ccfeb8eafc9b35c460fc7e5fdfc317"
+    },
+    {
+      "source": "data/itemminicon/121000.dds",
+      "asset": "assets\\client_equipment\\121000.dds",
+      "sha256": "f98942cb2e7a18b035edbc2da8d0891159d54269eb2dd979b4cda72221800ccc"
+    },
+    {
+      "source": "data/itemminicon/121010.dds",
+      "asset": "assets\\client_equipment\\121010.dds",
+      "sha256": "46ed4379bc22c99167bd5e54498d7c145e573bac36fb1222aff6481d1de250f2"
+    },
+    {
+      "source": "data/itemminicon/121300.dds",
+      "asset": "assets\\client_equipment\\121300.dds",
+      "sha256": "409c6ecf3d54f3a848d52e62b5cf27d5be513c8221bedc9c2ba4d56c2e88101e"
+    },
+    {
+      "source": "data/itemminicon/121350.dds",
+      "asset": "assets\\client_equipment\\121350.dds",
+      "sha256": "c370ef9fcc2403fb8b55a4912ec13f55f0e1f73b9e5bb429ab010da82f2bd5d9"
+    },
+    {
+      "source": "data/itemminicon/121400.dds",
+      "asset": "assets\\client_equipment\\121400.dds",
+      "sha256": "35b1cd3d5c06036774adc1fffb07edc896adf1288250d2607b291291396bf230"
+    },
+    {
+      "source": "data/itemminicon/125000.dds",
+      "asset": "assets\\client_equipment\\125000.dds",
+      "sha256": "173926e2cc3bfdce3a66af00a4365c513d4c33fa4cb564068dd04f9a36436906"
+    },
+    {
+      "source": "data/itemminicon/125010.dds",
+      "asset": "assets\\client_equipment\\125010.dds",
+      "sha256": "31d3374d1ed9e0ba6113d67c70cc67e3678d12697555615b73224472d1c2b28c"
+    },
+    {
+      "source": "data/itemminicon/125300.dds",
+      "asset": "assets\\client_equipment\\125300.dds",
+      "sha256": "1f1a2c1b00f70db594fa7cf8257e9b3b9e8213570599a380efa868a327809d9e"
+    },
+    {
+      "source": "data/itemminicon/125350.dds",
+      "asset": "assets\\client_equipment\\125350.dds",
+      "sha256": "086a3958f43ce2a62010683626f88670a4c2152c510094e38d8c3a1534092aca"
+    },
+    {
+      "source": "data/itemminicon/125400.dds",
+      "asset": "assets\\client_equipment\\125400.dds",
+      "sha256": "25ddb8c5e8dd54b39ae5c96335c9bfaf0c4f2f096acc24c534e93317c7cd0a89"
+    },
+    {
+      "source": "data/itemminicon/131000.dds",
+      "asset": "assets\\client_equipment\\131000.dds",
+      "sha256": "22eb735687097cd60baaa5d888182c4fed7947a46ed8bfd008755edcdc59b176"
+    },
+    {
+      "source": "data/itemminicon/131010.dds",
+      "asset": "assets\\client_equipment\\131010.dds",
+      "sha256": "7101b674462576f532ae468c2dc51315f81b89b6a76270e94217243d02cb9b61"
+    },
+    {
+      "source": "data/itemminicon/131020.dds",
+      "asset": "assets\\client_equipment\\131020.dds",
+      "sha256": "01209e12c42066adb0ae763de823adccfaa6153a6374387e62de1874de0f7283"
+    },
+    {
+      "source": "data/itemminicon/135000.dds",
+      "asset": "assets\\client_equipment\\135000.dds",
+      "sha256": "8cdd246e9ff9f6eba88de69c6cdc7a6b9b5023a1f74b88a5da42f508705864da"
+    },
+    {
+      "source": "data/itemminicon/135010.dds",
+      "asset": "assets\\client_equipment\\135010.dds",
+      "sha256": "2c4956b42cfe14641b58cc7e7f765d793dbf5d7cd8c38a086218752041db05f2"
+    },
+    {
+      "source": "data/itemminicon/135020.dds",
+      "asset": "assets\\client_equipment\\135020.dds",
+      "sha256": "94672477472e163faaa3dd015931a372fc889b1f24a8fba8110df3c13fea4814"
+    },
+    {
+      "source": "data/itemminicon/141000.dds",
+      "asset": "assets\\client_equipment\\141000.dds",
+      "sha256": "83141172a861d4d0d12bf3b57aa22e3db1748bba84c42a8adf3997356e402dd9"
+    },
+    {
+      "source": "data/itemminicon/141010.dds",
+      "asset": "assets\\client_equipment\\141010.dds",
+      "sha256": "369744cde8bf73fe828b583072a93a72fc301a5156b3cc86cf06f04dee92a344"
+    },
+    {
+      "source": "data/itemminicon/141300.dds",
+      "asset": "assets\\client_equipment\\141300.dds",
+      "sha256": "dea3e6cae0b4f085acb1d36148f2e29856d58747b0cde16c8573c3ac8f72d06f"
+    },
+    {
+      "source": "data/itemminicon/141350.dds",
+      "asset": "assets\\client_equipment\\141350.dds",
+      "sha256": "e0f3fd9c41c0ae9c86f53cc64874885a817d38ac1e653cbab568171f0ef83a64"
+    },
+    {
+      "source": "data/itemminicon/141400.dds",
+      "asset": "assets\\client_equipment\\141400.dds",
+      "sha256": "f682b8adfa946aae05f0e7a35a3bc135d4fea449045528b285514a5ef41e6372"
+    },
+    {
+      "source": "data/itemminicon/145000.dds",
+      "asset": "assets\\client_equipment\\145000.dds",
+      "sha256": "6b53db1776389076f9c9d91b7ab37382f8bca68788bd714bb87eb9c7bf2c9ee7"
+    },
+    {
+      "source": "data/itemminicon/145010.dds",
+      "asset": "assets\\client_equipment\\145010.dds",
+      "sha256": "6703bc2696302738f07001086031b3b295278fdd00920cdca31a70ff0b0c3150"
+    },
+    {
+      "source": "data/itemminicon/145300.dds",
+      "asset": "assets\\client_equipment\\145300.dds",
+      "sha256": "b2dc9eac84b440d63be2c6415009376642986936049576d369f571c3863d6418"
+    },
+    {
+      "source": "data/itemminicon/145350.dds",
+      "asset": "assets\\client_equipment\\145350.dds",
+      "sha256": "9245c769c53d8ed654f8dcc1ff41c728cf2d2f6a409e1c1808a634e85b9a82d1"
+    },
+    {
+      "source": "data/itemminicon/145400.dds",
+      "asset": "assets\\client_equipment\\145400.dds",
+      "sha256": "e71c4e9e62c6908f33932bd30f011a69879032a7165810b609bea5525360d8c3"
+    },
+    {
+      "source": "data/itemminicon/161000.dds",
+      "asset": "assets\\client_equipment\\161000.dds",
+      "sha256": "029c85cf9aba30f241b09a5894f8fe07902bbd33ce62cd0d5a3b796c0f3ee531"
+    },
+    {
+      "source": "data/itemminicon/161010.dds",
+      "asset": "assets\\client_equipment\\161010.dds",
+      "sha256": "b9e5dcb44d84561dc300e2f64e585f43ea60ad24056a0b971a852b38ad1fd532"
+    },
+    {
+      "source": "data/itemminicon/161300.dds",
+      "asset": "assets\\client_equipment\\161300.dds",
+      "sha256": "a7152b0bfac484e574d7289a4cd6bc9ffc522f6e775eaaf3b6ddf7c92d8054cf"
+    },
+    {
+      "source": "data/itemminicon/161350.dds",
+      "asset": "assets\\client_equipment\\161350.dds",
+      "sha256": "beb2419a84db373478e1745d40302ca7ff45a2e4330510b0e238d9fa1d677e42"
+    },
+    {
+      "source": "data/itemminicon/161400.dds",
+      "asset": "assets\\client_equipment\\161400.dds",
+      "sha256": "7f9f2ce8300a9d26c11efe497dac6f5fcf26c306a2ff759eaa111aef90c9ab8d"
+    },
+    {
+      "source": "data/itemminicon/165000.dds",
+      "asset": "assets\\client_equipment\\165000.dds",
+      "sha256": "7b74b5a11843812f2ba29e6c1ee1cab8f61a8d596b5a5721ab4d335ec3848583"
+    },
+    {
+      "source": "data/itemminicon/165010.dds",
+      "asset": "assets\\client_equipment\\165010.dds",
+      "sha256": "8b2f679cb32526188d5707e67d293bf380097ef35d69735bbce248f7ce1d587b"
+    },
+    {
+      "source": "data/itemminicon/165300.dds",
+      "asset": "assets\\client_equipment\\165300.dds",
+      "sha256": "5981f55d256479818b43f6058cbf6cc2be2da15b72dfd8c068adcab8515cfa68"
+    },
+    {
+      "source": "data/itemminicon/165350.dds",
+      "asset": "assets\\client_equipment\\165350.dds",
+      "sha256": "471ddd9d0631858219a029551b5ba03f0de2d73968abdf06aec14a169d477d25"
+    },
+    {
+      "source": "data/itemminicon/165400.dds",
+      "asset": "assets\\client_equipment\\165400.dds",
+      "sha256": "603e1fbe09b6ee19dd88147fcb561bfc3609952d18dc1cefdeb781b70878da9c"
+    },
+    {
+      "source": "data/itemminicon/410000.dds",
+      "asset": "assets\\client_equipment\\410000.dds",
+      "sha256": "57607719d9ed9799e0bafc6bdd6dfe248555e08f15593489f4de02a9a45e3a40"
+    },
+    {
+      "source": "data/itemminicon/410010.dds",
+      "asset": "assets\\client_equipment\\410010.dds",
+      "sha256": "4fcd59d0e273283a68963bce5b8910d2aef9be0a42789470a52799110354b26d"
+    },
+    {
+      "source": "data/itemminicon/410020.dds",
+      "asset": "assets\\client_equipment\\410020.dds",
+      "sha256": "f31ab26e90787ea8209bca0d3a099773f6f90a9cc3a59eb19ae99bfd270ad7fd"
+    },
+    {
+      "source": "data/itemminicon/410030.dds",
+      "asset": "assets\\client_equipment\\410030.dds",
+      "sha256": "871487b91f6809d3c5f4197bdbfa277728c47b3b0053ec6636e134f72a0b9409"
+    },
+    {
+      "source": "data/itemminicon/410040.dds",
+      "asset": "assets\\client_equipment\\410040.dds",
+      "sha256": "fdcaca2054c273375d461fe259f1422b9c0033e618c3503eb69ebcb072a4b5b0"
+    },
+    {
+      "source": "data/itemminicon/410050.dds",
+      "asset": "assets\\client_equipment\\410050.dds",
+      "sha256": "b5335f25176e565199c6b44f84ca5b5210bda97aa55f7a1e1d5432e269d59f19"
+    },
+    {
+      "source": "data/itemminicon/410060.dds",
+      "asset": "assets\\client_equipment\\410060.dds",
+      "sha256": "f734769146a837e0674d818c53b91071aa183b05bfeb2ff59a4e71bcfe37c71c"
+    },
+    {
+      "source": "data/itemminicon/420000.dds",
+      "asset": "assets\\client_equipment\\420000.dds",
+      "sha256": "e45bebba826882921a3fbb58411413f6b002b1222b97e75d292171be29f31195"
+    },
+    {
+      "source": "data/itemminicon/420010.dds",
+      "asset": "assets\\client_equipment\\420010.dds",
+      "sha256": "9db27a51f3928a10619282e51565c977994019d3ee3fb2185ef25b0a986efab1"
+    },
+    {
+      "source": "data/itemminicon/420020.dds",
+      "asset": "assets\\client_equipment\\420020.dds",
+      "sha256": "99aea9b2c095a28d6bb09d0f8de80a3c695a98a6fb8980456fb1acff92c92fa9"
+    },
+    {
+      "source": "data/itemminicon/420030.dds",
+      "asset": "assets\\client_equipment\\420030.dds",
+      "sha256": "2b35fa481bce227d92926c8f6915199e51391d2819cc8c8c6b95712e60674cb3"
+    },
+    {
+      "source": "data/itemminicon/420040.dds",
+      "asset": "assets\\client_equipment\\420040.dds",
+      "sha256": "655280f4bcc33f950242c4949ee880f6aa955fbd477f52791f5759de18630ae3"
+    },
+    {
+      "source": "data/itemminicon/420050.dds",
+      "asset": "assets\\client_equipment\\420050.dds",
+      "sha256": "9011976b6612167c23f8f4ebc7c5b4914a1c998254723c28807460492a09a8cb"
+    },
+    {
+      "source": "data/itemminicon/420060.dds",
+      "asset": "assets\\client_equipment\\420060.dds",
+      "sha256": "5ada1af41f96647ee25271f9ace70be1a228dbcd703c647937686ee284bb97c5"
+    },
+    {
+      "source": "data/itemminicon/440000.dds",
+      "asset": "assets\\client_equipment\\440000.dds",
+      "sha256": "4877ce56ac02cfbb197151e6a4a7e6f3c6c0cd7d71bd72a80e75dc1154bb2f8a"
+    },
+    {
+      "source": "data/itemminicon/440010.dds",
+      "asset": "assets\\client_equipment\\440010.dds",
+      "sha256": "066979bd35eb409569e01b08638fd239b1aaac5dbae6a00c72a53700b0c07532"
+    },
+    {
+      "source": "data/itemminicon/440020.dds",
+      "asset": "assets\\client_equipment\\440020.dds",
+      "sha256": "60f3de358e905d1c1e8da19daa2186cb876574cd5aa4bd3c9d5978885843bef5"
+    },
+    {
+      "source": "data/itemminicon/440030.dds",
+      "asset": "assets\\client_equipment\\440030.dds",
+      "sha256": "599494f3a6b698e8b9c52aa8f6d9050dca6595ae3375e5a227e6953c77b33253"
+    },
+    {
+      "source": "data/itemminicon/440040.dds",
+      "asset": "assets\\client_equipment\\440040.dds",
+      "sha256": "ea834fefdd842ad605574d121182f7c0a8fa8d2412e1774c497f616a1e0c19f2"
+    },
+    {
+      "source": "data/itemminicon/440050.dds",
+      "asset": "assets\\client_equipment\\440050.dds",
+      "sha256": "1c15d61ceaec26c213553c3cfa97b3d3f681f0ee68d5e59df348e6c9efb70ee6"
+    },
+    {
+      "source": "data/itemminicon/440060.dds",
+      "asset": "assets\\client_equipment\\440060.dds",
+      "sha256": "f070eb66bc9e197669761871762b1271ff8d6806121844e06c77bf0f0d7f6694"
+    },
+    {
+      "source": "data/itemminicon/1037160.dds",
+      "asset": "assets\\client_equipment\\1037160.dds",
+      "sha256": "626b9baf270c1d17d2098717ac6d218b9d803cad943196cf05ee13899481e599"
+    },
+    {
+      "source": "data/itemminicon/1037170.dds",
+      "asset": "assets\\client_equipment\\1037170.dds",
+      "sha256": "1e24c7d90ac25c916e01ca69702d8f0b42248b8a8d3d32680c0f27227c44811a"
+    }
+  ],
+  "missing_icons": [],
+  "scope": "1..35 level, profession 10/20, common wearable bag type 7; cosmetic/event appearances excluded"
+}

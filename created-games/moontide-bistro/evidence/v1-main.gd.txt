@@ -1,0 +1,676 @@
+extends Node3D
+
+const FOOD = ["炙烤三文鱼", "海苔握寿司", "柚子气泡饮"]
+const PRICE = [38, 28, 18]
+const TINT = [Color("f29c7e"), Color("9ccea3"), Color("f5d77b")]
+var camera: Camera3D
+var player: Node3D
+var chef: Node3D
+var ui: Control
+var hud: Label
+var hint: Label
+var tray_label: Label
+var modal: PanelContainer
+var modal_text: Label
+var start_button: Button
+var upgrade_button: Button
+var tables: Array = []
+var stations: Array = []
+var bubbles: Array = []
+var money = 0
+var night = 1
+var level = 0
+var served = 0
+var missed = 0
+var earnings = 0
+var combo = 0
+var best = 0
+var remaining = 150.0
+var spawn_clock = 1.0
+var active = false
+var paused = false
+var selected = 0
+var carrying = -1
+var cooking = -1
+var cook_time = 0.0
+var ready_food = -1
+var target = -1
+var time = 0.0
+var toast_time = 0.0
+var legs: Array = []
+var plate: Node3D
+var rng = RandomNumberGenerator.new()
+var save_path = "res://saves/progress.json"
+var navigation = AStarGrid2D.new()
+var route = PackedVector2Array()
+var route_target = -1
+
+func mat(color: Color, glow: float = 0.0) -> StandardMaterial3D:
+	var m = StandardMaterial3D.new()
+	m.albedo_color = color
+	m.roughness = 0.8
+	if glow > 0:
+		m.emission_enabled = true
+		m.emission = color
+		m.emission_energy_multiplier = glow
+	return m
+
+func box(parent: Node3D, pos: Vector3, size: Vector3, color: Color) -> MeshInstance3D:
+	var n = MeshInstance3D.new()
+	var mesh = BoxMesh.new()
+	mesh.size = size
+	n.mesh = mesh
+	n.material_override = mat(color)
+	n.position = pos
+	parent.add_child(n)
+	return n
+
+func sphere(parent: Node3D, pos: Vector3, radius: float, color: Color) -> MeshInstance3D:
+	var n = MeshInstance3D.new()
+	var mesh = SphereMesh.new()
+	mesh.radius = radius
+	mesh.height = radius * 2
+	n.mesh = mesh
+	n.material_override = mat(color)
+	n.position = pos
+	parent.add_child(n)
+	return n
+
+func cylinder(parent: Node3D, pos: Vector3, radius: float, height: float, color: Color) -> MeshInstance3D:
+	var n = MeshInstance3D.new()
+	var mesh = CylinderMesh.new()
+	mesh.top_radius = radius
+	mesh.bottom_radius = radius
+	mesh.height = height
+	n.mesh = mesh
+	n.material_override = mat(color)
+	n.position = pos
+	parent.add_child(n)
+	return n
+
+func person(pos: Vector3, color: Color, is_player: bool = false) -> Node3D:
+	var p = Node3D.new()
+	add_child(p)
+	p.position = pos
+	cylinder(p, Vector3(0,0.76,0),0.27,0.65,color)
+	box(p,Vector3(0,0.65,0.24),Vector3(0.36,0.48,0.05),Color("f7e8c9"))
+	sphere(p,Vector3(0,1.29,0),0.26,Color("edbd95"))
+	sphere(p,Vector3(0,1.43,-0.035),0.25,Color("303446"))
+	for x in [-0.10,0.10]:
+		sphere(p,Vector3(x,1.30,0.235),0.027,Color("202535"))
+	for x in [-0.15,0.15]:
+		var leg = box(p,Vector3(x,0.24,0),Vector3(0.15,0.43,0.19),Color("243744"))
+		if is_player: legs.append(leg)
+		box(p,Vector3(x,0.07,0.07),Vector3(0.19,0.13,0.30),Color("162430"))
+	for x in [-0.35,0.35]:
+		sphere(p,Vector3(x,0.72,0.03),0.12,Color("edbd95"))
+	if is_player:
+		cylinder(p,Vector3(0,1.55,0),0.29,0.16,Color("f8e9ca"))
+		var ring = TorusMesh.new()
+		ring.inner_radius = 0.36
+		ring.outer_radius = 0.42
+		var marker = MeshInstance3D.new()
+		marker.mesh = ring
+		marker.material_override = mat(Color("7de5d5"),0.5)
+		marker.position.y = 0.04
+		p.add_child(marker)
+	return p
+
+func sign_at(text: String, pos: Vector3, size: int = 36, color: Color = Color("ffe6b2")):
+	var label = Label3D.new()
+	label.text = text
+	label.font = load("res://font.ttf")
+	label.font_size = size
+	label.pixel_size = 0.011
+	label.position = pos
+	label.modulate = color
+	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	add_child(label)
+
+func _ready():
+	DirAccess.make_dir_recursive_absolute("res://saves")
+	rng.randomize()
+	load_game()
+	build_world()
+	build_ui()
+	show_prep()
+	if "--smoke-test" in OS.get_cmdline_user_args(): call_deferred("smoke_test")
+	if "--capture" in OS.get_cmdline_user_args(): call_deferred("capture_scene")
+
+func build_world():
+	var env = WorldEnvironment.new()
+	var e = Environment.new()
+	e.background_mode = Environment.BG_COLOR
+	e.background_color = Color("102535")
+	e.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+	e.ambient_light_color = Color("92bed2")
+	e.ambient_light_energy = 0.4
+	e.tonemap_mode = Environment.TONE_MAPPER_FILMIC
+	env.environment = e
+	add_child(env)
+	var sun = DirectionalLight3D.new()
+	sun.rotation_degrees = Vector3(-55,-25,0)
+	sun.light_color = Color("ffe0ad")
+	sun.light_energy = 0.65
+	sun.shadow_enabled = true
+	add_child(sun)
+	camera = Camera3D.new()
+	camera.projection = Camera3D.PROJECTION_ORTHOGONAL
+	camera.size = 23.5
+	camera.position = Vector3(13,19,21)
+	add_child(camera)
+	camera.look_at(Vector3(0,0,0))
+	camera.current = true
+	var sea = box(self,Vector3(0,-0.7,0),Vector3(80,0.15,80),Color("102e43"))
+	sea.material_override.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	for i in range(65):
+		var x = rng.randf_range(-25,25)
+		var z = rng.randf_range(-22,22)
+		if abs(x) > 9 or abs(z) > 7:
+			box(self,Vector3(x,-0.59,z),Vector3(rng.randf_range(0.3,1.6),0.015,0.045),Color("347385"))
+	box(self,Vector3(0,-0.28,0),Vector3(17,0.55,12),Color("302a30"))
+	for i in range(34):
+		box(self,Vector3(-8.25+i*0.5,0,0),Vector3(0.47,0.10,11.8),Color("87634b") if i%3 else Color("987655"))
+	box(self,Vector3(0,1.15,-5.8),Vector3(17,2.3,0.2),Color("315056"))
+	for x in [-8.3,8.3]:
+		box(self,Vector3(x,0.45,0),Vector3(0.16,0.9,11.5),Color("523e36"))
+		for z in [-5,0,5]: box(self,Vector3(x,1.1,z),Vector3(0.23,2.2,0.23),Color("5b4235"))
+	for x in [-6,-3,0,3,6]:
+		box(self,Vector3(x,1.7,-5.64),Vector3(1.7,1.25,0.08),Color("142f40"))
+		box(self,Vector3(x,1.7,-5.55),Vector3(0.05,1.3,0.08),Color("c59964"))
+		box(self,Vector3(x,1.7,-5.55),Vector3(1.8,0.05,0.08),Color("c59964"))
+	box(self,Vector3(0,0.65,-3.8),Vector3(10.8,1.3,1.1),Color("4d3835"))
+	box(self,Vector3(0,1.35,-3.8),Vector3(11.1,0.16,1.3),Color("d2a16d"))
+	for x in [-4,-2,0,2,4]:
+		box(self,Vector3(x,0.65,-3.22),Vector3(1.6,0.95,0.035),Color("81604a"))
+	for i in range(3):
+		cylinder(self,Vector3(-3.5+i*0.6,1.47,-3.7),0.21,0.08,Color("f3dbc0"))
+		box(self,Vector3(-3.5+i*0.6,1.56,-3.7),Vector3(0.27,0.1,0.15),TINT[i])
+	for x in [1.7,2.2,2.7]:
+		cylinder(self,Vector3(x,1.65,-3.85),0.11,0.55,Color("b3c78b"))
+	stations = [Vector3(-3,0,-2.25),Vector3(0,0,-2.25),Vector3(3,0,-2.25)]
+	sign_at("01  料理台",Vector3(-3,2.45,-3.8),30)
+	sign_at("02  出餐口",Vector3(0,2.45,-3.8),30)
+	sign_at("03  茶水台",Vector3(3,2.45,-3.8),30)
+	chef = person(Vector3(-1.5,0,-4.8),Color("e8d7b3"))
+	cylinder(chef,Vector3(0,1.65,0),0.25,0.4,Color("fff1d5"))
+	for pos in [Vector3(-5.3,0,0),Vector3(0,0,0.4),Vector3(5.3,0,0),Vector3(-3.4,0,3.6),Vector3(3.4,0,3.6)]:
+		cylinder(self,pos+Vector3(0,0.65,0),0.16,1.2,Color("3f3532"))
+		cylinder(self,pos+Vector3(0,1.22,0),0.95,0.18,Color("b58152"))
+		cylinder(self,pos+Vector3(0,1.325,0),0.8,0.035,Color("d8b381"))
+		for x in [-1.35,1.35]:
+			cylinder(self,pos+Vector3(x,0.55,0),0.32,0.14,Color("38696a"))
+			box(self,pos+Vector3(x,0.28,0),Vector3(0.12,0.55,0.12),Color("453b35"))
+		var guest = person(pos+Vector3(-1.35,0.13,0),Color.from_hsv(rng.randf(),0.42,0.8))
+		guest.visible = false
+		var dish = cylinder(self,pos+Vector3(0,1.37,0),0.32,0.06,Color("ede1ca"))
+		dish.visible = false
+		tables.append({"pos":pos,"state":"empty","food":0,"patience":55.0,"timer":0.0,"guest":guest,"dish":dish})
+		stations.append(pos+Vector3(0,0,1.15))
+	for x in [-7,7]:
+		cylinder(self,Vector3(x,0.35,-3),0.4,0.65,Color("bb7858"))
+		for j in range(5):
+			var leaf = sphere(self,Vector3(x+sin(j*2.0)*0.23,1.0+j*0.17,-3+cos(j*2.0)*0.23),0.26,Color("438675"))
+			leaf.scale = Vector3(0.7,1.8,0.7)
+	for x in [-6,-2,2,6]:
+		box(self,Vector3(x,3.2,-3.8),Vector3(0.025,1.2,0.025),Color("242b32"))
+		var lamp = cylinder(self,Vector3(x,2.65,-3.8),0.27,0.5,Color("ffcf7d"))
+		lamp.material_override = mat(Color("ffbe6c"),1)
+		var light = OmniLight3D.new()
+		light.position = Vector3(x,2.2,-3)
+		light.light_color = Color("ffca83")
+		light.light_energy = 1.0
+		light.omni_range = 4.0
+		add_child(light)
+	player = person(Vector3(0,0,2),Color("539b99"),true)
+	plate = Node3D.new()
+	player.add_child(plate)
+	cylinder(plate,Vector3(0,0.85,0.65),0.33,0.07,Color("f4e6cb"))
+	box(plate,Vector3(0,0.94,0.65),Vector3(0.3,0.12,0.18),Color("ed9c7d"))
+	plate.visible = false
+	navigation.region = Rect2i(-32,-12,65,35)
+	navigation.cell_size = Vector2(0.25,0.25)
+	navigation.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES
+	navigation.update()
+	for x in range(-32,33):
+		for z in range(-12,23):
+			navigation.set_point_solid(Vector2i(x,z),not can_walk(Vector3(x*0.25,0,z*0.25)))
+
+func label(text: String, size: int, color: Color = Color("f5e8cc")) -> Label:
+	var l = Label.new()
+	l.text = text
+	l.add_theme_font_size_override("font_size",size)
+	l.add_theme_color_override("font_color",color)
+	return l
+
+func panel_style() -> StyleBoxFlat:
+	var s = StyleBoxFlat.new()
+	s.bg_color = Color(0.035,0.10,0.14,0.96)
+	s.border_color = Color("528681")
+	s.set_border_width_all(1)
+	s.set_corner_radius_all(14)
+	s.content_margin_left = 24
+	s.content_margin_right = 24
+	s.content_margin_top = 16
+	s.content_margin_bottom = 16
+	return s
+
+func build_ui():
+	var canvas = CanvasLayer.new()
+	add_child(canvas)
+	ui = Control.new()
+	ui.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	ui.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var theme = Theme.new()
+	theme.default_font = load("res://font.ttf")
+	theme.default_font_size = 20
+	ui.theme = theme
+	canvas.add_child(ui)
+	var top = PanelContainer.new()
+	top.position = Vector2(24,20)
+	top.size = Vector2(1392,100)
+	top.add_theme_stylebox_override("panel",panel_style())
+	ui.add_child(top)
+	var row = HBoxContainer.new()
+	row.add_theme_constant_override("separation",55)
+	top.add_child(row)
+	row.add_child(label("月 汐 食 堂\nM O O N T I D E   /   夜间营业",24,Color("f0cc8c")))
+	hud = label("",22)
+	row.add_child(hud)
+	if "--ai-dev" in OS.get_cmdline_user_args():
+		var home_button = Button.new()
+		home_button.text = "返回大厅"
+		home_button.custom_minimum_size = Vector2(140,50)
+		home_button.pressed.connect(func():
+			var assistant = get_node_or_null("/root/GameAssistant")
+			if assistant != null: assistant.go_home())
+		row.add_child(home_button)
+	var bottom = PanelContainer.new()
+	bottom.position = Vector2(24,766)
+	bottom.size = Vector2(1392,112)
+	bottom.add_theme_stylebox_override("panel",panel_style())
+	ui.add_child(bottom)
+	var column = VBoxContainer.new()
+	bottom.add_child(column)
+	tray_label = label("",22)
+	column.add_child(tray_label)
+	hint = label("点击料理台、出餐口或餐桌：自动走近并互动。WASD 移动 / E 互动 / ESC 暂停",18,Color("9dbbbd"))
+	column.add_child(hint)
+	var menu = HBoxContainer.new()
+	menu.position = Vector2(30,132)
+	menu.add_theme_constant_override("separation",10)
+	ui.add_child(menu)
+	for i in range(3):
+		var b = Button.new()
+		b.text = str(i+1)+"  "+FOOD[i]+"  ¥"+str(PRICE[i])
+		b.custom_minimum_size = Vector2(225,44)
+		b.pressed.connect(func(): selected = i; toast("已选："+FOOD[i]+"。到"+("茶水台" if i==2 else "料理台")+"制作。"))
+		menu.add_child(b)
+	for i in range(8):
+		var b = Button.new()
+		b.custom_minimum_size = Vector2(160,50)
+		b.add_theme_font_size_override("font_size",18)
+		b.pressed.connect(func(): target = i)
+		ui.add_child(b)
+		bubbles.append(b)
+	modal = PanelContainer.new()
+	modal.position = Vector2(395,230)
+	modal.size = Vector2(650,440)
+	modal.add_theme_stylebox_override("panel",panel_style())
+	ui.add_child(modal)
+	var v = VBoxContainer.new()
+	v.add_theme_constant_override("separation",20)
+	modal.add_child(v)
+	modal_text = label("",22)
+	v.add_child(modal_text)
+	start_button = Button.new()
+	start_button.custom_minimum_size.y = 52
+	start_button.pressed.connect(func():
+		if active:
+			paused = false
+			modal.hide()
+		else: start_night())
+	v.add_child(start_button)
+	upgrade_button = Button.new()
+	upgrade_button.custom_minimum_size.y = 48
+	upgrade_button.pressed.connect(buy_upgrade)
+	v.add_child(upgrade_button)
+	update_ui()
+
+func show_prep(summary: String = "海风入夜，食堂亮灯。"):
+	modal.show()
+	modal_text.text = "月汐食堂  /  第 %d 夜\n\n%s\n\n1  选择菜品 → 料理台制作 → 出餐口取餐\n2  茶水台直接制作并拿取饮料\n3  送到对应餐桌；用餐结束后清桌\n\n一晚 150 秒  ·  连续好评增加小费\n钱包 ¥%d   /   厨房 Lv.%d" % [night,summary,money,level+1]
+	start_button.text = "开门营业  →"
+	upgrade_button.show()
+	upgrade_button.text = "升级厨房 ¥%d  ·  加快制作 / 延长耐心" % upgrade_cost() if level<4 else "厨房已满级"
+	upgrade_button.disabled = money < upgrade_cost() or level>=4
+
+func upgrade_cost() -> int:
+	return 100 + level*100
+
+func buy_upgrade():
+	if level<4 and money>=upgrade_cost():
+		money-=upgrade_cost()
+		level+=1
+		save_game()
+		show_prep("厨房升级完成！")
+
+func start_night():
+	active = true
+	paused = false
+	remaining = 150
+	served = 0
+	missed = 0
+	earnings = 0
+	combo = 0
+	spawn_clock = 1
+	carrying = -1
+	cooking = -1
+	ready_food = -1
+	target = -1
+	for t in tables:
+		t.state = "empty"
+		t.guest.hide()
+		t.dish.hide()
+	modal.hide()
+	toast("开始营业！先看客人订单，再选择菜品。")
+
+func spawn_customer():
+	var available = []
+	for i in range(tables.size()):
+		if tables[i].state == "empty": available.append(i)
+	if available.is_empty(): return
+	var t = tables[available[rng.randi_range(0,available.size()-1)]]
+	t.state = "waiting"
+	t.food = rng.randi_range(0,2)
+	t.patience = 57.0 + level*5
+	t.guest.show()
+
+func toast(message: String):
+	hint.text = message
+	toast_time = 5
+
+func interact(index: int):
+	if not active or paused: return
+	if index == 0:
+		if selected == 2: toast("饮料请在右侧茶水台制作。")
+		elif cooking>=0 or ready_food>=0: toast("厨房已有料理，先去出餐口取餐。")
+		else:
+			cooking = selected
+			cook_time = maxf(1.8,4.8-level*0.7)
+			toast("师傅正在制作 "+FOOD[selected]+"，可以先去清桌。")
+	elif index == 1:
+		if carrying>=0: toast("托盘已有餐品，请先送餐。")
+		elif ready_food>=0:
+			carrying = ready_food
+			ready_food = -1
+			toast("已取 "+FOOD[carrying]+"，送到相应客人桌边。")
+		else: toast("餐品还未做好。先到料理台下单。")
+	elif index == 2:
+		if carrying<0:
+			carrying = 2
+			toast("已拿取柚子气泡饮。")
+		else: toast("托盘已满。按 Q 放弃手中餐品。")
+	else:
+		var t = tables[index-3]
+		if t.state == "dirty":
+			t.state = "empty"
+			t.dish.hide()
+			toast("桌面清理完毕，准备迎接下一位客人。")
+		elif t.state == "waiting":
+			if carrying == t.food:
+				var tip = int(t.patience/10)+mini(combo,5)*2
+				var revenue = PRICE[carrying]+tip
+				earnings += revenue
+				money += revenue
+				served += 1
+				combo += 1
+				carrying = -1
+				t.state = "eating"
+				t.timer = 7
+				t.dish.show()
+				toast("好评！收入 ¥%d（小费 ¥%d） · 连续服务 %d" % [revenue,tip,combo])
+			else: toast("这位客人要的是 "+FOOD[t.food]+"。")
+		elif t.state == "empty": toast("空桌，稍后会有客人入座。")
+
+func _unhandled_input(event):
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_ESCAPE and active:
+			paused = not paused
+			modal.visible = paused
+			if paused:
+				modal_text.text = "营业已暂停\n\nWASD / 方向键：移动\nE：与附近设施或餐桌互动\n1 / 2 / 3：选择菜品\nQ：放弃托盘中的餐品\n\n也可以点击场景中的标签自动前往。"
+				start_button.text = "继续营业"
+				upgrade_button.hide()
+		if not active or paused: return
+		if event.keycode in [KEY_1,KEY_2,KEY_3]: selected = event.keycode-KEY_1
+		if event.keycode == KEY_Q: carrying = -1; toast("托盘已清空。")
+		if event.keycode == KEY_E:
+			var nearest = -1
+			var distance = 1.3
+			for i in range(stations.size()):
+				var d = player.position.distance_to(stations[i])
+				if d<distance: nearest=i; distance=d
+			if nearest>=0: interact(nearest)
+			else: toast("请走近料理台、出餐口、茶水台或餐桌。")
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT and active and not paused:
+		var origin = camera.project_ray_origin(event.position)
+		var direction = camera.project_ray_normal(event.position)
+		var p = Plane(Vector3.UP,0).intersects_ray(origin,direction)
+		if p != null:
+			var nearest = -1
+			var distance = 1.8
+			for i in range(stations.size()):
+				var d = Vector2(p.x,p.z).distance_to(Vector2(stations[i].x,stations[i].z))
+				if d<distance: distance=d; nearest=i
+			target=nearest
+
+func can_walk(p: Vector3) -> bool:
+	if abs(p.x)>7.7 or p.z < -2.6 or p.z>5.4: return false
+	for t in tables:
+		if Vector2(p.x,p.z).distance_to(Vector2(t.pos.x,t.pos.z))<1.0: return false
+	return true
+
+func move_player(delta: float):
+	var direction = Vector3.ZERO
+	if Input.is_physical_key_pressed(KEY_W) or Input.is_physical_key_pressed(KEY_UP): direction.z-=1
+	if Input.is_physical_key_pressed(KEY_S) or Input.is_physical_key_pressed(KEY_DOWN): direction.z+=1
+	if Input.is_physical_key_pressed(KEY_A) or Input.is_physical_key_pressed(KEY_LEFT): direction.x-=1
+	if Input.is_physical_key_pressed(KEY_D) or Input.is_physical_key_pressed(KEY_RIGHT): direction.x+=1
+	if direction.length()>0:
+		target=-1
+		direction = direction.rotated(Vector3.UP,0.55)
+	elif target>=0:
+		if route_target != target:
+			route_target = target
+			var from_cell = Vector2i(roundi(player.position.x*4),roundi(player.position.z*4))
+			var to_cell = Vector2i(roundi(stations[target].x*4),roundi(stations[target].z*4))
+			route = navigation.get_point_path(from_cell,to_cell)
+		if not route.is_empty():
+			var waypoint = Vector3(route[0].x,0,route[0].y)
+			if player.position.distance_to(waypoint)<0.13:
+				route.remove_at(0)
+			else: direction=(waypoint-player.position).normalized()
+		else:
+			if player.position.distance_to(stations[target])<0.6: interact(target)
+			target=-1
+			route_target=-1
+	if target<0: route_target=-1
+	if direction.length()>0:
+		direction=direction.normalized()
+		var step=direction*delta*4.6
+		var p=player.position
+		if can_walk(p+Vector3(step.x,0,0)): p.x+=step.x
+		if can_walk(p+Vector3(0,0,step.z)): p.z+=step.z
+		player.position=p
+		player.rotation.y=lerp_angle(player.rotation.y,atan2(direction.x,direction.z),delta*14)
+		for i in range(legs.size()): legs[i].rotation.x=sin(time*16+i*PI)*0.35
+	else:
+		for leg in legs: leg.rotation.x=0
+
+func _process(delta):
+	time+=delta
+	if active and not paused:
+		remaining=maxf(0,remaining-delta)
+		move_player(delta)
+		spawn_clock-=delta
+		if spawn_clock<=0:
+			spawn_customer()
+			spawn_clock=maxf(7,13-night)
+		if cooking>=0:
+			cook_time-=delta
+			chef.rotation.y=sin(time*7)*0.25
+			if cook_time<=0:
+				ready_food=cooking
+				cooking=-1
+				toast("料理完成！去出餐口拿取 "+FOOD[ready_food]+"。")
+		for t in tables:
+			if t.state == "waiting":
+				t.patience-=delta
+				if t.patience<=0:
+					t.state="dirty"
+					t.guest.hide()
+					t.dish.show()
+					missed+=1
+					combo=0
+					toast("客人等得太久离开了，清桌后继续加油。")
+			elif t.state == "eating":
+				t.timer-=delta
+				if t.timer<=0:
+					t.state="dirty"
+					t.guest.hide()
+		if remaining<=0: finish_night()
+	plate.visible=carrying>=0
+	toast_time-=delta
+	if toast_time<=0: hint.text="点击标签自动前往并互动  /  WASD 移动  /  E 互动  /  1–3 选菜  /  Q 清空托盘  /  ESC 暂停"
+	update_ui()
+
+func finish_night():
+	active=false
+	target=-1
+	best=maxi(best,earnings)
+	var summary="营业结束  ·  服务 %d 位 / 离开 %d 位\n本夜收入 ¥%d   ·   最佳 ¥%d" % [served,missed,earnings,best]
+	night+=1
+	save_game()
+	show_prep(summary)
+
+func update_ui():
+	if hud==null: return
+	hud.text="第 %02d 夜      %02d:%02d      钱包 ¥%d\n已服务 %d 位    ·    连续好评 %d    ·    本夜 ¥%d" % [night,int(remaining)/60,int(remaining)%60,money,served,combo,earnings]
+	tray_label.text="选菜  %s     |     托盘  %s     |     厨房  %s" % [FOOD[selected],FOOD[carrying] if carrying>=0 else "空",("制作中 %.1fs"%maxf(cook_time,0)) if cooking>=0 else ("可取餐" if ready_food>=0 else "空闲")]
+	for i in range(bubbles.size()):
+		var b=bubbles[i]
+		var world=stations[i]+Vector3(0,1.6,-0.3)
+		if i<3: world=stations[i]+Vector3(0,1.45,-0.65)
+		b.position=camera.unproject_position(world)-Vector2(80,25)
+		b.visible=active and not paused
+		if i==0: b.text="料理台 · 制作" if cooking<0 else "制作中 %.1fs"%maxf(0,cook_time)
+		elif i==1: b.text="取餐："+FOOD[ready_food] if ready_food>=0 else "出餐口"
+		elif i==2: b.text="柚子饮 · 拿取"
+		else:
+			var t=tables[i-3]
+			match t.state:
+				"empty": b.text="%d 号桌 · 待客"%(i-2)
+				"waiting": b.text=FOOD[t.food]+"  %ds"%int(t.patience)
+				"eating": b.text="享用中  ♡"
+				"dirty": b.text="清理餐桌  ✧"
+			b.modulate=Color("ffb4a1") if t.state=="waiting" and t.patience<18 else Color.WHITE
+
+func save_game():
+	var f=FileAccess.open(save_path,FileAccess.WRITE)
+	if f: f.store_string(JSON.stringify({"money":money,"night":night,"level":level,"best":best}))
+
+func load_game():
+	if not FileAccess.file_exists(save_path): return
+	var data=JSON.parse_string(FileAccess.get_file_as_string(save_path))
+	if data is Dictionary:
+		money=int(data.get("money",0))
+		night=int(data.get("night",1))
+		level=int(data.get("level",0))
+		best=int(data.get("best",0))
+
+func capture_scene():
+	if "--prep" in OS.get_cmdline_user_args():
+		await get_tree().create_timer(0.5).timeout
+		get_viewport().get_texture().get_image().save_png("res://evidence/prep.png")
+		get_tree().quit()
+		return
+	start_night()
+	for i in range(3): spawn_customer()
+	await get_tree().create_timer(1.0).timeout
+	get_viewport().get_texture().get_image().save_png("res://evidence/gameplay.png")
+	print("CAPTURE_OK")
+	get_tree().quit()
+
+func smoke_test():
+	start_night()
+	spawn_customer()
+	var index=-1
+	for i in range(tables.size()):
+		if tables[i].state=="waiting": index=i
+	assert(index>=0)
+	var t=tables[index]
+	t.food=0
+	selected=0
+	interact(0)
+	assert(cooking==0)
+	_process(6)
+	assert(ready_food==0)
+	interact(1)
+	assert(carrying==0)
+	interact(index+3)
+	assert(served==1 and earnings>=38 and t.state=="eating")
+	_process(8)
+	assert(t.state=="dirty")
+	interact(index+3)
+	assert(t.state=="empty")
+	interact(2)
+	assert(carrying==2)
+	carrying=-1
+	t.state="waiting"
+	t.food=1
+	interact(index+3)
+	assert(t.state=="waiting")
+	t.patience=0.1
+	_process(0.2)
+	assert(missed==1 and t.state=="dirty")
+	var before=remaining
+	paused=true
+	_process(2)
+	assert(remaining==before)
+	paused=false
+	# Exercise all station-to-station paths with the actual movement loop.
+	for a in range(stations.size()):
+		for b in range(stations.size()):
+			player.position=stations[a]
+			target=b
+			route_target=-1
+			for frame in range(1600):
+				move_player(1.0/60.0)
+				if target<0: break
+			assert(player.position.distance_to(stations[b])<0.6,"Navigation failed %d -> %d"%[a,b])
+	var key=InputEventKey.new()
+	key.keycode=KEY_2
+	key.pressed=true
+	_unhandled_input(key)
+	assert(selected==1)
+	key.keycode=KEY_ESCAPE
+	_unhandled_input(key)
+	assert(paused)
+	_unhandled_input(key)
+	assert(not paused)
+	# Isolate persistence tests from the player's normal save.
+	save_path="user://smoke_test.json"
+	money=500
+	level=0
+	buy_upgrade()
+	assert(money==400 and level==1)
+	money=0
+	load_game()
+	assert(money==400 and level==1)
+	remaining=0.01
+	_process(0.02)
+	assert(not active and modal.visible)
+	print("PASS: 64 navigation routes, key routing, upgrade, save/load, settlement")
+	print("PASS: cooking, pickup, service, revenue, eating, cleaning, drinks, wrong order, patience, pause")
+	get_tree().quit()

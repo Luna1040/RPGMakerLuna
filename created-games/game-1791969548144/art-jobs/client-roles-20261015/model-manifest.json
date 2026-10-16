@@ -1,0 +1,86 @@
+[
+  {
+    "model": "warrior",
+    "client_texture": "c3/select/069000000.dds",
+    "runtime": "8d40e69ff67c.dds",
+    "sha256": "93ee81d5d0ecc696c668d5a5525b5c19a8e4763529fe3ceb96ae1631a74854e6"
+  },
+  {
+    "model": "warrior_head",
+    "client_texture": "c3/select/069000001.dds",
+    "runtime": "56bb5a9bce69.dds",
+    "sha256": "f5979bada52eb51f6105d87ed267b87118da7066cd7363550b854945a4d60de5"
+  },
+  {
+    "model": "warrior_hair",
+    "client_texture": "c3/select/069119001.dds",
+    "runtime": "3f526b3d81e4.dds",
+    "sha256": "dd2bdd1287fc59697aa8c6b1cbc1b6eedc0056281045e78fc1359013721cf365"
+  },
+  {
+    "model": "mage",
+    "client_texture": "c3/select/061000000.dds",
+    "runtime": "7090175c9379.dds",
+    "sha256": "5abc91ee643ab93a08792e5ab6baa6c7e6989ff73ffbdb4a1358635b5f94fbf6"
+  },
+  {
+    "model": "mage_head",
+    "client_texture": "c3/select/061000001.dds",
+    "runtime": "dbf5db62082b.dds",
+    "sha256": "910e95c6e47424a5aa58c700652f242f4d55054099eb3551cce4d8eb7c3535d8"
+  },
+  {
+    "model": "mage_hair",
+    "client_texture": "c3/select/061119001.dds",
+    "runtime": "6c1df954ee83.dds",
+    "sha256": "253fe086b1decfb8d845f8bea7663d640eea057ef38190cc56a10907626b240e"
+  },
+  {
+    "model": "warrior_weapon",
+    "client_texture": "c3/select/410970.dds",
+    "runtime": "ec12bbe6f6d8.dds",
+    "sha256": "0e8d877e242301c6aaab586ad79bae66bb3df0c0f02b881accae19c302890e4d"
+  },
+  {
+    "model": "mage_weapon",
+    "client_texture": "c3/select/440990.dds",
+    "runtime": "796b0f36a384.dds",
+    "sha256": "2e501ead5ae66505d7bea1c4d422be672b2f7ae27647cb45703f0b6df9769a95"
+  },
+  {
+    "model": "738",
+    "client_texture": "c3/texture/738000000.dds",
+    "runtime": "d3f8b812dfa6.dds",
+    "sha256": "2f5edcb00815ba811b625a9957f223fa5bc59c2e50324ed126b9f1225d50c3bf"
+  },
+  {
+    "model": "701",
+    "client_texture": "c3/texture/701000000.dds",
+    "runtime": "d8e60e27e18d.dds",
+    "sha256": "8ca8fe68c3933061bc723b20907923db80535305f1d6d1a98049d7e732e3e1a4"
+  },
+  {
+    "model": "707",
+    "client_texture": "c3/texture/707000000.dds",
+    "runtime": "a9a655e8ab95.dds",
+    "sha256": "af96c2039934301d2751483d9c93c84af38c0e51ef400a571c5b187b85e44794"
+  },
+  {
+    "model": "728",
+    "client_texture": "c3/texture/728000000.dds",
+    "runtime": "f97703a02741.dds",
+    "sha256": "03ce24ed159ed327ebcbd848f7e0461c70016cb93c03fbb74b8a258a85829bff"
+  },
+  {
+    "model": "714",
+    "client_texture": "c3/texture/714000000.dds",
+    "runtime": "24572e72837a.dds",
+    "sha256": "be6eb6f9c74da5cb1d81f90e6245d7877c8b3e537fed1c25fcb8e924b349b990"
+  },
+  {
+    "model": "729",
+    "client_texture": "c3/texture/729000000.dds",
+    "runtime": "0a3cf37cc5c0.dds",
+    "sha256": "9686a63eb508d30adff0e54b998e946f370b4379b9eefcedb5f6b5933a6c70bf"
+  }
+]

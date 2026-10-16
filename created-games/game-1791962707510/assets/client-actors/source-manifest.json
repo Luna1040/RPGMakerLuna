@@ -1,0 +1,275 @@
+{
+  "actors": [
+    {
+      "asset": "CMD00010.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\CMD00010.skin",
+      "source_sha256": "29a997b53920f372da793a2525fb8adb6235114d10d41c1af25292114373e3d7",
+      "bone_source": "D:\\Program Files\\mangot5\\hot\\datas\\Bone\\BoneMD.bon",
+      "bone_sha256": "b6117b114ee1f0416afe78564de689ce0b11dc25a34d8b473867a0bb5ddccc4f",
+      "vertices": 585,
+      "triangles": 801,
+      "weights_per_vertex": 4
+    },
+    {
+      "asset": "HMD00010.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\HMD00010.skin",
+      "source_sha256": "198078509800ca290e09c807294598ebc2faa358cc596d52084e64c2efbf6be9",
+      "bone_source": "D:\\Program Files\\mangot5\\hot\\datas\\Bone\\BoneMD.bon",
+      "bone_sha256": "b6117b114ee1f0416afe78564de689ce0b11dc25a34d8b473867a0bb5ddccc4f",
+      "vertices": 284,
+      "triangles": 271,
+      "weights_per_vertex": 1
+    },
+    {
+      "asset": "FMD00010.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\FMD00010.skin",
+      "source_sha256": "d7c1810d48806a93e96d6ffe5028d13f8f968bb7b809c7a01fd36b7e3229216e",
+      "bone_source": "D:\\Program Files\\mangot5\\hot\\datas\\Bone\\BoneMD.bon",
+      "bone_sha256": "b6117b114ee1f0416afe78564de689ce0b11dc25a34d8b473867a0bb5ddccc4f",
+      "vertices": 105,
+      "triangles": 158,
+      "weights_per_vertex": 1
+    },
+    {
+      "asset": "MMD00010.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\MMD00010.skin",
+      "source_sha256": "7c61cc8a7d3bbf94c02a98c5a65cc1ac0d7d3573f62f585b1179719341ba7228",
+      "bone_source": "D:\\Program Files\\mangot5\\hot\\datas\\Bone\\BoneMD.bon",
+      "bone_sha256": "b6117b114ee1f0416afe78564de689ce0b11dc25a34d8b473867a0bb5ddccc4f",
+      "vertices": 380,
+      "triangles": 474,
+      "weights_per_vertex": 2
+    },
+    {
+      "asset": "LMD00010.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\LMD00010.skin",
+      "source_sha256": "16a671a99a2ff5be68b0b76e04bbd8ac361b01331c6ceb0f5ccca437b9c9eca4",
+      "bone_source": "D:\\Program Files\\mangot5\\hot\\datas\\Bone\\BoneMD.bon",
+      "bone_sha256": "b6117b114ee1f0416afe78564de689ce0b11dc25a34d8b473867a0bb5ddccc4f",
+      "vertices": 338,
+      "triangles": 464,
+      "weights_per_vertex": 2
+    },
+    {
+      "asset": "CMS00010.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\CMS00010.skin",
+      "source_sha256": "88ae12680b28a3d0d39e847373c70cc03c5c318cb7eaf566d3e678a14faf159a",
+      "bone_source": "D:\\Program Files\\mangot5\\hot\\datas\\Bone\\BoneMS.bon",
+      "bone_sha256": "e27b698362a6c05d25a692c1e85ca07fa101bcfe90bb433f2d76a5aacdc32863",
+      "vertices": 575,
+      "triangles": 605,
+      "weights_per_vertex": 3
+    },
+    {
+      "asset": "HMS00010.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\HMS00010.skin",
+      "source_sha256": "57b181ee16026679ded065b572a409eed8a0e75eee76963a54e51b8ae7f83c3a",
+      "bone_source": "D:\\Program Files\\mangot5\\hot\\datas\\Bone\\BoneMS.bon",
+      "bone_sha256": "e27b698362a6c05d25a692c1e85ca07fa101bcfe90bb433f2d76a5aacdc32863",
+      "vertices": 211,
+      "triangles": 155,
+      "weights_per_vertex": 1
+    },
+    {
+      "asset": "FMS00010.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\FMS00010.skin",
+      "source_sha256": "e4ed90ab918c9f00e8469a4a98c7fa018395b848c6503eefad53caa9e3eb7080",
+      "bone_source": "D:\\Program Files\\mangot5\\hot\\datas\\Bone\\BoneMS.bon",
+      "bone_sha256": "e27b698362a6c05d25a692c1e85ca07fa101bcfe90bb433f2d76a5aacdc32863",
+      "vertices": 98,
+      "triangles": 159,
+      "weights_per_vertex": 1
+    },
+    {
+      "asset": "MMS00010.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\MMS00010.skin",
+      "source_sha256": "c59d7413203775f2f28abdaffa16cf5c5751611789d868717754e5ef954f6dcb",
+      "bone_source": "D:\\Program Files\\mangot5\\hot\\datas\\Bone\\BoneMS.bon",
+      "bone_sha256": "e27b698362a6c05d25a692c1e85ca07fa101bcfe90bb433f2d76a5aacdc32863",
+      "vertices": 281,
+      "triangles": 280,
+      "weights_per_vertex": 2
+    },
+    {
+      "asset": "LMS00010.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\LMS00010.skin",
+      "source_sha256": "34171dfd53691c4f1074d09047e3e036c30a4828b1a77fc44ff88b6a3819e8dd",
+      "bone_source": "D:\\Program Files\\mangot5\\hot\\datas\\Bone\\BoneMS.bon",
+      "bone_sha256": "e27b698362a6c05d25a692c1e85ca07fa101bcfe90bb433f2d76a5aacdc32863",
+      "vertices": 90,
+      "triangles": 112,
+      "weights_per_vertex": 1
+    },
+    {
+      "asset": "CMB00010.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\CMB00010.skin",
+      "source_sha256": "8dd427b4c775358b08b0ef1178de0291968684aa6f36eb5d4a9f03c5d6dd3248",
+      "bone_source": "D:\\Program Files\\mangot5\\hot\\datas\\Bone\\BoneMB.bon",
+      "bone_sha256": "e787924d6bd343116ac6ba209f464618409bbbea6f47df12976029d6500b45b8",
+      "vertices": 1147,
+      "triangles": 665,
+      "weights_per_vertex": 2
+    },
+    {
+      "asset": "HMB00010.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\HMB00010.skin",
+      "source_sha256": "4a91f725d428c41ac223fb03b7683dce236dd0387f84dbc192c706b984a81227",
+      "bone_source": "D:\\Program Files\\mangot5\\hot\\datas\\Bone\\BoneMB.bon",
+      "bone_sha256": "e787924d6bd343116ac6ba209f464618409bbbea6f47df12976029d6500b45b8",
+      "vertices": 282,
+      "triangles": 249,
+      "weights_per_vertex": 1
+    },
+    {
+      "asset": "FMB00010.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\FMB00010.skin",
+      "source_sha256": "808ad03a891c7342260be00c13f02f99b51c620caca09a8d29cb2609593c93e4",
+      "bone_source": "D:\\Program Files\\mangot5\\hot\\datas\\Bone\\BoneMB.bon",
+      "bone_sha256": "e787924d6bd343116ac6ba209f464618409bbbea6f47df12976029d6500b45b8",
+      "vertices": 112,
+      "triangles": 152,
+      "weights_per_vertex": 1
+    },
+    {
+      "asset": "MMB00010.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\MMB00010.skin",
+      "source_sha256": "37c4057031ef3c236f362f6e4c2a3a09a932f7be1bc43426ec776a2ab3e83a02",
+      "bone_source": "D:\\Program Files\\mangot5\\hot\\datas\\Bone\\BoneMB.bon",
+      "bone_sha256": "e787924d6bd343116ac6ba209f464618409bbbea6f47df12976029d6500b45b8",
+      "vertices": 210,
+      "triangles": 272,
+      "weights_per_vertex": 2
+    },
+    {
+      "asset": "LMB00010.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\LMB00010.skin",
+      "source_sha256": "8cb2ca28f748be7413ef0324ab0549a4c474b98ffd3f9c77d5c47734a2c68467",
+      "bone_source": "D:\\Program Files\\mangot5\\hot\\datas\\Bone\\BoneMB.bon",
+      "bone_sha256": "e787924d6bd343116ac6ba209f464618409bbbea6f47df12976029d6500b45b8",
+      "vertices": 144,
+      "triangles": 136,
+      "weights_per_vertex": 2
+    },
+    {
+      "asset": "MOB00001.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\MOB00001.skin",
+      "source_sha256": "a3fa5851e4e35e16e816ab4845b1450cc7c28875ba7e2f12f091b37f99fb2245",
+      "bone_source": "D:\\Program Files\\mangot5\\hot\\datas\\Bone\\BoneN00001.bon",
+      "bone_sha256": "442d3121601be5c3d599441836e04771f916369c6fa5c8de2f6bdb180e411dbf",
+      "vertices": 852,
+      "triangles": 954,
+      "weights_per_vertex": 2
+    },
+    {
+      "asset": "MOB00002.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\MOB00002.skin",
+      "source_sha256": "4abcb20a31c830f3da69b1a6e748fee19009ec087d68baabafce73a544bdaea1",
+      "bone_source": "D:\\Program Files\\mangot5\\hot\\datas\\Bone\\BoneN00002.bon",
+      "bone_sha256": "807ffe775c7870c4b1e914c47ba8d586a6e07f4583084fd7dd8a003a945406e2",
+      "vertices": 965,
+      "triangles": 1001,
+      "weights_per_vertex": 2
+    },
+    {
+      "asset": "MOB00003.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\MOB00003.skin",
+      "source_sha256": "2be9dda965b00774e912023a69181ea30fee7a19b2156673def63f7cef39adb5",
+      "bone_source": "D:\\Program Files\\mangot5\\hot\\datas\\Bone\\BoneN00003.bon",
+      "bone_sha256": "43b889d43a03a12ab1a435bcb69a4c2fb14ebff273462ae535745624ab6f9a7d",
+      "vertices": 761,
+      "triangles": 959,
+      "weights_per_vertex": 2
+    },
+    {
+      "asset": "MOB00004.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\MOB00004.skin",
+      "source_sha256": "c810c08a8a794d2207a475a5baac369e020ccaad58d09dc11b4aab98ad07ca1f",
+      "bone_source": "D:\\Program Files\\mangot5\\hot\\datas\\Bone\\BoneN00004.bon",
+      "bone_sha256": "b4c82aae4e1b5d97aa9c4cb7af8f4f7da31e033dec26988c37ec0348f3194bf2",
+      "vertices": 558,
+      "triangles": 723,
+      "weights_per_vertex": 2
+    },
+    {
+      "asset": "MOB00005.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\MOB00005.skin",
+      "source_sha256": "5523668aac8187ae08180215222cd7e0c14a4944fd683b806aa56a436ca7a781",
+      "bone_source": "D:\\Program Files\\mangot5\\hot\\datas\\Bone\\BoneN00005.bon",
+      "bone_sha256": "3bba7ff0dde5639b1f7998ddcaac07880c35a9e0e3eae5cf4fb0cb02fa8324ec",
+      "vertices": 408,
+      "triangles": 524,
+      "weights_per_vertex": 2
+    },
+    {
+      "asset": "MOB00006.glb",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\MOB00006.skin",
+      "source_sha256": "075abcc9a7baba4e773ff17fe362cf23d06be7a1b32047eb18cd9205cfb6c9ff",
+      "bone_source": "D:\\Program Files\\mangot5\\hot\\datas\\Bone\\BoneN00006.bon",
+      "bone_sha256": "40870c9432df1c7faaf4b526d791d9516343e5983526eb536078ac4f35674ab1",
+      "vertices": 557,
+      "triangles": 784,
+      "weights_per_vertex": 2
+    },
+    {
+      "asset": "WCD001.obj",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\WCD001.mdl",
+      "source_sha256": "44a7b264c5956b6f74415599dcb933084ad263a1468a19d41629a7b65cfe3a42"
+    },
+    {
+      "asset": "WCH001.obj",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\WCH001.mdl",
+      "source_sha256": "fb375d9e2043d8e6fa343ae54c723620de8fd76d30d8eccb569c665222444c1c"
+    },
+    {
+      "asset": "WCB001.obj",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\Mesh\\WCB001.mdl",
+      "source_sha256": "d9e080ee193f08bfce8b555c8a6889e4a150aeb28219bda0c3e19414fabd88de"
+    },
+    {
+      "asset": "CMM00010.glb",
+      "source": "D:/Program Files/mangot5/hot/datas/Mesh/CMM00010.skin",
+      "source_sha256": "836f5cd2004e5e8814779052584bdb5f458e9e3630073b7c3cfee72d00cded2e",
+      "bone_source": "D:/Program Files/mangot5/hot/datas/Bone/BoneMM.bon",
+      "vertices": 630,
+      "triangles": 873,
+      "weights_per_vertex": 3,
+      "recovery_job": "art-jobs/client-refine-11"
+    },
+    {
+      "asset": "FMM00010.glb",
+      "source": "D:/Program Files/mangot5/hot/datas/Mesh/FMM00010.skin",
+      "source_sha256": "4be43f6629808d6a477cf7e1cbdc108e552742a755f91dfd3fc30d8d0b19aaaf",
+      "bone_source": "D:/Program Files/mangot5/hot/datas/Bone/BoneMM.bon",
+      "vertices": 104,
+      "triangles": 157,
+      "weights_per_vertex": 1,
+      "recovery_job": "art-jobs/client-refine-11"
+    },
+    {
+      "asset": "MMM00010.glb",
+      "source": "D:/Program Files/mangot5/hot/datas/Mesh/MMM00010.skin",
+      "source_sha256": "39832897cfcaf8d0415eff11bac99d30539544138ab2dc7b1ae8e40e82ccc6fd",
+      "bone_source": "D:/Program Files/mangot5/hot/datas/Bone/BoneMM.bon",
+      "vertices": 204,
+      "triangles": 288,
+      "weights_per_vertex": 3,
+      "recovery_job": "art-jobs/client-refine-11"
+    },
+    {
+      "asset": "LMM00010.glb",
+      "source": "D:/Program Files/mangot5/hot/datas/Mesh/LMM00010.skin",
+      "source_sha256": "61a763f8990cd99ce5439a1149fd28f069f60a2e59ab3b700b00a5db06313303",
+      "bone_source": "D:/Program Files/mangot5/hot/datas/Bone/BoneMM.bon",
+      "vertices": 150,
+      "triangles": 214,
+      "weights_per_vertex": 2,
+      "recovery_job": "art-jobs/client-refine-11"
+    }
+  ],
+  "class_parts": {
+    "刀客": "CMD/HMD/FMD/MMD/LMD",
+    "剑客": "CMS/HMS/FMS/MMS/LMS",
+    "枪客": "CMB/HMB/FMB/MMB/LMB"
+  },
+  "animation": "Original skeleton and skin weights; runtime procedural walking/attack/breathing, no ANI clips imported."
+}

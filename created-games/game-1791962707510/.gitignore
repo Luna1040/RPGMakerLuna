@@ -1,0 +1,5 @@
+# Local caches and production artifacts
+.godot/
+art-jobs/
+backups/
+*.log

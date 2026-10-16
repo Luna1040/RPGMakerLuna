@@ -1,0 +1,206 @@
+{
+  "prompt": [
+    1,
+    "4e7cad6a-fb2e-46eb-8f5f-36cf02ed1e1f",
+    {
+      "1": {
+        "class_type": "UNETLoader",
+        "inputs": {
+          "unet_name": "flux-2-klein-9b-fp8.safetensors",
+          "weight_dtype": "default"
+        }
+      },
+      "2": {
+        "class_type": "CLIPLoader",
+        "inputs": {
+          "clip_name": "qwen_3_8b_fp8mixed.safetensors",
+          "type": "flux2",
+          "device": "default"
+        }
+      },
+      "3": {
+        "class_type": "VAELoader",
+        "inputs": {
+          "vae_name": "flux2-vae.safetensors"
+        }
+      },
+      "4": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "2",
+            0
+          ],
+          "text": "Premium hand-painted cozy indie game illustration, refined Japanese seaside night restaurant, warm amber paper lanterns and dark teal shadows, beautiful textured materials, soft cinematic lighting, clean readable silhouettes, detailed and charming, no text, no lettering, no UI, no watermark. Single full-body young adult female restaurant server game character, standing in three-quarter front view facing slightly right, elevated camera looking down at 25 degrees. Warm friendly expressive face, chestnut brown hair tied in a neat bun, cream blouse with rolled sleeves, long dark teal apron with little embroidered moon, rust orange neck scarf, brown trousers, brown soft shoes, holding a small round empty wooden serving tray near waist. Stylized illustrated character with slightly oversized head, proportions 4 heads tall, NOT a 3D render. Full body from hair to soles, generous margin, centered, character occupies 65 percent of image height. Uniform pure solid black background, no ground, no shadow, no props except tray."
+        }
+      },
+      "5": {
+        "class_type": "ConditioningZeroOut",
+        "inputs": {
+          "conditioning": [
+            "4",
+            0
+          ]
+        }
+      },
+      "6": {
+        "class_type": "EmptyFlux2LatentImage",
+        "inputs": {
+          "width": 1024,
+          "height": 1024,
+          "batch_size": 1
+        }
+      },
+      "7": {
+        "class_type": "RandomNoise",
+        "inputs": {
+          "noise_seed": 7795699916222098
+        }
+      },
+      "8": {
+        "class_type": "KSamplerSelect",
+        "inputs": {
+          "sampler_name": "euler"
+        }
+      },
+      "9": {
+        "class_type": "Flux2Scheduler",
+        "inputs": {
+          "steps": 4,
+          "width": 1024,
+          "height": 1024
+        }
+      },
+      "10": {
+        "class_type": "CFGGuider",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ],
+          "positive": [
+            "4",
+            0
+          ],
+          "negative": [
+            "5",
+            0
+          ],
+          "cfg": 1.0
+        }
+      },
+      "11": {
+        "class_type": "SamplerCustomAdvanced",
+        "inputs": {
+          "noise": [
+            "7",
+            0
+          ],
+          "guider": [
+            "10",
+            0
+          ],
+          "sampler": [
+            "8",
+            0
+          ],
+          "sigmas": [
+            "9",
+            0
+          ],
+          "latent_image": [
+            "6",
+            0
+          ]
+        }
+      },
+      "12": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "11",
+            0
+          ],
+          "vae": [
+            "3",
+            0
+          ]
+        }
+      },
+      "13": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "12",
+            0
+          ],
+          "filename_prefix": "game-art/e329c2bba3b14383925298e45be189a4"
+        }
+      }
+    },
+    {
+      "client_id": "game-image-c165a473408f4dd8ab9e60ad74ec9d18",
+      "create_time": 1792057761004
+    },
+    [
+      "13"
+    ]
+  ],
+  "outputs": {
+    "13": {
+      "images": [
+        {
+          "filename": "e329c2bba3b14383925298e45be189a4_00001_.png",
+          "subfolder": "game-art",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 1024,
+            "height": 1024
+          }
+        }
+      ]
+    }
+  },
+  "status": {
+    "status_str": "success",
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "4e7cad6a-fb2e-46eb-8f5f-36cf02ed1e1f",
+          "timestamp": 1792057761009
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [
+            "1",
+            "2",
+            "3",
+            "8"
+          ],
+          "prompt_id": "4e7cad6a-fb2e-46eb-8f5f-36cf02ed1e1f",
+          "timestamp": 1792057761010
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "4e7cad6a-fb2e-46eb-8f5f-36cf02ed1e1f",
+          "timestamp": 1792057765642
+        }
+      ]
+    ]
+  },
+  "meta": {
+    "13": {
+      "node_id": "13",
+      "display_node": "13",
+      "parent_node": null,
+      "real_node_id": "13"
+    }
+  }
+}

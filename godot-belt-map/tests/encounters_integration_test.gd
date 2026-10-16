@@ -192,11 +192,14 @@ func run() -> void:
 	check(enemy.state in ["idle","return"],"enemy should leash back when hero leaves dungeon bounds")
 	check(enemy.foot.x > 18.5,"leashed enemy must not chase into town half")
 	fresh_battle()
+	var collected_gold_before: int=int(stage.loot.materials.get("旧铜币",0))
+	var expected_gold: int=0
 	for wave in range(1,4):
 		if wave > 1:
 			check(runtime.run_state.phase == "boon","cleared non-final wave must offer boon")
 			check(runtime.choose_boon(runtime.run_state.offers[0]),"valid boon should prepare next wave")
 			check(runtime.start_wave(),"next wave should start after boon")
+		for member in encounters.enemies: expected_gold+=int(member.reward_gold)
 		for victim: Dictionary in encounters.enemies.duplicate():
 			if victim.state == "dead": continue
 			stage.foot = victim.foot-Vector2(0.6,0)
@@ -212,7 +215,7 @@ func run() -> void:
 			check(event.data.id not in identities,"enemy quest event identity must be unique within run")
 			identities.append(event.data.id)
 	check(runtime.progression.xp > 0 or runtime.progression.level > 1,"kills should grant progression XP")
-	check(not stage.loot.drops.is_empty(),"kills should spawn tangible loot")
+	check(stage.loot.drops.is_empty() and int(stage.loot.materials.get("旧铜币",0))>=collected_gold_before+expected_gold,"cleared rooms automatically collect kill rewards")
 	enemy = fresh_battle()
 	enemy.state = "telegraph"
 	enemy.timer = 0.01

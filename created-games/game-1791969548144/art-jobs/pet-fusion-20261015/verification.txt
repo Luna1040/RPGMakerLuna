@@ -1,0 +1,13 @@
+幻化展示更新验收
+正式工程：game-1791969548144；入口维持 main.tscn，没有启动玩家游戏。
+按 game-production 执行，已读取美术、团队与验证规范，art_cli check 图像/视频/依赖全部通过。
+复用产物：assets/client_fusion/compose1bg.dds，源自客户端 data/interface/style01/pet/compose1bg.dds，来源及SHA256详见 source-manifest.json。
+模型：复用已接入的 petwarrior/petmage 原客户端模型、贴图及动作。没有新AI生成作业。
+compose2bg、composebtnnormal、felicitycompose1仅提取审查，未用于正式幻化展示；没有沿用其中未实现的费用文字。
+实现：fusion_showcase.gd + pet_collection_panel.gd；主副兽确认、原版橙色法阵独立加法层、原模型展示、1.8秒汇聚、星级与经验/成长结果；正常人物alpha保持独立；重复点击不重复消耗。
+出征幻兽：模型上方紧凑深底铭牌显示 Lv.等级 · 星级；协战/守护标签按角色而非列表序号显示。
+掉落：EGG_DROP_CHANCE=0.5，固定种子10000次击杀掉落4977枚，满仓不拾取等原逻辑保留。
+验证：6项机制/回归测试及两种模型的独立UI预览测试均有PASS且无SCRIPT ERROR；Godot导入无脚本错误；未读写真实玩家存档。
+预览：fusion-15/21/100.png、mage-fusion-15/21/100.png，分别覆盖确认、汇聚、结果；已人工审查，无裁切，中文正常。
+范围说明：参考并复用原客户端幻化法阵和模型；流程编排与界面由当前项目实现，未声称原客户端整个幻化系统逐项完全复刻。
+未通过质量检查：没有功能或素材检查失败；系统证书读取、项目外编辑器设置/着色器缓存写入存在环境告警，未影响项目内检查。

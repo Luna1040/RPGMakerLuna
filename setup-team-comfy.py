@@ -39,6 +39,9 @@ bindAddr = "127.0.0.1"
 bindPort = 19316
 transport.useEncryption = true
 '''
+server += server[server.index('[[proxies]]'):].replace('game-production-h3','game-production-flux').replace('9316','9315')
+visitor += visitor[visitor.index('[[visitors]]'):].replace('game-production-h3','game-production-flux').replace('9316','9315')
+
 (private / 'host.toml').write_text(server, encoding='utf-8')
 (private / 'visitor.toml').write_text(visitor, encoding='utf-8')
 (private / '.gitignore').write_text('*\n', encoding='utf-8')

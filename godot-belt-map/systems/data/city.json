@@ -59,6 +59,28 @@
         3.2,
         7.6
       ]
+    },
+    {
+      "id": "city_frost",
+      "label": "霜钟隘口",
+      "x": 17.0,
+      "depth": 4.5,
+      "target": "frost",
+      "arrival": [
+        3.2,
+        7.6
+      ]
+    },
+    {
+      "id": "city_ember",
+      "label": "余烬圣堂",
+      "x": 10.0,
+      "depth": 8.3,
+      "target": "ember",
+      "arrival": [
+        3.2,
+        7.6
+      ]
     }
   ],
   "background": "res://assets/dawn-city/city.png"

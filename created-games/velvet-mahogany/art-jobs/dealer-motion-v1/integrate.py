@@ -1,0 +1,31 @@
+from pathlib import Path
+p=Path('created-games/velvet-mahogany/main.gd')
+s=p.read_text(encoding='utf-8-sig')
+s=s.replace('var sound: AudioStreamPlayer','var sound: AudioStreamPlayer\nvar motion: Control')
+s=s.replace('add_child(bg)\n\tui =', 'add_child(bg)\n\tmotion = preload("res://dealer_motion.gd").new()\n\tadd_child(motion)\n\tui =')
+s=s.replace('\tbuild_ui()\n\tif mode==2:\n', '\tbuild_ui()\n\tclear_cards()\n\tawait motion.begin("deal")\n\tif mode==2:\n')
+s=s.replace('for i in 5: await deal_to(player)\n\t\tbusy=false','for i in 5: await deal_to(player)\n\t\tawait motion.complete()\n\t\tbusy=false')
+s=s.replace('\t\tawait deal_to(dealer)\n\tif mode==1:', '\t\tawait deal_to(dealer)\n\tawait motion.complete()\n\tif mode==1:')
+s=s.replace('\tawait deal_to(player)\n\tbusy=false','\tawait motion.begin("deal")\n\tawait deal_to(player)\n\tawait motion.complete()\n\tbusy=false')
+s=s.replace('\twhile Rules.blackjack(dealer)<17: await deal_to(dealer)','\tif Rules.blackjack(dealer)<17:\n\t\tawait motion.begin("deal")\n\t\twhile Rules.blackjack(dealer)<17: await deal_to(dealer)\n\t\tawait motion.complete()')
+s=s.replace('\tif p<8 and d<8:\n','\tif p<8 and d<8:\n\t\tawait motion.begin("deal")\n')
+s=s.replace('\tp=Rules.baccarat(player)\n','\tawait motion.complete()\n\tp=Rules.baccarat(player)\n')
+s=s.replace('\tfor i in 5:\n\t\tif not held.has(i):','\tif held.size()<5: await motion.begin("deal")\n\tfor i in 5:\n\t\tif not held.has(i):')
+s=s.replace('\tvar result:=Rules.poker(player)','\tawait motion.complete()\n\tvar result:=Rules.poker(player)')
+s=s.replace('func finish(returned: int, text: String) -> void:\n\tbankroll+=returned','func finish(returned: int, text: String) -> void:\n\tbusy=true\n\trevealed=true\n\tmessage=text+" 正在结算……"\n\tbuild_ui()\n\trefresh_cards()\n\tif returned>0:\n\t\tawait motion.begin("payout")\n\t\tanimate_chips(returned)\n\tbankroll+=returned')
+s=s.replace('\tactive=false\n\tbusy=false\n\trevealed=true\n\tsave_progress()', '\tsave_progress()\n\tif returned>0: await motion.complete()\n\tactive=false\n\tbusy=false\n\trevealed=true')
+s += '''\nfunc animate_chips(amount: int) -> void:
+	var stack := Label.new()
+	stack.text = "● ● ●  +%d" % amount
+	stack.add_theme_font_size_override("font_size",26)
+	stack.add_theme_color_override("font_color",GOLD)
+	stack.position=Vector2(650,410)
+	stack.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	add_child(stack)
+	var tween:=create_tween()
+	tween.tween_property(stack,"position",Vector2(760,575),0.8).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_interval(0.45)
+	tween.tween_property(stack,"modulate:a",0.0,0.3)
+	tween.tween_callback(stack.queue_free)
+'''
+p.write_text(s,encoding='utf-8')

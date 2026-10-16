@@ -1,0 +1,162 @@
+{
+  "1": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "team-3e9f7307334a4eaeac2a5f5bc8b2261c.png"
+    }
+  },
+  "2": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+      "type": "minimax",
+      "device": "default"
+    }
+  },
+  "3": {
+    "class_type": "UNETLoader",
+    "inputs": {
+      "unet_name": "minimax_h3_ref2va_pruned_fp8_scaled.safetensors",
+      "weight_dtype": "default"
+    }
+  },
+  "4": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+    }
+  },
+  "6": {
+    "class_type": "MiniMaxH3ReferenceToVideo",
+    "inputs": {
+      "clip": [
+        "2",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "prompt": "The same adult female casino dealer in <Picture 1>, exactly preserve her face, black off shoulder evening dress, emerald pendant and hairstyle. Exactly preserve the mahogany casino table and casino room composition. A complete professional card dealing action: she looks down, reaches for a deck next to her, holds it in her left hand, uses her right hand to smoothly slide one face down playing card forward across the red felt toward the viewer, then another card, then brings both hands back together to the original resting pose and smiles at the player. Natural coordinated shoulders, elbows, wrists, torso, eyes and head movement. Hair follows subtly. One continuous shot with a completely locked stationary camera, no zoom, no pan, no cuts, no change of lighting or room. Keep all hands and cards visible. Only one dealer. Realistic elegant motion, five seconds. Return to the reference resting pose at the end. No writing, no UI, no subtitles.\n",
+      "width": 1024,
+      "height": 576,
+      "length": 124,
+      "ref_image_size": "match",
+      "ref_images.ref_image_0": [
+        "1",
+        0
+      ]
+    }
+  },
+  "7": {
+    "class_type": "BasicGuider",
+    "inputs": {
+      "model": [
+        "3",
+        0
+      ],
+      "conditioning": [
+        "6",
+        0
+      ]
+    }
+  },
+  "8": {
+    "class_type": "RandomNoise",
+    "inputs": {
+      "noise_seed": 731421
+    }
+  },
+  "9": {
+    "class_type": "KSamplerSelect",
+    "inputs": {
+      "sampler_name": "res_multistep"
+    }
+  },
+  "10": {
+    "class_type": "BasicScheduler",
+    "inputs": {
+      "model": [
+        "3",
+        0
+      ],
+      "scheduler": "normal",
+      "steps": 20,
+      "denoise": 1.0
+    }
+  },
+  "11": {
+    "class_type": "SamplerCustomAdvanced",
+    "inputs": {
+      "noise": [
+        "8",
+        0
+      ],
+      "guider": [
+        "7",
+        0
+      ],
+      "sampler": [
+        "9",
+        0
+      ],
+      "sigmas": [
+        "10",
+        0
+      ],
+      "latent_image": [
+        "6",
+        1
+      ]
+    }
+  },
+  "12": {
+    "class_type": "VAEDecodeTiled",
+    "inputs": {
+      "samples": [
+        "11",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "tile_size": 384,
+      "overlap": 64,
+      "temporal_size": 32,
+      "temporal_overlap": 8
+    }
+  },
+  "13": {
+    "class_type": "CreateVideo",
+    "inputs": {
+      "images": [
+        "12",
+        0
+      ],
+      "fps": 24.0
+    }
+  },
+  "14": {
+    "class_type": "SaveVideo",
+    "inputs": {
+      "video": [
+        "13",
+        0
+      ],
+      "filename_prefix": "team/eb50f4854d934b56a160b4a12d2f6f2d/video",
+      "format": "mp4",
+      "format.codec": "h264"
+    }
+  },
+  "15": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "12",
+        0
+      ],
+      "filename_prefix": "team/eb50f4854d934b56a160b4a12d2f6f2d/frames"
+    }
+  }
+}

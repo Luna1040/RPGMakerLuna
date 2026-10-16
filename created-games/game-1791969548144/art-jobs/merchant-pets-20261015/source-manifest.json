@@ -1,0 +1,12 @@
+[
+  {
+    "source": "data/itemminicon/1020010.dds",
+    "asset": "assets\\client_shop\\1020010.dds",
+    "sha256": "8b2c7dbbe6987b4624cbfa446fce3cbf683c9e2a3bc32e347b800dcb801178bd"
+  },
+  {
+    "source": "data/itemminicon/1020020.dds",
+    "asset": "assets\\client_shop\\1020020.dds",
+    "sha256": "d1718c54f953e237b5df67723794b9208f6359adf65385d2c4c42cae63fcd91e"
+  }
+]

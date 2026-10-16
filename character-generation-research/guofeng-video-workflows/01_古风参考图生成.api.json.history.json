@@ -1,0 +1,234 @@
+{
+  "prompt": [
+    20,
+    "133c2692-eedc-4987-80e5-3c9642062c74",
+    {
+      "1": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "guofeng-demo-reference.png"
+        }
+      },
+      "2": {
+        "class_type": "CLIPLoader",
+        "inputs": {
+          "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+          "type": "minimax",
+          "device": "default"
+        }
+      },
+      "3": {
+        "class_type": "UNETLoader",
+        "inputs": {
+          "unet_name": "minimax_h3_ref2va_pruned_fp8_scaled.safetensors",
+          "weight_dtype": "default"
+        }
+      },
+      "4": {
+        "class_type": "VAELoader",
+        "inputs": {
+          "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+        }
+      },
+      "5": {
+        "class_type": "LoraLoaderModelOnly",
+        "inputs": {
+          "model": [
+            "3",
+            0
+          ],
+          "lora_name": "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+          "strength_model": 1.0
+        }
+      },
+      "6": {
+        "class_type": "MiniMaxH3ReferenceToVideo",
+        "inputs": {
+          "clip": [
+            "2",
+            0
+          ],
+          "vae": [
+            "4",
+            0
+          ],
+          "prompt": "Use the adult character in <Picture 1> as the identity reference. Chinese historical fantasy cinema, an adult swordswoman wearing flowing ivory and pale blue hanfu, traditional tied long hair, standing in a misty bamboo forest beside an ancient wooden pavilion. She slowly turns her head and raises a sheathed sword. Sleeves and hair move gently in the wind. Elegant restrained motion, consistent face and anatomy, cinematic soft light, detailed silk fabric. One continuous shot, slow camera push in. No modern clothes, no modern buildings, no text or watermark. Silent.",
+          "width": 512,
+          "height": 640,
+          "length": 124,
+          "ref_image_size": "match",
+          "ref_images.ref_image_0": [
+            "1",
+            0
+          ]
+        }
+      },
+      "7": {
+        "class_type": "BasicGuider",
+        "inputs": {
+          "model": [
+            "5",
+            0
+          ],
+          "conditioning": [
+            "6",
+            0
+          ]
+        }
+      },
+      "8": {
+        "class_type": "RandomNoise",
+        "inputs": {
+          "noise_seed": 731429
+        }
+      },
+      "9": {
+        "class_type": "KSamplerSelect",
+        "inputs": {
+          "sampler_name": "res_multistep"
+        }
+      },
+      "10": {
+        "class_type": "BasicScheduler",
+        "inputs": {
+          "model": [
+            "5",
+            0
+          ],
+          "scheduler": "simple",
+          "steps": 4,
+          "denoise": 1.0
+        }
+      },
+      "11": {
+        "class_type": "SamplerCustomAdvanced",
+        "inputs": {
+          "noise": [
+            "8",
+            0
+          ],
+          "guider": [
+            "7",
+            0
+          ],
+          "sampler": [
+            "9",
+            0
+          ],
+          "sigmas": [
+            "10",
+            0
+          ],
+          "latent_image": [
+            "6",
+            1
+          ]
+        }
+      },
+      "12": {
+        "class_type": "VAEDecodeTiled",
+        "inputs": {
+          "samples": [
+            "11",
+            0
+          ],
+          "vae": [
+            "4",
+            0
+          ],
+          "tile_size": 384,
+          "overlap": 64,
+          "temporal_size": 32,
+          "temporal_overlap": 8
+        }
+      },
+      "13": {
+        "class_type": "CreateVideo",
+        "inputs": {
+          "images": [
+            "12",
+            0
+          ],
+          "fps": 24.0
+        }
+      },
+      "14": {
+        "class_type": "SaveVideo",
+        "inputs": {
+          "video": [
+            "13",
+            0
+          ],
+          "filename_prefix": "guofeng/01",
+          "format": "mp4",
+          "format.codec": "h264"
+        }
+      }
+    },
+    {
+      "client_id": "guofeng-local-verification",
+      "create_time": 1791556022729
+    },
+    [
+      "14"
+    ]
+  ],
+  "outputs": {
+    "14": {
+      "images": [
+        {
+          "filename": "01_00001_.mp4",
+          "subfolder": "guofeng",
+          "type": "output",
+          "metadata": {
+            "kind": "video",
+            "width": 512,
+            "height": 640,
+            "duration": 5.166666666666667,
+            "fps": 24.0,
+            "frame_count": 124
+          }
+        }
+      ],
+      "animated": [
+        true
+      ]
+    }
+  },
+  "status": {
+    "status_str": "success",
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "133c2692-eedc-4987-80e5-3c9642062c74",
+          "timestamp": 1791556022730
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [],
+          "prompt_id": "133c2692-eedc-4987-80e5-3c9642062c74",
+          "timestamp": 1791556022732
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "133c2692-eedc-4987-80e5-3c9642062c74",
+          "timestamp": 1791556065479
+        }
+      ]
+    ]
+  },
+  "meta": {
+    "14": {
+      "node_id": "14",
+      "display_node": "14",
+      "parent_node": null,
+      "real_node_id": "14"
+    }
+  }
+}
