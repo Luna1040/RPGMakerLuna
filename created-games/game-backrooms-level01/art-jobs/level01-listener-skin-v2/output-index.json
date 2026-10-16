@@ -1,0 +1,17 @@
+[
+  {
+    "file": "00000.png",
+    "node": "9",
+    "kind": "images",
+    "remote": {
+      "filename": "skin-v1_00001_.png",
+      "subfolder": "team\\backrooms\\level01-listener",
+      "type": "output",
+      "metadata": {
+        "kind": "image",
+        "width": 1024,
+        "height": 1024
+      }
+    }
+  }
+]

@@ -1,0 +1,11 @@
+{
+  "1": {"class_type": "UNETLoader", "inputs": {"unet_name": "flux-2-klein-9b-fp8.safetensors", "weight_dtype": "default"}},
+  "2": {"class_type": "CLIPLoader", "inputs": {"clip_name": "qwen3_4b_fp8_scaled.safetensors", "type": "flux2", "device": "default"}},
+  "3": {"class_type": "VAELoader", "inputs": {"vae_name": "flux2-vae.safetensors"}},
+  "4": {"class_type": "CLIPTextEncode", "inputs": {"text": "Seamless repeating square albedo texture for a disturbing original humanoid creature in a retro PS2 survival horror game. Close-up material study only, no body parts, no objects, no lighting direction, flat diffuse texture, perfectly tileable on all four edges. Pallid damp gray-beige hide with muted nicotine-yellow undertones, irregular charcoal bruising, fine branching dark capillaries, subtle pores and fibrous wrinkles, occasional old cracked keratin patches. Restrained low saturation, matte roughness, detailed but readable at game distance, vintage 2000s game texture resolution, evenly lit neutral scan. A physically plausible game material, not a photograph of a person, no blood, no gore, no text, no border, no vignette.", "clip": ["2", 0]}},
+  "5": {"class_type": "CLIPTextEncode", "inputs": {"text": "person, creature, silhouette, face, eyes, mouth, anatomy, props, room, dramatic lighting, cast shadow, specular shine, glossy plastic, text, watermark, frame, border, gradients, seams, asymmetrical edge mismatch, blood, gore", "clip": ["2", 0]}},
+  "6": {"class_type": "EmptyFlux2LatentImage", "inputs": {"width": 1024, "height": 1024, "batch_size": 1}},
+  "7": {"class_type": "KSampler", "inputs": {"model": ["1", 0], "seed": 10401472, "steps": 24, "cfg": 1.0, "sampler_name": "euler", "scheduler": "beta", "positive": ["4", 0], "negative": ["5", 0], "latent_image": ["6", 0], "denoise": 1.0}},
+  "8": {"class_type": "VAEDecode", "inputs": {"samples": ["7", 0], "vae": ["3", 0]}},
+  "9": {"class_type": "SaveImage", "inputs": {"images": ["8", 0], "filename_prefix": "team/backrooms/level01-listener/skin-v1"}}
+}
