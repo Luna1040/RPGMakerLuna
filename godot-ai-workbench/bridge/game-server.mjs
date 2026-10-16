@@ -31,7 +31,6 @@ function saveGames(){return writeGames(games);}
 await saveGames();
 const token=randomBytes(32).toString('hex');
 const state={bridgeVersion,processId:process.pid,startedAt:new Date().toISOString(),status:'starting',text:'',events:[],threadId:null,turnId:null,revision:0,error:null,gameId:selected};
-const state={bridgeVersion:'2026-10-14-repair-1',status:'starting',text:'',events:[],threadId:null,turnId:null,revision:0,error:null,gameId:selected};
 let next=1,game=null,restarting=false,active=false;
 let beforeTaskFingerprint=null;
 const pending=new Map();
@@ -89,8 +88,6 @@ async function thread(){
  const params={cwd:project,sandbox:'workspace-write',approvalPolicy:'never'};
  const r=saved?.bridgeVersion===bridgeVersion?await rpc('thread/resume',{...params,threadId:saved.id}):await rpc('thread/start',params);
  state.threadId=r.thread.id;await writeFile(threadFile,JSON.stringify({id:state.threadId,bridgeVersion}));
- const r=saved?await rpc('thread/resume',{...params,threadId:saved.id}):await rpc('thread/start',params);
- state.threadId=r.thread.id;await writeFile(threadFile,JSON.stringify({id:state.threadId}));
 }
 async function task(body){
  if(active||restarting)throw Error('已有任务或重启正在进行');
@@ -148,35 +145,24 @@ async function restartGame(validate=false){
  if(restarting)throw Error('Restart in progress');
  restarting=true;
  try{
-   {
-   state.status='validating';event('检查 Godot 导入…');
-   if(validate || !homeMode)await validatePlayableProject(project);
-   const importTargets=homeMode?(validate?[project,homeProject]:[homeProject]):[project];
-   for(const importProject of importTargets){
-   for(let attempt=0;attempt<2;attempt++){
-    try{await new Promise((resolve,reject)=>{
-     const p=spawn(godot,['--headless','--editor','--path',importProject,'--quit'],{windowsHide:true});let output='';
-    const timer=setTimeout(()=>{p.kill();reject(Error('Godot import timeout'));},120000);
-    p.stdout.on('data',b=>output+=b);p.stderr.on('data',b=>output+=b);p.on('error',reject);
-    p.on('close',code=>{clearTimeout(timer);writeFile(path.join(data,'import.log'),output).catch(()=>{});code===0&&!/^\s*(SCRIPT ERROR|ERROR|FATAL):/m.test(output)?resolve():reject(Error('导入失败，保留当前游戏；查看 .game-assistant/import.log'));});
-   });break;}catch(error){if(attempt===1)throw error;}
-   }
-   }
-   if(validate || !homeMode){
-    const entry=games.find(g=>g.id===selected);if(entry){entry.status='ready';await saveGames();}
-   }
-   if(homeMode && validate){state.status='ready';state.revision++;event('游戏创建完成，点击下方卡片开始试玩。');await writeFile(path.join(data,'last-result.json'),JSON.stringify(state,null,2));return;}
-  // AI completion only means the turn ended. Validate actual files and startup.
+  // Keep one validation path: only mark games ready after files and startup pass.
   if(validate || !homeMode){
    state.status='validating';event('检查游戏内容与 Godot 导入…');
+   await validatePlayableProject(project);
    await assertImplementedProject(project);
    await importGodot(project,'import');
    await checkGodot(project,['--quit-after','120'],'runtime-check');
    const entry=games.find(g=>g.id===selected);if(entry){entry.status='ready';await saveGames();}
-   if(homeMode){state.status='ready';state.revision++;event('游戏检查通过，点击下方卡片开始试玩。');return;}
+   if(homeMode){
+    state.status='ready';state.revision++;event('游戏检查通过，点击下方卡片开始试玩。');
+    await writeFile(path.join(data,'last-result.json'),JSON.stringify(state,null,2));
+    return;
+   }
   }
-  // The home page is a separate Godot project and needs its own import cache.
-  if(homeMode){await importGodot(homeProject,'home-import');}
+  if(homeMode){
+   state.status='validating';event('检查创作者首页导入…');
+   await importGodot(homeProject,'home-import');
+  }
   if(game&&game.exitCode===null){const old=game;await new Promise(resolve=>{old.once('close',resolve);old.kill();});}
   game=spawn(godot,['--path',homeMode?homeProject:project,'--','--ai-dev'],{cwd:root,env:{...process.env,GAME_ASSISTANT_CONNECTION:path.join(data,'connection.json')},windowsHide:false,stdio:['ignore','pipe','pipe']});
   game.on('error',fail);game.stdout.on('data',b=>writeFile(path.join(data,'game.log'),b,{flag:'a'}).catch(()=>{}));game.stderr.on('data',b=>writeFile(path.join(data,'game.log'),b,{flag:'a'}).catch(()=>{}));
