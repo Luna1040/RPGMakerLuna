@@ -43,6 +43,7 @@ const YELLOW_WALL := Color("aaa36b")
 const CARPET := Color("55513b")
 const DEMO_MAP_SIZE := 21
 const MASCOT_TRIGGER_CELL := Vector2i(1, 3)
+const STALKER_WAKE_DELAY := 12.0
 const EXIT_CELL := Vector2i(17, 17)
 const ANOMALY_CELLS := {"A": Vector2i(5, 5), "B": Vector2i(11, 7), "C": Vector2i(15, 9)}
 const ANOMALY_NAMES := {"A": "墙纸后鼓起的墙面", "B": "没有尽头的门框", "C": "走进墙里的湿脚印"}
@@ -70,6 +71,8 @@ var mechanical_player: AudioStreamPlayer
 var heavy_door_player: AudioStreamPlayer
 var enemy_step_player: AudioStreamPlayer3D
 var enemy_step_left := 0.0
+var enemy_voice_player: AudioStreamPlayer3D
+var enemy_voice_left := 0.0
 var player_step_left := 0.0
 var mascot_jumpscare: Node3D
 var mascot_jumpscare_active := false
@@ -78,6 +81,7 @@ var mascot_jumpscare_time := 0.0
 var mascot_aftercare_left := 0.0
 var light_blackout_left := 0.0
 var light_blackout_cooldown := 0.0
+var power_level := 1.0
 var level_environment: Environment
 var exit_door: Node3D
 var exit_label: Label3D
@@ -129,7 +133,6 @@ var end_overlay: Control
 var mat_wall: StandardMaterial3D
 var mat_manila_wall: StandardMaterial3D
 var mat_manila_floor: StandardMaterial3D
-var mat_blackout_floor: StandardMaterial3D
 var mat_floor: StandardMaterial3D
 var mat_ceiling: StandardMaterial3D
 var mat_desk: StandardMaterial3D
@@ -144,6 +147,7 @@ var mat_anomaly: StandardMaterial3D
 
 func _ready() -> void:
 	_load_settings()
+	light_blackout_cooldown = randf_range(25.0, 45.0)
 	_make_materials()
 	level_map = _prepare_map()
 	_build_level()
@@ -181,9 +185,6 @@ func _make_materials() -> void:
 	mat_manila_floor = _material(Color("b0a58d"), 0.0, 1.0)
 	mat_manila_floor.albedo_texture = carpet
 	mat_manila_floor.uv1_scale = Vector3.ONE
-	mat_blackout_floor = _material(Color("514b3b"), 0.0, 1.0)
-	mat_blackout_floor.albedo_texture = carpet
-	mat_blackout_floor.uv1_scale = Vector3.ONE
 	mat_desk = _material(Color("655c43"), 0.0, 0.9)
 	mat_dark = _material(Color("181a16"), 0.0, 0.9)
 	mat_trim = _material(Color("514a36"), 0.0, 0.94)
@@ -369,7 +370,7 @@ func _build_level() -> void:
 				_add_pit(center)
 				_add_box("Ceiling", Vector3(CELL, 0.18, CELL), center + Vector3(0, WALL_HEIGHT + 0.08, 0), mat_ceiling, false)
 			else:
-				var floor_material := mat_manila_floor if _inside_manila(grid) else (mat_blackout_floor if _is_blackout_cell(grid) else mat_floor)
+				var floor_material := mat_manila_floor if _inside_manila(grid) else mat_floor
 				_add_box("Damp carpet", Vector3(CELL, 0.16, CELL), center + Vector3(0, -0.08, 0), floor_material, true)
 				_add_box("Ceiling tiles", Vector3(CELL, 0.18, CELL), center + Vector3(0, WALL_HEIGHT + 0.08, 0), mat_ceiling, false)
 				if cell == "P":
@@ -401,7 +402,7 @@ func _build_level() -> void:
 						vent_position.z += CELL * 0.48
 						vent_yaw = PI
 					_add_wall_vent(vent_position, vent_yaw)
-				if not _is_blackout_cell(grid) and (x * 3 + z * 2) % 21 == 0:
+				if grid == Vector2i(1, 2) or (x * 3 + z * 2) % 11 == 0:
 					_add_fluorescent(center, _inside_manila(grid))
 
 	_add_anomaly("A", _cell_world(ANOMALY_CELLS["A"]))
@@ -420,10 +421,6 @@ func _build_level() -> void:
 
 func _inside_manila(cell: Vector2i) -> bool:
 	return cell.x >= 13 and cell.x <= 17 and cell.y >= 3 and cell.y <= 7
-
-
-func _is_blackout_cell(cell: Vector2i) -> bool:
-	return cell.x >= 1 and cell.x <= 5 and cell.y >= 12 and cell.y <= 18
 
 
 func _build_ambient_audio() -> void:
@@ -484,6 +481,14 @@ func _build_sound_players() -> void:
 	enemy_step_player.max_distance = 30.0
 	enemy_step_player.unit_size = 5.0
 	enemy.add_child(enemy_step_player)
+	enemy_voice_player = AudioStreamPlayer3D.new()
+	enemy_voice_player.name = "Stalker breathing and growl"
+	enemy_voice_player.stream = load("res://audio/sfx_stalker_breath.wav") as AudioStream
+	enemy_voice_player.position.y = 1.6
+	enemy_voice_player.volume_db = -10.0
+	enemy_voice_player.unit_size = 5.0
+	enemy_voice_player.max_distance = 24.0
+	enemy.add_child(enemy_voice_player)
 
 
 func _build_mascot_jumpscare() -> void:
@@ -856,12 +861,13 @@ func _add_fluorescent(center: Vector3, warm: bool = false) -> void:
 	var fixture_plane := PlaneMesh.new()
 	fixture_plane.size = Vector2(0.64, 1.38)
 	fixture.mesh = fixture_plane
-	# PlaneMesh already lies in Godot's XZ plane. Keep it flat and almost flush
-	# with the ceiling underside instead of rotating it into a vertical card.
-	fixture.position = center + Vector3(0, WALL_HEIGHT - 0.02, 0)
+	# Face the room and leave clearance below the ceiling slab (bottom at height - 0.01).
+	fixture.rotation.x = PI
+	fixture.position = center + Vector3(0, WALL_HEIGHT - 0.065, 0)
 	var fixture_material := StandardMaterial3D.new()
 	fixture_material.albedo_texture = load("res://assets/textures/ceiling_fluorescent_troffer.png") as Texture2D
-	fixture_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	fixture_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR
+	fixture_material.alpha_scissor_threshold = 0.35
 	fixture_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	fixture_material.cull_mode = BaseMaterial3D.CULL_DISABLED
 	fixture_material.emission_enabled = true
@@ -876,6 +882,8 @@ func _add_fluorescent(center: Vector3, warm: bool = false) -> void:
 	light.light_energy = 0.36 if warm else 0.46
 	light.omni_range = 7.8
 	light.omni_attenuation = 1.8
+	light.set_meta("fixture_material", fixture_material)
+	light.set_meta("base_energy", light.light_energy)
 	flicker_lights.append(light)
 	add_child(light)
 
@@ -1984,6 +1992,15 @@ func _build_entity() -> void:
 	add_child(enemy)
 
 
+func _wake_stalker() -> void:
+	if entity_awake:
+		return
+	entity_awake = true
+	_stage_stalker_encounter()
+	monster_grace_left = 4.5
+	enemy_voice_left = 0.0
+
+
 func _stage_stalker_encounter() -> void:
 	var player_cell := _world_cell(player.global_position)
 	var desired := player.global_position + (-camera.global_basis.z) * 11.0
@@ -2205,7 +2222,7 @@ func _start_game() -> void:
 		gameplay_control.visible = true
 	for pickup_range in get_tree().get_nodes_in_group("automatic_pickup_ranges"):
 		pickup_range.set_deferred("monitoring", true)
-	# The threat stays dormant until the player uses the camera.
+	# Give the opening a brief quiet interval before the threat wakes.
 	intro_reveal_left = 0.0
 	monster_tutorial_shown = true
 	player.rotation.y = PI
@@ -2231,6 +2248,10 @@ func _quit_game() -> void:
 
 
 func _process(delta: float) -> void:
+	if enemy_voice_player != null:
+		enemy_voice_player.stream_paused = paused or keypad_active
+		if game_over or won:
+			enemy_voice_player.stop()
 	if not game_started:
 		return
 	if paused:
@@ -2242,6 +2263,8 @@ func _process(delta: float) -> void:
 	if game_over or won:
 		return
 	clock += delta
+	if not entity_awake and clock >= STALKER_WAKE_DELAY and not mascot_jumpscare_active and mascot_aftercare_left <= 0.0:
+		_wake_stalker()
 	mascot_aftercare_left = maxf(0.0, mascot_aftercare_left - delta)
 	# Cover the entire first corner, including wall-hugging and jumping players.
 	if not mascot_jumpscare_triggered and _world_cell(player.global_position) == MASCOT_TRIGGER_CELL:
@@ -2276,7 +2299,7 @@ func _process(delta: float) -> void:
 	if alert_left > 0:
 		alert_left -= delta
 	var in_manila := _inside_manila(_world_cell(player.global_position))
-	var in_blackout := _is_blackout_cell(_world_cell(player.global_position))
+	_update_power(delta)
 	if entity_awake and not in_manila and monster_grace_left <= 0.0:
 		_update_entity(delta)
 		if entity_stunned <= 0.0:
@@ -2291,6 +2314,15 @@ func _process(delta: float) -> void:
 		monster_grace_left = 4.5
 		_show_notice("追踪者应对：看着它会明显减速；移开视线后恢复速度。拍中它会随机传送到迷宫另一处。", 6.0)
 	var has_enemy_sight := _has_line_of_sight_to_enemy()
+	if entity_awake and not in_manila and enemy.visible and entity_stunned <= 0.0:
+		enemy_voice_left -= delta
+		enemy_voice_player.volume_db = -10.0 if has_enemy_sight else -19.0
+		if enemy_distance < 24.0 and enemy_voice_left <= 0.0:
+			enemy_voice_player.pitch_scale = randf_range(0.88, 1.04)
+			enemy_voice_player.play()
+			enemy_voice_left = randf_range(7.0, 11.0)
+	else:
+		enemy_voice_player.stop()
 	var threat_near := entity_awake and not in_manila and enemy_distance < 14.0 and entity_stunned <= 0.0 and has_enemy_sight
 	if threat_near:
 		if heartbeat_player != null:
@@ -2312,11 +2344,11 @@ func _process(delta: float) -> void:
 	if in_manila:
 		enemy.visible = false
 	if ambient_player != null:
-		ambient_player.volume_db = -42.0 if in_blackout else (-22.0 if in_manila else -9.0)
-		level_environment.ambient_light_color = Color("171712") if in_blackout else Color("625f49")
-		level_environment.ambient_light_energy = 0.035 if in_blackout else 0.22
-		level_environment.fog_light_color = Color("25251e") if in_blackout else Color("9d986f")
-		level_environment.fog_density = 0.05 if in_blackout else 0.024
+		ambient_player.volume_db = lerpf(-42.0, -22.0 if in_manila else -9.0, power_level)
+	level_environment.ambient_light_color = Color("171712").lerp(Color("625f49"), power_level)
+	level_environment.ambient_light_energy = lerpf(0.035, 0.22, power_level)
+	level_environment.fog_light_color = Color("25251e").lerp(Color("9d986f"), power_level)
+	level_environment.fog_density = 0.024
 	var horizontal_gap := Vector2(player.global_position.x, player.global_position.z).distance_to(Vector2(enemy.global_position.x, enemy.global_position.z))
 	var vertical_overlap := absf(player.global_position.y - enemy.global_position.y) < 1.35
 	if entity_awake and not in_manila and horizontal_gap <= 0.72 and vertical_overlap and entity_stunned <= 0 and mascot_aftercare_left <= 0.0 and monster_grace_left <= 0.0:
@@ -2328,7 +2360,7 @@ func _process(delta: float) -> void:
 	else:
 		fear = maxf(0.0, fear - delta * 2.2)
 	_update_hud()
-	_flicker_nearby_lights(enemy_distance)
+	_flicker_nearby_lights()
 
 
 func _physics_process(delta: float) -> void:
@@ -2582,18 +2614,27 @@ func _use_almond_water() -> void:
 	_update_hud()
 
 
-func _flicker_nearby_lights(_distance: float) -> void:
-	light_blackout_cooldown = maxf(0.0, light_blackout_cooldown - get_process_delta_time())
-	light_blackout_left = maxf(0.0, light_blackout_left - get_process_delta_time())
-	if entity_awake and _distance < 12.0 and light_blackout_cooldown <= 0.0:
-		light_blackout_left = 1.05
-		light_blackout_cooldown = 9.0
+func _update_power(delta: float) -> void:
+	if light_blackout_left > 0.0:
+		light_blackout_left = maxf(0.0, light_blackout_left - delta)
+	else:
+		light_blackout_cooldown -= delta
+		if light_blackout_cooldown <= 0.0:
+			light_blackout_left = randf_range(1.2, 3.5)
+			light_blackout_cooldown = randf_range(30.0, 65.0)
+	var target := 0.04 if light_blackout_left > 0.0 else 1.0
+	power_level = move_toward(power_level, target, delta * (7.0 if target < power_level else 1.4))
+
+
+func _flicker_nearby_lights() -> void:
 	for light in flicker_lights:
 		var local_phase := clock * 0.9 + float(light.get_instance_id() % 17)
 		var flicker := 0.4 if sin(local_phase * 10.7) > 0.97 else 1.0
-		if light_blackout_left > 0.0 and light.global_position.distance_to(enemy.global_position) < 14.0:
-			flicker = 0.0 if light_blackout_left > 0.78 else (0.18 if light_blackout_left > 0.55 else 1.0)
-		light.light_energy = (0.32 if _inside_manila(_world_cell(light.global_position)) else 0.4) * flicker
+		var brightness := flicker * power_level
+		light.light_energy = float(light.get_meta("base_energy")) * brightness
+		var fixture_material := light.get_meta("fixture_material") as StandardMaterial3D
+		fixture_material.albedo_color = Color(brightness, brightness, brightness)
+		fixture_material.emission_energy_multiplier = 0.28 * brightness
 
 
 func _has_line_of_sight_to_enemy() -> bool:
@@ -2614,9 +2655,7 @@ func _take_photo() -> void:
 	_play_sfx("camera")
 	photo_flash.light_energy = 7.0
 	if not entity_awake:
-		entity_awake = true
-		alert_left = 10.0
-		_stage_stalker_encounter()
+		_wake_stalker()
 		_show_notice("快门声在走廊里折返，远处有什么东西动了。", 3.2)
 	else:
 		alert_left = maxf(alert_left, 7.0)
