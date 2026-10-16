@@ -48,6 +48,7 @@ const EXIT_CELL := Vector2i(17, 17)
 const ANOMALY_CELLS := {"A": Vector2i(5, 5), "B": Vector2i(11, 7), "C": Vector2i(15, 9)}
 const ANOMALY_NAMES := {"A": "墙纸后鼓起的墙面", "B": "没有尽头的门框", "C": "走进墙里的湿脚印"}
 const ANOMALY_CODES := {"A": "4", "B": "1", "C": "9"}
+const WATER_VALVE_ORDER: Array[int] = [1, 0, 2]
 const WATER_VALVE_CELLS := [Vector2i(11, 5), Vector2i(7, 3), Vector2i(15, 11)]
 const DIRECTIONS: Array[Vector2i] = [Vector2i.RIGHT, Vector2i.LEFT, Vector2i.UP, Vector2i.DOWN]
 const STALKER_SCENE: PackedScene = preload("res://assets/creatures/the_stalker/Run.fbx")
@@ -1699,7 +1700,6 @@ func _add_water_valve(index: int, at: Vector3) -> void:
 	flow.add_to_group("water_flow_sources")
 	valve.add_child(flow)
 	add_child(valve)
-	flow.play()
 
 
 func _add_pool_gate(at: Vector3) -> void:
@@ -1769,23 +1769,26 @@ func _add_pool_gate(at: Vector3) -> void:
 	gate.add_child(gate_flow)
 	gate.visible = false
 	add_child(gate)
-	gate_flow.play()
 	set_meta("pool_gate", gate)
 
 
 func _update_water_sound_guidance() -> void:
-	var order: Array[int] = [1, 0, 2]
-	var next_valve := order[valve_progress] if valve_progress < order.size() else -1
+	var next_valve := WATER_VALVE_ORDER[valve_progress] if valve_progress < WATER_VALVE_ORDER.size() else -1
 	for flow in get_tree().get_nodes_in_group("water_flow_sources"):
-		var valve_index := int(flow.get_meta("flow_valve_index"))
-		if order.find(valve_index) < valve_progress:
-			flow.volume_db = -25.0
-		elif valve_index == next_valve:
-			flow.volume_db = -2.0 if valve_index == 0 else -6.0
+		var active := game_started and int(flow.get_meta("flow_valve_index")) == next_valve
+		if active:
+			flow.volume_db = -2.0
+			if not flow.playing:
+				flow.play()
 		else:
-			flow.volume_db = -9.0 if valve_index == 0 else -18.0
+			flow.stop()
 	for flow in get_tree().get_nodes_in_group("water_gate_flow"):
-		flow.volume_db = -17.0 if pool_gate_open else -27.0
+		if game_started and pool_gate_open:
+			flow.volume_db = -5.0
+			if not flow.playing:
+				flow.play()
+		else:
+			flow.stop()
 
 
 func _build_player() -> void:
@@ -2233,6 +2236,7 @@ func _start_game() -> void:
 	title_overlay.visible = false
 	paused = false
 	game_started = true
+	_update_water_sound_guidance()
 	for gameplay_control in [hud, hud_subtitle, fear_bar, message, notice]:
 		gameplay_control.visible = true
 	for pickup_range in get_tree().get_nodes_in_group("automatic_pickup_ranges"):
@@ -2538,7 +2542,7 @@ func _interact() -> void:
 		_show_notice("提示：按三张异常照片上的编号顺序输入，或返回 Manila Room 查看维修档案。", 5.0)
 	elif kind == "water_valve":
 		var valve_index := int(target.get_meta("valve_index", -1))
-		var expected_order: Array[int] = [1, 0, 2]
+		var expected_order: Array[int] = WATER_VALVE_ORDER
 		if valve_progress >= expected_order.size():
 			_show_notice("三处水流已经接通。回到湿脚印旁寻找亮起的蓝色门框。", 3.5)
 			return
