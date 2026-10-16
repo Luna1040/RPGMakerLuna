@@ -37,7 +37,7 @@ func _ready() -> void:
 	headers=PackedStringArray(["Content-Type: application/json","Authorization: Bearer "+connection.token])
 	var launcher:=Button.new()
 	launcher.text="F1 · AI 开发助手"
-	launcher.position=Vector2(1095,205)
+	launcher.position=Vector2(600,38)
 	launcher.size=Vector2(170,36)
 	launcher.pressed.connect(toggle)
 	add_child(launcher)
@@ -96,7 +96,7 @@ func _ready() -> void:
 	timer.wait_time=1
 	timer.autostart=true
 	timer.timeout.connect(func():
-		if poll.get_http_client_status()==HTTPClient.STATUS_DISCONNECTED: poll.request(endpoint+"/state",headers)
+		if panel.visible and poll.get_http_client_status()==HTTPClient.STATUS_DISCONNECTED: poll.request(endpoint+"/state",headers)
 	)
 	add_child(timer)
 
@@ -243,4 +243,5 @@ func receive_state(_result: int, code: int, _headers: PackedStringArray, body: P
 	var data=JSON.parse_string(body.get_string_from_utf8())
 	if not data is Dictionary: return
 	status.text="AI 开发助手 · "+str(data.get("status",""))+" · F1 返回游戏"
-	output.text=str(data.get("text",""))+"\n\n"+"\n".join(data.get("events",[]))
+	var next_text:=str(data.get("text",""))+"\n\n"+"\n".join(data.get("events",[]))
+	if output.text!=next_text: output.text=next_text

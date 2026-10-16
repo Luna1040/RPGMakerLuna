@@ -1,0 +1,13 @@
+{
+  "frames": 36,
+  "transparent_fraction_min": 0.5147349039713542,
+  "centroid_range": [
+    0.08973615787090239,
+    0.09156692869760263
+  ],
+  "alpha_edges_clear": true,
+  "mean_temporal_change": 0.008722212269074388,
+  "loop_boundary_change": 0.01003320887684822,
+  "max_frame_change": 0.011549009010195732,
+  "motion_verified": true
+}

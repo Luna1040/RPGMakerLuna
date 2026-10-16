@@ -1,0 +1,13 @@
+{
+  "tool": "built-in image_gen",
+  "record_type": "normalized final prompt specifications; original tool calls in conversation",
+  "prompts": {
+    "starfield": "Finished premium hand-painted science fantasy space background. Luminous teal and turquoise nebula clouds curling through deep navy outer space, gold stardust, huge textured ringed planet upper right, distant orbital ruins. Dark readable central and left gameplay area. No ships, station, collectibles, UI, text, or logos. Full bleed landscape 1536x1024.",
+    "violet": "Finished premium science fantasy background: violet ion storm nebula, amethyst and indigo gas tendrils, cyan filaments, fractured violet moon and crystalline rings upper right, orbital fragments at edges. Dark central and left gameplay area. No ships, collectibles, interface, lettering or watermark.",
+    "solar": "Solar Reliquary background: navy central and left navigation space, eclipsed sun upper right with copper-gold corona, amber and orange gas at edges, ancient gilded orbital ruins. Rich cinematic astronomy painting. No ships, stations, collectibles or UI.",
+    "ship": "Single exquisite spacecraft sprite, top-down orthographic, nose RIGHT. Ivory ceramic hull, gold filigree panels, teal cockpit, twin wings and turquoise ion thrusters left. Crisp premium painterly detail, centered, generous transparent margins. No perspective, scene, text, UI or other assets.",
+    "station": "Single ancient orbital station and stargate, top-down orthographic circle. Ivory and antique gold docking ring, four docking pylons, turquoise windows and liquid cosmic energy vortex. Intricate painterly materials, transparent background and structural gaps, no UI or scenery.",
+    "gate": "Single ancient stargate sprite. Circular ivory-gold ceremonial ring, six emerald crystals, teal swirling portal, no docking arms. Top-down orthographic, intricate painted material, transparent surroundings, no writing or scenery.",
+    "props-atlas": "Transparent game prop atlas, exactly three isolated objects in horizontal row: gold faceted stardust crystal cluster; radiant turquoise star-core gemstone with floating shards; rugged plum-gray meteor with magenta mineral veins. Same top-down orthographic camera, detailed painterly materials, no overlap, no text or floor."
+  }
+}

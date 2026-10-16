@@ -12,10 +12,16 @@ func key(game, code: int) -> void:
 func run() -> void:
 	var game=load("res://main.tscn").instantiate()
 	game.save_enabled=false
+	game.combat_enabled=false
 	game.save_path="user://starlight-test-only.json"
 	DirAccess.remove_absolute(game.save_path)
 	root.add_child(game)
 	game.set_process(false)
+	check(game.art.size()==9,"All generated background and prop assets load")
+	check(game.animation_art.size()>=4,"Existing H3 video animations load")
+	for name in game.animation_art:
+		var clip: Dictionary=game.animation_art[name]
+		check(clip.frames>=30 and clip.texture.get_width()>=clip.columns*clip.tile,"Video atlas bounds and frame count: "+str(name))
 	check(game.mode=="dock" and game.gates==0,"Fresh profile starts docked")
 	key(game,KEY_TAB)
 	check(game.selected_sector==0,"Locked sectors cannot be selected")

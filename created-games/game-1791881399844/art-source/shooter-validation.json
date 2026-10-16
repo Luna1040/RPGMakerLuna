@@ -1,0 +1,21 @@
+{
+  "exploration_checks": 36,
+  "combat_checks": 32,
+  "result": "PASS",
+  "full_encounter_seconds": [
+    168.42,
+    204.78,
+    168.72
+  ],
+  "flow_test_invulnerability": true,
+  "visual_review": [
+    "battle",
+    "weapon choice",
+    "boss second phase",
+    "additive explosion edges",
+    "boss light/dark alpha"
+  ],
+  "new_gpt_assets": 4,
+  "new_h3_clips": 2,
+  "audio_cues": 6
+}
