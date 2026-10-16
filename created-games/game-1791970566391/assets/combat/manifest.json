@@ -1,0 +1,723 @@
+{
+  "version": 1,
+  "source": "Original deterministic Pillow pixel drawing; no remote model or copied reference pixels.",
+  "style": "hard-edge cyan/magenta cyberpunk pixel art",
+  "map_size": [
+    320,
+    180
+  ],
+  "portrait_size": [
+    72,
+    88
+  ],
+  "sprite_size": [
+    80,
+    80
+  ],
+  "sprite_foot_pivot": [
+    40,
+    72
+  ],
+  "review_previews": [
+    "review/maps-contact.png",
+    "review/portraits-contact.png",
+    "review/sprites-contact.png"
+  ],
+  "files": [
+    {
+      "file": "maps/security_checkpoint.png",
+      "kind": "map",
+      "identity": "security_checkpoint",
+      "pose": null,
+      "size": [
+        320,
+        180
+      ],
+      "mode": "RGB",
+      "alpha_extrema": null,
+      "sha256": "84cc896436233ee278e44b6f470f7d6fb9496049ff15a2bd2ce5936ce651ba31"
+    },
+    {
+      "file": "maps/medical_room.png",
+      "kind": "map",
+      "identity": "medical_room",
+      "pose": null,
+      "size": [
+        320,
+        180
+      ],
+      "mode": "RGB",
+      "alpha_extrema": null,
+      "sha256": "dcb9b05fe473a81af60c68320d695524b126b1aaafc5a2a6fb52a17244d2410a"
+    },
+    {
+      "file": "maps/root_lab.png",
+      "kind": "map",
+      "identity": "root_lab",
+      "pose": null,
+      "size": [
+        320,
+        180
+      ],
+      "mode": "RGB",
+      "alpha_extrema": null,
+      "sha256": "43cc10aa34a4aa75327dc552ef508eebc44dde12471192a07de40333afd50310"
+    },
+    {
+      "file": "portraits/heroine.png",
+      "kind": "portrait",
+      "identity": "heroine",
+      "pose": null,
+      "size": [
+        72,
+        88
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "23b56df214dd9dd1bd6d61c294f4b49b680e6c99802d2afe15f3158ea81b4609"
+    },
+    {
+      "file": "portraits/guard.png",
+      "kind": "portrait",
+      "identity": "guard",
+      "pose": null,
+      "size": [
+        72,
+        88
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "8131807b757c0db336364a8d6f4addac5f45bb56e328bf2090de122ab0c3ff31"
+    },
+    {
+      "file": "portraits/captain_melee.png",
+      "kind": "portrait",
+      "identity": "captain_melee",
+      "pose": null,
+      "size": [
+        72,
+        88
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "33d912c06c825fb490a7318812ecdbf7dfd1b36571b0432efcde416d4a06d287"
+    },
+    {
+      "file": "portraits/captain.png",
+      "kind": "portrait",
+      "identity": "captain",
+      "pose": null,
+      "size": [
+        72,
+        88
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "cb60885dc3c367d21640c7ed3f264b697186a53dc364cf8736e86cd960179972"
+    },
+    {
+      "file": "portraits/medic.png",
+      "kind": "portrait",
+      "identity": "medic",
+      "pose": null,
+      "size": [
+        72,
+        88
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "70c225b367f63544c7d950f977dedc65d0bb5105ef786ff31b09510edb61dda8"
+    },
+    {
+      "file": "portraits/corrector.png",
+      "kind": "portrait",
+      "identity": "corrector",
+      "pose": null,
+      "size": [
+        72,
+        88
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "0317796e702acf2f90ede88ede417720b914c828f4becf08b5c1943d6c7a65b4"
+    },
+    {
+      "file": "sprites/heroine/idle.png",
+      "kind": "sprite",
+      "identity": "heroine",
+      "pose": "idle",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "3ae4d924027f8667e581e5f3c33f07163e0e22e4c72331634bd0659a28d81a72"
+    },
+    {
+      "file": "sprites/heroine/walk_a.png",
+      "kind": "sprite",
+      "identity": "heroine",
+      "pose": "walk_a",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "bf9d1a283db2a6c3003b6dd99f378519d1e9a50b9d115409036244b059ead393"
+    },
+    {
+      "file": "sprites/heroine/walk_b.png",
+      "kind": "sprite",
+      "identity": "heroine",
+      "pose": "walk_b",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "5fe29b9e3107cf57fd24737814be3cb7605eddd035c80ed8964d0026d6368a93"
+    },
+    {
+      "file": "sprites/heroine/attack_windup.png",
+      "kind": "sprite",
+      "identity": "heroine",
+      "pose": "attack_windup",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "5a19ef92fc0dce995a950605bf5fe1464b59cb6a539a008f3d95eba9a15d4aef"
+    },
+    {
+      "file": "sprites/heroine/attack_hit.png",
+      "kind": "sprite",
+      "identity": "heroine",
+      "pose": "attack_hit",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "336d023b93a3290a62820ea75d7b50e2b3a5f08e1e4e481b54a17c4a5cd89556"
+    },
+    {
+      "file": "sprites/heroine/attack_recover.png",
+      "kind": "sprite",
+      "identity": "heroine",
+      "pose": "attack_recover",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "f9be117bfb59f13109ccdc4bbc13d4eb2f05c036b33f7e15338314f5ae8c0dfe"
+    },
+    {
+      "file": "sprites/heroine/hurt.png",
+      "kind": "sprite",
+      "identity": "heroine",
+      "pose": "hurt",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "39aa657a99fbb9873063519b5577c3709da9c34b8e16d843523f86e00e3e3e9b"
+    },
+    {
+      "file": "sprites/guard/idle.png",
+      "kind": "sprite",
+      "identity": "guard",
+      "pose": "idle",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "d5365f5c295b738ec4ff9c9880d0cf8330f06cb9b78c7ae93d91ddef1a01159f"
+    },
+    {
+      "file": "sprites/guard/walk_a.png",
+      "kind": "sprite",
+      "identity": "guard",
+      "pose": "walk_a",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "ae52cf7d2e583277638765adcc705027c1e77a21aed07172d94c54df1b75ae6e"
+    },
+    {
+      "file": "sprites/guard/walk_b.png",
+      "kind": "sprite",
+      "identity": "guard",
+      "pose": "walk_b",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "258e20bdb80db1245d94c672d803d799b56ec22971f12f95dcc9a9becc20a2fc"
+    },
+    {
+      "file": "sprites/guard/attack_windup.png",
+      "kind": "sprite",
+      "identity": "guard",
+      "pose": "attack_windup",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "75a2ff143a073811ceaeb69978541b7c94e186df1e16328f534ca9e2ded34096"
+    },
+    {
+      "file": "sprites/guard/attack_hit.png",
+      "kind": "sprite",
+      "identity": "guard",
+      "pose": "attack_hit",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "c42c0beaada25cbc97961a2d242e4222d42b68b510551905fda9b5ed5d737a83"
+    },
+    {
+      "file": "sprites/guard/hurt.png",
+      "kind": "sprite",
+      "identity": "guard",
+      "pose": "hurt",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "c869d3bab0e0a33bfedf388ba1624717e39ff6121fbe5c04464ec61414c94487"
+    },
+    {
+      "file": "sprites/captain_melee/idle.png",
+      "kind": "sprite",
+      "identity": "captain_melee",
+      "pose": "idle",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "2b9a7ece1ded01852645b515d69b0fd9711cb150b89e305d45db62507365d049"
+    },
+    {
+      "file": "sprites/captain_melee/walk_a.png",
+      "kind": "sprite",
+      "identity": "captain_melee",
+      "pose": "walk_a",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "2f345660962662b4a36d44f7ac7037672f50dd230f08e095642a2ae491664a2a"
+    },
+    {
+      "file": "sprites/captain_melee/walk_b.png",
+      "kind": "sprite",
+      "identity": "captain_melee",
+      "pose": "walk_b",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "e89b6b9a67d970ba00308e4d4e15d8fcee1d3ff42dab23783ca9c26a16e6b080"
+    },
+    {
+      "file": "sprites/captain_melee/attack_windup.png",
+      "kind": "sprite",
+      "identity": "captain_melee",
+      "pose": "attack_windup",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "fbea313122198e4ea19a9252a6bf2bab4b6f7a1e12d28529f57acd8bc0e3b50f"
+    },
+    {
+      "file": "sprites/captain_melee/attack_hit.png",
+      "kind": "sprite",
+      "identity": "captain_melee",
+      "pose": "attack_hit",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "f6c00c9f5fb556196533e5858850828417b9fbf7abd98dee3267fa0ec935f444"
+    },
+    {
+      "file": "sprites/captain_melee/hurt.png",
+      "kind": "sprite",
+      "identity": "captain_melee",
+      "pose": "hurt",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "cefe6a09dccb3434167d191eb855b3489c99050c403fd528a0e0c68f37ae057a"
+    },
+    {
+      "file": "sprites/captain/idle.png",
+      "kind": "sprite",
+      "identity": "captain",
+      "pose": "idle",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "37521e8b21cf0fc4dfc303746307e4e70a67fd6d19afe92e8a9cfc4e49c4e3e6"
+    },
+    {
+      "file": "sprites/captain/walk_a.png",
+      "kind": "sprite",
+      "identity": "captain",
+      "pose": "walk_a",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "504075ec425e4e8ec171b1c6295e86304221a5f424d17fc24f59582c35abebeb"
+    },
+    {
+      "file": "sprites/captain/walk_b.png",
+      "kind": "sprite",
+      "identity": "captain",
+      "pose": "walk_b",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "1539f6c5376749ebe51de81936a36cc758f786452e659cc82e4b89e2fa151b1a"
+    },
+    {
+      "file": "sprites/captain/attack_windup.png",
+      "kind": "sprite",
+      "identity": "captain",
+      "pose": "attack_windup",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "8226436f6f9c39cade75680ec25963bbec1c1777d9cd661b7d5a2e38b1ebefb6"
+    },
+    {
+      "file": "sprites/captain/attack_hit.png",
+      "kind": "sprite",
+      "identity": "captain",
+      "pose": "attack_hit",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "843f474259cd2b631f7da0c2dda17bbf8dfc9e0445934862639f8d281f23654f"
+    },
+    {
+      "file": "sprites/captain/hurt.png",
+      "kind": "sprite",
+      "identity": "captain",
+      "pose": "hurt",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "72a64eb2468180a0f60187752954807fa7230ecd3df701bae6b926fe94e84717"
+    },
+    {
+      "file": "sprites/medic/idle.png",
+      "kind": "sprite",
+      "identity": "medic",
+      "pose": "idle",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "91d8345a1bd7a6d406d91e9a558b4d04c84d64854f700a0ee17f7a78a1d5bb70"
+    },
+    {
+      "file": "sprites/medic/walk_a.png",
+      "kind": "sprite",
+      "identity": "medic",
+      "pose": "walk_a",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "ecc4ba2ffa60a90f6509cdb8d1f9ea84a8a7db0a8c6c881d02128addc110813b"
+    },
+    {
+      "file": "sprites/medic/walk_b.png",
+      "kind": "sprite",
+      "identity": "medic",
+      "pose": "walk_b",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "3e864a18046ab6e935e44d5c1a9df88c0210170172a45ea706a68518aaff9d74"
+    },
+    {
+      "file": "sprites/medic/attack_windup.png",
+      "kind": "sprite",
+      "identity": "medic",
+      "pose": "attack_windup",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "1d4fb7d5a26ed9d4af57f995a185dc483e1b75c9de9b9d320f2f242e046ee4f8"
+    },
+    {
+      "file": "sprites/medic/attack_hit.png",
+      "kind": "sprite",
+      "identity": "medic",
+      "pose": "attack_hit",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "bb666b691da8543597dea2cf57dd193e0ae4616e5ce0310bea6b78c80c7658ea"
+    },
+    {
+      "file": "sprites/medic/hurt.png",
+      "kind": "sprite",
+      "identity": "medic",
+      "pose": "hurt",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "226c1f4dad64a8694295179ccf23c9ac98087ed274531c79f126dd0b9e2d1dd2"
+    },
+    {
+      "file": "sprites/corrector/idle.png",
+      "kind": "sprite",
+      "identity": "corrector",
+      "pose": "idle",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "8adacb122fb46d9637605d5a39e5ae1edc0327ed3ddb537cd8a5fd0f1b943d98"
+    },
+    {
+      "file": "sprites/corrector/attack_windup.png",
+      "kind": "sprite",
+      "identity": "corrector",
+      "pose": "attack_windup",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "ee9b9ff6a651cfb875ad838d95e50824d1ed2142f20a0e4de61c9546d44ae043"
+    },
+    {
+      "file": "sprites/corrector/attack_hit.png",
+      "kind": "sprite",
+      "identity": "corrector",
+      "pose": "attack_hit",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "5bc3609b7f2c669a99124396543b5861ca8d92ff8ed7ee34079cfbd1f454c650"
+    },
+    {
+      "file": "sprites/corrector/hurt.png",
+      "kind": "sprite",
+      "identity": "corrector",
+      "pose": "hurt",
+      "size": [
+        80,
+        80
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "d0228188f7e0c2354cc3dbd0f422b32e2e7d91b40ebb0905ab796e9c1a4528fb"
+    }
+  ]
+}

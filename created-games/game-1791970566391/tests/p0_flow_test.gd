@@ -119,35 +119,54 @@ func run() -> void:
 	game.update_transition(1.81)
 	require(game.phase_name() == "ROOM" and game.room_index == 0, "memory transition must automatically enter room one")
 
-	# Room attack input -> projectile -> hit chain.
-	game.enemies = [game.make_enemy({"type":"melee", "pos":game.player.pos + Vector2(16,0)})]
-	var target = game.enemies[0]
+	# The heroine starts with a baton. J must play its windup and land one
+	# close-range hit at the action event; no gunshot exists before borrowing.
+	require(game.player.form == "heroine", "first room must start in the blue-green-haired heroine form")
+	var target: Dictionary = game.enemies[0]
+	target.pos = game.player.pos + Vector2(20, 0)
+	target.speed = 0.0
+	target.cool = 100.0
 	var hp_before: float = target.hp
 	key(KEY_J)
-	require(game.projectiles.size() == 1, "J must route to normal attack and spawn one shot")
-	game.update_projectiles(0.15)
-	require(target.hp < hp_before, "input attack must reach collision and damage reaction")
+	require(game.player_attack_state == "baton" and game.projectiles.is_empty(), "J must start a baton action without firing")
+	game.update_room(game.BATON_HIT_TIME * 0.5)
+	require(is_equal_approx(target.hp, hp_before), "baton must not deal damage before its hit event")
+	game.update_room(game.BATON_HIT_TIME * 0.5 + 0.02)
+	require(target.hp < hp_before and game.player_attack_event_done, "baton hit event must damage the nearby enemy")
+	require(game.projectiles.is_empty(), "heroine baton attacks must remain melee-only")
 
-	# Room one clear -> visible door -> reinforcement choice.
+	# The first captain is borrowed before the medical exit can open. The
+	# cafeteria remains visible as an intentional, disabled demo branch.
 	kill_all()
-	require(game.door_visible, "room one clear must expose a forward door")
+	require(game.captain_downed and not game.door_visible, "captain defeat must await borrowing before the medical door opens")
+	game.player.pos = game.captain_pos
+	key(KEY_E)
+	require(game.borrowed and game.player.form == "security_captain", "E near the downed captain must switch form")
+	require(game.door_visible, "borrowing the captain must open the medical exit")
+	game.player.pos = Vector2(60, 120)
+	game.update_room(0.5)
+	game.projectiles.clear()
+	key(KEY_J)
+	require(game.player_attack_state == "gun" and game.projectiles.is_empty(), "captain J must start a gun action with a short windup")
+	game.update_room(game.GUN_SHOT_TIME + 0.02)
+	require(game.projectiles.size() > 0, "captain gun action must fire at its animation event")
+	game.player.pos = Vector2(17,78); key(KEY_E)
+	require(game.phase_name() == "ROOM" and game.room_index == 0, "cafeteria demo exit must not enter another room")
 	game.player.pos = Vector2(302,96); key(KEY_E)
-	require(game.phase_name() == "UPGRADE", "door must lead to three-choice upgrade")
+	require(game.phase_name() == "UPGRADE" and game.pending_room_index == 1, "medical exit must lead to a three-choice upgrade")
 	key(KEY_1)
-	require(game.phase_name() == "ROOM" and game.room_index == 1, "upgrade must enter room two")
+	require(game.phase_name() == "ROOM" and game.room_index == 1 and game.player.form == "security_captain", "upgrade must enter the medical room while keeping captain form")
 
-	# Witness defeat -> borrow -> appearance/attack/Q/perspective/door state.
+	# The medic grants one buff reroll, not another body swap.
 	kill_all()
-	require(game.witness_downed, "medical witness must enter downed state")
-	game.player.pos = game.witness_pos; key(KEY_E)
-	require(game.borrowed and game.player.role == "企业医疗员", "E must borrow medical witness")
-	require(game.door_visible and game.state.clues.has("medical_alive"), "borrow must reveal perspective clue and hidden door")
-	game.attack_cd = 0.0; game.projectiles.clear(); key(KEY_J)
-	require(game.projectiles.size() == 3, "borrowed normal attack must be a three-shot burst")
-	game.q_cd = 0.0; key(KEY_Q)
-	require(game.hazards.any(func(h): return h.kind == "heal"), "borrowed Q must deploy healing zone")
-	game.player.pos = Vector2(302,96); key(KEY_E); key(KEY_1)
-	require(game.phase_name() == "ROOM" and game.room_index == 2, "room two door must enter boss room")
+	require(game.state.buff_rerolls == 1 and game.state.medical_reroll_claimed, "medic defeat must grant exactly one buff reroll")
+	require(game.door_visible and game.player.form == "security_captain", "medical room clear must keep the captain form and reveal the root exit")
+	game.player.pos = Vector2(302,96); key(KEY_E)
+	require(game.phase_name() == "UPGRADE" and game.pending_room_index == 2, "medical exit must show the upgrade choice before the boss")
+	key(KEY_R)
+	require(game.state.buff_rerolls == 0 and game.phase_name() == "UPGRADE", "R must consume the earned buff reroll")
+	key(KEY_1)
+	require(game.phase_name() == "ROOM" and game.room_index == 2, "upgrade must enter the boss room")
 
 	# Boss -> anchor -> one ending -> changed bar -> settlement -> facility -> ending.
 	kill_all()
@@ -180,5 +199,5 @@ func run() -> void:
 	if failed:
 		quit(1)
 		return
-	print("P0_FLOW_PASS title_bar_arrival_hover_click_bottle_mix_transition_attack_rooms_borrow_boss_endings_reward_upgrade")
+	print("P0_FLOW_PASS title_bar_arrival_hover_click_bottle_mix_transition_baton_captain_two_exits_medic_reroll_boss_endings_reward_upgrade")
 	quit(0)

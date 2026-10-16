@@ -100,9 +100,17 @@ func run() -> void:
 	require(game.phase == game.Phase.TRANSITION and game.cocktail_ids == ["empathy", "reverse_fire", "stable"], "three-bottle recipe must finish with exactly the poured ingredients")
 	require(is_equal_approx(game.player.damage, 20.7) and is_equal_approx(game.paradox_factor, 0.7) and not game.anger_reward, "reverse fire and stable must apply only their chosen effects")
 	game.update_transition(1.81)
-	game.enemies.clear()
+	for enemy in game.enemies.duplicate():
+		game.damage_enemy(enemy, 9999.0, Vector2.ZERO)
 	game.check_room_clear()
-	require(game.state.clues.has("zhou_fear") and is_equal_approx(game.state.paradox, 2.8), "empathy must reveal its clue while stable reduces paradox growth")
+	require(game.captain_downed and not game.room_clear, "first room must await captain possession after the fight")
+	game.player.pos = game.captain_pos
+	var borrow_key := InputEventKey.new()
+	borrow_key.keycode = KEY_E
+	borrow_key.pressed = true
+	game._unhandled_input(borrow_key)
+	require(game.player.form == "security_captain" and game.room_clear, "E must borrow the captain and complete room one")
+	require(game.state.clues.has("zhou_fear") and is_equal_approx(game.state.paradox, 6.3), "empathy must reveal its clue while stable reduces room and borrowing paradox")
 
 	# Unlocks and remaining credits survive a new run; one ingredient is enough.
 	game.restart_demo()

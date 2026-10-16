@@ -15,6 +15,8 @@ var final_score := 0
 var clues: Array[String] = []
 var paradox := 0.0
 var reached_room := 0
+var buff_rerolls := 0
+var medical_reroll_claimed := false
 var causal_flags := {
 	"shot_prevented": false,
 	"shot_preserved": false,
@@ -39,6 +41,12 @@ func causal_count() -> int:
 
 func add_clue(id: String) -> void:
 	if not id in clues: clues.append(id)
+
+func claim_medical_reroll() -> bool:
+	if medical_reroll_claimed: return false
+	medical_reroll_claimed = true
+	buff_rerolls += 1
+	return true
 
 func calculate_score(alignment: int) -> int:
 	var depth_score: int = [0, 8, 16, 25][clampi(reached_room, 0, 3)]
