@@ -42,6 +42,7 @@ const DARK := Color("343528")
 const YELLOW_WALL := Color("aaa36b")
 const CARPET := Color("55513b")
 const DEMO_MAP_SIZE := 21
+const MASCOT_TRIGGER_CELL := Vector2i(1, 3)
 const EXIT_CELL := Vector2i(17, 17)
 const ANOMALY_CELLS := {"A": Vector2i(5, 5), "B": Vector2i(11, 7), "C": Vector2i(15, 9)}
 const ANOMALY_NAMES := {"A": "墙纸后鼓起的墙面", "B": "没有尽头的门框", "C": "走进墙里的湿脚印"}
@@ -75,7 +76,6 @@ var mascot_jumpscare_active := false
 var mascot_jumpscare_triggered := false
 var mascot_jumpscare_time := 0.0
 var mascot_aftercare_left := 0.0
-var mascot_trigger_cell := Vector2i(-1, -1)
 var light_blackout_left := 0.0
 var light_blackout_cooldown := 0.0
 var level_environment: Environment
@@ -146,7 +146,6 @@ func _ready() -> void:
 	_load_settings()
 	_make_materials()
 	level_map = _prepare_map()
-	mascot_trigger_cell = _choose_mascot_trigger_cell()
 	_build_level()
 	_build_player()
 	_build_entity()
@@ -321,19 +320,6 @@ func _prepare_map() -> Array[String]:
 	for row in cells:
 		result.append("".join(PackedStringArray(row)))
 	return result
-
-
-func _choose_mascot_trigger_cell() -> Vector2i:
-	var candidates: Array[Vector2i] = []
-	var spawn := _find_cell("S")
-	for z in range(12, 19):
-		for x in range(1, 6):
-			var cell := Vector2i(x, z)
-			if _is_walkable(cell) and (cell == spawn or _next_path_cell(spawn, cell) != spawn):
-				candidates.append(cell)
-	if candidates.is_empty():
-		return Vector2i(3, 14)
-	return candidates[randi_range(0, candidates.size() - 1)]
 
 
 func _material(color: Color, metallic: float, roughness: float) -> StandardMaterial3D:
@@ -2257,7 +2243,8 @@ func _process(delta: float) -> void:
 		return
 	clock += delta
 	mascot_aftercare_left = maxf(0.0, mascot_aftercare_left - delta)
-	if not mascot_jumpscare_triggered and player.global_position.distance_to(_cell_world(mascot_trigger_cell)) < 1.15:
+	# Cover the entire first corner, including wall-hugging and jumping players.
+	if not mascot_jumpscare_triggered and _world_cell(player.global_position) == MASCOT_TRIGGER_CELL:
 		_trigger_mascot_jumpscare()
 	if notice_left > 0:
 		notice_left -= delta
