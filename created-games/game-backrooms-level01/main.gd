@@ -75,6 +75,10 @@ var enemy_step_player: AudioStreamPlayer3D
 var enemy_step_left := 0.0
 var enemy_voice_player: AudioStreamPlayer3D
 var enemy_voice_left := 0.0
+var active_water_source: AudioStreamPlayer3D
+var water_burst_left := 0.0
+var water_burst_elapsed := 0.0
+var water_gap_left := 0.0
 var player_step_left := 0.0
 var mascot_jumpscare: Node3D
 var mascot_jumpscare_active := false
@@ -1774,21 +1778,39 @@ func _add_pool_gate(at: Vector3) -> void:
 
 func _update_water_sound_guidance() -> void:
 	var next_valve := WATER_VALVE_ORDER[valve_progress] if valve_progress < WATER_VALVE_ORDER.size() else -1
+	var selected: AudioStreamPlayer3D
 	for flow in get_tree().get_nodes_in_group("water_flow_sources"):
-		var active := game_started and int(flow.get_meta("flow_valve_index")) == next_valve
-		if active:
-			flow.volume_db = -2.0
-			if not flow.playing:
-				flow.play()
-		else:
-			flow.stop()
+		if game_started and int(flow.get_meta("flow_valve_index")) == next_valve:
+			selected = flow
 	for flow in get_tree().get_nodes_in_group("water_gate_flow"):
 		if game_started and pool_gate_open:
-			flow.volume_db = -5.0
-			if not flow.playing:
-				flow.play()
-		else:
-			flow.stop()
+			selected = flow
+	if active_water_source != selected:
+		if is_instance_valid(active_water_source):
+			active_water_source.stop()
+		active_water_source = selected
+		water_burst_left = 0.0
+		water_gap_left = 0.0
+
+
+func _update_water_bursts(delta: float) -> void:
+	if not is_instance_valid(active_water_source):
+		return
+	if water_burst_left > 0.0:
+		water_burst_left = maxf(0.0, water_burst_left - delta)
+		water_burst_elapsed += delta
+		var fade := minf(clampf(water_burst_elapsed / 0.35, 0.0, 1.0), clampf(water_burst_left / 0.65, 0.0, 1.0))
+		active_water_source.volume_db = lerpf(-45.0, -12.0, fade)
+		if water_burst_left <= 0.0:
+			active_water_source.stop()
+			water_gap_left = randf_range(7.0, 12.0)
+	else:
+		water_gap_left -= delta
+		if water_gap_left <= 0.0:
+			water_burst_left = randf_range(3.0, 4.5)
+			water_burst_elapsed = 0.0
+			active_water_source.volume_db = -45.0
+			active_water_source.play()
 
 
 func _build_player() -> void:
@@ -2267,6 +2289,10 @@ func _quit_game() -> void:
 
 
 func _process(delta: float) -> void:
+	if is_instance_valid(active_water_source):
+		active_water_source.stream_paused = paused or keypad_active
+		if game_over or won:
+			active_water_source.stop()
 	if enemy_voice_player != null:
 		enemy_voice_player.stream_paused = paused or keypad_active
 		if game_over or won:
@@ -2282,6 +2308,7 @@ func _process(delta: float) -> void:
 	if game_over or won:
 		return
 	clock += delta
+	_update_water_bursts(delta)
 	if not entity_awake and clock >= STALKER_WAKE_DELAY:
 		_wake_stalker()
 	mascot_aftercare_left = maxf(0.0, mascot_aftercare_left - delta)
@@ -2339,7 +2366,7 @@ func _process(delta: float) -> void:
 		if enemy_distance < 32.0 and enemy_voice_left <= 0.0 and not enemy_voice_player.playing:
 			enemy_voice_player.pitch_scale = randf_range(0.98, 1.02)
 			enemy_voice_player.play()
-			enemy_voice_left = enemy_voice_player.stream.get_length() / enemy_voice_player.pitch_scale + randf_range(3.0, 6.0)
+			enemy_voice_left = enemy_voice_player.stream.get_length() / enemy_voice_player.pitch_scale + randf_range(12.0, 20.0)
 	else:
 		enemy_voice_player.stop()
 	var threat_near := entity_awake and not in_manila and enemy_distance < 14.0 and entity_stunned <= 0.0 and has_enemy_sight
