@@ -74,3 +74,5 @@ Level 37 无尽泳池已接入独立场景 `poolrooms.tscn` / `poolrooms.gd`。�
 - 最新音频调整：Level 0 顺序水声峰值降至 -12 dB，每次播放 3–4.5 秒、间隔 7–12 秒并淡入淡出；怪物每段咆哮结束后间隔 12–20 秒再播放。继续使用已有网上录音素材。
 
 - 2026-10-16 用户确认此版本作为最终版；玩家脚步声已移除。交付为完整源码与真实素材 ZIP，运行说明见 FINAL_RELEASE.md。后续不主动增加玩法或美术迭代。
+
+- 最终展示名称：阈限回声 / LIMINAL ECHOES。更新 project.godot 窗口名、开始菜单与 cover.png；封面是 AI 生成宣传美术。展示包使用 liminal-echoes-showcase-v1.0-20261016-source-assets.zip，替代旧名字包用于展示。

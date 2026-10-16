@@ -17,11 +17,11 @@
   },
   {
     "id": "game-backrooms-level01",
-    "title": "回声层：黄灯办公区",
+    "title": "阈限回声 · LIMINAL ECHOES",
     "description": "第一人称复古恐怖 · 拍立得异常调查 · Level 37 无尽泳池",
     "directory": "created-games/game-backrooms-level01",
     "status": "ready",
-    "brief": "第一人称复古恐怖游戏：探索 Level 0 黄灯办公区，用拍立得记录异常、破解出口；从水门进入 Level 37 无尽泳池，按顺序恢复回水阀并找到泵房出口。",
+    "brief": "第一人称复古恐怖游戏：探索 Level 0 黄灯办公区，用拍立得记录异常、破解出口；从水门进入 Level 37 无尽泳池，以固定视角欣赏瓷砖柱廊与碧绿水面的展示场景。",
     "cover": "created-games/game-backrooms-level01/cover.png"
   }
 ]

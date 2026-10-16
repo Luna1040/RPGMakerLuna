@@ -2163,7 +2163,7 @@ func _flat_style(color: Color) -> StyleBoxFlat:
 
 func _build_menus() -> void:
 	var layer := get_node("HUD") as CanvasLayer
-	title_overlay = _make_overlay(layer, "LEVEL 0  /  黄灯办公区", "潮湿的地毯、断续的灯鸣，还有走不完的黄色走廊。", [["开始探索", _start_game], ["操作说明", _show_controls], ["退出", _quit_game]])
+	title_overlay = _make_overlay(layer, "阈限回声", "LIMINAL ECHOES\n潮湿的地毯、断续的灯鸣，还有走不完的黄色走廊。", [["开始探索", _start_game], ["操作说明", _show_controls], ["退出", _quit_game]])
 	pause_overlay = _make_overlay(layer, "暂停", "", [["继续", _resume_game], ["重新开始", _restart_game], ["返回标题", _return_title]])
 	_add_sensitivity_control(pause_overlay)
 	end_overlay = _make_overlay(layer, "", "", [["重新探索", _restart_game], ["返回标题", _return_title]])
