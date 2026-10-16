@@ -43,11 +43,12 @@ const YELLOW_WALL := Color("aaa36b")
 const CARPET := Color("55513b")
 const DEMO_MAP_SIZE := 21
 const MASCOT_TRIGGER_CELL := Vector2i(1, 3)
-const STALKER_WAKE_DELAY := 12.0
+const STALKER_WAKE_DELAY := 5.0
 const EXIT_CELL := Vector2i(17, 17)
 const ANOMALY_CELLS := {"A": Vector2i(5, 5), "B": Vector2i(11, 7), "C": Vector2i(15, 9)}
 const ANOMALY_NAMES := {"A": "墙纸后鼓起的墙面", "B": "没有尽头的门框", "C": "走进墙里的湿脚印"}
 const ANOMALY_CODES := {"A": "4", "B": "1", "C": "9"}
+const WATER_VALVE_ORDER: Array[int] = [1, 0, 2]
 const WATER_VALVE_CELLS := [Vector2i(11, 5), Vector2i(7, 3), Vector2i(15, 11)]
 const DIRECTIONS: Array[Vector2i] = [Vector2i.RIGHT, Vector2i.LEFT, Vector2i.UP, Vector2i.DOWN]
 const STALKER_SCENE: PackedScene = preload("res://assets/creatures/the_stalker/Run.fbx")
@@ -59,6 +60,7 @@ var camera: Camera3D
 var ray: RayCast3D
 var enemy: CharacterBody3D
 var enemy_mesh: Node3D
+var enemy_animation: AnimationPlayer
 var apparition_parts: Array[GeometryInstance3D] = []
 var apparition_observed := false
 var fall_death := false
@@ -73,7 +75,10 @@ var enemy_step_player: AudioStreamPlayer3D
 var enemy_step_left := 0.0
 var enemy_voice_player: AudioStreamPlayer3D
 var enemy_voice_left := 0.0
-var player_step_left := 0.0
+var active_water_source: AudioStreamPlayer3D
+var water_burst_left := 0.0
+var water_burst_elapsed := 0.0
+var water_gap_left := 0.0
 var mascot_jumpscare: Node3D
 var mascot_jumpscare_active := false
 var mascot_jumpscare_triggered := false
@@ -482,12 +487,12 @@ func _build_sound_players() -> void:
 	enemy_step_player.unit_size = 5.0
 	enemy.add_child(enemy_step_player)
 	enemy_voice_player = AudioStreamPlayer3D.new()
-	enemy_voice_player.name = "Stalker breathing and growl"
-	enemy_voice_player.stream = load("res://audio/sfx_stalker_breath.wav") as AudioStream
+	enemy_voice_player.name = "Recorded monster snarl"
+	enemy_voice_player.stream = load("res://audio/external/monster_snarls_2.ogg") as AudioStream
 	enemy_voice_player.position.y = 1.6
-	enemy_voice_player.volume_db = -10.0
-	enemy_voice_player.unit_size = 5.0
-	enemy_voice_player.max_distance = 24.0
+	enemy_voice_player.volume_db = -2.0
+	enemy_voice_player.unit_size = 10.0
+	enemy_voice_player.max_distance = 32.0
 	enemy.add_child(enemy_voice_player)
 
 
@@ -1685,18 +1690,19 @@ func _add_water_valve(index: int, at: Vector3) -> void:
 	beacon.position.y = 1.6
 	valve.add_child(beacon)
 	var flow := AudioStreamPlayer3D.new()
-	flow.name = "Directional water flow"
-	flow.stream = load("res://audio/sfx_pipe_flow.wav") as AudioStreamWAV
+	flow.name = "Recorded directional water flow"
+	flow.position.y = 0.8
+	flow.stream = load("res://audio/external/valve_running_water.wav") as AudioStreamWAV
 	(flow.stream as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
-	flow.max_distance = 90.0
-	flow.unit_size = 15.0
+	(flow.stream as AudioStreamWAV).loop_end = roundi(flow.stream.get_length() * (flow.stream as AudioStreamWAV).mix_rate)
+	flow.max_distance = 30.0
+	flow.unit_size = 12.0
 	flow.attenuation_model = AudioStreamPlayer3D.ATTENUATION_INVERSE_DISTANCE
 	flow.volume_db = -22.0
 	flow.set_meta("flow_valve_index", index)
 	flow.add_to_group("water_flow_sources")
 	valve.add_child(flow)
 	add_child(valve)
-	flow.play()
 
 
 func _add_pool_gate(at: Vector3) -> void:
@@ -1756,8 +1762,9 @@ func _add_pool_gate(at: Vector3) -> void:
 	gate.add_child(label)
 	var gate_flow := AudioStreamPlayer3D.new()
 	gate_flow.name = "Water sound leading into Level 37"
-	gate_flow.stream = load("res://audio/sfx_pipe_flow.wav") as AudioStreamWAV
+	gate_flow.stream = load("res://audio/external/valve_running_water.wav") as AudioStreamWAV
 	(gate_flow.stream as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
+	(gate_flow.stream as AudioStreamWAV).loop_end = roundi(gate_flow.stream.get_length() * (gate_flow.stream as AudioStreamWAV).mix_rate)
 	gate_flow.max_distance = 60.0
 	gate_flow.unit_size = 14.0
 	gate_flow.volume_db = -24.0
@@ -1765,15 +1772,44 @@ func _add_pool_gate(at: Vector3) -> void:
 	gate.add_child(gate_flow)
 	gate.visible = false
 	add_child(gate)
-	gate_flow.play()
 	set_meta("pool_gate", gate)
 
 
 func _update_water_sound_guidance() -> void:
+	var next_valve := WATER_VALVE_ORDER[valve_progress] if valve_progress < WATER_VALVE_ORDER.size() else -1
+	var selected: AudioStreamPlayer3D
 	for flow in get_tree().get_nodes_in_group("water_flow_sources"):
-		flow.volume_db = -21.0
+		if game_started and int(flow.get_meta("flow_valve_index")) == next_valve:
+			selected = flow
 	for flow in get_tree().get_nodes_in_group("water_gate_flow"):
-		flow.volume_db = -17.0 if pool_gate_open else -27.0
+		if game_started and pool_gate_open:
+			selected = flow
+	if active_water_source != selected:
+		if is_instance_valid(active_water_source):
+			active_water_source.stop()
+		active_water_source = selected
+		water_burst_left = 0.0
+		water_gap_left = 0.0
+
+
+func _update_water_bursts(delta: float) -> void:
+	if not is_instance_valid(active_water_source):
+		return
+	if water_burst_left > 0.0:
+		water_burst_left = maxf(0.0, water_burst_left - delta)
+		water_burst_elapsed += delta
+		var fade := minf(clampf(water_burst_elapsed / 0.35, 0.0, 1.0), clampf(water_burst_left / 0.65, 0.0, 1.0))
+		active_water_source.volume_db = lerpf(-45.0, -12.0, fade)
+		if water_burst_left <= 0.0:
+			active_water_source.stop()
+			water_gap_left = randf_range(7.0, 12.0)
+	else:
+		water_gap_left -= delta
+		if water_gap_left <= 0.0:
+			water_burst_left = randf_range(3.0, 4.5)
+			water_burst_elapsed = 0.0
+			active_water_source.volume_db = -45.0
+			active_water_source.play()
 
 
 func _build_player() -> void:
@@ -1795,6 +1831,8 @@ func _build_player() -> void:
 	camera.fov = 78
 	camera.current = true
 	head.add_child(camera)
+	var listener := AudioListener3D.new()
+	camera.add_child(listener)
 	var flashlight := SpotLight3D.new()
 	flashlight.light_color = Color("e6e1c0")
 	flashlight.light_energy = 1.25
@@ -1815,6 +1853,7 @@ func _build_player() -> void:
 	ray.enabled = true
 	camera.add_child(ray)
 	add_child(player)
+	listener.make_current()
 
 
 func _make_apparition() -> Node3D:
@@ -1828,9 +1867,9 @@ func _make_apparition() -> Node3D:
 	for part in imported_figure.find_children("*", "GeometryInstance3D", true, false):
 		if part is GeometryInstance3D:
 			apparition_parts.append(part)
-	var animation_player := imported_figure.find_child("AnimationPlayer", true, false) as AnimationPlayer
-	if animation_player != null and animation_player.has_animation("Run"):
-		animation_player.play("Run")
+	enemy_animation = imported_figure.find_child("AnimationPlayer", true, false) as AnimationPlayer
+	if enemy_animation != null and enemy_animation.has_animation("Run"):
+		enemy_animation.play("Run")
 	return imported_figure
 
 
@@ -2218,6 +2257,7 @@ func _start_game() -> void:
 	title_overlay.visible = false
 	paused = false
 	game_started = true
+	_update_water_sound_guidance()
 	for gameplay_control in [hud, hud_subtitle, fear_bar, message, notice]:
 		gameplay_control.visible = true
 	for pickup_range in get_tree().get_nodes_in_group("automatic_pickup_ranges"):
@@ -2248,6 +2288,10 @@ func _quit_game() -> void:
 
 
 func _process(delta: float) -> void:
+	if is_instance_valid(active_water_source):
+		active_water_source.stream_paused = paused or keypad_active
+		if game_over or won:
+			active_water_source.stop()
 	if enemy_voice_player != null:
 		enemy_voice_player.stream_paused = paused or keypad_active
 		if game_over or won:
@@ -2263,7 +2307,8 @@ func _process(delta: float) -> void:
 	if game_over or won:
 		return
 	clock += delta
-	if not entity_awake and clock >= STALKER_WAKE_DELAY and not mascot_jumpscare_active and mascot_aftercare_left <= 0.0:
+	_update_water_bursts(delta)
+	if not entity_awake and clock >= STALKER_WAKE_DELAY:
 		_wake_stalker()
 	mascot_aftercare_left = maxf(0.0, mascot_aftercare_left - delta)
 	# Cover the entire first corner, including wall-hugging and jumping players.
@@ -2316,11 +2361,11 @@ func _process(delta: float) -> void:
 	var has_enemy_sight := _has_line_of_sight_to_enemy()
 	if entity_awake and not in_manila and enemy.visible and entity_stunned <= 0.0:
 		enemy_voice_left -= delta
-		enemy_voice_player.volume_db = -10.0 if has_enemy_sight else -19.0
-		if enemy_distance < 24.0 and enemy_voice_left <= 0.0:
-			enemy_voice_player.pitch_scale = randf_range(0.88, 1.04)
+		enemy_voice_player.volume_db = -2.0 if has_enemy_sight else -7.0
+		if enemy_distance < 32.0 and enemy_voice_left <= 0.0 and not enemy_voice_player.playing:
+			enemy_voice_player.pitch_scale = randf_range(0.98, 1.02)
 			enemy_voice_player.play()
-			enemy_voice_left = randf_range(7.0, 11.0)
+			enemy_voice_left = enemy_voice_player.stream.get_length() / enemy_voice_player.pitch_scale + randf_range(12.0, 20.0)
 	else:
 		enemy_voice_player.stop()
 	var threat_near := entity_awake and not in_manila and enemy_distance < 14.0 and entity_stunned <= 0.0 and has_enemy_sight
@@ -2332,8 +2377,6 @@ func _process(delta: float) -> void:
 	else:
 		if heartbeat_player != null and heartbeat_player.playing:
 			heartbeat_player.stop()
-		if enemy_step_player != null:
-			enemy_step_player.stop()
 	if entity_awake and not in_manila and enemy.velocity.length() > 0.5 and enemy_distance < 25.0:
 		enemy_step_left -= delta
 		if enemy_step_left <= 0.0 and enemy_step_player != null:
@@ -2341,6 +2384,7 @@ func _process(delta: float) -> void:
 			enemy_step_left = 0.62 if alert_left > 0.0 else 0.95
 	else:
 		enemy_step_left = 0.0
+		enemy_step_player.stop()
 	if in_manila:
 		enemy.visible = false
 	if ambient_player != null:
@@ -2395,13 +2439,6 @@ func _physics_process(delta: float) -> void:
 		player.velocity.x = move_toward(player.velocity.x, 0, 14 * delta)
 		player.velocity.z = move_toward(player.velocity.z, 0, 14 * delta)
 	player.move_and_slide()
-	if input_vector.length() > 0.1 and player.is_on_floor():
-		player_step_left -= delta
-		if player_step_left <= 0.0:
-			_play_sfx("footstep", -14.0)
-			player_step_left = 0.38 if sprinting else 0.56
-	else:
-		player_step_left = 0.0
 	if player.global_position.y < -1.2:
 		fall_death = true
 		_finish(false)
@@ -2524,7 +2561,7 @@ func _interact() -> void:
 		_show_notice("提示：按三张异常照片上的编号顺序输入，或返回 Manila Room 查看维修档案。", 5.0)
 	elif kind == "water_valve":
 		var valve_index := int(target.get_meta("valve_index", -1))
-		var expected_order: Array[int] = [1, 0, 2]
+		var expected_order: Array[int] = WATER_VALVE_ORDER
 		if valve_progress >= expected_order.size():
 			_show_notice("三处水流已经接通。回到湿脚印旁寻找亮起的蓝色门框。", 3.5)
 			return
@@ -2620,7 +2657,7 @@ func _update_power(delta: float) -> void:
 	else:
 		light_blackout_cooldown -= delta
 		if light_blackout_cooldown <= 0.0:
-			light_blackout_left = randf_range(1.2, 3.5)
+			light_blackout_left = randf_range(3.0, 6.0)
 			light_blackout_cooldown = randf_range(30.0, 65.0)
 	var target := 0.04 if light_blackout_left > 0.0 else 1.0
 	power_level = move_toward(power_level, target, delta * (7.0 if target < power_level else 1.4))
@@ -2809,19 +2846,22 @@ func _finish_route(destination: String, details: String) -> void:
 	(block.get_child(1) as Label).text = details + "\n\n当前原型包含 Level 0；下一层场景尚未接入。"
 
 
+func _is_stalker_observed() -> bool:
+	if enemy == null or not enemy.visible:
+		return false
+	var target := enemy.global_position + Vector3.UP * 1.1
+	var to_shadow := target - camera.global_position
+	return (-camera.global_basis.z).dot(to_shadow.normalized()) > 0.65 and camera.is_position_in_frustum(target) and _has_line_of_sight_to_enemy()
+
+
 func _update_entity(delta: float) -> void:
 	if entity_stunned > 0:
 		return
-	var to_shadow := enemy.global_position + Vector3.UP * 1.1 - camera.global_position
-	var facing := -camera.global_basis.z
-	var in_view_cone := facing.dot(to_shadow.normalized()) > 0.76
-	var seen := false
-	if in_view_cone:
-		ray.target_position = camera.to_local(enemy.global_position + Vector3.UP * 1.1)
-		ray.force_raycast_update()
-		seen = ray.is_colliding() and ray.get_collider() == enemy
-		ray.target_position = Vector3(0, 0, -18)
+	# Use a wall-only ray that excludes the player, independent of interaction areas.
+	var seen := _is_stalker_observed()
 	apparition_observed = seen
+	if enemy_animation != null:
+		enemy_animation.speed_scale = 0.1 if seen else 1.0
 	repath_left -= delta
 	if repath_left <= 0:
 		repath_left = 0.65
@@ -2833,7 +2873,7 @@ func _update_entity(delta: float) -> void:
 	var delta_pos := enemy_target - enemy.global_position
 	delta_pos.y = 0
 	# Looking at the entity slows it down, but never freezes it completely.
-	var speed := 1.0 if seen else (3.0 if alert_left > 0 else 2.0)
+	var speed := 0.18 if seen else (3.0 if alert_left > 0 else 2.0)
 	if delta_pos.length() > 0.12:
 		var direction := delta_pos.normalized()
 		enemy.velocity.x = direction.x * speed

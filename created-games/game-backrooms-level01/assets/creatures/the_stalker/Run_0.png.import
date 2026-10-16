@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c6k4ot682dxqi"
-path="res://.godot/imported/Run_0.png-dc43b2b26190c0710c626f4554bdc14e.ctex"
+path.s3tc="res://.godot/imported/Run_0.png-dc43b2b26190c0710c626f4554bdc14e.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "efeebdda98ec1d7fb2ad83d23f0713bf"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/creatures/the_stalker/Run_0.png"
-dest_files=["res://.godot/imported/Run_0.png-dc43b2b26190c0710c626f4554bdc14e.ctex"]
+dest_files=["res://.godot/imported/Run_0.png-dc43b2b26190c0710c626f4554bdc14e.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -40,4 +41,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0
