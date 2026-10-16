@@ -1,0 +1,4 @@
+The stalker creature model and source textures come from the “3D Horror Game Monster” upload by City Building Game Art / HorrorGameMaker.com on OpenGameArt.org.
+License: CC0 (public domain). Credit is optional; attribution included for provenance.
+Source: https://opengameart.org/content/3d-horror-game-monster
+Files used: Poses/Run.fbx and Colors/Black texture maps from the Poses.zip and Colors.zip downloads.
