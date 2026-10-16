@@ -1,0 +1,310 @@
+{
+  "map/puzzle/chamgw26-bg02.pul": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\map.tpd",
+    "size": 122640
+  },
+  "map/map/chamgw26.dmap": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\map.tpd",
+    "size": 15342404
+  },
+  "map/puzzle/chamgw26-bg04.pul": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\map.tpd",
+    "size": 122640
+  },
+  "map/puzzle/chamgw26-bg01.pul": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\map.tpd",
+    "size": 14200
+  },
+  "map/puzzle/chamgw26-bg03.pul": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\map.tpd",
+    "size": 122640
+  },
+  "map/puzzle/chamgw26-bg05.pul": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\map.tpd",
+    "size": 122640
+  },
+  "map/puzzle/chamgw26.pul": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\map.tpd",
+    "size": 122640
+  },
+  "map/puzzle/gv-chamgw26.pul": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\map.tpd",
+    "size": 670
+  },
+  "data/interface/style01/festivalact/canosa/num/7.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_2.tpd",
+    "size": 1152
+  },
+  "data/interface/style01/festivalact/canosa/num/1.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_2.tpd",
+    "size": 1152
+  },
+  "data/interface/style01/festivalact/canosa/num/0.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_2.tpd",
+    "size": 1152
+  },
+  "data/interface/style01/festivalact/canosa/num/3.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_2.tpd",
+    "size": 1152
+  },
+  "data/interface/style01/festivalact/canosa/datepic.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_2.tpd",
+    "size": 8320
+  },
+  "data/interface/style01/noblevip/canosacitybtnclick.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_2.tpd",
+    "size": 4224
+  },
+  "data/interface/style01/musiccollect/vulgar/canosapic.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_2.tpd",
+    "size": 65664
+  },
+  "data/interface/style01/festivalact/canosa/canosabg.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_2.tpd",
+    "size": 1048704
+  },
+  "data/interface/style01/festivalact/canosa/canosabtnnormal.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_2.tpd",
+    "size": 4224
+  },
+  "data/interface/style01/festivalact/canosa/num/2.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_2.tpd",
+    "size": 1152
+  },
+  "data/interface/style01/festivalact/canosa/canosabtnclick.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_2.tpd",
+    "size": 4224
+  },
+  "data/interface/style01/festivalact/canosa/canosabtnemboss.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_2.tpd",
+    "size": 4224
+  },
+  "data/interface/style01/festivalact/canosa/canosabtnunclick.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_2.tpd",
+    "size": 4224
+  },
+  "data/interface/style01/festivalact/canosa/canosatitlepic.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_2.tpd",
+    "size": 1048704
+  },
+  "data/interface/style01/festivalact/canosa/num/4.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_2.tpd",
+    "size": 1152
+  },
+  "data/interface/style01/festivalact/canosa/num/5.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_2.tpd",
+    "size": 1152
+  },
+  "data/interface/style01/festivalact/canosa/num/6.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_2.tpd",
+    "size": 1152
+  },
+  "data/interface/style01/festivalact/canosa/num/8.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_2.tpd",
+    "size": 1152
+  },
+  "data/interface/style01/festivalact/canosa/num/9.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_2.tpd",
+    "size": 1152
+  },
+  "data/interface/style01/noblevip/canosacitybtnemboss.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_2.tpd",
+    "size": 4224
+  },
+  "data/interface/style01/noblevip/canosacitybtnnormal.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_2.tpd",
+    "size": 4224
+  },
+  "data/interface/style01/noblevip/canosacitybtnunclick.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_2.tpd",
+    "size": 4224
+  },
+  "data/minimap/1000/256.tga": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 78866
+  },
+  "data/minimap/10001/128.jpg": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 71734
+  },
+  "data/minimap/10008/128.jpg": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 5764
+  },
+  "data/minimap/10009/512.jpg": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 129430
+  },
+  "data/minimap/10007/256.jpg": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 31359
+  },
+  "data/map/puzzle/godview01/gv-chamgw26/pic0000.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 8320
+  },
+  "data/map/puzzle/godview01/gv-chamgw26/pic0001.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 8320
+  },
+  "data/minimap/10001/256.jpg": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 205682
+  },
+  "data/minimap/1000/256_2..jpg": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 13120
+  },
+  "data/minimap/1000/512.jpg": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 81524
+  },
+  "data/minimap/10000/128.jpg": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 9488
+  },
+  "data/minimap/1000/edge.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 15204480
+  },
+  "data/minimap/10009/128.jpg": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 11369
+  },
+  "data/minimap/10000/512.jpg": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 122279
+  },
+  "data/minimap/10008/512.jpg": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 58765
+  },
+  "data/minimap/1000/128.jpg": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 6866
+  },
+  "data/minimap/10000/256.jpg": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 33202
+  },
+  "data/minimap/10000/1.tga": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 1484844
+  },
+  "data/minimap/1000/512.tga": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 313106
+  },
+  "data/minimap/1000/10240-4.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 16777344
+  },
+  "data/minimap/1000/10240-5.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 16777344
+  },
+  "data/minimap/1000/10240-6.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 2719872
+  },
+  "data/minimap/1000/10240-7.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 8388736
+  },
+  "data/minimap/1000/10240-1.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 11184952
+  },
+  "data/minimap/1000/10240-3.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 2719872
+  },
+  "data/minimap/10007/128.jpg": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 9133
+  },
+  "data/minimap/10001/512.jpg": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 486321
+  },
+  "data/minimap/1000/10240-2.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 11184952
+  },
+  "data/minimap/10009/256.jpg": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 38242
+  },
+  "data/minimap/1000/128.tga": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 20242
+  },
+  "data/minimap/1000/256.jpg": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 23376
+  },
+  "data/minimap/1000/10240-9.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 1360000
+  },
+  "data/minimap/1000/10240-8.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 8388736
+  },
+  "data/minimap/10008/256.jpg": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 17778
+  },
+  "data/minimap/1000/edge-1.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 6666128
+  },
+  "data/minimap/1000/max.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 40109184
+  },
+  "data/minimap/1000/1.tga": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 1220652
+  },
+  "data/minimap/1000/1024.jpg": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 331763
+  },
+  "data/minimap/1000/128_1..jpg": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 3926
+  },
+  "data/minimap/1000/4096.jpg": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 6955475
+  },
+  "data/minimap/1000/512_3..jpg": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 46774
+  },
+  "data/minimap/1000/edge-2.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 10218128
+  },
+  "data/minimap/1000/edge-3.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 6666128
+  },
+  "data/minimap/1000/edge-4.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 6666128
+  },
+  "data/minimap/1000/edge-5.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 10218128
+  },
+  "data/minimap/1000/edge-6.dds": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 6666128
+  },
+  "data/minimap/10007/512.jpg": {
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_6.tpd",
+    "size": 113528
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "regression_suites": 11,
+  "source_tree_tiles_verified": 2440,
+  "approved_native_actors": 5,
+  "animated_preview_margin_checks": 35,
+  "source_and_runtime_hashes_match": true,
+  "generation": "original resource reuse, no AI jobs",
+  "game_started": false
+}

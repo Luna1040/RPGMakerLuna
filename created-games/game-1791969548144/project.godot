@@ -1,0 +1,14 @@
+config_version=5
+[application]
+config/name="魔域"
+run/main_scene="res://main.tscn"
+[autoload]
+GameAssistant="*res://game_assistant.gd"
+[display]
+window/size/viewport_width=1280
+window/size/viewport_height=800
+window/stretch/mode="canvas_items"
+[gui]
+theme/custom_font="res://font.ttf"
+[rendering]
+renderer/rendering_method="gl_compatibility"

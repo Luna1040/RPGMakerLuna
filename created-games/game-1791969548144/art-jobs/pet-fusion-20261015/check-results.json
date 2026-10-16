@@ -1,0 +1,65 @@
+{
+  "checks": [
+    {
+      "log": "tests/fusion-update-test.log",
+      "passed": true
+    },
+    {
+      "log": "tests/fusion-pet_collection_test.log",
+      "passed": true
+    },
+    {
+      "log": "tests/fusion-pet_collection_ui_test.log",
+      "passed": true
+    },
+    {
+      "log": "tests/fusion-player_panels_test.log",
+      "passed": true
+    },
+    {
+      "log": "tests/fusion-character_saves_test.log",
+      "passed": true
+    },
+    {
+      "log": "tests/fusion-recovery_world_test.log",
+      "passed": true
+    },
+    {
+      "log": "tests/fusion-preview.log",
+      "passed": true
+    },
+    {
+      "log": "tests/mage-fusion-preview.log",
+      "passed": true
+    }
+  ],
+  "art_cli_check": {
+    "image": true,
+    "video": true,
+    "av": true,
+    "PIL": true,
+    "numpy": true,
+    "onnxruntime": true,
+    "matte_model": true
+  },
+  "new_generation_jobs": 0,
+  "reuse": "Original client compose1bg.dds plus existing petwarrior/petmage native model and animation resources",
+  "reviewed_images": [
+    "fusion-15.png",
+    "fusion-21.png",
+    "fusion-100.png",
+    "mage-fusion-15.png",
+    "mage-fusion-21.png",
+    "mage-fusion-100.png"
+  ],
+  "drop_rate": 0.5,
+  "seeded_test": {
+    "kills": 10000,
+    "eggs": 4977
+  },
+  "limitations": [
+    "Original client altar art and pet models are reused; sequence/timing/UI are implemented here and are not a byte-for-byte recreation of the native client fusion logic.",
+    "Environment warnings: root certificate store and external editor-settings/shader-cache writes."
+  ],
+  "game_launched": false
+}

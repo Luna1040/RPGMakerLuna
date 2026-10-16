@@ -1,0 +1,70 @@
+[
+  {
+    "id": 1052,
+    "name": "米兰达",
+    "note": "纳邦德尔传送师",
+    "client_model": "603",
+    "client_grid": [
+      327,
+      413
+    ],
+    "map": 1000,
+    "pos": [
+      3340,
+      1800
+    ],
+    "position_status": "provisional isometric origin, nearest clear road correction",
+    "dialog_status": "role description adapted; original server branches unavailable"
+  },
+  {
+    "id": 1060,
+    "name": "罗·凯那德",
+    "note": "卡诺萨骑士团管理",
+    "client_model": "721",
+    "client_grid": [
+      168,
+      363
+    ],
+    "map": 1000,
+    "pos": [
+      2250,
+      755
+    ],
+    "position_status": "provisional isometric origin, nearest clear road correction",
+    "dialog_status": "role description adapted; original server branches unavailable"
+  },
+  {
+    "id": 1823,
+    "name": "雷奥德",
+    "note": "卡诺萨家族管理",
+    "client_model": "704",
+    "client_grid": [
+      180,
+      363
+    ],
+    "map": 1000,
+    "pos": [
+      2370,
+      815
+    ],
+    "position_status": "provisional isometric origin, nearest clear road correction",
+    "dialog_status": "role description adapted; original server branches unavailable"
+  },
+  {
+    "id": 1055,
+    "name": "克莱德",
+    "note": "圣·欧斯·杂货商",
+    "client_model": "719",
+    "client_grid": [
+      298,
+      406
+    ],
+    "map": 1000,
+    "pos": [
+      3120,
+      1620
+    ],
+    "position_status": "provisional isometric origin, nearest clear road correction",
+    "dialog_status": "role description adapted; original server branches unavailable"
+  }
+]

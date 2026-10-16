@@ -1,0 +1,37 @@
+﻿extends SceneTree
+func _initialize() -> void: call_deferred("run")
+func run() -> void:
+ var g=load("res://canosa.gd").new()
+ g.save_store.path="res://tests/merchant-visible-fixture.json"
+ root.add_child(g)
+ g.new_run()
+ var index: int=g.merchant_index()
+ assert(index>=0 and g.npcs.size()==16)
+ var npc: Dictionary=g.npcs[index]
+ assert(npc.name=="克莱德" and npc.client_model=="719")
+ assert(int(npc.client_grid[0])==298 and int(npc.client_grid[1])==406)
+ assert(g.native_actors["719"].sources.size()>0)
+ for part in g.native_actors["719"].sources:
+  assert(part.instance.mesh.get_surface_count()>0)
+  assert(part.instance.material_override.albedo_texture!=null)
+ assert(g.npc_display_name(npc)=="杂货商 · 克莱德")
+ g.hero=Vector2(3636.4443,1448.9624)
+ g.mouse_click(Vector2(800,132))
+ assert(g.mouse_npc==index and not g.route.is_empty())
+ assert(not g.client_map.route(g.hero,npc.pos,10).is_empty())
+ g.hero=npc.pos+Vector2(0,60)
+ g.mouse_click(g.screen_pos(npc.pos)+Vector2(0,-35))
+ assert(g.mouse_npc==index)
+ g.talk()
+ assert(g.dialog_npc==index and g.dialog_options()[0].contains("购买"))
+ g.choose_dialog(1)
+ assert(g.dialog_npc==index and g.dialog_text.contains("杂货商"))
+ g.choose_dialog(0)
+ assert(g.dialog_npc==-1 and g.player_ui.opened==7)
+ g.player_ui.close()
+ g.new_run()
+ assert(g.merchant_index()==index and g.npcs.size()==16)
+ print("PASS: original merchant 1055/719, source grid, textured mesh, visible role label, locator and NPC click, primary shop, no duplicates; runtime position ",npc.pos)
+ g.free()
+ quit()
+

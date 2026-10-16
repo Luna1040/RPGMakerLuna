@@ -7,10 +7,17 @@ export async function artInstructions(root,project){
  const skill=path.join(root,'shareable-skills/game-production');
  await access(path.join(skill,'SKILL.md'));
  const guide=await readFile(path.join(root,'godot-ai-workbench/ART_PIPELINE.md'),'utf8');
+ const localPython=path.join(root,'.tools/art-python/python.exe');
+ const legacyPython=path.join(os.homedir(),'Downloads/Flux2_klein_v1.0_普通版/Flux2_klein/python_embeded/python.exe');
+ let python=process.env.GAME_ART_PYTHON;
+ if(!python){
+  try{await access(localPython);python=localPython;}
+  catch{python=legacyPython;}
+ }
  const config={
   skill,project,
   artCli:path.join(root,'godot-ai-workbench/art_cli.py'),
-  python:process.env.GAME_ART_PYTHON||path.join(os.homedir(),'Downloads/Flux2_klein_v1.0_普通版/Flux2_klein/python_embeded/python.exe'),
+  python,
   imageUrl:process.env.GAME_IMAGE_COMFY_URL||'http://127.0.0.1:9315',
   videoUrl:process.env.GAME_VIDEO_COMFY_URL||'http://127.0.0.1:9316',
   jobs:path.join(project,'art-jobs'),

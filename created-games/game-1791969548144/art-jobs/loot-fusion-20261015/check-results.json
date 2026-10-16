@@ -1,0 +1,121 @@
+{
+  "tests": [
+    {
+      "test": "character_saves_test",
+      "passed": true,
+      "log": "tests\\loot-fusion-character_saves_test.log"
+    },
+    {
+      "test": "character_menu_test",
+      "passed": true,
+      "log": "tests\\loot-fusion-character_menu_test.log"
+    },
+    {
+      "test": "player_panels_test",
+      "passed": true,
+      "log": "tests\\loot-fusion-player_panels_test.log"
+    },
+    {
+      "test": "dialog_walk",
+      "passed": true,
+      "log": "tests\\loot-fusion-dialog_walk.log"
+    },
+    {
+      "test": "client_canosa_test",
+      "passed": true,
+      "log": "tests\\loot-fusion-client_canosa_test.log"
+    },
+    {
+      "test": "pet_navigation_update_test",
+      "passed": true,
+      "log": "tests\\loot-fusion-pet_navigation_update_test.log"
+    },
+    {
+      "test": "native_client_roles_test",
+      "passed": true,
+      "log": "tests\\loot-fusion-native_client_roles_test.log"
+    },
+    {
+      "test": "canosa_test",
+      "passed": true,
+      "log": "tests\\loot-fusion-canosa_test.log"
+    },
+    {
+      "test": "mouse_iso",
+      "passed": true,
+      "log": "tests\\loot-fusion-mouse_iso.log"
+    },
+    {
+      "test": "field_update_test",
+      "passed": true,
+      "log": "tests\\loot-fusion-field_update_test.log"
+    },
+    {
+      "test": "recovery_world_test",
+      "passed": true,
+      "log": "tests\\loot-fusion-recovery_world_test.log"
+    },
+    {
+      "test": "pet_collection_test",
+      "passed": true,
+      "log": "tests\\loot-fusion-pet_collection_test.log"
+    },
+    {
+      "test": "pet_collection_ui_test",
+      "passed": true,
+      "log": "tests\\loot-fusion-pet_collection_ui_test.log"
+    },
+    {
+      "test": "fusion_update_test",
+      "passed": true,
+      "log": "tests\\loot-fusion-fusion_update_test.log"
+    },
+    {
+      "test": "equipment_system_test",
+      "passed": true,
+      "log": "tests\\loot-fusion-equipment_system_test.log"
+    },
+    {
+      "test": "loot_fusion_update_test",
+      "passed": true,
+      "log": "tests\\loot-fusion-update-test.log"
+    }
+  ],
+  "passed": 16,
+  "independent_previews": 2,
+  "native_resources": 71,
+  "new_generation_jobs": 0,
+  "art_cli_check": {
+    "image": true,
+    "video": true,
+    "av": true,
+    "PIL": true,
+    "numpy": true,
+    "onnxruntime": true,
+    "matte_model": true
+  },
+  "drop_rates": {
+    "phantom": 0.3,
+    "soul": 0.1,
+    "egg": 0.5
+  },
+  "seeded_test_1000_kills": {
+    "phantom": 299,
+    "soul": 106
+  },
+  "kill_xp": {
+    "old": 20,
+    "new": 40,
+    "level_threshold": 100
+  },
+  "limitations": [
+    "Ground loot uses native 2.5D rendered model textures, not new 3D mesh nodes.",
+    "Egg looks use two original generic egg variants; exact original-client profession-to-egg appearance mapping is not verified."
+  ],
+  "environment_warnings": [
+    "Root certificate store read",
+    "External editor-settings/shader cache writes",
+    "Existing mouse_iso fixture direct PNG export warning"
+  ],
+  "game_launched": false
+}

@@ -1,0 +1,87 @@
+[
+  {
+    "id": 1301,
+    "name": "道格拉斯",
+    "note": "【锻造工会】首席锻造师",
+    "client_model": "738",
+    "client_grid": [
+      354,
+      506
+    ],
+    "map": 1000,
+    "pos": [
+      2680,
+      2400
+    ],
+    "position_status": "relative isometric placement; origin calibration provisional",
+    "dialog_status": "original branching dialogue unavailable; role description only"
+  },
+  {
+    "id": 1205,
+    "name": "鲁玛",
+    "note": "【锻造工会】高级修理师",
+    "client_model": "738",
+    "client_grid": [
+      355,
+      521
+    ],
+    "map": 1000,
+    "pos": [
+      2540,
+      2480
+    ],
+    "position_status": "relative isometric placement; origin calibration provisional",
+    "dialog_status": "original branching dialogue unavailable; role description only"
+  },
+  {
+    "id": 1817,
+    "name": "泽娜",
+    "note": "神器技师",
+    "client_model": "701",
+    "client_grid": [
+      299,
+      541
+    ],
+    "map": 1000,
+    "pos": [
+      1780,
+      2300
+    ],
+    "position_status": "relative isometric placement; origin calibration provisional",
+    "dialog_status": "original branching dialogue unavailable; role description only"
+  },
+  {
+    "id": 1206,
+    "name": "薇薇安",
+    "note": "经验魔导士",
+    "client_model": "701",
+    "client_grid": [
+      341,
+      451
+    ],
+    "map": 1000,
+    "pos": [
+      3100,
+      2060
+    ],
+    "position_status": "relative isometric placement; origin calibration provisional",
+    "dialog_status": "original branching dialogue unavailable; role description only"
+  },
+  {
+    "id": 1210,
+    "name": "琼丝",
+    "note": "赫尔墨斯商会·商人",
+    "client_model": "728",
+    "client_grid": [
+      302,
+      478
+    ],
+    "map": 1000,
+    "pos": [
+      2440,
+      2000
+    ],
+    "position_status": "relative isometric placement; origin calibration provisional",
+    "dialog_status": "original branching dialogue unavailable; role description only"
+  }
+]

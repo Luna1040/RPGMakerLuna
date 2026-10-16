@@ -1,0 +1,8 @@
+﻿Canosa prototype: main.tscn -> canosa.gd. Existing game.gd trial preserved.
+World: 6400x3600; city x<2800, outdoor x>=2800. Central gate y=1800. Seven NPCs, five ordered starter quests. Rewards 1+2+2+2+2 levels, final level 10. Gate requires level 10. Safety logic prevents attack, damage, monster entry, and pet aggression in city.
+Monsters: three species x12 slots, levels 10/12/14. Deer passive, wolves and corrupted beasts active. Respawn after 18 seconds; live count may temporarily fall below 12 after kills. Success requires three kills per species.
+Generated jobs: canosa-ground-20261014 (2c986a08-d435-4bcb-8a99-fe2755c394a7); canosa-grass-20261014 (3a524aee-7ed3-431e-bb96-905b1b944c8c). Both completed, original 768x768 PNG inspected and copied to assets/canosa_stone.png and assets/canosa_grass.png.
+Art quality limitation: outputs have visible edge composition and are not truly seamless. Integrated as provisional ground materials. Repetition remains visible. NPC/player/monsters remain temporary geometric placeholders. No generated character animations or 3D meshes. Stairs are decorative 2D steps, no elevation physics.
+Art check: image/video services OK; configured embedded Python absent. Used C:/Python315/python.exe. av/PIL/numpy/onnxruntime and matte model unavailable.
+Tests: tests/canosa_test.gd checks F input quest chain, idempotence, gate, walls, safety, active/passive AI, respawn, counts, win/lose/reset. PASS log: tests/canosa-test.log.
+Import completed without script errors. Environment errors: certificate store and editor settings write permissions. No interactive game launch, per user instruction. Actual in-game visual review remains pending bridge launch.

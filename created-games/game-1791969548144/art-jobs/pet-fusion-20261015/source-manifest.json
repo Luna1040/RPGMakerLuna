@@ -1,0 +1,30 @@
+[
+  {
+    "source": "data/interface/style01/pet/compose1bg.dds",
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_2.tpd",
+    "sha256": "68c14222506dcf735ea333da165375a2a4fbaac3f2347a7d7e934793143027a4",
+    "asset": "assets\\client_fusion\\compose1bg.dds",
+    "integrated": true
+  },
+  {
+    "source": "data/interface/style01/pet/compose2bg.dds",
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_2.tpd",
+    "sha256": "2c74001a457d5806ab64c78540023ff77211c97ca49f56b5c3cc4bf5e322d085",
+    "asset": "assets\\client_fusion\\compose2bg.dds",
+    "integrated": false
+  },
+  {
+    "source": "data/interface/style01/pet/composebtnnormal.dds",
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_2.tpd",
+    "sha256": "de5879ff71f5a47b910d362a70240b542b561feb587052503432268df04c4253",
+    "asset": "assets\\client_fusion\\composebtnnormal.dds",
+    "integrated": false
+  },
+  {
+    "source": "data/interface/style01/pet/felicitycompose1.dds",
+    "pack": "Z:\\Program Files (x86)\\NetDragon\\魔域\\data_2.tpd",
+    "sha256": "43968b7c775e2586dfaa217a25a0e31410a1e205ca5dbb827ccaf2c0540a3d39",
+    "asset": "assets\\client_fusion\\felicitycompose1.dds",
+    "integrated": false
+  }
+]

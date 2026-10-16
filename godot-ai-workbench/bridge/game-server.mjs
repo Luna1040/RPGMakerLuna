@@ -7,6 +7,7 @@ import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 import {loadGames,catalogWriter} from './catalog-store.mjs';
 import {artInstructions} from './art-pipeline.mjs';
+import {assertImplementedProject,assertCleanGodotRun} from './project-validation.mjs';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
 let project=path.join(root,'godot-belt-map');
@@ -17,11 +18,17 @@ await mkdir(data,{recursive:true});
 let games=[{id:'knight',title:'晨钟城 · 姬骑士',description:'横版动作 RPG · 城镇 / 古塔 / 队友',directory:'godot-belt-map',status:'ready',cover:'godot-belt-map/assets/dawn-city/city.png'}];
 const catalogFile=path.join(root,'created-games/catalog.json');
 games=await loadGames(catalogFile,games);
+for(const entry of games){
+ if(entry.status==='ready'&&entry.directory.startsWith('created-games/')){
+  try{await assertImplementedProject(path.join(root,entry.directory));}
+  catch(e){entry.status='failed';entry.progress=String(e.message);}
+ }
+}
 const writeGames=catalogWriter(catalogFile);
 function saveGames(){return writeGames(games);}
 await saveGames();
 const token=randomBytes(32).toString('hex');
-const state={status:'starting',text:'',events:[],threadId:null,turnId:null,revision:0,error:null,gameId:selected};
+const state={bridgeVersion:'2026-10-14-repair-1',status:'starting',text:'',events:[],threadId:null,turnId:null,revision:0,error:null,gameId:selected};
 let next=1,game=null,restarting=false,active=false;
 const pending=new Map();
 const godot=process.env.GODOT_BIN||path.join(root,'.tools/godot/Godot_v4.7.2-stable_win64.exe');
@@ -64,7 +71,7 @@ async function thread(){
  if(state.threadId)return;
  const threadFile=path.join(data,selected==='knight'?'thread.json':`thread-${selected}.json`);
  let saved;try{saved=JSON.parse(await readFile(threadFile,'utf8'));}catch{}
- const params={cwd:root,sandbox:'workspace-write',approvalPolicy:'never'};
+ const params={cwd:project,sandbox:'workspace-write',approvalPolicy:'never'};
  const r=saved?await rpc('thread/resume',{...params,threadId:saved.id}):await rpc('thread/start',params);
  state.threadId=r.thread.id;await writeFile(threadFile,JSON.stringify({id:state.threadId}));
 }
@@ -89,26 +96,47 @@ async function task(body){
   }
   // ComfyUI is an HTTP service even on localhost. Keep workspace file isolation,
   // but allow the requested generation clients to reach it.
-  const r=await rpc('turn/start',{threadId:state.threadId,input,sandboxPolicy:{type:'workspaceWrite',writableRoots:[root],networkAccess:true}});state.turnId=r.turn.id;
+  const r=await rpc('turn/start',{threadId:state.threadId,cwd:project,input,sandboxPolicy:{type:'workspaceWrite',writableRoots:[project],networkAccess:true}});state.turnId=r.turn.id;
  }catch(e){fail(e);throw e;}
+}
+async function checkGodot(target,args,logName){
+ const output=await new Promise((resolve,reject)=>{
+  const p=spawn(godot,['--headless','--path',target,'--log-file',path.join(data,logName+'.engine.log'),...args],{windowsHide:true});
+  let output='';
+  const timer=setTimeout(()=>{p.kill();reject(Error('Godot 检查超时'));},120000);
+  p.stdout.on('data',b=>output+=b);p.stderr.on('data',b=>output+=b);
+  p.on('error',e=>{clearTimeout(timer);reject(e);});
+  p.on('close',async code=>{
+   clearTimeout(timer);
+   try{await writeFile(path.join(data,logName+'.log'),output);assertCleanGodotRun(code,output);resolve(output);}
+   catch(e){reject(e);}
+  });
+ });
+ return output;
+}
+async function importGodot(target,logName){
+ // A stale font import may log errors before the editor rebuilds the cache.
+ // Require a subsequent clean import rather than accepting that first run.
+ for(let attempt=0;attempt<2;attempt++){
+  try{return await checkGodot(target,['--editor','--quit'],logName);}
+  catch(e){if(attempt===1)throw e;}
+ }
 }
 async function restartGame(validate=false){
  if(restarting)throw Error('Restart in progress');
  restarting=true;
  try{
+  // AI completion only means the turn ended. Validate actual files and startup.
   if(validate || !homeMode){
-   state.status='validating';event('检查 Godot 导入…');
-   for(let attempt=0;attempt<2;attempt++){
-    try{await new Promise((resolve,reject)=>{
-    const p=spawn(godot,['--headless','--editor','--path',project,'--quit'],{windowsHide:true});let output='';
-    const timer=setTimeout(()=>{p.kill();reject(Error('Godot import timeout'));},120000);
-    p.stdout.on('data',b=>output+=b);p.stderr.on('data',b=>output+=b);p.on('error',reject);
-    p.on('close',code=>{clearTimeout(timer);writeFile(path.join(data,'import.log'),output).catch(()=>{});code===0&&!/^\s*(SCRIPT ERROR|ERROR|FATAL):/m.test(output)?resolve():reject(Error('导入失败，保留当前游戏；查看 .game-assistant/import.log'));});
-   });break;}catch(error){if(attempt===1)throw error;}
-   }
+   state.status='validating';event('检查游戏内容与 Godot 导入…');
+   await assertImplementedProject(project);
+   await importGodot(project,'import');
+   await checkGodot(project,['--quit-after','120'],'runtime-check');
    const entry=games.find(g=>g.id===selected);if(entry){entry.status='ready';await saveGames();}
-   if(homeMode){state.status='ready';state.revision++;event('游戏创建完成，点击下方卡片开始试玩。');return;}
+   if(homeMode){state.status='ready';state.revision++;event('游戏检查通过，点击下方卡片开始试玩。');return;}
   }
+  // The home page is a separate Godot project and needs its own import cache.
+  if(homeMode){await importGodot(homeProject,'home-import');}
   if(game&&game.exitCode===null){const old=game;await new Promise(resolve=>{old.once('close',resolve);old.kill();});}
   game=spawn(godot,['--path',homeMode?homeProject:project,'--','--ai-dev'],{cwd:root,env:{...process.env,GAME_ASSISTANT_CONNECTION:path.join(data,'connection.json')},windowsHide:false,stdio:['ignore','pipe','pipe']});
   game.on('error',fail);game.stdout.on('data',b=>writeFile(path.join(data,'game.log'),b,{flag:'a'}).catch(()=>{}));game.stderr.on('data',b=>writeFile(path.join(data,'game.log'),b,{flag:'a'}).catch(()=>{}));
