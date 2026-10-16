@@ -43,7 +43,7 @@ const YELLOW_WALL := Color("aaa36b")
 const CARPET := Color("55513b")
 const DEMO_MAP_SIZE := 21
 const MASCOT_TRIGGER_CELL := Vector2i(1, 3)
-const STALKER_WAKE_DELAY := 12.0
+const STALKER_WAKE_DELAY := 5.0
 const EXIT_CELL := Vector2i(17, 17)
 const ANOMALY_CELLS := {"A": Vector2i(5, 5), "B": Vector2i(11, 7), "C": Vector2i(15, 9)}
 const ANOMALY_NAMES := {"A": "墙纸后鼓起的墙面", "B": "没有尽头的门框", "C": "走进墙里的湿脚印"}
@@ -2263,7 +2263,7 @@ func _process(delta: float) -> void:
 	if game_over or won:
 		return
 	clock += delta
-	if not entity_awake and clock >= STALKER_WAKE_DELAY and not mascot_jumpscare_active and mascot_aftercare_left <= 0.0:
+	if not entity_awake and clock >= STALKER_WAKE_DELAY:
 		_wake_stalker()
 	mascot_aftercare_left = maxf(0.0, mascot_aftercare_left - delta)
 	# Cover the entire first corner, including wall-hugging and jumping players.
@@ -2620,7 +2620,7 @@ func _update_power(delta: float) -> void:
 	else:
 		light_blackout_cooldown -= delta
 		if light_blackout_cooldown <= 0.0:
-			light_blackout_left = randf_range(1.2, 3.5)
+			light_blackout_left = randf_range(3.0, 6.0)
 			light_blackout_cooldown = randf_range(30.0, 65.0)
 	var target := 0.04 if light_blackout_left > 0.0 else 1.0
 	power_level = move_toward(power_level, target, delta * (7.0 if target < power_level else 1.4))
