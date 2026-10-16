@@ -1,5 +1,5 @@
 extends SceneTree
-const OUT := "res://art-jobs/finish-v6-20261015/"
+const OUT := "user://"
 var view: SubViewport
 var game: Node3D
 func _initialize() -> void:

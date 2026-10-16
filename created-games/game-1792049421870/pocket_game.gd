@@ -16,6 +16,9 @@ var checkpoints_passed := 0
 var deaths := 0
 var time_played := 0.0
 var camera_x := 0.0
+var fixed_remainder:=0.0
+var redraw_revision:=0
+const FIXED_STEP:=1.0/120
 var keys := {}
 var mouse_axis := 0.0
 var jump_queued := false
@@ -36,8 +39,9 @@ func _ready() -> void:
 	queue_redraw()
 
 func set_active(value: bool) -> void:
+	if active!=value:redraw_revision+=1;queue_redraw()
 	active=value
-	if not active:keys.clear();mouse_axis=0; jump_queued=false;jump_buffer=0
+	if not active:keys.clear();mouse_axis=0; jump_queued=false;jump_buffer=0;fixed_remainder=0
 
 func key_input(event: InputEventKey) -> void:
 	if event.keycode in [KEY_A,KEY_D,KEY_LEFT,KEY_RIGHT]:keys[event.keycode]=event.pressed
@@ -57,11 +61,11 @@ func pointer(pos: Vector2, pressed: bool) -> void:
 func retry() -> void:
 	if not dead:return
 	dead=false;player=checkpoint;velocity=Vector2.ZERO;grounded=false;jump_buffer=0;keys.clear();mouse_axis=0
-	queue_redraw()
+	fixed_remainder=0;redraw_revision+=1;queue_redraw()
 
 func die() -> void:
 	if dead:return
-	dead=true;deaths+=1;velocity=Vector2.ZERO;mouse_axis=0;keys.clear()
+	dead=true;deaths+=1;velocity=Vector2.ZERO;mouse_axis=0;keys.clear();redraw_revision+=1;queue_redraw()
 
 func _physics_process(delta: float) -> void:
 	if active:advance(delta)
@@ -69,6 +73,13 @@ func _physics_process(delta: float) -> void:
 
 func advance(delta: float) -> void:
 	if not active or won or dead:return
+	fixed_remainder+=delta
+	while fixed_remainder+0.0000001>=FIXED_STEP and not won and not dead:
+		fixed_remainder-=FIXED_STEP
+		advance_fixed(FIXED_STEP)
+	redraw_revision+=1;queue_redraw()
+
+func advance_fixed(delta:float) -> void:
 	time_played+=delta
 	var direction:=mouse_axis
 	if keys.get(KEY_A,false) or keys.get(KEY_LEFT,false):direction-=1

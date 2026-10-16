@@ -5,10 +5,11 @@ const DeskControls = preload("res://desk_controls.gd")
 const DeskDrag = preload("res://desk_drag.gd")
 const PocketGame = preload("res://pocket_game.gd")
 const REQUIRED := 12
-const FIRST_VISIT := 74.0
-const SECOND_VISIT := 134.0
-const WARNING_SECONDS := 17.0
-const INSPECTION_SECONDS := 7.0
+const WARNING_SECONDS := 12.0
+const INSPECTION_SECONDS := 4.0
+const DeskOffice=preload("res://desk_office.gd")
+const DeskPatrol=preload("res://desk_patrol.gd")
+const DeskAudio=preload("res://desk_audio.gd")
 const PALETTE := ["e1b353", "638b88", "db7d69", "ddd3b4"]
 const PATTERN := [Vector2i(4,3),Vector2i(5,3),Vector2i(3,4),Vector2i(6,4),Vector2i(3,5),Vector2i(6,5),Vector2i(4,6),Vector2i(5,6),Vector2i(4,4),Vector2i(5,4),Vector2i(4,5),Vector2i(5,5)]
 
@@ -76,6 +77,10 @@ var tool_original:=Transform3D.IDENTITY
 var tool_parent: Node3D
 var inspect_quaternion:=Quaternion.IDENTITY
 var action_button: Button
+var office:Node3D
+var patrol:RefCounted
+var office_audio:Node3D
+var sound_paused:=false
 
 func _ready() -> void:
 	auto_visual = "--desk-visual-check" in OS.get_cmdline_user_args()
@@ -86,6 +91,10 @@ func _ready() -> void:
 	make_camera()
 	drag = DeskDrag.new(self)
 	controls = DeskControls.new(self)
+	office=DeskOffice.new();office.game=self;add_child(office)
+	patrol=DeskPatrol.new(self)
+	office_audio=DeskAudio.new();office_audio.game=self;add_child(office_audio)
+	pocket.set_physics_process(false)
 	make_ui()
 	if auto_visual:
 		begin()
@@ -132,6 +141,27 @@ func make_materials() -> void:
 	mats.coffee = Geo.material("302017",0.21)
 	mats.orange = Geo.material("db9d51",0.4)
 	for i in range(4):mats["bead"+str(i)] = Geo.material(PALETTE[i],0.29)
+	for id in ["dark","plastic","key","board"]:
+		var color:Color=mats[id].albedo_color
+		mats[id]=detail_material("abs",color,0,.52)
+	mats.ceramic=detail_material("ceramic",Color("f4efe4"),0,.40)
+	if ResourceLoader.exists("res://assets/textures/office-v9/metal_albedo.png"):
+		mats.steel=detail_material("metal",Color("d1d8d5"),.88,.50)
+		mats.brass=detail_material("metal",Color("bca069"),.78,.45)
+	for i in range(4):mats["bead"+str(i)]=detail_material("abs",Color(PALETTE[i]),0,.20)
+	mats.folder.uv1_triplanar=true;mats.folder.uv1_world_triplanar=false;mats.folder.uv1_scale=Vector3.ONE*7
+
+func detail_material(kind:String,color:Color,metal:float,normal:float) -> StandardMaterial3D:
+	var m:=Geo.textured("res://assets/textures/office-v9/"+kind+"_albedo.png","ffffff",1)
+	m.albedo_color=color;m.metallic=metal;m.metallic_specular=.5
+	m.roughness_texture=load("res://assets/textures/office-v9/"+kind+"_roughness.png");m.roughness_texture_channel=BaseMaterial3D.TEXTURE_CHANNEL_RED
+	m.normal_enabled=true;m.normal_texture=load("res://assets/textures/office-v9/"+kind+"_normal.png");m.normal_scale=normal
+	m.uv1_triplanar=true;m.uv1_world_triplanar=false;m.uv1_scale=Vector3.ONE*(1/(.08 if kind=="abs" else .12))
+	if kind=="ceramic":
+		m.clearcoat_enabled=true;m.clearcoat=.55;m.clearcoat_roughness=.32
+	if kind=="metal":m.uv1_scale=Vector3(1/.12,1/.12,1/.045)
+	return m
+
 
 func make_room() -> void:
 	var env := WorldEnvironment.new()
@@ -158,25 +188,6 @@ func make_room() -> void:
 		e.glow_bloom=.03
 	env.environment = e
 	add_child(env)
-	Geo.box(self,Vector3(6,0.08,6),Vector3(0,-0.05,0),Geo.material("2b3230"))
-	Geo.box(self,Vector3(5,3,0.1),Vector3(0,1.4,-1.37),Geo.material("36413e",0.96))
-	Geo.box(self,Vector3(5,0.07,0.04),Vector3(0,0.18,-1.3),mats.edge)
-	# Softly lit corkboard and a few original, unlabelled material samples.
-	Geo.box(self,Vector3(1.04,0.58,0.045),Vector3(-0.25,1.42,-1.28),mats.edge)
-	Geo.box(self,Vector3(0.99,0.53,0.012),Vector3(-0.25,1.42,-1.247),Geo.material("746753"))
-	for i in range(5):
-		var p := Geo.box(self,Vector3(0.115,0.13,0.002),Vector3(-0.63+i*0.173,1.44+sin(i*2.0)*0.06,-1.232),Geo.material(["d0bd91","92a092","ccbea3","648484","b4a78c"][i]),0)
-		p.rotation.z = sin(i)*0.08
-		Geo.sphere(self,0.005,p.position+Vector3(0,0.053,0.008),mats.brass)
-	# Door and a light gap signal the visit without needing a character placeholder.
-	Geo.box(self,Vector3(0.7,1.98,0.06),Vector3(1.65,0.97,-1.285),Geo.material("242e2b"))
-	Geo.rod(self,Vector3(1.86,1.00,-1.235),Vector3(1.92,1.00,-1.235),0.012,mats.brass)
-	door_light = OmniLight3D.new()
-	door_light.position = Vector3(1.65,0.14,-1.15)
-	door_light.light_color = Color("ffcd83")
-	door_light.light_energy = 0
-	door_light.omni_range = 1.7
-	add_child(door_light)
 	var fill := OmniLight3D.new()
 	fill.position = Vector3(-1.4,1.8,0.5)
 	fill.light_color = Color("b5d0d7")
@@ -187,11 +198,12 @@ func make_room() -> void:
 	if RenderingServer.get_current_rendering_method()=="forward_plus":
 		var reflection:=ReflectionProbe.new()
 		reflection.position=Vector3(0,1.1,0)
-		reflection.size=Vector3(3.6,2.6,3.3)
+		reflection.size=Vector3(8,3.0,7.5)
 		reflection.origin_offset=Vector3(0,.2,0)
 		reflection.box_projection=true
 		reflection.interior=true
 		reflection.intensity=.45
+		reflection.cull_mask=1 # Animated people use visual layer 2, never frozen into capture.
 		reflection.update_mode=ReflectionProbe.UPDATE_ONCE
 		add_child(reflection)
 	var bounce:=OmniLight3D.new()
@@ -200,6 +212,12 @@ func make_room() -> void:
 	bounce.light_energy=.14
 	bounce.omni_range=.68
 	add_child(bounce)
+	# Soft side reflection for objects held near the seated camera; no exposure lift.
+	var close_fill:=OmniLight3D.new()
+	close_fill.position=Vector3(-.78,1.70,1.06)
+	close_fill.light_color=Color("d6e0e2");close_fill.light_energy=.48
+	close_fill.light_specular=.18
+	close_fill.light_size=.34;close_fill.omni_range=1.6;add_child(close_fill)
 
 func make_desk() -> void:
 	Geo.box(self,Vector3(2.14,0.065,1.28),Vector3(0,0.73,-0.01),mats.wood,0.013)
@@ -237,7 +255,7 @@ func make_props() -> void:
 	Geo.box(computer,Vector3(0.049,0.23,0.04),Vector3(0,0.13,-0.019),mats.dark,0.007)
 	Geo.box(computer,Vector3(0.655,0.404,0.047),Vector3(0,0.347,0),mats.dark,0.012)
 	Geo.box(computer,Vector3(0.619,0.358,0.004),Vector3(0,0.355,0.027),Geo.material("101919"),0.001)
-	screen_mat = Geo.textured("res://assets/textures/screen_break.png")
+	screen_mat = Geo.textured("res://assets/textures/screen_anime_v9.png")
 	screen_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	var q := QuadMesh.new()
 	q.size = Vector2(0.602,0.376)
@@ -362,7 +380,8 @@ func make_lamp() -> void:
 		var ir:=r*Vector3(.985,1,.985)
 		var ins:=s*Vector3(.985,1,.985)
 		Geo.tri(inside,ip,ins,ir,Vector3.ONE);Geo.tri(inside,ip,iq,ins,Vector3.ONE)
-	var green:=Geo.material("526e5c",0.33,0.28)
+	st.generate_tangents();inside.generate_tangents()
+	var green:StandardMaterial3D=mats.brass.duplicate();green.albedo_color=Color("526e5c")
 	Geo.mesh(shade,st.commit(),Vector3.ZERO,green)
 	Geo.mesh(shade,inside.commit(),Vector3.ZERO,Geo.material("d7c9a7",0.48))
 	Geo.torus(shade,0.105,0.110,Vector3(0,-0.05,0),mats.brass)
@@ -468,17 +487,17 @@ func make_ui() -> void:
 	layer.add_child(title_layer)
 	var p:=Panel.new()
 	p.position=Vector2(50,156)
-	p.size=Vector2(442,447)
+	p.size=Vector2(490,487)
 	p.add_theme_stylebox_override("panel",panel_style())
 	title_layer.add_child(p)
-	text_label(p,"一首歌的空隙",Vector2(27,23),29)
+	text_label(p,"午后的空隙",Vector2(27,23),29)
 	text_label(p,"先给自己一点点时间。",Vector2(29,73),18,"b9c7b6")
-	text_label(p,"任务一：查看镊子拿好，查看板子放 12 颗。\n任务二：掌机跑到灯塔（约 35–45 秒）。\n首轮脚步在 01:14，再给 17 秒收拾。\n\n① 右键拖文件夹盖够拼豆板\n② 左键开抽屉，右键拖掌机和镊子入内\n③ 放稳后关抽屉，电脑切回工作页面\n\n两次检查通过，两个任务完成即可胜利。",Vector2(29,117),16)
-	text_label(p,"鼠标自然环顾，滚轮靠近 / 远离。\n左键查看；近看右键按住转动，短按放回。",Vector2(29,329),14,"a9b9aa")
+	text_label(p,"任务一：查看镊子拿好，查看板子放 12 颗。\n任务二：掌机跑到灯塔（约 35–45 秒）。\n老板每次坐下后随机 20–30 秒起身。\n看到起身，有 12 秒收拾。\n\n① 右键拖文件夹盖够拼豆板\n② 左键开抽屉，右键拖掌机和镊子入内\n③ 放稳后关抽屉，电脑切回工作页面\n\n共三次检查；前两次先藏好，第三次前完成任务。",Vector2(29,117),16)
+	text_label(p,"鼠标自然环顾，滚轮靠近 / 远离。\n左键查看；近看右键按住转动，短按放回。",Vector2(29,375),14,"a9b9aa")
 	var b:=Button.new()
 	b.text="开始这五分钟"
-	b.position=Vector2(27,384)
-	b.size=Vector2(386,42)
+	b.position=Vector2(27,430)
+	b.size=Vector2(436,42)
 	b.add_theme_font_size_override("font_size",19)
 	b.pressed.connect(begin)
 	p.add_child(b)
@@ -528,8 +547,10 @@ func begin() -> void:
 
 func _process(delta: float) -> void:
 	if not started:return
+	suspend_effects(phase in ["won","lost","paused"] or not controls.focused)
 	if phase in ["won","lost","paused"]:
 		if drag.settling:drag.tick(delta)
+		if office_audio:office_audio.tick(delta)
 		return
 	controls.tick(delta)
 	if not inspecting.is_empty() and not moving:
@@ -549,27 +570,11 @@ func _process(delta: float) -> void:
 	if notice_time>0:
 		notice_time-=delta
 		if notice_time<=0:notice.text=""
-	if phase=="free":
-		var next_visit:float=FIRST_VISIT if visits_passed==0 else SECOND_VISIT
-		if visits_passed<2 and elapsed>=next_visit:begin_warning()
-		elif visits_passed==2 and beads_placed>=REQUIRED and pocket.won:finish(true)
-	elif phase=="warning":
-		phase_clock+=delta
-		var step:=int(phase_clock/(1.5 if phase_clock<9 else 0.75))
-		if step!=last_step:
-			last_step=step
-			play_sound("footstep",-15 if phase_clock<9 else -9)
-		door_light.light_energy=0.35+phase_clock/WARNING_SECONDS*0.8
-		if phase_clock>=WARNING_SECONDS:begin_check()
-	elif phase=="checking":
-		phase_clock+=delta
-		if not is_safe():finish(false)
-		elif phase_clock>=INSPECTION_SECONDS:
-			visits_passed+=1
-			phase="free"
-			door_light.light_energy=0
-			play_sound("complete",-14)
-			toast("脚步远了。右键移开文件夹，左键开抽屉后拖出物件。",6)
+	if controls.focused:
+		office.tick(delta)
+		patrol.advance(delta)
+		pocket.advance(delta);pocket.queue_redraw()
+	if office_audio:office_audio.tick(delta)
 	hover_id=pick_id(get_viewport().get_mouse_position())
 	cursor.position=get_viewport().get_mouse_position()+Vector2(-4,-15)
 	cursor.visible=not hover_id.is_empty() and not title_layer.visible
@@ -589,9 +594,9 @@ func _unhandled_input(event: InputEvent) -> void:
 				else:controls.release_inputs(true)
 				return
 			if phase in ["intro","won","lost","paused"]:return
-			if event.keycode==KEY_Q:return_item();return
+			if event.keycode==KEY_Q and phase in ["free","warning"]:return_item();return
 			if event.keycode==KEY_SPACE and inspecting=="board" and equipped and not moving:place_bead();return
-	if phase in ["intro","won","lost","paused","checking"]:return
+	if phase in ["intro","won","lost","paused","checking","returning"]:return
 	if event is InputEventMouseMotion:controls.motion(event);return
 	if event is InputEventMouseButton:
 		if event.button_index==MOUSE_BUTTON_RIGHT:
@@ -629,13 +634,13 @@ func interact(id: String) -> void:
 		"drawer":use_drawer()
 		"computer":
 			working=not working
-			screen_mat.albedo_texture=load("res://assets/textures/screen_work.png" if working else "res://assets/textures/screen_break.png")
+			screen_mat.albedo_texture=load("res://assets/textures/screen_work.png" if working else "res://assets/textures/screen_anime_v9.png")
 			play_sound("place",-19)
-			toast("工作核对表已打开。" if working else "音乐页面已打开。",2)
+			toast("工作核对表已打开。" if working else "动漫单帧已打开。",2)
 		"mug","notes","tray","handheld":inspect_item(id)
 
 func inspect_item(id: String) -> void:
-	if moving or not inspecting.is_empty() or id not in ["mug","notes","tray","folder","board","tools","handheld"] or phase=="checking":return
+	if moving or not inspecting.is_empty() or id not in ["mug","notes","tray","folder","board","tools","handheld"] or phase in ["checking","returning"]:return
 	if covered and id=="board":toast("右键拖开文件夹，再看板子。",2);return
 	if not drag.id.is_empty() or drawer_moving:return
 	var n:Node3D=props[id]
@@ -706,7 +711,7 @@ func move_item(n: Node3D, end: Transform3D, duration: float, lift: float, done: 
 	)
 
 func place_bead() -> void:
-	if moving or inspecting!="board":return
+	if moving or inspecting!="board" or phase not in ["free","warning"]:return
 	if drag.cover_ratio()>=.97:toast("右键拖开文件夹再继续。",2);return
 	if not equipped:toast("先查看镊子，点“拿镊子拼豆”，再查看板子。",3);return
 	if beads_placed>=REQUIRED:toast("小图案完成了，留意门外动静。",3);return
@@ -720,7 +725,7 @@ func place_bead() -> void:
 		beads_placed+=1
 		play_sound("place",-14)
 		if beads_placed==6:toast("一半了。门外有动静时，先把摸鱼现场藏好。",4)
-		if beads_placed==REQUIRED:toast("拼豆完成。再通过两次检查，就能带走这点好心情。",5)
+		if beads_placed==REQUIRED:toast("拼豆完成。再通过三次检查，就能带走这点好心情。",5)
 	)
 
 func toggle_cover() -> void:
@@ -759,22 +764,18 @@ func move_lower(n: Node3D, end: Transform3D, done: Callable) -> void:
 	t.tween_callback(done)
 
 func begin_warning() -> void:
-	phase="warning"
-	phase_clock=0
-	last_step=-1
-	toast("门外：皮鞋声由远到近。17 秒后老板会推门。",7)
-	play_sound("footstep",-15)
+	phase="warning";phase_clock=0
+	office.pose("warning",0)
+	toast("老板起身了。12 秒后走到旁边，先盖、收、切。",6)
 
 func is_safe() -> bool:
-	return drag.cover_ratio()>=.97 and drag.stowed("tools") and drag.stowed("handheld") and pocket.won and not drawer_open and not drawer_moving and working and inspecting.is_empty() and not moving and drag.id.is_empty()
+	return drag.cover_ratio()>=.97 and drag.stowed("tools") and drag.stowed("handheld") and not drawer_open and not drawer_moving and working and inspecting.is_empty() and not moving and drag.id.is_empty()
 
 func begin_check() -> void:
-	stop_pocket()
-	phase="checking"
-	phase_clock=0
-	if not is_safe():finish(false);return
-	toast("门开了。老板：『嗯，核对完发给我。』",7)
-	door_light.light_energy=1.25
+	stop_pocket();phase="checking";phase_clock=0;office.pose("checking",0)
+	if not is_safe() or (patrol.visit==3 and (beads_placed<REQUIRED or not pocket.won)):
+		finish(false);return
+	toast("老板在旁边核对。保持桌面整洁。",4)
 
 func finish(success: bool) -> void:
 	stop_pocket()
@@ -783,16 +784,17 @@ func finish(success: bool) -> void:
 	look_drag=false
 	if success:
 		play_sound("complete",-6)
-		result_text.text="这五分钟，属于你。\n\n12 颗拼豆 · 掌机灯塔通关 · 两次检查通过\n一个小小心愿完成了。\n\nR 重来，也可以点下面按钮。"
+		result_text.text="这五分钟，属于你。\n\n12 颗拼豆 · 掌机灯塔通关 · 三次检查通过\n一个小小心愿完成了。\n\nR 重来，也可以点下面按钮。"
 	else:
 		var reasons:PackedStringArray=[]
 		if drag.cover_ratio()<.97:reasons.append("拼豆板没有盖够")
 		if not drag.stowed("tools") or drawer_open:reasons.append("镊子 / 抽屉没有收好")
-		if not pocket.won:reasons.append("掌机关卡还没通关")
+		if patrol.visit==3 and not pocket.won:reasons.append("第三次检查：掌机灯塔任务未完成")
+		if patrol.visit==3 and beads_placed<REQUIRED:reasons.append("第三次检查：12颗拼豆任务未完成")
 		if not drag.stowed("handheld") or drawer_open:reasons.append("掌机还在外面")
-		if not working:reasons.append("电脑还停在音乐页")
+		if not working:reasons.append("电脑还停在动漫页")
 		if not inspecting.is_empty() or moving:reasons.append("手里的东西还没放回")
-		result_text.text="门开了，露馅了。\n\n"+"\n".join(reasons)+"\n\n下次听到脚步，先盖、收、切。"
+		result_text.text="老板到了，露馅了。\n\n"+"\n".join(reasons)+"\n\n下次看到起身，先盖、收、切。"
 	update_hud()
 
 func reset_game() -> void:
@@ -803,6 +805,11 @@ func toast(text: String, seconds: float = 3.0) -> void:
 	notice.text=text
 	notice_time=seconds
 
+func suspend_effects(value:bool) -> void:
+	if sound_paused==value:return
+	sound_paused=value
+	for node in find_children("*","AudioStreamPlayer",true,false):node.stream_paused=value
+
 func play_sound(id: String, db: float = -11) -> void:
 	if DisplayServer.get_name()=="headless":return
 	var p:=AudioStreamPlayer.new()
@@ -810,7 +817,7 @@ func play_sound(id: String, db: float = -11) -> void:
 	p.volume_db=db
 	add_child(p)
 	p.finished.connect(p.queue_free)
-	p.play()
+	p.play();p.stream_paused=sound_paused
 
 func update_hud() -> void:
 	var compact:=drawer_open or drawer_moving
@@ -822,11 +829,12 @@ func update_hud() -> void:
 	clock_label.text="%02d:%02d  /  午后" % [int(elapsed)/60,int(elapsed)%60]
 	if phase=="warning":
 		objective.text="皮鞋声靠近 · 收拾还剩 %d 秒" % maxi(0,ceili(WARNING_SECONDS-phase_clock))
-		status.text="%s 盖板 %d%%  /  %s 镊子  /  %s 掌机通关藏好  /  %s 关抽屉  /  %s 工作页" % ["✓" if covered else "○",int(drag.cover_ratio()*100),"✓" if drag.stowed("tools") else "○","✓" if drag.stowed("handheld") and pocket.won else "○","✓" if not drawer_open else "○","✓" if working else "○"]
+		status.text="%s 盖板 %d%%  /  %s 镊子  /  %s 掌机藏好  /  %s 关抽屉  /  %s 工作页" % ["✓" if covered else "○",int(drag.cover_ratio()*100),"✓" if drag.stowed("tools") else "○","✓" if drag.stowed("handheld") else "○","✓" if not drawer_open else "○","✓" if working else "○"]
 	elif phase=="checking":objective.text="老板检查中 · 保持桌面整洁"
+	elif phase=="returning":objective.text="老板回座中 · 等他坐下再继续"
 	else:
 		objective.text="任务一 %s %d/12 颗  ·  任务二 %s 灯塔 %d%%" % ["✓" if beads_placed>=REQUIRED else "○",beads_placed,"✓" if pocket.won else "○",mini(100,int(pocket.player.x/pocket.FINISH_X*100))]
-		status.text="检查 %d / 2 · 首次脚步在 01:14；出现后仍有 17 秒收拾" % visits_passed
+		status.text="检查 %d / 3 · 回座后随机 20–30 秒；起身后 12 秒收拾" % visits_passed
 	if pocket_playing:hint.text="掌机：A D / ← → 移动 · 空格跳 · R 重试 · Esc 离开屏幕；桌面时钟继续走"
 	elif not drag.id.is_empty():hint.text="%s · %s" % [{"folder":"文件夹","tools":"镊子","handheld":"掌机"}.get(drag.id,drag.id),drag.solution.get("reason","松开落下")]
 	elif not inspecting.is_empty():hint.text="近看：右键按住转动，短按放回 · 滚轮距离"+(" · 点屏幕开始玩" if inspecting=="handheld" else "")
@@ -838,10 +846,10 @@ func update_hud() -> void:
 			"folder":hint.text="左键近看 · 按住右键拖到 / 移开拼豆板"
 			"handheld":hint.text="左键拿到眼前，点屏幕玩 · 右键拖到打开的抽屉"
 			"drawer":hint.text="左键独立拉开 / 关闭抽屉 · 不会自动收物件"
-			"computer":hint.text="左键切换电脑页面 · 当前："+("工作" if working else "电台")
+			"computer":hint.text="左键切换电脑页面 · 当前："+("工作" if working else "动漫")
 			_:hint.text="左键近看物件 · 移动鼠标环顾"
 	if action_button:
-		action_button.visible=not moving and not pocket_playing and (inspecting=="tools" or (inspecting=="board" and equipped))
+		action_button.visible=phase in ["free","warning"] and not moving and not pocket_playing and (inspecting=="tools" or (inspecting=="board" and equipped))
 		action_button.text="拿镊子拼豆" if inspecting=="tools" else "放一颗 · 空格"
 	play_button.visible=inspecting=="handheld" and not pocket_playing and not moving and phase in ["free","warning"]
 
@@ -855,11 +863,11 @@ func make_handheld() -> void:
 	polymer.normal_texture=load("res://assets/textures/ai/polymer_normal.png")
 	polymer.normal_scale=.22
 	polymer.metallic_specular=.25
-	polymer.uv1_scale=Vector3(1.5,.9,1)
+	polymer.uv1_triplanar=true;polymer.uv1_world_triplanar=false;polymer.uv1_scale=Vector3.ONE/ .15
 	var seam:=Geo.material("141e21",.70)
-	var cyan:=Geo.material("458e9b",.56,.04)
-	var coral:=Geo.material("b46d56",.55,.04)
-	var rubber:=Geo.material("1b282b",.92)
+	var cyan:=detail_material("abs",Color("458e9b"),.04,.52)
+	var coral:=detail_material("abs",Color("b46d56"),.04,.52)
+	var rubber:=detail_material("abs",Color("1b282b"),0,.42);rubber.roughness_texture=null;rubber.roughness=.91
 	# Rounded silhouette with real thickness, bevels, separate rails and controller shells.
 	Geo.box(console,Vector3(.230,.017,.137),Vector3(0,.013,0),polymer,.007)
 	Geo.box(console,Vector3(.224,.002,.131),Vector3(0,.023,0),seam,.004)
@@ -901,8 +909,9 @@ func make_handheld() -> void:
 	var panel:=Geo.mesh(console,quad,Vector3(0,.0245,0),display)
 	panel.rotation.x=-PI/2
 	# Slim physical glass edge; no opaque overlay hiding the playable viewport.
-	var glass:=Geo.material("8badae",.17,.25)
-	glass.albedo_color.a=.13;glass.transparency=BaseMaterial3D.TRANSPARENCY_ALPHA
+	var glass:=Geo.material("8badae",.35,0)
+	glass.metallic_specular=.075
+	glass.albedo_color.a=.05;glass.transparency=BaseMaterial3D.TRANSPARENCY_ALPHA
 	var cover:=Geo.mesh(console,quad,Vector3(0,.0247,0),glass)
 	cover.rotation.x=-PI/2
 	cover.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
@@ -923,6 +932,7 @@ func release_render_targets() -> void:
 	# Godot owns the ReflectionProbe RIDs; freeing nodes and draining renderer frames
 	# releases their captures. Never free engine-owned RIDs directly.
 	stop_pocket()
+	if office_audio:office_audio.suspend(true)
 	if pocket_screen_material:pocket_screen_material.albedo_texture=null
 	if is_instance_valid(pocket_view):
 		pocket_view.render_target_update_mode=SubViewport.UPDATE_DISABLED
@@ -946,7 +956,11 @@ func _notification(what: int) -> void:
 	if controls==null:return
 	if what==NOTIFICATION_WM_WINDOW_FOCUS_OUT:
 		controls.focused=false;controls.release_inputs(true)
+		if office_audio:office_audio.suspend(true)
+		suspend_effects(true)
 	elif what==NOTIFICATION_WM_MOUSE_EXIT:
 		controls.focused=false;controls.release_inputs(false)
+		if office_audio:office_audio.suspend(true)
+		suspend_effects(true)
 	elif what in [NOTIFICATION_WM_MOUSE_ENTER,NOTIFICATION_WM_WINDOW_FOCUS_IN]:
 		controls.focused=true;controls.rebase()

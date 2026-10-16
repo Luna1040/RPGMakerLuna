@@ -1,0 +1,80 @@
+{
+  "version": "v9",
+  "summary": "Original AI base microfeatures and CPU-authored derived PBR maps, not measured surfaces",
+  "assets": {
+    "abs": {
+      "seed": 202610160901,
+      "prompt_id": "b0833af9-d310-45d7-88a4-07da45a99bc4",
+      "models": [
+        "flux-2-klein-9b-fp8.safetensors",
+        "qwen_3_8b_fp8mixed.safetensors",
+        "flux2-vae.safetensors"
+      ],
+      "prompt": "Photorealistic flat orthographic material scan of fine ivory injection molded ABS plastic, a 12cm square. Dense extremely fine irregular stipple, tiny localized polished finger wear, subtle sparse shallow micro scratches. Uniform neutral diffuse illumination, continuous seamless texture to all edges. Base color only, no objects, no buttons, no panel borders, no lighting gradients, no specular highlights, no shadow, no text, no perspective. Low contrast premium keyboard keycap and handheld controller plastic.",
+      "runtime_files": {
+        "assets/textures/office-v9/abs_albedo.png": "ab552b27f3efbb4b1badf1c90f72cf1ce32451dc0e4b08de9c3fac8512f71565",
+        "assets/textures/office-v9/abs_normal.png": "04b069397c313cf2aaa5e1606bcf9639e15070c86700f742329e5758befddfcd",
+        "assets/textures/office-v9/abs_roughness.png": "2218b89a0c790154e030c678063393add00a425dc0b70cb99b672dc8a124d040"
+      }
+    },
+    "ceramic": {
+      "seed": 202610160902,
+      "prompt_id": "4c247be2-4d89-470f-9a43-e2a0346e4fdc",
+      "models": [
+        "flux-2-klein-9b-fp8.safetensors",
+        "qwen_3_8b_fp8mixed.safetensors",
+        "flux2-vae.safetensors"
+      ],
+      "prompt": "Photorealistic flat perpendicular material scan of warm ivory glazed ceramic, a 12cm square. Subtle fine orange peel glaze, tiny scattered cream mineral speckles and sparse very fine irregular glaze crazing, restrained almost uniform pale cream color. Uniform neutral diffuse illumination, seamless edge to edge base color. No object, no cup, no border, no scene, no highlight, no shadow, no text, no perspective, no large cracks.",
+      "runtime_files": {
+        "assets/textures/office-v9/ceramic_albedo.png": "5eb857a877cad8d9c738a197b1f6555d8a8d2905d834f127a3702de3960ea86b",
+        "assets/textures/office-v9/ceramic_roughness.png": "34fbf2329a0bee11f93b0f6294bd5fb6e7f0441b07f71909fda0118e0ff5b824",
+        "assets/textures/office-v9/ceramic_normal.png": "995d4101910c88ba7a28e306952139f23e8e7dece743123d1d0ffc0cd063a244"
+      }
+    },
+    "metal": {
+      "seed": 202610160903,
+      "prompt_id": "81cae387-f3f9-4956-9839-6e7da96c96aa",
+      "models": [
+        "flux-2-klein-9b-fp8.safetensors",
+        "qwen_3_8b_fp8mixed.safetensors",
+        "flux2-vae.safetensors"
+      ],
+      "prompt": "Photorealistic flat orthographic scan of satin brushed stainless steel, a 12cm square. Fine parallel hairline brushing, sparse crossing shallow micro scratches and barely visible wiped fingerprint traces, low contrast neutral medium silver grey. Uniform flat diffuse illumination. Continuous seamless base color texture only. No object, no sheet border, no rivets, no text, no black marks, no baked shadows, no specular highlight, no gradient, no perspective.",
+      "runtime_files": {
+        "assets/textures/office-v9/metal_normal.png": "e940f58de33e65d289021afbc0cefd797a78e8b5cb3dd340a19bdbc5ed50bed0",
+        "assets/textures/office-v9/metal_roughness.png": "445bd25479992987f93c519f7ed66bc46de3f77e7c7cb5df85ac18911fa23970",
+        "assets/textures/office-v9/metal_albedo.png": "936544d1b49b76a197e0a9f5156f58f794e2e156140c86797dcdc6a213265e5e"
+      }
+    },
+    "anime-fix": {
+      "seed": 202610160901,
+      "prompt_id": "f8313eb3-6c90-460d-8de6-7fb06aa566b4",
+      "models": [
+        "flux-2-klein-9b-fp8.safetensors",
+        "qwen_3_8b_fp8mixed.safetensors",
+        "flux2-vae.safetensors"
+      ],
+      "prompt": "Repair image 1 while preserving the beautiful coastal station, sea and canopy. Remove all malformed people completely. Replace the person with exactly ONE adult woman, ONE single head, normal neck, two arms, two legs, short chestnut hair, teal jacket, looking at the sea. Replace the dog with one orange cat. Anatomically coherent original anime still, no extra faces or floating heads, no text, no subtitles, no logo or UI.",
+      "runtime_files": {
+        "assets/textures/screen_anime_v9.png": "40c70a4d1126520e3e1f295607bffa46844d083f4bdb94516df5815d01a058e9"
+      },
+      "display": "static frame and authored player UI; no playback"
+    }
+  },
+  "office_audio": {
+    "method": "authored CPU synthesis",
+    "seed": 2026101609,
+    "format": "24kHz mono 16bit PCM",
+    "sha256": {
+      "key1.wav": "747ae6ed432ec238fdaf93df2d323dafce982b498cafb5ea320fafe834aa1ef9",
+      "step1.wav": "4e5e694ec10e4c623ec3700cad7eca3d2343e7ca938176780595e580f8f61772",
+      "step0.wav": "678d0b4f3855285b4125ba8338218fe97c41a39293a409be41055fd23540c013",
+      "key0.wav": "c0172fdb389476e127ff0eeabbc02cb45b95c2af4d4cf804e53dbac696014a77",
+      "step2.wav": "61322971bf53c186cbd9dda9502bd9f52db2f7be375cd0976b3fec2040b90cbc",
+      "key2.wav": "87cb4a5913b3d044fa5fe8de4ae56ab160a08fe3caf97849e0052a326caf8e2a",
+      "air.wav": "1e1dd280206cea3c6be0813b15b6e851c475d27e3beac9b0df80e07fa2d01521",
+      "key3.wav": "592087c952273ab50e9393a9ad4498d3c4020891aff17ed987f05f74f278d80e"
+    }
+  }
+}
