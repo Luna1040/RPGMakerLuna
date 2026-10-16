@@ -1,0 +1,64 @@
+{
+  "status": "native assets extracted, integrated and visually reviewed",
+  "generated_images": 0,
+  "icons": [
+    {
+      "name": "mp_small",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\interface\\ITEM\\1008000005.d2s",
+      "sha256": "4a104392464e603288cbf344595816a21915eafd190aacc13a09af4921499feb",
+      "output": "res://assets/client-services/mp_small.png",
+      "output_sha256": "eaca5f7064fce07b74867845e527f3b26e4c988674f315f998b513ae0aab011c"
+    },
+    {
+      "name": "hp_medium",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\interface\\ITEM\\1008000004.d2s",
+      "sha256": "c4f72b0da8b05a92f6adfda2d7ad0db8dda570b532f69822e44a7abc35fb051a",
+      "output": "res://assets/client-services/hp_medium.png",
+      "output_sha256": "39cf982130598e3ddf4e38a568f9c1ebf3e37f1b4436f1003716606c14d64ae4"
+    },
+    {
+      "name": "mp_medium",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\interface\\ITEM\\1008000006.d2s",
+      "sha256": "a9db918a2d740ca6ad384d8dd4fd938bb19fc3ac24eecf44ce2547d4ca8d0106",
+      "output": "res://assets/client-services/mp_medium.png",
+      "output_sha256": "73cdd153c9d7b7d72fde4b514c08548c1ee90bc0fda16c45a32f1474b4659f34"
+    },
+    {
+      "name": "return_scroll",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\interface\\ITEM\\1008000027.d2s",
+      "sha256": "63163219dacb4798461fd3271816c01b3abcfd9d8755e5e883df4dbe48276904",
+      "output": "res://assets/client-services/return_scroll.png",
+      "output_sha256": "6d8a282827de99cc98c7a6288f7497103cf451355fe5997b12275af042b011eb"
+    },
+    {
+      "name": "blade_weapon",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\interface\\ITEM\\100200001.d2s",
+      "sha256": "54102c0b7b6ee99c408c264a368bd271f962a01d623ef14e83f0e040cdcb8680",
+      "output": "res://assets/client-services/blade_weapon.png",
+      "output_sha256": "8a847020ea78bafe4d0a5ccc85d82aacddb9374a72a615c17e8bb0eb8aebd9dd"
+    },
+    {
+      "name": "sword_weapon",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\interface\\ITEM\\200200001.d2s",
+      "sha256": "5bb969e23e94a8bfea41cb33e34a5805d91469153ef0eb76ce188ae39048b258",
+      "output": "res://assets/client-services/sword_weapon.png",
+      "output_sha256": "ea2ff94969fdcc909855d2a1a6999c02f053cef5144ccd89425f4bd5ed8220c2"
+    },
+    {
+      "name": "spear_weapon",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\interface\\ITEM\\300200001.d2s",
+      "sha256": "105c118fc9d7cba718ac6677d4e0e32704276d0ae7c38d1bd309534eb2ce182e",
+      "output": "res://assets/client-services/spear_weapon.png",
+      "output_sha256": "2c0cc2f7119604aad06bbf03159263cb541f359b2a89c49108f577e76c25aae5"
+    },
+    {
+      "name": "armor",
+      "source": "D:\\Program Files\\mangot5\\hot\\datas\\interface\\ITEM\\110300001.d2s",
+      "sha256": "bb59f1ff5665b7f94b16a0fee196ff63e334aa737ca23f141cb478a5f44a281f",
+      "output": "res://assets/client-services/armor.png",
+      "output_sha256": "da484797948d27a68687c8bd49357966ccbd7ea6a6c09031377cbe36dc31ed69"
+    }
+  ],
+  "item_identity": "Icons selected by native visual appearance and item family; encoded item tables not decoded. Prices, recovery values and equipment stats are single-player settings, not verified original-client values.",
+  "vfx": "Existing native Particle.DXT, gyunggong wind/dust and meditation textures reused. Added sampled weapon trails based on copied do/gum/chang FX colours/lifetime. Complete proprietary FX graph and skill-to-FX table were not recovered."
+}

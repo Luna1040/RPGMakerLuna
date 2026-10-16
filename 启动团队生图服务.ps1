@@ -10,17 +10,10 @@ try {$null=Invoke-RestMethod 'http://127.0.0.1:9315/system_stats' -TimeoutSec 3;
 if(!$imageReady){
     Start-Process -FilePath $shell -ArgumentList ('-NoProfile -NoExit -ExecutionPolicy Bypass -File "'+$terminal+'" -Service Image') -WorkingDirectory $root -WindowStyle Normal
 }
-$ownedTunnel=$null
+$frpTerminal=Join-Path $root 'godot-ai-workbench/start-frpc-terminal.ps1'
 if((Test-Path -LiteralPath $config) -and (Test-Path -LiteralPath $frpc)){
-    $existing=Get-CimInstance Win32_Process | Where-Object {$_.Name -eq 'frpc.exe' -and $_.CommandLine -and $_.CommandLine.Contains($config)}
-    if(!$existing){
-        $ownedTunnel=Start-Process -FilePath $frpc -ArgumentList @('-c',('"'+$config+'"')) -WorkingDirectory $private -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $private 'host.log') -RedirectStandardError (Join-Path $private 'host-error.log')
-    }
+    Start-Process -FilePath $shell -ArgumentList ('-NoProfile -NoExit -ExecutionPolicy Bypass -File "'+$frpTerminal+'"') -WorkingDirectory $root -WindowStyle Normal
 }else{
     Write-Host 'Team tunnel is not configured; local ComfyUI still starts normally.'
 }
-try{
-    & $terminal -Service Video
-}finally{
-    if($ownedTunnel -and !$ownedTunnel.HasExited){$ownedTunnel.Kill()}
-}
+& $terminal -Service Video

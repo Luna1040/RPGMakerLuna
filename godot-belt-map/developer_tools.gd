@@ -68,6 +68,10 @@ func setup(map_stage) -> void:
 		button.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 		button.pressed.connect(func(): set_speed(rate))
 		speed_row.add_child(button)
+	add_button(column,"F9 · 演示快速传送",func():
+		if stage.runtime!=null:
+			panel.hide()
+			stage.runtime.panel.open("demo"))
 	add_button(column,"恢复生命 / 法力 / 技能冷却",restore_resources)
 	add_button(column,"复位木桩与浮空 / 感电状态",reset_targets)
 	add_button(column,"保存截图与调试数据",save_report)

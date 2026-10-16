@@ -36,6 +36,8 @@ func fresh() -> void:
 	arena.height_z = 0
 	arena.knight.reset_character()
 	service.rest_companion()
+	# Isolate legacy skills; area spell is tested separately below.
+	service.companion_smite_cooldown=8.0
 	service.set_companion("passive")
 	service.companion_foot = Vector2(2,2)
 	rewards.clear()
@@ -414,6 +416,40 @@ func run() -> void:
 	check(service.hostile_projectiles[0].foot == Vector2(23,4) and is_equal_approx(service.hostile_projectiles[0].z,1.0),"hostile caster uses its own mirrored spell socket")
 	service._step_projectiles(1.0/60)
 	check(arena.knight.health == 92 and service.hostile_projectiles.is_empty(),"hostile launch sweep must hit a close party member exactly once")
+	fresh()
+	service.companion_smite_cooldown=0
+	service.companion_foot=Vector2(20,4)
+	service.set_companion("follow")
+	var cluster: Array=[]
+	for point in [Vector2(22,4),Vector2(22.5,4.3),Vector2(24,7)]:
+		var member: Dictionary=one("elite",point)
+		member.state="recover"
+		member.timer=99
+		cluster.append(member)
+	service._step_companion(.01)
+	check(service.companion_cast=="smite" and service.companion_mp<59,"AI selects area spell and pays MP")
+	check(cluster[0].hp==cluster[0].max_hp,"Area spell has windup")
+	service._step_companion(.25)
+	check(cluster[0].hp<cluster[0].max_hp and cluster[1].hp<cluster[1].max_hp and cluster[2].hp==cluster[2].max_hp,"Area spell hits cluster but not distant enemy")
+	var hp_after: float=cluster[0].hp
+	service._step_companion(.1)
+	check(cluster[0].hp==hp_after,"Area damage resolves once")
+	service._step_companion(.4)
+	check(service.companion_cast=="bolt" and service.companion_smite_cooldown>7,"Bolt fills area cooldown")
+	var saved: Dictionary=service.companion_snapshot()
+	check(service.restore_companion(saved) and service.companion_smite_cooldown>7,"Area cooldown persists")
+	saved.erase("smite_cooldown")
+	check(service.restore_companion(saved) and service.companion_smite_cooldown==0,"Old saves migrate")
+	service.companion_action="stand"
+	service.companion_mp=0
+	service.companion_cooldown=0
+	service._step_companion(.01)
+	check(service.companion_cast=="bolt","Low MP falls back to bolt")
+	service.companion_action="stand"
+	service.companion_mp=80
+	service.set_companion("passive")
+	service._step_companion(.3)
+	check(service.companion_smite_cooldown==0,"Passive mode blocks area spell")
 	for error in failures:
 		push_error(error)
 	print("ENCOUNTERS_TEST ","PASS" if failures.is_empty() else "FAIL", " · waves/save/rewards, collision, Serin HP/MP/targeting/heal/ward/interrupt/death/revive/persistence")

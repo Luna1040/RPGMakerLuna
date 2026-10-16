@@ -1,0 +1,115 @@
+[
+  {
+    "file": "MBEDIT\\MBEDIT - MH3-r2v_2Pass-LatentUpscaler_v5.json",
+    "node_count": 64,
+    "missing_node_types": [
+      "DiffusionModelLoaderKJ",
+      "H3SLAAttention",
+      "ImageResizeKJv2",
+      "MiniMaxChunkFeedForward",
+      "MiniMaxLowVRAMAttention",
+      "MinimaxH3LatentUpscaler3D",
+      "ModelPreviewOverrideKJ",
+      "Sigmas DeleteBelowFloor",
+      "Sigmas Pad",
+      "Sigmas Resample",
+      "SigmasPreview",
+      "VHS_LoadVideo",
+      "VHS_VideoCombine",
+      "easy int",
+      "easy showAnything"
+    ],
+    "render_tested": false
+  },
+  {
+    "file": "MBEDIT\\MBEDIT - MH3-rv2v_PixelSpace-Upscaler-CtxtWndws_v3.json",
+    "node_count": 55,
+    "missing_node_types": [
+      "ClownScheduler",
+      "ImageResizeKJv2",
+      "MMH3CondSelect",
+      "MMH3CondToSet",
+      "MMH3ImageList",
+      "MMH3LoopingSampler",
+      "MMH3PackAV",
+      "MMH3ReferenceMultiPrompt",
+      "MiniMaxChunkFeedForward",
+      "MiniMaxLowVRAMAttention",
+      "RTXVideoSuperResolution",
+      "SigmasPreview",
+      "VHS_LoadAudioUpload",
+      "VHS_LoadVideo",
+      "VHS_VideoCombine",
+      "VHS_VideoInfo",
+      "easy int",
+      "easy showAnything"
+    ],
+    "render_tested": false
+  },
+  {
+    "file": "MBEDIT\\MBEDIT - MH3_rv2v_PixelSpace_Upscaler_v18.json",
+    "node_count": 57,
+    "missing_node_types": [
+      "ImageResizeKJv2",
+      "MiniMaxChunkFeedForward",
+      "MiniMaxLowVRAMAttention",
+      "RTXVideoSuperResolution",
+      "SigmasPreview",
+      "VHS_LoadAudioUpload",
+      "VHS_LoadVideo",
+      "VHS_VideoCombine",
+      "VHS_VideoInfo",
+      "easy int",
+      "easy showAnything"
+    ],
+    "render_tested": false
+  },
+  {
+    "file": "Seamless-Chain\\workflows\\H3_Keyframes.json",
+    "node_count": 21,
+    "missing_node_types": [
+      "H3ClipLoaderAny",
+      "H3ConditionStrength",
+      "H3Keyframes",
+      "H3LoraStack",
+      "H3ModelLoaderAny"
+    ],
+    "render_tested": false
+  },
+  {
+    "file": "Seamless-Chain\\workflows\\H3_Seamless_Chain_CORE.json",
+    "node_count": 13,
+    "missing_node_types": [
+      "H3ClipLoaderAny",
+      "H3LoraStack",
+      "H3ModelLoaderAny",
+      "H3MultishotSampler",
+      "H3StudioControls"
+    ],
+    "render_tested": false
+  },
+  {
+    "file": "Seamless-Chain\\workflows\\H3_Seamless_Chain_v2.json",
+    "node_count": 62,
+    "missing_node_types": [
+      "H3AnySwitch",
+      "H3AutoRefs",
+      "H3ClipLoaderAny",
+      "H3LoraStack",
+      "H3ModelLoaderAny",
+      "H3MultishotMemorySampler",
+      "H3OptionalImage",
+      "H3ReferenceVideo",
+      "H3RemoteTextEncoderClip",
+      "H3SpeedBoosters",
+      "H3StudioControls",
+      "H3StudioSwitches",
+      "JoyEcho_LLMEnhance",
+      "MiniMaxH3ChunkFeedForward",
+      "MiniMaxH3MemoryEfficientSolAttentionPatch",
+      "RiftPromptSource",
+      "ShowText|pysssss"
+    ],
+    "render_tested": false
+  }
+]

@@ -47,6 +47,7 @@ var companion_mp := COMPANION_MAX_MP
 var companion_dead := false
 var companion_shield := 0.0
 var companion_shield_left := 0.0
+var companion_smite_cooldown := 0.0
 var companion_heal_cooldown := 0.0
 var companion_ward_cooldown := 0.0
 var companion_hurt_left := 0.0
@@ -137,6 +138,9 @@ func _spawn(kind: String, p: Vector2, stable_id: String = "") -> Dictionary:
 		"aim":p,"attack_origin":p,"attack_facing":-1.0,"attack_variant":"melee","rewarded":false,
 		"path":[],"path_timer":0.0,"attacks":0,"target_id":"player","reward_gold":rng.randi_range(7,12) + (25 if kind == "boss" else 0),
 		"reward_xp":45 if kind == "boss" else (18 if kind == "elite" else 10),"drop_roll":rng.randf()}
+	var map_contract = stage.get("contract")
+	if kind == "boss" and map_contract is Dictionary and map_contract.get("zone_id","") in ["frost","ember"]:
+		enemy.label = "寒铁卫长" if map_contract.zone_id == "frost" else "余烬审判者"
 	enemy.art.data = enemy
 	enemy.art.position = stage.project(p)
 	stage.sorting.add_child(enemy.art)
@@ -205,7 +209,8 @@ func _step_fixed(dt: float) -> void:
 		return
 	for enemy: Dictionary in enemies:
 		if enemy.state == "dead":
-			enemy.death_elapsed += dt
+			enemy.reaction.step(dt)
+			if not enemy.reaction.airborne(): enemy.death_elapsed += dt
 			continue
 		enemy.clock += dt
 		enemy.hurt_elapsed += dt
@@ -478,6 +483,7 @@ func hit_skill_projectile(from_x: float, to_x: float, depth: float, z: float, da
 	return result
 
 func _apply_hit(enemy: Dictionary, event: Dictionary) -> void:
+	if enemy.state=="dead" or enemy.hp<=0: return
 	var action := str(event.get("action","attack1"))
 	if event.get("launch",false):
 		action = "attack3"
@@ -527,6 +533,7 @@ func _step_companion(dt: float) -> void:
 		_change_companion_action("dead")
 		return
 	companion_cooldown = maxf(0.0,companion_cooldown-dt)
+	companion_smite_cooldown = maxf(0.0,companion_smite_cooldown-dt)
 	companion_heal_cooldown = maxf(0.0,companion_heal_cooldown-dt)
 	companion_ward_cooldown = maxf(0.0,companion_ward_cooldown-dt)
 	companion_hurt_left = maxf(0.0,companion_hurt_left-dt)
@@ -580,6 +587,12 @@ func _step_companion(dt: float) -> void:
 			destination = target.foot - Vector2(companion_facing*2.8,0)
 		elif in_range:
 			destination = companion_foot
+		if in_range and companion_smite_cooldown<=0.0 and companion_mp>=22.0:
+			companion_mp-=22.0
+			companion_smite_cooldown=8.0
+			companion_target_id=target.id
+			_start_companion_cast("smite","magic")
+			return
 		if in_range and companion_cooldown <= 0.0:
 			companion_cooldown = 1.6
 			companion_target_id = target.id
@@ -602,6 +615,8 @@ func _start_companion_cast(kind: String, action: String) -> void:
 	companion_action = action
 	companion_elapsed = 0.0
 	companion_hit_fired = false
+	var names := {"bolt":"圣光弹","smite":"圣光裁决","heal":"愈合术","ward":"圣域盾"}
+	companion_effects.append({"foot":companion_foot,"kind":"label","text":names.get(kind,kind),"life":1.2})
 
 func _companion_heal_candidate() -> String:
 	var self_ratio := companion_hp/COMPANION_MAX_HP
@@ -620,16 +635,27 @@ func _resolve_companion_cast() -> void:
 				return
 			stage.knight.health = minf(stage.knight.max_health,stage.knight.health+40.0)
 			stage.knight.stats_changed.emit(stage.knight.health,stage.knight.mana)
-			companion_effects.append({"foot":stage.foot,"kind":"heal","life":0.75})
+			companion_effects.append({"foot":stage.foot,"kind":"heal","life":1.2})
 		else:
 			companion_hp = minf(COMPANION_MAX_HP,companion_hp+40.0)
-			companion_effects.append({"foot":companion_foot,"kind":"heal","life":0.75})
+			companion_effects.append({"foot":companion_foot,"kind":"heal","life":1.2})
 		companion_changed.emit(companion_status())
 	elif companion_cast == "ward":
 		companion_shield = 38.0
 		companion_shield_left = 6.0
 		companion_effects.append({"foot":companion_foot,"kind":"ward","life":0.75})
 		companion_changed.emit(companion_status())
+	elif companion_cast == "smite":
+		for target in enemies:
+			if target.id!=companion_target_id or target.state=="dead": continue
+			if companion_foot.distance_to(target.foot)>4.8 or not _line_clear(companion_foot,target.foot,0.8): break
+			var center: Vector2=target.foot
+			companion_effects.append({"foot":center,"kind":"smite","life":1.2})
+			for enemy in enemies:
+				if enemy.state!="dead" and enemy.foot.distance_to(center)<=1.6 and enemy.reaction.height<190 and _line_clear(center,enemy.foot,0.8):
+					_apply_hit(enemy,{"action":"magic","damage":32.0})
+			_check_cleared()
+			break
 	elif companion_cast == "bolt":
 		for enemy: Dictionary in enemies:
 			if enemy.id == companion_target_id and enemy.state != "dead" and companion_foot.distance_to(enemy.foot) <= 4.8 and enemy.reaction.height < 190 and _line_clear(companion_foot,enemy.foot,0.8):
@@ -717,15 +743,15 @@ func companion_status() -> Dictionary:
 	return {"id":"serin","name":"瑟琳","class_name":"战牧","enabled":companion_enabled,"mode":companion_mode,
 		"hp":companion_hp,"max_hp":COMPANION_MAX_HP,"mp":companion_mp,"max_mp":COMPANION_MAX_MP,
 		"dead":companion_dead,"shield":companion_shield,"shield_left":companion_shield_left,"action":companion_action,
-		"cooldowns":{"bolt":companion_cooldown,"heal":companion_heal_cooldown,"ward":companion_ward_cooldown},
-		"skills":[{"id":"bolt","name":"圣光弹","cost":0,"cooldown":1.6,"remaining":companion_cooldown,"description":"18 点伤害，弹道可被障碍阻挡。"},
+		"cooldowns":{"smite":companion_smite_cooldown,"bolt":companion_cooldown,"heal":companion_heal_cooldown,"ward":companion_ward_cooldown},
+		"skills":[{"id":"smite","name":"圣光裁决","cost":22,"cooldown":8.0,"remaining":companion_smite_cooldown,"description":"召下圣光柱，对目标周围 1.6 米敌人造成 32 点伤害，障碍阻挡。"},{"id":"bolt","name":"圣光弹","cost":0,"cooldown":1.6,"remaining":companion_cooldown,"description":"18 点伤害，弹道可被障碍阻挡。"},
 		{"id":"heal","name":"愈合术","cost":18,"cooldown":8.0,"remaining":companion_heal_cooldown,"description":"治疗范围内低于 55% 血量的队员，恢复 40 生命。"},
 		{"id":"ward","name":"圣域盾","cost":24,"cooldown":12.0,"remaining":companion_ward_cooldown,"description":"战斗中自身低于 72% 血量时施放，吸收 38 伤害，持续 6 秒。"}]}
 
 func companion_snapshot() -> Dictionary:
 	return {"version":1,"enabled":companion_enabled,"mode":companion_mode,"hp":companion_hp,"mp":companion_mp,
 		"dead":companion_dead,"shield":companion_shield,"shield_left":companion_shield_left,"cooldown":companion_cooldown,
-		"heal_cooldown":companion_heal_cooldown,"ward_cooldown":companion_ward_cooldown,"hurt_left":companion_hurt_left,
+		"smite_cooldown":companion_smite_cooldown,"heal_cooldown":companion_heal_cooldown,"ward_cooldown":companion_ward_cooldown,"hurt_left":companion_hurt_left,
 		"invuln_left":companion_invuln_left,"action":companion_action,"elapsed":companion_elapsed,"cast":companion_cast,
 		"heal_target":companion_heal_target,"hit_fired":companion_hit_fired,"target_id":companion_target_id,"facing":companion_facing}
 
@@ -741,11 +767,12 @@ func validate_companion(data: Dictionary) -> bool:
 	for key in limits:
 		if not _valid_number(data.get(key)) or float(data[key]) < 0.0 or float(data[key]) > float(limits[key])+0.00001:
 			return false
+	if not _valid_number(data.get("smite_cooldown",0.0)) or float(data.get("smite_cooldown",0.0))<0 or float(data.get("smite_cooldown",0.0))>8.0: return false
 	if bool(data.dead) != (float(data.hp) <= 0.0):
 		return false
 	if float(data.shield) > 0.0 and (float(data.shield_left) <= 0.0 or bool(data.dead)):
 		return false
-	if data.get("action","stand") not in ["stand","walk","attack1","magic","hit","dead"] or data.get("cast","") not in ["","bolt","heal","ward"]:
+	if data.get("action","stand") not in ["stand","walk","attack1","magic","hit","dead"] or data.get("cast","") not in ["","bolt","heal","ward","smite"]:
 		return false
 	if data.get("action","stand") == "dead" and not bool(data.dead):
 		return false
@@ -773,6 +800,7 @@ func restore_companion(data: Dictionary) -> bool:
 	companion_shield = float(data.shield)
 	companion_shield_left = float(data.shield_left)
 	companion_cooldown = float(data.cooldown)
+	companion_smite_cooldown = float(data.get("smite_cooldown",0.0))
 	companion_heal_cooldown = float(data.heal_cooldown)
 	companion_ward_cooldown = float(data.ward_cooldown)
 	companion_hurt_left = float(data.hurt_left)
@@ -791,13 +819,14 @@ func restore_companion(data: Dictionary) -> bool:
 	return true
 
 func rest_companion() -> bool:
-	var changed := companion_hp < COMPANION_MAX_HP or companion_mp < COMPANION_MAX_MP or companion_dead or companion_cooldown > 0.0 or companion_heal_cooldown > 0.0 or companion_ward_cooldown > 0.0 or companion_hurt_left > 0.0 or companion_invuln_left > 0.0 or companion_shield > 0.0
+	var changed := companion_hp < COMPANION_MAX_HP or companion_mp < COMPANION_MAX_MP or companion_dead or companion_cooldown > 0.0 or companion_smite_cooldown > 0.0 or companion_heal_cooldown > 0.0 or companion_ward_cooldown > 0.0 or companion_hurt_left > 0.0 or companion_invuln_left > 0.0 or companion_shield > 0.0
 	companion_hp = COMPANION_MAX_HP
 	companion_mp = COMPANION_MAX_MP
 	companion_dead = false
 	companion_shield = 0.0
 	companion_shield_left = 0.0
 	companion_cooldown = 0.0
+	companion_smite_cooldown = 0.0
 	companion_heal_cooldown = 0.0
 	companion_ward_cooldown = 0.0
 	companion_hurt_left = 0.0
@@ -1086,15 +1115,39 @@ func _draw() -> void:
 		draw_circle(point,8,Color(1.0,0.86,0.43,0.25))
 		draw_circle(point,4,Color("fff9cf"))
 	for effect in companion_effects:
-		var at: Vector2 = stage.project(effect.foot,0.65)
-		var strength := clampf(float(effect.life)/0.75,0.0,1.0)
-		var tint := Color(0.62,1.0,0.72,strength) if effect.kind == "heal" else Color(1.0,0.87,0.45,strength)
-		draw_arc(at,20+(1-strength)*20,0,TAU,32,tint,3.0)
-		if effect.kind == "heal":
-			draw_line(at+Vector2(-8,0),at+Vector2(8,0),tint,4)
-			draw_line(at+Vector2(0,-8),at+Vector2(0,8),tint,4)
-	if companion_enabled and not companion_dead and companion_shield > 0.0:
-		draw_arc(stage.project(companion_foot,0.7),47,PI*0.15,PI*1.85,32,Color(1.0,0.89,0.5,0.65),2.5)
+		var ground: Vector2=stage.project(effect.foot)
+		var strength: float=clampf(float(effect.life)/0.4,0.0,1.0)
+		if effect.kind=="label":
+			var caption: String=str(effect.text)
+			var pos: Vector2=ground+Vector2(-45,-185-(1.2-float(effect.life))*18)
+			draw_string_outline(ThemeDB.fallback_font,pos,caption,HORIZONTAL_ALIGNMENT_LEFT,-1,21,5,Color(0.04,0.06,0.1,strength))
+			draw_string(ThemeDB.fallback_font,pos,caption,HORIZONTAL_ALIGNMENT_LEFT,-1,21,Color(1,0.95,0.7,strength))
+		elif effect.kind=="smite":
+			var ring:=PackedVector2Array()
+			for i in 49:
+				var angle: float=i*TAU/48.0
+				ring.append(stage.project(effect.foot+Vector2(cos(angle),sin(angle))*1.6))
+			draw_colored_polygon(ring,Color(1,0.8,0.25,0.15*strength))
+			draw_polyline(ring,Color(1,0.85,0.3,strength),4,true)
+			draw_line(ground,ground+Vector2(0,-330),Color(1,0.8,0.35,0.22*strength),68,true)
+			draw_line(ground,ground+Vector2(0,-330),Color(1,1,0.85,0.85*strength),14,true)
+		elif effect.kind=="heal":
+			var at: Vector2=ground+Vector2(0,-90)
+			var tint:=Color(0.3,1,0.55,strength)
+			draw_line(ground,ground+Vector2(0,-180),Color(0.25,1,0.5,0.2*strength),45,true)
+			draw_arc(ground,34,0,TAU,32,tint,3,true)
+			for i in 3:
+				var cross: Vector2=at+Vector2((i-1)*25,-fmod((1.2-float(effect.life))*65+i*24,85))
+				draw_line(cross-Vector2(7,0),cross+Vector2(7,0),tint,4)
+				draw_line(cross-Vector2(0,7),cross+Vector2(0,7),tint,4)
+	if companion_enabled and not companion_dead and companion_shield>0.0:
+		var center: Vector2=stage.project(companion_foot)+Vector2(0,-85)
+		var bubble:=PackedVector2Array()
+		for i in 49:
+			var angle: float=i*TAU/48.0
+			bubble.append(center+Vector2(cos(angle)*48,sin(angle)*82))
+		draw_colored_polygon(bubble,Color(1,0.8,0.25,0.13))
+		draw_polyline(bubble,Color(1,0.88,0.4,0.85),3,true)
 	for number: Dictionary in floating_numbers:
 		var position_on_screen: Vector2 = stage.project(number.foot)-Vector2(10,145+number.height+(0.7-number.life)*50)
 		draw_string(ThemeDB.fallback_font,position_on_screen,str(number.amount)+( " AIR" if number.source == "air" else ""),HORIZONTAL_ALIGNMENT_LEFT,-1,23,Color(1,0.9,0.6,clampf(number.life/0.25,0,1)))

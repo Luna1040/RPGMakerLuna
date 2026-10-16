@@ -1,0 +1,220 @@
+{
+  "prompt": [
+    7,
+    "8cfd7a5e-4a48-4189-81fd-d2494179a6b1",
+    {
+      "1": {
+        "class_type": "UNETLoader",
+        "inputs": {
+          "unet_name": "flux-2-klein-9b-fp8.safetensors",
+          "weight_dtype": "default"
+        }
+      },
+      "2": {
+        "class_type": "CLIPLoader",
+        "inputs": {
+          "clip_name": "qwen_3_8b_fp8mixed.safetensors",
+          "type": "flux2",
+          "device": "default"
+        }
+      },
+      "3": {
+        "class_type": "VAELoader",
+        "inputs": {
+          "vae_name": "flux2-vae.safetensors"
+        }
+      },
+      "4": {
+        "class_type": "TextEncodeQwenImageEditPlus",
+        "inputs": {
+          "clip": [
+            "2",
+            0
+          ],
+          "vae": [
+            "3",
+            0
+          ],
+          "prompt": "Keep ONLY the same single female restaurant server from this reference: chestnut hair bun, teal apron with moon embroidery, cream sleeves, rust scarf, brown shoes, empty serving tray. Remove ALL hanging lanterns and every background object. Make her smaller in frame, full body occupies 65 percent of canvas height, feet at y=860 on a 1024 square canvas, generous empty margin on every side. Elevated 45 degree camera, viewing the top of her head and tray, three-quarter front facing right. Attractive polished hand painted game sprite, full body head through shoes. Background completely plain pure black, no lights, no decoration, no scenery, no ground shadow. Preserve same appealing face and costume.",
+          "image1": [
+            "14",
+            0
+          ]
+        }
+      },
+      "5": {
+        "class_type": "ConditioningZeroOut",
+        "inputs": {
+          "conditioning": [
+            "4",
+            0
+          ]
+        }
+      },
+      "6": {
+        "class_type": "EmptyFlux2LatentImage",
+        "inputs": {
+          "width": 1024,
+          "height": 1024,
+          "batch_size": 1
+        }
+      },
+      "7": {
+        "class_type": "RandomNoise",
+        "inputs": {
+          "noise_seed": 2725935660460773
+        }
+      },
+      "8": {
+        "class_type": "KSamplerSelect",
+        "inputs": {
+          "sampler_name": "euler"
+        }
+      },
+      "9": {
+        "class_type": "Flux2Scheduler",
+        "inputs": {
+          "steps": 4,
+          "width": 1024,
+          "height": 1024
+        }
+      },
+      "10": {
+        "class_type": "CFGGuider",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ],
+          "positive": [
+            "4",
+            0
+          ],
+          "negative": [
+            "5",
+            0
+          ],
+          "cfg": 1.0
+        }
+      },
+      "11": {
+        "class_type": "SamplerCustomAdvanced",
+        "inputs": {
+          "noise": [
+            "7",
+            0
+          ],
+          "guider": [
+            "10",
+            0
+          ],
+          "sampler": [
+            "8",
+            0
+          ],
+          "sigmas": [
+            "9",
+            0
+          ],
+          "latent_image": [
+            "6",
+            0
+          ]
+        }
+      },
+      "12": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "11",
+            0
+          ],
+          "vae": [
+            "3",
+            0
+          ]
+        }
+      },
+      "13": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "12",
+            0
+          ],
+          "filename_prefix": "game-art/1e6db6a6307948429262371c47c165a0"
+        }
+      },
+      "14": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "team-3c7782f26c034d129e3ae2b994d46bc9.png"
+        }
+      }
+    },
+    {
+      "client_id": "game-image-7cfaf92eac7a4e62a1fce1cc1481525d",
+      "create_time": 1792057827055
+    },
+    [
+      "13"
+    ]
+  ],
+  "outputs": {
+    "13": {
+      "images": [
+        {
+          "filename": "1e6db6a6307948429262371c47c165a0_00001_.png",
+          "subfolder": "game-art",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 1024,
+            "height": 1024
+          }
+        }
+      ]
+    }
+  },
+  "status": {
+    "status_str": "success",
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "8cfd7a5e-4a48-4189-81fd-d2494179a6b1",
+          "timestamp": 1792057827060
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [
+            "1",
+            "2",
+            "3",
+            "8"
+          ],
+          "prompt_id": "8cfd7a5e-4a48-4189-81fd-d2494179a6b1",
+          "timestamp": 1792057827073
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "8cfd7a5e-4a48-4189-81fd-d2494179a6b1",
+          "timestamp": 1792057834463
+        }
+      ]
+    ]
+  },
+  "meta": {
+    "13": {
+      "node_id": "13",
+      "display_node": "13",
+      "parent_node": null,
+      "real_node_id": "13"
+    }
+  }
+}

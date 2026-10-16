@@ -1,0 +1,15 @@
+config_version=5
+[application]
+config/name="绯夜 · 红木会所"
+run/main_scene="res://multiplayer.tscn"
+config/features=PackedStringArray("4.0", "GL Compatibility")
+[autoload]
+GameAssistant="*res://game_assistant.gd"
+[display]
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"
+[gui]
+theme/custom_font="res://font.ttf"
+[rendering]
+renderer/rendering_method="gl_compatibility"

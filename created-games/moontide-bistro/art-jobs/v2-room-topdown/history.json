@@ -1,0 +1,220 @@
+{
+  "prompt": [
+    6,
+    "00f14dce-1e13-4747-918b-b568b9584678",
+    {
+      "1": {
+        "class_type": "UNETLoader",
+        "inputs": {
+          "unet_name": "flux-2-klein-9b-fp8.safetensors",
+          "weight_dtype": "default"
+        }
+      },
+      "2": {
+        "class_type": "CLIPLoader",
+        "inputs": {
+          "clip_name": "qwen_3_8b_fp8mixed.safetensors",
+          "type": "flux2",
+          "device": "default"
+        }
+      },
+      "3": {
+        "class_type": "VAELoader",
+        "inputs": {
+          "vae_name": "flux2-vae.safetensors"
+        }
+      },
+      "4": {
+        "class_type": "TextEncodeQwenImageEditPlus",
+        "inputs": {
+          "clip": [
+            "2",
+            0
+          ],
+          "vae": [
+            "3",
+            0
+          ],
+          "prompt": "Redesign this same beautiful hand painted seaside restaurant into a genuine HIGH ANGLE TOP DOWN 2.5D video game room background. Camera positioned above the room, looking DOWN at 60 degrees. The TOP surfaces of the counter and floor dominate the picture, you can see inside the whole room from above. Orthographic projection. Remove the roof completely. Keep the rich amber lanterns, teal midnight ocean through the left windows, detailed Japanese sushi counter along BACK TOP edge, shelves of pottery, noren curtain and right side water station. Back wall occupies only upper 25 percent. The lower 70 percent of image is large unobstructed empty wooden dining floor for game characters and tables. No tables, no chairs, no people. Floor front edge at bottom is horizontal. Premium painted game background, intricate cozy material detail, controlled warm and cool palette, no text or UI. Wide landscape composition.",
+          "image1": [
+            "14",
+            0
+          ]
+        }
+      },
+      "5": {
+        "class_type": "ConditioningZeroOut",
+        "inputs": {
+          "conditioning": [
+            "4",
+            0
+          ]
+        }
+      },
+      "6": {
+        "class_type": "EmptyFlux2LatentImage",
+        "inputs": {
+          "width": 1536,
+          "height": 1024,
+          "batch_size": 1
+        }
+      },
+      "7": {
+        "class_type": "RandomNoise",
+        "inputs": {
+          "noise_seed": 1262534776203156
+        }
+      },
+      "8": {
+        "class_type": "KSamplerSelect",
+        "inputs": {
+          "sampler_name": "euler"
+        }
+      },
+      "9": {
+        "class_type": "Flux2Scheduler",
+        "inputs": {
+          "steps": 4,
+          "width": 1536,
+          "height": 1024
+        }
+      },
+      "10": {
+        "class_type": "CFGGuider",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ],
+          "positive": [
+            "4",
+            0
+          ],
+          "negative": [
+            "5",
+            0
+          ],
+          "cfg": 1.0
+        }
+      },
+      "11": {
+        "class_type": "SamplerCustomAdvanced",
+        "inputs": {
+          "noise": [
+            "7",
+            0
+          ],
+          "guider": [
+            "10",
+            0
+          ],
+          "sampler": [
+            "8",
+            0
+          ],
+          "sigmas": [
+            "9",
+            0
+          ],
+          "latent_image": [
+            "6",
+            0
+          ]
+        }
+      },
+      "12": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "11",
+            0
+          ],
+          "vae": [
+            "3",
+            0
+          ]
+        }
+      },
+      "13": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "12",
+            0
+          ],
+          "filename_prefix": "game-art/8891b8361b82472fa2a5572000e1a922"
+        }
+      },
+      "14": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "team-03035a1eb25643c584827ca985023162.png"
+        }
+      }
+    },
+    {
+      "client_id": "game-image-b5d986451f31414da687380f989acdd1",
+      "create_time": 1792057816707
+    },
+    [
+      "13"
+    ]
+  ],
+  "outputs": {
+    "13": {
+      "images": [
+        {
+          "filename": "8891b8361b82472fa2a5572000e1a922_00001_.png",
+          "subfolder": "game-art",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 1536,
+            "height": 1024
+          }
+        }
+      ]
+    }
+  },
+  "status": {
+    "status_str": "success",
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "00f14dce-1e13-4747-918b-b568b9584678",
+          "timestamp": 1792057816712
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [
+            "1",
+            "2",
+            "3",
+            "8"
+          ],
+          "prompt_id": "00f14dce-1e13-4747-918b-b568b9584678",
+          "timestamp": 1792057816733
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "00f14dce-1e13-4747-918b-b568b9584678",
+          "timestamp": 1792057825303
+        }
+      ]
+    ]
+  },
+  "meta": {
+    "13": {
+      "node_id": "13",
+      "display_node": "13",
+      "parent_node": null,
+      "real_node_id": "13"
+    }
+  }
+}

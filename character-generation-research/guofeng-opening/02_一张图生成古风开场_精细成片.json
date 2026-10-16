@@ -1,0 +1,1006 @@
+{
+  "id": "284a4c7f-5d60-4a03-966f-e6db3f20b101",
+  "revision": 0,
+  "last_node_id": 22,
+  "last_link_id": 23,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "LoadImage",
+      "pos": [
+        0,
+        0
+      ],
+      "size": [
+        350,
+        260
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            18
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "title": "上传你的开场原图（人物图或场景图均可）",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.39.0",
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "guofeng-hanfu-reference.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "guofeng-hanfu-reference.png"
+      }
+    },
+    {
+      "id": 2,
+      "type": "CLIPLoader",
+      "pos": [
+        0,
+        450
+      ],
+      "size": [
+        350,
+        260
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            1
+          ]
+        }
+      ],
+      "title": "Load CLIP",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.39.0",
+        "Node name for S&R": "CLIPLoader"
+      },
+      "widgets_values": [
+        "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+        "minimax",
+        "default"
+      ],
+      "widgets_values_named": {
+        "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+        "type": "minimax",
+        "device": "default"
+      }
+    },
+    {
+      "id": 3,
+      "type": "UNETLoader",
+      "pos": [
+        0,
+        650
+      ],
+      "size": [
+        350,
+        260
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            6,
+            8
+          ]
+        }
+      ],
+      "title": "Load Diffusion Model",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.39.0",
+        "Node name for S&R": "UNETLoader"
+      },
+      "widgets_values": [
+        "minimax_h3_ref2va_pruned_fp8_scaled.safetensors",
+        "default"
+      ],
+      "widgets_values_named": {
+        "unet_name": "minimax_h3_ref2va_pruned_fp8_scaled.safetensors",
+        "weight_dtype": "default"
+      }
+    },
+    {
+      "id": 4,
+      "type": "VAELoader",
+      "pos": [
+        0,
+        850
+      ],
+      "size": [
+        350,
+        260
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            2,
+            15,
+            22
+          ]
+        }
+      ],
+      "title": "Load VAE",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.39.0",
+        "Node name for S&R": "VAELoader"
+      },
+      "widgets_values": [
+        "minimax_h3_video_vae_fp16.safetensors"
+      ],
+      "widgets_values_named": {
+        "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+      }
+    },
+    {
+      "id": 6,
+      "type": "MiniMaxH3ReferenceToVideo",
+      "pos": [
+        900,
+        0
+      ],
+      "size": [
+        470,
+        600
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 1
+        },
+        {
+          "name": "width",
+          "type": "INT",
+          "link": 3,
+          "widget": {
+            "name": "width"
+          }
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "link": 4,
+          "widget": {
+            "name": "height"
+          }
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 2
+        },
+        {
+          "name": "audio_vae",
+          "type": "VAE",
+          "link": null
+        },
+        {
+          "name": "ref_images.ref_image_0",
+          "label": "ref_image_0",
+          "type": "IMAGE",
+          "link": 5,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            20
+          ]
+        },
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            13,
+            21
+          ]
+        }
+      ],
+      "title": "开场镜头：运镜、微动作、环境动态",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.39.0",
+        "Node name for S&R": "MiniMaxH3ReferenceToVideo"
+      },
+      "widgets_values": [
+        "Animate the supplied first frame into a cinematic opening shot for a Chinese historical fantasy film. Preserve the characters, faces, costumes, architecture, lighting and visual style already present in the image. Keep the scene recognizable throughout.\n\nOne continuous elegant shot. Begin with a brief calm hold. The camera then makes a very slow, smooth dolly forward, creating subtle natural depth and parallax. If a person is present, use only natural breathing, a subtle blink, and a very small head movement; keep the face stable. Hair, silk sleeves and ribbons move gently in a light breeze. If present in the image, mist drifts softly, leaves sway subtly and water has faint ripples. Do not add objects or people that are absent from the original scene. Let the camera gently settle near the end, leaving a calm moment suitable for adding a title in post-production.\n\nRestrained poetic motion, cinematic atmosphere, consistent anatomy and composition, natural temporal continuity. No walking cycle, running, combat, exaggerated gestures, rapid camera movement, cuts, scene changes, text, logos, or watermarks. Silent.",
+        1024,
+        576,
+        124,
+        "match"
+      ],
+      "widgets_values_named": {
+        "prompt": "Animate the supplied first frame into a cinematic opening shot for a Chinese historical fantasy film. Preserve the characters, faces, costumes, architecture, lighting and visual style already present in the image. Keep the scene recognizable throughout.\n\nOne continuous elegant shot. Begin with a brief calm hold. The camera then makes a very slow, smooth dolly forward, creating subtle natural depth and parallax. If a person is present, use only natural breathing, a subtle blink, and a very small head movement; keep the face stable. Hair, silk sleeves and ribbons move gently in a light breeze. If present in the image, mist drifts softly, leaves sway subtly and water has faint ripples. Do not add objects or people that are absent from the original scene. Let the camera gently settle near the end, leaving a calm moment suitable for adding a title in post-production.\n\nRestrained poetic motion, cinematic atmosphere, consistent anatomy and composition, natural temporal continuity. No walking cycle, running, combat, exaggerated gestures, rapid camera movement, cuts, scene changes, text, logos, or watermarks. Silent.",
+        "width": 1024,
+        "height": 576,
+        "length": 124,
+        "ref_image_size": "match"
+      }
+    },
+    {
+      "id": 7,
+      "type": "BasicGuider",
+      "pos": [
+        1450,
+        0
+      ],
+      "size": [
+        350,
+        260
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 6
+        },
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "GUIDER",
+          "type": "GUIDER",
+          "links": [
+            10
+          ]
+        }
+      ],
+      "title": "Basic Guider",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.39.0",
+        "Node name for S&R": "BasicGuider"
+      },
+      "widgets_values": [],
+      "widgets_values_named": {}
+    },
+    {
+      "id": 8,
+      "type": "RandomNoise",
+      "pos": [
+        1450,
+        170
+      ],
+      "size": [
+        350,
+        260
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "NOISE",
+          "type": "NOISE",
+          "links": [
+            9
+          ]
+        }
+      ],
+      "title": "RandomNoise",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.39.0",
+        "Node name for S&R": "RandomNoise"
+      },
+      "widgets_values": [
+        731429,
+        "fixed"
+      ],
+      "widgets_values_named": {
+        "noise_seed": 731429
+      }
+    },
+    {
+      "id": 9,
+      "type": "KSamplerSelect",
+      "pos": [
+        1450,
+        340
+      ],
+      "size": [
+        350,
+        260
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "SAMPLER",
+          "type": "SAMPLER",
+          "links": [
+            11
+          ]
+        }
+      ],
+      "title": "KSamplerSelect",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.39.0",
+        "Node name for S&R": "KSamplerSelect"
+      },
+      "widgets_values": [
+        "res_multistep"
+      ],
+      "widgets_values_named": {
+        "sampler_name": "res_multistep"
+      }
+    },
+    {
+      "id": 10,
+      "type": "BasicScheduler",
+      "pos": [
+        1450,
+        510
+      ],
+      "size": [
+        350,
+        260
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 8
+        }
+      ],
+      "outputs": [
+        {
+          "name": "SIGMAS",
+          "type": "SIGMAS",
+          "links": [
+            12
+          ]
+        }
+      ],
+      "title": "采样：保持denoise=1",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.39.0",
+        "Node name for S&R": "BasicScheduler"
+      },
+      "widgets_values": [
+        "normal",
+        20,
+        1.0
+      ],
+      "widgets_values_named": {
+        "scheduler": "normal",
+        "steps": 20,
+        "denoise": 1.0
+      }
+    },
+    {
+      "id": 11,
+      "type": "SamplerCustomAdvanced",
+      "pos": [
+        1900,
+        0
+      ],
+      "size": [
+        350,
+        260
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "noise",
+          "type": "NOISE",
+          "link": 9
+        },
+        {
+          "name": "guider",
+          "type": "GUIDER",
+          "link": 10
+        },
+        {
+          "name": "sampler",
+          "type": "SAMPLER",
+          "link": 11
+        },
+        {
+          "name": "sigmas",
+          "type": "SIGMAS",
+          "link": 12
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 13
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "LATENT",
+          "links": [
+            14
+          ]
+        },
+        {
+          "name": "denoised_output",
+          "type": "LATENT",
+          "links": []
+        }
+      ],
+      "title": "SamplerCustomAdvanced",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.39.0",
+        "Node name for S&R": "SamplerCustomAdvanced"
+      },
+      "widgets_values": [],
+      "widgets_values_named": {}
+    },
+    {
+      "id": 12,
+      "type": "VAEDecodeTiled",
+      "pos": [
+        1900,
+        330
+      ],
+      "size": [
+        350,
+        260
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 14
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 15
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            16
+          ]
+        }
+      ],
+      "title": "VAE Decode (Tiled)",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.39.0",
+        "Node name for S&R": "VAEDecodeTiled"
+      },
+      "widgets_values": [
+        384,
+        64,
+        32,
+        8
+      ],
+      "widgets_values_named": {
+        "tile_size": 384,
+        "overlap": 64,
+        "temporal_size": 32,
+        "temporal_overlap": 8
+      }
+    },
+    {
+      "id": 13,
+      "type": "CreateVideo",
+      "pos": [
+        2300,
+        0
+      ],
+      "size": [
+        350,
+        260
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 16
+        },
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "VIDEO",
+          "type": "VIDEO",
+          "links": [
+            17
+          ]
+        }
+      ],
+      "title": "Create Video",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.39.0",
+        "Node name for S&R": "CreateVideo"
+      },
+      "widgets_values": [
+        24.0
+      ],
+      "widgets_values_named": {
+        "fps": 24.0
+      }
+    },
+    {
+      "id": 14,
+      "type": "SaveVideo",
+      "pos": [
+        2700,
+        0
+      ],
+      "size": [
+        350,
+        600
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "link": 17
+        }
+      ],
+      "outputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "links": []
+        }
+      ],
+      "title": "Save Video",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.39.0",
+        "Node name for S&R": "SaveVideo"
+      },
+      "widgets_values": [
+        "guofeng-opening/quality",
+        "mp4",
+        "h264"
+      ],
+      "widgets_values_named": {
+        "filename_prefix": "guofeng-opening/quality",
+        "format": "mp4",
+        "codec": "h264"
+      }
+    },
+    {
+      "id": 20,
+      "type": "ImageScaleToTotalPixels",
+      "pos": [
+        450,
+        0
+      ],
+      "size": [
+        350,
+        260
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 18
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            5,
+            19,
+            23
+          ]
+        }
+      ],
+      "title": "自动适配原图比例（按32像素对齐）",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.39.0",
+        "Node name for S&R": "ImageScaleToTotalPixels"
+      },
+      "widgets_values": [
+        "lanczos",
+        0.59,
+        32
+      ],
+      "widgets_values_named": {
+        "upscale_method": "lanczos",
+        "megapixels": 0.59,
+        "resolution_steps": 32
+      }
+    },
+    {
+      "id": 21,
+      "type": "GetImageSize",
+      "pos": [
+        450,
+        320
+      ],
+      "size": [
+        350,
+        260
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 19
+        }
+      ],
+      "outputs": [
+        {
+          "name": "width",
+          "type": "INT",
+          "links": [
+            3
+          ]
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "links": [
+            4
+          ]
+        },
+        {
+          "name": "batch_size",
+          "type": "INT",
+          "links": []
+        }
+      ],
+      "title": "从图片自动读取画幅",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.39.0",
+        "Node name for S&R": "GetImageSize"
+      },
+      "widgets_values": [],
+      "widgets_values_named": {}
+    },
+    {
+      "id": 22,
+      "type": "MiniMaxH3AddGuide",
+      "pos": [
+        900,
+        720
+      ],
+      "size": [
+        350,
+        260
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 20
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "link": 21
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 22
+        },
+        {
+          "name": "audio_vae",
+          "type": "VAE",
+          "link": null
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 23
+        },
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            7
+          ]
+        }
+      ],
+      "title": "把上传原图锚定到首帧（frame_idx=0）",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.39.0",
+        "Node name for S&R": "MiniMaxH3AddGuide"
+      },
+      "widgets_values": [
+        0
+      ],
+      "widgets_values_named": {
+        "frame_idx": 0
+      }
+    }
+  ],
+  "links": [
+    [
+      1,
+      2,
+      0,
+      6,
+      0,
+      "CLIP"
+    ],
+    [
+      2,
+      4,
+      0,
+      6,
+      3,
+      "VAE"
+    ],
+    [
+      3,
+      21,
+      0,
+      6,
+      1,
+      "INT"
+    ],
+    [
+      4,
+      21,
+      1,
+      6,
+      2,
+      "INT"
+    ],
+    [
+      5,
+      20,
+      0,
+      6,
+      5,
+      "IMAGE"
+    ],
+    [
+      6,
+      3,
+      0,
+      7,
+      0,
+      "MODEL"
+    ],
+    [
+      7,
+      22,
+      0,
+      7,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      8,
+      3,
+      0,
+      10,
+      0,
+      "MODEL"
+    ],
+    [
+      9,
+      8,
+      0,
+      11,
+      0,
+      "NOISE"
+    ],
+    [
+      10,
+      7,
+      0,
+      11,
+      1,
+      "GUIDER"
+    ],
+    [
+      11,
+      9,
+      0,
+      11,
+      2,
+      "SAMPLER"
+    ],
+    [
+      12,
+      10,
+      0,
+      11,
+      3,
+      "SIGMAS"
+    ],
+    [
+      13,
+      6,
+      1,
+      11,
+      4,
+      "LATENT"
+    ],
+    [
+      14,
+      11,
+      0,
+      12,
+      0,
+      "LATENT"
+    ],
+    [
+      15,
+      4,
+      0,
+      12,
+      1,
+      "VAE"
+    ],
+    [
+      16,
+      12,
+      0,
+      13,
+      0,
+      "IMAGE"
+    ],
+    [
+      17,
+      13,
+      0,
+      14,
+      0,
+      "VIDEO"
+    ],
+    [
+      18,
+      1,
+      0,
+      20,
+      0,
+      "IMAGE"
+    ],
+    [
+      19,
+      20,
+      0,
+      21,
+      0,
+      "IMAGE"
+    ],
+    [
+      20,
+      6,
+      0,
+      22,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      21,
+      6,
+      1,
+      22,
+      1,
+      "LATENT"
+    ],
+    [
+      22,
+      4,
+      0,
+      22,
+      2,
+      "VAE"
+    ],
+    [
+      23,
+      20,
+      0,
+      22,
+      4,
+      "IMAGE"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.55,
+      "offset": [
+        100,
+        100
+      ]
+    }
+  },
+  "version": 0.4
+}
