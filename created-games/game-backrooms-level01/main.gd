@@ -483,8 +483,8 @@ func _build_sound_players() -> void:
 	enemy_step_player.unit_size = 5.0
 	enemy.add_child(enemy_step_player)
 	enemy_voice_player = AudioStreamPlayer3D.new()
-	enemy_voice_player.name = "Stalker breathing and growl"
-	enemy_voice_player.stream = load("res://audio/sfx_stalker_breath.wav") as AudioStream
+	enemy_voice_player.name = "Recorded monster snarl"
+	enemy_voice_player.stream = load("res://audio/external/monster_snarls_2.ogg") as AudioStream
 	enemy_voice_player.position.y = 1.6
 	enemy_voice_player.volume_db = -2.0
 	enemy_voice_player.unit_size = 10.0
@@ -1686,11 +1686,13 @@ func _add_water_valve(index: int, at: Vector3) -> void:
 	beacon.position.y = 1.6
 	valve.add_child(beacon)
 	var flow := AudioStreamPlayer3D.new()
-	flow.name = "Directional water flow"
-	flow.stream = load("res://audio/sfx_pipe_flow.wav") as AudioStreamWAV
+	flow.name = "Recorded directional water flow"
+	flow.position.y = 0.8
+	flow.stream = load("res://audio/external/valve_running_water.wav") as AudioStreamWAV
 	(flow.stream as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
-	flow.max_distance = 90.0
-	flow.unit_size = 15.0
+	(flow.stream as AudioStreamWAV).loop_end = roundi(flow.stream.get_length() * (flow.stream as AudioStreamWAV).mix_rate)
+	flow.max_distance = 30.0
+	flow.unit_size = 12.0
 	flow.attenuation_model = AudioStreamPlayer3D.ATTENUATION_INVERSE_DISTANCE
 	flow.volume_db = -22.0
 	flow.set_meta("flow_valve_index", index)
@@ -1757,8 +1759,9 @@ func _add_pool_gate(at: Vector3) -> void:
 	gate.add_child(label)
 	var gate_flow := AudioStreamPlayer3D.new()
 	gate_flow.name = "Water sound leading into Level 37"
-	gate_flow.stream = load("res://audio/sfx_pipe_flow.wav") as AudioStreamWAV
+	gate_flow.stream = load("res://audio/external/valve_running_water.wav") as AudioStreamWAV
 	(gate_flow.stream as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
+	(gate_flow.stream as AudioStreamWAV).loop_end = roundi(gate_flow.stream.get_length() * (gate_flow.stream as AudioStreamWAV).mix_rate)
 	gate_flow.max_distance = 60.0
 	gate_flow.unit_size = 14.0
 	gate_flow.volume_db = -24.0
@@ -1771,8 +1774,16 @@ func _add_pool_gate(at: Vector3) -> void:
 
 
 func _update_water_sound_guidance() -> void:
+	var order: Array[int] = [1, 0, 2]
+	var next_valve := order[valve_progress] if valve_progress < order.size() else -1
 	for flow in get_tree().get_nodes_in_group("water_flow_sources"):
-		flow.volume_db = -21.0
+		var valve_index := int(flow.get_meta("flow_valve_index"))
+		if order.find(valve_index) < valve_progress:
+			flow.volume_db = -25.0
+		elif valve_index == next_valve:
+			flow.volume_db = -2.0 if valve_index == 0 else -6.0
+		else:
+			flow.volume_db = -9.0 if valve_index == 0 else -18.0
 	for flow in get_tree().get_nodes_in_group("water_gate_flow"):
 		flow.volume_db = -17.0 if pool_gate_open else -27.0
 
@@ -2322,9 +2333,9 @@ func _process(delta: float) -> void:
 		enemy_voice_left -= delta
 		enemy_voice_player.volume_db = -2.0 if has_enemy_sight else -7.0
 		if enemy_distance < 32.0 and enemy_voice_left <= 0.0 and not enemy_voice_player.playing:
-			enemy_voice_player.pitch_scale = randf_range(0.88, 1.04)
+			enemy_voice_player.pitch_scale = randf_range(0.98, 1.02)
 			enemy_voice_player.play()
-			enemy_voice_left = randf_range(4.5, 7.0)
+			enemy_voice_left = enemy_voice_player.stream.get_length() / enemy_voice_player.pitch_scale + randf_range(3.0, 6.0)
 	else:
 		enemy_voice_player.stop()
 	var threat_near := entity_awake and not in_manila and enemy_distance < 14.0 and entity_stunned <= 0.0 and has_enemy_sight
