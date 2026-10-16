@@ -7,8 +7,10 @@ import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 import {loadGames,catalogWriter} from './catalog-store.mjs';
 import {artInstructions} from './art-pipeline.mjs';
+import {validatePlayableProject,projectFingerprint} from './game-validation.mjs';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
+const bridgeVersion=JSON.parse(await readFile(new URL('./bridge-version.json',import.meta.url),'utf8')).version;
 let project=path.join(root,'godot-belt-map');
 const homeProject=path.join(root,'godot-creator-home');
 let homeMode=process.argv.includes('--home'),selected='knight';
@@ -21,8 +23,9 @@ const writeGames=catalogWriter(catalogFile);
 function saveGames(){return writeGames(games);}
 await saveGames();
 const token=randomBytes(32).toString('hex');
-const state={status:'starting',text:'',events:[],threadId:null,turnId:null,revision:0,error:null,gameId:selected};
+const state={bridgeVersion,processId:process.pid,startedAt:new Date().toISOString(),status:'starting',text:'',events:[],threadId:null,turnId:null,revision:0,error:null,gameId:selected};
 let next=1,game=null,restarting=false,active=false;
+let beforeTaskFingerprint=null;
 const pending=new Map();
 const godot=process.env.GODOT_BIN||path.join(root,'.tools/godot/Godot_v4.7.2-stable_win64.exe');
 const child=spawn(process.env.CODEX_BIN||'codex',['app-server','--listen','stdio://'],{cwd:root,windowsHide:true,stdio:['pipe','pipe','pipe']});
@@ -32,7 +35,7 @@ function rpc(method,params){return new Promise((resolve,reject)=>{
  pending.set(id,{resolve,reject,timer});send({id,method,params});
 });}
 function event(message){state.events.push(message);state.events=state.events.slice(-35);const g=games.find(g=>g.id===selected);if(g&&active){g.progress=message;saveGames().catch(console.error);}}
-function fail(error){state.status='failed';state.error=String(error);active=false;event(state.error);const g=games.find(g=>g.id===selected);if(g?.status==='creating'){g.status='failed';saveGames().catch(()=>{});}}
+function fail(error){state.status='failed';state.error=String(error);active=false;event(state.error);const g=games.find(g=>g.id===selected);if(g?.status==='creating'){g.status='failed';saveGames().catch(()=>{});}writeFile(path.join(data,'last-result.json'),JSON.stringify(state,null,2)).catch(()=>{});}
 child.on('error',fail);
 child.on('exit',code=>{for(const p of pending.values()){clearTimeout(p.timer);p.reject(Error('Codex disconnected'));}pending.clear();fail(`Codex exited: ${code}`);});
 child.stderr.on('data',b=>writeFile(path.join(data,'codex-stderr.log'),b,{flag:'a'}).catch(()=>{}));
@@ -50,23 +53,34 @@ createInterface({input:child.stdout}).on('line',line=>{
  if(m.method==='item/completed'&&p.item?.type==='agentMessage'&&p.item.text){state.text=p.item.text;const g=games.find(g=>g.id===selected);if(g){g.last_reply=p.item.text;saveGames().catch(console.error);}}
  if(m.method==='item/completed'&&p.item?.type==='fileChange')event('文件修改：'+JSON.stringify(p.item.changes||[]).slice(0,1800));
  if(m.method==='turn/completed'){
-  active=false;state.status=p.turn.status;state.error=p.turn.error?.message||null;
-  if(p.turn.status!=='completed'){const g=games.find(g=>g.id===selected);if(g?.status==='creating'){g.status=p.turn.status==='interrupted'?'paused':'failed';saveGames().catch(()=>{});}}
-  writeFile(path.join(data,'last-result.json'),JSON.stringify(state,null,2)).catch(()=>{});
-  if(p.turn.status==='completed'&&!process.argv.includes('--no-game'))restartGame(true).catch(fail);
+  finishTurn(p.turn).catch(fail);
  }
 });
 await rpc('initialize',{clientInfo:{name:'godot_hackathon',version:'0.1.0'}});
 send({method:'initialized',params:{}});
 state.status='ready';
 
+async function finishTurn(turn){
+ state.status=turn.status;state.error=turn.error?.message||null;
+ if(turn.status==='completed'&&beforeTaskFingerprint!==null){
+  if(await projectFingerprint(project)===beforeTaskFingerprint){
+   fail('本轮没有修改游戏文件，需求未生成。请查看助手回复中的权限或执行错误；当前游戏保持原样。');
+   return;
+  }
+ }
+ active=false;
+ if(turn.status!=='completed'){const g=games.find(g=>g.id===selected);if(g?.status==='creating'){g.status=turn.status==='interrupted'?'paused':'failed';await saveGames();}}
+ await writeFile(path.join(data,'last-result.json'),JSON.stringify(state,null,2));
+ if(turn.status==='completed'&&!process.argv.includes('--no-game'))await restartGame(true);
+}
+
 async function thread(){
  if(state.threadId)return;
  const threadFile=path.join(data,selected==='knight'?'thread.json':`thread-${selected}.json`);
  let saved;try{saved=JSON.parse(await readFile(threadFile,'utf8'));}catch{}
- const params={cwd:root,sandbox:'workspace-write',approvalPolicy:'never'};
- const r=saved?await rpc('thread/resume',{...params,threadId:saved.id}):await rpc('thread/start',params);
- state.threadId=r.thread.id;await writeFile(threadFile,JSON.stringify({id:state.threadId}));
+ const params={cwd:project,sandbox:'workspace-write',approvalPolicy:'never'};
+ const r=saved?.bridgeVersion===bridgeVersion?await rpc('thread/resume',{...params,threadId:saved.id}):await rpc('thread/start',params);
+ state.threadId=r.thread.id;await writeFile(threadFile,JSON.stringify({id:state.threadId,bridgeVersion}));
 }
 async function task(body){
  if(active||restarting)throw Error('已有任务或重启正在进行');
@@ -76,6 +90,11 @@ async function task(body){
   const entry=games.find(g=>g.id===selected);
   if(entry){entry.brief=entry.brief||entry.last_prompt||body.prompt;entry.last_prompt=body.prompt;entry.progress='正在处理需求';await saveGames();}
   await thread();
+  const probeFile=path.join(project,`.assistant-write-probe-${randomBytes(8).toString('hex')}`);
+  const probeCode='const fs=require("node:fs");const file=process.argv[1];fs.writeFileSync(file,"ok",{flag:"wx"});fs.unlinkSync(file);console.log("GAME_WORKSPACE_OK");';
+  const probe=await rpc('command/exec',{command:[process.execPath,'-e',probeCode,probeFile],cwd:project,sandboxPolicy:{type:'workspaceWrite',writableRoots:[project],networkAccess:false},timeoutMs:15000});
+  if(probe.exitCode!==0||!probe.stdout?.includes('GAME_WORKSPACE_OK'))throw Error('创作助手不能写入目标工程，本轮未开始生成。请重新启动创作助手并检查目录权限。'+String(probe.stderr||'').slice(0,800));
+  beforeTaskFingerprint=await projectFingerprint(project);
   const folder=path.join(data,`task-${Date.now()}`);await mkdir(folder);
   await writeFile(path.join(folder,'request.json'),JSON.stringify(body,null,2));
   const context=JSON.stringify(body.context||{}).slice(0,24000);
@@ -89,25 +108,31 @@ async function task(body){
   }
   // ComfyUI is an HTTP service even on localhost. Keep workspace file isolation,
   // but allow the requested generation clients to reach it.
-  const r=await rpc('turn/start',{threadId:state.threadId,input,sandboxPolicy:{type:'workspaceWrite',writableRoots:[root],networkAccess:true}});state.turnId=r.turn.id;
+  const r=await rpc('turn/start',{threadId:state.threadId,cwd:project,input,sandboxPolicy:{type:'workspaceWrite',writableRoots:[project],networkAccess:true}});state.turnId=r.turn.id;
  }catch(e){fail(e);throw e;}
 }
 async function restartGame(validate=false){
  if(restarting)throw Error('Restart in progress');
  restarting=true;
  try{
-  if(validate || !homeMode){
+   {
    state.status='validating';event('检查 Godot 导入…');
+   if(validate || !homeMode)await validatePlayableProject(project);
+   const importTargets=homeMode?(validate?[project,homeProject]:[homeProject]):[project];
+   for(const importProject of importTargets){
    for(let attempt=0;attempt<2;attempt++){
     try{await new Promise((resolve,reject)=>{
-    const p=spawn(godot,['--headless','--editor','--path',project,'--quit'],{windowsHide:true});let output='';
+     const p=spawn(godot,['--headless','--editor','--path',importProject,'--quit'],{windowsHide:true});let output='';
     const timer=setTimeout(()=>{p.kill();reject(Error('Godot import timeout'));},120000);
     p.stdout.on('data',b=>output+=b);p.stderr.on('data',b=>output+=b);p.on('error',reject);
     p.on('close',code=>{clearTimeout(timer);writeFile(path.join(data,'import.log'),output).catch(()=>{});code===0&&!/^\s*(SCRIPT ERROR|ERROR|FATAL):/m.test(output)?resolve():reject(Error('导入失败，保留当前游戏；查看 .game-assistant/import.log'));});
    });break;}catch(error){if(attempt===1)throw error;}
    }
-   const entry=games.find(g=>g.id===selected);if(entry){entry.status='ready';await saveGames();}
-   if(homeMode){state.status='ready';state.revision++;event('游戏创建完成，点击下方卡片开始试玩。');return;}
+   }
+   if(validate || !homeMode){
+    const entry=games.find(g=>g.id===selected);if(entry){entry.status='ready';await saveGames();}
+   }
+   if(homeMode && validate){state.status='ready';state.revision++;event('游戏创建完成，点击下方卡片开始试玩。');await writeFile(path.join(data,'last-result.json'),JSON.stringify(state,null,2));return;}
   }
   if(game&&game.exitCode===null){const old=game;await new Promise(resolve=>{old.once('close',resolve);old.kill();});}
   game=spawn(godot,['--path',homeMode?homeProject:project,'--','--ai-dev'],{cwd:root,env:{...process.env,GAME_ASSISTANT_CONNECTION:path.join(data,'connection.json')},windowsHide:false,stdio:['ignore','pipe','pipe']});
@@ -163,7 +188,7 @@ const server=createServer(async(req,res)=>{
 });
 server.on('error',e=>{console.error(e.message);child.kill();process.exit(1);});
 await new Promise((resolve,reject)=>{server.once('error',reject);server.listen(9320,'127.0.0.1',resolve);});
-await writeFile(path.join(data,'connection.json'),JSON.stringify({url:'http://127.0.0.1:9320',token}));
+await writeFile(path.join(data,'connection.json'),JSON.stringify({url:'http://127.0.0.1:9320',token,bridgeVersion,processId:process.pid}));
 console.log('Game assistant: http://127.0.0.1:9320 (local authenticated connection)');
 if(!process.argv.includes('--no-game'))await restartGame();
 process.on('SIGINT',()=>{game?.kill();child.kill();server.close();process.exit();});

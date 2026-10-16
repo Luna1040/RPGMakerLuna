@@ -1,0 +1,162 @@
+{
+  "1": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "team-c304ffdb45b64cfa8bdf339398d1d3c1.png"
+    }
+  },
+  "2": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+      "type": "minimax",
+      "device": "default"
+    }
+  },
+  "3": {
+    "class_type": "UNETLoader",
+    "inputs": {
+      "unet_name": "minimax_h3_ref2va_pruned_fp8_scaled.safetensors",
+      "weight_dtype": "default"
+    }
+  },
+  "4": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+    }
+  },
+  "6": {
+    "class_type": "MiniMaxH3ReferenceToVideo",
+    "inputs": {
+      "clip": [
+        "2",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "prompt": "The single adult character in the reference picture. Preserve exact face, costume, weapon and identity. One complete dual dagger attack toward the right: crouch with bent knees, load hips and shoulders, sharply rotate torso and cut with both daggers in a crossing strike, then recover to agile ready stance. Head and whole torso participate, hair and robes follow with secondary motion. Fixed three-quarter side camera, full body and entire weapon remain within central 70 percent of square frame, generous safe margins. No camera motion, cuts or zoom. Solid black background only, no ground, no shadows, no text, no scenery.",
+      "width": 768,
+      "height": 768,
+      "length": 44,
+      "ref_image_size": "match",
+      "ref_images.ref_image_0": [
+        "1",
+        0
+      ]
+    }
+  },
+  "7": {
+    "class_type": "BasicGuider",
+    "inputs": {
+      "model": [
+        "3",
+        0
+      ],
+      "conditioning": [
+        "6",
+        0
+      ]
+    }
+  },
+  "8": {
+    "class_type": "RandomNoise",
+    "inputs": {
+      "noise_seed": 4804168320062843
+    }
+  },
+  "9": {
+    "class_type": "KSamplerSelect",
+    "inputs": {
+      "sampler_name": "res_multistep"
+    }
+  },
+  "10": {
+    "class_type": "BasicScheduler",
+    "inputs": {
+      "model": [
+        "3",
+        0
+      ],
+      "scheduler": "normal",
+      "steps": 20,
+      "denoise": 1.0
+    }
+  },
+  "11": {
+    "class_type": "SamplerCustomAdvanced",
+    "inputs": {
+      "noise": [
+        "8",
+        0
+      ],
+      "guider": [
+        "7",
+        0
+      ],
+      "sampler": [
+        "9",
+        0
+      ],
+      "sigmas": [
+        "10",
+        0
+      ],
+      "latent_image": [
+        "6",
+        1
+      ]
+    }
+  },
+  "12": {
+    "class_type": "VAEDecodeTiled",
+    "inputs": {
+      "samples": [
+        "11",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "tile_size": 384,
+      "overlap": 64,
+      "temporal_size": 32,
+      "temporal_overlap": 8
+    }
+  },
+  "13": {
+    "class_type": "CreateVideo",
+    "inputs": {
+      "images": [
+        "12",
+        0
+      ],
+      "fps": 24.0
+    }
+  },
+  "14": {
+    "class_type": "SaveVideo",
+    "inputs": {
+      "video": [
+        "13",
+        0
+      ],
+      "filename_prefix": "team/6a399ba3791b4a27bc86631361cf6be8/video",
+      "format": "mp4",
+      "format.codec": "h264"
+    }
+  },
+  "15": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "12",
+        0
+      ],
+      "filename_prefix": "team/6a399ba3791b4a27bc86631361cf6be8/frames"
+    }
+  }
+}

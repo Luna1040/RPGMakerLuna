@@ -1,0 +1,57 @@
+{
+  "canvas": [
+    768,
+    768
+  ],
+  "pivot": [
+    384,
+    545
+  ],
+  "scale": 0.2,
+  "event_ms": 270,
+  "review_status": "alpha_reviewed_runtime_pending",
+  "frames": [
+    {
+      "file": "0000.png",
+      "source_frame": 0,
+      "duration_ms": 40
+    },
+    {
+      "file": "0001.png",
+      "source_frame": 8,
+      "duration_ms": 60
+    },
+    {
+      "file": "0002.png",
+      "source_frame": 16,
+      "duration_ms": 130
+    },
+    {
+      "file": "0003.png",
+      "source_frame": 32,
+      "duration_ms": 40
+    },
+    {
+      "file": "0004.png",
+      "source_frame": 40,
+      "duration_ms": 60
+    },
+    {
+      "file": "0005.png",
+      "source_frame": 60,
+      "duration_ms": 100
+    },
+    {
+      "file": "0006.png",
+      "source_frame": 85,
+      "duration_ms": 100
+    }
+  ],
+  "excluded_frames": [
+    {
+      "source_frame": 24,
+      "reason": "Tail intersects right canvas edge; excluded from final animation"
+    }
+  ],
+  "duration_ms": 530
+}

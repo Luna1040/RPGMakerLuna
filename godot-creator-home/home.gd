@@ -185,10 +185,18 @@ func receive_state(_result: int, code: int, _h: PackedStringArray, body: PackedB
 func receive_games(_result: int, code: int, _h: PackedStringArray, body: PackedByteArray) -> void:
 	if code!=200: return
 	var raw:=body.get_string_from_utf8()
-	if raw==last_catalog: return
-	last_catalog=raw
 	var data=JSON.parse_string(raw)
 	if not data is Dictionary: return
+	for game in data.games:
+		var listing_path:=root_path.path_join(str(game.directory)).path_join("listing.json")
+		if not FileAccess.file_exists(listing_path): continue
+		var listing=JSON.parse_string(FileAccess.get_file_as_string(listing_path))
+		if not listing is Dictionary: continue
+		for key in ["description", "synopsis", "cover"]:
+			if listing.get(key) is String: game[key]=listing[key]
+	raw=JSON.stringify(data)
+	if raw==last_catalog: return
+	last_catalog=raw
 	for child in cards.get_children(): cards.remove_child(child); child.queue_free()
 	for game in data.games: add_card(game)
 	if not restored_card:
@@ -200,6 +208,7 @@ func receive_games(_result: int, code: int, _h: PackedStringArray, body: PackedB
 
 func add_card(game: Dictionary) -> void:
 	var card:=PanelContainer.new()
+	card.tooltip_text=str(game.get("synopsis", ""))
 	card.custom_minimum_size=Vector2(350,195)
 	var style:=StyleBoxFlat.new()
 	style.bg_color=Color("152238")

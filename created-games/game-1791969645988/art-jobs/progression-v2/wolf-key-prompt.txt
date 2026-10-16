@@ -1,0 +1,1 @@
+﻿Preserve exactly the one gray wolf in the reference, same size, full body, pose, fur and facing direction. Replace the entire dark teal background with perfectly uniform saturated magenta RGB255,0,255, including all gaps between legs and tail. Wolf contains no magenta. No shadows no floor no border no text. Only wolf on flat magenta.

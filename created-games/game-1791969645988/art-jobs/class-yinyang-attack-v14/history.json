@@ -1,0 +1,810 @@
+{
+  "prompt": [
+    6,
+    "75acaae3-b2ed-4918-8efc-bdff2ace3070",
+    {
+      "1": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "team-eab3376b3d6040668c3e5764d56635dc.png"
+        }
+      },
+      "2": {
+        "class_type": "CLIPLoader",
+        "inputs": {
+          "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+          "type": "minimax",
+          "device": "default"
+        }
+      },
+      "3": {
+        "class_type": "UNETLoader",
+        "inputs": {
+          "unet_name": "minimax_h3_ref2va_pruned_fp8_scaled.safetensors",
+          "weight_dtype": "default"
+        }
+      },
+      "4": {
+        "class_type": "VAELoader",
+        "inputs": {
+          "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+        }
+      },
+      "6": {
+        "class_type": "MiniMaxH3ReferenceToVideo",
+        "inputs": {
+          "clip": [
+            "2",
+            0
+          ],
+          "vae": [
+            "4",
+            0
+          ],
+          "prompt": "The single adult character in the reference picture. Preserve exact face, costume, weapon and identity. One complete ritual attack toward the right: bend knees, gather both hands with the yin yang disk, rotate hips and torso, sharply thrust the folding fan and disk forward, then return to a composed ready stance. No conjured objects or lights. Head and whole torso participate, hair and robes follow with secondary motion. Fixed three-quarter side camera, full body and entire weapon remain within central 70 percent of square frame, generous safe margins. No camera motion, cuts or zoom. Solid black background only, no ground, no shadows, no text, no scenery.",
+          "width": 768,
+          "height": 768,
+          "length": 44,
+          "ref_image_size": "match",
+          "ref_images.ref_image_0": [
+            "1",
+            0
+          ]
+        }
+      },
+      "7": {
+        "class_type": "BasicGuider",
+        "inputs": {
+          "model": [
+            "3",
+            0
+          ],
+          "conditioning": [
+            "6",
+            0
+          ]
+        }
+      },
+      "8": {
+        "class_type": "RandomNoise",
+        "inputs": {
+          "noise_seed": 2615747586576335
+        }
+      },
+      "9": {
+        "class_type": "KSamplerSelect",
+        "inputs": {
+          "sampler_name": "res_multistep"
+        }
+      },
+      "10": {
+        "class_type": "BasicScheduler",
+        "inputs": {
+          "model": [
+            "3",
+            0
+          ],
+          "scheduler": "normal",
+          "steps": 20,
+          "denoise": 1.0
+        }
+      },
+      "11": {
+        "class_type": "SamplerCustomAdvanced",
+        "inputs": {
+          "noise": [
+            "8",
+            0
+          ],
+          "guider": [
+            "7",
+            0
+          ],
+          "sampler": [
+            "9",
+            0
+          ],
+          "sigmas": [
+            "10",
+            0
+          ],
+          "latent_image": [
+            "6",
+            1
+          ]
+        }
+      },
+      "12": {
+        "class_type": "VAEDecodeTiled",
+        "inputs": {
+          "samples": [
+            "11",
+            0
+          ],
+          "vae": [
+            "4",
+            0
+          ],
+          "tile_size": 384,
+          "overlap": 64,
+          "temporal_size": 32,
+          "temporal_overlap": 8
+        }
+      },
+      "13": {
+        "class_type": "CreateVideo",
+        "inputs": {
+          "images": [
+            "12",
+            0
+          ],
+          "fps": 24.0
+        }
+      },
+      "14": {
+        "class_type": "SaveVideo",
+        "inputs": {
+          "video": [
+            "13",
+            0
+          ],
+          "filename_prefix": "team/73a1bd9fa5a04ba29aeae451a325918e/video",
+          "format": "mp4",
+          "format.codec": "h264"
+        }
+      },
+      "15": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "12",
+            0
+          ],
+          "filename_prefix": "team/73a1bd9fa5a04ba29aeae451a325918e/frames"
+        }
+      }
+    },
+    {
+      "client_id": "team/73a1bd9fa5a04ba29aeae451a325918e",
+      "create_time": 1792073727303
+    },
+    [
+      "14",
+      "15"
+    ]
+  ],
+  "outputs": {
+    "15": {
+      "images": [
+        {
+          "filename": "frames_00001_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00002_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00003_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00004_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00005_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00006_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00007_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00008_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00009_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00010_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00011_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00012_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00013_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00014_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00015_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00016_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00017_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00018_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00019_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00020_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00021_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00022_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00023_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00024_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00025_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00026_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00027_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00028_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00029_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00030_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00031_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00032_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00033_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00034_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00035_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00036_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00037_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00038_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00039_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00040_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00041_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00042_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00043_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00044_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00045_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00046_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00047_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00048_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00049_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00050_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00051_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00052_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00053_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00054_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00055_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        },
+        {
+          "filename": "frames_00056_.png",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        }
+      ]
+    },
+    "14": {
+      "images": [
+        {
+          "filename": "video_00001_.mp4",
+          "subfolder": "team\\73a1bd9fa5a04ba29aeae451a325918e",
+          "type": "output",
+          "metadata": {
+            "kind": "video",
+            "width": 768,
+            "height": 768,
+            "duration": 2.3333333333333335,
+            "fps": 24.0,
+            "frame_count": 56
+          }
+        }
+      ],
+      "animated": [
+        true
+      ]
+    }
+  },
+  "status": {
+    "status_str": "success",
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "75acaae3-b2ed-4918-8efc-bdff2ace3070",
+          "timestamp": 1792073727331
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [
+            "2",
+            "3",
+            "4",
+            "9",
+            "10"
+          ],
+          "prompt_id": "75acaae3-b2ed-4918-8efc-bdff2ace3070",
+          "timestamp": 1792073727340
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "75acaae3-b2ed-4918-8efc-bdff2ace3070",
+          "timestamp": 1792073800297
+        }
+      ]
+    ]
+  },
+  "meta": {
+    "15": {
+      "node_id": "15",
+      "display_node": "15",
+      "parent_node": null,
+      "real_node_id": "15"
+    },
+    "14": {
+      "node_id": "14",
+      "display_node": "14",
+      "parent_node": null,
+      "real_node_id": "14"
+    }
+  }
+}

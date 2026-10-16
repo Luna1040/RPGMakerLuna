@@ -1,0 +1,13 @@
+﻿{
+  "project": "Z:/RPGMakerLuna/created-games/game-1791969645988",
+  "entry": "res://main.tscn",
+  "reference": "https://web.4399.com/frxz/",
+  "assets": ["assets/town.png", "assets/field.png", "assets/battle.png", "assets/cast.png", "assets/wolf.png"],
+  "jobs": ["art-jobs/town-v1", "art-jobs/field-v1", "art-jobs/battle-v1", "art-jobs/cast-v1", "art-jobs/wolf-v1"],
+  "generation": "All five image jobs completed, outputs copied to assets; map and static portrait candidates visually reviewed",
+  "quality_failures": ["cast-v1 last panel contains rider: replaced with independent wolf-v1", "Static portrait panels have opaque teal backgrounds; transparent character animation is incomplete", "Configured embedded Python missing; used C:/Python315/python.exe", "art_cli check: av/PIL/numpy/onnxruntime and matte model unavailable", "Actual in-game visual inspection and bridge import/restart pending"],
+  "verification": "Godot 4.7.2 headless smoke PASS, zero assertions failed; root certificate store warning remains",
+  "bridge": "No editor import or visible game launched; bridge owns import checks and restart. No other Godot processes killed.",
+  "flow": "Five linked town NPC tasks -> level 10 -> field with two NPCs and three monster encounters -> independent arena automatic rounds -> acknowledge settlement -> original map position",
+  "limitations": "Static portraits with code-driven hover, no generated full-body animation. Linear linked introductory tasks. Monster pack uses combined HP."
+}

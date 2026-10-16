@@ -1,0 +1,147 @@
+{
+  "project": "Z:\\RPGMakerLuna\\created-games\\game-1791969645988",
+  "entry": "res://main.tscn",
+  "features": [
+    "Animated dash -> generated whole body sword slash / wolf bite -> hit damage -> return; independent deterministic damage rules",
+    "Damage label holds 1.0 seconds then fades for 0.35 seconds",
+    "Top right quick battle completes current partial round once, skips remaining presentation and logs, shows summary; terminal wait skip cannot grant an extra attack",
+    "Wild reward per enemy: level * 4 XP and level * 2 gold; pack count 3",
+    "Future dungeon policy multiplier 5; no dungeon map opened",
+    "Town tutorial level 5 preserved; field packs total 252 XP plus completion quest 248 XP reach level 10; existing earned progress not deducted"
+  ],
+  "actions": {
+    "sword": {
+      "directory": "assets\\animations\\sword",
+      "canvas": [
+        768,
+        768
+      ],
+      "pivot": [
+        384,
+        610
+      ],
+      "scale": 0.36,
+      "frames": 8,
+      "duration_ms": 540,
+      "event_ms": 240,
+      "source_frames": [
+        8,
+        16,
+        22,
+        27,
+        34,
+        40,
+        65,
+        85
+      ],
+      "sha256": {
+        "0000.png": "183d2b6382658c52635e5c9c5402023678c68b096172024ed3cc55300314be4f",
+        "0001.png": "a454eee03477f5301525151e1ad45dc5eca80f391b90eb636355d70e0fe74d80",
+        "0002.png": "2784fb9324e8d61cd60d1b6d6cb2179512cb4089ac3656f07b09bf561b1fc4b3",
+        "0003.png": "5d54dfba4f4457ed6c6f7da74b023c36c2c3e5d6736c79ab78ef64ac1bc97698",
+        "0004.png": "17f96b47ce6e1ac0d92a552c6e1dfd36baf74998e2bfacaed8d0cf33c9040b23",
+        "0005.png": "fff2a291a99f819be3cfd5a892ee806be0cdc843186d9953735a47711b9c6ebe",
+        "0006.png": "35f5d1bc93d5a59ef9f70e36b9fea18f1fc20682d419250ca6c97ce1f467c35b",
+        "0007.png": "f2b3e51b4408c0407e5cce08361d110de117093bbf65181ad97a6517d6f1a122"
+      }
+    },
+    "bite": {
+      "directory": "assets\\animations\\bite",
+      "canvas": [
+        768,
+        768
+      ],
+      "pivot": [
+        384,
+        545
+      ],
+      "scale": 0.2,
+      "frames": 7,
+      "duration_ms": 530,
+      "event_ms": 270,
+      "source_frames": [
+        0,
+        8,
+        16,
+        32,
+        40,
+        60,
+        85
+      ],
+      "sha256": {
+        "0000.png": "108e4cefd4de0fabd8cfb6f6ae095770570d3a9ee73b454b8608a57e5cd7f3e3",
+        "0001.png": "b25899003c00092f34e50713fc4b6264d757b537274e347f19a9a693b828a557",
+        "0002.png": "86510d1d0c793a51cf4ffd319df26bbfdfdab98a478c3f617f6c7a582d27754e",
+        "0003.png": "6eb89fc47724874e2121b95e940eb94768a617a50ffed3ecf31135369ad20511",
+        "0004.png": "4d87edcc4bd7f1cc754ad9a602a67aafdc8a23647e54e13ba1a3ba9bdf150492",
+        "0005.png": "b15ac3bf4db149ad47fa326863f2a300178ed88781aff4146b907a4c8771c3fe",
+        "0006.png": "f809d675cfef2bad6fb823afd2e445295f26e67503f3e5cb90099f3276f0c5d0"
+      }
+    }
+  },
+  "jobs": {
+    "sword_final_generation": "art-jobs/sword-padded-motion-v5",
+    "bite_generation": "art-jobs/bite-motion-v5",
+    "sources": [
+      "art-jobs/sword-padded-source-v5",
+      "art-jobs/bite-source-v5"
+    ],
+    "original_source_frames_per_action": 124,
+    "matte_candidates": [
+      "art-jobs/sword-matte-candidates-v5",
+      "art-jobs/sword-matte-remainder-v5",
+      "art-jobs/bite-matte-candidates-v5"
+    ],
+    "rgba": [
+      "art-jobs/sword-alpha-selected-v5/00008.png",
+      "art-jobs/sword-alpha-remainder-v5",
+      "art-jobs/bite-alpha-selected-v5"
+    ],
+    "selection": [
+      "art-jobs/combat-v5/sword-selection.json",
+      "art-jobs/combat-v5/bite-selection.json"
+    ],
+    "exports": [
+      "art-jobs/sword-export-v5",
+      "art-jobs/bite-export-v5"
+    ]
+  },
+  "generation_status": "Final action videos generated, 124 original source PNGs each archived in node/index order; selected action phase candidates semantically matted, reviewed on dark/light backgrounds, packed through art_cli, copied into assets and loaded by runtime tests",
+  "runtime_check": "art_cli check ALL PASS using project-local Python312 plus GAME_MATTE_MODEL=project art-jobs/combat-v5/birefnet-lite.onnx",
+  "processing": "Existing art_cli/comfy_client/matte_frames/pack_frames reused. Runtime wrapper limits ORT threads only; no new segmentation algorithm. Model downloaded from hf-mirror after official connection timeout; exact pinned manifest size/SHA256 verified. Fixed 768x768 canvas and constant pivot/scale; no per-frame repositioning or resizing.",
+  "failed_quality_checks": [
+    {
+      "job": "art-jobs/sword-motion-v5",
+      "reason": "Blade intersects canvas during attack; original motion discarded and regenerated with padded reference"
+    },
+    {
+      "source": "bite-source-v5/00024.png",
+      "reason": "Tail intersects canvas; frame excluded from final selection and packing"
+    },
+    {
+      "job": "art-jobs/sword-alpha-selected-v5",
+      "reason": "Concurrent ORT allocation failed after first frame; successful frame preserved, remaining candidates processed in a new directory serially"
+    },
+    {
+      "check": "DirectML",
+      "reason": "Unavailable; explicitly refused silent fallback during probe, final processing used CPU"
+    }
+  ],
+  "verification": [
+    "BATTLE TEST: PASS (0 failures)",
+    "SMOKE TEST: PASS (0 failures)",
+    "MENU TEST: PASS (0 failures)",
+    "Existing pack tool RGBA/canvas/transparent-edge/event validation PASS"
+  ],
+  "logs": [
+    "art-jobs/combat-v5/battle-test.log",
+    "art-jobs/combat-v5/smoke-final.log",
+    "art-jobs/combat-v5/menu-final.log"
+  ],
+  "remaining_quality": [
+    "Live in-game playback, idle/attack transition and perceived timing review pending bridge import/restart; not marked visually accepted in-game",
+    "Generated high-speed sword smear is omitted by semantic foreground mask in one hit frame; separate code-driven slash impact supplies the hit cue",
+    "Godot root certificate store warning remains; no GDScript errors in final checks"
+  ],
+  "launch": "Bridge owns import and restart. No visible game/editor launched, other Godot process stopped, credentials read, commit or push performed."
+}

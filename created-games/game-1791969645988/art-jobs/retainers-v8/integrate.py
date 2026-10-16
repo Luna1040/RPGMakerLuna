@@ -1,0 +1,25 @@
+﻿from pathlib import Path
+p=Path('retainer_system.gd');s=p.read_text(encoding='utf-8-sig').replace('\t\tif int(c.get("level",1))>=10: refresh(c,int(Time.get_unix_time_from_system()),true)','\tif not state.get("initialized",false) and int(c.get("level",1))>=10:\n\t\trefresh(c,int(Time.get_unix_time_from_system()),true)\n\t\tstate.initialized=true');p.write_text(s,encoding='utf-8')
+p=Path('main.gd');s=p.read_text(encoding='utf-8');s=s.replace('const Estate =','const Retainers=preload("res://retainer_system.gd")\nvar retainer_ui=preload("res://retainer_ui.gd").new()\nvar battle_retainer_units: Array=[]\nvar battle_retainer_nodes: Array=[]\nvar map_retainer_nodes: Array=[]\nconst Estate =',1)
+s=s.replace('\tEstate.normalize(character)','\tEstate.normalize(character)\n\tRetainers.normalize(character)')
+s=s.replace('Vector2(570,535),Vector2(780,590)','Vector2(570,535),Vector2(780,590),Vector2(960,455)')
+s=s.replace('"names":["接引长老","传功师姐"],"positions":SECT_POS,"portraits":[5,2]','"names":["接引长老","传功师姐","散修执事"],"positions":SECT_POS,"portraits":[5,2,6]')
+s=s.replace('return int(character.level)>=10 and ((index==0','return int(character.level)>=10 and ((index==2 and not character.retainers.introduced) or (index==0')
+s=s.replace('\t\tif int(character.level)<10:\n\t\t\tdialog("接引长老"','\t\tif index==2:\n\t\t\tdialog("散修执事","十级后可招募散修。招募后先进入备战，再设为随行。练气可带1位，筑基2位，金丹3位，元婴及以上4位。随行散修一同战斗，获得双倍战斗经验。","了解 · 打开散修",open_retainer_guide)\n\t\telif int(character.level)<10:\n\t\t\tdialog("接引长老"',1)
+s=s.replace('\t\t0: build_character_menu(content)','\t\t0: build_character_menu(content)\n\t\t1: retainer_ui.build(self,content)',1)
+s=s.replace('\testate_ui.tick(delta)','\testate_ui.tick(delta)\n\tretainer_ui.update_cooldown()',1)
+s=s.replace('\t\tavatar.position=player_pos+Vector2(0,sin(Time.get_ticks_msec()/240.0)*3)','\t\tavatar.position=player_pos+Vector2(0,sin(Time.get_ticks_msec()/240.0)*3)\n\t\tfor i in range(map_retainer_nodes.size()):\n\t\t\tif is_instance_valid(map_retainer_nodes[i]): map_retainer_nodes[i].position=map_retainer_nodes[i].position.move_toward(player_pos+Vector2(-45-i*32,16),220*delta)',1)
+s=s.replace('\tvar town: bool=character.zone=="town"','\tmap_retainer_nodes=[]\n\tfor i in range(character.retainers.following.size()):\n\t\tvar unit: Dictionary=character.retainers.following[i]\n\t\tmap_retainer_nodes.append(actor(map_layer,int(unit.portrait),player_pos+Vector2(-45-i*32,16),unit.name,0.85))\n\tvar town: bool=character.zone=="town"',1)
+s=s.replace('\tbattle_enemies=[]','\tbattle_retainer_units=character.retainers.following.duplicate(true)\n\tbattle_retainer_nodes=[]\n\tfor i in range(battle_retainer_units.size()):\n\t\tvar unit: Dictionary=battle_retainer_units[i]\n\t\tunit.combat_hp=Retainers.stats(unit).hp\n\t\tbattle_retainer_nodes.append(actor(screen,int(unit.portrait),Vector2(100+i*110,340),unit.name+" Lv.%d" % unit.level,1.4))\n\tbattle_enemies=[]',1)
+s=s.replace('\tenemy_hp-=damage\n\tif not quick_mode:', '\tenemy_hp-=damage\n\tfor i in range(battle_retainer_units.size()):\n\t\tvar unit: Dictionary=battle_retainer_units[i]\n\t\tif int(unit.combat_hp)<=0 or enemy_hp<=0: continue\n\t\tvar support:=mini(enemy_hp,int(Retainers.stats(unit).attack))\n\t\tenemy_hp-=support\n\t\tif not quick_mode: battle_log.append_text("%s 助战，造成%d伤害。\\n" % [unit.name,support])\n\t\tif visual:\n\t\t\tshow_damage(battle_enemies[target_enemy()].position+Vector2(0,-35-i*24),support,false)\n\t\t\tvar support_node: Control=battle_retainer_nodes[i]\n\t\t\tvar home:=support_node.position\n\t\t\tvar motion:=support_node.create_tween()\n\t\t\tmotion.tween_property(support_node,"position",battle_enemies[target_enemy()].position+Vector2(-100,-40),0.15)\n\t\t\tmotion.tween_property(support_node,"position",home,0.2)\n\tif not quick_mode:',1)
+s=s.replace('\tenemy_hit_done=true\n\tvar damage', '\tenemy_hit_done=true\n\tif not battle_retainer_units.is_empty() and round_number%2==0:\n\t\tvar index: int=(round_number/2-1)%battle_retainer_units.size()\n\t\tvar unit: Dictionary=battle_retainer_units[index]\n\t\tif int(unit.combat_hp)>0:\n\t\t\tvar harm:=mini(int(unit.combat_hp),maxi(1,12+battle_group*7-int(Retainers.stats(unit).defense)))\n\t\t\tunit.combat_hp-=harm\n\t\t\tif not quick_mode: battle_log.append_text("%s 受到%d伤害，气血剩余%d。\\n" % [unit.name,harm,unit.combat_hp])\n\t\t\tif visual: show_damage(battle_retainer_nodes[index].position,harm,true)\n\t\t\tbattle_retainer_nodes[index].modulate=Color(0.4,0.4,0.4) if int(unit.combat_hp)<=0 else Color.WHITE\n\t\t\tupdate_combat(); return\n\tvar damage',1)
+s=s.replace('\t\t\tadd_experience(int(rewards.xp))','\t\t\tadd_experience(int(rewards.xp))\n\t\t\tRetainers.award_battle(character,int(rewards.xp))',1)
+s=s.replace('\tif won:\n\t\tvar names: PackedStringArray=[]','\tif won:\n\t\tif not character.retainers.following.is_empty(): label_text(modal.get_child(0),"每位随行散修获得%d经验（双倍战斗经验）" % (int(rewards.xp)*2),16)\n\t\tvar names: PackedStringArray=[]',1)
+s+='''
+func open_retainer_guide() -> void:
+	close_dialog()
+	character.retainers.introduced=true
+	persist()
+	toggle_menu(1)
+'''
+p.write_text(s,encoding='utf-8')

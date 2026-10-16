@@ -1,0 +1,110 @@
+{
+  "prompt": [
+    46,
+    "5df6d638-8561-4948-929f-7a620ad1cec7",
+    {
+      "1": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "team-ca91d3da15784dd294f2be4ee392761d.png"
+        }
+      },
+      "2": {
+        "class_type": "ImageScale",
+        "inputs": {
+          "image": [
+            "1",
+            0
+          ],
+          "upscale_method": "lanczos",
+          "width": 384,
+          "height": 480,
+          "crop": "disabled"
+        }
+      },
+      "3": {
+        "class_type": "ImagePadForOutpaint",
+        "inputs": {
+          "image": [
+            "2",
+            0
+          ],
+          "left": 192,
+          "right": 192,
+          "top": 144,
+          "bottom": 144,
+          "feathering": 0
+        }
+      },
+      "4": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "3",
+            0
+          ],
+          "filename_prefix": "game-art/sword-padded-c8e77bc8d55643f4af70d487b786aa93"
+        }
+      }
+    },
+    {
+      "client_id": "sword-padded-ref-v5",
+      "create_time": 1792043652121
+    },
+    [
+      "4"
+    ]
+  ],
+  "outputs": {
+    "4": {
+      "images": [
+        {
+          "filename": "sword-padded-c8e77bc8d55643f4af70d487b786aa93_00001_.png",
+          "subfolder": "game-art",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 768,
+            "height": 768
+          }
+        }
+      ]
+    }
+  },
+  "status": {
+    "status_str": "success",
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "5df6d638-8561-4948-929f-7a620ad1cec7",
+          "timestamp": 1792043668262
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [],
+          "prompt_id": "5df6d638-8561-4948-929f-7a620ad1cec7",
+          "timestamp": 1792043668265
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "5df6d638-8561-4948-929f-7a620ad1cec7",
+          "timestamp": 1792043668298
+        }
+      ]
+    ]
+  },
+  "meta": {
+    "4": {
+      "node_id": "4",
+      "display_node": "4",
+      "parent_node": null,
+      "real_node_id": "4"
+    }
+  }
+}

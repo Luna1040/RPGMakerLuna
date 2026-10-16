@@ -1,0 +1,3 @@
+﻿from pathlib import Path
+p=Path('main.gd');s=p.read_text(encoding='utf-8-sig');s=s.replace('if (gifted or new_retainer_offers) and slot>=0 and character.has_all(["name","profession","created_at","logged_out_at"]): persist()','if (gifted or new_retainer_offers) and slot>=0 and character.has_all(["name","profession","created_at","logged_out_at"]): store.save_slot(slot,character)');p.write_text(s,encoding='utf-8')
+p=Path('retainer_system.gd');s=p.read_text(encoding='utf-8').replace('or "合体" in realm or "大乘" in realm or "渡劫" in realm','or "合体" in realm or "大乘" in realm or "渡劫" in realm or "炼虚" in realm or "出窍" in realm or "分神" in realm or "洞虚" in realm or "仙人" in realm or "真仙" in realm or "金仙" in realm');p.write_text(s,encoding='utf-8')

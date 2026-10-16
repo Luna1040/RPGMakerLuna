@@ -1,0 +1,136 @@
+{
+  "1": {
+    "class_type": "UNETLoader",
+    "inputs": {
+      "unet_name": "flux-2-klein-9b-fp8.safetensors",
+      "weight_dtype": "default"
+    }
+  },
+  "2": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "qwen_3_8b_fp8mixed.safetensors",
+      "type": "flux2",
+      "device": "default"
+    }
+  },
+  "3": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "flux2-vae.safetensors"
+    }
+  },
+  "4": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "2",
+        0
+      ],
+      "text": "A game UI icon atlas, exactly SEVEN square icons arranged in a SINGLE HORIZONTAL ROW of seven equal 256x256 cells, total aspect ratio 7:1. Chinese xianxia RPG ornate hand painted jade and bronze gold icons, matching dark teal square backgrounds, every icon centered in its own equal square with generous empty margins. From LEFT to RIGHT: 1 elegant cultivator head and shoulders portrait medallion; 2 two wandering immortal silhouettes under a straw hat; 3 golden brown inventory pouch bag; 4 miniature magical garden bonsai tree on jade island; 5 parchment quest scroll with red seal; 6 glowing blue sword crossed with golden lightning; 7 bronze mechanical gear surrounding jade center. Exactly seven separate square icons, consistent ornate gold border and light direction, readable simple silhouettes at small size, no letters no text no numbers no watermark, no additional rows."
+    }
+  },
+  "5": {
+    "class_type": "ConditioningZeroOut",
+    "inputs": {
+      "conditioning": [
+        "4",
+        0
+      ]
+    }
+  },
+  "6": {
+    "class_type": "EmptyFlux2LatentImage",
+    "inputs": {
+      "width": 1792,
+      "height": 256,
+      "batch_size": 1
+    }
+  },
+  "7": {
+    "class_type": "RandomNoise",
+    "inputs": {
+      "noise_seed": 7685927750087849
+    }
+  },
+  "8": {
+    "class_type": "KSamplerSelect",
+    "inputs": {
+      "sampler_name": "euler"
+    }
+  },
+  "9": {
+    "class_type": "Flux2Scheduler",
+    "inputs": {
+      "steps": 4,
+      "width": 1792,
+      "height": 256
+    }
+  },
+  "10": {
+    "class_type": "CFGGuider",
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "positive": [
+        "4",
+        0
+      ],
+      "negative": [
+        "5",
+        0
+      ],
+      "cfg": 1
+    }
+  },
+  "11": {
+    "class_type": "SamplerCustomAdvanced",
+    "inputs": {
+      "noise": [
+        "7",
+        0
+      ],
+      "guider": [
+        "10",
+        0
+      ],
+      "sampler": [
+        "8",
+        0
+      ],
+      "sigmas": [
+        "9",
+        0
+      ],
+      "latent_image": [
+        "6",
+        0
+      ]
+    }
+  },
+  "12": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "11",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    }
+  },
+  "13": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "12",
+        0
+      ],
+      "filename_prefix": "game-art/ff980675e1c0467db63d69190c773641"
+    }
+  }
+}

@@ -1,0 +1,107 @@
+[
+  {
+    "file": "00000.png",
+    "node": "36",
+    "kind": "images",
+    "remote": {
+      "filename": "alpha-source-6-8f98fe947d324c37818874dc2c1aaed8_00001_.png",
+      "subfolder": "game-art",
+      "type": "output",
+      "metadata": {
+        "kind": "image",
+        "width": 308,
+        "height": 388
+      }
+    }
+  },
+  {
+    "file": "00001.png",
+    "node": "35",
+    "kind": "images",
+    "remote": {
+      "filename": "alpha-source-5-cd94c9d120bf4e9e9e8c9f350f9ac261_00001_.png",
+      "subfolder": "game-art",
+      "type": "output",
+      "metadata": {
+        "kind": "image",
+        "width": 308,
+        "height": 388
+      }
+    }
+  },
+  {
+    "file": "00002.png",
+    "node": "32",
+    "kind": "images",
+    "remote": {
+      "filename": "alpha-source-2-49df3bb2d1ed48b89a52e559d3e05d55_00001_.png",
+      "subfolder": "game-art",
+      "type": "output",
+      "metadata": {
+        "kind": "image",
+        "width": 308,
+        "height": 388
+      }
+    }
+  },
+  {
+    "file": "00003.png",
+    "node": "30",
+    "kind": "images",
+    "remote": {
+      "filename": "alpha-source-0-6f60ef3685384d4f9987a7b99722c53e_00001_.png",
+      "subfolder": "game-art",
+      "type": "output",
+      "metadata": {
+        "kind": "image",
+        "width": 308,
+        "height": 388
+      }
+    }
+  },
+  {
+    "file": "00004.png",
+    "node": "31",
+    "kind": "images",
+    "remote": {
+      "filename": "alpha-source-1-3c99f37a75164b16933b0e2b4ac823cb_00001_.png",
+      "subfolder": "game-art",
+      "type": "output",
+      "metadata": {
+        "kind": "image",
+        "width": 308,
+        "height": 388
+      }
+    }
+  },
+  {
+    "file": "00005.png",
+    "node": "33",
+    "kind": "images",
+    "remote": {
+      "filename": "alpha-source-3-a5d68ea232b9403b92a03aa5e1342e1a_00001_.png",
+      "subfolder": "game-art",
+      "type": "output",
+      "metadata": {
+        "kind": "image",
+        "width": 308,
+        "height": 388
+      }
+    }
+  },
+  {
+    "file": "00006.png",
+    "node": "34",
+    "kind": "images",
+    "remote": {
+      "filename": "alpha-source-4-6f7a564d70614f70a3ea8e0c9de43cd7_00001_.png",
+      "subfolder": "game-art",
+      "type": "output",
+      "metadata": {
+        "kind": "image",
+        "width": 308,
+        "height": 388
+      }
+    }
+  }
+]

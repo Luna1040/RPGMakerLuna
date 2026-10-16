@@ -1,0 +1,3 @@
+﻿from pathlib import Path
+p=Path('main.gd');s=p.read_text(encoding='utf-8').replace('dialog(MONSTERS[group],"你已来到怪物面前。进入独立野外战斗空间，双方将自动轮流出手。","战斗",start_battle.bind(group))','start_battle(group)');p.write_text(s,encoding='utf-8')
+p=Path('tests/smoke.gd');s=p.read_text(encoding='utf-8-sig').replace('game.start_battle(0)','game.map_layer.get_node("Monster0/ClickArea").pressed.emit()\n\tcheck(game.mode=="map","monster waits for approach")\n\tfinish_walk(game)\n\tcheck(game.mode=="battle","arrival starts combat directly")',1).replace('game.player_pos==Vector2(330,555)','game.player_pos==game.GROUP_POS[0]+Vector2(-55,35)');p.write_text(s,encoding='utf-8')

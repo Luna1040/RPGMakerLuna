@@ -1,0 +1,206 @@
+{
+  "prompt": [
+    41,
+    "d6fe7f3a-bc23-45c3-88d0-2c307cd58de2",
+    {
+      "1": {
+        "class_type": "UNETLoader",
+        "inputs": {
+          "unet_name": "flux-2-klein-9b-fp8.safetensors",
+          "weight_dtype": "default"
+        }
+      },
+      "2": {
+        "class_type": "CLIPLoader",
+        "inputs": {
+          "clip_name": "qwen_3_8b_fp8mixed.safetensors",
+          "type": "flux2",
+          "device": "default"
+        }
+      },
+      "3": {
+        "class_type": "VAELoader",
+        "inputs": {
+          "vae_name": "flux2-vae.safetensors"
+        }
+      },
+      "4": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "2",
+            0
+          ],
+          "text": "Horizontal inventory icon atlas, exactly four equally sized square cells, ancient Chinese xianxia magical jade manuals. Left to right: icy blue jade tablet engraved with a simple sword emblem; black and ivory jade tablet engraved with yin yang symbol; purple jade tablet engraved with crossed daggers; golden jade tablet engraved with a lightning talisman emblem. All four isolated fully visible, dark teal backdrop, refined hand painted game item art, no lettering, no labels, no numbers, no people, no extra icons. Four equal cells only."
+        }
+      },
+      "5": {
+        "class_type": "ConditioningZeroOut",
+        "inputs": {
+          "conditioning": [
+            "4",
+            0
+          ]
+        }
+      },
+      "6": {
+        "class_type": "EmptyFlux2LatentImage",
+        "inputs": {
+          "width": 1024,
+          "height": 256,
+          "batch_size": 1
+        }
+      },
+      "7": {
+        "class_type": "RandomNoise",
+        "inputs": {
+          "noise_seed": 4408975740751424
+        }
+      },
+      "8": {
+        "class_type": "KSamplerSelect",
+        "inputs": {
+          "sampler_name": "euler"
+        }
+      },
+      "9": {
+        "class_type": "Flux2Scheduler",
+        "inputs": {
+          "steps": 4,
+          "width": 1024,
+          "height": 256
+        }
+      },
+      "10": {
+        "class_type": "CFGGuider",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ],
+          "positive": [
+            "4",
+            0
+          ],
+          "negative": [
+            "5",
+            0
+          ],
+          "cfg": 1.0
+        }
+      },
+      "11": {
+        "class_type": "SamplerCustomAdvanced",
+        "inputs": {
+          "noise": [
+            "7",
+            0
+          ],
+          "guider": [
+            "10",
+            0
+          ],
+          "sampler": [
+            "8",
+            0
+          ],
+          "sigmas": [
+            "9",
+            0
+          ],
+          "latent_image": [
+            "6",
+            0
+          ]
+        }
+      },
+      "12": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "11",
+            0
+          ],
+          "vae": [
+            "3",
+            0
+          ]
+        }
+      },
+      "13": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "12",
+            0
+          ],
+          "filename_prefix": "game-art/753e43572f414ae580cf010be72b9432"
+        }
+      }
+    },
+    {
+      "client_id": "game-image-60a3fee23bb745c9b3a7cab369c10175",
+      "create_time": 1792073114994
+    },
+    [
+      "13"
+    ]
+  ],
+  "outputs": {
+    "13": {
+      "images": [
+        {
+          "filename": "753e43572f414ae580cf010be72b9432_00001_.png",
+          "subfolder": "game-art",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 1024,
+            "height": 256
+          }
+        }
+      ]
+    }
+  },
+  "status": {
+    "status_str": "success",
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "d6fe7f3a-bc23-45c3-88d0-2c307cd58de2",
+          "timestamp": 1792073115003
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [
+            "1",
+            "2",
+            "3",
+            "8"
+          ],
+          "prompt_id": "d6fe7f3a-bc23-45c3-88d0-2c307cd58de2",
+          "timestamp": 1792073115007
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "d6fe7f3a-bc23-45c3-88d0-2c307cd58de2",
+          "timestamp": 1792073116823
+        }
+      ]
+    ]
+  },
+  "meta": {
+    "13": {
+      "node_id": "13",
+      "display_node": "13",
+      "parent_node": null,
+      "real_node_id": "13"
+    }
+  }
+}

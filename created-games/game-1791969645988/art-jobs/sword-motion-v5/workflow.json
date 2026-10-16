@@ -1,0 +1,162 @@
+{
+  "1": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "team-8335f7e241fa42339ee2bcfaa5500fa8.png"
+    }
+  },
+  "2": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+      "type": "minimax",
+      "device": "default"
+    }
+  },
+  "3": {
+    "class_type": "UNETLoader",
+    "inputs": {
+      "unet_name": "minimax_h3_ref2va_pruned_fp8_scaled.safetensors",
+      "weight_dtype": "default"
+    }
+  },
+  "4": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+    }
+  },
+  "6": {
+    "class_type": "MiniMaxH3ReferenceToVideo",
+    "inputs": {
+      "clip": [
+        "2",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "prompt": "﻿The adult male cultivator from Picture 1, preserve exactly his face, black hair, white and teal hanfu, belt and sword. Side-facing RIGHT. One complete readable sword attack: bend knees and load hips, twist shoulders and lift sword, drive hips and torso into one fast diagonal sword slash to the right, follow through and recover to ready stance. Head and torso participate naturally, hair and sleeves follow with delay. Full body and entire sword always visible. Center the character at 60 percent image height with generous empty margins around weapon. Fixed camera, no zoom, no cuts, no other characters, no particles, no scene or floor or shadow. Solid pure BLACK background including internal holes. High quality illustrated Chinese xianxia game character, preserve original identity.\n",
+      "width": 768,
+      "height": 768,
+      "length": 124,
+      "ref_image_size": "match",
+      "ref_images.ref_image_0": [
+        "1",
+        0
+      ]
+    }
+  },
+  "7": {
+    "class_type": "BasicGuider",
+    "inputs": {
+      "model": [
+        "3",
+        0
+      ],
+      "conditioning": [
+        "6",
+        0
+      ]
+    }
+  },
+  "8": {
+    "class_type": "RandomNoise",
+    "inputs": {
+      "noise_seed": 3363370661001730
+    }
+  },
+  "9": {
+    "class_type": "KSamplerSelect",
+    "inputs": {
+      "sampler_name": "res_multistep"
+    }
+  },
+  "10": {
+    "class_type": "BasicScheduler",
+    "inputs": {
+      "model": [
+        "3",
+        0
+      ],
+      "scheduler": "normal",
+      "steps": 20,
+      "denoise": 1.0
+    }
+  },
+  "11": {
+    "class_type": "SamplerCustomAdvanced",
+    "inputs": {
+      "noise": [
+        "8",
+        0
+      ],
+      "guider": [
+        "7",
+        0
+      ],
+      "sampler": [
+        "9",
+        0
+      ],
+      "sigmas": [
+        "10",
+        0
+      ],
+      "latent_image": [
+        "6",
+        1
+      ]
+    }
+  },
+  "12": {
+    "class_type": "VAEDecodeTiled",
+    "inputs": {
+      "samples": [
+        "11",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "tile_size": 384,
+      "overlap": 64,
+      "temporal_size": 32,
+      "temporal_overlap": 8
+    }
+  },
+  "13": {
+    "class_type": "CreateVideo",
+    "inputs": {
+      "images": [
+        "12",
+        0
+      ],
+      "fps": 24.0
+    }
+  },
+  "14": {
+    "class_type": "SaveVideo",
+    "inputs": {
+      "video": [
+        "13",
+        0
+      ],
+      "filename_prefix": "team/a457d44ee0b3455ca2286bcf270c5cad/video",
+      "format": "mp4",
+      "format.codec": "h264"
+    }
+  },
+  "15": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "12",
+        0
+      ],
+      "filename_prefix": "team/a457d44ee0b3455ca2286bcf270c5cad/frames"
+    }
+  }
+}
