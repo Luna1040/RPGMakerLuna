@@ -1,0 +1,45 @@
+{
+  "1": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "team-ca91d3da15784dd294f2be4ee392761d.png"
+    }
+  },
+  "2": {
+    "class_type": "ImageScale",
+    "inputs": {
+      "image": [
+        "1",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "width": 384,
+      "height": 480,
+      "crop": "disabled"
+    }
+  },
+  "3": {
+    "class_type": "ImagePadForOutpaint",
+    "inputs": {
+      "image": [
+        "2",
+        0
+      ],
+      "left": 192,
+      "right": 192,
+      "top": 144,
+      "bottom": 144,
+      "feathering": 0
+    }
+  },
+  "4": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "3",
+        0
+      ],
+      "filename_prefix": "game-art/sword-padded-c8e77bc8d55643f4af70d487b786aa93"
+    }
+  }
+}

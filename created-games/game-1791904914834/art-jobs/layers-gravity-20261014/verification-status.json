@@ -1,0 +1,23 @@
+﻿{
+ "scope": "Procedural level generation, obstacle HP, color-component gravity and UI; existing placeholder visuals reused",
+ "layer_height": 100,
+ "air_rows": 5,
+ "rock_rows": 95,
+ "initial_fall": 5,
+ "advance": "Fresh Space slash after level completion",
+ "black_strengths": [1,2,3,4,5,6,7,8,9],
+ "black_chains": false,
+ "black_gravity": false,
+ "gravity": "Whole four-way color components; any bottom support prevents falling; same-color landing breaks merged component",
+ "layer_boundary": "Structural support prevents rocks falling into next layer before entry",
+ "player_collision": "Falling rocks cannot overwrite occupied player cell",
+ "verification": "42 assertions PASS; full generated layer simulation; second-layer transition; 200-layer memory test",
+ "game_launched": false,
+ "visual_review": "Pending bridge launch",
+ "generated_assets": [],
+ "new_generation_jobs": [],
+ "art_status": "Existing geometric placeholders; no image/video assets added for logic and UI changes",
+ "art_check": "Configured Python missing; 9315/9316 connection refused; dependencies and model missing",
+ "not_passed": ["Formal art generation", "Animation alpha and loop review", "In-game visual acceptance"],
+ "environment_error": "Godot root certificate store unavailable; no SCRIPT ERROR in final test"
+}

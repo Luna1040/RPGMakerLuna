@@ -1,0 +1,21 @@
+{
+  "project": "Z:/app/RPGMakerLuna/created-games/game-1791904914834",
+  "generation_status": "failed_before_submission",
+  "prompt": "prompt.txt",
+  "intended_job_directory": "image-job",
+  "prompt_id": null,
+  "generated_outputs": [],
+  "asset_integration": "temporary_procedural_crystal_marker_only",
+  "image_service": "http://127.0.0.1:9315",
+  "error": "image submit /system_stats: WinError 10061 connection refused",
+  "startup_attempt": "Visible powershell terminal running start-comfy-terminal.ps1 -Service Image; configured embedded Python path does not exist",
+  "available_python": "C:/Python315/python.exe",
+  "art_check": {
+    "image": "connection refused",
+    "video": "connection refused",
+    "missing_dependencies": ["av", "PIL", "numpy", "onnxruntime"],
+    "matte_model": "not found"
+  },
+  "pending_quality_checks": ["generated crystal art", "asset integration", "real game window visual review"],
+  "tests": "VERIFICATION PASS: 82 checks; checks.log; no SCRIPT ERROR; Godot root certificate warning remains"
+}

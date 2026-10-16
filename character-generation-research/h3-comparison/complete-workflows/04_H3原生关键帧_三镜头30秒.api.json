@@ -1,0 +1,469 @@
+{
+  "1": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "wuxia-opening-reference-v1.png"
+    }
+  },
+  "2": {
+    "class_type": "H3ModelLoaderAny",
+    "inputs": {
+      "model_name": "minimax_h3_fl2va_pruned_fp8_scaled.safetensors",
+      "activation_reserve_gb": 3.0
+    }
+  },
+  "3": {
+    "class_type": "H3ClipLoaderAny",
+    "inputs": {
+      "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+      "type": "minimax"
+    }
+  },
+  "4": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+    }
+  },
+  "5": {
+    "class_type": "ImageScale",
+    "inputs": {
+      "width": 1344,
+      "height": 768,
+      "image": [
+        "1",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "crop": "disabled"
+    }
+  },
+  "6": {
+    "class_type": "H3Keyframes",
+    "inputs": {
+      "prompt": "Chinese wuxia film opening, adult characters, cinematic live action. The first frame defines the heroine's face, hair, ivory and pale-blue hanfu and the ancient pavilion in a bamboo grove. Keep her identity and costume consistent. Animate full body actions with clear intent, weight, foot placement and readable gestures. Real spatial movement, not a still portrait with moving hair. One continuous shot with the camera movement specified below. No internal cuts, captions, logos, modern objects or extra limbs. Silent video.\nSHOT 1 — ARRIVAL, about ten seconds. Begin exactly from the supplied first frame. In the first third the heroine turns her head sharply toward a sound outside the pavilion, turns her shoulders and steps forward. During the middle third she walks purposefully out of the pavilion and down the bamboo path, her sleeves trailing behind her steps. During the final third she slows and stops as she notices someone ahead, lifting her gaze with an alert expression. Camera: a smooth lateral tracking move follows her at medium-full-body distance, revealing the path ahead and settling into an over-the-shoulder composition. Keep the walking readable. End with room ahead of her for an approaching rival.",
+      "width": 1344,
+      "height": 768,
+      "length": 243,
+      "positions": "0%",
+      "clip": [
+        "3",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image_1": [
+        "5",
+        0
+      ]
+    }
+  },
+  "16": {
+    "class_type": "ModelAttentionBackend",
+    "inputs": {
+      "attention": "comfy kitchen attention",
+      "model": [
+        "2",
+        0
+      ]
+    }
+  },
+  "7": {
+    "class_type": "BasicGuider",
+    "inputs": {
+      "model": [
+        "16",
+        0
+      ],
+      "conditioning": [
+        "6",
+        0
+      ]
+    }
+  },
+  "8": {
+    "class_type": "RandomNoise",
+    "inputs": {
+      "noise_seed": 731429
+    }
+  },
+  "9": {
+    "class_type": "KSamplerSelect",
+    "inputs": {
+      "sampler_name": "res_multistep"
+    }
+  },
+  "10": {
+    "class_type": "BasicScheduler",
+    "inputs": {
+      "steps": 20,
+      "denoise": 1.0,
+      "model": [
+        "16",
+        0
+      ],
+      "scheduler": "simple"
+    }
+  },
+  "11": {
+    "class_type": "SamplerCustomAdvanced",
+    "inputs": {
+      "noise": [
+        "8",
+        0
+      ],
+      "guider": [
+        "7",
+        0
+      ],
+      "sampler": [
+        "9",
+        0
+      ],
+      "sigmas": [
+        "10",
+        0
+      ],
+      "latent_image": [
+        "6",
+        1
+      ]
+    }
+  },
+  "12": {
+    "class_type": "LTXVSeparateAVLatent",
+    "inputs": {
+      "av_latent": [
+        "11",
+        0
+      ]
+    }
+  },
+  "13": {
+    "class_type": "VAEDecodeTiled",
+    "inputs": {
+      "tile_size": 512,
+      "overlap": 64,
+      "temporal_size": 32,
+      "temporal_overlap": 8,
+      "samples": [
+        "12",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    }
+  },
+  "15": {
+    "class_type": "VHS_VideoCombine",
+    "inputs": {
+      "frame_rate": 24.0,
+      "loop_count": 0,
+      "filename_prefix": "h3-comparison/04_Keyframes/shot1",
+      "pingpong": false,
+      "save_output": true,
+      "images": [
+        "13",
+        0
+      ],
+      "format": "video/h264-mp4",
+      "pix_fmt": "yuv420p",
+      "crf": 19,
+      "save_metadata": true,
+      "trim_to_audio": false
+    }
+  },
+  "1001": {
+    "class_type": "ImageFromBatch",
+    "inputs": {
+      "image": [
+        "13",
+        0
+      ],
+      "batch_index": -1,
+      "length": 1
+    }
+  },
+  "1005": {
+    "class_type": "ImageScale",
+    "inputs": {
+      "width": 1344,
+      "height": 768,
+      "image": [
+        "1001",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "crop": "disabled"
+    }
+  },
+  "1006": {
+    "class_type": "H3Keyframes",
+    "inputs": {
+      "prompt": "Chinese wuxia film opening, adult characters, cinematic live action. The first frame defines the heroine's face, hair, ivory and pale-blue hanfu and the ancient pavilion in a bamboo grove. Keep her identity and costume consistent. Animate full body actions with clear intent, weight, foot placement and readable gestures. Real spatial movement, not a still portrait with moving hair. One continuous shot with the camera movement specified below. No internal cuts, captions, logos, modern objects or extra limbs. Silent video.\nSHOT 2 — ENCOUNTER. The first frame is the previous shot's final frame; continue the location and the heroine's position from it. Over about ten seconds: an adult swordsman in dark charcoal hanfu enters the path ahead and stops three paces from the heroine, blocking her way. She takes a decisive step toward him and raises an open hand to challenge him; he reaches for his sword. She lowers her hand and draws a slender straight sword from her waist; he draws his sword in response. Finish with both opponents in clearly separated fighting stances, facing one another. Camera: a slow thirty-degree arc from behind the heroine to a side-on medium-wide two-shot, keeping both people's bodies and swords visible. Show their approach, confrontation and change into fighting stances, not just facial reactions. Exactly two people.",
+      "width": 1344,
+      "height": 768,
+      "length": 243,
+      "positions": "0%",
+      "clip": [
+        "3",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image_1": [
+        "1005",
+        0
+      ]
+    }
+  },
+  "1007": {
+    "class_type": "BasicGuider",
+    "inputs": {
+      "model": [
+        "16",
+        0
+      ],
+      "conditioning": [
+        "1006",
+        0
+      ]
+    }
+  },
+  "1008": {
+    "class_type": "RandomNoise",
+    "inputs": {
+      "noise_seed": 739348
+    }
+  },
+  "1011": {
+    "class_type": "SamplerCustomAdvanced",
+    "inputs": {
+      "noise": [
+        "1008",
+        0
+      ],
+      "guider": [
+        "1007",
+        0
+      ],
+      "sampler": [
+        "9",
+        0
+      ],
+      "sigmas": [
+        "10",
+        0
+      ],
+      "latent_image": [
+        "1006",
+        1
+      ]
+    }
+  },
+  "1012": {
+    "class_type": "LTXVSeparateAVLatent",
+    "inputs": {
+      "av_latent": [
+        "1011",
+        0
+      ]
+    }
+  },
+  "1013": {
+    "class_type": "VAEDecodeTiled",
+    "inputs": {
+      "tile_size": 512,
+      "overlap": 64,
+      "temporal_size": 32,
+      "temporal_overlap": 8,
+      "samples": [
+        "1012",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    }
+  },
+  "1015": {
+    "class_type": "VHS_VideoCombine",
+    "inputs": {
+      "frame_rate": 24.0,
+      "loop_count": 0,
+      "filename_prefix": "h3-comparison/04_Keyframes/shot2",
+      "pingpong": false,
+      "save_output": true,
+      "images": [
+        "1013",
+        0
+      ],
+      "format": "video/h264-mp4",
+      "pix_fmt": "yuv420p",
+      "crf": 19,
+      "save_metadata": true,
+      "trim_to_audio": false
+    }
+  },
+  "2001": {
+    "class_type": "ImageFromBatch",
+    "inputs": {
+      "image": [
+        "1013",
+        0
+      ],
+      "batch_index": -1,
+      "length": 1
+    }
+  },
+  "2005": {
+    "class_type": "ImageScale",
+    "inputs": {
+      "width": 1344,
+      "height": 768,
+      "image": [
+        "2001",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "crop": "disabled"
+    }
+  },
+  "2006": {
+    "class_type": "H3Keyframes",
+    "inputs": {
+      "prompt": "Chinese wuxia film opening, adult characters, cinematic live action. The first frame defines the heroine's face, hair, ivory and pale-blue hanfu and the ancient pavilion in a bamboo grove. Keep her identity and costume consistent. Animate full body actions with clear intent, weight, foot placement and readable gestures. Real spatial movement, not a still portrait with moving hair. One continuous shot with the camera movement specified below. No internal cuts, captions, logos, modern objects or extra limbs. Silent video.\nSHOT 3 — FIRST CLASH. The first frame is the previous shot's final frame. Continue the same heroine and dark-robed adult rival, their swords, positions and bamboo path. A readable short wuxia exchange over about ten seconds: first the rival steps forward and delivers one diagonal sword strike; the heroine steps sideways and raises her blade to parry, the blades visibly meeting once. Then she pivots on her planted foot and makes a single controlled horizontal counterstrike; he steps back and blocks it. Finally they disengage by one step and hold opposing guard stances, leaving a tense ending for a title added later. Camera: a controlled low lateral tracking move during the exchange, then gently pull back to a wider view at the end. Full bodies and blade paths remain visible. Grounded footwork, fast decisive actions separated by short readable pauses; no flying, no spinning camera, no gore. Exactly two people.",
+      "width": 1344,
+      "height": 768,
+      "length": 243,
+      "positions": "0%",
+      "clip": [
+        "3",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "image_1": [
+        "2005",
+        0
+      ]
+    }
+  },
+  "2007": {
+    "class_type": "BasicGuider",
+    "inputs": {
+      "model": [
+        "16",
+        0
+      ],
+      "conditioning": [
+        "2006",
+        0
+      ]
+    }
+  },
+  "2008": {
+    "class_type": "RandomNoise",
+    "inputs": {
+      "noise_seed": 747267
+    }
+  },
+  "2011": {
+    "class_type": "SamplerCustomAdvanced",
+    "inputs": {
+      "noise": [
+        "2008",
+        0
+      ],
+      "guider": [
+        "2007",
+        0
+      ],
+      "sampler": [
+        "9",
+        0
+      ],
+      "sigmas": [
+        "10",
+        0
+      ],
+      "latent_image": [
+        "2006",
+        1
+      ]
+    }
+  },
+  "2012": {
+    "class_type": "LTXVSeparateAVLatent",
+    "inputs": {
+      "av_latent": [
+        "2011",
+        0
+      ]
+    }
+  },
+  "2013": {
+    "class_type": "VAEDecodeTiled",
+    "inputs": {
+      "tile_size": 512,
+      "overlap": 64,
+      "temporal_size": 32,
+      "temporal_overlap": 8,
+      "samples": [
+        "2012",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    }
+  },
+  "2015": {
+    "class_type": "VHS_VideoCombine",
+    "inputs": {
+      "frame_rate": 24.0,
+      "loop_count": 0,
+      "filename_prefix": "h3-comparison/04_Keyframes/shot3",
+      "pingpong": false,
+      "save_output": true,
+      "images": [
+        "2013",
+        0
+      ],
+      "format": "video/h264-mp4",
+      "pix_fmt": "yuv420p",
+      "crf": 19,
+      "save_metadata": true,
+      "trim_to_audio": false
+    }
+  },
+  "9010": {
+    "class_type": "H3ComparisonConcatFiles",
+    "inputs": {
+      "filename_prefix": "h3-comparison/04_Complete/full_30s",
+      "update_benchmark_inputs": false,
+      "clip1": [
+        "15",
+        0
+      ],
+      "clip2": [
+        "1015",
+        0
+      ],
+      "clip3": [
+        "2015",
+        0
+      ]
+    }
+  }
+}

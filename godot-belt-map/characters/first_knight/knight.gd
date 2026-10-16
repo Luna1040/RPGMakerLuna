@@ -27,7 +27,7 @@ const LIGHTNING_FALLBACK := {
 }
 const SKILLS := {
  "crescent": {"name":"月弧斩", "description":"前方宽弧斩击", "cost":18.0, "cooldown":4.0, "depth_radius":0.95},
- "rising": {"name":"破晓升龙", "description":"上挑并击飞前方目标", "cost":24.0, "cooldown":6.0, "depth_radius":0.70},
+ "rising": {"name":"破晓升龙", "description":"起手霸体，上挑击飞；仍会受到伤害", "cost":24.0, "cooldown":6.0, "depth_radius":0.95},
  "trinity": {"name":"幻影三连", "description":"连续三次斩击，末击更强", "cost":32.0, "cooldown":9.0, "depth_radius":0.75}
 }
 var skill_cooldowns := {"crescent":0.0, "rising":0.0, "trinity":0.0}
@@ -209,14 +209,18 @@ func request_cast() -> void:
 		cast_buffered = true
 	inactivity = 0.0
 
+func has_super_armor() -> bool:
+	return state == "skill_rising" and elapsed <= 0.40 and not defeated
+
 func apply_damage(amount: float, _from_position := Vector2.ZERO) -> void:
 	if defeated or amount <= 0 or state == "hurt":
 		return
 	health = maxf(0.0, health - maxf(minf(1.0, amount), amount - defense))
-	combo_buffered = false
-	cast_buffered = false
 	flash = 0.16
-	change_action("hurt")
+	if not has_super_armor() or health == 0:
+		combo_buffered = false
+		cast_buffered = false
+		change_action("hurt")
 	stats_changed.emit(health, mana)
 	if health == 0:
 		defeated = true
@@ -334,7 +338,10 @@ func show_frame() -> void:
 	if clips.is_empty():
 		return
 	var clip: Dictionary = clips[state]
-	var cursor := elapsed * 1000.0
+	var pose_time := elapsed
+	if state == "skill_rising":
+		pose_time = elapsed * 1.5 if elapsed <= 0.16 else 0.24 + (elapsed - 0.16) * (0.46 / 0.54)
+	var cursor := pose_time * 1000.0
 	action_frame = clip["frames"].size() - 1
 	for i in range(clip["frames"].size()):
 		cursor -= float(clip["frames"][i]["duration_ms"])
@@ -349,7 +356,7 @@ func show_frame() -> void:
 	body.position = offset
 	glow.position = offset
 	visual.scale = Vector2(visual_scale * facing, visual_scale) * float(clip.get("scale", 1.0))
-	body.modulate = Color(1.0,0.55,0.55) if flash > 0 else Color.WHITE
+	body.modulate = Color(1.0,0.55,0.55) if flash > 0 else (Color(1.0,0.88,0.56) if has_super_armor() else Color.WHITE)
 	# Full-body jump frames only replace locomotion. Air attacks, casting and hurt
 	# keep their own animation/events instead of being interrupted by a pose.
 	if not jump_textures.is_empty() and is_locomotion() and (airborne or landing_remaining > 0.0):
@@ -424,7 +431,8 @@ func notify_air_attack_landed(valid: bool = true) -> void:
 	_emit_special_hit(58.0, 190.0, "radial", "", 0)
 
 func request_skill(id: String) -> bool:
-	if not SKILLS.has(id) or defeated or airborne or not is_locomotion():
+	var cancel_window := state.begins_with("attack") and fired
+	if not SKILLS.has(id) or defeated or airborne or (not is_locomotion() and not cancel_window):
 		return false
 	var meta: Dictionary = SKILLS[id]
 	if mana < float(meta["cost"]) or float(skill_cooldowns[id]) > 0.0:
@@ -474,9 +482,9 @@ func _step_special(delta: float) -> bool:
 				reach = 300.0
 				duration = 0.56
 			"rising":
-				schedule = [0.24]
+				schedule = [0.16]
 				damages = [65.0]
-				reach = 230.0
+				reach = 265.0
 				duration = 0.70
 			"trinity":
 				schedule = [0.18, 0.42, 0.70]

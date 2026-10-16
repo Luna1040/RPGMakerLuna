@@ -1,0 +1,15 @@
+{
+  "initial_hostile_bullets": 160,
+  "old": {
+    "fps": 95.17,
+    "draw_calls": 887,
+    "p95_ms": 11.72
+  },
+  "new": {
+    "fps": 119.96,
+    "draw_calls": 171,
+    "p95_ms": 8.457
+  },
+  "unreproduced": "original user window below 10fps",
+  "rogue_perks": 8
+}

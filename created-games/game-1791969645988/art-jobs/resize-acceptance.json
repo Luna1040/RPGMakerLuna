@@ -1,0 +1,13 @@
+﻿{
+  "change": "Map actor sizing and NPC placement; near-only NPC dialogue",
+  "asset_generation": "No new images: existing portraits and maps reused; scale, placement and interaction logic changed",
+  "map_actor_pixels": [48,72],
+  "town_npc_feet": [[315,415],[520,350],[995,485],[400,580],[705,315]],
+  "field_npc_feet": [[280,360],[1005,345]],
+  "dialogue_radius": 48,
+  "approach_offset": [0,38],
+  "verification": "Godot headless SMOKE TEST PASS (0 failures), including actual Sprite2D dimensions and distant/arrival dialogue guards",
+  "pending_quality": ["Existing static portraits retain opaque teal background", "Bridge restart and actual visual inspection pending", "Configured Python absent; fallback C:/Python315/python.exe; art check still missing matte dependencies/model"],
+  "log": "art-jobs/resize-test.log",
+  "launch": "Bridge owns import and restart; no visible game started or other process stopped"
+}

@@ -1,0 +1,83 @@
+{
+  "system": {
+    "os": "win32",
+    "ram_total": 137243127808,
+    "ram_free": 112220598272,
+    "comfyui_version": "0.39.0",
+    "required_frontend_version": "1.55.14",
+    "installed_templates_version": "0.11.78",
+    "required_templates_version": "0.11.78",
+    "comfy_package_versions": [
+      {
+        "name": "comfyui-frontend-package",
+        "installed": "1.55.14",
+        "required": "1.55.14"
+      },
+      {
+        "name": "comfyui-workflow-templates",
+        "installed": "0.11.78",
+        "required": "0.11.78"
+      },
+      {
+        "name": "comfyui-embedded-docs",
+        "installed": "0.5.13",
+        "required": "0.5.13"
+      },
+      {
+        "name": "comfy-kitchen",
+        "installed": "0.2.37",
+        "required": "0.2.37"
+      },
+      {
+        "name": "comfy-aimdo",
+        "installed": "0.5.6",
+        "required": "0.5.6"
+      }
+    ],
+    "python_version": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "pytorch_version": "2.9.1+cu130",
+    "embedded_python": true,
+    "deploy_environment": "local-git",
+    "argv": [
+      "C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\ComfyUI-a4b5a045e56fc334903db8457b728b64e006119c\\main.py",
+      "--listen",
+      "127.0.0.1",
+      "--port",
+      "9317",
+      "--extra-model-paths-config",
+      "C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-comparison\\models.yaml",
+      "--disable-all-custom-nodes",
+      "--whitelist-custom-nodes",
+      "ComfyUI-KJNodes",
+      "Comfyui_Minimax_h3_latent_Upscaler",
+      "ComfyUI-MMH3Tools",
+      "ComfyUI-H3-Multishot",
+      "ComfyUI-H3-Motion-Context",
+      "ComfyUI-VideoHelperSuite",
+      "RES4LYF",
+      "Nvidia_RTX_Nodes_ComfyUI",
+      "ComfyUI-Easy-Use",
+      "ComfyUI-Custom-Scripts",
+      "--disable-partner-nodes",
+      "--disable-auto-launch",
+      "--reserve-vram",
+      "2",
+      "--vram-headroom",
+      "3",
+      "--disable-comfy-compiler",
+      "--output-directory",
+      "C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\output"
+    ]
+  },
+  "devices": [
+    {
+      "name": "cuda:0 NVIDIA GeForce RTX 4090 : cudaMallocAsync",
+      "type": "cuda",
+      "index": 0,
+      "vram_total": 25756696576,
+      "vram_free": 24154996736,
+      "torch_vram_total": 0,
+      "torch_vram_free": 0
+    }
+  ]
+}

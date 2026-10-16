@@ -1,0 +1,104 @@
+{
+  "_id": "66c36047d9a7974122851de5",
+  "id": "onnx-community/BiRefNet_lite-ONNX",
+  "private": false,
+  "pipeline_tag": "image-segmentation",
+  "library_name": "transformers.js",
+  "tags": [
+    "transformers.js",
+    "onnx",
+    "swin",
+    "background-removal",
+    "mask-generation",
+    "Dichotomous Image Segmentation",
+    "Camouflaged Object Detection",
+    "Salient Object Detection",
+    "image-segmentation",
+    "base_model:ZhengPeng7/BiRefNet_lite",
+    "base_model:quantized:ZhengPeng7/BiRefNet_lite",
+    "license:mit",
+    "region:us"
+  ],
+  "downloads": 14963,
+  "likes": 25,
+  "modelId": "onnx-community/BiRefNet_lite-ONNX",
+  "author": "onnx-community",
+  "sha": "de15b22ba131738a16dff04aab8bdf8dc32e3ac1",
+  "lastModified": "2025-10-26T21:36:18Z",
+  "gated": false,
+  "disabled": false,
+  "model-index": null,
+  "config": {
+    "model_type": "swin"
+  },
+  "cardData": {
+    "library_name": "transformers.js",
+    "tags": [
+      "background-removal",
+      "mask-generation",
+      "Dichotomous Image Segmentation",
+      "Camouflaged Object Detection",
+      "Salient Object Detection"
+    ],
+    "repo_url": "https://github.com/ZhengPeng7/BiRefNet",
+    "pipeline_tag": "image-segmentation",
+    "license": "mit",
+    "base_model": [
+      "ZhengPeng7/BiRefNet_lite"
+    ]
+  },
+  "transformersInfo": {
+    "auto_model": "AutoModel"
+  },
+  "siblings": [
+    {
+      "rfilename": ".gitattributes",
+      "blobId": "a6344aac8c09253b3b630fb776ae94478aa0275b",
+      "size": 1519
+    },
+    {
+      "rfilename": "README.md",
+      "blobId": "df795005792416fd98f4e343f2b4c5b547ac3ad6",
+      "size": 4286
+    },
+    {
+      "rfilename": "config.json",
+      "blobId": "bef7cb2de5ca167af3170a519066a6898ce0ddd6",
+      "size": 81
+    },
+    {
+      "rfilename": "onnx/model.onnx",
+      "blobId": "9fb9019eb81662c970f6d05314ecd97d1d351e35",
+      "size": 224005088,
+      "lfs": {
+        "sha256": "5600024376f572a557870a5eb0afb1e5961636bef4e1e22132025467d0f03333",
+        "size": 224005088,
+        "pointerSize": 134
+      }
+    },
+    {
+      "rfilename": "onnx/model_fp16.onnx",
+      "blobId": "22aa1ff81808a93722395a509d5da3bb7a8788c6",
+      "size": 114538221,
+      "lfs": {
+        "sha256": "d39b897ceb16ae654c1731f3dba0cf9b368d9cae74b5a57459b455cc8bfec402",
+        "size": 114538221,
+        "pointerSize": 134
+      }
+    },
+    {
+      "rfilename": "preprocessor_config.json",
+      "blobId": "825398cfd94a348babce456f2bcc8422c9bebb93",
+      "size": 391
+    }
+  ],
+  "spaces": [
+    "tardellirs/model-pulse",
+    "Luminia/CorridorKey",
+    "TeodorSljukic/toolmingo-bg",
+    "lyzwa420/rmfmaxx-bg",
+    "ku0710-uc/bg-remover"
+  ],
+  "createdAt": "2024-08-19T15:09:59Z",
+  "usedStorage": 561043030
+}

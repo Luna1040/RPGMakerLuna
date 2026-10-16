@@ -1,0 +1,12 @@
+﻿from pathlib import Path
+p=Path('main.gd');s=p.read_text(encoding='utf-8')
+s=s.replace('\tshow_world()\n\nfunc migrate()', '\tmigrate()\n\tplayer_pos=Vector2(character.position[0],character.position[1])\n\tshow_world()\n\nfunc migrate()')
+s=s.replace('Vector2(420,490),Vector2(680,565),Vector2(1000,520)', 'Vector2(375,460),Vector2(650,620),Vector2(1040,495)')
+s=s.replace('ResourceLoader.exists("res://assets/cast.png")','FileAccess.file_exists("res://assets/cast.png")')
+s=s.replace('var source: Texture2D=load("res://assets/cast.png")','var source: Texture2D=texture_file("res://assets/cast.png")')
+s=s.replace('atlas.region=Rect2(Vector2(index%4,index/4)*cell,cell)','atlas.region=Rect2(Vector2(index%4,index/4)*cell,cell)\n\t\tif index==7 and FileAccess.file_exists("res://assets/wolf.png"):\n\t\t\tatlas.atlas=texture_file("res://assets/wolf.png")\n\t\t\tatlas.region=Rect2(Vector2.ZERO,atlas.atlas.get_size())')
+s=s.replace('image.texture=load(path) if ResourceLoader.exists(path) else load("res://assets/city.png")','image.texture=texture_file(path) if FileAccess.file_exists(path) else load("res://assets/city.png")')
+s=s.replace('func background(path: String)', 'func texture_file(path: String) -> Texture2D:\n\treturn ImageTexture.create_from_image(Image.load_from_file(ProjectSettings.globalize_path(path)))\n\nfunc background(path: String)')
+s=s.replace('if group in character.cleared: return','if group in character.cleared or int(character.field_quest)==0 or (group>0 and int(character.field_quest)<2): return')
+s=s.replace('if stage==4 and int(character.field_quest)!=3: return','if stage==1 and int(character.field_quest)!=0: return\n\tif stage==2 and (int(character.field_quest)!=1 or not 0 in character.cleared): return\n\tif stage==4 and int(character.field_quest)!=3: return')
+p.write_text(s,encoding='utf-8')

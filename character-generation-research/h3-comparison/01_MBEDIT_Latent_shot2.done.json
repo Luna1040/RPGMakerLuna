@@ -1,0 +1,10 @@
+{
+  "video": "C:\\Users\\11043\\Desktop\\先锋技术调研\\character-generation-research\\h3-runtime\\output\\h3-comparison\\01_MBEDIT_Latent\\shot2_00001.mp4",
+  "probe": {
+    "width": 1376,
+    "height": 768,
+    "r_frame_rate": "24/1",
+    "duration": "10.125000",
+    "nb_frames": "243"
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "1": {
+    "class_type": "UNETLoader",
+    "inputs": {
+      "unet_name": "flux-2-klein-9b-fp8.safetensors",
+      "weight_dtype": "default"
+    }
+  },
+  "2": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "qwen_3_8b_fp8mixed.safetensors",
+      "type": "flux2",
+      "device": "default"
+    }
+  },
+  "3": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "flux2-vae.safetensors"
+    }
+  },
+  "4": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "2",
+        0
+      ],
+      "text": "Premium hand-painted cozy indie game illustration, refined Japanese seaside night restaurant, warm amber paper lanterns and dark teal shadows, beautiful textured materials, soft cinematic lighting, clean readable silhouettes, detailed and charming, no text, no lettering, no UI, no watermark. Wide landscape environment plate for a 2.5D restaurant management game. Orthographic elevated three-quarter front view looking down at 35 degrees, roof removed cutaway. A broad rectangular seaside sushi izakaya on a wooden pier at midnight. Entire room visible. Back wall across upper third has an elegant long sushi counter with glass fish case, dish shelves, ceramic bowls, sake bottles, noren curtain, large warm glowing paper lamps. Left window opens to moonlit ocean and a distant lighthouse, right corner has green plants and a stone sink with a pitcher. Lower TWO THIRDS are a broad EMPTY honey-colored wooden parquet dining floor, absolutely no dining tables, no chairs, no people on floor. Welcoming lived-in crafted architecture, tiny herbs, carved beams. Open front edge at bottom. Floor is spacious and unobstructed to place game sprites. Interior fills 85 percent of image, only narrow sea border, no excessive empty background. Parallel horizontal front counter, not a diamond-shaped tiny floating island. Rich gouache painted storybook aesthetic, professional game environment concept art."
+    }
+  },
+  "5": {
+    "class_type": "ConditioningZeroOut",
+    "inputs": {
+      "conditioning": [
+        "4",
+        0
+      ]
+    }
+  },
+  "6": {
+    "class_type": "EmptyFlux2LatentImage",
+    "inputs": {
+      "width": 1536,
+      "height": 1024,
+      "batch_size": 1
+    }
+  },
+  "7": {
+    "class_type": "RandomNoise",
+    "inputs": {
+      "noise_seed": 1021501
+    }
+  },
+  "8": {
+    "class_type": "KSamplerSelect",
+    "inputs": {
+      "sampler_name": "euler"
+    }
+  },
+  "9": {
+    "class_type": "Flux2Scheduler",
+    "inputs": {
+      "steps": 4,
+      "width": 1536,
+      "height": 1024
+    }
+  },
+  "10": {
+    "class_type": "CFGGuider",
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "positive": [
+        "4",
+        0
+      ],
+      "negative": [
+        "5",
+        0
+      ],
+      "cfg": 1
+    }
+  },
+  "11": {
+    "class_type": "SamplerCustomAdvanced",
+    "inputs": {
+      "noise": [
+        "7",
+        0
+      ],
+      "guider": [
+        "10",
+        0
+      ],
+      "sampler": [
+        "8",
+        0
+      ],
+      "sigmas": [
+        "9",
+        0
+      ],
+      "latent_image": [
+        "6",
+        0
+      ]
+    }
+  },
+  "12": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "11",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    }
+  },
+  "13": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "12",
+        0
+      ],
+      "filename_prefix": "game-art/69159b4d31674a0685022ca47068cb89"
+    }
+  }
+}

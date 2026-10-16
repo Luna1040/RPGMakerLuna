@@ -1,0 +1,44 @@
+﻿泫渤大城与独立角色模型验收
+唯一工程：Z:/app/RPGMakerLuna/created-games/game-1791962707510。
+正式入口：main.tscn → city_3d.gd。改动前代码和模型备份：backups/before-city-08。
+
+已接入的地图与玩法
+城内从30×24扩大到72×57.6，面积为原来的5.76倍；扩展三门城墙、住宅街区、宽广场、长街、长椅和树木。
+门主大殿前有真实的六级台阶，每级15厘米，总高0.9米；带台阶边缘线和平台侧栏。角色实际通过碰撞及寻路登台，不用视觉飘高代替登阶。
+西郊80×100、东郊80×100、南郊72×80，城外总面积约为原来的11倍。
+野猫3级、蛤蟆5级、狐狸7级、野猪11级、狂牛10级、灰狼12级，每种10个刷新位，初始共60只；击杀后按原有12秒刷新。灰狼主动追击，其他五种被动反击。
+保留点击寻路、战斗、经验与升级属性、Ctrl+C打坐、十级轻功、360度相机及六槽存档。相机缩放上限扩大到48，并保留碰撞检查。
+旧坐标按2.4迁移，版本标记防止重复缩放；旧六怪记录与新六十怪记录均支持读取，原角色等级、经验、镰银、任务、轻功开关及时间字段保留。
+修复扩展存档JSON版本数字读取校验，避免保存成功却不能恢复角色；名册显示时停止角色物理移动。
+
+真实三维产物
+assets/3d/npc_0.tscn至npc_5.tscn分别为：门主、金香玉、韦大宝、平十指、刀剑笑、银娇龙。
+六套模型按参考区分白袍红披肩、女装长发红花、红衣胖商人账册、灰帽长须医者拐杖、短衣铁匠锤子、青袍金钗绸商卷轴。
+assets/3d/class_blade.tscn、class_sword.tscn、class_spear.tscn、class_doctor.tscn为四职业的新模型；hero.tscn、master.tscn、practice.tscn同步接入。
+制作源为tailored_models.gd，导出工具export_tailored_models.gd，实际导出13个原生三维资产；包含新衣裙网格、褶线、领口、护肩、手指、发饰、武器和UV布料纹理。
+模型有真实侧面和背面，参考图片没有当作人物模型贴片。NPC交互时可转向角色。服饰材质运行时绑定，模型文件不重复嵌入大图片。
+
+图片作业：生成、下载、查看与复制均完成
+使用C:/Python315/python.exe及http://127.0.0.1:19315，先执行art_cli check，两项服务工作流可用；本地视频/抠图依赖和matte模型缺失，没有阻碍静态图片作业。
+NPC设计参考：art-jobs/city-08/npc-design；prompt_id e5a9e10f-b88e-4bb8-9faa-342ea916b3d2，seed 1791983121；1536×1024。已复制到assets/references/npc-sculpt-guide.png，仅为建模参考，不等于三维模型生成完成。
+服装织锦：art-jobs/city-08/brocade；prompt_id 19786895-a95d-4cfc-be05-bc7c0eeb7d2b，seed 1791983122；1024×1024。已接入assets/textures/chibi/silk-brocade.png并实际绑定到人物衣裙和袖子。
+两个作业串行提交，保留提示词、参考、workflow.json、submission.json、job.json、history.json、output-index.json和原始输出；没有重复提交、取消其他作业、启动服务或下载模型。
+参考网页：http://rxjh.cdcgames.net/data/mapnpc/200905/40139.htm，标准库HTTP读取成功200，原始网页保留reference-current.html；另保留原官方图拼接参考npcs-reference.png。
+
+机制测试（与画面验收分开）
+test_city.gd：PASS，3013物理帧；每种10只、出生点地面/障碍检查、六级台阶、六NPC接近与射线选择、三门实际通行、实际击杀、被动/主动AI、13级数据保留、旧六怪到六十怪存档迁移、重复加载不重复缩放、织锦绑定和16方向相机碰撞。
+test_3d_entry.gd：PASS，正式入口明确加载city_3d.gd且有60只怪物。
+test_character_management.gd：PASS，新建地图、四职业、旧角色、删除确认/取消/槽位隔离。
+test_town_saves.gd：PASS，六槽、UTF-8中文、UTC-8跨日、创建/下线时间、备份与损坏档保护。
+test_wilderness.gd：PASS，788帧，原战斗、经验、打坐、轻功、保存读取和死亡回城机制保留。
+test_texture_assets.gd：PASS，实际地面/屋顶/木石/草地材质绑定。
+日志在art-jobs/city-08。所有测试使用隔离演示档，未直接修改真实角色存档。Godot仍有系统根证书读取警告，测试无SCRIPT ERROR/FAIL。
+
+实际画面及未完成质量项
+19张真实Godot OpenGL离屏截图覆盖城镇、台阶、六名NPC、四职业正面/侧面及三处群怪区域，均保存在art-jobs/city-08。
+已查看设计图、布纹和实际模型画面，调整头身比例、袖子网格、花饰、白须、抱手/持物姿态及台阶边缘。
+人物/NPC仍为程序化搭建的风格化原生模型，尚未完成专业精雕、完整骨骼蒙皮与高品质动作；保留原程序动作，不能宣称H3视频/透明帧动画已完成。
+布纹原图的严格无缝拼接没有通过最终质量门槛，服装UV接缝和近景细节仍可改进。旧草地严格无缝与纯albedo限制依旧存在，住宅/道路/树木与动物动作仍简化。
+设计参考、网格模型、机制通过和画面质量是不同状态，没有把生图成功或功能PASS称为最终美术完成。
+离屏测试根窗口隐藏，不是可交互试玩实例。导入检查与正式重启交给桥接器，没有启动重复游戏或杀其他Godot，没有提交或推送，没有读取私钥或账号凭据。
+可恢复产物索引：art-jobs/city-08/manifest.json。

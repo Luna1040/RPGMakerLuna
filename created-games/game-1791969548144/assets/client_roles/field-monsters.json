@@ -1,0 +1,38 @@
+[
+  {
+    "kind": 0,
+    "type_id": 1000,
+    "model": "mob400",
+    "name": "鹿角兽",
+    "level": 1,
+    "max_hp": 48,
+    "active": false,
+    "config_source": "ini/monster.fdb",
+    "model_mapping": "visually checked against original monster1000/1010/1020 icons; original INI mesh and texture mapping",
+    "client_look": 400
+  },
+  {
+    "kind": 1,
+    "type_id": 1010,
+    "model": "mob401",
+    "name": "巨杰士",
+    "level": 5,
+    "max_hp": 636,
+    "active": true,
+    "config_source": "ini/monster.fdb",
+    "model_mapping": "visually checked against original monster1000/1010/1020 icons; original INI mesh and texture mapping",
+    "client_look": 401
+  },
+  {
+    "kind": 2,
+    "type_id": 1020,
+    "model": "mob402",
+    "name": "猎杀兽",
+    "level": 7,
+    "max_hp": 984,
+    "active": true,
+    "config_source": "ini/monster.fdb",
+    "model_mapping": "visually checked against original monster1000/1010/1020 icons; original INI mesh and texture mapping",
+    "client_look": 402
+  }
+]

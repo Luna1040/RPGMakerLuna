@@ -1,0 +1,1 @@
+PASS: six regression suites; final import has no SCRIPT ERROR; original pet DDS hashes match; four original NPC previews have transparent margins.

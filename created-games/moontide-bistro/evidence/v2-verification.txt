@@ -1,0 +1,11 @@
+v0.2 verification — 2026-10-15
+PASS: Godot editor import, no SCRIPT ERROR / ERROR after moving animated WebP review out of runtime import tree.
+PASS: auto replenish / per-item cap 3 / two-slot tray / wrong dish protection / served revenue / dining / departure / cleaning.
+PASS: water +18 seconds once per waiting customer; jug resource; pause; upgrade; legacy save load and save round trip.
+PASS: 64 station-to-station actual movement routes around table obstacles.
+PASS: actual Input.parse_input_event -> start -> water -> navigate -> service completion -> pickup -> serve -> depart -> clean.
+PASS: H3 padded video 124 raw source frames; 31 selected frames 30–60; 768 fixed canvas; same pivot and scale; full transparent margins.
+PASS: 16 phases rendered in Godot and inspected as contact sheet; dark/light matte review; original clipped-foot video rejected.
+PASS: Hall /games exposes v0.2 description and new cover; hall /play returns ok; import validation passed.
+Evidence screenshot is a deliberately staged gameplay layout rendered by the real game. Monetary totals in it are fixture data.
+Remaining limits: static chef and seated customers; one server walking angle mirrored for opposite direction; prepainted room has no rotatable camera.

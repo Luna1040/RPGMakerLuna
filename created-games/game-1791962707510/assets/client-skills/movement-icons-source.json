@@ -1,0 +1,16 @@
+[
+  {
+    "skill": "lightness",
+    "asset": "assets/client-skills/mugong_601101.png",
+    "source": "D:/Program Files/mangot5/hot/datas/interface/MUGONG/601101.d2s",
+    "png_sha256": "f9437c99710ff721866de5ae47f703c722fea314bdfad82afe1c172ff7b462a3",
+    "user_confirmed": true
+  },
+  {
+    "skill": "cloud_step",
+    "asset": "assets/client-skills/mugong_601102.png",
+    "source": "D:/Program Files/mangot5/hot/datas/interface/MUGONG/601102.d2s",
+    "png_sha256": "959a5d86dffacda4e66779dbc9eb82d82e8033743376bb7fba7ff48bbc8192b8",
+    "user_confirmed": true
+  }
+]

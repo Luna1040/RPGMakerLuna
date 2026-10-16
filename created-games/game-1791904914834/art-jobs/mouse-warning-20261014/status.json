@@ -1,0 +1,15 @@
+{
+  "project": "Z:/app/RPGMakerLuna/created-games/game-1791904914834",
+  "generation_status": "failed_before_submission",
+  "prompt": "prompt.txt",
+  "intended_job_directory": "image-job",
+  "prompt_id": null,
+  "generated_outputs": [],
+  "integrated_effect": "existing stone drawing with procedural wobble offset; existing resistance pose and burst effects preserved without text",
+  "error": "art_cli image submit /system_stats at http://127.0.0.1:9315 refused connection (WinError 10061)",
+  "startup": "attempted visible Image terminal; configured embedded Python does not exist",
+  "check": "image/video services unavailable; av/PIL/numpy/onnxruntime and matte model missing",
+  "tests": "checks.log: VERIFICATION PASS: 121 checks",
+  "pending_quality_checks": ["generated art and asset integration", "real game window visual review"],
+  "runtime": "bridge owns import and game startup; no duplicate game launched"
+}

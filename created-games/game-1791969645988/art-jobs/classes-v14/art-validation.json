@@ -1,0 +1,114 @@
+{
+  "portraits": [
+    {
+      "role": "sword",
+      "asset": "assets\\classes\\sword.png",
+      "sha256": "dd37107144690598dcc3b96139230ed1ca55971ec3f8c7110f886db1a6520f4d",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        106,
+        23,
+        568,
+        760
+      ],
+      "status": "static portrait integrated; dark/light previews reviewed"
+    },
+    {
+      "role": "yinyang",
+      "asset": "assets\\classes\\yinyang.png",
+      "sha256": "e045cf998d4722197800b7c2c723d3a8e14cead1b21ac3d567dadc1d895e7660",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        162,
+        39,
+        639,
+        747
+      ],
+      "status": "static portrait integrated; dark/light previews reviewed"
+    },
+    {
+      "role": "shadow",
+      "asset": "assets\\classes\\shadow.png",
+      "sha256": "4b31490c8c16653c5e60cece52109de9635568969f21f9f937cf5bd93fe77d9e",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        152,
+        38,
+        618,
+        747
+      ],
+      "status": "static portrait integrated; dark/light previews reviewed"
+    },
+    {
+      "role": "celestial",
+      "asset": "assets\\classes\\celestial.png",
+      "sha256": "b8162a6f6dfdbeb8b7fde2c3c9065bc8a237c499209629e1d46dda2c3eed8bc4",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        111,
+        20,
+        631,
+        751
+      ],
+      "status": "static portrait integrated; dark/light previews reviewed"
+    }
+  ],
+  "manual_icons": {
+    "asset": "assets/spell-manuals.png",
+    "size": [
+      1024,
+      256
+    ],
+    "regions": [
+      [
+        0,
+        0,
+        256,
+        256
+      ],
+      [
+        256,
+        0,
+        256,
+        256
+      ],
+      [
+        512,
+        0,
+        256,
+        256
+      ],
+      [
+        768,
+        0,
+        256,
+        256
+      ]
+    ],
+    "status": "reviewed and integrated"
+  },
+  "animations": {
+    "status": "candidate video and all native sources saved, alpha processing and pack not complete, not integrated",
+    "native_frames_per_class": 56,
+    "fps": 24,
+    "failed_quality_checks": [
+      "sword and celestial weapon/effect clips canvas during strike",
+      "shadow ending pose differs from initial pose",
+      "generated integrated glow requires separate effect handling",
+      "full animation alpha and loop review incomplete"
+    ],
+    "gpu_matte_block": "Comfy RemoveBackground model options empty; DirectML initialization failed and fell back to CPU"
+  }
+}

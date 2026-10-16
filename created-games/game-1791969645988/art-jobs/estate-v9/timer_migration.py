@@ -1,0 +1,3 @@
+﻿from pathlib import Path
+p=Path('main.gd');s=p.read_text(encoding='utf-8').replace('\tWild.normalize(character,int(Time.get_unix_time_from_system()))','\tvar new_respawn_state:=not character.has("monster_respawns")\n\tWild.normalize(character,int(Time.get_unix_time_from_system()))',1).replace('(gifted or new_retainer_offers) and slot>=0','(gifted or new_retainer_offers or new_respawn_state) and slot>=0');p.write_text(s,encoding='utf-8')
+p=Path('retainer_ui.gd');s=p.read_text(encoding='utf-8').replace('"全场刷新",refresh_offers','"免费全场刷新",refresh_offers').replace('全场刷新冷却：%d秒 · 不消耗灵石','免费刷新冷却：%d秒 · 不消耗灵石');p.write_text(s,encoding='utf-8')

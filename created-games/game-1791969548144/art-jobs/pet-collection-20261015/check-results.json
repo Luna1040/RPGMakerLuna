@@ -1,0 +1,87 @@
+{
+  "tests": [
+    {
+      "test": "character_saves_test",
+      "pass": true,
+      "log": "tests\\pet-expansion-character_saves_test.log"
+    },
+    {
+      "test": "character_menu_test",
+      "pass": true,
+      "log": "tests\\pet-expansion-character_menu_test.log"
+    },
+    {
+      "test": "player_panels_test",
+      "pass": true,
+      "log": "tests\\pet-expansion-player_panels_test.log"
+    },
+    {
+      "test": "dialog_walk",
+      "pass": true,
+      "log": "tests\\pet-expansion-dialog_walk.log"
+    },
+    {
+      "test": "client_canosa_test",
+      "pass": true,
+      "log": "tests\\pet-expansion-client_canosa_test.log"
+    },
+    {
+      "test": "pet_navigation_update_test",
+      "pass": true,
+      "log": "tests\\pet-expansion-pet_navigation_update_test.log"
+    },
+    {
+      "test": "native_client_roles_test",
+      "pass": true,
+      "log": "tests\\pet-expansion-native_client_roles_test.log"
+    },
+    {
+      "test": "canosa_test",
+      "pass": true,
+      "log": "tests\\pet-expansion-canosa_test.log"
+    },
+    {
+      "test": "mouse_iso",
+      "pass": true,
+      "log": "tests\\pet-expansion-mouse_iso.log"
+    },
+    {
+      "test": "field_update_test",
+      "pass": true,
+      "log": "tests\\pet-expansion-field_update_test.log"
+    },
+    {
+      "test": "recovery_world_test",
+      "pass": true,
+      "log": "tests\\pet-expansion-recovery_world_test.log"
+    },
+    {
+      "test": "pet_collection_test",
+      "pass": true,
+      "log": "tests\\pet-expansion-pet_collection_test.log"
+    },
+    {
+      "test": "pet_collection_ui_test",
+      "pass": true,
+      "log": "tests\\pet-expansion-pet_collection_ui_test.log"
+    }
+  ],
+  "passed": 13,
+  "ui_review": "panel-review.png",
+  "new_art_jobs": 0,
+  "art_cli_check": {
+    "image": "failed: IncompleteRead(229194 bytes read, 600808 more expected)",
+    "video": "failed: WinError 10054 connection reset",
+    "av": true,
+    "PIL": true,
+    "numpy": true,
+    "onnxruntime": true,
+    "matte_model": true
+  },
+  "limitations": [
+    "Reused existing client models and portraits; no new art generated.",
+    "Image/video service checks failed; not required for this UI and logic change.",
+    "Editor settings and shader cache writes outside the project are blocked; root certificate store warning persists."
+  ],
+  "game_launched": false
+}

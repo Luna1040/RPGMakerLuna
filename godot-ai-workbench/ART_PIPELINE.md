@@ -1,8 +1,36 @@
 # 游戏助手的美术生产合同
 
+## 必须使用的统一入口
+
+本机已有模型与依赖，优先用本次配置中的 python 运行 artCli，先 `check`。不要自行重写生图、视频、切帧或抠图脚本，也不要只写计划不执行。入口已加载嵌入式 Python 所需依赖路径，并固定本机服务默认地址。
+
+```text
+python art_cli.py check
+python art_cli.py image submit --prompt-file PROMPT --reference REFERENCE.png --out PROJECT/art-jobs/IMAGE_JOB
+python art_cli.py image wait --out PROJECT/art-jobs/IMAGE_JOB
+python art_cli.py video submit --prompt-file MOTION_PROMPT --reference REFERENCE.png --out PROJECT/art-jobs/VIDEO_JOB
+python art_cli.py video wait --out PROJECT/art-jobs/VIDEO_JOB
+python art_cli.py extract --video VIDEO.mp4 --out PROJECT/art-jobs/SOURCE_FRAMES
+python art_cli.py matte --source PROJECT/art-jobs/SOURCE_FRAMES --out PROJECT/art-jobs/ALPHA_FRAMES
+python art_cli.py pack --source PROJECT/art-jobs/ALPHA_FRAMES --selection SELECTION.json --out PROJECT/art-jobs/EXPORT
+```
+
+这里的 python/art_cli.py/PROJECT 是说明占位符，必须替换为本次配置中的真实绝对路径。文生图省略 --reference；H3 默认工作流与抠图模型已内置，不需手工找路径。每步 out 使用未存在的新目录；wait 必须复用已提交目录。只在检查用切帧时加 --limit，正式动作需完整帧。不同任务只调用所需步骤：静态道具无需生视频，角色动画必须执行视频→源帧→抠图→选帧打包→接入。
+
+完成回复列出真实产物、作业目录、生成状态与未通过的质量检查。生成失败、仅排队、尚未接入或尚未审查时，不得宣称素材已完成。
+
 每次任务先读取配置中 skill 目录下的 SKILL.md。涉及角色、立绘、地图、道具、动画、特效或像素素材时，必须再读取 references/art-production.md、team-api.md 和 verification.md，然后调用现成工具完成生成、处理、接入和验证。只修改数值、UI 或逻辑时不必生成新美术。
 
 ## 工具与执行顺序
+
+普通文生图和单参考图生成直接调用配置中的 imageClient，不需要拼接旧地图工作流：
+
+```text
+python image_client.py --url http://127.0.0.1:9315 submit --prompt-file prompt.txt --width 768 --height 768 --out 当前项目/art-jobs/唯一目录
+python image_client.py --url http://127.0.0.1:9315 wait --out 当前项目/art-jobs/同一目录
+```
+
+图生图在 submit 增加 `--reference 完整参考.png`。所有路径使用本次配置的绝对路径；客户端已兼容嵌入式 Python。提交结果保留 workflow.json、submission.json、job.json，wait 保存 history.json、outputs 和 output-index.json。不要调用桌面专属图像工具作为默认方案。
 
 1. 母图/地图/道具：检查 imageUrl 的 /system_stats 和 /object_info。读取 imageWorkflow 的 API 图和 map-generation-research/generate_map_trial.py、layered_map_trial.py 了解已验证的 Flux2 参考图生成方法。在当前项目 art-jobs 的唯一子目录复制工作流，再按本次需求修改提示、上传参考、尺寸和输出前缀。不要直接运行硬编码旧地图/输出目录的历史脚本，不要直接沿用旧图的 input 文件名。通过 /upload/image、/prompt、/history/{prompt_id}、/view 提交并取回图片。模型和节点以目标实例实际返回为准，不能把 H3 客户端的固定节点编号套在 Flux 图上。
 2. 动画/视频：使用 skill/scripts/comfy_client.py，显式传入 --url videoUrl（参数放在 check/submit/wait 之前）。先 check --workflow videoWorkflow，再 submit --workflow ... --reference 母图 --prompt-file 动作提示文本 --out 唯一作业目录，然后 wait --out 同目录。H3 输出视频和 SaveImage 源帧；保留 output-index.json 的节点及顺序映射。不要假设 CLI 有桌面版 GPT Image 工具；使用本机现有 ComfyUI。
@@ -17,4 +45,4 @@
 
 提交超时先按 client_id 查队列/history，不能盲目重复提交。GPU 作业串行排队，不停止/释放其他用户的任务，不读取团队私钥。端口未启动、缺模型/节点、网络或执行权限受限时明确报告具体步骤和错误，保留断点记录；不能静默切换为付费接口或声称成功。本机视频服务为 9316、图像服务为 9315，团队访客的 19316 不是本机默认。允许环境变量覆盖地址和模型路径。
 
-图像服务未启动时，使用现有嵌入式 Python 在后台运行 godot-ai-workbench/start_image_service.py（PowerShell Start-Process 必须 -WindowStyle Hidden），日志写 .game-assistant；等待 /system_stats 再检查工作流。视频服务对应 character-generation-research/start_h3.py。不要重复启动已有服务。抠图依赖位于 character-generation-research/h3-runtime/matte-deps 和 deps，嵌入式 Python 需在调用 runpy 前明确加入 sys.path。
+图像/视频服务未启动时，用可见终端运行 godot-ai-workbench/start-comfy-terminal.ps1 -Service Image 或 Video，Start-Process 使用 -WindowStyle Normal。用户明确要求查看真实 ComfyUI 控制台：禁止隐藏运行 ComfyUI 或仅显示一句已启动提示。等待 /system_stats 再检查工作流；不要重复启动已有服务。抠图依赖位于 character-generation-research/h3-runtime/matte-deps 和 deps，嵌入式 Python 需在调用 runpy 前明确加入 sys.path。

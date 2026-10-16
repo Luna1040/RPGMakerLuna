@@ -1,0 +1,16 @@
+﻿{
+ "scope": "Input/facing state and UI using existing placeholder visuals",
+ "facing": {"left": "left adjacent stone", "right": "right adjacent stone", "front": "lower adjacent stone"},
+ "attack_triggers": ["Space", "Left click on facing adjacent stone"],
+ "direction_keys_attack": false,
+ "chain_rule": "Preserved four-way connected same-color destruction",
+ "new_generated_assets": [],
+ "new_art_jobs": [],
+ "art_generation_status": "No new art required for control/UI logic; existing art remains unfinished",
+ "art_check": "Blocked: configured Python missing; local services refused connection; dependencies/model missing",
+ "mechanics_assertions": 43,
+ "mechanics_status": "VERIFICATION PASS",
+ "environment_error": "Godot failed to read root certificate store; no SCRIPT ERROR",
+ "window_visual_review": "Pending bridge launch",
+ "game_launched_by_agent": false
+}

@@ -1,21 +1,19 @@
-﻿$ErrorActionPreference = 'Stop'
-$root = $PSScriptRoot
-$private = Join-Path $root '.team-comfy-private'
-$python = Join-Path $env:USERPROFILE 'Downloads/Flux2_klein_v1.0_普通版/Flux2_klein/python_embeded/python.exe'
-$frpc = Join-Path $env:USERPROFILE 'Downloads/frp_0.71.0_windows_amd64/frpc.exe'
-$config = Join-Path $private 'host.toml'
-if (!(Test-Path -LiteralPath $config)) { throw 'Private host.toml missing. Run setup-team-comfy.py once.' }
-$ready = $false
-try { $null = Invoke-WebRequest 'http://127.0.0.1:9316/system_stats' -TimeoutSec 3; $ready = $true } catch {}
-if (!$ready) {
-    $script = Join-Path $root 'character-generation-research/start_h3.py'
-    $existing = Get-CimInstance Win32_Process | Where-Object { $_.Name -like 'python*' -and $_.CommandLine -like '*character-generation-research*start_h3.py*' }
-    if (!$existing) {
-        Start-Process -FilePath $python -ArgumentList ('"'+$script+'"') -WorkingDirectory $root -WindowStyle Hidden -RedirectStandardOutput (Join-Path $private 'comfy.log') -RedirectStandardError (Join-Path $private 'comfy-error.log')
-    }
+﻿$ErrorActionPreference='Stop'
+$root=$PSScriptRoot
+$private=Join-Path $root '.team-comfy-private'
+$frpc=Join-Path $env:USERPROFILE 'Downloads/frp_0.71.0_windows_amd64/frpc.exe'
+$config=Join-Path $private 'host.toml'
+$terminal=Join-Path $root 'godot-ai-workbench/start-comfy-terminal.ps1'
+$shell=Join-Path $env:SystemRoot 'System32/WindowsPowerShell/v1.0/powershell.exe'
+$imageReady=$false
+try {$null=Invoke-RestMethod 'http://127.0.0.1:9315/system_stats' -TimeoutSec 3; $imageReady=$true}catch{}
+if(!$imageReady){
+    Start-Process -FilePath $shell -ArgumentList ('-NoProfile -NoExit -ExecutionPolicy Bypass -File "'+$terminal+'" -Service Image') -WorkingDirectory $root -WindowStyle Normal
 }
-$tunnel = Get-CimInstance Win32_Process | Where-Object { $_.Name -eq 'frpc.exe' -and $_.CommandLine -like '*team-comfy-private*host.toml*' }
-if (!$tunnel) {
-    Start-Process -FilePath $frpc -ArgumentList @('-c', ('"'+$config+'"')) -WorkingDirectory $private -WindowStyle Hidden -RedirectStandardOutput (Join-Path $private 'host.log') -RedirectStandardError (Join-Path $private 'host-error.log')
+$frpTerminal=Join-Path $root 'godot-ai-workbench/start-frpc-terminal.ps1'
+if((Test-Path -LiteralPath $config) -and (Test-Path -LiteralPath $frpc)){
+    Start-Process -FilePath $shell -ArgumentList ('-NoProfile -NoExit -ExecutionPolicy Bypass -File "'+$frpTerminal+'"') -WorkingDirectory $root -WindowStyle Normal
+}else{
+    Write-Host 'Team tunnel is not configured; local ComfyUI still starts normally.'
 }
-Write-Host 'Team tunnel started. ComfyUI may still be loading. Logs: .team-comfy-private'
+& $terminal -Service Video

@@ -1,0 +1,208 @@
+{
+  "prompt": [
+    2,
+    "8ceb51a6-bc8d-4827-aefd-772e7d9fe538",
+    {
+      "1": {
+        "class_type": "UNETLoader",
+        "inputs": {
+          "unet_name": "flux-2-klein-9b-fp8.safetensors",
+          "weight_dtype": "default"
+        }
+      },
+      "2": {
+        "class_type": "CLIPLoader",
+        "inputs": {
+          "clip_name": "qwen_3_8b_fp8mixed.safetensors",
+          "type": "flux2",
+          "device": "default"
+        }
+      },
+      "3": {
+        "class_type": "VAELoader",
+        "inputs": {
+          "vae_name": "flux2-vae.safetensors"
+        }
+      },
+      "4": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "2",
+            0
+          ],
+          "text": "Premium hand-painted cozy indie game illustration, refined Japanese seaside night restaurant, warm amber paper lanterns and dark teal shadows, beautiful textured materials, soft cinematic lighting, clean readable silhouettes, detailed and charming, no text, no lettering, no UI, no watermark. Four separate beautiful large food inventory icons in a perfectly aligned 2 by 2 grid. Equal size square cells, generous black gutters, no overlaps. TOP LEFT: two glossy flame-seared salmon nigiri on a small white ceramic plate, orange fish with char lines, tiny green garnish. TOP RIGHT: six nori sushi maki rolls with salmon and cucumber on a small pale celadon plate, black seaweed, white rice, orange centers. BOTTOM LEFT: a beautiful clear tall glass of golden yuzu lemonade, lemon slice, mint leaf, ice cubes. BOTTOM RIGHT: a small blue ceramic water pitcher and a clear tumbler of pure sparkling water, blue reflections. Consistent elevated three-quarter view, highly appetizing food, hand painted game item artwork, crisp silhouette, each object isolated on pure solid black background. No text or numbers."
+        }
+      },
+      "5": {
+        "class_type": "ConditioningZeroOut",
+        "inputs": {
+          "conditioning": [
+            "4",
+            0
+          ]
+        }
+      },
+      "6": {
+        "class_type": "EmptyFlux2LatentImage",
+        "inputs": {
+          "width": 1024,
+          "height": 1024,
+          "batch_size": 1
+        }
+      },
+      "7": {
+        "class_type": "RandomNoise",
+        "inputs": {
+          "noise_seed": 1326276948912575
+        }
+      },
+      "8": {
+        "class_type": "KSamplerSelect",
+        "inputs": {
+          "sampler_name": "euler"
+        }
+      },
+      "9": {
+        "class_type": "Flux2Scheduler",
+        "inputs": {
+          "steps": 4,
+          "width": 1024,
+          "height": 1024
+        }
+      },
+      "10": {
+        "class_type": "CFGGuider",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ],
+          "positive": [
+            "4",
+            0
+          ],
+          "negative": [
+            "5",
+            0
+          ],
+          "cfg": 1.0
+        }
+      },
+      "11": {
+        "class_type": "SamplerCustomAdvanced",
+        "inputs": {
+          "noise": [
+            "7",
+            0
+          ],
+          "guider": [
+            "10",
+            0
+          ],
+          "sampler": [
+            "8",
+            0
+          ],
+          "sigmas": [
+            "9",
+            0
+          ],
+          "latent_image": [
+            "6",
+            0
+          ]
+        }
+      },
+      "12": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "11",
+            0
+          ],
+          "vae": [
+            "3",
+            0
+          ]
+        }
+      },
+      "13": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "12",
+            0
+          ],
+          "filename_prefix": "game-art/1a38fe4d43ad4dc1a924ed8f9317cb62"
+        }
+      }
+    },
+    {
+      "client_id": "game-image-174f826365c94ad3b5688d567eead0e0",
+      "create_time": 1792057766301
+    },
+    [
+      "13"
+    ]
+  ],
+  "outputs": {
+    "13": {
+      "images": [
+        {
+          "filename": "1a38fe4d43ad4dc1a924ed8f9317cb62_00001_.png",
+          "subfolder": "game-art",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 1024,
+            "height": 1024
+          }
+        }
+      ]
+    }
+  },
+  "status": {
+    "status_str": "success",
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "8ceb51a6-bc8d-4827-aefd-772e7d9fe538",
+          "timestamp": 1792057766312
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [
+            "1",
+            "2",
+            "3",
+            "6",
+            "8",
+            "9"
+          ],
+          "prompt_id": "8ceb51a6-bc8d-4827-aefd-772e7d9fe538",
+          "timestamp": 1792057766315
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "8ceb51a6-bc8d-4827-aefd-772e7d9fe538",
+          "timestamp": 1792057769580
+        }
+      ]
+    ]
+  },
+  "meta": {
+    "13": {
+      "node_id": "13",
+      "display_node": "13",
+      "parent_node": null,
+      "real_node_id": "13"
+    }
+  }
+}

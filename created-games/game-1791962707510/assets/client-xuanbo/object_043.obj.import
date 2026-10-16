@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://xusq7fynlmi2"
+path="res://.godot/imported/object_043.obj-c3da85c767fb0eb0d6a7b77cf93f6fee.mesh"
+
+[deps]
+
+files=["res://.godot/imported/object_043.obj-c3da85c767fb0eb0d6a7b77cf93f6fee.mesh"]
+
+source_file="res://assets/client-xuanbo/object_043.obj"
+dest_files=["res://.godot/imported/object_043.obj-c3da85c767fb0eb0d6a7b77cf93f6fee.mesh", "res://.godot/imported/object_043.obj-c3da85c767fb0eb0d6a7b77cf93f6fee.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

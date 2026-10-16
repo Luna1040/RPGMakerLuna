@@ -1,0 +1,52 @@
+{
+  "project": "Z:\\RPGMakerLuna\\created-games\\game-1791969645988",
+  "entry": "res://main.tscn",
+  "professions": [
+    "剑仙",
+    "阴阳",
+    "魅影",
+    "天师"
+  ],
+  "migration": {
+    "剑修": "剑仙",
+    "法修": "阴阳",
+    "体修": "天师",
+    "currency": "stones -> gold once; old stones key erased"
+  },
+  "menu_shortcuts": {
+    "人物": "C",
+    "散修": "R",
+    "背包": "Tab",
+    "仙园": "H",
+    "任务": "Q",
+    "技能": "K",
+    "系统": "Esc"
+  },
+  "features": [
+    "8 equipment slots",
+    "40 inventory slots and gold only balance",
+    "empty wanderers/garden/skills panels",
+    "available/accepted/completed task tabs from actual progress",
+    "volume/mute/fullscreen settings persisted per character",
+    "save before choosing other character or quitting",
+    "menu input blocks map movement, no key repeat toggle"
+  ],
+  "asset": "assets/menu-icons.png",
+  "job": "art-jobs/menu-icons-v3",
+  "generation_status": "Completed, copied to assets, all seven atlas symbols visually reviewed and integrated; 42px icon sizing checked",
+  "verification": [
+    "Godot 4.7.2 SMOKE TEST: PASS (0 failures)",
+    "Godot 4.7.2 MENU TEST: PASS (0 failures)"
+  ],
+  "logs": [
+    "art-jobs/menus-v3/test.log",
+    "art-jobs/menus-v3/menu-test.log"
+  ],
+  "quality_limits": [
+    "Icons include decorative opaque UI backgrounds; task scroll has decorative generated markings",
+    "Bridge import/restart and actual in-game visual inspection pending",
+    "Configured embedded Python remains absent; C:/Python315/python.exe used for art client; full neural matte check still fails; this task needed static UI icon generation only",
+    "Root certificate store warning from Godot remains; no GDScript errors in final tests"
+  ],
+  "scope": "Only the named project modified; no commits/pushes, credentials read, other process stopped, or visible duplicate game launched"
+}

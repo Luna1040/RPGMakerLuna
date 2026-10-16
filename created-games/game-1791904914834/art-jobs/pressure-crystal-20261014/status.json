@@ -1,0 +1,14 @@
+{
+  "project": "Z:/app/RPGMakerLuna/created-games/game-1791904914834",
+  "generation_status": "failed_before_submission",
+  "prompt": "prompt.txt",
+  "intended_job_directory": "image-job",
+  "prompt_id": null,
+  "generated_outputs": [],
+  "asset_integration": "temporary procedural resistance pose, pressure flashes, existing shard particles and burst ring",
+  "error": "art_cli image submit /system_stats: WinError 10061 connection refused at 127.0.0.1:9315",
+  "startup_attempt": "Visible terminal running start-comfy-terminal.ps1 -Service Image; configured embedded Python path missing",
+  "check": "9315/9316 unavailable; av/PIL/numpy/onnxruntime and matte model missing; available CLI Python C:/Python315/python.exe",
+  "pending": ["reference image generation", "resistance video animation generation and processing", "generated asset integration", "real game window visual review"],
+  "mechanics_tests": "checks.log"
+}

@@ -1,0 +1,15 @@
+﻿from pathlib import Path
+root=Path('art-jobs/classes-v14')
+classes={
+'sword':'Adult male sword immortal, handsome long black hair in high silver crown, white and icy blue flowing Chinese robes, silver shoulder armor, a single elegant long straight sword held at right side, heroic poised swordsman.',
+'yinyang':'Adult female Yin Yang mystic, long black hair with white jade ornament, clearly black and ivory asymmetric flowing Chinese robes, elegant gold trim, holding a circular black white yin yang ritual disk and a folding fan, calm mysterious spell caster.',
+'shadow':'Adult female shadow assassin, short flowing silver hair, fitted dark violet and black light leather costume with Chinese fantasy styling, purple scarf, dual curved short daggers held apart at sides, agile confident stance, distinct slender silhouette.',
+'celestial':'Adult male Taoist celestial master, mature face and long dark hair topknot, rich golden yellow and deep teal Daoist robes, embroidered geometric talisman motifs, holding a wooden ritual staff and paper talismans, wise commanding stance, no readable letters.'}
+for key,body in classes.items():
+ (root/(key+'-portrait.txt')).write_text(body+' One single full-body character facing three-quarter right, full feet and weapon visible, figure occupying central 65 percent of 768 square, generous empty space all sides. Refined detailed hand painted Chinese xianxia RPG art, consistent proportions. Solid pure black background. No scenery, no floor, no cast shadow, no text, no border, no other characters.',encoding='utf-8')
+ motions={
+'sword':'One complete fast sword attack: bend knees, load hips, rotate torso and shoulders, raise the straight sword, deliver a decisive diagonal cut toward the right, follow through and return to ready stance.',
+'yinyang':'One complete ritual attack toward the right: bend knees, gather both hands with the yin yang disk, rotate hips and torso, sharply thrust the folding fan and disk forward, then return to a composed ready stance. No conjured objects or lights.',
+'shadow':'One complete dual dagger attack toward the right: crouch with bent knees, load hips and shoulders, sharply rotate torso and cut with both daggers in a crossing strike, then recover to agile ready stance.',
+'celestial':'One complete Taoist spell attack toward the right: load weight through bent knees, turn hips and shoulders, lift ritual staff and paper talisman, firmly thrust the staff toward the right, then recover. No magical light or added effects.'}
+ (root/(key+'-motion.txt')).write_text('The single adult character in the reference picture. Preserve exact face, costume, weapon and identity. '+motions[key]+' Head and whole torso participate, hair and robes follow with secondary motion. Fixed three-quarter side camera, full body and entire weapon remain within central 70 percent of square frame, generous safe margins. No camera motion, cuts or zoom. Solid black background only, no ground, no shadows, no text, no scenery.',encoding='utf-8')

@@ -1,0 +1,18 @@
+﻿{
+ "status": "blocked_before_submission",
+ "configured_python_exists": false,
+ "actual_python": "C:/Python315/python.exe",
+ "client": "Z:/app/RPGMakerLuna/godot-ai-workbench/art_cli.py",
+ "commands_attempted": ["check", "image submit --prompt-file hero-prompt.txt --out hero-image"],
+ "service_start_attempt": "Visible PowerShell start-comfy-terminal.ps1 -Service Image; configured Python missing",
+ "errors": ["Configured Python missing", "9315/9316 connection refused", "av/PIL/numpy/onnxruntime missing", "Matte model missing"],
+ "prompt_id": null,
+ "generated_assets": [],
+ "integrated_assets": [],
+ "animation_pipeline": "Not executed: mother image and runtime unavailable",
+ "visuals": "Temporary code drawn character, knife, stones and feedback particles",
+ "mechanics": "27 assertions PASS, including 20,000 layers and sustained cutting",
+ "checks_not_passed": ["Generated reference", "H3 motion", "Extraction/matte/selection/loop", "In-game window visual review"],
+ "environment_error": "Godot system certificate store unavailable",
+ "game_launched": false
+}

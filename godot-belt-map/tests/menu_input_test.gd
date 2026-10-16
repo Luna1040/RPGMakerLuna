@@ -54,7 +54,26 @@ func run() -> void:
 	panel.close()
 	stage.set_physics_process(false)
 	stage.runtime.controls.keys=stage.runtime.controls.DEFAULTS.duplicate()
-	for binding in [[KEY_X,"attack1"],[KEY_Z,"skill_rising"],[KEY_Q,"skill_crescent"],[KEY_W,"skill_trinity"],[KEY_R,"cast"]]:
+	# Use real key dispatch: calling demo_companion directly missed the confusing 7 entry.
+	check(not stage.runtime.companion_recruited,"Companion starts uncalled")
+	send_key(KEY_7)
+	send_key(KEY_7,false)
+	await process_frame
+	check(stage.runtime.companion_recruited and stage.runtime.encounters.companion_root.is_visible_in_tree(),"7 summons a visible companion when none is present")
+	if DisplayServer.get_name()!="headless":
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png(ProjectSettings.globalize_path("res://../.game-assistant/companion-review.png"))
+	send_key(KEY_7)
+	send_key(KEY_7,false)
+	await process_frame
+	check(stage.runtime.companion_mode=="guard","7 changes orders once companion exists")
+	send_key(KEY_6)
+	send_key(KEY_6,false)
+	await process_frame
+	check(not stage.runtime.companion_recruited,"6 still dismisses companion")
+	stage.runtime.companion_mode="follow"
+	stage.runtime.encounters.set_companion("follow")
+	for binding in [[KEY_X,"attack1"],[KEY_W,"skill_rising"],[KEY_Q,"skill_crescent"],[KEY_A,"skill_trinity"],[KEY_R,"cast"]]:
 		stage.knight.reset_character()
 		stage.grounded=true
 		stage.height_z=0
@@ -82,7 +101,7 @@ func run() -> void:
 	var test_path:="user://test-legacy-keys.cfg"
 	check(settings.save_settings(test_path),"Legacy settings fixture saved")
 	settings.load_settings(test_path)
-	check(settings.keys==settings.DEFAULTS,"Old default settings migrate to arrow/X/C/Z layout")
+	check(settings.keys==settings.DEFAULTS,"Old default settings migrate to arrow/X/C/W layout")
 	DirAccess.remove_absolute(test_path)
 	stage.queue_free()
 	await process_frame

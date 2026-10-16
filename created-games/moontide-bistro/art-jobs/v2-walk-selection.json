@@ -1,0 +1,140 @@
+{
+  "canvas": [
+    768,
+    768
+  ],
+  "pivot": [
+    384,
+    728
+  ],
+  "scale": 0.16,
+  "review_status": "candidate",
+  "frames": [
+    {
+      "file": "00030.png",
+      "source_frame": 30,
+      "duration_ms": 83
+    },
+    {
+      "file": "00032.png",
+      "source_frame": 32,
+      "duration_ms": 83
+    },
+    {
+      "file": "00034.png",
+      "source_frame": 34,
+      "duration_ms": 83
+    },
+    {
+      "file": "00036.png",
+      "source_frame": 36,
+      "duration_ms": 83
+    },
+    {
+      "file": "00038.png",
+      "source_frame": 38,
+      "duration_ms": 83
+    },
+    {
+      "file": "00040.png",
+      "source_frame": 40,
+      "duration_ms": 83
+    },
+    {
+      "file": "00042.png",
+      "source_frame": 42,
+      "duration_ms": 83
+    },
+    {
+      "file": "00044.png",
+      "source_frame": 44,
+      "duration_ms": 83
+    },
+    {
+      "file": "00046.png",
+      "source_frame": 46,
+      "duration_ms": 83
+    },
+    {
+      "file": "00048.png",
+      "source_frame": 48,
+      "duration_ms": 83
+    },
+    {
+      "file": "00050.png",
+      "source_frame": 50,
+      "duration_ms": 83
+    },
+    {
+      "file": "00052.png",
+      "source_frame": 52,
+      "duration_ms": 83
+    },
+    {
+      "file": "00054.png",
+      "source_frame": 54,
+      "duration_ms": 83
+    },
+    {
+      "file": "00056.png",
+      "source_frame": 56,
+      "duration_ms": 83
+    },
+    {
+      "file": "00058.png",
+      "source_frame": 58,
+      "duration_ms": 83
+    },
+    {
+      "file": "00060.png",
+      "source_frame": 60,
+      "duration_ms": 83
+    },
+    {
+      "file": "00062.png",
+      "source_frame": 62,
+      "duration_ms": 83
+    },
+    {
+      "file": "00064.png",
+      "source_frame": 64,
+      "duration_ms": 83
+    },
+    {
+      "file": "00066.png",
+      "source_frame": 66,
+      "duration_ms": 83
+    },
+    {
+      "file": "00068.png",
+      "source_frame": 68,
+      "duration_ms": 83
+    },
+    {
+      "file": "00070.png",
+      "source_frame": 70,
+      "duration_ms": 83
+    },
+    {
+      "file": "00072.png",
+      "source_frame": 72,
+      "duration_ms": 83
+    },
+    {
+      "file": "00074.png",
+      "source_frame": 74,
+      "duration_ms": 83
+    },
+    {
+      "file": "00076.png",
+      "source_frame": 76,
+      "duration_ms": 83
+    },
+    {
+      "file": "00078.png",
+      "source_frame": 78,
+      "duration_ms": 83
+    }
+  ],
+  "event_ms": null
+}

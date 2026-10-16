@@ -1,0 +1,14 @@
+{
+  "assets\\shooter-v1\\boss.png": "5c74fed9b45262809b8171cba9a2752af5e9f742655f132fe6c8f21eaf23bb76",
+  "assets\\shooter-v1\\gunship.png": "d83003e9acb26aad775e88a91898accf2cbc28c5380f38ae4210cd3dbd0a0866",
+  "assets\\shooter-v1\\scout.png": "272818816c438fa9cc4a533bb4112c25be51c40a83c9531e3a47b9f70f5acd3e",
+  "assets\\shooter-v1\\spinner.png": "ae108b1052fed24d0b559417bf199a917047c5045063e404acfb34ac9a6f1d5a",
+  "assets\\shooter-v1\\audio\\explode.wav": "f44f5c2f11469deac2be29f737e7833c8c68704d5d40fa3d7fec305fd97cfd76",
+  "assets\\shooter-v1\\audio\\hit.wav": "b007687d7bfd30ac462ca77d24eaecba3138da7a300133ac05c6eb77abe898bd",
+  "assets\\shooter-v1\\audio\\pulse.wav": "58ebbf1993d566450d8c850d3f80f84612621bd5ea0ab69c2ca16def28a91d74",
+  "assets\\shooter-v1\\audio\\shot.wav": "8ab13433a9d85f0711b60bbaf21dc330084d1206526f02c0392ff6d3e7c64876",
+  "assets\\shooter-v1\\audio\\upgrade.wav": "74ea7369ac5b64e199d79440661d5031e589d41cbe927c818569eeb35d43d92d",
+  "assets\\shooter-v1\\audio\\victory.wav": "0ba0e7c872103f61dd4af7c3275faeaf1f2740f97e728f74e691671a32ae04a3",
+  "assets\\h3-v1\\boss\\atlas.png": "8f7f7915b97b7c0bcebdca70cea17ea4b36f39a945599ca5db4579362c025d76",
+  "assets\\h3-v1\\explosion\\atlas.png": "d696d6027554b9474afb994d2457d21b0240374ad76a04eb2adb43753482d727"
+}

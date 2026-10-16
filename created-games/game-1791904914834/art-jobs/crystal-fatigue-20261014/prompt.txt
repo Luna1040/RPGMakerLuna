@@ -1,0 +1,1 @@
+A single small fatigue recovery crystal collectible for a 2D underground mining game. Clean readable cyan turquoise faceted crystal, golden central light, compact diamond silhouette, centered with generous padding, dark plain background, no text, no scenery, no shadow outside the crystal. Static game item icon, legible at 32 pixels.

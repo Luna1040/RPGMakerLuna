@@ -24,6 +24,7 @@ var events = EventBus.new()
 var talents = TalentTree.new()
 var audio = preload("game_audio.gd").new()
 var panel
+var tracked_quest := ""
 var portals
 var party_hud
 var zone := "town"
@@ -96,6 +97,9 @@ func setup(map_stage) -> void:
 	panel=preload("session_panel.gd").new()
 	stage.add_child(panel)
 	panel.setup(self)
+	var tracker=preload("quest_tracker.gd").new()
+	stage.add_child(tracker)
+	tracker.setup(self)
 	stage.interface.external_modal=panel.is_open
 	stage.interface.close_external=panel.close
 	party_hud=preload("party_hud.gd").new()
@@ -173,9 +177,9 @@ func _on_collected(id: String, amount: int, gear: bool) -> void:
 
 func _enemy_defeated(data: Dictionary) -> void:
 	var identity:=str(run_state.seed)+":"+str(data.get("id","enemy"))
-	events.publish("enemy_killed",{"id":identity,"kind":data.get("kind", "melee")})
+	events.publish("enemy_killed",{"id":identity,"kind":data.get("kind", "melee"),"zone":zone})
 	if str(data.get("kind",""))=="boss":
-		events.publish("boss_killed",{"id":identity})
+		events.publish("boss_killed",{"id":identity,"zone":zone})
 	var before: int=progression.level
 	progression.add_xp(int(data.get("xp",15)))
 	refresh_bonuses()
@@ -190,13 +194,20 @@ func _enemy_defeated(data: Dictionary) -> void:
 		elif stage.loot.materials.has(id):
 			stage.loot.spawn_drop(id,int(drop.get("count",1)),drop_foot+Vector2(-.3,.2),false)
 
+	# Only the final encounter's boss takes its remaining minions with it.
+	if str(data.get("kind",""))=="boss" and Registry.is_dungeon(zone) and int(run_state.wave)>=Registry.waves(zone):
+		for enemy in encounters.enemies:
+			if enemy.kind!="boss" and enemy.state!="dead":
+				encounters._damage(enemy,float(enemy.hp),"boss_defeated",true)
+
 func _wave_cleared(wave: int) -> void:
 	wave_countdown=5.0
-	events.publish("wave_cleared",{"id":str(run_state.seed)+":"+str(wave),"wave":wave})
+	stage.loot.collect_drops(Vector2.ZERO,true,true)
+	events.publish("wave_cleared",{"id":str(run_state.seed)+":"+str(wave),"wave":wave,"zone":zone})
 	if wave>=Registry.waves(zone):
 		run_state.phase="victory"
 		run_state.offers=[]
-		say("试炼完成！拾取战利品后回城，向委托人领取奖励。")
+		say("副本通关！战利品已自动收集，5 秒后自动回城。")
 	else:
 		run_state.phase="boon"
 		var rng:=RandomNumberGenerator.new()
@@ -207,7 +218,7 @@ func _wave_cleared(wave: int) -> void:
 			var index:=rng.randi_range(0,pool.size()-1)
 			offers.append(pool.pop_at(index))
 		run_state.offers=offers
-		say("房间已清理！拾取战利品，前往发光的门按 E 进入下一间。" if run_state.get("rooms",false) else "本轮清场！5 秒后自动获得祝福并开始下一轮；可先拾取战利品。")
+		say("房间已清理！战利品已收集，前往发光的门按 E 进入下一间。" if run_state.get("rooms",false) else "本轮清场！5 秒后自动获得祝福并开始下一轮；可先拾取战利品。")
 	# Do not interrupt picking up loot with an automatically opened modal.
 	if persistence_enabled and autosave_armed: save_game(current_slot,true)
 
@@ -218,8 +229,9 @@ func start_trial(seed_value: int = 0, destination: String = "ruins") -> bool:
 	if not Registry.is_dungeon(destination): return false
 	run_state={"phase":"ready","wave":0,"seed":seed_number,"boons":[],"offers":[],"return_zone":zone}
 	if destination=="forest":
-		run_state.rooms=true
-		run_state.room=0
+		if Registry.is_dungeon(destination):
+			run_state.rooms=true
+			run_state.room=0
 	worlds.erase(destination)
 	return travel(destination)
 
@@ -233,7 +245,7 @@ func start_wave() -> bool:
 	run_state.phase="combat"
 	wave_countdown=-1.0
 	panel.close()
-	say("第 %d / %d 轮 · 留意敌人的红色攻击预警" % [next,Registry.waves(zone)])
+	say("第 %d / %d %s · 留意敌人的红色攻击预警" % [next,Registry.waves(zone),"间" if run_state.get("rooms",false) else "轮"])
 	return true
 
 func choose_boon(id: String) -> bool:
@@ -252,6 +264,7 @@ func choose_boon(id: String) -> bool:
 
 func return_town() -> bool:
 	if not Registry.is_dungeon(zone): return false
+	stage.loot.collect_drops(Vector2.ZERO,true,true)
 	var home:=str(run_state.get("return_zone", Registry.initial_zone_id()))
 	encounters.clear()
 	run_state.phase="none"
@@ -309,9 +322,8 @@ func use_portal(link: Dictionary) -> bool:
 		if not Registry.is_safe(zone): return false
 		run_counter+=1
 		run_state={"phase":"ready","wave":0,"seed":int(Time.get_unix_time_from_system())+run_counter*7919,"boons":[],"offers":[],"return_zone":zone}
-		if Registry.is_dungeon(destination):
-			run_state.rooms=true
-			run_state.room=0
+		run_state.rooms=true
+		run_state.room=0
 		worlds.erase(destination)
 	var arrival:Array=link.get("arrival",[])
 	if Registry.is_dungeon(destination) and run_state.get("rooms",false): arrival=[3.2,7.6]
@@ -548,7 +560,14 @@ func step(delta: float) -> void:
 		panel.open("adventure")
 		say("挑战失败。可保留已拾取的战利品回城，或读取上个检查点。")
 		return
+	var victory_before_step: bool=run_state.phase=="victory"
 	encounters.step(delta)
+	if Registry.is_dungeon(zone) and victory_before_step and run_state.phase=="victory":
+		if wave_countdown<0: wave_countdown=5.0
+		wave_countdown=maxf(0,wave_countdown-delta)
+		if wave_countdown<=0:
+			return_town()
+			return
 	if workbench_bridge != null: workbench_bridge.process_pending()
 	if Registry.is_dungeon(zone) and run_state.phase in ["boon","ready"] and int(run_state.wave)>0:
 		if wave_countdown < 0: wave_countdown=5.0
@@ -613,9 +632,13 @@ func demo_companion(command: int) -> void:
 			encounters.set_companion(companion_mode)
 		say("演示：瑟琳已加入队伍" if companion_recruited else "演示：瑟琳已离队")
 	elif command==1:
+		if not companion_recruited:
+			demo_companion(0)
+			return
 		var modes: Array=["follow","guard","passive"]
 		companion_mode=modes[(modes.find(companion_mode)+1)%modes.size()]
 		encounters.set_companion(companion_mode)
+		say("队友指令："+{"follow":"跟随","guard":"驻守","passive":"停战"}[companion_mode])
 	else:
 		encounters.rest_companion()
 		say("演示：队友已复苏并恢复生命与法力")
@@ -623,6 +646,10 @@ func demo_companion(command: int) -> void:
 func handle_key(event: InputEventKey) -> bool:
 	if panel.capture_action!="": return panel.capture_key(event)
 	var code:=controls.canonical(event)
+	if code==KEY_F9:
+		if panel.is_open() and panel.tab=="demo": panel.close()
+		else: panel.open("demo")
+		return true
 	if code in [KEY_6,KEY_7,KEY_8,KEY_F10,KEY_F11,KEY_F12] and not stage.interface.is_modal():
 		demo_companion([KEY_6,KEY_7,KEY_8,KEY_F10,KEY_F11,KEY_F12].find(code)%3)
 		return true
@@ -641,3 +668,29 @@ func handle_key(event: InputEventKey) -> bool:
 		use_potion("healing_potion" if code==KEY_4 else "mana_potion")
 		return true
 	return false
+
+func demo_travel(target: String, room: int = 0) -> bool:
+	if transitioning or not Registry.has_zone(target): return false
+	var bridge=stage.get_node_or_null("/root/GameSession")
+	if bridge==null or get_tree().current_scene!=stage or bridge.busy: return false
+	get_tree().paused=false
+	Engine.time_scale=1.0
+	encounters.clear()
+	stage.knight.reset_character()
+	stage.hit_pause=0
+	stage.height_z=0
+	stage.vertical_speed=0
+	stage.grounded=true
+	stage.sprint.reset()
+	death_pending=false
+	# Demo shortcuts never award skipped rooms or mark quest objectives complete.
+	run_counter+=1
+	run_state={"phase":"none","wave":0,"seed":int(Time.get_unix_time_from_system())+run_counter*7919,"boons":[],"offers":[],"return_zone":"city"}
+	if Registry.is_dungeon(target):
+		var index:=clampi(room,0,2)
+		run_state.merge({"phase":"ready","wave":index,"rooms":true,"room":index},true)
+		worlds.erase(target)
+	panel.close()
+	var result:=travel(target)
+	if result: bridge.portal_entry=Registry.is_dungeon(target)
+	return result

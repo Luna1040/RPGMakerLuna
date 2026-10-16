@@ -1,11 +1,11 @@
 extends RefCounted
-const ZONES := {"town":{"name":"苍石庭院","contract":"res://map-contract.json"},"ruins":{"name":"古塔试炼场","contract":"res://systems/data/ruins.json"},"forest":{"name":"旧林道","contract":"res://systems/data/forest.json"},"city":{"name":"晨钟城","contract":"res://systems/data/city.json"}}
+const ZONES := {"town":{"name":"苍石庭院","contract":"res://map-contract.json"},"ruins":{"name":"古塔试炼场","contract":"res://systems/data/ruins.json"},"forest":{"name":"旧林道","contract":"res://systems/data/forest.json"},"city":{"name":"晨钟城","contract":"res://systems/data/city.json"},"frost":{"name":"霜钟隘口","contract":"res://systems/data/frost.json"},"ember":{"name":"余烬圣堂","contract":"res://systems/data/ember.json"}}
 
 static func is_safe(id: String) -> bool:
 	return id in ["town","city"]
 
 static func is_dungeon(id: String) -> bool:
-	return id in ["ruins","forest"]
+	return id in ["ruins","forest","frost","ember"]
 
 static func title(id: String) -> String:
 	return str(ZONES.get(id,{}).get("name",id))

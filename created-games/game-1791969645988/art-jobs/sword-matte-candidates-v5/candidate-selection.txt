@@ -1,0 +1,1 @@
+Complete 124-frame source retained in sword-padded-source-v5. Candidate frames span load, raise, swing, hit, follow-through and ready stance. Final selection is made after semantic matte/alpha boundary review.

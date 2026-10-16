@@ -33,6 +33,8 @@ description: 制作以 Godot 为运行时的 AI 美术游戏原型：原创角�
 
 ## 随附工具
 
+- `scripts/image_client.py`：Flux 2 Klein 9B 本机文生图/单参考图生成、断点查询和下载；默认 9315，可用 --url 覆盖。
+
 - `scripts/comfy_client.py`：检查节点、上传母图、提交 API 工作流、续查任务和下载输出；只用 Python 标准库。
 - `assets/h3-reference-api.json`：本项目验证过的 20-step H3 参数。具体节点必须由目标实例 `/object_info` 验证；模型不随包提供。
 - `scripts/matte_frames.py`：给定 BiRefNet ONNX 模型，对黑底源帧生成固定画布 RGBA 和深浅底预览。结果是候选，不自动批准。
