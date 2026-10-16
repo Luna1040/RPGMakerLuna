@@ -1,0 +1,17 @@
+[
+  {
+    "file": "00000.png",
+    "node": "13",
+    "kind": "images",
+    "remote": {
+      "filename": "98e5e544583b44b3884699d28168d15a_00001_.png",
+      "subfolder": "game-art",
+      "type": "output",
+      "metadata": {
+        "kind": "image",
+        "width": 1280,
+        "height": 800
+      }
+    }
+  }
+]

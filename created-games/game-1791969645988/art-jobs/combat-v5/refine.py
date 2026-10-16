@@ -1,0 +1,3 @@
+﻿from pathlib import Path
+p=Path('main.gd');s=p.read_text(encoding='utf-8').replace('var tween:=create_tween()\n\ttween.tween_property(effect','var tween:=effect.create_tween()\n\ttween.tween_property(effect').replace('*maxi(1,count)*multiplier','*maxi(0,count)*multiplier');p.write_text(s,encoding='utf-8')
+p=Path('tests/smoke.gd');s=p.read_text(encoding='utf-8-sig').replace('game.mode=="result" and game.character.level==6,"first combat XP levels player"','game.mode=="result" and game.character.level==5 and game.character.xp==60,"first combat gives level-based XP"').replace('game.character.level==9,"monster XP reaches nine"','game.character.level==7 and game.character.xp==52,"monster XP is a small level-based reward"');p.write_text(s,encoding='utf-8')

@@ -1,0 +1,1 @@
+124 complete original source frames retained in bite-source-v5. These candidates span anticipation, jaw opening, bite, follow-through and recovery. Final alpha-approved selection follows matting.

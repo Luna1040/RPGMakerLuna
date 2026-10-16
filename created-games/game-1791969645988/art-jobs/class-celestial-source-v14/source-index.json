@@ -1,0 +1,345 @@
+{
+  "fps": 24,
+  "canvas": [
+    768,
+    768
+  ],
+  "frames": [
+    {
+      "file": "00000.png",
+      "source_frame": 0,
+      "node": "15",
+      "original_file": "00000.png"
+    },
+    {
+      "file": "00001.png",
+      "source_frame": 1,
+      "node": "15",
+      "original_file": "00001.png"
+    },
+    {
+      "file": "00002.png",
+      "source_frame": 2,
+      "node": "15",
+      "original_file": "00002.png"
+    },
+    {
+      "file": "00003.png",
+      "source_frame": 3,
+      "node": "15",
+      "original_file": "00003.png"
+    },
+    {
+      "file": "00004.png",
+      "source_frame": 4,
+      "node": "15",
+      "original_file": "00004.png"
+    },
+    {
+      "file": "00005.png",
+      "source_frame": 5,
+      "node": "15",
+      "original_file": "00005.png"
+    },
+    {
+      "file": "00006.png",
+      "source_frame": 6,
+      "node": "15",
+      "original_file": "00006.png"
+    },
+    {
+      "file": "00007.png",
+      "source_frame": 7,
+      "node": "15",
+      "original_file": "00007.png"
+    },
+    {
+      "file": "00008.png",
+      "source_frame": 8,
+      "node": "15",
+      "original_file": "00008.png"
+    },
+    {
+      "file": "00009.png",
+      "source_frame": 9,
+      "node": "15",
+      "original_file": "00009.png"
+    },
+    {
+      "file": "00010.png",
+      "source_frame": 10,
+      "node": "15",
+      "original_file": "00010.png"
+    },
+    {
+      "file": "00011.png",
+      "source_frame": 11,
+      "node": "15",
+      "original_file": "00011.png"
+    },
+    {
+      "file": "00012.png",
+      "source_frame": 12,
+      "node": "15",
+      "original_file": "00012.png"
+    },
+    {
+      "file": "00013.png",
+      "source_frame": 13,
+      "node": "15",
+      "original_file": "00013.png"
+    },
+    {
+      "file": "00014.png",
+      "source_frame": 14,
+      "node": "15",
+      "original_file": "00014.png"
+    },
+    {
+      "file": "00015.png",
+      "source_frame": 15,
+      "node": "15",
+      "original_file": "00015.png"
+    },
+    {
+      "file": "00016.png",
+      "source_frame": 16,
+      "node": "15",
+      "original_file": "00016.png"
+    },
+    {
+      "file": "00017.png",
+      "source_frame": 17,
+      "node": "15",
+      "original_file": "00017.png"
+    },
+    {
+      "file": "00018.png",
+      "source_frame": 18,
+      "node": "15",
+      "original_file": "00018.png"
+    },
+    {
+      "file": "00019.png",
+      "source_frame": 19,
+      "node": "15",
+      "original_file": "00019.png"
+    },
+    {
+      "file": "00020.png",
+      "source_frame": 20,
+      "node": "15",
+      "original_file": "00020.png"
+    },
+    {
+      "file": "00021.png",
+      "source_frame": 21,
+      "node": "15",
+      "original_file": "00021.png"
+    },
+    {
+      "file": "00022.png",
+      "source_frame": 22,
+      "node": "15",
+      "original_file": "00022.png"
+    },
+    {
+      "file": "00023.png",
+      "source_frame": 23,
+      "node": "15",
+      "original_file": "00023.png"
+    },
+    {
+      "file": "00024.png",
+      "source_frame": 24,
+      "node": "15",
+      "original_file": "00024.png"
+    },
+    {
+      "file": "00025.png",
+      "source_frame": 25,
+      "node": "15",
+      "original_file": "00025.png"
+    },
+    {
+      "file": "00026.png",
+      "source_frame": 26,
+      "node": "15",
+      "original_file": "00026.png"
+    },
+    {
+      "file": "00027.png",
+      "source_frame": 27,
+      "node": "15",
+      "original_file": "00027.png"
+    },
+    {
+      "file": "00028.png",
+      "source_frame": 28,
+      "node": "15",
+      "original_file": "00028.png"
+    },
+    {
+      "file": "00029.png",
+      "source_frame": 29,
+      "node": "15",
+      "original_file": "00029.png"
+    },
+    {
+      "file": "00030.png",
+      "source_frame": 30,
+      "node": "15",
+      "original_file": "00030.png"
+    },
+    {
+      "file": "00031.png",
+      "source_frame": 31,
+      "node": "15",
+      "original_file": "00031.png"
+    },
+    {
+      "file": "00032.png",
+      "source_frame": 32,
+      "node": "15",
+      "original_file": "00032.png"
+    },
+    {
+      "file": "00033.png",
+      "source_frame": 33,
+      "node": "15",
+      "original_file": "00033.png"
+    },
+    {
+      "file": "00034.png",
+      "source_frame": 34,
+      "node": "15",
+      "original_file": "00034.png"
+    },
+    {
+      "file": "00035.png",
+      "source_frame": 35,
+      "node": "15",
+      "original_file": "00035.png"
+    },
+    {
+      "file": "00036.png",
+      "source_frame": 36,
+      "node": "15",
+      "original_file": "00036.png"
+    },
+    {
+      "file": "00037.png",
+      "source_frame": 37,
+      "node": "15",
+      "original_file": "00037.png"
+    },
+    {
+      "file": "00038.png",
+      "source_frame": 38,
+      "node": "15",
+      "original_file": "00038.png"
+    },
+    {
+      "file": "00039.png",
+      "source_frame": 39,
+      "node": "15",
+      "original_file": "00039.png"
+    },
+    {
+      "file": "00040.png",
+      "source_frame": 40,
+      "node": "15",
+      "original_file": "00040.png"
+    },
+    {
+      "file": "00041.png",
+      "source_frame": 41,
+      "node": "15",
+      "original_file": "00041.png"
+    },
+    {
+      "file": "00042.png",
+      "source_frame": 42,
+      "node": "15",
+      "original_file": "00042.png"
+    },
+    {
+      "file": "00043.png",
+      "source_frame": 43,
+      "node": "15",
+      "original_file": "00043.png"
+    },
+    {
+      "file": "00044.png",
+      "source_frame": 44,
+      "node": "15",
+      "original_file": "00044.png"
+    },
+    {
+      "file": "00045.png",
+      "source_frame": 45,
+      "node": "15",
+      "original_file": "00045.png"
+    },
+    {
+      "file": "00046.png",
+      "source_frame": 46,
+      "node": "15",
+      "original_file": "00046.png"
+    },
+    {
+      "file": "00047.png",
+      "source_frame": 47,
+      "node": "15",
+      "original_file": "00047.png"
+    },
+    {
+      "file": "00048.png",
+      "source_frame": 48,
+      "node": "15",
+      "original_file": "00048.png"
+    },
+    {
+      "file": "00049.png",
+      "source_frame": 49,
+      "node": "15",
+      "original_file": "00049.png"
+    },
+    {
+      "file": "00050.png",
+      "source_frame": 50,
+      "node": "15",
+      "original_file": "00050.png"
+    },
+    {
+      "file": "00051.png",
+      "source_frame": 51,
+      "node": "15",
+      "original_file": "00051.png"
+    },
+    {
+      "file": "00052.png",
+      "source_frame": 52,
+      "node": "15",
+      "original_file": "00052.png"
+    },
+    {
+      "file": "00053.png",
+      "source_frame": 53,
+      "node": "15",
+      "original_file": "00053.png"
+    },
+    {
+      "file": "00054.png",
+      "source_frame": 54,
+      "node": "15",
+      "original_file": "00054.png"
+    },
+    {
+      "file": "00055.png",
+      "source_frame": 55,
+      "node": "15",
+      "original_file": "00055.png"
+    }
+  ]
+}

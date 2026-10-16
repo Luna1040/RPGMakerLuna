@@ -1,0 +1,2 @@
+﻿from pathlib import Path
+p=Path('main.gd');s=p.read_text(encoding='utf-8');s=s.replace('if reset_page and index==2: bag_page=0','if reset_page and index==2: bag_page=0\n\tif reset_page and index==3: estate_ui.section=""');s=s.replace('\t\t\tpersist()\n\t\t\tshow_world()\n\tif mode=="map"','\t\t\tvar previous_destination:=destination\n\t\t\tvar previous_pending:=pending\n\t\t\tpersist()\n\t\t\tshow_world()\n\t\t\tdestination=previous_destination\n\t\t\tpending=previous_pending\n\tif mode=="map"',1);p.write_text(s,encoding='utf-8')

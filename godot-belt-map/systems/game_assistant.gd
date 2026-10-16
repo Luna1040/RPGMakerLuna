@@ -114,12 +114,28 @@ func toggle() -> void:
 		panel.show()
 		prompt.grab_focus()
 
+func build_context(stage: Node) -> Dictionary:
+	var context := {"engine":Engine.get_version_info().string}
+	if stage == null: return context
+	context["scene"] = stage.scene_file_path
+	var runtime = stage.get("runtime")
+	if runtime is Object:
+		var zone = runtime.get("zone")
+		if zone != null: context["zone"] = zone
+	elif runtime is Dictionary and runtime.has("zone"):
+		context["zone"] = runtime["zone"]
+	var knight = stage.get("knight")
+	if knight is Node2D:
+		context["player_position"] = [knight.position.x,knight.position.y]
+	else:
+		var hero = stage.get("hero")
+		if hero is Vector2:
+			context["player_position"] = [hero.x,hero.y]
+	return context
+
 func submit() -> void:
 	if prompt.text.strip_edges().is_empty(): return
-	var context:={"scene":get_tree().current_scene.scene_file_path,"engine":Engine.get_version_info().string}
-	var stage=get_tree().current_scene
-	if stage.get("runtime")!=null: context["zone"]=stage.runtime.zone
-	if stage.get("knight")!=null: context["player_position"]=[stage.knight.position.x,stage.knight.position.y]
+	var context := build_context(get_tree().current_scene)
 	var err:=action.request(endpoint+"/task",headers,HTTPClient.METHOD_POST,JSON.stringify({"prompt":prompt.text,"context":context,"screenshot":screenshot}))
 	status.text="已提交，等待 Codex…" if err==OK else "请求忙，请稍后再试"
 

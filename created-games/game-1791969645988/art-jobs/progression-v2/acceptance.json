@@ -1,0 +1,339 @@
+{
+  "project": "Z:\\RPGMakerLuna\\created-games\\game-1791969645988",
+  "entry": "res://main.tscn",
+  "assets": [
+    "assets/characters/0.png",
+    "assets/characters/1.png",
+    "assets/characters/2.png",
+    "assets/characters/3.png",
+    "assets/characters/4.png",
+    "assets/characters/5.png",
+    "assets/characters/6.png",
+    "assets/characters/7.png",
+    "assets/sect.png",
+    "assets/portal.png"
+  ],
+  "generation_jobs": [
+    "art-jobs/sect-v2",
+    "art-jobs/portal-v2",
+    "art-jobs/cast-key-v2",
+    "art-jobs/wolf-key-v2"
+  ],
+  "processing_jobs": [
+    "art-jobs/cast-crops-v2",
+    "art-jobs/cast-alpha-v2",
+    "art-jobs/courier-crop-v2",
+    "art-jobs/courier-alpha-v2",
+    "art-jobs/wolf-alpha-v2"
+  ],
+  "status": "Generated, processed and integrated; eight real RGBA character images and two environment assets reviewed",
+  "processing": "Existing layered_map_trial.key_asset reused without new matting algorithm; Comfy ImageCrop reused for static atlas regions; official portable Python312 and Pillow/numpy/scipy isolated inside this project art-jobs",
+  "failed_candidate": "cast-alpha-v2/4 had clipped shoe/8 opaque border pixels; discarded and replaced by courier-alpha-v2 with full shoe and alpha gate PASS",
+  "alpha_checks": [
+    {
+      "file": "art-jobs\\cast-alpha-v2\\0\\matte-qa.json",
+      "qa": {
+        "accepted": true,
+        "sourceSha256": "c057cb0ca12d8f20e9797a102f57ef98f25e055ae3591607af09ee3c9a0e11d1",
+        "canvas": [
+          308,
+          388
+        ],
+        "alphaBBox": [
+          31,
+          12,
+          267,
+          378
+        ],
+        "pivot": [
+          154,
+          378
+        ],
+        "cornerColor": [
+          241.0,
+          15.0,
+          188.0
+        ],
+        "cornerSpread95": 5.830951690673828,
+        "calibratedKeyRadius": 28,
+        "enclosedKeyComponentsRemoved": 3,
+        "unsupportedNoiseIslandsRemoved": 0,
+        "opaqueBorderPixels": 0,
+        "opaqueKeyPixels": 0,
+        "softAlphaPixels": 1726,
+        "method": "validated pink/magenta family + enclosed holes + local edge color unmixing + unsupported chroma-noise removal",
+        "limits": "For opaque pixel assets, not transparent glass/glow. Color math does not verify semantic foreground completeness; inspect QA sheet."
+      }
+    },
+    {
+      "file": "art-jobs\\cast-alpha-v2\\1\\matte-qa.json",
+      "qa": {
+        "accepted": true,
+        "sourceSha256": "f07437b6921c17d33d266873a018fc20d030cafb9d6c36307f67d1763f10e11e",
+        "canvas": [
+          308,
+          388
+        ],
+        "alphaBBox": [
+          44,
+          13,
+          250,
+          375
+        ],
+        "pivot": [
+          154,
+          375
+        ],
+        "cornerColor": [
+          241.0,
+          16.0,
+          188.0
+        ],
+        "cornerSpread95": 6.4031243324279785,
+        "calibratedKeyRadius": 65,
+        "enclosedKeyComponentsRemoved": 0,
+        "unsupportedNoiseIslandsRemoved": 0,
+        "opaqueBorderPixels": 0,
+        "opaqueKeyPixels": 0,
+        "softAlphaPixels": 1284,
+        "method": "validated pink/magenta family + enclosed holes + local edge color unmixing + unsupported chroma-noise removal",
+        "limits": "For opaque pixel assets, not transparent glass/glow. Color math does not verify semantic foreground completeness; inspect QA sheet."
+      }
+    },
+    {
+      "file": "art-jobs\\cast-alpha-v2\\2\\matte-qa.json",
+      "qa": {
+        "accepted": true,
+        "sourceSha256": "dca69692a1fc62c4ed22b9b1d7319da4cc2cd7c8e61b02d33d544d73624138e8",
+        "canvas": [
+          308,
+          388
+        ],
+        "alphaBBox": [
+          64,
+          10,
+          213,
+          379
+        ],
+        "pivot": [
+          154,
+          379
+        ],
+        "cornerColor": [
+          241.0,
+          15.0,
+          188.0
+        ],
+        "cornerSpread95": 7.071067810058594,
+        "calibratedKeyRadius": 62.45841598510742,
+        "enclosedKeyComponentsRemoved": 9,
+        "unsupportedNoiseIslandsRemoved": 1,
+        "opaqueBorderPixels": 0,
+        "opaqueKeyPixels": 0,
+        "softAlphaPixels": 1445,
+        "method": "validated pink/magenta family + enclosed holes + local edge color unmixing + unsupported chroma-noise removal",
+        "limits": "For opaque pixel assets, not transparent glass/glow. Color math does not verify semantic foreground completeness; inspect QA sheet."
+      }
+    },
+    {
+      "file": "art-jobs\\cast-alpha-v2\\3\\matte-qa.json",
+      "qa": {
+        "accepted": true,
+        "sourceSha256": "fdf1756e90b8976a83711e613ca2b3ab733d8fcadb506031b20ed3a566ab1c54",
+        "canvas": [
+          308,
+          388
+        ],
+        "alphaBBox": [
+          32,
+          10,
+          245,
+          387
+        ],
+        "pivot": [
+          154,
+          387
+        ],
+        "cornerColor": [
+          241.0,
+          14.0,
+          187.0
+        ],
+        "cornerSpread95": 6.7082037925720215,
+        "calibratedKeyRadius": 28,
+        "enclosedKeyComponentsRemoved": 2,
+        "unsupportedNoiseIslandsRemoved": 0,
+        "opaqueBorderPixels": 0,
+        "opaqueKeyPixels": 0,
+        "softAlphaPixels": 1944,
+        "method": "validated pink/magenta family + enclosed holes + local edge color unmixing + unsupported chroma-noise removal",
+        "limits": "For opaque pixel assets, not transparent glass/glow. Color math does not verify semantic foreground completeness; inspect QA sheet."
+      }
+    },
+    {
+      "file": "art-jobs\\cast-alpha-v2\\5\\matte-qa.json",
+      "qa": {
+        "accepted": true,
+        "sourceSha256": "3ffd7440de49bac237514bfb5fa9c7c964a52b6d8e776de7a056ae51d9733eb5",
+        "canvas": [
+          308,
+          388
+        ],
+        "alphaBBox": [
+          64,
+          10,
+          241,
+          385
+        ],
+        "pivot": [
+          154,
+          385
+        ],
+        "cornerColor": [
+          241.0,
+          16.0,
+          188.0
+        ],
+        "cornerSpread95": 7.071067810058594,
+        "calibratedKeyRadius": 65,
+        "enclosedKeyComponentsRemoved": 1,
+        "unsupportedNoiseIslandsRemoved": 4,
+        "opaqueBorderPixels": 0,
+        "opaqueKeyPixels": 0,
+        "softAlphaPixels": 1502,
+        "method": "validated pink/magenta family + enclosed holes + local edge color unmixing + unsupported chroma-noise removal",
+        "limits": "For opaque pixel assets, not transparent glass/glow. Color math does not verify semantic foreground completeness; inspect QA sheet."
+      }
+    },
+    {
+      "file": "art-jobs\\cast-alpha-v2\\6\\matte-qa.json",
+      "qa": {
+        "accepted": true,
+        "sourceSha256": "3aeafd4e4a4528c79a97b53c8c2cb89ec4574e545635a7d37687559b333d92ed",
+        "canvas": [
+          308,
+          388
+        ],
+        "alphaBBox": [
+          13,
+          4,
+          283,
+          386
+        ],
+        "pivot": [
+          154,
+          386
+        ],
+        "cornerColor": [
+          240.0,
+          16.0,
+          187.0
+        ],
+        "cornerSpread95": 7.681145668029785,
+        "calibratedKeyRadius": 47.20189666748047,
+        "enclosedKeyComponentsRemoved": 12,
+        "unsupportedNoiseIslandsRemoved": 0,
+        "opaqueBorderPixels": 0,
+        "opaqueKeyPixels": 0,
+        "softAlphaPixels": 2635,
+        "method": "validated pink/magenta family + enclosed holes + local edge color unmixing + unsupported chroma-noise removal",
+        "limits": "For opaque pixel assets, not transparent glass/glow. Color math does not verify semantic foreground completeness; inspect QA sheet."
+      }
+    },
+    {
+      "file": "art-jobs\\courier-alpha-v2\\matte-qa.json",
+      "qa": {
+        "accepted": true,
+        "sourceSha256": "5e297ef3c5b7cd511606c0e41d1064e700b64197a68582141133521917c28638",
+        "canvas": [
+          308,
+          394
+        ],
+        "alphaBBox": [
+          69,
+          23,
+          219,
+          390
+        ],
+        "pivot": [
+          154,
+          390
+        ],
+        "cornerColor": [
+          241.0,
+          14.0,
+          189.0
+        ],
+        "cornerSpread95": 9.899495124816895,
+        "calibratedKeyRadius": 28,
+        "enclosedKeyComponentsRemoved": 8,
+        "unsupportedNoiseIslandsRemoved": 0,
+        "opaqueBorderPixels": 0,
+        "opaqueKeyPixels": 0,
+        "softAlphaPixels": 1351,
+        "method": "validated pink/magenta family + enclosed holes + local edge color unmixing + unsupported chroma-noise removal",
+        "limits": "For opaque pixel assets, not transparent glass/glow. Color math does not verify semantic foreground completeness; inspect QA sheet."
+      }
+    },
+    {
+      "file": "art-jobs\\wolf-alpha-v2\\matte-qa.json",
+      "qa": {
+        "accepted": true,
+        "sourceSha256": "57b83f9074ccf18d9a55648972ad6474a83f23e989ea89b617a58b027c76cfd6",
+        "canvas": [
+          768,
+          512
+        ],
+        "alphaBBox": [
+          88,
+          32,
+          698,
+          492
+        ],
+        "pivot": [
+          384,
+          492
+        ],
+        "cornerColor": [
+          249.0,
+          13.0,
+          221.0
+        ],
+        "cornerSpread95": 14.866068840026855,
+        "calibratedKeyRadius": 57.04805374145508,
+        "enclosedKeyComponentsRemoved": 5,
+        "unsupportedNoiseIslandsRemoved": 0,
+        "opaqueBorderPixels": 0,
+        "opaqueKeyPixels": 0,
+        "softAlphaPixels": 2376,
+        "method": "validated pink/magenta family + enclosed holes + local edge color unmixing + unsupported chroma-noise removal",
+        "limits": "For opaque pixel assets, not transparent glass/glow. Color math does not verify semantic foreground completeness; inspect QA sheet."
+      }
+    }
+  ],
+  "review": "All eight deep/light background sheets inspected; portal and sect map inspected",
+  "quality_limits": [
+    "Fine edges have slight chroma color shifts; not yet fully polished",
+    "Characters remain static sprites with code-driven hovering; no new full-body animation",
+    "Actual bridge import/restart and in-game visual review pending",
+    "Default art_cli matte neural model and runtime dependency check still fails; verified existing magenta key tool used instead",
+    "Godot prints root certificate store warning; no GDScript errors in final test"
+  ],
+  "verification": "Godot 4.7.2 SMOKE TEST: PASS (0 failures), alpha, 48x72 map models, model/name hit regions, near-only dialogue, level5 tutorial, three monster XP rewards, level10 field completion, gates and roundtrip, sect quests/realm, idempotence and legacy migration",
+  "log": "art-jobs/progression-v2/test.log",
+  "progression": {
+    "town_final_level": 5,
+    "monster_xp": [
+      100,
+      150,
+      150
+    ],
+    "field_completion_xp": 100,
+    "xp_per_level": 100,
+    "field_final_level": 10,
+    "realm_after_sect_acceptance": "练气期"
+  },
+  "portal_contract": "Every map declares portals in PORTALS with id, position, target, spawn, label, level and optional tutorial gate. Click model or caption -> travel -> arrival validates gate -> swap map.",
+  "legacy_saves": "One-time progression_version=2 recalculation according to town quest and field kills/completion; identities and slots retained",
+  "launch": "No game/editor launch and no other process stopped. Bridge owns import and restart."
+}

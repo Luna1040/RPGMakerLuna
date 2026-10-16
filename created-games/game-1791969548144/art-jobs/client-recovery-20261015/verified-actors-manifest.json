@@ -1,0 +1,152 @@
+[
+  {
+    "actor": "mob400",
+    "look": 400,
+    "source": "c3/monster/400/1.c3",
+    "sha256": "4e9985b9c166648713e0aac3393fd933849b2328767204d1a52e89177d2c7c01"
+  },
+  {
+    "actor": "mob400",
+    "look": 400,
+    "source": "c3/texture/400000000.dds",
+    "sha256": "a513cdadc84d5223f3d75bc451259b53908f0820ff3f5aa1e11b3b2dee7e9563"
+  },
+  {
+    "actor": "mob400",
+    "look": 400,
+    "source": "c3/monster/400/100.c3",
+    "sha256": "1ed3b3628760f7a720b8a96f372b02d6a496c40dec31aab80b785adbe69ed609"
+  },
+  {
+    "actor": "mob400",
+    "look": 400,
+    "source": "c3/monster/400/101.c3",
+    "sha256": "be3ad3ddd1e8a0576d7d41f4b289a083f24c00e0ecf987d59078a6deca5c85d1"
+  },
+  {
+    "actor": "mob400",
+    "look": 400,
+    "source": "c3/monster/400/110.c3",
+    "sha256": "d593ea677bca6e591ed198b1a8427273cbb065145e33b8e50eaf817ca9d5a6cf"
+  },
+  {
+    "actor": "mob401",
+    "look": 401,
+    "source": "c3/monster/401/1.c3",
+    "sha256": "dc3ea1d0d6feacd98b95b98616b03b23e6d2bfa1304bf46a4e7616de407c9f42"
+  },
+  {
+    "actor": "mob401",
+    "look": 401,
+    "source": "c3/texture/401000000.dds",
+    "sha256": "586f578762b31b3d00d0832edab26cac52d202e8e347cd17e3a377ecc6e8ac3c"
+  },
+  {
+    "actor": "mob401",
+    "look": 401,
+    "source": "c3/monster/401/100.c3",
+    "sha256": "a949006cc334568e69a8b23daccca02fc936831b0af986d08e0c3964aae23837"
+  },
+  {
+    "actor": "mob401",
+    "look": 401,
+    "source": "c3/monster/401/101.c3",
+    "sha256": "f10a2d4864422fa8fba1e1c7c318ec0250d53268c50433f58277ec8d3f2ab4eb"
+  },
+  {
+    "actor": "mob401",
+    "look": 401,
+    "source": "c3/monster/401/110.c3",
+    "sha256": "df16a871d2c6f8a1a8079e7e20b55f584710c3b43164823631a8840df464f386"
+  },
+  {
+    "actor": "mob402",
+    "look": 402,
+    "source": "c3/monster/402/1.c3",
+    "sha256": "d1c25269ef34ff220c5a9f073513901b242bd55950b42082b6897254534fa385"
+  },
+  {
+    "actor": "mob402",
+    "look": 402,
+    "source": "c3/texture/402000000.dds",
+    "sha256": "68bbea71d1493c25515044e1c4eab9a5211b0f106acd9a7c3558662105ca8f52"
+  },
+  {
+    "actor": "mob402",
+    "look": 402,
+    "source": "c3/monster/402/100.c3",
+    "sha256": "7388676fdfbdf714103aca9c45dd2287e5eced369178f78c1b4342e23273ac16"
+  },
+  {
+    "actor": "mob402",
+    "look": 402,
+    "source": "c3/monster/402/101.c3",
+    "sha256": "5d50a4d368cd3bab6739e2684b9635d316cb1b6d59ec62971f2ed9656f1178f6"
+  },
+  {
+    "actor": "mob402",
+    "look": 402,
+    "source": "c3/monster/402/110.c3",
+    "sha256": "862b132f107731b608e0887b8050397ce1eb2272246e1267acd99c34cb679813"
+  },
+  {
+    "actor": "petwarrior",
+    "look": 121,
+    "source": "c3/monster/121/1.c3",
+    "sha256": "df3f2313a9a184840ef650063571bd88337e6eaddad75f30dc059a6f657d9f67"
+  },
+  {
+    "actor": "petwarrior",
+    "look": 121,
+    "source": "c3/texture/121000000.dds",
+    "sha256": "79d5e2fcf00a0b1f2a284a71a75a9b3d8dad8bde16a3d01705c7d406ea815447"
+  },
+  {
+    "actor": "petwarrior",
+    "look": 121,
+    "source": "c3/monster/121/100.c3",
+    "sha256": "44604257c73a94e21ddcb81ab0c4ffdef38bca8de9c855b34abb78ad31285d0d"
+  },
+  {
+    "actor": "petwarrior",
+    "look": 121,
+    "source": "c3/monster/121/101.c3",
+    "sha256": "dc44747134859c60f986d133f5f3fbe0df3c14b5773ae95a71d590fba736f62d"
+  },
+  {
+    "actor": "petwarrior",
+    "look": 121,
+    "source": "c3/monster/121/110.c3",
+    "sha256": "5c319382fcc7e39147cde83db39c8bb30c972932d334ef7591aca9ab16a1ca8b"
+  },
+  {
+    "actor": "petmage",
+    "look": 220,
+    "source": "c3/monster/220/1.c3",
+    "sha256": "63cc94a1dcda9f10d6f7444367086da209b7a2854393b5f157fb8a272595362b"
+  },
+  {
+    "actor": "petmage",
+    "look": 220,
+    "source": "c3/texture/220000000.dds",
+    "sha256": "990b5b578b9bb11b38c9de24eb127f27a8d7ae5d06117026071cb7ffa513db08"
+  },
+  {
+    "actor": "petmage",
+    "look": 220,
+    "source": "c3/monster/220/100.c3",
+    "sha256": "4dd081851bb71ce2a05d1b19c2bc768dacd61f0e1ebb2ecdb9b466d7830f2711"
+  },
+  {
+    "actor": "petmage",
+    "look": 220,
+    "source": "c3/monster/220/101.c3",
+    "sha256": "1537a83d42159870ac33065e2ab17232908aad12b1ed0a7f9fec0d52b1dc3c60"
+  },
+  {
+    "actor": "petmage",
+    "look": 220,
+    "source": "c3/monster/220/110.c3",
+    "sha256": "87044ae417c939c4a332bbfaf3073be6482b3a4ac0990b1cbb28c481728f4bc6"
+  }
+]

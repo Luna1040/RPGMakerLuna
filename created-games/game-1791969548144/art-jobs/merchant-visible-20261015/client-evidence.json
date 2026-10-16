@@ -1,0 +1,10 @@
+{
+  "npc_section": "[NpcType1055]\nName=克莱德\nSimpleObjID=719\nStandByMotion=000000007190000100\nBlazeMotion=000000007190000190\nBlazeMotion1=000000007000000190\nBlazeMotion2=000000007000000190\nRestMotion=000000007190000101\nEffect=none\nZoomPercent=120\nNote=圣·欧斯·杂货商\nCommuVersion=2\n",
+  "grid": [
+    298,
+    406
+  ],
+  "position_status": "Existing provisional isometric transform with reachable road correction, not verified exact original pixel alignment",
+  "asset": "assets/client_roles/719.json",
+  "reuse": "Original client mesh and DDS; no AI generation required"
+}

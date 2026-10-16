@@ -1,0 +1,2 @@
+﻿from pathlib import Path
+p=Path('main.gd');s=p.read_text(encoding='utf-8');s=s.replace('\tRetainers.normalize(character)','\tvar new_retainer_offers: bool=int(character.get("level",1))>=10 and not character.get("retainers",{}).get("initialized",false)\n\tRetainers.normalize(character)',1).replace('if gifted and slot>=0','if (gifted or new_retainer_offers) and slot>=0',1);p.write_text(s,encoding='utf-8')

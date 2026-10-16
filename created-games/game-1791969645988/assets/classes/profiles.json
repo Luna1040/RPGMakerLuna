@@ -1,0 +1,46 @@
+{
+  "sword": {
+    "height": 734,
+    "pivot": [
+      337.0,
+      759
+    ],
+    "canvas": [
+      768,
+      768
+    ]
+  },
+  "yinyang": {
+    "height": 705,
+    "pivot": [
+      400.5,
+      745
+    ],
+    "canvas": [
+      768,
+      768
+    ]
+  },
+  "shadow": {
+    "height": 707,
+    "pivot": [
+      385.0,
+      746
+    ],
+    "canvas": [
+      768,
+      768
+    ]
+  },
+  "celestial": {
+    "height": 729,
+    "pivot": [
+      371.0,
+      750
+    ],
+    "canvas": [
+      768,
+      768
+    ]
+  }
+}

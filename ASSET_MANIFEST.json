@@ -1,5 +1,5 @@
 {
-  "snapshot_date": "2026-10-15",
+  "snapshot_date": "2026-10-16",
   "files": [
     {
       "path": "CHARACTER_PIPELINE.md",
@@ -63003,8 +63003,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 1230,
-      "sha256": "67675d0fc2fe37dd455c174f401691f70b3b040e367744876b23c531b3dfafb9"
+      "bytes": 35316,
+      "sha256": "1c425f989de4f28c6d16b5c51c0e287796e40a3288bfda7cfd69236ac841cfaf"
     },
     {
       "path": "godot-ai-workbench/resolve-runtime.ps1",
@@ -65640,6 +65640,61 @@
       "path": "setup-team-comfy.py",
       "bytes": 1774,
       "sha256": "76c576a6f1b0dd9344b3d62298776197d841efbed7ffa3a2c15bb3b091237e76"
+    },
+    {
+      "path": "created-games/velvet-mahogany/assets/dealer/deal.ogv",
+      "bytes": 2512179,
+      "sha256": "c47d74fa170278a096070d0c647e67b0ecdfc579dff1f1899e9b6b1d10569f97"
+    },
+    {
+      "path": "created-games/velvet-mahogany/assets/dealer/idle.ogv",
+      "bytes": 2341169,
+      "sha256": "4b0d818c24969a1700da93c5d4d07cace334a6700b83bf64e30130d467de0b6f"
+    },
+    {
+      "path": "created-games/velvet-mahogany/assets/dealer/payout.ogv",
+      "bytes": 1577259,
+      "sha256": "39e8f153fa50a606061dcff5d68951a1a00c0022d125cb22815c433afe15a7b2"
+    },
+    {
+      "path": ".gitattributes",
+      "bytes": 865,
+      "sha256": "b4eac074d6777f3b77ab6bf8c79a4d426e8835998a12ecdc3ed10b4766d9d169"
+    },
+    {
+      "path": "docs/showcase/mahogany-six-seat.png",
+      "bytes": 831355,
+      "sha256": "8e0b1640325738d4136c27ad74d9e8c84bd4313d2008c80abd27a264bf1c44fa"
+    },
+    {
+      "path": "docs/platform-notes.md",
+      "bytes": 3705,
+      "sha256": "14e4f49800e8b75e887e0ec5570fc3ce4a706af29c42ae9396a7bb0f06a70870"
+    },
+    {
+      "path": "docs/comparison/craft-cloud-postman.png",
+      "bytes": 665707,
+      "sha256": "7cf3afc15cd0691e1b1f3401bb896f52beb130f0eaad67c07e4177a85feef837"
+    },
+    {
+      "path": "docs/comparison/craft-fox-postman.png",
+      "bytes": 154345,
+      "sha256": "3f8efe5900fbaa9d00a2c7a243d07243ff4c563930fefaa19f4a08f0e3eef8e7"
+    },
+    {
+      "path": "docs/comparison/craft-knife.png",
+      "bytes": 242384,
+      "sha256": "9a57ce2817068b890ee35989846accd19e2ea23782531927cb4957a6c49e2276"
+    },
+    {
+      "path": "docs/comparison/toy-battle-royale.jpg",
+      "bytes": 28670,
+      "sha256": "ae807c5d24ebce071cdafb1078137f1d66c5d542a6ef06b15fe2ca606b0cd444"
+    },
+    {
+      "path": "docs/comparison/toy-inkline.jpg",
+      "bytes": 46643,
+      "sha256": "298bd2fbbf1edb7263bc59d8a6a0d73531876ed6199a4e17d2b374bb956becdc"
     }
   ]
 }

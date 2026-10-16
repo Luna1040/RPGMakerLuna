@@ -1,0 +1,360 @@
+{
+  "prompt": [
+    34,
+    "b5a02cf3-67d8-4924-aee6-4322ea94344c",
+    {
+      "1": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "team-dd389430cb1745c88c05b3f1f8b79a0f.png"
+        }
+      },
+      "10": {
+        "class_type": "ImageCrop",
+        "inputs": {
+          "image": [
+            "1",
+            0
+          ],
+          "width": 308,
+          "height": 388,
+          "x": 6,
+          "y": 6
+        }
+      },
+      "30": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "10",
+            0
+          ],
+          "filename_prefix": "game-art/alpha-source-0-6f60ef3685384d4f9987a7b99722c53e"
+        }
+      },
+      "11": {
+        "class_type": "ImageCrop",
+        "inputs": {
+          "image": [
+            "1",
+            0
+          ],
+          "width": 308,
+          "height": 388,
+          "x": 326,
+          "y": 6
+        }
+      },
+      "31": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "11",
+            0
+          ],
+          "filename_prefix": "game-art/alpha-source-1-3c99f37a75164b16933b0e2b4ac823cb"
+        }
+      },
+      "12": {
+        "class_type": "ImageCrop",
+        "inputs": {
+          "image": [
+            "1",
+            0
+          ],
+          "width": 308,
+          "height": 388,
+          "x": 646,
+          "y": 6
+        }
+      },
+      "32": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "12",
+            0
+          ],
+          "filename_prefix": "game-art/alpha-source-2-49df3bb2d1ed48b89a52e559d3e05d55"
+        }
+      },
+      "13": {
+        "class_type": "ImageCrop",
+        "inputs": {
+          "image": [
+            "1",
+            0
+          ],
+          "width": 308,
+          "height": 388,
+          "x": 966,
+          "y": 6
+        }
+      },
+      "33": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "13",
+            0
+          ],
+          "filename_prefix": "game-art/alpha-source-3-a5d68ea232b9403b92a03aa5e1342e1a"
+        }
+      },
+      "14": {
+        "class_type": "ImageCrop",
+        "inputs": {
+          "image": [
+            "1",
+            0
+          ],
+          "width": 308,
+          "height": 388,
+          "x": 6,
+          "y": 406
+        }
+      },
+      "34": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "14",
+            0
+          ],
+          "filename_prefix": "game-art/alpha-source-4-6f7a564d70614f70a3ea8e0c9de43cd7"
+        }
+      },
+      "15": {
+        "class_type": "ImageCrop",
+        "inputs": {
+          "image": [
+            "1",
+            0
+          ],
+          "width": 308,
+          "height": 388,
+          "x": 326,
+          "y": 406
+        }
+      },
+      "35": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "15",
+            0
+          ],
+          "filename_prefix": "game-art/alpha-source-5-cd94c9d120bf4e9e9e8c9f350f9ac261"
+        }
+      },
+      "16": {
+        "class_type": "ImageCrop",
+        "inputs": {
+          "image": [
+            "1",
+            0
+          ],
+          "width": 308,
+          "height": 388,
+          "x": 646,
+          "y": 406
+        }
+      },
+      "36": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "16",
+            0
+          ],
+          "filename_prefix": "game-art/alpha-source-6-8f98fe947d324c37818874dc2c1aaed8"
+        }
+      }
+    },
+    {
+      "client_id": "cast-crops-v2",
+      "create_time": 1791990007705
+    },
+    [
+      "36",
+      "35",
+      "32",
+      "30",
+      "31",
+      "33",
+      "34"
+    ]
+  ],
+  "outputs": {
+    "36": {
+      "images": [
+        {
+          "filename": "alpha-source-6-8f98fe947d324c37818874dc2c1aaed8_00001_.png",
+          "subfolder": "game-art",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 308,
+            "height": 388
+          }
+        }
+      ]
+    },
+    "35": {
+      "images": [
+        {
+          "filename": "alpha-source-5-cd94c9d120bf4e9e9e8c9f350f9ac261_00001_.png",
+          "subfolder": "game-art",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 308,
+            "height": 388
+          }
+        }
+      ]
+    },
+    "32": {
+      "images": [
+        {
+          "filename": "alpha-source-2-49df3bb2d1ed48b89a52e559d3e05d55_00001_.png",
+          "subfolder": "game-art",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 308,
+            "height": 388
+          }
+        }
+      ]
+    },
+    "30": {
+      "images": [
+        {
+          "filename": "alpha-source-0-6f60ef3685384d4f9987a7b99722c53e_00001_.png",
+          "subfolder": "game-art",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 308,
+            "height": 388
+          }
+        }
+      ]
+    },
+    "31": {
+      "images": [
+        {
+          "filename": "alpha-source-1-3c99f37a75164b16933b0e2b4ac823cb_00001_.png",
+          "subfolder": "game-art",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 308,
+            "height": 388
+          }
+        }
+      ]
+    },
+    "33": {
+      "images": [
+        {
+          "filename": "alpha-source-3-a5d68ea232b9403b92a03aa5e1342e1a_00001_.png",
+          "subfolder": "game-art",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 308,
+            "height": 388
+          }
+        }
+      ]
+    },
+    "34": {
+      "images": [
+        {
+          "filename": "alpha-source-4-6f7a564d70614f70a3ea8e0c9de43cd7_00001_.png",
+          "subfolder": "game-art",
+          "type": "output",
+          "metadata": {
+            "kind": "image",
+            "width": 308,
+            "height": 388
+          }
+        }
+      ]
+    }
+  },
+  "status": {
+    "status_str": "success",
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "b5a02cf3-67d8-4924-aee6-4322ea94344c",
+          "timestamp": 1791990007708
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [],
+          "prompt_id": "b5a02cf3-67d8-4924-aee6-4322ea94344c",
+          "timestamp": 1791990007713
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "b5a02cf3-67d8-4924-aee6-4322ea94344c",
+          "timestamp": 1791990008031
+        }
+      ]
+    ]
+  },
+  "meta": {
+    "36": {
+      "node_id": "36",
+      "display_node": "36",
+      "parent_node": null,
+      "real_node_id": "36"
+    },
+    "35": {
+      "node_id": "35",
+      "display_node": "35",
+      "parent_node": null,
+      "real_node_id": "35"
+    },
+    "32": {
+      "node_id": "32",
+      "display_node": "32",
+      "parent_node": null,
+      "real_node_id": "32"
+    },
+    "30": {
+      "node_id": "30",
+      "display_node": "30",
+      "parent_node": null,
+      "real_node_id": "30"
+    },
+    "31": {
+      "node_id": "31",
+      "display_node": "31",
+      "parent_node": null,
+      "real_node_id": "31"
+    },
+    "33": {
+      "node_id": "33",
+      "display_node": "33",
+      "parent_node": null,
+      "real_node_id": "33"
+    },
+    "34": {
+      "node_id": "34",
+      "display_node": "34",
+      "parent_node": null,
+      "real_node_id": "34"
+    }
+  }
+}

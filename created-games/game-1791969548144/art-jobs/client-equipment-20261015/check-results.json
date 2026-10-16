@@ -1,0 +1,133 @@
+{
+  "tests": [
+    {
+      "test": "equipment_system_test",
+      "passed": true,
+      "log": "tests\\equipment-equipment_system_test.log"
+    },
+    {
+      "test": "character_saves_test",
+      "passed": true,
+      "log": "tests\\equipment-character_saves_test.log"
+    },
+    {
+      "test": "character_menu_test",
+      "passed": true,
+      "log": "tests\\equipment-character_menu_test.log"
+    },
+    {
+      "test": "player_panels_test",
+      "passed": true,
+      "log": "tests\\equipment-player_panels_test.log"
+    },
+    {
+      "test": "dialog_walk",
+      "passed": true,
+      "log": "tests\\equipment-dialog_walk.log"
+    },
+    {
+      "test": "client_canosa_test",
+      "passed": true,
+      "log": "tests\\equipment-client_canosa_test.log"
+    },
+    {
+      "test": "pet_navigation_update_test",
+      "passed": true,
+      "log": "tests\\equipment-pet_navigation_update_test.log"
+    },
+    {
+      "test": "native_client_roles_test",
+      "passed": true,
+      "log": "tests\\equipment-native_client_roles_test.log"
+    },
+    {
+      "test": "canosa_test",
+      "passed": true,
+      "log": "tests\\equipment-canosa_test.log"
+    },
+    {
+      "test": "mouse_iso",
+      "passed": true,
+      "log": "tests\\equipment-mouse_iso.log"
+    },
+    {
+      "test": "field_update_test",
+      "passed": true,
+      "log": "tests\\equipment-field_update_test.log"
+    },
+    {
+      "test": "recovery_world_test",
+      "passed": true,
+      "log": "tests\\equipment-recovery_world_test.log"
+    },
+    {
+      "test": "pet_collection_test",
+      "passed": true,
+      "log": "tests\\equipment-pet_collection_test.log"
+    },
+    {
+      "test": "pet_collection_ui_test",
+      "passed": true,
+      "log": "tests\\equipment-pet_collection_ui_test.log"
+    },
+    {
+      "test": "fusion_update_test",
+      "passed": true,
+      "log": "tests\\equipment-fusion_update_test.log"
+    }
+  ],
+  "passed": 15,
+  "ui_preview": true,
+  "native_icon_count": 69,
+  "equipment_records": 370,
+  "base_styles": 69,
+  "materials": [
+    {
+      "id": 1037160,
+      "name": "灵魂晶石",
+      "description": "锻造装备品质所必须的晶石，蕴藏着神秘的能量。",
+      "kind": "material",
+      "icon": "res://assets/client_equipment/1037160.dds"
+    },
+    {
+      "id": 1037170,
+      "name": "幻魔晶石",
+      "description": "升级装备所必须的晶石，闪烁着瑰丽的光辉。",
+      "kind": "material",
+      "icon": "res://assets/client_equipment/1037170.dds"
+    }
+  ],
+  "fallback_icons": [
+    {
+      "id": 131300,
+      "name": "轻钢甲",
+      "icon": "res://assets/client_equipment/131000.dds"
+    },
+    {
+      "id": 135300,
+      "name": "学徒装",
+      "icon": "res://assets/client_equipment/135000.dds"
+    }
+  ],
+  "art_cli_check": {
+    "image": true,
+    "video": true,
+    "av": true,
+    "PIL": true,
+    "numpy": true,
+    "onnxruntime": true,
+    "matte_model": true
+  },
+  "new_generation_jobs": 0,
+  "limitations": [
+    "Two level-one armor icons reuse same-class native armor art; exact source icons absent.",
+    "Equipment icons, attributes and functional equip/forge are implemented; per-item 3D appearance switching is not implemented.",
+    "Original online forging success probabilities unavailable. This single-player implementation uses one crystal and guaranteed success, disclosed in UI."
+  ],
+  "environment_warnings": [
+    "Root certificate store read",
+    "External Godot editor settings/shader cache write",
+    "Existing mouse_iso fixture loads one PNG directly; export-warning is in fixture only"
+  ],
+  "game_launched": false
+}

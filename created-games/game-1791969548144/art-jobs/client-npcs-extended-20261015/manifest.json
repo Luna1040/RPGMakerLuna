@@ -1,0 +1,50 @@
+[
+  {
+    "source": "c3/npc/719/100.c3",
+    "sha256": "bd5f944ac127bd7c1be051a3862c2c2dd6a57ea7814fc6692373a7686304501f"
+  },
+  {
+    "source": "c3/npc/704/1.c3",
+    "sha256": "6deb7c61f6244054e1d002ff3e0b1ae366395275851d2a5350d88da93ad47c7a"
+  },
+  {
+    "source": "c3/npc/721/1.c3",
+    "sha256": "74c82ad6185c308e8832086aee0070728fe389f4761a5d8cbc7c3a3cd69aaf6e"
+  },
+  {
+    "source": "c3/npc/603/1.c3",
+    "sha256": "fcafffe0d5c0a77c23ad0b73f8ee5910d9d30459d2a76a31e02960879497dd1e"
+  },
+  {
+    "source": "c3/npc/719/1.c3",
+    "sha256": "a3221a6faaecaf0071c0474ce8a490a9ca2928d4247e3b6d56323a872c735112"
+  },
+  {
+    "source": "c3/npc/603/100.c3",
+    "sha256": "fe861c0987ad2ca57fe3a6f78cd9d06e9bcbc4d2bc1e5469b4674956f1dbfcfe"
+  },
+  {
+    "source": "c3/npc/704/100.c3",
+    "sha256": "04019f783b148d0ff1fce88cba070a16db5669f4d1839386616d61d7815c5af7"
+  },
+  {
+    "source": "c3/npc/721/100.c3",
+    "sha256": "7310906fce08f4979c1970da8319f154a2a8667338857d097e40068c5641b502"
+  },
+  {
+    "source": "c3/texture/721000000.dds",
+    "sha256": "4d779ec2fca97b0d905a28db65dff36f86a325428c6cef69681f166741b39447"
+  },
+  {
+    "source": "c3/texture/719000000.dds",
+    "sha256": "f9f33ecd863fb9bc276dd765112980fdac6e0d5da727a9a47ea3a7e5b468f8fe"
+  },
+  {
+    "source": "c3/texture/603000000.dds",
+    "sha256": "c6ca80ca45f1c9abd1e0cf7b9b4fd18c3249a594e1790fa9fdaa2fbedb950e16"
+  },
+  {
+    "source": "c3/texture/704000000.dds",
+    "sha256": "bb6776ed3aa2328978f9c57368955adc21f387459d14b40cb713d041cbd37c24"
+  }
+]

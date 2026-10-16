@@ -1,0 +1,76 @@
+{
+  "canvas": [
+    768,
+    768
+  ],
+  "pivot": [
+    384,
+    606
+  ],
+  "scale": 0.22916666666666666,
+  "review_status": "candidate_reused_cycle",
+  "frames": [
+    {
+      "file": "0000.png",
+      "source_frame": 18,
+      "duration_ms": 80
+    },
+    {
+      "file": "0001.png",
+      "source_frame": 22,
+      "duration_ms": 80
+    },
+    {
+      "file": "0002.png",
+      "source_frame": 26,
+      "duration_ms": 80
+    },
+    {
+      "file": "0003.png",
+      "source_frame": 30,
+      "duration_ms": 80
+    },
+    {
+      "file": "0004.png",
+      "source_frame": 34,
+      "duration_ms": 80
+    },
+    {
+      "file": "0005.png",
+      "source_frame": 38,
+      "duration_ms": 80
+    },
+    {
+      "file": "0006.png",
+      "source_frame": 42,
+      "duration_ms": 80
+    },
+    {
+      "file": "0007.png",
+      "source_frame": 46,
+      "duration_ms": 80
+    },
+    {
+      "file": "0008.png",
+      "source_frame": 50,
+      "duration_ms": 80
+    },
+    {
+      "file": "0009.png",
+      "source_frame": 54,
+      "duration_ms": 80
+    },
+    {
+      "file": "0010.png",
+      "source_frame": 58,
+      "duration_ms": 80
+    },
+    {
+      "file": "0011.png",
+      "source_frame": 62,
+      "duration_ms": 80
+    }
+  ],
+  "event_ms": null,
+  "duration_ms": 960
+}

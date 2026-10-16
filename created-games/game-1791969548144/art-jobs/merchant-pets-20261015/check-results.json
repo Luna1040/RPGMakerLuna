@@ -1,0 +1,115 @@
+{
+  "tests": [
+    {
+      "test": "character_saves_test",
+      "pass": true,
+      "log": "tests\\merchant-character_saves_test.log"
+    },
+    {
+      "test": "character_menu_test",
+      "pass": true,
+      "log": "tests\\merchant-character_menu_test.log"
+    },
+    {
+      "test": "player_panels_test",
+      "pass": true,
+      "log": "tests\\merchant-player_panels_test.log"
+    },
+    {
+      "test": "dialog_walk",
+      "pass": true,
+      "log": "tests\\merchant-dialog_walk.log"
+    },
+    {
+      "test": "client_canosa_test",
+      "pass": true,
+      "log": "tests\\merchant-client_canosa_test.log"
+    },
+    {
+      "test": "pet_navigation_update_test",
+      "pass": true,
+      "log": "tests\\merchant-pet_navigation_update_test.log"
+    },
+    {
+      "test": "native_client_roles_test",
+      "pass": true,
+      "log": "tests\\merchant-native_client_roles_test.log"
+    },
+    {
+      "test": "canosa_test",
+      "pass": true,
+      "log": "tests\\merchant-canosa_test.log"
+    },
+    {
+      "test": "mouse_iso",
+      "pass": true,
+      "log": "tests\\merchant-mouse_iso.log"
+    },
+    {
+      "test": "field_update_test",
+      "pass": true,
+      "log": "tests\\merchant-field_update_test.log"
+    },
+    {
+      "test": "recovery_world_test",
+      "pass": true,
+      "log": "tests\\merchant-recovery_world_test.log"
+    },
+    {
+      "test": "pet_collection_test",
+      "pass": true,
+      "log": "tests\\merchant-pet_collection_test.log"
+    },
+    {
+      "test": "pet_collection_ui_test",
+      "pass": true,
+      "log": "tests\\merchant-pet_collection_ui_test.log"
+    },
+    {
+      "test": "fusion_update_test",
+      "pass": true,
+      "log": "tests\\merchant-fusion_update_test.log"
+    },
+    {
+      "test": "equipment_system_test",
+      "pass": true,
+      "log": "tests\\merchant-equipment_system_test.log"
+    },
+    {
+      "test": "loot_fusion_update_test",
+      "pass": true,
+      "log": "tests\\merchant-loot_fusion_update_test.log"
+    },
+    {
+      "test": "merchant_pets_test",
+      "pass": true,
+      "log": "tests\\merchant-pets-test.log"
+    }
+  ],
+  "passed": 17,
+  "import": "no script errors",
+  "visual_review": {
+    "passed": false,
+    "reason": "VMware FBO status 36061 / ANGLE shader initialization failure / native engine signal 11. Incomplete screenshots not approved.",
+    "logs": [
+      "tests/merchant-preview.log",
+      "tests/merchant-preview-software.log",
+      "tests/merchant-preview-isolated.log"
+    ]
+  },
+  "art_cli_check": "all passed",
+  "new_generation_jobs": 0,
+  "native_assets": [
+    {
+      "source": "data/itemminicon/1020010.dds",
+      "asset": "assets\\client_shop\\1020010.dds",
+      "sha256": "8b2c7dbbe6987b4624cbfa446fce3cbf683c9e2a3bc32e347b800dcb801178bd"
+    },
+    {
+      "source": "data/itemminicon/1020020.dds",
+      "asset": "assets\\client_shop\\1020020.dds",
+      "sha256": "d1718c54f953e237b5df67723794b9208f6359adf65385d2c4c42cae63fcd91e"
+    }
+  ],
+  "game_launched": false
+}

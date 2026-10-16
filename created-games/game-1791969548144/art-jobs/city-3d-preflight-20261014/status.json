@@ -1,0 +1,13 @@
+﻿{
+ "status":"blocked_pending_project_scope_and_3d_models",
+ "project_scene":"Node2D lightning arena; no town, outdoor area or NPCs",
+ "reference_url":"http://rxjh.cdcgames.net/data/mapnpc/200905/40139.htm",
+ "reference_status":"web fetch timeout",
+ "art_check":{"image":true,"video":true,"av":false,"PIL":false,"numpy":false,"onnxruntime":false,"matte_model":false},
+ "mesh_nodes_present":true,
+ "available_diffusion_models":"Flux2 and moodyDesireMix only; no Hunyuan3D/Trellis model listed",
+ "available_vae_models":["flux2-vae.safetensors","pixel_space"],
+ "generated_assets":[],
+ "gameplay_modified":false,
+ "requested_changes":["refined 3D NPC and player models","large city with stairs","larger outdoor area","at least ten wild monsters of each species"]
+}

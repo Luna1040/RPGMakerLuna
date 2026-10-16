@@ -1,0 +1,17 @@
+[
+  {
+    "file": "00000.png",
+    "node": "4",
+    "kind": "images",
+    "remote": {
+      "filename": "sword-padded-c8e77bc8d55643f4af70d487b786aa93_00001_.png",
+      "subfolder": "game-art",
+      "type": "output",
+      "metadata": {
+        "kind": "image",
+        "width": 768,
+        "height": 768
+      }
+    }
+  }
+]

@@ -1,0 +1,17 @@
+[
+  {
+    "file": "00000.png",
+    "node": "3",
+    "kind": "images",
+    "remote": {
+      "filename": "courier-recrop-cb1cb30b6f1846bcab054af9658dc3e3_00001_.png",
+      "subfolder": "game-art",
+      "type": "output",
+      "metadata": {
+        "kind": "image",
+        "width": 308,
+        "height": 394
+      }
+    }
+  }
+]

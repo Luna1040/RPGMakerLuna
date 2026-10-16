@@ -1,0 +1,2 @@
+﻿from pathlib import Path
+p=Path('save_store.gd');s=p.read_text(encoding='utf-8');s=s.replace('\tfile.store_string(JSON.stringify(character, "\\t", false))','\tcharacter.saved_at=timestamp()\n\tcharacter.save_timezone="UTC+8"\n\tfile.store_string(JSON.stringify(character, "\\t", false))');s=s.replace('["created_at","logged_out_at"]','["created_at","logged_out_at","saved_at"]');p.write_text(s,encoding='utf-8')
