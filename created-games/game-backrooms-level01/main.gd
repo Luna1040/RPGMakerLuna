@@ -870,8 +870,9 @@ func _add_fluorescent(center: Vector3, warm: bool = false) -> void:
 	var fixture_plane := PlaneMesh.new()
 	fixture_plane.size = Vector2(0.64, 1.38)
 	fixture.mesh = fixture_plane
-	fixture.rotation.x = PI * 0.5
-	fixture.position = center + Vector3(0, WALL_HEIGHT - 0.045, 0)
+	# PlaneMesh already lies in Godot's XZ plane. Keep it flat and almost flush
+	# with the ceiling underside instead of rotating it into a vertical card.
+	fixture.position = center + Vector3(0, WALL_HEIGHT - 0.02, 0)
 	var fixture_material := StandardMaterial3D.new()
 	fixture_material.albedo_texture = load("res://assets/textures/ceiling_fluorescent_troffer.png") as Texture2D
 	fixture_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
@@ -2264,7 +2265,7 @@ func _show_controls() -> void:
 E 调查/拾取/操作阀门或出口 · 左键拍照闪光
 Tab 背包 · Q 使用杏仁水 · Esc 暂停（可调鼠标灵敏度）
 拍三处异常可开墙缝；查档案找电梯密码；按刻痕顺序开阀门可找水门。
-怪物：第一次拍照后苏醒；无遮挡地看着它会完全停住，移开视线后继续追你；拍中它会把它随机传送到迷宫另一处。
+怪物：第一次拍照后苏醒；看着它时会明显减速，移开视线后恢复速度；拍中它会被随机传送到迷宫另一处。
 冲刺和快门会吸引它，靠近时心跳会变响。黑暗区没有灯；地面陷坑可以助跑跳过。"
 	label.custom_minimum_size.y = 220
 
@@ -2277,12 +2278,12 @@ func _start_game() -> void:
 	intro_reveal_left = 0.0
 	entity_awake = true
 	monster_tutorial_shown = true
-	monster_grace_left = 8.0
+	monster_grace_left = 1.5
 	enemy.visible = true
 	enemy.look_at(Vector3(player.global_position.x, enemy.global_position.y, player.global_position.z), Vector3.UP)
 	player.rotation.y = PI
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	_show_notice("向前捡相纸；杏仁水会自动拾取。前方走廊有追踪者：盯住它可冻结，拍中可传送。Shift 冲刺，跟蓝箭头和流水声找路。", 7.0)
+	_show_notice("向前捡相纸；杏仁水会自动拾取。前方走廊有追踪者：看着它会减速，拍中可传送。Shift 冲刺，跟蓝箭头和流水声找路。", 7.0)
 
 
 func _resume_game() -> void:
@@ -2373,7 +2374,7 @@ func _process(delta: float) -> void:
 	if entity_awake and enemy.visible and not monster_tutorial_shown:
 		monster_tutorial_shown = true
 		monster_grace_left = 4.5
-		_show_notice("追踪者应对：盯住它，它会完全停下；拍中它，它会随机传送到迷宫另一处。移开视线后它才会继续追。", 6.0)
+		_show_notice("追踪者应对：看着它会明显减速；移开视线后恢复速度。拍中它会随机传送到迷宫另一处。", 6.0)
 	var in_blackout := _is_blackout_cell(_world_cell(player.global_position))
 	if in_blackout:
 		blackout_time += delta
@@ -2559,7 +2560,7 @@ func _interact() -> void:
 	elif kind == "spawn_sign":
 		sign_read = true
 		_play_sfx("paper")
-		_show_notice("Level 0 出口告示：\n主线：左键拍下三处异常，随后前往右下方裂墙按 E。\n旧电梯：去暖色灯光下的 Manila Room 查维修档案，按异常编号顺序输入。\n水门：按左侧任务栏的实时方向提示，找到刻 1、刻 2、刻 3 的阀门；全开后沿任务指引回蓝门。\n怪物：被你看见时完全停住；被拍中后随机传送。", 11.0)
+		_show_notice("Level 0 出口告示：\n主线：左键拍下三处异常，随后前往右下方裂墙按 E。\n旧电梯：去暖色灯光下的 Manila Room 查维修档案，按异常编号顺序输入。\n水门：按左侧任务栏的实时方向提示，找到刻 1、刻 2、刻 3 的阀门；全开后沿任务指引回蓝门。\n怪物：你看着它时会减速；拍中后随机传送。", 11.0)
 		_update_hud()
 	elif kind == "note":
 		note_count += 1
@@ -2708,7 +2709,7 @@ func _take_photo() -> void:
 		entity_awake = true
 		alert_left = 10.0
 		_stage_stalker_encounter()
-		_show_notice("闪光惊醒了追踪者！盯住它可让它完全停下；相机拍中它会随机传送到迷宫另一处。冲刺和快门声会吸引它。", 7.0)
+		_show_notice("闪光惊醒了追踪者！看着它会减速；拍中它会随机传送到迷宫另一处。冲刺和快门声会吸引它。", 7.0)
 	else:
 		alert_left = maxf(alert_left, 7.0)
 	var captured := false
@@ -2874,9 +2875,6 @@ func _update_entity(delta: float) -> void:
 		seen = ray.is_colliding() and ray.get_collider() == enemy
 		ray.target_position = Vector3(0, 0, -18)
 	apparition_observed = seen
-	if seen:
-		enemy.velocity = Vector3.ZERO
-		return
 	repath_left -= delta
 	if repath_left <= 0:
 		repath_left = 0.65
@@ -2887,7 +2885,8 @@ func _update_entity(delta: float) -> void:
 			enemy_target = _cell_world(next)
 	var delta_pos := enemy_target - enemy.global_position
 	delta_pos.y = 0
-	var speed := 3.0 if alert_left > 0 else 1.35
+	# Looking at the entity slows it down, but never freezes it completely.
+	var speed := 1.0 if seen else (3.0 if alert_left > 0 else 2.0)
 	if delta_pos.length() > 0.12:
 		var direction := delta_pos.normalized()
 		enemy.velocity.x = direction.x * speed
