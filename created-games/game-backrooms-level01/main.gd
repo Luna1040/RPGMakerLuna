@@ -79,7 +79,6 @@ var active_water_source: AudioStreamPlayer3D
 var water_burst_left := 0.0
 var water_burst_elapsed := 0.0
 var water_gap_left := 0.0
-var player_step_left := 0.0
 var mascot_jumpscare: Node3D
 var mascot_jumpscare_active := false
 var mascot_jumpscare_triggered := false
@@ -2440,13 +2439,6 @@ func _physics_process(delta: float) -> void:
 		player.velocity.x = move_toward(player.velocity.x, 0, 14 * delta)
 		player.velocity.z = move_toward(player.velocity.z, 0, 14 * delta)
 	player.move_and_slide()
-	if input_vector.length() > 0.1 and player.is_on_floor():
-		player_step_left -= delta
-		if player_step_left <= 0.0:
-			_play_sfx("footstep", -14.0)
-			player_step_left = 0.38 if sprinting else 0.56
-	else:
-		player_step_left = 0.0
 	if player.global_position.y < -1.2:
 		fall_death = true
 		_finish(false)
