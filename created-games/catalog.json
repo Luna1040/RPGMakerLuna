@@ -23,6 +23,8 @@
     "status": "ready",
     "brief": "第一人称复古恐怖游戏：探索 Level 0 黄灯办公区，用拍立得记录异常、破解出口；从水门进入 Level 37 无尽泳池，按顺序恢复回水阀并找到泵房出口。",
     "cover": "created-games/game-backrooms-level01/cover.png"
+  },
+  {
     "id": "game-1791904914834",
     "title": "地心探险",
     "description": "分层挖矿 · 同色连锁 / 落石求生 / 本地存档",
@@ -100,7 +102,7 @@
   {
     "id": "game-1792049421870",
     "title": "真的在干了",
-    "description": "第一人称摸鱼 · 拼豆 / 掌机 / 老板巡查",
+    "description": "第一人称办公室摸鱼 · 拼豆 / 掌机 / 三次巡查",
     "directory": "created-games/game-1792049421870",
     "status": "ready",
     "cover": "created-games/game-1792049421870/assets/covers/really-working-card-v1.png",

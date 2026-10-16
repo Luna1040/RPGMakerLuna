@@ -85,5 +85,5 @@ func release_inputs(pause: bool) -> void:
 	game.stop_pocket()
 	if not game.drag.id.is_empty():game.drag.cancel()
 	freeze_camera()
-	if pause and game.started and game.phase in ["free","warning","checking"]:
+	if pause and game.started and game.phase in ["free","warning","checking","returning"]:
 		game.set_meta("resume_phase",game.phase);game.phase="paused";game.title_layer.show()

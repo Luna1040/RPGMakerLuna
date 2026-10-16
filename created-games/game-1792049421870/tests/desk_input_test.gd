@@ -15,7 +15,7 @@ func tick(seconds:float,hz:int=60) -> void:
 func right_tap(p:Vector2) -> void:button(MOUSE_BUTTON_RIGHT,true,p);tick(.05);button(MOUSE_BUTTON_RIGHT,false,p)
 func run() -> void:
 	game=load("res://main.tscn").instantiate();root.add_child(game);current_scene=game;await wait(.15)
-	game.begin();game.set_process(false);game.pocket.set_physics_process(false)
+	game.begin();game.patrol.enabled=false;game.set_process(false);game.pocket.set_physics_process(false)
 	var base:Transform3D=game.camera.transform
 	move(Vector2(650,405));tick(.2)
 	check(game.camera.transform.is_equal_approx(base),"small stable centre")
