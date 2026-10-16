@@ -86,27 +86,40 @@ const DIALOGUE := {
 
 const ROOMS := [
 	{
-		"id":"street",
-		"name":"表层记忆 / 七号街雨夜",
-		"objective":"清除防卫程序，固定‘一声枪响’",
+		"id":"security",
+		"name":"表层记忆 / 七号街安保区",
+		"objective":"击败安保队长并借身；医疗室可通行，食堂暂未开放",
 		"clue":"子弹轨迹与倒地位置矛盾",
-		"theme":"street",
+		"theme":"security",
+		"map_id":"security_checkpoint",
+		"spawn":Vector2(38,112),
+		"bounds":Rect2(12,38,296,126),
+		"exits":[
+			{"id":"medical", "label":"医疗室", "pos":Vector2(302,96), "target":"medical", "enabled":true, "reason":""},
+			{"id":"cafeteria", "label":"食堂", "pos":Vector2(17,78), "target":"cafeteria", "enabled":false, "reason":"试玩版暂未开放"}
+		],
 		"enemies":[
-			{"type":"melee", "pos":Vector2(205,78)},
-			{"type":"shooter", "pos":Vector2(255,125)},
-			{"type":"noise", "pos":Vector2(160,60)}
+			{"type":"melee", "pos":Vector2(170,72)},
+			{"type":"melee", "pos":Vector2(216,139)},
+			{"type":"security_captain", "pos":Vector2(244,100)}
 		]
 	},
 	{
-		"id":"station",
-		"name":"隐藏记忆 / 企业医疗站",
-		"objective":"击败医疗员见证者并按 E 借身",
+		"id":"medical",
+		"name":"隐藏记忆 / 企业医疗室",
+		"objective":"击败医疗员，获得一次强化刷新机会",
 		"clue":"黎雾在枪击后仍有生命体征",
-		"theme":"station",
+		"theme":"medical",
+		"map_id":"medical_room",
+		"spawn":Vector2(36,112),
+		"bounds":Rect2(14,38,292,126),
+		"exits":[
+			{"id":"root", "label":"根层入口", "pos":Vector2(302,96), "target":"root", "enabled":true, "reason":""}
+		],
 		"enemies":[
-			{"type":"melee", "pos":Vector2(190,62)},
-			{"type":"noise", "pos":Vector2(225,130)},
-			{"type":"witness", "pos":Vector2(264,88)}
+			{"type":"melee", "pos":Vector2(181,66)},
+			{"type":"melee", "pos":Vector2(224,132)},
+			{"type":"medic", "pos":Vector2(263,89)}
 		]
 	},
 	{
@@ -115,16 +128,22 @@ const ROOMS := [
 		"objective":"击败校正者，接触因果锚点",
 		"clue":"黎雾主动让自己从公共记录中死亡",
 		"theme":"root",
+		"map_id":"root_lab",
+		"spawn":Vector2(42,112),
+		"bounds":Rect2(16,40,290,124),
+		"exits":[],
 		"enemies":[{"type":"boss", "pos":Vector2(235,88)}]
 	}
 ]
 
 const CHARACTERS := {
-	"melee":{"name":"近战防卫", "hp":54.0, "speed":34.0, "damage":10.0, "color":"df6b54"},
+	"melee":{"name":"近战防卫", "hp":54.0, "speed":34.0, "damage":10.0, "color":"df6b54", "attack_style":"melee", "portrait_id":"guard"},
+	"security_captain":{"name":"安保队长", "hp":168.0, "speed":31.0, "damage":9.0, "color":"e7b95a", "attack_style":"melee", "portrait_id":"captain_melee", "possessed_portrait_id":"captain"},
 	"shooter":{"name":"射手程序", "hp":42.0, "speed":22.0, "damage":8.0, "color":"d957a8"},
 	"noise":{"name":"记忆噪点", "hp":36.0, "speed":25.0, "damage":7.0, "color":"8567d6"},
 	"witness":{"name":"企业医疗员", "hp":120.0, "speed":20.0, "damage":9.0, "color":"62d7bc"},
-	"boss":{"name":"校正者", "hp":360.0, "speed":25.0, "damage":12.0, "color":"f04b55"}
+	"medic":{"name":"医疗员", "hp":132.0, "speed":22.0, "damage":7.0, "color":"62d7bc", "attack_style":"ranged", "portrait_id":"medic"},
+	"boss":{"name":"校正者", "hp":360.0, "speed":25.0, "damage":5.0, "color":"f04b55", "attack_style":"pattern", "portrait_id":"corrector"}
 }
 
 const UPGRADES := [
